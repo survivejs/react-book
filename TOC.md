@@ -9,12 +9,6 @@
 * Introduction to React.js
 * Webpack and React.js
 
-* [CSS, Fonts and Images](CSS-Fonts-Images)
-    * [Loading CSS](Loading-CSS)
-    * [Automatic CSS refresh](Automatic-CSS-refresh)
-    * [Loading LESS or SASS](Loading-LESS-or-SASS)
-    * [Inlining images](Inlining-images)
-    * [Inlining fonts](Inlining-fonts)
 * [Deployment strategies](Deployment-strategies)
     * [Deploy to production](Structuring-configuration)
     * [Single bundle](Single-bundle)
