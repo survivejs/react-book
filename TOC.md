@@ -6,12 +6,8 @@
 * Build Automation
 * Requiring Files
 * Introduction to React.js
+* Webpack and React.js
 
-
-* [React JS](Introduction-to-React-JS)
-    * [Configuring React JS](Configuring-react-js)
-    * [Optimizing rebundling](Optimizing-rebundling)
-    * [Flow](Type-checking-with-flow)
 * [CSS, Fonts and Images](CSS-Fonts-Images)
     * [Loading CSS](Loading-CSS)
     * [Automatic CSS refresh](Automatic-CSS-refresh)
