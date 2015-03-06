@@ -3,7 +3,9 @@
 * Acknowledgments
 * Preface
 * Getting Started
+* Build Automation
 * React.js
+
 
 * [Webpack](Introduction-to-Webpack)
     * [Getting started](Getting-started)
