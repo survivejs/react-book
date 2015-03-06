@@ -324,4 +324,4 @@ $import "~bootstrap/less/bootstrap";
 
 > TBD: hopefully this will be resolved before publication
 
-
+> TBD: remember to mention that loaders operate on regex input
