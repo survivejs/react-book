@@ -20,7 +20,9 @@ function main() {
     ];
     var bookPath = 'book.pdf';
 
-    markdownpdf().concat.from(mdDocs).to(bookPath, function () {
+    markdownpdf({
+        paperFormat: 'A5',
+    }).concat.from(mdDocs).to(bookPath, function () {
         console.log('created', bookPath);
     });
 }
