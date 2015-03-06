@@ -8,14 +8,8 @@
 * Inlining Assets
 * Introduction to React.js
 * Webpack and React.js
+* Deployment
 
-* [Deployment strategies](Deployment-strategies)
-    * [Deploy to production](Structuring-configuration)
-    * [Single bundle](Single-bundle)
-    * [Split app and vendors](Split-app-and-vendors)
-    * [Multiple entry points](Multiple-entry-points)
-    * [Lazy loaded entry points](Lazy-loaded-entry-points)
-    * [Isomorphic app](Isomorphic-app)
 * [Wing It Like A Pro](Wing-It-Like-a-Pro)
     * [Optimizing development](Optimizing-development)
     * [Hot loading components](Hot-loading-components)
