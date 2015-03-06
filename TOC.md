@@ -2,7 +2,7 @@
 
 * Acknowledgments
 * Preface
-    *
+* Getting Started
 
 * [Webpack](Introduction-to-Webpack)
     * [Getting started](Getting-started)
