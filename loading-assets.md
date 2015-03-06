@@ -87,6 +87,7 @@ A module is loaded by filepath. Imagine the following tree structure:
 Lets open up the *main.js* file and require *app/modules/MyModule.js* in the two most common module patterns:
 
 *app/main.js*
+
 ```javascript
 // ES6
 import MyModule from './modules/MyModule.js';
@@ -100,6 +101,7 @@ The `./` at the beginning states "relative to the file I am in now".
 Now let us open the *MyModule.js* file and require **app/utils**.
 
 *app/modules/MyModule.js*
+
 ```javascript
 // ES6 relative path
 import utils from './../utils.js';
@@ -130,11 +132,13 @@ Webpack allows you to load CSS like you load any other code. What strategy you c
 Loading CSS requires the **css-loader** and the **style-loader**. They have two different jobs. The **css-loader** will go through the CSS file and find `url()` expressions and resolve them. The **style-loader** will insert the raw css into a style tag on your page.
 
 ### Preparing CSS loading
+
 Install the two loaders: `npm install css-loader style-loader --save-dev`.
 
 In the *webpack.config.js* file you can add the following loader configuration:
 
 *webpack.config.js*
+
 ```javascript
 var path = require('path');
 var config = {
@@ -162,12 +166,14 @@ module.exports = config;
 Loading a CSS file is a simple as loading any file:
 
 *main.js*
+
 ```javascript
 import './main.css';
 // Other code
 ```
 
 *Component.jsx*
+
 ```javascript
 import './Component.css';
 import React from 'react';
@@ -190,6 +196,7 @@ Depending on your application you might consider three main strategies. In addit
 In your main entry point, e.g. `app/main.js` you can load up your entire CSS for the whole project:
 
 *app/main.js*
+
 ```javascript
 import './project-styles.css';
 // Other JS code
@@ -203,18 +210,21 @@ The CSS is included in the application bundle and does not need to download.
 If you take advantage of lazy loading by having multiple entry points to your application, you can include specific CSS for each of those entry points:
 
 *app/main.js*
+
 ```javascript
 import './style.css';
 // Other JS code
 ```
 
 *app/entryA/main.js*
+
 ```javascript
 import './style.css';
 // Other JS code
 ```
 
 *app/entryB/main.js*
+
 ```javascript
 import './style.css';
 // Other JS code
@@ -227,6 +237,7 @@ You divide your modules by folders and include both CSS and JavaScript files in 
 With this strategy you create a CSS file for each component. It is common to namespace the CSS classes with the component name, thus avoiding some class of one component interfering with the class of an other.
 
 *app/components/MyComponent.css
+
 ```css
 .MyComponent-wrapper {
   background-color: #EEE;
@@ -234,6 +245,7 @@ With this strategy you create a CSS file for each component. It is common to nam
 ```
 
 *app/components/MyComponent.jsx*
+
 ```
 import './MyComponent.css';
 import React from 'react';
@@ -250,9 +262,11 @@ export default React.createClass({
 ```
 
 ## Using inline styles instead of stylesheets
-With "React Native" you do not use stylesheets at all, you only use the *style-attribute*. By defining your CSS as objects. Depending on your project, you might consider this as your CSS strategy.
+
+With native React.js you do not use stylesheets at all, you only use the *style-attribute*. By defining your CSS as objects. Depending on your project, you might consider this as your CSS strategy.
 
 *app/components/MyComponent.jsx*
+
 ```javascript
 import React from 'react';
 
@@ -276,6 +290,7 @@ export default React.createClass({
 If you want to use compiled CSS, there are two loaders available for you. The **less-loader** and the **sass-loader**. Depending on your preference, this is how you set it up.
 
 ## Installing and configuring the loader
+
 `npm install less-loader` or `npm install sass-loader`.
 
 *webpack.config.js*
@@ -309,6 +324,7 @@ var config = {
 ```
 
 ## What about imports in LESS and SASS?
+
 If you import one LESS/SASS file from an other, use the exact same pattern as anywhere else. Webpack will dig into these files and figure out the dependencies.
 
 ```less
