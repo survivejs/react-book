@@ -5,6 +5,7 @@
 * Getting Started
 * Build Automation
 * Loading Assets
+* Inlining Assets
 * Introduction to React.js
 * Webpack and React.js
 
