@@ -4,14 +4,10 @@
 * Preface
 * Getting Started
 * Build Automation
+* Requiring Files
 * React.js
 
 
-* [Webpack](Introduction-to-Webpack)
-    * [Getting started](Getting-started)
-    * [Running a workflow](Running-a-workflow)
-    * [Automatic browser refresh](Automatic-browser-refresh)
-    * [Requiring files](Requiring-files)
 * [React JS](Introduction-to-React-JS)
     * [Configuring React JS](Configuring-react-js)
     * [Optimizing rebundling](Optimizing-rebundling)
