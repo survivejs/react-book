@@ -5,7 +5,7 @@
 * Getting Started
 * Build Automation
 * Requiring Files
-* React.js
+* Introduction to React.js
 
 
 * [React JS](Introduction-to-React-JS)
