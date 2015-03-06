@@ -68,3 +68,9 @@ Thats it! Now your application will automatically refresh on file changes.
 In the example above we created our own *index.html* file to give more freedom and control. It is also possible to run the application from **http://localhost:8080/webpack-dev-server/bundle**. This will fire up a default *index.html* file that you do not control. It also fires this file up in an iFrame allowing for a status bar to indicate the status of the rebundling process.
 
 > TBD: this chapter probably needs to be extended a little bit. We could delve into the details of WebpackpackDevServer etc. and build on that later.
+
+## Automating CSS Refresh
+
+When **webpack-dev-server** is running with [Automatic browser refresh](Automatic-browser-refresh) the CSS will also update, but a bit differently. When you do a change to a CSS file the style tag belonging to that file will be updated with the new content... without a refresh!
+
+> TBD: expand on this

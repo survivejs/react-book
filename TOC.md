@@ -4,7 +4,7 @@
 * Preface
 * Getting Started
 * Build Automation
-* Requiring Files
+* Loading Assets
 * Introduction to React.js
 * Webpack and React.js
 
