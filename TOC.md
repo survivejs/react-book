@@ -3,6 +3,7 @@
 * Acknowledgments
 * Preface
 * Getting Started
+* React.js
 
 * [Webpack](Introduction-to-Webpack)
     * [Getting started](Getting-started)
