@@ -10,3 +10,4 @@
 * Deployment strategies
 * Optimizing Development
 * Debugging Webpack
+* HTTP/2
