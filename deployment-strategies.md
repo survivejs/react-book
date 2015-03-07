@@ -2,16 +2,19 @@
 
 Getting your website or app to production can be a hurdle. It isn't entirely trivial with Webpack either but it can take care of a lot of menial details for you if you configure it right.
 
+As you'll want to separate you'll development and production configuration, we'll start by discussing how to achieve that. Next we'll show how to separate the app and vendor bundle and explain why that's useful. This doesn't cut it always so we'll show you how to generate a bundle per url next. We'll use React in this particular demo.
+
 ## Structuring Configuration
 
-There are two things you want to do preparing for a production build.
+When you are implementing small demos, just setting up a simple `webpack.config.js` is often enough. For production purposes you'll want something more robust. We'll show a couple of ways how to achieve that next.
 
-1. Configure a script to run in your package.json file
-2. Create a production config
+## Two Scripts, Single Webpack
 
-### Creating the script
+As earlier we'll use a combination of `package.json` **scripts'** and Webpack to manage our build. In this case we'll set up two separate configurations and hook them up. The goal here is to end up with `npm run dev` and `npm run deploy`. We covered that `dev` bit earlier so all we need to do is to understand how to set up `deploy`.
 
-We have already used *package.json* to create the `npm run dev` script. Now let us set up `npm run deploy`.
+### Setting Up package.json
+
+We have already used *package.json* to create the `npm run dev` script. Now let us set up `npm run deploy`. Here's a complete version:
 
 ```json
 {
@@ -33,11 +36,11 @@ We have already used *package.json* to create the `npm run dev` script. Now let 
 }
 ```
 
-As you can see we are just running webpack with the production argument and pointing to a different configuration file. We also use the environment variable "production" to allow our required modules to do their optimizations. Lets us create the config file now.
+As you can see we are just running Webpack with the production argument and pointing to a different configuration file. We also use the environment variable **"production"** to allow our required modules to do their optimizations. Let's create the config file now.
 
-### Creating the Production Configuration
+## Creating the Production Configuration
 
-So there really is not much difference in creating the dev and production versions of your webpack config. You basically point to a different output path and there are no workflow configurations or optimizations. What you also want to bring into this configuration is cache handling.
+Creating a production configuration is not that much different from creating a development one. We'll use different paths and avoid development workflow specific configuration and optimizations. We'll also do a few production specific caching tweaks.
 
 ```javascript
 var path = require('path');
@@ -62,13 +65,11 @@ var config = {
 module.exports = config;
 ```
 
-### Deploying
-
-Run `npm run deploy` in the root of the project. Webpack will now run in production mode. It does some optimizations on its own, but also React JS will do its optimizations. Look into caching for even more production configuration.
+Run `npm run deploy` in the root of the project. Webpack will now run in production mode. It does some optimizations on its own, but also React.js will do its optimizations based on `NODE_ENV`. Look into caching for even more production configuration.
 
 ## Single Bundle
 
-Lets have a look at the simplest setup you can create for your application. Use a single bundle when:
+Let's have a look at the simplest setup you can create for your application. Use a single bundle when:
 
 - You have a small application
 - You will rarely update the application
@@ -98,7 +99,7 @@ module.exports = config;
 
 When your application is depending on other libraries, especially large ones like React JS, you should consider splitting those dependencies into its own vendors bundle. This will allow you to do updates to your application, without requiring the users to download the vendors bundle again. Use this strategy when:
 
-- When your vendors reaches a certain percentage of your total app bundle. Like 20% and up 
+- When your vendors reaches a certain percentage of your total app bundle. Like 20% and up
 - You will do quite a few updates to your application
 - You are not too concerned about perceived initial loading time, but you do have returning users and care about optimizing the experience when you do updates to the application
 - Users are on mobile
