@@ -1,6 +1,6 @@
 # Preface
 
-A lot of web development is about dealing with various assets. You'll have things like images, fonts, HTML, CSS, JavaScript, CoffeeScript, you name it. In the end you will want to end up with something that the browsers of your users are able to understand. The situation will just get more complex. New technologies will appear and you will need to adapt.
+A lot of web development is about dealing with various assets. You'll have things like javascript, stylesheets, templates, images, fonts, configuration, you name it. In the end you want a optimized package that is your application. This package should be downloaded to the browser as fast as possible to give the best user experience. The situation will just get more complex. New technologies will appear and you will need to adapt.
 
 Webpack is one of those tools that can make your life considerably easier. Traditionally you might use a set of external tools and glue them together. You might set up something like a Gruntfile or Gulpfile and do a bit of scripting to get a build done. Webpack can be used with these tools. It solves one fundamental problem very well, the problem of bundling.
 
