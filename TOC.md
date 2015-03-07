@@ -3,10 +3,10 @@
 * Acknowledgments
 * Preface
 * Getting Started
+* Understanding Webpack
 * Build Automation
-* Loading Assets
-* Inlining Assets
-* Introduction to React.js
-* Webpack and React.js
-* Deployment
+* Asset Management
+* Webpack and React JS
+* Deployment strategies
 * Optimizing Development
+* Debugging Webpack
