@@ -22,7 +22,8 @@ function main() {
     var bookPath = 'book.pdf';
 
     markdownpdf({
-        paperFormat: 'A5',
+        paperFormat: 'A4',
+        cssPath: 'css/book.css',
     }).concat.from(mdDocs).to(bookPath, function () {
         console.log('created', bookPath);
     });
