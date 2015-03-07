@@ -10,13 +10,14 @@ function main() {
         'acknowledgments.md',
         'preface.md',
         'getting-started.md',
+        'understanding-webpack.md',
         'build-automation.md',
-        'loading-assets.md',
-        'inlining-assets.md',
-        'introduction-to-react.md',
+        'asset-management.md',
         'webpack-and-react.md',
-        'deployment.md',
+        'deployment-strategies.md',
         'optimizing-development.md',
+        'debugging-webpack.md',
+        'http2.md',
     ];
     var bookPath = 'book.pdf';
 
