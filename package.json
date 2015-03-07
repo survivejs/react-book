@@ -1,0 +1,23 @@
+{
+  "name": "webpack-book",
+  "private": true,
+  "version": "0.1.0",
+  "description": "This is the private repo for possible commercial version of the book. I've split it up in a couple of parts.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bebraw/webpack-book.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/bebraw/webpack-book/issues"
+  },
+  "homepage": "https://github.com/bebraw/webpack-book",
+  "dependencies": {
+    "markdown-pdf": "^5.1.0"
+  }
+}
