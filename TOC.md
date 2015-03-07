@@ -6,8 +6,8 @@
 * Understanding Webpack
 * Build Automation
 * Asset Management
-* Webpack and React JS
-* Deployment strategies
+* Webpack and React.js
+* Deployment Strategies
 * Optimizing Development
 * Debugging Webpack
 * HTTP/2

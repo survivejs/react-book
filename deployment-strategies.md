@@ -1,4 +1,4 @@
-# Deployment
+# Deployment Strategies
 
 Getting your website or app to production can be a hurdle. It isn't entirely trivial with Webpack either but it can take care of a lot of menial details for you if you configure it right.
 
