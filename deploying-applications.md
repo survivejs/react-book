@@ -18,7 +18,7 @@ There is one more thing we can do. We can turn our application into an isomorphi
 
 Creating a production configuration is not that much different from creating configuration for development. We'll use different paths for the output and avoid development workflow specific configuration. It is also common to add caching configuration to your production configuration.
 
-To run the configuration and create a package for deployment we create a script. In addition to our existing `npm run dev` we will add `npm run prod`. What differs with our new production script is that it does not use the `webpack-dev-server`. We will only use webpack to produce a package. To make this work, we’ll need to tweak our `package.json` like this:
+To run the configuration and create a distribution for deployment we create a script. In addition to our existing `npm run dev` we will add `npm run prod`. What differs with our new production script is that it does not use the `webpack-dev-server`. We will only use webpack to produce a distribution. To make this work, we’ll need to tweak our `package.json` like this:
 
 ```
   "scripts": {
@@ -27,7 +27,7 @@ To run the configuration and create a package for deployment we create a script.
   }
 ```
 
-In `prod` case we’ll make sure `NODE_ENV` PATH variable is set to production. This way the libraries we are using can use whatever optimizations they might have in store. For instance in case of React this would disable certain checks and improve performance. The `-p` argument puts Webpack in production mode where it does its optimizations, like minification.
+In `prod` we’ll make sure `NODE_ENV` PATH variable is set to production. This way the libraries we are using can use whatever optimizations they might have in store. For instance in case of React this would disable certain checks and improve performance. The `-p` argument puts Webpack in production mode where it does its optimizations, like minification.
 
 We can achieve the same effect in our production configuration like this in case we want to simplify our `scripts` configuration:
 
@@ -48,7 +48,7 @@ It is more verbose but on the other hand at least now it’s a part of the confi
 
 If you are developing a simple application, or a demo, you can get away with a single bundle. It will contain all the JavaScript your app needs to run. In addition it will contain assets needed by your app including CSS, fonts and even images. As a result the loading time will be higher. Sometimes simple is beautiful, though.
 
-The gotcha with this approach is that the generated bundle can be quite big. In addition if you make any changes to it, you will force your users to reload everything. We cannot leverage any form of caching effectively. That said, it’s a viable approach in the simplest of cases.
+The gotcha with this approach is that the generated bundle can be quite big. In addition if you make any changes to it, you will force your users to download everything again. We cannot leverage any form of caching effectively. That said, it’s a viable approach in the simplest of cases.
 
 Given the following project file structure:
 
@@ -59,6 +59,7 @@ Given the following project file structure:
 
 You can create a single bundle with the following configuration:
 
+*webpack.production.js*
 ```javascript
 var path = require('path');
 
@@ -75,8 +76,6 @@ Run `npm run prod` in the root of the project and a `bundle.js` file will be ava
 
 ## Splitting App and Vendors
 
-When your application is depending on other libraries, especially large ones like React, you should consider splitting those dependencies into its own vendors bundle. This will allow you to do updates to your application, without requiring the users to download the vendors bundle again.
-
 You will want to use this strategy when your project consists of relatively large dependencies, compared to the project itself. This is beneficial when you do bug fixes or other changes to the application, as users does not need to download the vendors bundle again. The initial loading time of your application is not optimized compared to a single bundle, actually it is a bit slower because now you have to set up two HTTP requests to get the required assets. As with everything, it is about balance.
 
 > Generally the more HTTP requests you have to fire, the slower things will get. Even though request payload itself might be small, each request comes with overhead. The overhead adds up quickly. This is the reason why clever bundling approaches are required. The situation is likely to change as HTTP/2 gets adopted. The situation is quite opposite there.
@@ -92,7 +91,6 @@ Given the following project file structure:
 You can create a configuration like this:
 
 **webpack.production.js**
-
 ```javascript
 var path = require('path');
 var webpack = require('webpack');
@@ -101,7 +99,7 @@ var nodeModulesDir = path.resolve(__dirname, 'node_modules');
 module.exports = {
   entry: {
     app: [path.resolve(__dirname, 'app/main.js')],
-    vendors: ['react'] // And other vendors
+    vendors: ['react']
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -121,7 +119,7 @@ Before we explain how the CommonsChunkPlugin works we should briefly look back t
 
 These two entry chunks and their individual children chunks will be bundled into two different JavaScript files, **app.js** and **vendors.js**. Both of the bundles has `react` as either part of the entry chunk itself, like vendors, or it is required with a `var React = require('react')` statement, like in app.
 
-Understanding this, you can understand how the CommonsChunkPlugin works. In the example above, if we did not configure a plugin at all React would be included in both entry chunks, app and vendors, and bundled into both the *app.js** file and *vendors.js* file. By using a plugin we can tell Webpack that the chunks included in vendors are common. That means when an other entry chunk, like app in this example, tries to require react it will first check  chunks defined as common. In our example, using the CommonsChunkPlugin, we say that the vendors entry chunk is common and when it is bundled, call that file *vendors.js*. The result of this is that we will now get two bundles, app.js and vendors.js, where app.js grabs react from vendors.js.
+Understanding this, you can understand how the CommonsChunkPlugin works. In the example above, if we did not configure a plugin at all React would be included in both entry chunks, app and vendors, and bundled into both the *app.js** file and *vendors.js* file. By using a plugin we can tell Webpack that the chunks included in vendors are common. That means when an other entry chunk, like app in this example, tries to require react it will first check  entry chunks defined as common. In our example, using the CommonsChunkPlugin, we say that the vendors entry chunk is common and when it is bundled, call that file *vendors.js*. The result of this is that we will now get two bundles, app.js and vendors.js, where app.js grabs react from vendors.js.
 
 - XXX: explain what CommonsChunkPlugin is and why it is used here
 - XXX: discuss hashing here!!! we can do cache inline, no need for a separate section perhaps
@@ -143,50 +141,18 @@ example of uglify -> minified version!
     ],
 ```
 
-## Loading Vendors from CDN
+## Multiple Bundles
 
-The best way to load data is not to load it. If the data is already at a client, it can be reused. CDNs build on this idea. There are a variety of public CDNs that host a variety of popular JavaScript libraries. If you users have already visited on some site using the same libraries as you are, it is possible they are already cached.
+Let's say you are working on a big project and you have a family of applications. These applications have different functionality, but they still share a lot of code. With Webpack you can create completely separate bundles that share a single common bundle. How much should be shared is something Webpack can optimize for you. 
 
-Another advantage is that CDNs rely on distributed server architecture and may be able to serve the libraries much faster than a single server somewhere might. Of course if you are running your app in a distributed manner it might not matter as much. But often you are not. XXX: need to verify this statement somehow
+Given the following project file structure:
 
-There are gotchas with this approach. The CDN provider might be down. It is not a likely scenario but it is still possible. This scenario is disastrous from the client’s point of view. Therefore it makes sense to have a local fallback in place.
-
-We can use this approach with Webpack by using `externals` configuration. It makes sure the libraries are not included in the build. In addition we’ll need to write a little bit of HTML that points to the fallback. Here is a sample of how externals work:
-
-```javascript
-{
-  externals: {
-    // require("jquery") is external and available on the global var jQuery
-    "jquery": "jQuery"
-  }
-}
-```
-
-```
-if (!window.jQuery) {
-  require.ensure([], function () {
-    require(‘jquery’);
-  });
-}
-```
-
-// something like that
-
-http://stackoverflow.com/a/22619421/228885 - externals work
-
-XXX: explain the HTML bit, I’ve generated it using some Gulp plugin myself. might be out of scope for Webpack so external solution might be needed here. https://www.npmjs.com/package/html-webpack-plugin could be improved for this purpose but it doesn’t have the functionality yet
-
-## Multiple Entry Points
-
-Let’s say you are implementing something that goes beyond a single page demo. A good example of this is some portal where you will have separate view for public and for admins. In addition you could have a separate portion that has been designed particularly mobile experience in mind. All of these sides share a lot of code but there are significant differences as well. The public facing side might use exclusively interactive maps while the admin side might have graphing functionality. In mobile case we might want to strip some secondary functionality altogether.
-
-This case would be perfect for splitting our bundles per page. Generally you’ll want to use this approach when the following things are true:
-
-- You have an application with multiple isolated user experiences, but they share a lot of code
-- You have a mobile version using less components
-- You have a typical user/admin application where you do not want to load all the admin code for a normal user
-
-Let us create an example with a mobile experience using less components:
+- appA/main.js
+- appB/main.js
+- dist/
+- node_modules/react
+- package.json
+- webpack.production.js
 
 **webpack.production.js**
 
@@ -197,35 +163,37 @@ var nodeModulesDir = path.resolve(__dirname, 'node_modules');
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, 'app/main.js'),
-    mobile: path.resolve(__dirname, 'app/mobile.js'),
-    vendors: ['react'] // And other vendors
+    appA: path.resolve(__dirname, 'appA/main.js'),
+    appB: path.resolve(__dirname, 'appB/main.js')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js' // Notice we use a variable
   },
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: [nodeModulesDir],
-      loader: 'babel'
-    }]
-  },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
+    new webpack.optimize.CommonsChunkPlugin('common', 'common.js')
   ]
 };
 ```
 
-This configuration will create three files in the `dist/` folder. **app.js**, **mobile.js** and **vendors.js**. Most of the code in the **mobile.js** file also exists in **app.js**, but that is what we want. We will never load **app.js** and **mobile.js** on the same page.
+This configuration will create three files in the `dist/` folder. **appA.js**, **appB.js** and **common.js**. There are two things you should notice here:
 
-## Lazy Loaded Entry Points
+1. We are using a variable in our output configuration. Since we have multiple entries we want to produce one file for each of them, using the name of the entry as the name of the file.
 
-It is also possible to lazy load entry points. This means that you load parts of your application as they are requested. A typical scenario for this would be that your users only visits specific parts of the application. And an example of that would be twitter.com. You do not always visit your profile page, so why load the code for that? Here is a summary of requirements:
+2. The CommonsChunkPlugin is now used a bit differently than in the previous strategy. Instead of pointing to an existing entry chunk, we create a brand new chunk called *common*. Its file name will be *common.js*. By default Webpack will make sure that if one entry chunk or its children require a chunk that also the other entry chunk or its children require, it will be moved over to the common chunk. This effectively moves vendors and shared chunks to the common bundle.
 
-- You have a relatively big application where users can visit different parts of it
-- You care a lot about initial render time
+## Lazy Loaded Chunks
+
+It is also possible to lazy load chunks. This means that you load parts of your application as they are requested. A typical scenario for this would be that your users only visits specific parts of the application. And an example of that would be twitter.com. You do not always visit your profile page, so why load the code for that? Here is a summary of requirements.
+
+Given the following project file structure:
+
+- app/main.js
+- app/Profile.js
+- dist/
+- node_modules/react
+- package.json
+- webpack.production.js
 
 **webpack.production.js**
 
@@ -285,7 +253,7 @@ class App extends React.Component {
 React.render(<App/>, document.body);
 ```
 
-So this is just an example. You would probably hook this up to a router, but the important part is using `require.ensure`.
+So this is just an example. You would probably hook this up to a router, but the important part is using `require.ensure`. When Webpack finds that statement it will automatically create a chunk that can be lazy loaded.
 
 **What is the array on the first argument?**: If you try to lazy load a chunk that depends on an other lazy loaded chunk you can set it as a dependency in the array. Just type in the path to the chunk. E.g. `['./FunnyButton.js']`
 
