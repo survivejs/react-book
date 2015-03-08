@@ -1,4 +1,4 @@
-# Build Automation
+# Developing with Webpack
 
 Hitting `npm run build` all the time will get boring eventually. Refreshing browser manually is another one of those things that is annoying. We can get rid of both of these problems if we do a bit more configuration work.
 

@@ -5,7 +5,7 @@
 * Glossary
 * Getting Started
 * Understanding Webpack
-* Developing With Webpack
+* Developing with Webpack
 * Optimizing Development
 * Asset Management
 * Webpack and React
