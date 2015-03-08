@@ -119,13 +119,11 @@ This configuration will create two files in the `dist/` folder. **app.js** and *
 
 > Remember to add both files to your HTML file, or you will get the error: `Uncaught ReferenceError: webpackJsonp is not defined`.
 
-Before we explain how the CommonsChunkPlugin works we should briefly look back to "Understanding Webpack". In the configuration above we have two entry point **chunks**, app and vendors. App consists of only one chunk, our *main.js* file. The vendors entry point chunk also consists of only one chunk, which is react itself. So an entry point chunk can be merged by multiple chunks, but in this case it is only one each.
+Before we explain how the CommonsChunkPlugin works we should briefly look back to "Understanding Webpack". In the configuration above we have two **entry point chunks**, app and vendors. App consists of only one chunk and its children. That is our *main.js* file. The vendors entry point chunk also consists of only one chunk and its children. This is react itself. So an entry point chunk can be a merge of multiple chunks, but in this case it is only one each.
 
 These two entry chunks and their individual children chunks will be bundled into two different JavaScript files, **app.js** and **vendors.js**. Both of the bundles has `react` as either part of the entry chunk itself, like vendors, or it is required with a `var React = require('react')` statement, like in app.
 
-Understanding this, you can understand how the CommonsChunkPlugin works. In the example above, if we did not configure a plugin at all React would be included in both entry chunks, app and vendors, and bundled into both the *app.js** file and *vendors.js* file. By using a plugin we can tell Webpack that the chunks included in vendors are common. That means when a different entry chunk, app in this example, tries to require react it will first check entry chunks defined as common. In our example, using the CommonsChunkPlugin, we say that the vendors entry chunk is common and when it is bundled, call that file *vendors.js*.
-
-The result of this is that we will now get two files, app.js and vendors.js, where app.js grabs react from vendors.js.
+Understanding this, you can understand how the CommonsChunkPlugin works. In the example above, if we did not configure a plugin at all React would be included in both entry chunks, app and vendors, and bundled into both the *app.js** file and *vendors.js* file. By using a plugin we can tell Webpack that the chunks included in vendors are common. That means when an other entry chunk, like app in this example, tries to require react it will first check  chunks defined as common. In our example, using the CommonsChunkPlugin, we say that the vendors entry chunk is common and when it is bundled, call that file *vendors.js*. The result of this is that we will now get two bundles, app.js and vendors.js, where app.js grabs react from vendors.js.
 
 - XXX: explain what CommonsChunkPlugin is and why it is used here
 - XXX: discuss hashing here!!! we can do cache inline, no need for a separate section perhaps
