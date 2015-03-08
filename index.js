@@ -12,10 +12,10 @@ function main() {
         'getting-started.md',
         'understanding-webpack.md',
         'build-automation.md',
-        'asset-management.md',
-        'webpack-and-react.md',
-        'deployment-strategies.md',
         'optimizing-development.md',
+        'webpack-and-react.md',
+        'application-deployment.md',
+        'asset-management.md',
         'debugging-webpack.md',
         'http2.md',
     ];
