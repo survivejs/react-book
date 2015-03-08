@@ -119,6 +119,8 @@ This configuration will create two files in the `dist/` folder. **app.js** and *
 
 > Important! Remember to add both files to your HTML file, or you will get the error: `Uncaught ReferenceError: webpackJsonp is not defined`.
 
+The CommonsChunkPlugin is one of the “mystery” parts of Webpack. It is very powerful, but it can be difficult to understand how to use it, and what it actually does. Well, the job of the CommonsChunkPlugin is to grab chunks (your javascript files, css files etc.) and merge them into bundles. In the example above we chose to put the react chunk, with all its chunky children, into a “vendors” bundle that we gave the filename “vendors.js”.
+
 
 
 XXX: explain what CommonsChunkPlugin is and why it is used here
@@ -172,7 +174,7 @@ if (!window.jQuery) {
 
 http://stackoverflow.com/a/22619421/228885 - externals work
 
-XXX: explain the HTML bit, I’ve generated it using some Gulp plugin myself. might be out of scope for Webpack
+XXX: explain the HTML bit, I’ve generated it using some Gulp plugin myself. might be out of scope for Webpack so external solution might be needed here. https://www.npmjs.com/package/html-webpack-plugin could be improved for this purpose but it doesn’t have the functionality yet
 
 ## Multiple Entry Points
 
