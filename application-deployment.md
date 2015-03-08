@@ -54,10 +54,10 @@ The gotcha with this approach is that the generated bundle can be quite big. In 
 
 Given the following project file structure:
 
-/app/main.js
-/dist/
-package.json
-webpack.production.js
+- /app/main.js
+- /dist/
+- package.json
+- webpack.production.js
 
 You can create a single bundle with the following configuration:
 
