@@ -2,12 +2,13 @@
 
 * Acknowledgments
 * Preface
+* Glossary
 * Getting Started
 * Understanding Webpack
-* Build Automation
+* Developing With Webpack
 * Optimizing Development
-* Webpack and React.js
-* Application Deployment
 * Asset Management
+* Webpack and React
+* Application Deployment
 * Debugging Webpack
 * HTTP/2
