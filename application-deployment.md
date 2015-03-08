@@ -54,8 +54,8 @@ The gotcha with this approach is that the generated bundle can be quite big. In 
 
 Given the following project file structure:
 
-- /app/main.js
-- /dist/
+- app/main.js
+- dist/
 - package.json
 - webpack.production.js
 
@@ -85,11 +85,11 @@ You will want to use this strategy when your project consists of relatively larg
 
 Given the following project file structure:
 
-/app/main.js
-/dist/
-/node_modules/react
-package.json
-webpack.production.js
+- app/main.js
+- dist/
+- node_modules/react
+- package.json
+- webpack.production.js
 
 You can create a configuration like this:
 
@@ -102,7 +102,7 @@ var nodeModulesDir = path.resolve(__dirname, 'node_modules');
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, 'app/main.js'),
+    app: [path.resolve(__dirname, 'app/main.js')],
     vendors: ['react'] // And other vendors
   },
   output: {
@@ -117,18 +117,22 @@ module.exports = {
 
 This configuration will create two files in the `dist/` folder. **app.js** and **vendors.js**.
 
-> Important! Remember to add both files to your HTML file, or you will get the error: `Uncaught ReferenceError: webpackJsonp is not defined`.
+> Remember to add both files to your HTML file, or you will get the error: `Uncaught ReferenceError: webpackJsonp is not defined`.
 
-The CommonsChunkPlugin is one of the “mystery” parts of Webpack. It is very powerful, but it can be difficult to understand how to use it, and what it actually does. Well, the job of the CommonsChunkPlugin is to grab chunks (your javascript files, css files etc.) and merge them into bundles. In the example above we chose to put the react chunk, with all its chunky children, into a “vendors” bundle that we gave the filename “vendors.js”.
+Before we explain how the CommonsChunkPlugin works we should briefly look back to "Understanding Webpack". In the configuration above we have two entry point **chunks**, app and vendors. App consists of only one chunk, our *main.js* file. The vendors entry point chunk also consists of only one chunk, which is react itself. So an entry point chunk can be merged by multiple chunks, but in this case it is only one each.
 
+These two entry chunks and their individual children chunks will be bundled into two different JavaScript files, **app.js** and **vendors.js**. Both of the bundles has `react` as either part of the entry chunk itself, like vendors, or it is required with a `var React = require('react')` statement, like in app.
 
+Understanding this, you can understand how the CommonsChunkPlugin works. In the example above, if we did not configure a plugin at all React would be included in both entry chunks, app and vendors, and bundled into both the *app.js** file and *vendors.js* file. By using a plugin we can tell Webpack that the chunks included in vendors are common. That means when a different entry chunk, app in this example, tries to require react it will first check entry chunks defined as common. In our example, using the CommonsChunkPlugin, we say that the vendors entry chunk is common and when it is bundled, call that file *vendors.js*.
 
-XXX: explain what CommonsChunkPlugin is and why it is used here
-XXX: discuss hashing here!!! we can do cache inline, no need for a separate section perhaps
-XXX: how about other optimize plugins http://webpack.github.io/docs/list-of-plugins.html#optimize does uglify give some definite advantage here?
-XXX: you’ll probably want to include sourcemaps in the production build (better error output) http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin 
-XXX: we can also mention ngMinPlugin
-XXX: AppCachePlugin - i haven’t used this but perhaps worth mentioning https://github.com/lettertwo/appcache-webpack-plugin 
+The result of this is that we will now get two files, app.js and vendors.js, where app.js grabs react from vendors.js.
+
+- XXX: explain what CommonsChunkPlugin is and why it is used here
+- XXX: discuss hashing here!!! we can do cache inline, no need for a separate section perhaps
+- XXX: how about other optimize plugins http://webpack.github.io/docs/list-of-plugins.html#optimize does uglify give some definite advantage here?
+- XXX: you’ll probably want to include sourcemaps in the production build (better error output) http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin 
+- XXX: we can also mention ngMinPlugin
+- XXX: AppCachePlugin - i haven’t used this but perhaps worth mentioning https://github.com/lettertwo/appcache-webpack-plugin 
 
 example of uglify -> minified version!
 
