@@ -8,11 +8,11 @@ We’ll start with the simplest case possible, a single production bundle. We’
 
 This can be improved by splitting the bundles. The external dependencies of your application, like React, Underscore, Bootstrap etc. will likely require less updates than the core logic. We can separate them into a bundle separate from the one containing your logic and benefit from caching using hashing. Now you can deploy updates to the application logic and your users do not have to download the bundle containing the external dependencies . This isn’t ideal but it is better.
 
-Next we’ll improve upon this approach by introducing CDN to the mix. We’ll try to download some of the more significant dependencies from a widely used CDN in hopes that the user has that asset cached already. If not, we’ll settle for a fallback. This improves our odds but there is room for improvement.
-
 If we are dealing with an app that has multiple pages, we can move onto using a bundle per page. Why eat the whole pie when you only want a piece? This translates to a more concrete example where you only load assets needed to show the “profile” page. When the user clicks “admin” new assets will be loaded to display that page. This gives you a faster initial load of your application, but gives some latency when moving to pages that needs to download more assets. Webpack handles all this for you and we will show you how.
 
-There is one more thing we can do. We can turn our application into an isomorphic one. Back in the day we just served HTML and sprinkled a bit of logic on top of it using JavaScript. Then at some point we started generating the HTML on the client using JavaScript and templates. Single Page Apps were born. Even though that simplified app development, it came with a cost. Having server rendered HTML available is beneficial because the users will not get a blank page while the JavaScript is loading. Also web crawlers can benefit from this and as a result your SEO rankings are improved. The app is more performant and easier to consume. In addition we can preload some of the data. This helps us to avoid data queries. We will demonstrate this approach using React.
+There is one more thing we can do. We can turn our application into an isomorphic one. Back in the day we just served HTML and sprinkled a bit of logic on top of it using JavaScript. Then at some point we started generating the HTML on the client using JavaScript and templates. Single Page Apps were born. This simplified model of app development came with a cost.
+
+Having server rendered HTML available is beneficial because the users will not get a blank page while the JavaScript is loading. Web crawlers can benefit from this and as a result your SEO rankings are improved. The app is more performant and easier to consume. In addition we can preload some data to avoid queries. We will demonstrate this approach using React.
 
 ## Creating a Production Configuration
 
@@ -42,6 +42,7 @@ plugins: [
   ...
 ]
 ```
+
 It is more verbose but on the other hand at least now it’s a part of the configuration itself.
 
 ## Single Bundle
@@ -76,7 +77,7 @@ Run `npm run prod` in the root of the project and a `bundle.js` file will be ava
 
 ## Splitting App and Vendors
 
-You will want to use this strategy when your project consists of relatively large dependencies, compared to the project itself. This is beneficial when you do bug fixes or other changes to the application, as users does not need to download the vendors bundle again. The initial loading time of your application is not optimized compared to a single bundle, actually it is a bit slower because now you have to set up two HTTP requests to get the required assets. As with everything, it is about balance.
+You will want to split app and vendors when your project consists of relatively large dependencies, compared to the project itself. This is beneficial when you do bug fixes or other changes to the application, as users does not need to download the vendors bundle again. The initial loading time of your application is not optimized compared to a single bundle, actually it is a bit slower because now you have to set up two HTTP requests to get the required assets. As with everything, it is about balance.
 
 > Generally the more HTTP requests you have to fire, the slower things will get. Even though request payload itself might be small, each request comes with overhead. The overhead adds up quickly. This is the reason why clever bundling approaches are required. The situation is likely to change as HTTP/2 gets adopted. The situation is quite opposite there.
 
@@ -115,35 +116,15 @@ This configuration will create two files in the `dist/` folder. **app.js** and *
 
 > Remember to add both files to your HTML file, or you will get the error: `Uncaught ReferenceError: webpackJsonp is not defined`.
 
-Before we explain how the CommonsChunkPlugin works we should briefly look back to "Understanding Webpack". In the configuration above we have two **entry point chunks**, app and vendors. App consists of only one chunk and its children. That is our *main.js* file. The vendors entry point chunk also consists of only one chunk and its children. This is react itself. So an entry point chunk can be a merge of multiple chunks, but in this case it is only one each.
+Before we explain how the CommonsChunkPlugin works we should briefly look back to "Understanding Webpack". In the configuration above we have two **entry point chunks**, app and vendors. App consists of only one chunk and its children. That is our *main.js* file. The vendors entry point chunk also consists of only one chunk and its children. This is React itself. So an entry point chunk can be a merge of multiple chunks, but in this case it is only one each.
 
 These two entry chunks and their individual children chunks will be bundled into two different JavaScript files, **app.js** and **vendors.js**. Both of the bundles has `react` as either part of the entry chunk itself, like vendors, or it is required with a `var React = require('react')` statement, like in app.
 
 Understanding this, you can understand how the CommonsChunkPlugin works. In the example above, if we did not configure a plugin at all React would be included in both entry chunks, app and vendors, and bundled into both the *app.js** file and *vendors.js* file. By using a plugin we can tell Webpack that the chunks included in vendors are common. That means when an other entry chunk, like app in this example, tries to require react it will first check  entry chunks defined as common. In our example, using the CommonsChunkPlugin, we say that the vendors entry chunk is common and when it is bundled, call that file *vendors.js*. The result of this is that we will now get two bundles, app.js and vendors.js, where app.js grabs react from vendors.js.
 
-- XXX: explain what CommonsChunkPlugin is and why it is used here
-- XXX: discuss hashing here!!! we can do cache inline, no need for a separate section perhaps
-- XXX: how about other optimize plugins http://webpack.github.io/docs/list-of-plugins.html#optimize does uglify give some definite advantage here?
-- XXX: you’ll probably want to include sourcemaps in the production build (better error output) http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin 
-- XXX: we can also mention ngMinPlugin
-- XXX: AppCachePlugin - i haven’t used this but perhaps worth mentioning https://github.com/lettertwo/appcache-webpack-plugin 
-
-example of uglify -> minified version!
-
-```
-    plugins: [
-        //new webpack.optimize.DedupePlugin(), optional (experimental) but can help with bundle size
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-        }),
-    ],
-```
-
 ## Multiple Bundles
 
-Let's say you are working on a big project and you have a family of applications. These applications have different functionality, but they still share a lot of code. With Webpack you can create completely separate bundles that share a single common bundle. How much should be shared is something Webpack can optimize for you. 
+Let's say you are working on a big project and you have a family of applications. These applications have different functionality, but they still share a lot of code. With Webpack you can create completely separate bundles that share a single common bundle. How much should be shared is something Webpack can optimize for you.
 
 Given the following project file structure:
 
@@ -361,5 +342,3 @@ exports.production = {...};
 ```
 
 The key here is just to generate something that Webpack understands. How you do that is up to you. NPM packages such as `object-merge` can come in handy in this purpose.
-
-XXX: should we do some sample bundle size comparisons? numbers are always good as they give some more concrete idea of the differences. ie non-minified vs. minified vs. various cases (single bundle vs. multiple)
