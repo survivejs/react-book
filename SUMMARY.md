@@ -2,7 +2,6 @@
 
 * [Acknowledgments](acknowledgments.md)
 * [Preface](preface.md)
-* [Glossary](glossary.md)
 * [Getting Started](getting-started.md)
 * [Understanding Webpack](understanding-webpack.md)
 * [Developing with Webpack](developing-with-webpack.md)
