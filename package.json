@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
+    "gitbook": "node ./scripts/gitbook.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/bebraw/webpack-book",
   "dependencies": {
+    "gitbook": "^1.5.0",
     "markdown-pdf": "^5.1.0"
   }
 }

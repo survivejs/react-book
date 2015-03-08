@@ -9,6 +9,7 @@ function main() {
         'TOC.md',
         'acknowledgments.md',
         'preface.md',
+        'glossary.md',
         'getting-started.md',
         'understanding-webpack.md',
         'developing-with-webpack.md',

@@ -1,4 +1,4 @@
-# Build with Webpack -- Guide to Module Bundling
+# Build with Webpack -- Guide to Bundling
 
 This is the private repo for possible commercial version of the book. I've split it up in a couple of parts:
 
