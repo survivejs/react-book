@@ -2,7 +2,6 @@
 
 * Acknowledgments
 * Preface
-* Glossary
 * Getting Started
 * Understanding Webpack
 * Developing with Webpack
