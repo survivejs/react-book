@@ -9,6 +9,6 @@
 * Optimizing Development
 * Asset Management
 * Webpack and React
-* Application Deployment
+* Deploying Applications
 * Debugging Webpack
 * HTTP/2
