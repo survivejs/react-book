@@ -1,4 +1,4 @@
-# Application Deployment
+# Deploying applications
 
 If you were developing a native application you would probably package everything into one file and deploy it to some application store. Deploying to the web requires more considerations. Though Webpack lets you package your application into one file, including CSS, images, fonts etc., Webpack can also help you optimize how the browser grabs the assets of your application to give the best possible user experience.
 
