@@ -21,10 +21,10 @@ Creating a production configuration is not that much different from creating con
 To run the configuration and create a distribution for deployment we create a script. In addition to our existing `npm run dev` we will add `npm run prod`. What differs with our new production script is that it does not use the `webpack-dev-server`. We will only use webpack to produce a distribution. To make this work, we’ll need to tweak our `package.json` like this:
 
 ```
-  "scripts": {
-    "dev": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
-    "prod": "NODE_ENV=production webpack -p --config webpack.production.js"
-  }
+"scripts": {
+  "dev": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
+  "prod": "NODE_ENV=production webpack -p --config webpack.production.js"
+}
 ```
 
 In `prod` we’ll make sure `NODE_ENV` PATH variable is set to production. This way the libraries we are using can use whatever optimizations they might have in store. For instance in case of React this would disable certain checks and improve performance. The `-p` argument puts Webpack in production mode where it does its optimizations, like minification.
