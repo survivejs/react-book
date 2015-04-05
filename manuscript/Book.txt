@@ -3,9 +3,9 @@ preface.md
 getting-started.md
 understanding-webpack.md
 developing-with-webpack.md
+webpack-and-react.md
 optimizing-development.md
 asset-management.md
-webpack-and-react.md
 deploying-applications.md
 debugging-webpack.md
 http2.md
