@@ -38,7 +38,8 @@ Go to **http://localhost:8080** and you should see something.
 
 When **webpack-dev-server** is running it will watch your files for changes. When that happens it rebundles your project and notifies browsers listening to refresh. To trigger this behavior you need to change your *index.html* file in the `build/` folder.
 
-*build/index.html*
+**build/index.html**
+
 ```html
 <!DOCTYPE html>
 <html>
