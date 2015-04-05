@@ -1,6 +1,6 @@
 # Understanding Webpack
 
-* [Acknowledgments](manuscript/acknowledgments.md)
+* [Introduction](manuscript/introduction.md)
 * [Preface](manuscript/preface.md)
 * [Getting Started](manuscript/getting-started.md)
 * [Understanding Webpack](manuscript/understanding-webpack.md)

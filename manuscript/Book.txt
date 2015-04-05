@@ -1,4 +1,4 @@
-acknowledgments.md
+introduction.md
 preface.md
 getting-started.md
 understanding-webpack.md

@@ -10,7 +10,7 @@ function main() {
     ];
 
     var chapters = [
-        'acknowledgments.md',
+        'introduction.md',
         'preface.md',
         'glossary.md',
         'getting-started.md',
