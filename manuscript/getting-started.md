@@ -6,7 +6,7 @@ In this chapter we're going to help you to get Webpack set up and your first pro
 
 ## Setting Up Your First Project
 
-Yeah, Webpack is one of those tools that depends on Node.js. What's up with tools these days? Anyway, head to http://nodejs.org/ and get it installed unless you have done so already. You should have `npm` available at your terminal. Once you are done, continue.
+Webpack is one of those tools that depends on Node.js. Head to http://nodejs.org/ and get it installed unless you have done so already. You should have `npm` available at your terminal. Once you are done, continue.
 
 Next you should set a directory for your project, navigate there, hit `npm init` and fill in some details. Here are the commands in detail:
 
@@ -18,13 +18,13 @@ npm init
 
 As a result you should have `package.json`. If you are into version control, as you should, this would be a good time to up your repository. You can create commits as you progress with the chapter.
 
-### Installing Webpack
+## Installing Webpack
 
 Next you should get Webpack installed. We'll do a local install and save it as a project dependency. This way you can invoke the build anywhere (build server, whatnot). Run `npm i webpack --save-dev`. If you want to run the tool, hit `node_modules/.bin/webpack`.
 
 > Webpack works using a global install as well (`-g` flag) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
 
-### Directory Structure
+## Directory Structure
 
 As projects with just `package.json` are very boring, we should set up something more concrete. Let's do a little web site that loads some JavaScript which we build using Webpack. Here's a structure that works:
 
@@ -32,7 +32,7 @@ As projects with just `package.json` are very boring, we should set up something
   - main.js
   - component.js
 - /build
-  - bundle.js (automatically created)
+  - bundle.js (automatically generated, no need to create this)
   - index.html
 - package.json
 - webpack.config.js
@@ -58,7 +58,7 @@ module.exports = {
 };
 ```
 
-> TODO: explain why path.resolve is needed
+We use `path.resolve` here as it is preferred to use absolute paths with Webpack. If you move your configuration below some directory, you'll need to take this in count.
 
 ## Running Your First Build
 
@@ -67,9 +67,6 @@ Now that we have basic configuration in place, we'll need something to build. Le
 *app/component.js*
 
 ```javascript
-'use strict';
-
-
 module.exports = function () {
     var element = document.createElement('h1');
 
@@ -82,12 +79,9 @@ module.exports = function () {
 *app/main.js*
 
 ```javascript
-'use strict';
 var component = require('./component.js');
 
-
 document.body.appendChild(component());
-
 ```
 
 Now run `node_modules/.bin/webpack` in your terminal and your application will be built. A *bundle.js* file will appear in your `/build` folder. Your *index.html* file in the `build/` folder will need to load up the application.
@@ -97,12 +91,12 @@ Now run `node_modules/.bin/webpack` in your terminal and your application will b
 ```html
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8"/>
-  </head>
-  <body>
-    <script src="bundle.js"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <script src="bundle.js"></script>
+    </body>
 </html>
 ```
 
@@ -132,3 +126,7 @@ To invoke a build, you can hit `npm run build` now. NPM will find it as `npm run
 Later on this approach will become more powerful as project complexity grows. You can hide the complexity within `scripts` while keeping the interface simple.
 
 The potential problem with this approach is that it can tie you to a Unix environment in case you use environment specific commands. If so, you may want to consider using something environment agnostic, such as [gulp-webpack](https://www.npmjs.com/package/gulp-webpack).
+
+## Conclusion
+
+Getting a simple build like this isn't very complex. In the end you'll end up with some configuration. Webpack deals with the nasty details for you after that. We are close to unleashing the power of Webpack here as you will soon see.
