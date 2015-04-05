@@ -147,9 +147,9 @@ exports.develop = {
         ])
     },
     plugins: [
-        // since we have --hot at our package.json, do not set up the plugin here
-        // new webpack.HotModuleReplacementPlugin()
-
+        // hot module replacement plugin itself. if you pass `--hot` to
+        // webpack-dev-server, do not activate this!
+        new webpack.HotModuleReplacementPlugin()
         // do not reload if there is a syntax error in your code
         new webpack.NoErrorsPlugin()
     ]

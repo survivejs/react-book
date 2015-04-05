@@ -14,7 +14,7 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 {
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --hot --content-base build"
+    "dev": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --content-base build"
   }
 }
 ```
