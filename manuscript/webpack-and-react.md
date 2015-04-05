@@ -1,152 +1,181 @@
-# Webpack and React.js
+# Webpack and React
 
-Webpack and React.js make an amazing combination when used together. The tooling enables a modern workflow that speeds up your development flow immensely. It will take a bit of setup but once you have it running it's just great.
+Facebook's [React](https://facebook.github.io/react/) is one of those projects that has changed the way we think about frontend development. Thanks to [React Native](https://facebook.github.io/react-native/) the approach isn't limited just to web. Although simple to learn, React provides plenty of power.
 
-## Installing React.js
+Webpack is an ideal tool to complement it. By now we understand how to set up a simple project on top of Webpack. Let's turn it into a React project next and implement a little todo app. It won't be very complex but will help you to understand some of the basics.
 
-`npm install react --save`
+## Installing React
 
-There is really nothing more to it. You can now start using React JS in your code.
+To get started install React to your project. Just hit `npm i react --save` and you should be set. As a next step we could port our **app/component.js** to React. Provided we use ES6 module and class syntax and JSX, we can go with a solution like this:
 
-## Using React.js in the code
+*app/component.js*
 
-*In any file*
 ```javascript
 import React from 'react';
 
-export default React.createClass({
-  render: function () {
-    return React.createElement('h1', null, 'Hello world');
-  }
-});
-;
+export default class Hello extends React.Component {
+    render() {
+        return <h1>Hello world</h1>;
+    }
+}
 ```
 
-## Converting JSX
+In addition we'll need to adjust our `main.js` to render the component correctly. Here's one solution:
 
-To use the JSX syntax you will need webpack to transform your JavaScript. This is the job of a loader.
+**app/main.js**
 
-`npm install jsx-loader --save-dev`
-
-Now we have to configure Webpack to use this loader.
-
-*webpack.config.js*
-```javascript
-var path = require('path');
-var config = {
-  entry: path.resolve(__dirname, 'app/main.js'),
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
-  },
-  module: {
-    loaders: [{
-      test: /\.jsx$/, // A regexp to test the require path
-      loader: 'jsx' // The module to load. "jsx" is short for "jsx-loader"
-    }]
-  }
-};
-
-module.exports = config;
-```
-
-Webpack will test each path required in your code. In this project we are using ES6 module loader syntax, which means that the require path of `import MyComponent from './Component.jsx';` is `'./Component.jsx'`.
-
-## Changing the Component file and running the code
-
-In the `/app` folder we now change the filename of our *Component.js* file to **Component.jsx**.
-
-*Component.jsx*
 ```javascript
 import React from 'react';
+import Hello from './component';
 
-export default React.createClass({
-  render: function () {
-    return <h1>Hello world!</h1>
-  }
-});
+React.render(<Hello />, document.getElementById('app'));
 ```
 
-We have now changed the return statement of our render method to use JSX syntax. Run `npm run dev` in the console and refresh the page, unless you are already running.
+As you can see we just render our component within an element that has the id `app`. Add `<div id="hello"></div>` for this step to work. Here's sample body:
 
-## Trying Out Babel
+**build/index.html**
 
-Instead of using a specific JSX loader you can use Babel that also gives you tomorrows JavaScript today. Instead of `jsx-loader` we will install `babel-loader`. If you have not heard of babel, you must check out [babel.io](https://babeljs.io/). It is a JavaScript transpiler that allows you to use JavaScript functionality that has not yet been implemented in the browser. Included is a JSX transpiler.
+```html
+<body>
+    <div id="app"></div>
+    <script src="http://localhost:8080/webpack-dev-server.js"></script>
+    <script src="bundle.js"></script>
+</body>
+```
 
-## Installing the Babel loader
+> I strongly advise against rendering directly to `document.body`. This can cause strange problems with plugins that rely on body due to the way React works. It is much better idea to give it a container of its own.
 
-`npm install babel-loader --save-dev` and in your config:
+## Setting Up Webpack
 
-*webpack.config.js*
+In order to make everything work again, we'll need to tweak our configuration a little. In order to deal with ES6 and JSX, we'll use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-loader --save-dev`. In addition add the following loader declaration to the *loaders* section of your configuration:
+
+```javascript
+{
+    test: /\.jsx?$/,
+    loader: 'babel',
+}
+```
+
+The Regex will match both `.js` and `.jsx` files on purpose. It can be useful to separate vanilla JavaScript from JSX for clarity. In addition this shows one way to benefit from Regex.
+
+If you hit `npm run build` now, you should get some output after a while. Here's a sample:
+
+```bash
+> webpack_demo@1.0.0 build /Users/something/projects/webpack_demo
+> webpack --config config/build
+
+Hash: 00f0b93cf085fc55d4ec
+Version: webpack 1.7.3
+Time: 9149ms
+    Asset    Size  Chunks             Chunk Names
+bundle.js  633 kB       0  [emitted]  main
+   [0] multi main 28 bytes {0} [built]
+    + 162 hidden modules
+```
+
+As you can see, the output is quite chunky in this case! Don't worry. This is just an unoptimized build. We can do a lot about the size and build time.
+
+## Optimizing Build Time
+
+The problem is that by default Webpack traverses whole source including `node_modules`. That can be potentially a lot of code. Fortunately there is a simple fix for this particular problem. We can simply include the code we want Webpack to traverse. Here's sample configuration:
+
+```javascript
+{
+    test: /\.jsx?$/,
+    loader: 'babel',
+    include: path.join(ROOT_PATH, 'app'),
+}
+```
+
+Try hitting `npm run build` after that.
+
+## Activating Hot Loading for Development
+
+If you hit `npm run dev` and try to modify our component (make it output `hello world again` or something), you'll see it actually works. After a flash. We can get something fancier with Webpack, namely hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/).
+
+To make this work, you should `npm i react-hot-loader --save-dev` and tweak the configuration as follows. The configuration has been included in its entirety so you don't have to piece it together:
+
+**config/index.js**
+
 ```javascript
 var path = require('path');
-var config = {
-  entry: path.resolve(__dirname, 'app/main.js'),
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
-  },
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel'
-    }]
-  }
+var webpack = require('webpack');
+
+var ROOT_PATH = path.resolve(__dirname, '..');
+
+var common = {
+    entry: [path.join(ROOT_PATH, 'app/main.js')],
+    output: {
+        path: path.resolve(ROOT_PATH, 'build'),
+        filename: 'bundle.js',
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.css$/,
+                loaders: ['style', 'css'],
+            },
+        ],
+    },
 };
 
-module.exports = config;
+exports.build = {
+    entry: common.entry,
+    output: common.output,
+    module: {
+        loaders: common.module.loaders.concat([
+            {
+                test: /\.jsx?$/,
+                loader: 'babel',
+                include: path.join(ROOT_PATH, 'app'),
+            }
+        ])
+    }
+};
+
+exports.develop = {
+    entry: common.entry.concat(['webpack/hot/dev-server']),
+    output: common.output,
+    module: {
+        loaders: common.module.loaders.concat([
+            {
+                test: /\.jsx?$/,
+                // inject react-hot loader for development here
+                loaders: ['react-hot', 'babel'],
+                include: path.join(ROOT_PATH, 'app'),
+            }
+        ])
+    },
+    plugins: [
+        // since we have --hot at our package.json, do not set up the plugin here
+        // new webpack.HotModuleReplacementPlugin()
+
+        // do not reload if there is a syntax error in your code
+        new webpack.NoErrorsPlugin()
+    ]
+};
 ```
-Now you can use all the functionality Babel provides.
 
-## Classes
+Note what happens if you `npm run dev` now and try to modify the component. There should be no flash (no refresh) while the component should get updated provided there was no syntax error.
 
-As of React JS 0.13 you will be able to define components as classes.
+The advantage of this approach is that the user interface retains its state. This can be quite convenient! There will be times when you may need to force a refresh but this tooling decreases the need for that significantly.
 
-```javascript
-class MyComponent extends React.Component {
-  constructor() {
-    this.state = {message: 'Hello world'};
-  }
-  render() {
-    return (
-      <h1>{this.state.message}</h1>
-    );
-  }
-}
-```
+XXX: discuss eslint + jsx extension now?
 
-This gives you a very short and nice syntax for defining components. A drawback with using classes though is the lack of mixins. That said, you are not totally lost. Lets us see how we could still use the important **PureRenderMixin**.
+## Implement Basic Todo
 
-```javascript
-import React from 'react/addons';
+Now that we have some nice tooling, we can actually get productive with it...
 
-class Component extends React.Component {
-  shouldComponentUpdate() {
-    return React.addons.PureRenderMixin.shouldComponentUpdate.apply(this, arguments);
-  }
-}
-
-class MyComponent extends Component {
-  constructor() {
-    this.state = {message: 'Hello world'};
-  }
-  render() {
-    return (
-      <h1>{this.state.message}</h1>
-    );
-  }
-}
-```
+XXXXX
 
 ## Optimizing Rebundling
 
-You might notice after requiring React.js into your project that the time it takes from a save to a finished rebundle of your application takes more time. In development you ideally want from 200-800 ms rebundle speed, depending on what part of the application you are working on.
+XXX: this is difficult to set up with react-hot-loader. see https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#usage-with-external-react . maybe skip this part?
 
-## Running minified file in development
+As waiting for the reload to happen can be annoying we can take our approach a little further. Instead of making Webpack go through React and all its dependencies, you can override the behavior in development. We'll set up an alias for it and point to its minified version.
 
-Instead of making Webpack go through React.js and all its dependencies, you can override the behavior in development.
+**webpack.config.js**
 
-*webpack.config.js*
 ```javascript
 var path = require('path');
 var node_modules = path.resolve(__dirname, 'node_modules');
@@ -193,3 +222,28 @@ Specifically when working on very large projects with many developers type check
 - https://tryflow.org/
 
 > TBD: expand this section
+
+## PureRenderMixin
+
+This gives you a very short and nice syntax for defining components. A drawback with using classes though is the lack of mixins. That said, you are not totally lost. Lets us see how we could still use the important **PureRenderMixin**.
+
+```javascript
+import React from 'react/addons';
+
+class Component extends React.Component {
+  shouldComponentUpdate() {
+    return React.addons.PureRenderMixin.shouldComponentUpdate.apply(this, arguments);
+  }
+}
+
+class MyComponent extends Component {
+  constructor() {
+    this.state = {message: 'Hello world'};
+  }
+  render() {
+    return (
+      <h1>{this.state.message}</h1>
+    );
+  }
+}
+```
