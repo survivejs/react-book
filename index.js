@@ -7,6 +7,9 @@ main();
 function main() {
     var mdDocs = [
         'TOC.md',
+    ];
+
+    var chapters = [
         'acknowledgments.md',
         'preface.md',
         'glossary.md',
@@ -19,7 +22,11 @@ function main() {
         'asset-management.md',
         'debugging-webpack.md',
         'http2.md',
-    ];
+    ].map(function(chapter) {
+        return 'manuscript/' + chapter;
+    });
+    mdDocs = mdDocs.concat(chapters);
+
     var bookPath = 'book.pdf';
 
     markdownpdf({

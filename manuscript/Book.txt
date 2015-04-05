@@ -1,2 +1,11 @@
-chapter1.md
-chapter2.md
+acknowledgments.md
+preface.md
+getting-started.md
+understanding-webpack.md
+developing-with-webpack.md
+optimizing-development.md
+asset-management.md
+webpack-and-react.md
+deploying-applications.md
+debugging-webpack.md
+http2.md
