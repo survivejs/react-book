@@ -37,17 +37,16 @@ As projects with just `package.json` are very boring, we should set up something
 - package.json
 - webpack.config.js
 
-In this case we'll create `bundle.js` using Webpack based on our `/app`. To make this possible, let's set up `webpack.config.js`.
+In this case we'll generate `bundle.js` using Webpack based on our `/app`. To make this possible, let's set up `webpack.config.js`.
 
 ### Creating Webpack Configuration
 
 In our case a basic configuration could look like this:
 
-*webpack.config.js*
+**webpack.config.js**
 
 ```javascript
 var path = require('path');
-
 
 module.exports = {
     entry: path.resolve(__dirname, 'app/main.js'),
@@ -64,7 +63,7 @@ We use `path.resolve` here as it is preferred to use absolute paths with Webpack
 
 Now that we have basic configuration in place, we'll need something to build. Let's start with a classic `Hello World` type of app. Set up `/app` like this:
 
-*app/component.js*
+**app/component.js**
 
 ```javascript
 module.exports = function () {
@@ -84,9 +83,26 @@ var component = require('./component.js');
 document.body.appendChild(component());
 ```
 
-Now run `node_modules/.bin/webpack` in your terminal and your application will be built. A *bundle.js* file will appear in your `/build` folder. Your *index.html* file in the `build/` folder will need to load up the application.
+Now run `node_modules/.bin/webpack` in your terminal and your application will be built. A *bundle.js* file will appear in your `/build` folder. You should see something along this at your terminal:
 
-*build/index.html*
+```bash
+> webpack_demo@1.0.0 build /Users/something/projects/webpack_demo
+> webpack
+
+Hash: 3edea312aa8a0560b46a
+Version: webpack 1.7.3
+Time: 48ms
+    Asset     Size  Chunks             Chunk Names
+bundle.js  1.71 kB       0  [emitted]  main
+   [0] ./app/main.js 83 bytes {0} [built]
+   [1] ./app/component.js 142 bytes {0} [built]
+```
+
+## Setting Up Entry Point
+
+In order to actually use our bundle, we'll need to define the last missing bit, *index.html*. Here's a starting point:
+
+**build/index.html**
 
 ```html
 <!DOCTYPE html>
@@ -100,11 +116,13 @@ Now run `node_modules/.bin/webpack` in your terminal and your application will b
 </html>
 ```
 
-> It would be possible to generate this file with Webpack using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). You can give it a go if you are feeling adventurous. It is mostly a matter of configuration. Generally this is the way you work with Webpack. You figure out what you want to load, find a loader and hook it up.
+We simply just point at the bundle via *script* `src`, nothing more than that. It would be possible to generate this file with Webpack using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). You can give it a go if you are feeling adventurous. It is mostly a matter of configuration.
+
+Generally this is the way you work with Webpack. You figure out what you want to load, find a loader and hook it up. Sometimes you'll need to implement loaders yourself but we'll cover that later.
 
 ## Running the Application
 
-Just double-click the *index.html* file or set up a web server pointing to the `build/` folder.
+Just double-click the *index.html* file or set up a web server pointing to the `build/` folder. One easy way to achieve this is to install `serve` (`npm i serve -g`) and hit `serve` within the `build` directory.
 
 ## Setting Up `package.json` *scripts*
 
@@ -112,7 +130,7 @@ It can be useful to run build, serve and such commands through `npm`. That way y
 
 In this case we can move the build step behind `npm run build` like this:
 
-1. `npm i webpack --save` - If you want to install Webpack just a development dependency, you can use `--save-dev`. This is handy if you are developing a library and don't want it to depend on the tool (bad idea!).
+1. `npm i webpack --save-dev`
 2. Add the following to `package.json`:
 
 ```json
@@ -120,6 +138,8 @@ In this case we can move the build step behind `npm run build` like this:
     "build": "webpack"
   }
 ```
+
+> We are using `--save-dev` here instead of `--save` as we want to use Webpack as a development dependency. Use `--save-dev` for parts you need to generate your distribution version. Otherwise `--save` is a good pick.
 
 To invoke a build, you can hit `npm run build` now. NPM will find it as `npm run` adds Webpack to the `PATH` temporarily.
 
@@ -130,3 +150,5 @@ The potential problem with this approach is that it can tie you to a Unix enviro
 ## Conclusion
 
 Getting a simple build like this isn't very complex. In the end you'll end up with some configuration. Webpack deals with the nasty details for you after that. We are close to unleashing the power of Webpack here as you will soon see.
+
+Next we'll discuss Webpack compared to some other solutions. After that we'll get back to this example as hitting `npm run build` all the time and refreshing browser during development doesn't sound that lucrative. We can do something about that.
