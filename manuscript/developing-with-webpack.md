@@ -111,7 +111,7 @@ We are missing just one bit, the actual CSS itself. Define *app/main.css* with c
 
 ```css
 body {
-    background: navy;
+    background: cornsilk;
 }
 ```
 
