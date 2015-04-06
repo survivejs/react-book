@@ -222,11 +222,93 @@ There is a good ESLint integration available for many IDEs and editors already. 
 
 In case you want Webpack to emit ESLint messages, you can set up [eslint-loader](https://www.npmjs.com/package/eslint-loader) for this purpose. You can even make your build fail on purpose if it doesn't pass the lint.
 
-## Implement Basic Todo
+## Implementing Basic Todo List
 
-Now that we have some nice tooling, we can actually get productive with it...
+Given we have a nice development setup now, we can actually get some work done. Hit `npm run dev`. It's time to start developing.
 
-XXXXX
+To make it easier, let's set up `TodoApp.jsx` that coordinates application itself. This will get rendered by `main.js` and will deal with the application logic. You should end up with files like this:
+
+**app/main.js**
+
+```javascript
+import './main.css'
+
+import React from 'react';
+import TodoApp from './TodoApp';
+
+React.render(<TodoApp />, document.getElementById('app'));
+```
+
+**app/TodoApp.jsx**
+
+```javascript
+'use strict';
+import React from 'react';
+import TodoItem from './TodoItem';
+
+export default class TodoApp extends React.Component {
+    render() {
+        return <TodoItem />;
+    }
+}
+```
+
+**app/TodoItem.jsx**
+
+```javascript
+'use strict';
+import React from 'react';
+
+export default class TodoItem extends React.Component {
+    render() {
+        return <div>Learn Webpack</div>;
+    }
+}
+```
+
+Note that as you perform the needed modifications, your browser should get updated. You might see some error every now and then but that is to be expected given we are doing breaking changes here.
+
+A good next step would be to extend `TodoItem` interface. We would probably want to render a list of these. Ideally we should be able to perform basic editing operations over the list and create new items as needed. We'll probably also want to mark items as done.
+
+This means `TodoApp` will have to coordinate the state. Let's start by rendering a list and then expand from there. Here's sample code for an enhanced `render` method:
+
+```javascript
+render() {
+    var todoItems = [{
+        task: 'Learn Webpack'
+    }, {
+        task: 'Learn React'
+    }, {
+        task: 'Do laundry'
+    }];
+
+    return (
+        <ul>{todoItems.map((todoItem, i) =>
+            <li key={'todoitem' + i}>
+                <TodoItem task={todoItem.task} />
+            </li>
+        )}</ul>
+    );
+}
+```
+
+To make it easy to grow the code, we treat possible todo items as a list of objects. We then map through them and generate `TodoItem` for each. During the process we set `key` for each list item. This is property React requires in order to render each item to correct place during each render pass. React will warn you if you forget to set it. In addition we pass the task in question to our `TodoItem` as a property.
+
+If everything went correctly, you should see a list with three `Learn Webpack` items on it. That's almost nice. To make `TodoItem` render its property correctly, we'll need to tweak its implementation a little bit like this:
+
+```javascript
+render() {
+    return <div>{this.props.task}</div>;
+}
+```
+
+As you can see the property we passed to our component gets mapped to `this.props`. After that it is just a matter of showing it.
+
+We haven't achieved much yet but we're getting there. Next we should add some logic to the list so this application can do something useful.
+
+## Adding Logic to Todo List
+
+TODO
 
 ## Optimizing Rebundling
 
