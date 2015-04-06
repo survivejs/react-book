@@ -360,7 +360,76 @@ If you hit the button now, you should see new items. It might not be pretty yet 
 
 ## Editing Todo List Items
 
-TODO
+Our Todo list is almost useful now. It is a little unfortunate that even though we can add new items to the list, we cannot modify them. It is time to implement edit.
+
+A natural way to do this would be to allow the user to click an item. When an item is clicked, it would be replaced with an input control that would allow you to edit. After confirmed, the modification should remain there.
+
+This means we'll need to extend `TodoItem` somehow and communicate possible changes to `TodoApp` so that it knows to update data model. `TodoItem` logic seems simple enough so it's a good idea to start with that. This means `TodoItem` needs to keep track of its edit state and show the correct element based on that. In addition it will need to be able to communicate a state change. We can achieve that using a callback. `TodoApp` can then react to that (pun intended). Here's a sample implementation of the idea:
+
+```javascript
+export default class TodoItem extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            edited: false
+        };
+    }
+    render() {
+        var edited = this.state.edited;
+        var task = this.props.task;
+
+        return <div>{
+            edited
+            ? <input type='text'
+                defaultValue={task}
+                onBlur={this.finishEdit.bind(this)}
+                onKeyPress={this.checkEnter.bind(this)}/>
+            : <div onClick={this.edit.bind(this)}>{task}</div>
+        }</div>;
+    }
+    edit() {
+        this.setState({
+            edited: true
+        });
+    }
+    checkEnter(e) {
+        if(e.key === 'Enter') {
+            this.finishEdit(e);
+        }
+    }
+    finishEdit(e) {
+        this.props.onEdit(e.target.value);
+
+        this.setState({
+            edited: false
+        });
+    }
+}
+```
+
+It is quite a bit of code. First we need to stash the edit state within the component itself. Then we need to take that in count when rendering. We use a simple ternary expression for this purpose. The rest is about event handling and logic. After editing has finished, we'll trigger a callback bound to `onEdit` property. This will fail until we take this in count at `TodoApp`. The following code achieves this:
+
+```javascript
+render() {
+    ...
+    <TodoItem
+        task={todoItem.task}
+        onEdit={this.itemEdited.bind(this, i)} />
+    ...
+}
+itemEdited(i, task) {
+    var todoItems = this.state.todoItems;
+
+    todoItems[i].task = task;
+
+    this.setState({
+        todoItems: todoItems
+    });
+}
+```
+
+Again, it's a matter of manipulating component state. After this change we can edit our items.
 
 ## Optimizing Rebundling
 
