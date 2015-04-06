@@ -72,68 +72,6 @@ Just make sure you have a limit above the size of the fonts, or they will of cou
 
 > TBD: is there anything else that can/should be inlined?
 
-## Loading CSS
-
-Webpack allows you to load CSS like you load any other code. What strategy you choose is up to you, but you can do everything from loading all your css in the main entry point file to one css file for each component.
-
-Loading CSS requires the **css-loader** and the **style-loader**. They have two different jobs. The **css-loader** will go through the CSS file and find `url()` expressions and resolve them. The **style-loader** will insert the raw css into a style tag on your page.
-
-### Preparing CSS loading
-
-Install the two loaders: `npm install css-loader style-loader --save-dev`.
-
-In the *webpack.config.js* file you can add the following loader configuration:
-
-*webpack.config.js*
-
-```javascript
-var path = require('path');
-var config = {
-  entry: path.resolve(__dirname, 'app/main.js')
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
-  },
-  module: {
-    loaders: [{
-      test: /\.jsx$/,
-      loader: 'jsx'
-    }, {
-      test: /\.css$/, // Only .css files
-      loader: 'style!css' // Run both loaders
-    }]
-  }
-};
-
-module.exports = config;
-```
-
-### Loading a CSS file
-
-Loading a CSS file is a simple as loading any file:
-
-*main.js*
-
-```javascript
-import './main.css';
-// Other code
-```
-
-*Component.jsx*
-
-```javascript
-import './Component.css';
-import React from 'react';
-
-export default React.createClass({
-  render: function () {
-    return <h1>Hello world!</h1>
-  }
-});
-```
-
-**Note!** You can of course do this with both CommonJS and AMD.
-
 ### CSS loading strategies
 
 Depending on your application you might consider three main strategies. In addition to this you should consider including some of your basic CSS inlined with the initial payload (index.html). This will set the structure and maybe a loader while the rest of your application is downloading and executing.
