@@ -1,6 +1,12 @@
 # Asset Management
 
-Until HTTP/2 is here you want to avoid setting up too many HTTP requests when your application is loading. Depending on the browser you have a set number of requests that can run in parallel.
+Loading assets, ie. stylesheets, JavaScript and such, is one of the challenges you will encounter at some point. Nobody likes to load megabytes of JavaScript. Until HTTP/2 is here, you will want to avoid performing too many HTTP requests while loading. That is a certain way to make your application feel slow.
+
+There are multiple ways to work against this problem. We can for instance inline various assets and load them as a part of others. In case of small images, we can serve those as a part of CSS. The same goes for fonts. Or we can inline CSS as a part of markup. That is an approach that is becoming popular with React.
+
+In isomorphic applications the server can provide basic markup and initial data within HTML. That will help us to avoid JavaScript processing and several roundtrips as the data is already there.
+
+Unfortunately there is no single solution that fits all cases. Instead we'll show you several strategies you can try to apply based on the situation. Webpack is quite versatile in this regard. With a bit of configuration you can get complex setups done.
 
 ## Inlining Images
 
@@ -88,7 +94,6 @@ import './project-styles.css';
 ```
 
 The CSS is included in the application bundle and does not need to download.
-
 
 ### Lazy loading
 
