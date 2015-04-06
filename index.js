@@ -18,7 +18,6 @@ function main() {
         'developing-with-webpack.md',
         'webpack-and-react.md',
         'asset-management.md',
-        'optimizing-development.md',
         'deploying-applications.md',
         'debugging-webpack.md',
         'http2.md',
