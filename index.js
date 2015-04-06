@@ -17,9 +17,9 @@ function main() {
         'understanding-webpack.md',
         'developing-with-webpack.md',
         'webpack-and-react.md',
+        'asset-management.md',
         'optimizing-development.md',
         'deploying-applications.md',
-        'asset-management.md',
         'debugging-webpack.md',
         'http2.md',
     ].map(function(chapter) {

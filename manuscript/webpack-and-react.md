@@ -639,4 +639,4 @@ Flux does have its problems, however. That is where Relay comes in. It is an app
 
 ## Conclusion
 
-TODO
+In this chapter you saw how powerful React is when used with Webpack. In the process you learned something about React. We will continue developing our Todo application in later chapters. It isn't that useful without a proper backend so we'll build one. Utilizing Webpack of course.

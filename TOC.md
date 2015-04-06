@@ -6,8 +6,8 @@
 * Understanding Webpack
 * Developing with Webpack
 * Webpack and React
-* Optimizing Development
 * Asset Management
+* Optimizing Development
 * Deploying Applications
 * Debugging Webpack
 * HTTP/2

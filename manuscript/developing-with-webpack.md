@@ -207,3 +207,5 @@ If everything went fine, the old commands should work still. Now we have somethi
 ## Conclusion
 
 In this chapter you learned how to go beyond a basic Webpack configuration. Webpack's development server is a powerful feature that has even more in store. We'll get back to that when we discuss hot module reloading and React in the next chapter.
+
+Next we will take a small detour to discuss how to manage various assets using Webpack. That will help us to make the Todo application look a little nicer. Now it's pretty barebone.
