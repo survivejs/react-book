@@ -312,7 +312,13 @@ We haven't achieved much yet but we're getting there. Next we should add some lo
 
 It would be useful if we could add new items to our Todo list. Let's just do a button with plus that when triggered adds a new dummy item to our list.
 
-To get a button show up, add `<button onClick={this.addItem.bind(this)}>+</button>` somewhere within `TodoApp` JSX. Besides this we'll need to define that `onClick` handler. Define a method like this:
+To get a button show up, add
+
+```html
+<button onClick={this.addItem.bind(this)}>+</button>`
+```
+
+somewhere within `TodoApp` JSX. Besides this we'll need to define that `onClick` handler. Define a method like this:
 
 ```javascript
 addItem() {
