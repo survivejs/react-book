@@ -274,7 +274,7 @@ This means `TodoApp` will have to coordinate the state. Let's start by rendering
 
 ```javascript
 render() {
-    var todoItems = [{
+    var todos = [{
         task: 'Learn Webpack'
     }, {
         task: 'Learn React'
@@ -284,9 +284,9 @@ render() {
 
     return (
         <div>
-            <ul>{todoItems.map((todoItem, i) =>
-                <li key={'todoitem' + i}>
-                    <TodoItem task={todoItem.task} />
+            <ul>{todos.map((todo, i) =>
+                <li key={'todo' + i}>
+                    <TodoItem task={todo.task} />
                 </li>
             )}</ul>
         </div>
@@ -335,7 +335,7 @@ constructor(props) {
     super(props);
 
     this.state = {
-        todoItems: [{
+        todos: [{
             task: 'Learn Webpack'
         }, {
             task: 'Learn React'
@@ -345,7 +345,7 @@ constructor(props) {
     };
 }
 render() {
-    var todoItems = this.state.todoItems;
+    var todos = this.state.todos;
 
 ...
 ```
@@ -355,7 +355,7 @@ Now our `render` method points at `state`. As a result we can implement `addItem
 ```javascript
 addItem() {
     this.setState({
-        todoItems: this.state.todoItems.concat([{
+        todos: this.state.todos.concat([{
             task: 'New task'
         }])
     });
@@ -425,12 +425,12 @@ render() {
     ...
 }
 itemEdited(i, task) {
-    var todoItems = this.state.todoItems;
+    var todos = this.state.todos;
 
-    todoItems[i].task = task;
+    todos[i].task = task;
 
     this.setState({
-        todoItems: todoItems
+        todos: todos
     });
 }
 ```
@@ -443,17 +443,17 @@ We are still missing one vital functionality. It would be nice to be able to rem
 
 ```javascript
 itemEdited(i, task) {
-    var todoItems = this.state.todoItems;
+    var todos = this.state.todos;
 
     if(task) {
-        todoItems[i].task = task;
+        todos[i].task = task;
     }
     else {
-        todoItems = todoItems.slice(0, i).concat(todoItems.slice(i + 1));
+        todos = todos.slice(0, i).concat(todos.slice(i + 1));
     }
 
     this.setState({
-        todoItems: todoItems
+        todos: todos
     });
 }
 ```
@@ -486,3 +486,157 @@ constructor(props: {
 ```
 
 With Flow you can type the most vital parts of your source. You can think it as an executable form of documentation that helps you during development. As with linting it won't replace tests but it will make it easier to work with the source. See [Try Flow](https://tryflow.org/) for more concrete examples.
+
+## Porting to Alt, a Flux Implementation
+
+To give you an idea how to scale up from our Todo example, we can port it to use an implementation of Flux. In this case we will be using [Alt](https://github.com/goatslacker/alt). It is a light implementation that provides just enough functionality for our purposes.
+
+As we have seen so far React is all about dealing with views. Flux provides more bits to the equation. It provides us means to define Stores for our data and Actions that can manipulate be used to manipulate it. We will trigger Actions from our components. Components will also consume the data provided by Stores. As a result we have a unidirectional loop, a sort of Ouroboros, infinite waterfall or whatever you like to call it.
+
+Before delving into the implementation itself, `npm i alt --save` to get the dependency we need. Next we could think about Actions we need to perform on our data. We'll need to be able to `createTodo`, `updateTodo` and `removeTodo` at least. In terms of Alt it would look like this:
+
+**app/TodoActions.js**
+
+```javascript
+import alt from './alt';
+
+class TodoActions {
+    createTodo(task) {
+        this.dispatch(task);
+    }
+    updateTodo(id, task) {
+        this.dispatch({id, task});
+    }
+    removeTodo(id) {
+        this.dispatch(id);
+    }
+}
+
+export default alt.createActions(TodoActions);
+```
+
+Next we will need to define a store that maintains the data based on these actions:
+
+**app/TodoStore.js**
+
+```javascript
+import alt from './alt';
+import TodoActions from './TodoActions';
+
+class TodoStore {
+    constructor() {
+        this.bindListeners({
+            createTodo: TodoActions.createTodo,
+            updateTodo: TodoActions.updateTodo,
+            removeTodo: TodoActions.removeTodo
+        });
+
+        this.todos = [];
+    }
+    createTodo(task) {
+        this.setState({
+            todos: this.todos.concat([{
+                task: task
+            }])
+        });
+    }
+    updateTodo({id, task}) {
+        const todos = this.todos;
+
+        todos[id].task = task;
+
+        this.setState({todos});
+    }
+    removeTodo(id) {
+        const todos = this.todos;
+
+        this.setState({
+            todos: todos.slice(0, id).concat(todos.slice(id + 1))
+        });
+    }
+}
+
+export default alt.createStore(TodoStore, 'TodoStore');
+```
+
+The functions have been adapted based on our earlier implementation of `TodoApp`.
+
+We will also need a module to maintain an instance of Alt:
+
+**app/alt.js**
+
+```javascript
+import Alt from 'alt';
+export default new Alt();
+```
+
+Finally we'll need to tweak our `TodoApp` to operate based on `TodoStore` and `TodoActions`:
+
+**app/TodoApp.jsx**
+
+```javascript
+'use strict';
+import React from 'react';
+import TodoItem from './TodoItem';
+import TodoActions from './TodoActions';
+import TodoStore from './TodoStore';
+
+export default class TodoApp extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = TodoStore.getState();
+    }
+    componentDidMount() {
+        TodoStore.listen(this.storeChanged.bind(this));
+    }
+    componentWillUnmount() {
+        TodoStore.unlisten(this.storeChanged.bind(this));
+    }
+    storeChanged() {
+        this.setState(TodoStore.getState());
+    }
+    render() {
+        var todos = this.state.todos;
+
+        return (
+            <div>
+                <ul>{todos.map((todo, i) =>
+                    <li key={'todo' + i}>
+                        <TodoItem
+                            task={todo.task}
+                            onEdit={this.itemEdited.bind(this, i)} />
+                    </li>
+                )}</ul>
+
+                <button onClick={this.addItem.bind(this)}>+</button>
+            </div>
+        );
+    }
+    addItem() {
+        TodoActions.createTodo('New task');
+    }
+    itemEdited(id, task) {
+        if(task) {
+            TodoActions.updateTodo(id, task);
+        }
+        else {
+            TodoActions.removeTodo(id);
+        }
+    }
+}
+```
+
+As you can see, we pushed the logic out of our application. We actually have more code now than before. Fortunately it was not all in vain. Consider the following questions:
+
+1. Let's say we wanted to persist the Todos within `localStorage`, where would you implement that? It would be natural to plug that into our `TodoStore`.
+2. What if we had multiple components relying on the data? We would just consume `TodoStore` and display it however we want.
+3. What if we had multiple, separate Todo lists for different type of tasks? We would set up multiple instances of `TodoStore`. If we wanted to move items between lists, we would already have ready-made Actions for that purpose.
+
+This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code it is easier to reason about. Given we are dealing with unidirectional flow we have something that is simple to debug and test.
+
+Flux does have its problems, however. That is where Relay comes in. It is an approach that allows you to define data needs on component level. The gotcha here is that it relies on GraphQL language. At the time of writing there isn't an open source solution available yet. No doubt Relay will be able to take the approach showcased by Flux even further.
+
+## Conclusion
+
+TODO
