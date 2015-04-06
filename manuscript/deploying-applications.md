@@ -277,3 +277,13 @@ app.get('/', function (req, res) {
 ```
 
 So this was a very naive and simple way of showing it, but what you should notice here is that we use the same **App.js** file on the client and server, but we have two different ways of producing the state.
+
+### How can I attach hashes to my production output?
+
+TODO: explain hashing in this chapter
+
+* Use `[hash]`. Example: `'assets/bundle.[hash].js'`
+
+The benefit of this is that this will force the client to reload the file. There is more information about `[hash]` at [the long term caching](http://webpack.github.io/docs/long-term-caching.html) section of the official documentation.
+
+> Is it possible to change the hash only if bundle changed?
