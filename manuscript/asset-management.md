@@ -232,3 +232,21 @@ $import "~bootstrap/less/bootstrap";
 
 > TBD: remember to mention that loaders operate on regex input
 
+## Optimizing Caching
+
+When users hit the URL of your application they will need to download different assets. CSS, JavaScript, HTML, images and fonts. The great thing about Webpack is that you can stop thinking how you should download all these assets. You can do it through JavaScript.
+
+> OccurenceOrderPlugin
+
+## Lazy Loading Entry Points
+
+TBD
+
+## Creating a Common Bundle
+
+TBD
+
+## Understanding Chunks
+
+- TBD: Explain how webpack thinks chunks and not files
+- TBD: What are files to load? And what does webpack create for you? And how?
