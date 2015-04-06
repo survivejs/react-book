@@ -8,7 +8,7 @@ Webpack is an ideal tool to complement it. By now we understand how to set up a 
 
 To get started install React to your project. Just hit `npm i react --save` and you should be set. As a next step we could port our **app/component.js** to React. Provided we use ES6 module and class syntax and JSX, we can go with a solution like this:
 
-*app/component.js*
+**app/component.js**
 
 ```javascript
 import React from 'react';
@@ -39,12 +39,15 @@ In order to make everything work again, we'll need to tweak our configuration a 
 
 ```javascript
 {
-    test: /\.jsx?$/,
+    test: /\.js$/,
     loader: 'babel',
+    include: path.join(ROOT_PATH, 'app'),
 }
 ```
 
-The Regex will match both `.js` and `.jsx` files on purpose. It can be useful to separate vanilla JavaScript from JSX for clarity. In addition this shows one way to benefit from Regex.
+We will specifically include our `app` source to our loader. This way Webpack doesn't have to traverse whole source. Particularly going through `node_modules` can take a while. You can try taking `include` statement out to see how that affects the performance.
+
+> An alternative would be to `exclude` but `include` feels like a better solution here.
 
 If you hit `npm run build` now, you should get some output after a while. Here's a sample:
 
@@ -54,18 +57,20 @@ If you hit `npm run build` now, you should get some output after a while. Here's
 
 Hash: 00f0b93cf085fc55d4ec
 Version: webpack 1.7.3
-Time: 9149ms
+Time: 1149ms
     Asset    Size  Chunks             Chunk Names
 bundle.js  633 kB       0  [emitted]  main
    [0] multi main 28 bytes {0} [built]
     + 162 hidden modules
 ```
 
-As you can see, the output is quite chunky in this case! Don't worry. This is just an unoptimized build. We can do a lot about the size and build time.
+As you can see, the output is quite chunky in this case! Don't worry. This is just an unoptimized build. We can do a lot about the size at a later stage when we apply optimizations, minification and split things up.
 
-## Optimizing Build Time
+## Resolving JSX Files
 
-The problem is that by default Webpack traverses whole source including `node_modules`. That can be potentially a lot of code. Fortunately there is a simple fix for this particular problem. We can simply include the code we want Webpack to traverse. Here's sample configuration:
+The configuration above works but what if we want to resolve files with `.jsx` extension? After all it can be a good idea to separate vanilla JavaScript files from those containing JSX.
+
+To achieve this we need to extend out Regex pattern like this:
 
 ```javascript
 {
@@ -75,7 +80,40 @@ The problem is that by default Webpack traverses whole source including `node_mo
 }
 ```
 
-Try hitting `npm run build` after that.
+If you try renaming **app/component.js** as **app/component.jsx** and hit `npm run build`, you should get an error like this:
+
+```bash
+ERROR in ./app/main.js
+Module not found: Error: Cannot resolve 'file' or 'directory' ./component in /Users/something/projects/webpack_demo/app
+ @ ./app/main.js 11:13-35
+```
+
+This means Webpack cannot resolve our `import Hello from './component';` to a file.
+
+The problem has to do with Webpack's default resolution settings. Those settings describe where Webpack looks for modules and how. We'll need to tweak these settings a little.
+
+Add the following bits to your configuration:
+
+```javascript
+var common = {
+    ...
+    resolve: {
+        extensions: ['', '.js', '.jsx', '.css'],
+    }
+};
+
+exports.build = {
+    ...
+    resolve: common.resolve,
+};
+
+exports.develop = {
+    ...
+    resolve: common.resolve,
+};
+```
+
+Now Webpack will be able to resolve files ending with `.jsx` and everything should be fine. If you try running `npm run build` again, the build should succeed.
 
 ## Activating Hot Loading for Development
 
