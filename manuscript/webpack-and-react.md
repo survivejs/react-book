@@ -156,7 +156,71 @@ Note what happens if you `npm run dev` now and try to modify the component. Ther
 
 The advantage of this approach is that the user interface retains its state. This can be quite convenient! There will be times when you may need to force a refresh but this tooling decreases the need for that significantly.
 
-XXX: discuss eslint now?
+## Setting Up ESLint
+
+A little discipline goes a long way in programming. Linting is one of those techniques that will simplify your life a lot at a minimal cost. It is possible to integrate this process into your editor/IDE.
+
+That way you can fix potential problems before they become actual issues. It won't replace testing but it will simplify your life and make it more boring. Boring is good.
+
+[ESLint](http://eslint.org/) is a recent linting solution for JavaScript. It builds on top of ideas presented by JSLint and JSHint. Most importantly it allows you to develop custom rules. As a result a nice set of rules have been developed for React in form of [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react).
+
+Setting it up is quite simple. We'll just need to a couple of little tweaks to our project. To get eslint installed, invoke `npm i babel-eslint eslint eslint-plugin-react --save-dev`. That will add ESLint and the plugin we want to use as our project development dependency.
+
+Next we'll need to do some configuration. Add `"lint": "eslint . --ext .js --ext .jsx"` to the *scripts* section of **package.json**. Besides this we'll need to set up some ESlint specific configuration.
+
+First we'll ignore `node_modules/` since we don't want to lint that. You should ignore possible distribution build and so on in this file.
+
+**.eslintignore**
+
+```
+node_modules/
+build/
+```
+
+Next we'll activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition we activate React specific rules and set up a couple of our own. You can adjust these to your liking. You'll find more information about the rules at [the official rule documentation](http://eslint.org/docs/rules/).
+
+**.eslintrc**
+
+```
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "ecmaFeatures": {
+    "jsx": true,
+    "globalReturn": false
+  },
+  "rules": {
+    "no-underscore-dangle": false,
+    "no-use-before-define": false,
+    "quotes": [4, "single"],
+    "comma-dangle": "always",
+    "react/display-name": true,
+    "react/jsx-quotes": true,
+    "react/jsx-no-undef": true,
+    "react/jsx-uses-react": true,
+    "react/jsx-uses-vars": true,
+    "react/no-did-mount-set-state": true,
+    "react/no-did-update-set-state": true,
+    "react/no-multi-comp": true,
+    "react/prop-types": true,
+    "react/react-in-jsx-scope": true,
+    "react/self-closing-comp": true,
+    "react/wrap-multilines": true
+  }
+}
+```
+
+If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up.
+
+There is a good ESLint integration available for many IDEs and editors already. You should consider setting it up for yours as that will allow you to spot possible issues as you develop.
+
+In case you want Webpack to emit ESLint messages, you can set up [eslint-loader](https://www.npmjs.com/package/eslint-loader) for this purpose. You can even make your build fail on purpose if it doesn't pass the lint.
 
 ## Implement Basic Todo
 
