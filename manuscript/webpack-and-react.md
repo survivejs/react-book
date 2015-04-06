@@ -31,18 +31,6 @@ import Hello from './component';
 React.render(<Hello />, document.getElementById('app'));
 ```
 
-As you can see we just render our component within an element that has the id `app`. Add `<div id="hello"></div>` for this step to work. Here's sample body:
-
-**build/index.html**
-
-```html
-<body>
-    <div id="app"></div>
-    <script src="http://localhost:8080/webpack-dev-server.js"></script>
-    <script src="bundle.js"></script>
-</body>
-```
-
 > I strongly advise against rendering directly to `document.body`. This can cause strange problems with plugins that rely on body due to the way React works. It is much better idea to give it a container of its own.
 
 ## Setting Up Webpack

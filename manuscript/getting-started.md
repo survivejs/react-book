@@ -79,8 +79,9 @@ module.exports = function () {
 
 ```javascript
 var component = require('./component.js');
+var app = document.getElementById('app');
 
-document.body.appendChild(component());
+app.appendChild(component());
 ```
 
 Now run `node_modules/.bin/webpack` in your terminal and your application will be built. A *bundle.js* file will appear in your `/build` folder. You should see something along this at your terminal:
@@ -111,6 +112,8 @@ In order to actually use our bundle, we'll need to define the last missing bit, 
         <meta charset="UTF-8"/>
     </head>
     <body>
+        <div id="app"></div>
+
         <script src="bundle.js"></script>
     </body>
 </html>
