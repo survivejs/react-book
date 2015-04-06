@@ -195,6 +195,8 @@ function joinArrays(a, b) {
 
 The common configuration has been separated to a section of its own. In this case `build` configuration is actually the same as `common` configuration. We do a little tweak for `develop` case. As you can see the configuration is quite easy to follow this way.
 
+You should `npm i lodash --save-dev` to the dependency we need for this to work into the project. It is possible to refine the approach further and hide `_.merge` and `joinArray`behind a nicer API. Now it's pretty bare bone.
+
 To make everything work again, we'll need to tweak our `package.json` **scripts** section like this:
 
 ```json
