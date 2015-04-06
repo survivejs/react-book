@@ -486,28 +486,3 @@ constructor(props: {
 ```
 
 With Flow you can type the most vital parts of your source. You can think it as an executable form of documentation that helps you during development. As with linting it won't replace tests but it will make it easier to work with the source. See [Try Flow](https://tryflow.org/) for more concrete examples.
-
-## PureRenderMixin
-
-This gives you a very short and nice syntax for defining components. A drawback with using classes though is the lack of mixins. That said, you are not totally lost. Lets us see how we could still use the important **PureRenderMixin**.
-
-```javascript
-import React from 'react/addons';
-
-class Component extends React.Component {
-  shouldComponentUpdate() {
-    return React.addons.PureRenderMixin.shouldComponentUpdate.apply(this, arguments);
-  }
-}
-
-class MyComponent extends Component {
-  constructor() {
-    this.state = {message: 'Hello world'};
-  }
-  render() {
-    return (
-      <h1>{this.state.message}</h1>
-    );
-  }
-}
-```
