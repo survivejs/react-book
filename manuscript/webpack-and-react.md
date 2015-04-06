@@ -431,6 +431,33 @@ itemEdited(i, task) {
 
 Again, it's a matter of manipulating component state. After this change we can edit our items.
 
+## Removing Todo List Items
+
+We are still missing one vital functionality. It would be nice to be able to remove items. We can achieve this easily by extending edit. In case we empty a task, it would make sense to remove it. You can give it a go yourself or follow the example below. It is just a matter of modifying state.
+
+```javascript
+itemEdited(i, task) {
+    var todoItems = this.state.todoItems;
+
+    if(task) {
+        todoItems[i].task = task;
+
+        this.setState({
+            todoItems: todoItems
+        });
+    }
+    else {
+        this.setState({
+            todoItems: todoItems.slice(0, i).concat(todoItems.slice(i + 1))
+        });
+    }
+}
+```
+
+This might not be the prettiest solution usability wise but it shows how far you can go with simple ideas. You could try to push removing to some separate control (ie. `x` per item). In that case you would probably set up a callback and then react to that and so on.
+
+The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in.
+
 ## Optimizing Rebundling
 
 XXX: this is difficult to set up with react-hot-loader. see https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#usage-with-external-react . maybe skip this part?
