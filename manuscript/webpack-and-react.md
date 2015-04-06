@@ -466,11 +466,26 @@ The approach we discussed works up to a point. Once you get more complicated com
 
 As we saw earlier with `onEdit`, it gave us a nasty error before we actually defined a handler for the case. Thanks to [Flow](http://flowtype.org/) and [Flowcheck](https://gcanti.github.io/flowcheck/) we can add typing information to our source. This is very useful in a situation where you are working with large project and many developers. Just like with linting earlier this is one way to make your work more boring. Boring is still good!
 
-We can set up Flow type checking to our Webpack easily by first doing `npm i flowcheck-loader --save-dev` and then extending our configuration a little.
+We can set up Flow type checking to our Webpack easily by first doing `npm i flowcheck-loader --save-dev` and then extending our development configuration a little like this:
 
-XXXXX: not sure what's the right configuration here yet. I tried loaders: ['react-hot', 'babel', 'flowcheck'] but that didn't give any errors/warnings even with annotations. probably need to try with jsx-loader etc.
+```javascript
+{
+    test: /\.jsx?$/,
+    loaders: ['react-hot', 'babel', 'flowcheck'],
+    include: path.join(ROOT_PATH, 'app'),
+},
+```
 
-This should work with propTypes very neatly! https://gcanti.github.io/2015/02/02/replacing-prop-types-with-type-annotations.html
+Now we can start typing. For instance you could attach types for `TodoItem` props like this:
+
+```javascript
+constructor(props: {
+    task: string;
+    onEdit: Function;
+}) {
+```
+
+With Flow you can type the most vital parts of your source. You can think it as an executable form of documentation that helps you during development. As with linting it won't replace tests but it will make it easier to work with the source. See [Try Flow](https://tryflow.org/) for more concrete examples.
 
 ## PureRenderMixin
 
