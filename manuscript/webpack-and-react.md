@@ -458,47 +458,6 @@ This might not be the prettiest solution usability wise but it shows how far you
 
 The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in.
 
-## Optimizing Rebundling
-
-XXX: this is difficult to set up with react-hot-loader. see https://github.com/gaearon/react-hot-loader/blob/master/docs/README.md#usage-with-external-react . maybe skip this part?
-
-As waiting for the reload to happen can be annoying we can take our approach a little further. Instead of making Webpack go through React and all its dependencies, you can override the behavior in development. We'll set up an alias for it and point to its minified version.
-
-**webpack.config.js**
-
-```javascript
-var path = require('path');
-var node_modules = path.resolve(__dirname, 'node_modules');
-var pathToReact = path.resolve(node_modules, 'react/dist/react.min.js');
-
-var config = {
-  entry: path.resolve(__dirname, 'app/main.js'),
-  resolve: {
-    alias: {
-      'react': pathToReact
-    }
-  },
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
-  },
-  module: {
-    noParse: [pathToReact]
-  }
-};
-
-module.exports = config;
-```
-We do two things in this configuration:
-
-1. Whenever "react" is required in the code it will fetch the minified React.js file instead of going to *node_modules*
-
-2. Whenever Webpack tries to parse the minified file, we stop it, as it is not necessary
-
-Take a look at `Optimizing development` for more information on this.
-
-> TBD: point at the correct chapter here
-
 ## Type Checking with Flow
 
 If you come to JavaScript from other programming languages you are familiar with types. You have types in JavaScript too, but you do not have to specify these types when declaring variables, receiving arguments etc. This is one of the things that makes JavaScript great, but at the same time not so great.
