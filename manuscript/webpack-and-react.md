@@ -441,16 +441,14 @@ itemEdited(i, task) {
 
     if(task) {
         todoItems[i].task = task;
-
-        this.setState({
-            todoItems: todoItems
-        });
     }
     else {
-        this.setState({
-            todoItems: todoItems.slice(0, i).concat(todoItems.slice(i + 1))
-        });
+        todoItems = todoItems.slice(0, i).concat(todoItems.slice(i + 1));
     }
+
+    this.setState({
+        todoItems: todoItems
+    });
 }
 ```
 
