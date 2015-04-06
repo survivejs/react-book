@@ -14,9 +14,9 @@ To get started install React to your project. Just hit `npm i react --save` and 
 import React from 'react';
 
 export default class TodoItem extends React.Component {
-    render() {
-        return <div>Learn Webpack</div>;
-    }
+  render() {
+    return <div>Learn Webpack</div>;
+  }
 }
 ```
 
@@ -39,9 +39,9 @@ In order to make everything work again, we'll need to tweak our configuration a 
 
 ```javascript
 {
-    test: /\.js$/,
-    loader: 'babel',
-    include: path.join(ROOT_PATH, 'app'),
+  test: /\.js$/,
+  loader: 'babel',
+  include: path.join(ROOT_PATH, 'app'),
 }
 ```
 
@@ -74,9 +74,9 @@ To achieve this we need to extend out Regex pattern like this:
 
 ```javascript
 {
-    test: /\.jsx?$/,
-    loader: 'babel',
-    include: path.join(ROOT_PATH, 'app'),
+  test: /\.jsx?$/,
+  loader: 'babel',
+  include: path.join(ROOT_PATH, 'app'),
 }
 ```
 
@@ -96,10 +96,10 @@ Add the following bit to your configuration:
 
 ```javascript
 var common = {
-    ...
-    resolve: {
-        extensions: ['', '.js', '.jsx', '.css'],
-    }
+  ...
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.css'],
+  }
 };
 ```
 
@@ -120,35 +120,35 @@ var webpack = require('webpack');
 ...
 
 exports.build = _.merge({
-    module: {
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                loader: 'babel',
-                include: path.join(ROOT_PATH, 'app'),
-            },
-        ]
-    },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel',
+        include: path.join(ROOT_PATH, 'app'),
+      },
+    ]
+  },
 }, common, joinArrays);
 
 exports.develop = _.merge({
-    entry: ['webpack/hot/dev-server'],
-    module: {
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                loaders: ['react-hot', 'babel'],
-                include: path.join(ROOT_PATH, 'app'),
-            },
-        ]
-    },
-    plugins: [
-        // hot module replacement plugin itself. if you pass `--hot` to
-        // webpack-dev-server, do not activate this!
-        new webpack.HotModuleReplacementPlugin(),
-        // do not reload if there is a syntax error in your code
-        new webpack.NoErrorsPlugin()
-    ],
+  entry: ['webpack/hot/dev-server'],
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['react-hot', 'babel'],
+        include: path.join(ROOT_PATH, 'app'),
+      },
+    ]
+  },
+  plugins: [
+    // hot module replacement plugin itself. if you pass `--hot` to
+    // webpack-dev-server, do not activate this!
+    new webpack.HotModuleReplacementPlugin(),
+    // do not reload if there is a syntax error in your code
+    new webpack.NoErrorsPlugin()
+  ],
 }, common, joinArrays);
 ```
 
@@ -198,7 +198,7 @@ Next we'll activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) s
   "rules": {
     "no-underscore-dangle": false,
     "no-use-before-define": false,
-    "quotes": [4, "single"],
+    "quotes": [2, "single"],
     "comma-dangle": "always",
     "react/display-name": true,
     "react/jsx-quotes": true,
@@ -247,9 +247,9 @@ import React from 'react';
 import TodoItem from './TodoItem';
 
 export default class TodoApp extends React.Component {
-    render() {
-        return <TodoItem />;
-    }
+  render() {
+    return <TodoItem />;
+  }
 }
 ```
 
@@ -260,9 +260,9 @@ export default class TodoApp extends React.Component {
 import React from 'react';
 
 export default class TodoItem extends React.Component {
-    render() {
-        return <div>Learn Webpack</div>;
-    }
+  render() {
+    return <div>Learn Webpack</div>;
+  }
 }
 ```
 
@@ -274,23 +274,23 @@ This means `TodoApp` will have to coordinate the state. Let's start by rendering
 
 ```javascript
 render() {
-    var todos = [{
-        task: 'Learn Webpack'
-    }, {
-        task: 'Learn React'
-    }, {
-        task: 'Do laundry'
-    }];
+  var todos = [{
+    task: 'Learn Webpack'
+  }, {
+    task: 'Learn React'
+  }, {
+    task: 'Do laundry'
+  }];
 
-    return (
-        <div>
-            <ul>{todos.map((todo, i) =>
-                <li key={'todo' + i}>
-                    <TodoItem task={todo.task} />
-                </li>
-            )}</ul>
-        </div>
-    );
+  return (
+    <div>
+      <ul>{todos.map((todo, i) =>
+        <li key={'todo' + i}>
+          <TodoItem task={todo.task} />
+        </li>
+      )}</ul>
+    </div>
+  );
 }
 ```
 
@@ -300,7 +300,7 @@ If everything went correctly, you should see a list with three `Learn Webpack` i
 
 ```javascript
 render() {
-    return <div>{this.props.task}</div>;
+  return <div>{this.props.task}</div>;
 }
 ```
 
@@ -322,7 +322,7 @@ somewhere within `TodoApp` JSX. Besides this we'll need to define that `onClick`
 
 ```javascript
 addItem() {
-    console.log('add item');
+  console.log('add item');
 }
 ```
 
@@ -332,20 +332,20 @@ Next we will need to connect this with our data model somehow. It is problematic
 
 ```javascript
 constructor(props) {
-    super(props);
+  super(props);
 
-    this.state = {
-        todos: [{
-            task: 'Learn Webpack'
-        }, {
-            task: 'Learn React'
-        }, {
-            task: 'Do laundry'
-        }]
-    };
+  this.state = {
+    todos: [{
+      task: 'Learn Webpack'
+    }, {
+      task: 'Learn React'
+    }, {
+      task: 'Do laundry'
+    }]
+  };
 }
 render() {
-    var todos = this.state.todos;
+  var todos = this.state.todos;
 
 ...
 ```
@@ -354,11 +354,11 @@ Now our `render` method points at `state`. As a result we can implement `addItem
 
 ```javascript
 addItem() {
-    this.setState({
-        todos: this.state.todos.concat([{
-            task: 'New task'
-        }])
-    });
+  this.setState({
+    todos: this.state.todos.concat([{
+      task: 'New task'
+    }])
+  });
 }
 ```
 
@@ -374,43 +374,43 @@ This means we'll need to extend `TodoItem` somehow and communicate possible chan
 
 ```javascript
 export default class TodoItem extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            edited: false
-        };
-    }
-    render() {
-        var edited = this.state.edited;
-        var task = this.props.task;
+    this.state = {
+      edited: false
+    };
+  }
+  render() {
+    var edited = this.state.edited;
+    var task = this.props.task;
 
-        return <div>{
-            edited
-            ? <input type='text'
-                defaultValue={task}
-                onBlur={this.finishEdit.bind(this)}
-                onKeyPress={this.checkEnter.bind(this)}/>
-            : <div onClick={this.edit.bind(this)}>{task}</div>
-        }</div>;
+    return <div>{
+      edited
+      ? <input type='text'
+        defaultValue={task}
+        onBlur={this.finishEdit.bind(this)}
+        onKeyPress={this.checkEnter.bind(this)}/>
+      : <div onClick={this.edit.bind(this)}>{task}</div>
+    }</div>;
+  }
+  edit() {
+    this.setState({
+        edited: true
+    });
+  }
+  checkEnter(e) {
+    if(e.key === 'Enter') {
+      this.finishEdit(e);
     }
-    edit() {
-        this.setState({
-            edited: true
-        });
-    }
-    checkEnter(e) {
-        if(e.key === 'Enter') {
-            this.finishEdit(e);
-        }
-    }
-    finishEdit(e) {
-        this.props.onEdit(e.target.value);
+  }
+  finishEdit(e) {
+    this.props.onEdit(e.target.value);
 
-        this.setState({
-            edited: false
-        });
-    }
+    this.setState({
+      edited: false
+    });
+  }
 }
 ```
 
@@ -418,20 +418,20 @@ It is quite a bit of code. First we need to stash the edit state within the comp
 
 ```javascript
 render() {
-    ...
-    <TodoItem
-        task={todoItem.task}
-        onEdit={this.itemEdited.bind(this, i)} />
-    ...
+  ...
+  <TodoItem
+    task={todoItem.task}
+    onEdit={this.itemEdited.bind(this, i)} />
+  ...
 }
 itemEdited(i, task) {
-    var todos = this.state.todos;
+  var todos = this.state.todos;
 
-    todos[i].task = task;
+  todos[i].task = task;
 
-    this.setState({
-        todos: todos
-    });
+  this.setState({
+    todos: todos
+  });
 }
 ```
 
@@ -443,18 +443,18 @@ We are still missing one vital functionality. It would be nice to be able to rem
 
 ```javascript
 itemEdited(i, task) {
-    var todos = this.state.todos;
+  var todos = this.state.todos;
 
-    if(task) {
-        todos[i].task = task;
-    }
-    else {
-        todos = todos.slice(0, i).concat(todos.slice(i + 1));
-    }
+  if(task) {
+    todos[i].task = task;
+  }
+  else {
+    todos = todos.slice(0, i).concat(todos.slice(i + 1));
+  }
 
-    this.setState({
-        todos: todos
-    });
+  this.setState({
+    todos: todos
+  });
 }
 ```
 
@@ -470,9 +470,9 @@ We can set up Flow type checking to our Webpack easily by first doing `npm i flo
 
 ```javascript
 {
-    test: /\.jsx?$/,
-    loaders: ['react-hot', 'babel', 'flowcheck'],
-    include: path.join(ROOT_PATH, 'app'),
+  test: /\.jsx?$/,
+  loaders: ['react-hot', 'babel', 'flowcheck'],
+  include: path.join(ROOT_PATH, 'app'),
 },
 ```
 
@@ -480,8 +480,8 @@ Now we can start typing. For instance you could attach types for `TodoItem` prop
 
 ```javascript
 constructor(props: {
-    task: string;
-    onEdit: Function;
+  task: string;
+  onEdit: Function;
 }) {
 ```
 
@@ -501,15 +501,15 @@ Before delving into the implementation itself, `npm i alt --save` to get the dep
 import alt from './alt';
 
 class TodoActions {
-    createTodo(task) {
-        this.dispatch(task);
-    }
-    updateTodo(id, task) {
-        this.dispatch({id, task});
-    }
-    removeTodo(id) {
-        this.dispatch(id);
-    }
+  createTodo(task) {
+    this.dispatch(task);
+  }
+  updateTodo(id, task) {
+    this.dispatch({id, task});
+  }
+  removeTodo(id) {
+    this.dispatch(id);
+  }
 }
 
 export default alt.createActions(TodoActions);
@@ -524,36 +524,36 @@ import alt from './alt';
 import TodoActions from './TodoActions';
 
 class TodoStore {
-    constructor() {
-        this.bindListeners({
-            createTodo: TodoActions.createTodo,
-            updateTodo: TodoActions.updateTodo,
-            removeTodo: TodoActions.removeTodo
-        });
+  constructor() {
+    this.bindListeners({
+      createTodo: TodoActions.createTodo,
+      updateTodo: TodoActions.updateTodo,
+      removeTodo: TodoActions.removeTodo
+    });
 
-        this.todos = [];
-    }
-    createTodo(task) {
-        this.setState({
-            todos: this.todos.concat([{
-                task: task
-            }])
-        });
-    }
-    updateTodo({id, task}) {
-        const todos = this.todos;
+    this.todos = [];
+  }
+  createTodo(task) {
+    this.setState({
+      todos: this.todos.concat([{
+        task: task
+      }])
+    });
+  }
+  updateTodo({id, task}) {
+    const todos = this.todos;
 
-        todos[id].task = task;
+    todos[id].task = task;
 
-        this.setState({todos});
-    }
-    removeTodo(id) {
-        const todos = this.todos;
+    this.setState({todos});
+  }
+  removeTodo(id) {
+    const todos = this.todos;
 
-        this.setState({
-            todos: todos.slice(0, id).concat(todos.slice(id + 1))
-        });
-    }
+    this.setState({
+      todos: todos.slice(0, id).concat(todos.slice(id + 1))
+    });
+  }
 }
 
 export default alt.createStore(TodoStore, 'TodoStore');
@@ -582,48 +582,48 @@ import TodoActions from './TodoActions';
 import TodoStore from './TodoStore';
 
 export default class TodoApp extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = TodoStore.getState();
-    }
-    componentDidMount() {
-        TodoStore.listen(this.storeChanged.bind(this));
-    }
-    componentWillUnmount() {
-        TodoStore.unlisten(this.storeChanged.bind(this));
-    }
-    storeChanged() {
-        this.setState(TodoStore.getState());
-    }
-    render() {
-        var todos = this.state.todos;
+    this.state = TodoStore.getState();
+  }
+  componentDidMount() {
+    TodoStore.listen(this.storeChanged.bind(this));
+  }
+  componentWillUnmount() {
+    TodoStore.unlisten(this.storeChanged.bind(this));
+  }
+  storeChanged() {
+    this.setState(TodoStore.getState());
+  }
+  render() {
+    var todos = this.state.todos;
 
-        return (
-            <div>
-                <ul>{todos.map((todo, i) =>
-                    <li key={'todo' + i}>
-                        <TodoItem
-                            task={todo.task}
-                            onEdit={this.itemEdited.bind(this, i)} />
-                    </li>
-                )}</ul>
+    return (
+      <div>
+        <ul>{todos.map((todo, i) =>
+          <li key={'todo' + i}>
+            <TodoItem
+              task={todo.task}
+              onEdit={this.itemEdited.bind(this, i)} />
+          </li>
+        )}</ul>
 
-                <button onClick={this.addItem.bind(this)}>+</button>
-            </div>
-        );
+        <button onClick={this.addItem.bind(this)}>+</button>
+      </div>
+    );
+  }
+  addItem() {
+    TodoActions.createTodo('New task');
+  }
+  itemEdited(id, task) {
+    if(task) {
+      TodoActions.updateTodo(id, task);
     }
-    addItem() {
-        TodoActions.createTodo('New task');
+    else {
+      TodoActions.removeTodo(id);
     }
-    itemEdited(id, task) {
-        if(task) {
-            TodoActions.updateTodo(id, task);
-        }
-        else {
-            TodoActions.removeTodo(id);
-        }
-    }
+  }
 }
 ```
 

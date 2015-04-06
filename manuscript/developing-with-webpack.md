@@ -43,15 +43,15 @@ When **webpack-dev-server** is running it will watch your files for changes. Whe
 ```html
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-    </head>
-    <body>
-        <div id="app"></div>
+  <head>
+    <meta charset="UTF-8"/>
+  </head>
+  <body>
+    <div id="app"></div>
 
-        <script src="http://localhost:8080/webpack-dev-server.js"></script>
-        <script src="bundle.js"></script>
-    </body>
+    <script src="http://localhost:8080/webpack-dev-server.js"></script>
+    <script src="bundle.js"></script>
+  </body>
 </html>
 ```
 
@@ -63,11 +63,14 @@ You will also need to add an entry point to your configuration. Here's `webpack.
 var path = require('path');
 
 module.exports = {
-    entry: ['webpack/hot/dev-server', path.resolve(__dirname, 'app/main.js')],
-    output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js',
-    },
+  entry: [
+    'webpack/hot/dev-server',
+    path.resolve(__dirname, 'app/main.js')
+  ],
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+  },
 };
 ```
 
@@ -89,19 +92,22 @@ Now that we have the loaders we need, we'll need to make sure Webpack is aware o
 var path = require('path');
 
 module.exports = {
-    entry: ['webpack/hot/dev-server', path.resolve(__dirname, 'app/main.js')],
-    output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js',
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.css$/,
-                loaders: ['style', 'css']
-            }
-        ]
-    }
+  entry: [
+    'webpack/hot/dev-server',
+    path.resolve(__dirname, 'app/main.js')
+  ],
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css']
+      }
+    ]
+  }
 };
 ```
 
@@ -111,7 +117,7 @@ We are missing just one bit, the actual CSS itself. Define *app/main.css* with c
 
 ```css
 body {
-    background: cornsilk;
+  background: cornsilk;
 }
 ```
 
@@ -153,37 +159,37 @@ var _ = require('lodash');
 var ROOT_PATH = path.resolve(__dirname, '..');
 
 var common = {
-    entry: [path.join(ROOT_PATH, 'app/main.js')],
-    output: {
-        path: path.resolve(ROOT_PATH, 'build'),
-        filename: 'bundle.js',
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.css$/,
-                loaders: ['style', 'css']
-            }
-        ]
-    },
+  entry: [path.join(ROOT_PATH, 'app/main.js')],
+  output: {
+    path: path.resolve(ROOT_PATH, 'build'),
+    filename: 'bundle.js',
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css']
+      }
+    ]
+  },
 };
 
 exports.build = _.merge({}, common, joinArrays);
 
 exports.develop = _.merge({
-    entry: ['webpack/hot/dev-server']
+  entry: ['webpack/hot/dev-server']
 }, common, joinArrays);
 
 // concat possible arrays
 function joinArrays(a, b) {
-    if(_.isArray(a) && _.isArray(b)) {
-        return a.concat(b);
-    }
-    if(_.isPlainObject(a) && _.isPlainObject(b)) {
-        return _.merge(a, b, joinArrays);
-    }
+  if(_.isArray(a) && _.isArray(b)) {
+    return a.concat(b);
+  }
+  if(_.isPlainObject(a) && _.isPlainObject(b)) {
+    return _.merge(a, b, joinArrays);
+  }
 
-    return a;
+  return a;
 }
 ```
 

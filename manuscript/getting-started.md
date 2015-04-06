@@ -49,11 +49,11 @@ In our case a basic configuration could look like this:
 var path = require('path');
 
 module.exports = {
-    entry: path.resolve(__dirname, 'app/main.js'),
-    output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js',
-    },
+  entry: path.resolve(__dirname, 'app/main.js'),
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+  },
 };
 ```
 
@@ -67,11 +67,9 @@ Now that we have basic configuration in place, we'll need something to build. Le
 
 ```javascript
 module.exports = function () {
-    var element = document.createElement('h1');
-
-    element.innerHTML = 'Hello world';
-
-    return element;
+  var element = document.createElement('h1');
+  element.innerHTML = 'Hello world';
+  return element;
 };
 ```
 
@@ -108,14 +106,14 @@ In order to actually use our bundle, we'll need to define the last missing bit, 
 ```html
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-    </head>
-    <body>
-        <div id="app"></div>
+  <head>
+    <meta charset="UTF-8"/>
+  </head>
+  <body>
+    <div id="app"></div>
 
-        <script src="bundle.js"></script>
-    </body>
+    <script src="bundle.js"></script>
+  </body>
 </html>
 ```
 
@@ -137,9 +135,9 @@ In this case we can move the build step behind `npm run build` like this:
 2. Add the following to `package.json`:
 
 ```json
-  "scripts": {
-    "build": "webpack"
-  }
+"scripts": {
+  "build": "webpack"
+}
 ```
 
 > We are using `--save-dev` here instead of `--save` as we want to use Webpack as a development dependency. Use `--save-dev` for parts you need to generate your distribution version. Otherwise `--save` is a good pick.
@@ -188,16 +186,16 @@ AMD, or Asynchronous Module Definition, is a solution that was invented to work 
 
 ```javascript
 define(['./MyModule.js'], function (MyModule) {
-    // export at module root
-    return function() {};
+  // export at module root
+  return function() {};
 });
 
 // alternatively
 define(['./MyModule.js'], function (MyModule) {
-    // export as module function
-    return {
-        hello: function() {...}
-    };
+  // export as module function
+  return {
+    hello: function() {...}
+  };
 });
 ```
 
@@ -205,9 +203,9 @@ Incidentally it is possible to use `require` within the wrapper like this:
 
 ```javascript
 define(['require'], function (require) {
-    var MyModule = require('./MyModule.js');
+  var MyModule = require('./MyModule.js');
 
-    return function() {...};
+  return function() {...};
 });
 ```
 
