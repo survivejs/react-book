@@ -370,7 +370,7 @@ Our Todo list is almost useful now. It is a little unfortunate that even though 
 
 A natural way to do this would be to allow the user to click an item. When an item is clicked, it would be replaced with an input control that would allow you to edit. After confirmed, the modification should remain there.
 
-This means we'll need to extend `TodoItem` somehow and communicate possible changes to `TodoApp` so that it knows to update data model. `TodoItem` logic seems simple enough so it's a good idea to start with that. This means `TodoItem` needs to keep track of its edit state and show the correct element based on that. In addition it will need to be able to communicate a state change. We can achieve that using a callback. `TodoApp` can then react to that (pun intended). Here's a sample implementation of the idea:
+This means we'll need to extend `TodoItem` somehow and communicate possible changes to `TodoApp` so that it knows to update data model. `TodoItem` logic seems simple enough so it's a good idea to start with that. In addition `TodoItem` needs to keep track of its edit state and show the correct element based on that. Finally it will need to be able to communicate a state change. We can achieve that using a callback. `TodoApp` can then react to that (pun intended). Here's a sample implementation of the idea:
 
 ```javascript
 export default class TodoItem extends React.Component {
