@@ -10,7 +10,7 @@ At first it might seem kind of magical. After all you are dealing with a potenti
 
 ## What Does Webpack Offer?
 
-At its core Webpack understands how your application loads assets and how those assets depend on each other. All assets can individually, or by type, be processed by Webpack giving you the ability to attach transpilers, base64 converters etc. It comes with its own development server you can either run in parallel with your existing server or as a separate process. Better yet, it supports goodies such as *hot module reloading* but we will get into that later.
+At its core Webpack understands how your application loads assets and how those assets depend on each other. All assets can individually, or by type, be processed by Webpack giving you the ability to attach transpilers, Base64 converters etc. It comes with its own development server you can either run in parallel with your existing server or as a separate process. Better yet, it supports goodies such as *hot module reloading* but we will get into that later.
 
 ## Who Is This Book For?
 
