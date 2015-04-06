@@ -79,7 +79,7 @@ In the example above we created our own *index.html* file to give more freedom a
 
 Compared to our simple setup, it provides an iframe showing a status bar that indicates the status of the rebundling process. You can also examine your browser log for the same information and possible errors.
 
-## CSS Refresh
+## Loading CSS
 
 In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke `npm i css-loader style-loader --save-dev`. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* allows us to `require` specific CSS files at our JavaScript. Similar approach works with CSS preprocessors. You'll likely find some loader for them and configure in the same way.
 
