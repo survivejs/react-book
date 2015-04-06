@@ -148,6 +148,7 @@ Our *index.js* is more complex as it will have to contain all of our configurati
 
 ```javascript
 var path = require('path');
+var _ = require('lodash');
 
 var ROOT_PATH = path.resolve(__dirname, '..');
 
@@ -167,13 +168,23 @@ var common = {
     },
 };
 
-exports.build = common;
+exports.build = _.merge({}, common, joinArrays);
 
-exports.develop = {
-    entry: common.entry.concat(['webpack/hot/dev-server']),
-    output: common.output,
-    module: common.module,
-};
+exports.develop = _.merge({
+    entry: ['webpack/hot/dev-server']
+}, common, joinArrays);
+
+// concat possible arrays
+function joinArrays(a, b) {
+    if(_.isArray(a) && _.isArray(b)) {
+        return a.concat(b);
+    }
+    if(_.isPlainObject(a) && _.isPlainObject(b)) {
+        return _.merge(a, b, joinArrays);
+    }
+
+    return a;
+}
 ```
 
 The common configuration has been separated to a section of its own. In this case `build` configuration is actually the same as `common` configuration. We do a little tweak for `develop` case. As you can see the configuration is quite easy to follow this way.

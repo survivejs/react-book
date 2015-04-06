@@ -92,7 +92,7 @@ This means Webpack cannot resolve our `import Hello from './component';` to a fi
 
 The problem has to do with Webpack's default resolution settings. Those settings describe where Webpack looks for modules and how. We'll need to tweak these settings a little.
 
-Add the following bits to your configuration:
+Add the following bit to your configuration:
 
 ```javascript
 var common = {
@@ -100,16 +100,6 @@ var common = {
     resolve: {
         extensions: ['', '.js', '.jsx', '.css'],
     }
-};
-
-exports.build = {
-    ...
-    resolve: common.resolve,
-};
-
-exports.develop = {
-    ...
-    resolve: common.resolve,
 };
 ```
 
@@ -119,7 +109,7 @@ Now Webpack will be able to resolve files ending with `.jsx` and everything shou
 
 If you hit `npm run dev` and try to modify our component (make it output `hello world again` or something), you'll see it actually works. After a flash. We can get something fancier with Webpack, namely hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/).
 
-To make this work, you should `npm i react-hot-loader --save-dev` and tweak the configuration as follows. The configuration has been included in its entirety so you don't have to piece it together:
+To make this work, you should `npm i react-hot-loader --save-dev` and tweak the configuration as follows:
 
 **config/index.js**
 
@@ -127,66 +117,46 @@ To make this work, you should `npm i react-hot-loader --save-dev` and tweak the 
 var path = require('path');
 var webpack = require('webpack');
 
-var ROOT_PATH = path.resolve(__dirname, '..');
+...
 
-var common = {
-    entry: [path.join(ROOT_PATH, 'app/main.js')],
-    output: {
-        path: path.resolve(ROOT_PATH, 'build'),
-        filename: 'bundle.js',
-    },
+exports.build = _.merge({
     module: {
         loaders: [
-            {
-                test: /\.css$/,
-                loaders: ['style', 'css'],
-            },
-        ],
-    },
-};
-
-exports.build = {
-    entry: common.entry,
-    output: common.output,
-    module: {
-        loaders: common.module.loaders.concat([
             {
                 test: /\.jsx?$/,
                 loader: 'babel',
                 include: path.join(ROOT_PATH, 'app'),
-            }
-        ])
-    }
-};
+            },
+        ]
+    },
+}, common, joinArrays);
 
-exports.develop = {
-    entry: common.entry.concat(['webpack/hot/dev-server']),
-    output: common.output,
+exports.develop = _.merge({
+    entry: ['webpack/hot/dev-server'],
     module: {
-        loaders: common.module.loaders.concat([
+        loaders: [
             {
                 test: /\.jsx?$/,
-                // inject react-hot loader for development here
                 loaders: ['react-hot', 'babel'],
                 include: path.join(ROOT_PATH, 'app'),
-            }
-        ])
+            },
+        ]
     },
     plugins: [
         // hot module replacement plugin itself. if you pass `--hot` to
         // webpack-dev-server, do not activate this!
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
         // do not reload if there is a syntax error in your code
         new webpack.NoErrorsPlugin()
-    ]
-};
+    ],
+}, common, joinArrays);
 ```
 
 Note what happens if you `npm run dev` now and try to modify the component. There should be no flash (no refresh) while the component should get updated provided there was no syntax error.
 
 The advantage of this approach is that the user interface retains its state. This can be quite convenient! There will be times when you may need to force a refresh but this tooling decreases the need for that significantly.
 
-XXX: discuss eslint + jsx extension now?
+XXX: discuss eslint now?
 
 ## Implement Basic Todo
 
