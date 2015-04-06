@@ -462,23 +462,15 @@ This might not be the prettiest solution usability wise but it shows how far you
 
 The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in.
 
-## PropTypes etc.
+## Adding Type Checking with Flow
 
-TODO
+As we saw earlier with `onEdit`, it gave us a nasty error before we actually defined a handler for the case. Thanks to [Flow](http://flowtype.org/) and [Flowcheck](https://gcanti.github.io/flowcheck/) we can add typing information to our source. This is very useful in a situation where you are working with large project and many developers. Just like with linting earlier this is one way to make your work more boring. Boring is still good!
 
-## Type Checking with Flow
+We can set up Flow type checking to our Webpack easily by first doing `npm i flowcheck-loader --save-dev` and then extending our configuration a little.
 
-If you come to JavaScript from other programming languages you are familiar with types. You have types in JavaScript too, but you do not have to specify these types when declaring variables, receiving arguments etc. This is one of the things that makes JavaScript great, but at the same time not so great.
+XXXXX: not sure what's the right configuration here yet. I tried loaders: ['react-hot', 'babel', 'flowcheck'] but that didn't give any errors/warnings even with annotations. probably need to try with jsx-loader etc.
 
-Specifically when working on very large projects with many developers type checking gives stability to your project, much like a good test does. So using **Flow** is definitely not a requirement. It is for developers who depends on type checking as more of a routine and for the before mentioned large projects with many developers. Webpack makes it easy to include **Flow** in your workflow.
-
-### Installing flow
-
-- Have to try this out :-)
-- What about "flowcheck-loader", tried it? https://www.npmjs.com/package/flowcheck-loader (probably works, haven't tried this one yet)
-- https://tryflow.org/
-
-> TBD: expand this section
+This should work with propTypes very neatly! https://gcanti.github.io/2015/02/02/replacing-prop-types-with-type-annotations.html
 
 ## PureRenderMixin
 
