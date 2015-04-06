@@ -41,6 +41,8 @@ In this sample we define two basic tasks related to `jshint`, a linting tool tha
 
 In practice you would have a lot of small tasks such as these for various purposes such as building the project. The example shows well how these tasks are constructed. An important part of the power of Grunt is that it hides a lot of the wiring from you. Taken too far this can get problematic though as you don't understand well enough what's going on under the hood.
 
+> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin allows you to benefit from Webpack in Grunt environment. You can leave the heavy lifting to Webpack while utilizing the Grunt plugins you are familiar with.
+
 ## Gulp
 
 Gulp takes a different approach. Instead of relying on configuration per plugin you deal with actual code. Gulp builds on top of the tried and true concept of piping. If you are familiar with Unix, it's the same here.
@@ -90,6 +92,8 @@ gulp.task('default', ['watch', 'scripts']);
 ```
 
 Given the configuration is code you can always just hack it if you run into troubles. You can wrap existing Node.js modules as Gulp plugins and so on. Compared to Grunt you have a clearer idea of what's going on. You still end up writing a lot of boilerplate for casual tasks, though. That is where some newer approaches come in.
+
+> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to benefit from Webpack in Gulp environment.
 
 ## Browserify
 
