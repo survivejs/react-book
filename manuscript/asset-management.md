@@ -191,14 +191,6 @@ var utils = require('/utils.js');
 ```
 The **relative path** is relative to the current file. The **absolute path** is relative to the entry file, which in this case is *main.js*.
 
-### Do I have to use file extension?
-
-No, you do not have to use *.js*, but it highlights better what you are requiring. You might have some .js files, and some .jsx files and even images and css can be required by Webpack. It also clearly differs from required node_modules and specific files.
-
-Remember that Webpack is a module bundler! This means you can set it up to load any format you want given there is a loader for it. We'll delve into this topic later on.
-
-> TBD: explain other file types here as well. this seems like the right place for that
-
 ## Loading CSS
 
 Webpack allows you to load CSS like you load any other code. What strategy you choose is up to you, but you can do everything from loading all your css in the main entry point file to one css file for each component.
