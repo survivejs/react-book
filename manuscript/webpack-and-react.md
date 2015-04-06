@@ -458,6 +458,10 @@ This might not be the prettiest solution usability wise but it shows how far you
 
 The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in.
 
+## PropTypes etc.
+
+TODO
+
 ## Type Checking with Flow
 
 If you come to JavaScript from other programming languages you are familiar with types. You have types in JavaScript too, but you do not have to specify these types when declaring variables, receiving arguments etc. This is one of the things that makes JavaScript great, but at the same time not so great.
