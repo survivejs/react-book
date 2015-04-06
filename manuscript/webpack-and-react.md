@@ -283,11 +283,13 @@ render() {
     }];
 
     return (
-        <ul>{todoItems.map((todoItem, i) =>
-            <li key={'todoitem' + i}>
-                <TodoItem task={todoItem.task} />
-            </li>
-        )}</ul>
+        <div>
+            <ul>{todoItems.map((todoItem, i) =>
+                <li key={'todoitem' + i}>
+                    <TodoItem task={todoItem.task} />
+                </li>
+            )}</ul>
+        </div>
     );
 }
 ```
@@ -306,7 +308,57 @@ As you can see the property we passed to our component gets mapped to `this.prop
 
 We haven't achieved much yet but we're getting there. Next we should add some logic to the list so this application can do something useful.
 
-## Adding Logic to Todo List
+## Adding New Items to Todo List
+
+It would be useful if we could add new items to our Todo list. Let's just do a button with plus that when triggered adds a new dummy item to our list.
+
+To get a button show up, add `<button onClick={this.addItem.bind(this)}>+</button>` somewhere within `TodoApp` JSX. Besides this we'll need to define that `onClick` handler. Define a method like this:
+
+```javascript
+addItem() {
+    console.log('add item');
+}
+```
+
+Now when you click the button, you should see something at your browser console.
+
+Next we will need to connect this with our data model somehow. It is problematic that now it is stored within our `render` method. React provides a concept known as state for this purpose. We can move our data there like this:
+
+```javascript
+constructor(props) {
+    super(props);
+
+    this.state = {
+        todoItems: [{
+            task: 'Learn Webpack'
+        }, {
+            task: 'Learn React'
+        }, {
+            task: 'Do laundry'
+        }]
+    };
+}
+render() {
+    var todoItems = this.state.todoItems;
+
+...
+```
+
+Now our `render` method points at `state`. As a result we can implement `addItem` that actually does something useful:
+
+```javascript
+addItem() {
+    this.setState({
+        todoItems: this.state.todoItems.concat([{
+            task: 'New task'
+        }])
+    });
+}
+```
+
+If you hit the button now, you should see new items. It might not be pretty yet but it works.
+
+## Editing Todo List Items
 
 TODO
 
