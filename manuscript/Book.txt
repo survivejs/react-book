@@ -1,5 +1,4 @@
 introduction.md
-preface.md
 getting-started.md
 understanding-webpack.md
 developing-with-webpack.md

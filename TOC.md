@@ -1,7 +1,6 @@
 # Table of Contents
 
 * Introduction
-* Preface
 * Getting Started
 * Understanding Webpack
 * Developing with Webpack
