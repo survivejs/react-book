@@ -1,6 +1,6 @@
 introduction.md
 getting-started.md
-understanding-webpack.md
+webpack-compared.md
 developing-with-webpack.md
 webpack-and-react.md
 asset-management.md

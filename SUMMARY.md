@@ -2,7 +2,7 @@
 
 * [Introduction](manuscript/introduction.md)
 * [Getting Started](manuscript/getting-started.md)
-* [Understanding Webpack](manuscript/understanding-webpack.md)
+* [Webpack Compared](manuscript/webpack-compared.md)
 * [Developing with Webpack](manuscript/developing-with-webpack.md)
 * [Optimizing Development](manuscript/optimizing-development.md)
 * [Asset Management](manuscript/asset-management.md)

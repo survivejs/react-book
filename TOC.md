@@ -2,7 +2,7 @@
 
 * Introduction
 * Getting Started
-* Understanding Webpack
+* Webpack Compared
 * Developing with Webpack
 * Webpack and React
 * Asset Management

@@ -1,4 +1,4 @@
-# Understanding Webpack
+# Webpack Compared
 
 To understand Webpack, it will help to look at the history. That will put the tool in context and show you why the approach is powerful. Back in the day we were happy just to concat some scripts together but that won't do anymore. JavaScript libraries can be very large these days and nobody likes to wait for it all to load for the application show up.
 
@@ -114,16 +114,16 @@ It takes your dependencies, puts them through loaders and outputs browser compat
 
 ```javascript
 module.exports = {
-  entry: "./entry.js",
+  entry: './entry.js',
   output: {
     path: __dirname,
-    filename: "bundle.js"
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loader: "style!css"
+        loader: 'style!css'
       }
     ]
   }
