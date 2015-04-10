@@ -5,7 +5,6 @@
   "description": "This is the private repo for possible commercial version of the book. I've split it up in a couple of parts.",
   "main": "index.js",
   "scripts": {
-    "start": "node ./index.js",
     "gitbook": "node ./scripts/gitbook.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,7 +18,6 @@
   },
   "homepage": "https://github.com/bebraw/webpack-book",
   "dependencies": {
-    "gitbook": "^1.5.0",
-    "markdown-pdf": "^5.1.0"
+    "gitbook": "^1.5.0"
   }
 }
