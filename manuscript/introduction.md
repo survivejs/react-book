@@ -1,8 +1,8 @@
 # Introduction
 
-Back in the day it was enough to understand how Makefiles work. That said even today Make is a viable tool. During the past few years we have seen many new tools come and go especially in the realm of frontend development. First Grunt became popular. Shortly after that Gulp gained momentum. These tools help a lot but they still don't solve some fundamental issues. That is where solutions such as Browserify and Webpack come in.
+Back in the day it was enough to understand how Makefiles work. That said even today Make is a viable tool. During the past few years we have seen many new tools come and go especially in the realm of frontend development. First Grunt became popular. Shortly after that Gulp gained momentum. These tools help a lot but they still don't solve some fundamental issues. That is where solutions such as [Browserify](http://browserify.org/) and [Webpack](https://webpack.github.io/) come in.
 
-They don't aim to replace more general utilities such as Grunt or Gulp. Rather they complement them. In this book we will focus primarily on Webpack, a module bundler. It is simply a tool that takes some input, bundles it and provides you something to serve to your clients. Even though this sounds simple, Webpack solves a fundamental problem for web developers.
+They don't aim to replace more general utilities such as [Grunt](http://gruntjs.com/) or [Gulp](http://gulpjs.com/). Rather they complement them. In this book we will focus primarily on Webpack, a module bundler. It is simply a tool that takes some input, bundles it and provides you something to serve to your clients. Even though this sounds simple, Webpack solves a fundamental problem for web developers.
 
 Previously you had to use numerous separate tools for compiling your assets. Webpack does this transparently for you. It is not just about Javascript. You can use it to bundle pretty much anything thanks to its loader based architecture. You can consume easily JSON, images and even fonts. Not only that, we can process these assets through transpilers, Base64 conversion etc. without much trouble.
 
