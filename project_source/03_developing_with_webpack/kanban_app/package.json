@@ -4,7 +4,8 @@
   "description": "Webpack demo app",
   "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack --config config/build",
+    "dev": "webpack-dev-server --config config/develop --devtool eval --progress --colors --hot --content-base build"
   },
   "keywords": [
     "webpack",
@@ -13,6 +14,10 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "webpack": "^1.8.4"
+    "css-loader": "^0.10.1",
+    "lodash": "^3.6.0",
+    "style-loader": "^0.10.1",
+    "webpack": "^1.8.4",
+    "webpack-dev-server": "^1.8.0"
   }
 }

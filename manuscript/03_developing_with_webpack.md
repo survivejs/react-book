@@ -14,29 +14,27 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 {
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --content-base build"
+    "dev": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --hot --content-base build"
   }
 }
 ```
 
-When you run `npm run dev` from your terminal it will execute the command stated as a value on the **dev** property. This is what it does:
+**webpack.development.js**
 
-1. `webpack-dev-server` - Starts a web service on `localhost:8080`
-2. `--config webpack.development.js` - Points at custom development configuration we'll set up later
-3. `--devtool eval` - Creates source urls for your code. Making you able to pinpoint by filename and line number where any errors are thrown
-4. `--progress` - Will show progress of bundling your application
-5. `--colors` - Yay, colors in the terminal!
-6. `--content-base build` - Points to the output directory configured
+```javascript
+var path = require('path');
 
-To recap, when you run `npm run dev` this will fire up the webservice, watch for file changes and automatically rebundle your application when any file changes occur. How neat is that!
-
-Go to **http://localhost:8080** and you should see something.
-
-> If you want to use some other port than 8080, you can pass `--port` parameter (ie. `--port 4000`) to *webpack-dev-server*.
-
-## Automatic Browser Refresh
-
-When **webpack-dev-server** is running it will watch your files for changes. When that happens it rebundles your project and notifies browsers listening to refresh. To trigger this behavior you need to change your *index.html* file in the `build/` folder.
+module.exports = {
+  entry: [
+    'webpack/hot/dev-server',
+    path.resolve(__dirname, 'app/main.js')
+  ],
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+  },
+};
+```
 
 **build/index.html**
 
@@ -55,38 +53,35 @@ When **webpack-dev-server** is running it will watch your files for changes. Whe
 </html>
 ```
 
-We added a script that refreshes the application when a change occurs.
+When you run `npm run dev` from your terminal it will execute the command stated as a value on the **dev** property. This is what it does:
 
-You will also need to add an entry point to your configuration. Here's `webpack.development.js` that will work:
+1. `webpack-dev-server` - Starts a web service on `localhost:8080`
+2. `--config webpack.development.js` - Points at custom development configuration we'll set up later
+3. `--devtool eval` - Creates source urls for your code. Making you able to pinpoint by filename and line number where any errors are thrown
+4. `--progress` - Will show progress of bundling your application
+5. `--colors` - Colors in the terminal!
+6. '--hot' - Enable hot module loading
+7. `--content-base build` - Points to the output directory configured
 
-```javascript
-var path = require('path');
+To recap, when you run `npm run dev` this will fire up the webservice, watch for file changes and automatically rebundle your application when any file changes occur.
 
-module.exports = {
-  entry: [
-    'webpack/hot/dev-server',
-    path.resolve(__dirname, 'app/main.js')
-  ],
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js',
-  },
-};
-```
+Go to **http://localhost:8080** and you should see something. If you want to use some other port than 8080, you can pass `--port` parameter (ie. `--port 4000`) to *webpack-dev-server*.
 
-Thats it! Now your application will automatically refresh whenever a file changes. This also gives us automatic CSS updates with a bit of effort. Webpack manages to do this without a refresh. Let's see how to achieve that next.
+> In the example above we created our own *index.html* file to give more freedom and control. If you just want something simple, Webpack provides a default one. We can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process. You can alternatively examine your browser log for the same information and possible errors.
 
-## Default Environment
+## Automatic Browser Refresh
 
-In the example above we created our own *index.html* file to give more freedom and control. If you don't need a lot of control and just want something simple that works, Webpack provides a default one. We can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root.
+When **webpack-dev-server** is running it will watch your files for changes. When that happens it rebundles your project and notifies browsers listening to refresh. If you try modifying **app/component.js** you should see the changes propagate to your browser now.
 
-Compared to our simple setup, it provides an iframe showing a status bar that indicates the status of the rebundling process. You can also examine your browser log for the same information and possible errors.
+We can easily extend the approach to work with CSS. Webpack allows us to modify CSS without forcing a full refresh. Let's see how to achieve that next.
 
 ## Loading CSS
 
 In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke `npm i css-loader style-loader --save-dev`. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* allows us to `require` specific CSS files at our JavaScript. Similar approach works with CSS preprocessors. You'll likely find some loader for them and configure in the same way.
 
 Now that we have the loaders we need, we'll need to make sure Webpack is aware of them. It's time to configure.
+
+**webpack.development.js**
 
 ```javascript
 var path = require('path');
@@ -123,13 +118,13 @@ body {
 
 In addition we'll need to make Webpack aware of this file. Insert `require('./main.css')` statement to the beginning of *app/main.js*. Finally, hit `npm run dev` and point your browser to *localhost:8080* provided you are using the default port.
 
-To see the magic in action, you should open up *app/main.css* and change the background color to something nice like `lime` (`background: lime`). Develop styles as needed.
+To see the magic in action, you should open up *app/main.css* and change the background color to something nice like `lime` (`background: lime`). Develop styles as needed. Experiment.
 
 In order to make our normal build (`npm run build`) work with CSS, you could attach that *module* bit to `webpack.config.js` too. Given it can be cumbersome to maintain configuration like this, I'll show you a nicer way.
 
 ## Sharing Common Configuration
 
-As duplication in source is the mother of all mistakes, it can make sense adopt approaches that allow us to avoid that. Given Webpack configuration is just JavaScript, there are multiple ways to approach the problem. As long as we generate the structure Webpack expects, we should be fine.
+As duplication is the mother of all mistakes, it can make sense adopt approaches that allow us to avoid that. Given Webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure Webpack expects, we should be fine.
 
 One way to do this is to keep configuration within a single file and expose it from there via small wrappers for Webpack to consume. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place. The wrappers cause a little bit of extra work but it's not a bad price to pay for some clarity.
 
@@ -145,10 +140,10 @@ Those *build.js* and *develop.js* simply point at our *index.js*. To give you an
 **config/build.js**
 
 ```javascript
-module.exports = require('./').build; // develop for the other
+module.exports = require('./').build; // use `develop` for the other
 ```
 
-Our *index.js* is more complex as it will have to contain all of our configuration. In this case something like this would do just fine:
+Our *index.js* is more complex as it will have to contain all of our configuration. We'll implement a little helper using lodash so install it (`npm i lodash --save-dev`). Here's the full source:
 
 **config/index.js**
 
@@ -174,28 +169,32 @@ var common = {
   },
 };
 
-exports.build = _.merge({}, common, joinArrays);
+var mergeConfig = merge.bind(null, common);
 
-exports.develop = _.merge({
+exports.build = mergeConfig({});
+
+exports.develop = mergeConfig({
   entry: ['webpack/hot/dev-server']
-}, common, joinArrays);
+});
 
-// concat possible arrays
-function joinArrays(a, b) {
-  if(_.isArray(a) && _.isArray(b)) {
-    return a.concat(b);
-  }
-  if(_.isPlainObject(a) && _.isPlainObject(b)) {
-    return _.merge(a, b, joinArrays);
-  }
+function merge(a, b) {
+  return _.merge(b, a, joinArrays);
 
-  return a;
+  // concat possible arrays
+  function joinArrays(a, b) {
+    if(_.isArray(a) && _.isArray(b)) {
+      return a.concat(b);
+    }
+    if(_.isPlainObject(a) && _.isPlainObject(b)) {
+      return _.merge(a, b, joinArrays);
+    }
+
+    return a;
+  }
 }
 ```
 
 The common configuration has been separated to a section of its own. In this case `build` configuration is actually the same as `common` configuration. We do a little tweak for `develop` case. As you can see the configuration is quite easy to follow this way.
-
-You should `npm i lodash --save-dev` to the dependency we need for this to work into the project. It is possible to refine the approach further and hide `_.merge` and `joinArray`behind a nicer API. Now it's pretty bare bone.
 
 To make everything work again, we'll need to tweak our `package.json` **scripts** section like this:
 
@@ -214,4 +213,4 @@ If everything went fine, the old commands should work still. Now we have somethi
 
 ## Conclusion
 
-In this chapter you learned how to go beyond a basic Webpack configuration. Webpack's development server is a powerful feature that has even more in store. We'll get back to that when we discuss hot module reloading and React in the next chapter.
+In this chapter you learned how to go beyond a basic Webpack configuration. Webpack's development server is a powerful feature that has even more in store. We also learned how to organize our configuration more effectively. Next we'll delve deeper as we discuss hot module reloading and React in the next chapter.
