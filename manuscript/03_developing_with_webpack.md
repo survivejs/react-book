@@ -140,7 +140,8 @@ Those *build.js* and *develop.js* simply point at our *index.js*. To give you an
 **config/build.js**
 
 ```javascript
-module.exports = require('./').build; // use `develop` for the other
+// use `develop` for the other
+module.exports = require('./').build;
 ```
 
 Our *index.js* is more complex as it will have to contain all of our configuration. We'll implement a little helper using lodash so install it (`npm i lodash --save-dev`). Here's the full source:
