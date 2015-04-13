@@ -26,6 +26,8 @@ class TodoApp extends React.Component {
 
     return (
       <div>
+        <button onClick={this.addItem.bind(this)}>+</button>
+
         <ul>{todos.map((todo, i) =>
           <li key={'todo' + i}>
             <TodoItem
@@ -33,8 +35,6 @@ class TodoApp extends React.Component {
               onEdit={this.itemEdited.bind(this, i)} />
           </li>
         )}</ul>
-
-        <button onClick={this.addItem.bind(this)}>+</button>
       </div>
     );
   }
