@@ -178,8 +178,8 @@ exports.develop = mergeConfig({
   entry: ['webpack/hot/dev-server']
 });
 
-function merge(a, b) {
-  return _.merge(b, a, joinArrays);
+function merge(source, target) {
+  return _.merge(target, source, joinArrays);
 
   // concat possible arrays
   function joinArrays(a, b) {

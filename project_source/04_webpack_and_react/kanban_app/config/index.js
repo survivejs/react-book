@@ -1,3 +1,4 @@
+'use strict';
 var path = require('path');
 var webpack = require('webpack');
 var _ = require('lodash');
@@ -5,7 +6,7 @@ var _ = require('lodash');
 var ROOT_PATH = path.resolve(__dirname, '..');
 
 var common = {
-  entry: [path.join(ROOT_PATH, 'app/main.js')],
+  entry: [path.join(ROOT_PATH, 'app/main.jsx')],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
@@ -54,8 +55,8 @@ exports.develop = mergeConfig({
   ],
 });
 
-function merge(a, b) {
-  return _.merge(b, a, joinArrays);
+function merge(source, target) {
+  return _.merge(target, source, joinArrays);
 
   // concat possible arrays
   function joinArrays(a, b) {
