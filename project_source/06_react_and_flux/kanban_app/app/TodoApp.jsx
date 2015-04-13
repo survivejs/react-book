@@ -18,7 +18,7 @@ class TodoApp extends React.Component {
   componentWillUnmount() {
     TodoStore.unlisten(this.storeChanged.bind(this));
   }
-  storeChanged(d) {
+  storeChanged() {
     this.setState(TodoStore.getState());
   }
   render() {

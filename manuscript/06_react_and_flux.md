@@ -276,7 +276,7 @@ export default class TodoApp extends React.Component {
     this.state = TodoStore.getState();
   }
   ...
-  storeChanged(d) {
+  storeChanged() {
     this.setState(TodoStore.getState());
   }
   ...
