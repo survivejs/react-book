@@ -40,7 +40,7 @@ export default class App extends React.Component {
     return (
       <div className='app'>
         <div className='controls'>
-          <button onClick={this.addLane}>Add lane</button>
+          <button onClick={this.addLane.bind(this)}>Add lane</button>
         </div>
         <div className='lanes'>
           {lanes.map((lane, i) =>
@@ -51,6 +51,11 @@ export default class App extends React.Component {
     );
   }
   addLane() {
-    console.log('add lane');
+    this.setState({
+      lanes: this.state.lanes.concat({
+        name: 'New lane',
+        todos: []
+      })
+    });
   }
 }
