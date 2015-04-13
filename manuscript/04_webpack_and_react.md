@@ -84,7 +84,7 @@ As you can see, the output is quite chunky in this case! Don't worry. This is ju
 
 ## Activating Hot Loading for Development
 
-If you hit `npm run dev` and try to modify our component (make it output `hello world again` or something), you'll see it actually works. After a flash. We can get something fancier with Webpack, namely hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/).
+If you hit `npm run dev`, hit *localhost:8080* and try to modify our component (make it output `Learn React` or something), you'll see it actually works. After a flash. We can get something fancier with Webpack, namely hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/).
 
 To make this work, you should `npm i react-hot-loader --save-dev` and tweak the configuration as follows:
 
@@ -93,22 +93,37 @@ To make this work, you should `npm i react-hot-loader --save-dev` and tweak the 
 ```javascript
 var path = require('path');
 var webpack = require('webpack');
+var _ = require('lodash');
 
 ...
 
-exports.build = _.merge({
+var common = {
+  ...
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css'],
+      }
+    ]
+  },
+};
+
+...
+
+exports.build = mergeConfig({
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         loader: 'babel',
         include: path.join(ROOT_PATH, 'app'),
-      },
+      }
     ]
-  },
-}, common, joinArrays);
+  }
+});
 
-exports.develop = _.merge({
+exports.develop = mergeConfig({
   entry: ['webpack/hot/dev-server'],
   module: {
     loaders: [
@@ -116,22 +131,21 @@ exports.develop = _.merge({
         test: /\.jsx?$/,
         loaders: ['react-hot', 'babel'],
         include: path.join(ROOT_PATH, 'app'),
-      },
+      }
     ]
   },
   plugins: [
-    // hot module replacement plugin itself. if you pass `--hot` to
-    // webpack-dev-server, do not activate this!
-    new webpack.HotModuleReplacementPlugin(),
     // do not reload if there is a syntax error in your code
     new webpack.NoErrorsPlugin()
   ],
-}, common, joinArrays);
+});
 ```
 
-Note what happens if you `npm run dev` now and try to modify the component. There should be no flash (no refresh) while the component should get updated provided there was no syntax error.
+Try hitting `npm run dev` again and modifying the component. Note what doesn't happen this time. There's no flash! What did we just do?
 
-The advantage of this approach is that the user interface retains its state. This can be quite convenient! There will be times when you may need to force a refresh but this tooling decreases the need for that significantly.
+*react-hot-loader* swaps component with a new version if it detects the component has changed. This process retains application state. Even though this might feel like a small thing in practice it's bigger as you don't need to manipulate the whole application to the same state just in order to test something.
+
+There will be times when you will need to force refresh but this eliminates a lot of manual refresh work required and allows you to focus more on development. It is one of those little things but it adds up as we will see.
 
 ## Setting Up ESLint
 
