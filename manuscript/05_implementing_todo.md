@@ -280,4 +280,4 @@ With Flow you can type the most vital parts of your source. You can think it as 
 
 ## Conclusion
 
-The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in.
+The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in. In the next chapter we will discuss Flux in particular and port our application to use it.
