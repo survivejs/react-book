@@ -4,17 +4,22 @@ Given we have a nice development setup now, we can actually get some work done. 
 
 ## Setting up an App Container
 
-To make it easier, let's set up `TodoApp.jsx` that coordinates application itself. This will get rendered by `main.js` and will deal with the application logic. You should end up with files like this:
+To make it easier, let's set up `TodoApp.jsx` that coordinates application itself. This will get rendered by `main.jsx` and will deal with the application logic. You should end up with files like this:
 
-**app/main.js**
+**app/main.jsx**
 
 ```javascript
-import './main.css'
+'use strict';
+import './main.css';
 
 import React from 'react';
 import TodoApp from './TodoApp';
 
-React.render(<TodoApp />, document.getElementById('app'));
+main();
+
+function main() {
+    React.render(<TodoApp />, document.getElementById('app'));
+}
 ```
 
 **app/TodoApp.jsx**
@@ -25,6 +30,8 @@ import React from 'react';
 import TodoItem from './TodoItem';
 
 export default class TodoApp extends React.Component {
+  displayName: 'TodoApp'
+
   render() {
     return <TodoItem />;
   }
@@ -38,6 +45,8 @@ export default class TodoApp extends React.Component {
 import React from 'react';
 
 export default class TodoItem extends React.Component {
+  displayName: 'TodoItem'
+
   render() {
     return <div>Learn Webpack</div>;
   }
@@ -45,6 +54,8 @@ export default class TodoItem extends React.Component {
 ```
 
 Note that as you perform the needed modifications, your browser should get updated. You might see some error every now and then but that is to be expected given we are doing breaking changes here.
+
+## Extending TodoItem
 
 A good next step would be to extend `TodoItem` interface. We would probably want to render a list of these. Ideally we should be able to perform basic editing operations over the list and create new items as needed. We'll probably also want to mark items as done.
 
