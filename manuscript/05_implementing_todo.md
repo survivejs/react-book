@@ -30,8 +30,6 @@ import React from 'react';
 import TodoItem from './TodoItem';
 
 export default class TodoApp extends React.Component {
-  displayName: 'TodoApp'
-
   render() {
     return <TodoItem />;
   }
@@ -45,8 +43,6 @@ export default class TodoApp extends React.Component {
 import React from 'react';
 
 export default class TodoItem extends React.Component {
-  displayName: 'TodoItem'
-
   render() {
     return <div>Learn Webpack</div>;
   }
@@ -83,9 +79,9 @@ render() {
 }
 ```
 
-To make it easy to grow the code, we treat possible todo items as a list of objects. We then map through them and generate `TodoItem` for each. During the process we set `key` for each list item. This is property React requires in order to render each item to correct place during each render pass. React will warn you if you forget to set it. In addition we pass the task in question to our `TodoItem` as a property.
+We will use a special feature of JSX in form of `{}`. Within these braces we can mix JavaScript with JSX. In this case we will render a bunch of `li` elements. Each contains a `TodoItem`. In order to tell React in which order to render the elements, we'll set `key` property for each. It is important that this is unique or otherwise it won't be able to figure out the correct order.
 
-If everything went correctly, you should see a list with three `Learn Webpack` items on it. That's almost nice. To make `TodoItem` render its property correctly, we'll need to tweak its implementation a little bit like this:
+If everything went correctly, you should see a list with three `Learn Webpack` items on it. That's almost nice. The problem is that we haven't taken `task` property in count at `TodoItem`. We'll need to tweak its implementation like this:
 
 ```javascript
 render() {
@@ -93,7 +89,7 @@ render() {
 }
 ```
 
-As you can see the property we passed to our component gets mapped to `this.props`. After that it is just a matter of showing it.
+As you can see the property we passed to our component gets mapped to `this.props`. After that it is just a matter of showing it wherever we like.
 
 We haven't achieved much yet but we're getting there. Next we should add some logic to the list so this application can do something useful.
 
