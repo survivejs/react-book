@@ -97,7 +97,7 @@ On App level you might want to end up with something like this:
 
 **app/App.jsx**
 
-```html
+```javascript
 'use strict';
 import React from 'react';
 import Lane from './Lane';
