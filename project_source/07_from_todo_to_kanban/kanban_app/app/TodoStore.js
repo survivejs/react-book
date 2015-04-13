@@ -1,5 +1,4 @@
 'use strict';
-import alt from './alt';
 
 export default (actions) => {
   return class TodoStore {

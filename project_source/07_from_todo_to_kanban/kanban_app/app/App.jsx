@@ -1,38 +1,35 @@
 'use strict';
 import React from 'react';
 import Lane from './Lane';
+import AppActions from './AppActions';
+import appStore from './AppStore';
+import alt from './alt';
+import persist from './persist';
+import storage from './storage';
+
+const actions = alt.createActions(AppActions);
+const store = alt.createStore(
+  appStore(actions),
+  'AppStore'
+);
 
 export default class App extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      lanes: [
-        {
-          name: 'Todo',
-          todos: [
-            {
-              task: 'Learn Webpack'
-            },
-            {
-              task: 'Do laundry'
-            }
-          ]
-        },
-        {
-          name: 'Doing',
-          todos: [
-            {
-              task: 'Learn React'
-            }
-          ]
-        },
-        {
-          name: 'Done',
-          todos: []
-        }
-      ]
-    };
+    this.actions = actions;
+    this.store = store;
+    this.state = this.store.getState();
+  }
+  // XXXXX: push to a behavior
+  componentDidMount() {
+    this.store.listen(this.storeChanged.bind(this));
+  }
+  componentWillUnmount() {
+    this.store.unlisten(this.storeChanged.bind(this));
+  }
+  storeChanged() {
+    this.setState(this.store.getState());
   }
   render() {
     var lanes = this.state.lanes;
@@ -62,3 +59,7 @@ export default class App extends React.Component {
     });
   }
 }
+
+// XXXXX: changes made to child stores won't show up here
+// -> add functional lenses? baobab
+export default persist(App, actions.init, store, storage, 'app');

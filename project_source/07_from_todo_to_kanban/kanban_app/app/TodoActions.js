@@ -1,5 +1,4 @@
 'use strict';
-import alt from './alt';
 
 export default class TodoActions {
   init(todos) {

@@ -286,7 +286,6 @@ export default class TodoActions {
 
 ```javascript
 'use strict';
-import alt from './alt';
 
 export default (actions) => {
   return class TodoStore {
@@ -303,6 +302,49 @@ export default (actions) => {
 After these changes each `TodoList` operates on its own instance of `TodoActions` and `TodoStore`. Unfortunately we lost persistency in the process. Let's add that back next.
 
 ## Restoring Persistency
+
+The signature of our `persist` behavior looks like this:
+
+```javascript
+(Component, initAction, store, storage, storageName)
+```
+
+In order to make it work on `App` level we'll need to define `AppStore` and `AppActions`. `AppActions` should contain `init` method. The rest look straightforward. You might be able to implement this on your own now so try giving it a go. I've included a possible solution for reference below:
+
+**app/AppActions.js**
+
+```javascript
+'use strict';
+
+export default class AppActions {
+  init(data) {
+    this.dispatch(data);
+  }
+}
+```
+
+**app/AppStore.js**
+
+```javascript
+'use strict';
+
+export default (actions) => {
+  return class TodoStore {
+    constructor() {
+      this.bindActions(actions);
+    }
+    init(data) {
+      this.setState(data || {lanes: []});
+    }
+  };
+};
+```
+
+**app/App.jsx**
+
+```javascript
+
+```
 
 TODO: define AppStore, LaneStore + make TodoStore unique per TodoList
 
