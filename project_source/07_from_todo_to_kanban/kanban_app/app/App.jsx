@@ -43,8 +43,11 @@ export default class App extends React.Component {
           <button onClick={this.addLane.bind(this)}>Add lane</button>
         </div>
         <div className='lanes'>
-          {lanes.map((lane, i) =>
-            <Lane key={'lane' + i} {...lane} />
+          {lanes.map((lane, i) => {
+            var key = 'lane' + i;
+
+            return <Lane key={key} storeKey={key} {...lane} />;
+          }
           )}
         </div>
       </div>

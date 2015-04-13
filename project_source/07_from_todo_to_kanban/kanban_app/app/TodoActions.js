@@ -1,7 +1,7 @@
 'use strict';
 import alt from './alt';
 
-class TodoActions {
+export default class TodoActions {
   init(todos) {
     this.dispatch(todos);
   }
@@ -15,5 +15,3 @@ class TodoActions {
     this.dispatch(id);
   }
 }
-
-export default alt.createActions(TodoActions);

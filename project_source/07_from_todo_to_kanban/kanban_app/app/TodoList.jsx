@@ -2,26 +2,34 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 import TodoActions from './TodoActions';
-import TodoStore from './TodoStore';
-import persist from './persist';
-import storage from './storage';
+import todoStore from './TodoStore';
+import alt from './alt';
 
-class TodoList extends React.Component {
+export default class TodoList extends React.Component {
   constructor(props: {
+    storeKey: string;
     todos: Array;
   }) {
     super(props);
 
-    this.state = TodoStore.getState();
+    this.actions = alt.createActions(TodoActions);
+    this.store = alt.createStore(
+      todoStore(this.actions),
+      'TodoStore' + props.storeKey
+    );
+    this.actions.init({
+      todos: props.todos
+    });
+    this.state = this.store.getState();
   }
   componentDidMount() {
-    TodoStore.listen(this.storeChanged.bind(this));
+    this.store.listen(this.storeChanged.bind(this));
   }
   componentWillUnmount() {
-    TodoStore.unlisten(this.storeChanged.bind(this));
+    this.store.unlisten(this.storeChanged.bind(this));
   }
   storeChanged() {
-    this.setState(TodoStore.getState());
+    this.setState(this.store.getState());
   }
   render() {
     var todos = this.state.todos;
@@ -41,16 +49,14 @@ class TodoList extends React.Component {
     );
   }
   addItem() {
-    TodoActions.createTodo('New task');
+    this.actions.createTodo('New task');
   }
   itemEdited(id, task) {
     if(task) {
-      TodoActions.updateTodo(id, task);
+      this.actions.updateTodo(id, task);
     }
     else {
-      TodoActions.removeTodo(id);
+      this.actions.removeTodo(id);
     }
   }
 }
-
-export default persist(TodoList, TodoActions.init, TodoStore, storage, 'todos');

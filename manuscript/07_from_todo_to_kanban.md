@@ -36,9 +36,9 @@ Most importantly we'll need to model the concept of lane. The current `TodoApp` 
 }
 ```
 
-The question is how do we map this structure to our React app. We'll need `LaneStore` at least for coordinating an individual Lane. On App level we'll have something that will keep track of these lanes. We can call that `AppStore`.
+The question is how do we map this structure to our React app. We'll need `LaneStore` at least for coordinating an individual Lanes. We also need to fit in some new controls to the App. We need to be able to create, modify and remove lanes.
 
-We also need to fit in some new controls to the App. We need to be able to create, modify and remove lanes. In the mockup above I have included task creation within the first lane so that's something to take in count. Finally we'll need some way to move tasks between lanes so we can keep track of their completion.
+In the mockup above I have included task creation within the first lane so that's something to take in count. Finally we'll need some way to move tasks between lanes so we can keep track of their completion.
 
 ## Reorganizing Project
 
@@ -169,9 +169,140 @@ export default class Lane extends React.Component {
 }
 ```
 
-If you run the application now and try to use it, you'll notice some weird behavior. This happens because currently our Todolists share their Store. We'll need to clean this up next and rethink clarify our Actions and Stores.
+If you run the application now and try to use it, you'll notice some weird behavior. It's as if some data is linked. Logically that isn't correct. We need to fix our design.
 
-## Rethinking Actions and Stores
+## Separating TodoList Stores
+
+The `TodoLists` share data because they use the same Store. In order to fix this problem we'll need to make sure each `TodoList` uses a Store of its own. Even though this sounds simple, we'll need to do quite a few changes.
+
+**app/App.jsx**
+
+```javascript
+...
+<div className='lanes'>
+  {lanes.map((lane, i) => {
+    var key = 'lane' + i;
+
+    return <Lane key={key} storeKey={key} {...lane} />;
+  }
+  )}
+</div>
+...
+```
+
+First we'll need to pass `storeKey` to `Lane`. We need to tell each Store apart so we'll need information lower in the hierarchy. We cannot use `key` property here as React doesn't expose it to children.
+
+**app/Lane.jsx**
+
+```javascript
+...
+export default class Lane extends React.Component {
+  constructor(props: {
+    storeKey: string;
+    name: string;
+    todos: Array;
+  }) {
+    super(props);
+  }
+  render() {
+    var name = this.props.name;
+    var todos = this.props.todos;
+    var storeKey = this.props.storeKey;
+
+    return (
+      <div className='lane'>
+        <div className='name'>{name}</div>
+        <TodoList storeKey={storeKey} todos={todos} />
+      </div>
+    );
+  }
+}
+```
+
+Here we just pass `storeKey` to `TodoList`. Nothing special apart from that.
+
+**app/TodoList.jsx**
+
+```javascript
+'use strict';
+import React from 'react';
+import TodoItem from './TodoItem';
+import TodoActions from './TodoActions';
+import todoStore from './TodoStore';
+import alt from './alt';
+
+export default class TodoList extends React.Component {
+  constructor(props: {
+    storeKey: string;
+    todos: Array;
+  }) {
+    super(props);
+
+    this.actions = alt.createActions(TodoActions);
+    this.store = alt.createStore(
+      todoStore(this.actions),
+      'TodoStore' + props.storeKey
+    );
+    this.actions.init({
+      todos: props.todos
+    });
+    this.state = this.store.getState();
+  }
+  componentDidMount() {
+    this.store.listen(this.storeChanged.bind(this));
+  }
+  componentWillUnmount() {
+    this.store.unlisten(this.storeChanged.bind(this));
+  }
+  storeChanged() {
+    this.setState(this.store.getState());
+  }
+  ...
+  addItem() {
+    this.actions.createTodo('New task');
+  }
+  itemEdited(id, task) {
+    if(task) {
+      this.actions.updateTodo(id, task);
+    }
+    else {
+      this.actions.removeTodo(id);
+    }
+  }
+}
+```
+
+`TodoList` received a lot of changes because we needed to make it operate on its own Actions and Store. We also need to tweak those.
+
+**app/TodoActions.js**
+
+```javascript
+export default class TodoActions {
+...
+}
+```
+
+**app/TodoStore.js**
+
+```javascript
+'use strict';
+import alt from './alt';
+
+export default (actions) => {
+  return class TodoStore {
+    constructor() {
+      this.bindActions(actions);
+    }
+  ...
+  }
+}
+```
+
+`bindActions` is a shortcut that allows us to map Action handlers automatically based on name. We need to use a factory in order to pass Actions to Store.
+
+After these changes each `TodoList` operates on its own instance of `TodoActions` and `TodoStore`. Unfortunately we lost persistency in the process. Let's add that back next.
+
+## Restoring Persistency
 
 TODO: define AppStore, LaneStore + make TodoStore unique per TodoList
 
