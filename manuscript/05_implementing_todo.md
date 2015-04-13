@@ -163,7 +163,10 @@ We can achieve these goals using a callback and a ternary expression. Here's a s
 
 ```javascript
 export default class TodoItem extends React.Component {
-  constructor(props) {
+  constructor(props: {
+    task: string;
+    onEdit: Function;
+  }) {
     super(props);
 
     this.state = {

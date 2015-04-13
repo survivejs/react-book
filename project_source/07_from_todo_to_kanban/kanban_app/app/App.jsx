@@ -1,14 +1,56 @@
 'use strict';
 import React from 'react';
-import TodoList from './TodoList';
+import Lane from './Lane';
 
+export default class App extends React.Component {
+  constructor() {
+    super();
 
-export default class TodoApp extends React.Component {
+    this.state = {
+      lanes: [
+        {
+          name: 'Todo',
+          todos: [
+            {
+              task: 'Learn Webpack'
+            },
+            {
+              task: 'Do laundry'
+            }
+          ]
+        },
+        {
+          name: 'Doing',
+          todos: [
+            {
+              task: 'Learn React'
+            }
+          ]
+        },
+        {
+          name: 'Done',
+          todos: []
+        }
+      ]
+    };
+  }
   render() {
+    var lanes = this.state.lanes;
+
     return (
-      <div>
-        <TodoList />
+      <div className='app'>
+        <div className='controls'>
+          <button onClick={this.addLane}>Add lane</button>
+        </div>
+        <div className='lanes'>
+          {lanes.map((lane, i) =>
+            <Lane key={'lane' + i} {...lane} />
+          )}
+        </div>
       </div>
     );
+  }
+  addLane() {
+    console.log('add lane');
   }
 }

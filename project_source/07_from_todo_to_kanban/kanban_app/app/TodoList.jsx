@@ -7,7 +7,9 @@ import persist from './persist';
 import storage from './storage';
 
 class TodoList extends React.Component {
-  constructor(props) {
+  constructor(props: {
+    todos: Array;
+  }) {
     super(props);
 
     this.state = TodoStore.getState();
