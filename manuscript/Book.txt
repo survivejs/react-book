@@ -3,8 +3,9 @@
 02_webpack_compared.md
 03_developing_with_webpack.md
 04_webpack_and_react.md
-05_react_and_flux.md
-06_asset_management.md
-07_deploying_applications.md
-08_debugging_webpack.md
-09_http2.md
+05_implementing_todo.md
+06_react_and_flux.md
+07_asset_management.md
+08_deploying_applications.md
+09_debugging_webpack.md
+10_http2.md
