@@ -230,7 +230,9 @@ Again, it's a matter of manipulating component state. After this change we can e
 
 ## Removing Todo List Items
 
-We are still missing one vital functionality. It would be nice to be able to remove items. We can achieve this easily by extending edit. In case we empty a task, it would make sense to remove it. You can give it a go yourself or follow the example below. It is just a matter of modifying state.
+We are still missing one vital functionality. It would be nice to be able to remove items. We can achieve this easily by extending edit.
+
+In case we empty a task, it would make sense to remove it. You can give it a go yourself or follow the example below. It is just a matter of modifying state.
 
 ```javascript
 itemEdited(i, task) {
@@ -249,9 +251,7 @@ itemEdited(i, task) {
 }
 ```
 
-This might not be the prettiest solution usability wise but it shows how far you can go with simple ideas. You could try to push removing to some separate control (ie. `x` per item). In that case you would probably set up a callback and then react to that and so on.
-
-The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in.
+An alternative way would have been to render some sort of button for removing an item. When pressed it would have triggered similar logic. If you feel like it, give it a go. Just have something like `<button onClick={this.removeItem.bind(null, i)}>-</button>` there, delete based on index and update state.
 
 ## Adding Type Checking with Flow
 
@@ -280,4 +280,4 @@ With Flow you can type the most vital parts of your source. You can think it as 
 
 ## Conclusion
 
-TBD
+The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in.

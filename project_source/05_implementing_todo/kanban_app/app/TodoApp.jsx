@@ -42,7 +42,12 @@ export default class TodoApp extends React.Component {
   itemEdited(i, task) {
     var todos = this.state.todos;
 
-    todos[i].task = task;
+    if(task) {
+      todos[i].task = task;
+    }
+    else {
+      todos = todos.slice(0, i).concat(todos.slice(i + 1));
+    }
 
     this.setState({
       todos: todos
