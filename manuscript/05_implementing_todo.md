@@ -1,4 +1,4 @@
-# Implementing a Basic Todo List
+# Implementing a Basic Todo App
 
 Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude Todo List with basic manipulation operations. Hit `npm run dev`. It's time to start developing.
 
