@@ -24,18 +24,28 @@ export default class TodoApp extends React.Component {
         <button onClick={this.addItem.bind(this)}>+</button>
         <ul>{todos.map((todo, i) =>
           <li key={'todo' + i}>
-            <TodoItem task={todo.task} />
+            <TodoItem
+              task={todo.task}
+              onEdit={this.itemEdited.bind(this, i)} />
           </li>
         )}</ul>
       </div>
     );
   }
-
   addItem() {
     this.setState({
       todos: this.state.todos.concat([{
         task: 'New task'
       }])
+    });
+  }
+  itemEdited(i, task) {
+    var todos = this.state.todos;
+
+    todos[i].task = task;
+
+    this.setState({
+      todos: todos
     });
   }
 }
