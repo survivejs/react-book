@@ -41,6 +41,13 @@ exports.build = mergeConfig({
 exports.develop = mergeConfig({
   entry: ['webpack/hot/dev-server'],
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'eslint',
+        include: path.join(ROOT_PATH, 'app'),
+      }
+    ],
     loaders: [
       {
         test: /\.jsx?$/,

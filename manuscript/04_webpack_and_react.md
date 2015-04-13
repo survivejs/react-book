@@ -223,7 +223,23 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 
-In case you want Webpack to emit ESLint messages, you can set up [eslint-loader](https://www.npmjs.com/package/eslint-loader) for this purpose. You can even make your build fail on purpose if it doesn't pass the lint.
+We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). Hit `npm i eslint-loader --save-dev` to add it to the project. We also need to tweak our development configuration to include it. Add the following section to it:
+
+**config/index.js**
+
+```
+preLoaders: [
+  {
+    test: /\.jsx?$/,
+    loader: 'eslint',
+    include: path.join(ROOT_PATH, 'app'),
+  }
+],
+```
+
+We are using `preLoaders` section here as we want to play it safe. This section is executed before `loaders` get triggered.
+
+If you execute `npm run dev` now and break some linting rule while developing, you should see that in terminal output.
 
 ## Implementing Basic Todo List
 
