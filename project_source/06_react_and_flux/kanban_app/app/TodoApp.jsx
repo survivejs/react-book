@@ -3,13 +3,13 @@ import React from 'react';
 import TodoItem from './TodoItem';
 import TodoActions from './TodoActions';
 import TodoStore from './TodoStore';
+import persist from './persist';
 import storage from './storage';
 
-export default class TodoApp extends React.Component {
+class TodoApp extends React.Component {
   constructor(props) {
     super(props);
 
-    TodoActions.init(storage.get('todos'));
     this.state = TodoStore.getState();
   }
   componentDidMount() {
@@ -19,8 +19,6 @@ export default class TodoApp extends React.Component {
     TodoStore.unlisten(this.storeChanged.bind(this));
   }
   storeChanged(d) {
-    storage.set('todos', d);
-
     this.setState(TodoStore.getState());
   }
   render() {
@@ -52,3 +50,5 @@ export default class TodoApp extends React.Component {
     }
   }
 }
+
+export default persist(TodoApp, TodoActions.init, TodoStore, storage, 'todos');

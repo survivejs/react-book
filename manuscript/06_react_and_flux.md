@@ -260,7 +260,65 @@ In the current solution persistency logic is decoupled with `TodoApp`. Given it 
 
 ## Extracting Persistency Logic into a Higher Order Component
 
-TBD
+There are a couple of places in `TodoApp` we would like to clean up. I've adjusted the code as follows:
+
+**app/TodoApp.jsx**
+
+```javascript
+...
+import persist from './persist';
+import storage from './storage';
+
+export default class TodoApp extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = TodoStore.getState();
+  }
+  ...
+  storeChanged(d) {
+    this.setState(TodoStore.getState());
+  }
+  ...
+}
+
+export default persist(TodoApp, TodoActions.init, TodoStore, storage, 'todos');
+```
+
+Now we are close to what we had there earlier. Only new bit is that `persist` thinger. Let's look at its implementation next:
+
+**app/persist.js**
+
+```javascript
+'use strict';
+import React from 'react';
+
+export default (Component, initAction, store, storage, storageName) => {
+  return class Persist extends React.Component {
+    constructor(props) {
+      super(props);
+
+      initAction(storage.get(storageName));
+    }
+    componentDidMount() {
+      store.listen(this.storeChanged.bind(this));
+    }
+    componentWillUnmount() {
+      store.unlisten(this.storeChanged.bind(this));
+    }
+    storeChanged(d) {
+      storage.set(storageName, d);
+    }
+    render() {
+      return <Component {...this.props} {...this.state} />;
+    }
+  };
+};
+```
+
+As you can see it is a component that performs the behavior we are after and renders the component we pass to it. We have more code than earlier but we have factored it better. If you want to persist some other component, it is simple now.
+
+We can build new behaviors for various functionalities, such as undo, in this manner. By slicing our logic into higher order components we get an application that is easier to develop. Best of all behaviors such as the one we implemented can be easily reused in some other project.
 
 ## Conclusion
 
