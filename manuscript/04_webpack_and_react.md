@@ -8,7 +8,7 @@ Webpack is an ideal tool to complement it. By now we understand how to set up a 
 
 To get started install React to your project. Just hit `npm i react --save` and you should be set. As a next step we could port our **app/component.js** to React. Provided we use ES6 module and class syntax and JSX, we can go with a solution like this:
 
-**app/TodoItem.js**
+**app/TodoItem.jsx**
 
 ```javascript
 import React from 'react';
@@ -20,18 +20,23 @@ export default class TodoItem extends React.Component {
 }
 ```
 
+> Note that we're using *jsx* extension here to tell modules using JSX syntax apart from regular ones. This is a good convention to have.
+
 In addition we'll need to adjust our `main.js` to render the component correctly. Here's one solution:
 
 **app/main.js**
 
 ```javascript
+import './main.css';
+
 import React from 'react';
-import Hello from './TodoItem';
+import TodoItem from './TodoItem';
 
 React.render(<TodoItem />, document.getElementById('app'));
+
 ```
 
-> Avoid rendering directly to `document.body`. This can cause strange problems with plugins that rely on body due to the way React works. It is much better idea to give it a container of its own.
+> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own.
 
 ## Setting Up Webpack
 
@@ -39,15 +44,26 @@ In order to make everything work again, we'll need to tweak our configuration a 
 
 ```javascript
 {
-  test: /\.js$/,
+  // test for both js and jsx
+  test: /\.jsx?$/,
+
+  // use babel loader
   loader: 'babel',
+
+  // operate only on our app directory
   include: path.join(ROOT_PATH, 'app'),
 }
 ```
 
 We will specifically include our `app` source to our loader. This way Webpack doesn't have to traverse whole source. Particularly going through `node_modules` can take a while. You can try taking `include` statement out to see how that affects the performance.
 
-> An alternative would be to `exclude` but `include` feels like a better solution here.
+Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import TodoItem from './TodoItem';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
+
+```javascript
+resolve: {
+  extensions: ['', '.js', '.jsx'],
+}
+```
 
 If you hit `npm run build` now, you should get some output after a while. Here's a sample:
 
@@ -55,55 +71,16 @@ If you hit `npm run build` now, you should get some output after a while. Here's
 > webpack_demo@1.0.0 build /Users/something/projects/webpack_demo
 > webpack --config config/build
 
-Hash: 00f0b93cf085fc55d4ec
-Version: webpack 1.7.3
-Time: 1149ms
+Hash: 070e822e8cffd925a27c
+Version: webpack 1.8.4
+Time: 1858ms
     Asset    Size  Chunks             Chunk Names
-bundle.js  633 kB       0  [emitted]  main
+bundle.js  645 kB       0  [emitted]  main
    [0] multi main 28 bytes {0} [built]
     + 162 hidden modules
 ```
 
 As you can see, the output is quite chunky in this case! Don't worry. This is just an unoptimized build. We can do a lot about the size at a later stage when we apply optimizations, minification and split things up.
-
-## Resolving JSX Files
-
-The configuration above works but what if we want to resolve files with `.jsx` extension? After all it can be a good idea to separate vanilla JavaScript files from those containing JSX.
-
-To achieve this we need to extend out Regex pattern like this:
-
-```javascript
-{
-  test: /\.jsx?$/,
-  loader: 'babel',
-  include: path.join(ROOT_PATH, 'app'),
-}
-```
-
-If you try renaming **app/component.js** as **app/component.jsx** and hit `npm run build`, you should get an error like this:
-
-```bash
-ERROR in ./app/main.js
-Module not found: Error: Cannot resolve 'file' or 'directory' ./component in /Users/something/projects/webpack_demo/app
- @ ./app/main.js 11:13-35
-```
-
-This means Webpack cannot resolve our `import Hello from './component';` to a file.
-
-The problem has to do with Webpack's default resolution settings. Those settings describe where Webpack looks for modules and how. We'll need to tweak these settings a little.
-
-Add the following bit to your configuration:
-
-```javascript
-var common = {
-  ...
-  resolve: {
-    extensions: ['', '.js', '.jsx', '.css'],
-  }
-};
-```
-
-Now Webpack will be able to resolve files ending with `.jsx` and everything should be fine. If you try running `npm run build` again, the build should succeed.
 
 ## Activating Hot Loading for Development
 
