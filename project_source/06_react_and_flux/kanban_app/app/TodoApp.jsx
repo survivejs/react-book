@@ -3,11 +3,13 @@ import React from 'react';
 import TodoItem from './TodoItem';
 import TodoActions from './TodoActions';
 import TodoStore from './TodoStore';
+import storage from './storage';
 
 export default class TodoApp extends React.Component {
   constructor(props) {
     super(props);
 
+    TodoActions.init(storage.get('todos'));
     this.state = TodoStore.getState();
   }
   componentDidMount() {
@@ -16,7 +18,9 @@ export default class TodoApp extends React.Component {
   componentWillUnmount() {
     TodoStore.unlisten(this.storeChanged.bind(this));
   }
-  storeChanged() {
+  storeChanged(d) {
+    storage.set('todos', d);
+
     this.setState(TodoStore.getState());
   }
   render() {

@@ -5,12 +5,14 @@ import TodoActions from './TodoActions';
 class TodoStore {
   constructor() {
     this.bindListeners({
+      init: TodoActions.init,
       createTodo: TodoActions.createTodo,
       updateTodo: TodoActions.updateTodo,
       removeTodo: TodoActions.removeTodo
     });
-
-    this.todos = [];
+  }
+  init(data) {
+    this.setState(data || {todos: []});
   }
   createTodo(task) {
     this.setState({

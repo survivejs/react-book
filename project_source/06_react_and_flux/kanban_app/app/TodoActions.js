@@ -2,6 +2,9 @@
 import alt from './alt';
 
 class TodoActions {
+  init(todos) {
+    this.dispatch(todos);
+  }
   createTodo(task) {
     this.dispatch(task);
   }

@@ -171,6 +171,97 @@ Fortunately the effort was not all in vain. Consider the following questions:
 
 This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code it is easier to reason about. Given we are dealing with unidirectional flow we have something that is simple to debug and test.
 
+## Implementing Persistency over `localStorage`
+
+Given it's not nice to lose your Todos during a refresh, we can tweak our implementation of `TodoStore` to persist the data on change. Most of the work is related to `localStorage`. In order to deal with it, here's a little wrapper:
+
+**app/storage.js**
+
+```javascript
+'use strict';
+
+export default {
+  get: function(k) {
+    try {
+      return JSON.parse(localStorage.getItem(k));
+    }
+    catch(e) {
+      return null;
+    }
+  },
+  set: function(k, v) {
+    localStorage.setItem(k, JSON.stringify(v));
+  }
+};
+```
+
+As `localStorage` deals with strings by default we'll need to serialize and deserialize data. That brings some overhead to the implementation. A smarter implementation would abstract storage and provide some form of caching to avoid `JSON.parse` always.
+
+Besides this little utility we'll need to adapt our application to use it.
+
+**app/TodoApp.jsx**
+
+```javascript
+...
+import storage from './storage';
+
+export default class TodoApp extends React.Component {
+  constructor(props) {
+    super(props);
+
+    TodoActions.init(storage.get('todos'));
+    this.state = TodoStore.getState();
+  }
+  ...
+  storeChanged(d) {
+    storage.set('todos', d);
+
+    this.setState(TodoStore.getState());
+  }
+  ...
+}
+```
+
+The idea is that when the application is initialized, we'll read `localStorage` and initialize Store state using it. If the Store gets changed, we'll write the changes to `localStorage`. For this to work we'll need to tweak Actions and Store slightly.
+
+**app/TodoActions.js**
+
+```javascript
+class TodoActions {
+  init(todos) {
+    this.dispatch(todos);
+  }
+  ...
+}
+```
+
+**app/TodoStore.js**
+
+```javascript
+class TodoStore {
+  constructor() {
+    this.bindListeners({
+      init: TodoActions.init,
+      createTodo: TodoActions.createTodo,
+      updateTodo: TodoActions.updateTodo,
+      removeTodo: TodoActions.removeTodo
+    });
+  }
+  init(todos) {
+    this.setState(data || {todos: []});
+  }
+  ...
+}
+```
+
+Now we have an application that can restore its state based on `localStorage`. It would be fairly simple to replace the backend with something else. We would just need to implement the storage interface again.
+
+In the current solution persistency logic is decoupled with `TodoApp`. Given it would be nice to reuse it elsewhere, we can extract it to a higher order component. Let's do that next.
+
+## Extracting Persistency Logic into a Higher Order Component
+
+TBD
+
 ## Conclusion
 
 In this chapter you saw how to port our simple application to use Flux architecture. Initially it might seem like a lot of extra code. Flux isn't about minimizing the amount of code written. It is about making it understandable. Now that we have a clear separation between Actions, Stores and Views, it is much easier to navigate around and see what triggers what behavior.
