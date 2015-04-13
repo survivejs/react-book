@@ -100,10 +100,10 @@ It would be useful if we could add new items to our Todo list. Let's just do a b
 To get a button show up, add
 
 ```html
-<button onClick={this.addItem.bind(this)}>+</button>`
+<button onClick={this.addItem.bind(this)}>+</button>
 ```
 
-somewhere within `TodoApp` JSX. Besides this we'll need to define that `onClick` handler. Define a method like this:
+in the beginning of `TodoApp` JSX. Besides this we'll need to define that `onClick` handler. Define a method like this:
 
 ```javascript
 addItem() {
@@ -112,6 +112,8 @@ addItem() {
 ```
 
 Now when you click the button, you should see something at your browser console.
+
+## Connecting `addItem` with Data Model
 
 Next we will need to connect this with our data model somehow. It is problematic that now it is stored within our `render` method. React provides a concept known as state for this purpose. We can move our data there like this:
 
