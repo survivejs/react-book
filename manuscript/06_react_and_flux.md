@@ -27,6 +27,7 @@ Before delving into the implementation itself, `npm i alt --save` to get the dep
 **app/TodoActions.js**
 
 ```javascript
+'use strict';
 import alt from './alt';
 
 class TodoActions {
@@ -44,11 +45,12 @@ class TodoActions {
 export default alt.createActions(TodoActions);
 ```
 
-Next we will need to define a store that maintains the data based on these actions:
+Next we will need to define a Store that maintains the data based on these actions:
 
 **app/TodoStore.js**
 
 ```javascript
+'use strict';
 import alt from './alt';
 import TodoActions from './TodoActions';
 
@@ -95,6 +97,7 @@ We will also need a module to maintain an instance of Alt. It will deal with coo
 **app/alt.js**
 
 ```javascript
+'use strict';
 import Alt from 'alt';
 export default new Alt();
 ```
