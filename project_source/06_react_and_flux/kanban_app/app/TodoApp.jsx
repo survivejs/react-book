@@ -3,7 +3,7 @@ import React from 'react';
 import TodoItem from './TodoItem';
 import TodoActions from './actions/TodoActions';
 import TodoStore from './stores/TodoStore';
-import persist from './persist';
+import persist from './behaviors/persist';
 import storage from './storage';
 
 class TodoApp extends React.Component {

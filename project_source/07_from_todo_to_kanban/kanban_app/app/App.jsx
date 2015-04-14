@@ -4,7 +4,7 @@ import Lane from './Lane';
 import AppActions from './actions/AppActions';
 import appStore from './stores/AppStore';
 import alt from './alt';
-import persist from './persist';
+import persist from './behaviors/persist';
 import storage from './storage';
 
 const actions = alt.createActions(AppActions);

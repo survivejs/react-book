@@ -266,7 +266,7 @@ There are a couple of places in `TodoApp` we would like to clean up. I've adjust
 
 ```javascript
 ...
-import persist from './persist';
+import persist from './behaviors/persist';
 import storage from './storage';
 
 export default class TodoApp extends React.Component {
@@ -287,7 +287,7 @@ export default persist(TodoApp, TodoActions.init, TodoStore, storage, 'todos');
 
 Now we are close to what we had there earlier. Only new bit is that `persist` thinger. Let's look at its implementation next:
 
-**app/persist.js**
+**app/behaviors/persist.js**
 
 ```javascript
 'use strict';
