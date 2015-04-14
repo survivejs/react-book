@@ -2,7 +2,7 @@
 import React from 'react';
 
 export default (Component, store) => {
-  return class Persist extends React.Component {
+  return class Connect extends React.Component {
     constructor(props) {
       super(props);
 

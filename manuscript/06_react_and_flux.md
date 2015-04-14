@@ -317,7 +317,7 @@ We can implement a behavior for connecting a component with a Store as well. Her
 import React from 'react';
 
 export default (Component, store) => {
-  return class Persist extends React.Component {
+  return class Connect extends React.Component {
     constructor(props) {
       super(props);
 
