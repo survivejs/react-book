@@ -20,7 +20,7 @@ This means you would require a **GraphQL** compatible server. GraphGL is a custo
 
 At least in the time of writing no open source Relay/GraphQL implementation exists. For now it's a good idea to learn Flux as it will greatly simplify React development.
 
-## Porting to Todo app to Alt
+## Porting Todo app to Alt
 
 Before delving into the implementation itself, `npm i alt --save` to get the dependency we need. As discussed earlier, we'll need a set of actions to operate on our data. In terms of Alt it would look like this:
 
