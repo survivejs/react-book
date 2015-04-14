@@ -50,8 +50,6 @@ export default class App extends React.Component {
   }
 }
 
-// XXXXX: changes made to child stores won't show up here
-// -> add functional lenses? baobab
 export default persist(
   connect(App, store),
   actions.init,
