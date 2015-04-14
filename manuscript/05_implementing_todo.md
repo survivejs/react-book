@@ -48,7 +48,7 @@ We haven't achieved much yet but we're getting there. Next we should add some lo
 
 It is nice to keep the implementation of `App` on a high level. We can improve it further by splitting up `TodoList`. It is just a component that takes *todos* as an input and renders them as above. Here's a sample implementation:
 
-**app/TodoList.jsx**
+**app/components/TodoList.jsx**
 
 ```javascript
 'use strict';
@@ -74,7 +74,7 @@ export default class TodoList extends React.Component {
 
 Remember to replace the old list with `<TodoList todos={todos} />` at *App.jsx*:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 import TodoList from './TodoList';
@@ -154,7 +154,7 @@ This means we'll need to extend `TodoItem` somehow and communicate possible chan
 
 We can achieve these goals using a callback and a ternary expression. Here's a sample implementation of the idea:
 
-**app/TodoItem.jsx**
+**app/components/TodoItem.jsx**
 
 ```javascript
 export default class TodoItem extends React.Component {
@@ -205,7 +205,7 @@ It's a lot of code to digest. `TodoItem` has *edited* state to keep track of. We
 
 In order to make that happen we'll need to define that callback for `App` like this:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 render() {
@@ -228,7 +228,7 @@ itemEdited(i, task) {
 
 We also need to tweak `TodoList` like this:
 
-**app/TodoList.jsx**
+**app/components/TodoList.jsx**
 
 ```javascript
 ...

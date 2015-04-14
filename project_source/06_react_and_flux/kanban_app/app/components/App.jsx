@@ -1,11 +1,11 @@
 'use strict';
 import React from 'react';
 import TodoList from './TodoList';
-import TodoActions from './actions/TodoActions';
-import TodoStore from './stores/TodoStore';
-import persist from './behaviors/persist';
-import connect from './behaviors/connect';
-import storage from './storage';
+import TodoActions from '../actions/TodoActions';
+import TodoStore from '../stores/TodoStore';
+import persist from '../behaviors/persist';
+import connect from '../behaviors/connect';
+import storage from '../storage';
 
 class App extends React.Component {
   constructor(props: {

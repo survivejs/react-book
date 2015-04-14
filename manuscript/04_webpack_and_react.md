@@ -8,7 +8,7 @@ Webpack is an ideal tool to complement it. By now we understand how to set up a 
 
 To get started install React to your project. Just hit `npm i react --save` and you should be set. As a next step we could port our **app/component.js** to React. Provided we use ES6 module and class syntax and JSX, we can go with a solution like this:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 import React from 'react';
@@ -23,7 +23,7 @@ export default class App extends React.Component {
 
 `App` will work as an entry point to our application. Later on it will orchestrate logic etc.
 
-**app/TodoItem.jsx**
+**app/components/TodoItem.jsx**
 
 ```javascript
 import React from 'react';
@@ -45,7 +45,7 @@ In addition we'll need to adjust our `main.js` to render the component correctly
 import './main.css';
 
 import React from 'react';
-import App from './App';
+import App from './components/App';
 
 main();
 

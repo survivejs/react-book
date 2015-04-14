@@ -94,14 +94,14 @@ export default new Alt();
 
 Finally we'll need to tweak our `App` to operate based on `TodoStore` and `TodoActions`:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 'use strict';
 import React from 'react';
 import TodoItem from './TodoItem';
-import TodoActions from './actions/TodoActions';
-import TodoStore from './stores/TodoStore';
+import TodoActions from '../actions/TodoActions';
+import TodoStore from '../stores/TodoStore';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -199,11 +199,11 @@ As `localStorage` deals with strings by default we'll need to serialize and dese
 
 Besides this little utility we'll need to adapt our application to use it.
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 ...
-import storage from './storage';
+import storage from '../storage';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -224,7 +224,7 @@ export default class App extends React.Component {
 
 The idea is that when the application is initialized, we'll read `localStorage` and initialize Store state using it. If the Store gets changed, we'll write the changes to `localStorage`. For this to work we'll need to tweak Actions and Store slightly.
 
-**app/TodoActions.js**
+**app/actions/TodoActions.js**
 
 ```javascript
 class TodoActions {
@@ -235,7 +235,7 @@ class TodoActions {
 }
 ```
 
-**app/TodoStore.js**
+**app/stores/TodoStore.js**
 
 ```javascript
 class TodoStore {
@@ -257,12 +257,12 @@ In the current solution persistency logic is decoupled with `App`. Given it woul
 
 There are a couple of places in `App` we would like to clean up. I've adjusted the code as follows:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 ...
-import persist from './behaviors/persist';
-import storage from './storage';
+import persist from '../behaviors/persist';
+import storage from '../storage';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -346,10 +346,10 @@ export default (Component, store) => {
 
 You can connect it with `App` like this:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
-import connect from './behaviors/connect';
+import connect from '../behaviors/connect';
 
 ...
 

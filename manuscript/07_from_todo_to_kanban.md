@@ -60,7 +60,7 @@ function main() {
 }
 ```
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 'use strict';
@@ -78,7 +78,7 @@ export default class App extends React.Component {
 }
 ```
 
-**app/TodoList.jsx**
+**app/components/TodoList.jsx**
 
 ```javascript
 ...
@@ -95,7 +95,7 @@ Next we can start growing lanes and the stores we need to make this work.
 
 On App level you might want to end up with something like this:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 'use strict';
@@ -141,7 +141,7 @@ We'll separate general controls and lanes into divs of their own. To make them e
 
 A rough implementation for Lane could look like this:
 
-**app/Lane.jsx**
+**app/components/Lane.jsx**
 
 ```javascript
 'use strict';
@@ -175,7 +175,7 @@ If you run the application now and try to use it, you'll notice some weird behav
 
 The `TodoLists` share data because they use the same Store. In order to fix this problem we'll need to make sure each `TodoList` uses a Store of its own. Even though this sounds simple, we'll need to do quite a few changes.
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 ...
@@ -192,7 +192,7 @@ The `TodoLists` share data because they use the same Store. In order to fix this
 
 First we'll need to pass `storeKey` to `Lane`. We need to tell each Store apart so we'll need information lower in the hierarchy. We cannot use `key` property here as React doesn't expose it to children.
 
-**app/Lane.jsx**
+**app/components/Lane.jsx**
 
 ```javascript
 ...
@@ -221,15 +221,15 @@ export default class Lane extends React.Component {
 
 Here we just pass `storeKey` to `TodoList`. Nothing special apart from that.
 
-**app/TodoList.jsx**
+**app/components/TodoList.jsx**
 
 ```javascript
 'use strict';
 import React from 'react';
 import TodoItem from './TodoItem';
-import TodoActions from './actions/TodoActions';
-import todoStore from './stores/TodoStore';
-import alt from './alt';
+import TodoActions from '../actions/TodoActions';
+import todoStore from '../stores/TodoStore';
+import alt from '../alt';
 
 export default class TodoList extends React.Component {
   constructor(props: {
@@ -274,7 +274,7 @@ export default class TodoList extends React.Component {
 
 `TodoList` received a lot of changes because we needed to make it operate on its own Actions and Store. We also need to tweak those.
 
-**app/TodoActions.js**
+**app/actions/TodoActions.js**
 
 ```javascript
 export default class TodoActions {
@@ -282,7 +282,7 @@ export default class TodoActions {
 }
 ```
 
-**app/TodoStore.js**
+**app/stores/TodoStore.js**
 
 ```javascript
 'use strict';
@@ -338,7 +338,7 @@ export default (actions) => {
 };
 ```
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 
