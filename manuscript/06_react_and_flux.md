@@ -152,6 +152,23 @@ export default class App extends React.Component {
 
 As you can see, we pushed the logic out of our application. We actually have more code now than before. On the plus side we managed to tidy up our `App` considerably.
 
+## On Component Design
+
+Note that given we are using Flux now and have concepts of Actions and Stores, we can push logic lower in the hierarchy if we want to. Ie. in case of `TodoList` we could trigger the actions we want there. This depends on what sort of coupling we want to create between components.
+
+One alternative would be to factor `TodoList` like this:
+
+```javascript
+<TodoList
+  todos={todos}
+  item={(todo, i) => <span onClick={...}>{todo.task}</span>}
+/>
+```
+
+Now we give the consumer absolute control over how list items are rendered. This approach is more generic than our `onEdit` property and allows you to customize components significantly more.
+
+More specific components can be developed on top of generic ones. You could have a set of generic components you use from project to project and share as libraries. These would be then wrapped by more specific ones based on need.
+
 ## What's the Point?
 
 Fortunately the effort was not all in vain. Consider the following questions:
