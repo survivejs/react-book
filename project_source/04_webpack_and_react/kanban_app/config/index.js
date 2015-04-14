@@ -1,7 +1,7 @@
 'use strict';
 var path = require('path');
 var webpack = require('webpack');
-var _ = require('lodash');
+var merge = require('./merge');
 
 var ROOT_PATH = path.resolve(__dirname, '..');
 
@@ -61,19 +61,3 @@ exports.develop = mergeConfig({
     new webpack.NoErrorsPlugin()
   ],
 });
-
-function merge(source, target) {
-  return _.merge(target, source, joinArrays);
-
-  // concat possible arrays
-  function joinArrays(a, b) {
-    if(_.isArray(a) && _.isArray(b)) {
-      return a.concat(b);
-    }
-    if(_.isPlainObject(a) && _.isPlainObject(b)) {
-      return _.merge(a, b, joinArrays);
-    }
-
-    return a;
-  }
-}

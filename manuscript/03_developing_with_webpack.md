@@ -150,7 +150,7 @@ Our *index.js* is more complex as it will have to contain all of our configurati
 
 ```javascript
 var path = require('path');
-var _ = require('lodash');
+var merge = require('./merge');
 
 var ROOT_PATH = path.resolve(__dirname, '..');
 
@@ -177,8 +177,14 @@ exports.build = mergeConfig({});
 exports.develop = mergeConfig({
   entry: ['webpack/hot/dev-server']
 });
+```
 
-function merge(source, target) {
+**config/merge.js**
+
+```javascript
+var _ = require('lodash');
+
+module.exports = function(source, target) {
   return _.merge(target, source, joinArrays);
 
   // concat possible arrays
@@ -192,7 +198,7 @@ function merge(source, target) {
 
     return a;
   }
-}
+};
 ```
 
 The common configuration has been separated to a section of its own. In this case `build` configuration is actually the same as `common` configuration. We do a little tweak for `develop` case. As you can see the configuration is quite easy to follow this way.
