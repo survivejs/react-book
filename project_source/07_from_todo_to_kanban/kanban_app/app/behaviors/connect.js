@@ -1,21 +1,19 @@
 'use strict';
 import React from 'react';
 
-export default (Component, store) => {
+export default (Component, cursor) => {
   return class Persist extends React.Component {
     constructor(props) {
       super(props);
 
-      this.state = store.getState();
+      this.state = cursor.get();
     }
     componentDidMount() {
-      store.listen(this.storeChanged.bind(this));
-    }
-    componentWillUnmount() {
-      store.unlisten(this.storeChanged.bind(this));
-    }
-    storeChanged() {
-      this.setState(store.getState());
+      const that = this;
+
+      cursor.on('update', function() {
+        that.setState(cursor.get());
+      });
     }
     render() {
       return <Component {...this.props} {...this.state} />;

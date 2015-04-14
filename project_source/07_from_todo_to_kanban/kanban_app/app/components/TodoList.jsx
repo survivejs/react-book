@@ -1,14 +1,16 @@
 'use strict';
 import React from 'react';
 import TodoItem from './TodoItem';
+import todoActions from '../actions/TodoActions';
 
 export default class TodoList extends React.Component {
   constructor(props: {
-    lane: number;
-    actions: Object;
+    cursor: Object;
     todos: Array;
   }) {
     super(props);
+
+    this.actions = todoActions(props.cursor);
   }
   render() {
     var todos = this.props.todos;
@@ -28,14 +30,14 @@ export default class TodoList extends React.Component {
     );
   }
   addItem() {
-    this.props.actions.createTodo(this.props.lane, 'New task');
+    this.actions.createTodo('New task');
   }
   itemEdited(id, task) {
     if(task) {
-      this.props.actions.updateTodo(this.props.lane, id, task);
+      this.actions.updateTodo(id, task);
     }
     else {
-      this.props.actions.removeTodo(this.props.lane, id);
+      this.actions.removeTodo(id);
     }
   }
 }
