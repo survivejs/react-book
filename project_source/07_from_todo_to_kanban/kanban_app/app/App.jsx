@@ -3,6 +3,7 @@ import React from 'react';
 import Lane from './Lane';
 import AppActions from './actions/AppActions';
 import appStore from './stores/AppStore';
+import finalStore from './stores/FinalStore';
 import alt from './alt';
 import persist from './behaviors/persist';
 import connect from './behaviors/connect';
@@ -55,7 +56,7 @@ export default class App extends React.Component {
 export default persist(
   connect(App, store),
   actions.init,
-  store,
+  finalStore(alt),
   storage,
   'app'
 );
