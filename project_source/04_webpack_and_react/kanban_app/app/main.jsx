@@ -2,10 +2,10 @@
 import './main.css';
 
 import React from 'react';
-import TodoItem from './TodoItem';
+import App from './App';
 
 main();
 
 function main() {
-    React.render(<TodoItem />, document.getElementById('app'));
+    React.render(<App />, document.getElementById('app'));
 }

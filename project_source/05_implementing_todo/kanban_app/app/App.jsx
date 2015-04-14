@@ -1,8 +1,8 @@
 'use strict';
 import React from 'react';
-import TodoItem from './TodoItem';
+import TodoList from './TodoList';
 
-export default class TodoApp extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -22,13 +22,7 @@ export default class TodoApp extends React.Component {
     return (
       <div>
         <button onClick={this.addItem.bind(this)}>+</button>
-        <ul>{todos.map((todo, i) =>
-          <li key={'todo' + i}>
-            <TodoItem
-              task={todo.task}
-              onEdit={this.itemEdited.bind(this, i)} />
-          </li>
-        )}</ul>
+        <TodoList todos={todos} onEdit={this.itemEdited.bind(this)} />
       </div>
     );
   }

@@ -2,60 +2,11 @@
 
 Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude Todo List with basic manipulation operations. Hit `npm run dev`. It's time to start developing.
 
-## Setting up an App Container
-
-To make it easier, let's set up `TodoApp.jsx` that coordinates application itself. This will get rendered by `main.jsx` and will deal with the application logic. You should end up with files like this:
-
-**app/main.jsx**
-
-```javascript
-'use strict';
-import './main.css';
-
-import React from 'react';
-import TodoApp from './TodoApp';
-
-main();
-
-function main() {
-    React.render(<TodoApp />, document.getElementById('app'));
-}
-```
-
-**app/TodoApp.jsx**
-
-```javascript
-'use strict';
-import React from 'react';
-import TodoItem from './TodoItem';
-
-export default class TodoApp extends React.Component {
-  render() {
-    return <TodoItem />;
-  }
-}
-```
-
-**app/TodoItem.jsx**
-
-```javascript
-'use strict';
-import React from 'react';
-
-export default class TodoItem extends React.Component {
-  render() {
-    return <div>Learn Webpack</div>;
-  }
-}
-```
-
-Note that as you perform the needed modifications, your browser should get updated. You might see some error every now and then but that is to be expected given we are doing breaking changes here.
-
 ## Extending TodoItem
 
-A good next step would be to extend `TodoItem` interface. We would probably want to render a list of these. Ideally we should be able to perform basic editing operations over the list and create new items as needed. We'll probably also want to mark items as done.
+A good first step would be to extend `TodoItem` interface. We would probably want to render a list of these. Ideally we should be able to perform basic editing operations over the list and create new items as needed. We'll probably also want to mark items as done.
 
-This means `TodoApp` will have to coordinate the state. Let's start by rendering a list and then expand from there. Here's sample code for an enhanced `render` method:
+This means `App` will have to coordinate the state. Let's start by rendering a list and then expand from there. Here's sample code for an enhanced `render` method:
 
 ```javascript
 render() {
@@ -93,6 +44,48 @@ As you can see the property we passed to our component gets mapped to `this.prop
 
 We haven't achieved much yet but we're getting there. Next we should add some logic to the list so this application can do something useful.
 
+## Extracting TodoList
+
+It is nice to keep the implementation of `App` on a high level. We can improve it further by splitting up `TodoList`. It is just a component that takes *todos* as an input and renders them as above. Here's a sample implementation:
+
+**app/TodoList.jsx**
+
+```javascript
+'use strict';
+import React from 'react';
+import TodoItem from './TodoItem';
+
+export default class TodoList extends React.Component {
+  render() {
+    var todos = this.props.todos;
+
+    return (
+      <ul>{todos.map((todo, i) =>
+        <li key={'todo' + i}>
+          <TodoItem
+            task={todo.task}
+            onEdit={this.itemEdited.bind(this, i)} />
+        </li>
+      )}</ul>
+    );
+  }
+}
+```
+
+Remember to replace the old list with `<TodoList todos={todos} />` at *App.jsx*:
+
+**app/App.jsx**
+
+```javascript
+import TodoList from './TodoList';
+
+...
+
+<TodoList todos={todos} />
+
+...
+```
+
 ## Adding New Items to Todo List
 
 It would be useful if we could add new items to our Todo list. Let's just do a button with plus that when triggered adds a new dummy item to our list.
@@ -103,7 +96,7 @@ To get a button show up, add
 <button onClick={this.addItem.bind(this)}>+</button>
 ```
 
-in the beginning of `TodoApp` JSX. Besides this we'll need to define that `onClick` handler. Define a method like this:
+in the beginning of `App` JSX. Besides this we'll need to define that `onClick` handler. Define a method like this:
 
 ```javascript
 addItem() {
@@ -157,9 +150,11 @@ Our Todo list is almost useful now. It is a little unfortunate that even though 
 
 A natural way to do this would be to allow the user to click an item. When an item is clicked, it would be replaced with an input control that would allow you to edit. After confirmed, the modification should remain there.
 
-This means we'll need to extend `TodoItem` somehow and communicate possible changes to `TodoApp` so that it knows to update data model. In addition `TodoItem` needs to keep track of its edit state and show the correct element (div or input) based on that.
+This means we'll need to extend `TodoItem` somehow and communicate possible changes to `App` so that it knows to update data model. In addition `TodoItem` needs to keep track of its edit state and show the correct element (div or input) based on that.
 
 We can achieve these goals using a callback and a ternary expression. Here's a sample implementation of the idea:
+
+**app/TodoItem.jsx**
 
 ```javascript
 export default class TodoItem extends React.Component {
@@ -208,14 +203,16 @@ export default class TodoItem extends React.Component {
 
 It's a lot of code to digest. `TodoItem` has *edited* state to keep track of. We will manipulate that to change the way it is rendered. If we hit **edit**, we'll trigger edit mode. Once input receives either *blur* event or Enter key, we'll finish editing and reset the value. When finishing we also trigger a callback so the app knows to react.
 
-In order to make that happen we'll need to define that callback for `TodoApp` like this:
+In order to make that happen we'll need to define that callback for `App` like this:
+
+**app/App.jsx**
 
 ```javascript
 render() {
   ...
-  <TodoItem
-    task={todo.task}
-    onEdit={this.itemEdited.bind(this, i)} />
+  <TodoList
+    todos={todos}
+    onEdit={this.itemEdited.bind(this)} />
   ...
 }
 itemEdited(i, task) {
@@ -229,7 +226,19 @@ itemEdited(i, task) {
 }
 ```
 
-Again, it's a matter of manipulating component state. After this change we can edit our items.
+We also need to tweak `TodoList` like this:
+
+**app/TodoList.jsx**
+
+```javascript
+...
+<TodoItem
+  task={todo.task}
+  onEdit={this.props.onEdit.bind(this, i)} />
+...
+```
+
+As you can see the nested hierarchy is starting to cause some subtle problems. We'll fix these later. Now we just want to get something to work. You should be able to edit todos now.
 
 ## Removing Todo List Items
 
@@ -279,8 +288,17 @@ constructor(props: {
 }) {
 ```
 
+`TodoList` would look similar expect in that case we would perform an assertion like
+
+```javascript
+constructor(props: {
+  todos: Array;
+  onEdit: Function;
+}) {
+```
+
 With Flow you can type the most vital parts of your source. You can think it as an executable form of documentation that helps you during development. As with linting it won't replace tests but it will make it easier to work with the source. See [Try Flow](https://tryflow.org/) for more concrete examples.
 
 ## Conclusion
 
-The approach we discussed works up to a point. Once you get more complicated component hierarchies it starts to fall apart. This is where architecture styles such as Flux and Relay come in. In the next chapter we will discuss Flux in particular and port our application to use it.
+The approach we discussed works up to a point. It is a little ugly but it works. In the next chapter we will clean things up as we introduce Flux architecture and port our application to use it.
