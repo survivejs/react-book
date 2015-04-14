@@ -17,9 +17,7 @@ export default (actions) => {
       });
     }
     createTodo({lane, task}) {
-      this.lanes[lane].todos.push({
-        task: task
-      });
+      this.lanes[lane].todos.push({task});
     }
     updateTodo({lane, id, task}) {
       this.lanes[lane].todos[id].task = task;
