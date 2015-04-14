@@ -1,12 +1,12 @@
 'use strict';
 import React from 'react';
-import TodoItem from './TodoItem';
+import TodoList from './TodoList';
 import TodoActions from './actions/TodoActions';
 import TodoStore from './stores/TodoStore';
 import persist from './behaviors/persist';
 import storage from './storage';
 
-class TodoApp extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -27,14 +27,7 @@ class TodoApp extends React.Component {
     return (
       <div>
         <button onClick={this.addItem.bind(this)}>+</button>
-
-        <ul>{todos.map((todo, i) =>
-          <li key={'todo' + i}>
-            <TodoItem
-              task={todo.task}
-              onEdit={this.itemEdited.bind(this, i)} />
-          </li>
-        )}</ul>
+        <TodoList todos={todos} onEdit={this.itemEdited.bind(this)} />
       </div>
     );
   }
@@ -51,4 +44,4 @@ class TodoApp extends React.Component {
   }
 }
 
-export default persist(TodoApp, TodoActions.init, TodoStore, storage, 'todos');
+export default persist(App, TodoActions.init, TodoStore, storage, 'todos');

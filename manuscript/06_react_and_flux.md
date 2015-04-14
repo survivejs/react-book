@@ -90,7 +90,7 @@ class TodoStore {
 export default alt.createStore(TodoStore, 'TodoStore');
 ```
 
-The Store listens to our actions and then updates its state accordingly. The functions have been adapted based on our earlier implementation of `TodoApp`.
+The Store listens to our actions and then updates its state accordingly. The functions have been adapted based on our earlier implementation of `App`.
 
 We will also need a module to maintain an instance of Alt. It will deal with coordination of our Actions and Stores.
 
@@ -102,9 +102,9 @@ import Alt from 'alt';
 export default new Alt();
 ```
 
-Finally we'll need to tweak our `TodoApp` to operate based on `TodoStore` and `TodoActions`:
+Finally we'll need to tweak our `App` to operate based on `TodoStore` and `TodoActions`:
 
-**app/TodoApp.jsx**
+**app/App.jsx**
 
 ```javascript
 'use strict';
@@ -113,7 +113,7 @@ import TodoItem from './TodoItem';
 import TodoActions from './actions/TodoActions';
 import TodoStore from './stores/TodoStore';
 
-export default class TodoApp extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -134,14 +134,7 @@ export default class TodoApp extends React.Component {
     return (
       <div>
         <button onClick={this.addItem.bind(this)}>+</button>
-
-        <ul>{todos.map((todo, i) =>
-          <li key={'todo' + i}>
-            <TodoItem
-              task={todo.task}
-              onEdit={this.itemEdited.bind(this, i)} />
-          </li>
-        )}</ul>
+        <TodoList todos={todos} onEdit={this.itemEdited.bind(this)} />
       </div>
     );
   }
@@ -159,7 +152,7 @@ export default class TodoApp extends React.Component {
 }
 ```
 
-As you can see, we pushed the logic out of our application. We actually have more code now than before. On the plus side we managed to tidy up our *TodoApp* considerably.
+As you can see, we pushed the logic out of our application. We actually have more code now than before. On the plus side we managed to tidy up our `App` considerably.
 
 ## What's the Point?
 
@@ -199,13 +192,13 @@ As `localStorage` deals with strings by default we'll need to serialize and dese
 
 Besides this little utility we'll need to adapt our application to use it.
 
-**app/TodoApp.jsx**
+**app/App.jsx**
 
 ```javascript
 ...
 import storage from './storage';
 
-export default class TodoApp extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -256,20 +249,20 @@ class TodoStore {
 
 Now we have an application that can restore its state based on `localStorage`. It would be fairly simple to replace the backend with something else. We would just need to implement the storage interface again.
 
-In the current solution persistency logic is decoupled with `TodoApp`. Given it would be nice to reuse it elsewhere, we can extract it to a higher order component. Let's do that next.
+In the current solution persistency logic is decoupled with `App`. Given it would be nice to reuse it elsewhere, we can extract it to a higher order component. Let's do that next.
 
 ## Extracting Persistency Logic into a Higher Order Component
 
-There are a couple of places in `TodoApp` we would like to clean up. I've adjusted the code as follows:
+There are a couple of places in `App` we would like to clean up. I've adjusted the code as follows:
 
-**app/TodoApp.jsx**
+**app/App.jsx**
 
 ```javascript
 ...
 import persist from './behaviors/persist';
 import storage from './storage';
 
-export default class TodoApp extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -282,7 +275,7 @@ export default class TodoApp extends React.Component {
   ...
 }
 
-export default persist(TodoApp, TodoActions.init, TodoStore, storage, 'todos');
+export default persist(App, TodoActions.init, TodoStore, storage, 'todos');
 ```
 
 Now we are close to what we had there earlier. Only new bit is that `persist` thinger. Let's look at its implementation next:
