@@ -56,11 +56,7 @@ import TodoActions from '../actions/TodoActions';
 
 class TodoStore {
   constructor() {
-    this.bindListeners({
-      createTodo: TodoActions.createTodo,
-      updateTodo: TodoActions.updateTodo,
-      removeTodo: TodoActions.removeTodo
-    });
+    this.bindActions(TodoActions);
 
     this.todos = [];
   }
@@ -89,6 +85,8 @@ class TodoStore {
 
 export default alt.createStore(TodoStore, 'TodoStore');
 ```
+
+`bindActions` is a shortcut that allows us to map Action handlers automatically based on name. We need to use a factory in order to pass Actions to Store.
 
 The Store listens to our actions and then updates its state accordingly. The functions have been adapted based on our earlier implementation of `App`.
 
@@ -233,12 +231,7 @@ class TodoActions {
 ```javascript
 class TodoStore {
   constructor() {
-    this.bindListeners({
-      init: TodoActions.init,
-      createTodo: TodoActions.createTodo,
-      updateTodo: TodoActions.updateTodo,
-      removeTodo: TodoActions.removeTodo
-    });
+    this.bindActions(TodoActions);
   }
   init(todos) {
     this.setState(data || {todos: []});

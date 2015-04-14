@@ -4,12 +4,7 @@ import TodoActions from '../actions/TodoActions';
 
 class TodoStore {
   constructor() {
-    this.bindListeners({
-      init: TodoActions.init,
-      createTodo: TodoActions.createTodo,
-      updateTodo: TodoActions.updateTodo,
-      removeTodo: TodoActions.removeTodo
-    });
+    this.bindActions(TodoActions);
   }
   init(data) {
     this.setState(data || {todos: []});

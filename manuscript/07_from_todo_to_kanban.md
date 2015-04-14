@@ -297,8 +297,6 @@ export default (actions) => {
 }
 ```
 
-`bindActions` is a shortcut that allows us to map Action handlers automatically based on name. We need to use a factory in order to pass Actions to Store.
-
 After these changes each `TodoList` operates on its own instance of `TodoActions` and `TodoStore`. Unfortunately we lost persistency in the process. Let's add that back next.
 
 ## Restoring Persistency
