@@ -1,8 +1,8 @@
 'use strict';
 import React from 'react';
 import TodoItem from './TodoItem';
-import TodoActions from './TodoActions';
-import todoStore from './TodoStore';
+import TodoActions from './actions/TodoActions';
+import todoStore from './stores/TodoStore';
 import alt from './alt';
 
 export default class TodoList extends React.Component {

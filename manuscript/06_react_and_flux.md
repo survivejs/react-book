@@ -24,11 +24,11 @@ At least in the time of writing no open source Relay/GraphQL implementation exis
 
 Before delving into the implementation itself, `npm i alt --save` to get the dependency we need. As discussed earlier, we'll need a set of actions to operate on our data. In terms of Alt it would look like this:
 
-**app/TodoActions.js**
+**app/actions/TodoActions.js**
 
 ```javascript
 'use strict';
-import alt from './alt';
+import alt from '../alt';
 
 class TodoActions {
   createTodo(task) {
@@ -47,12 +47,12 @@ export default alt.createActions(TodoActions);
 
 Next we will need to define a Store that maintains the data based on these actions:
 
-**app/TodoStore.js**
+**app/stores/TodoStore.js**
 
 ```javascript
 'use strict';
-import alt from './alt';
-import TodoActions from './TodoActions';
+import alt from '../alt';
+import TodoActions from '../actions/TodoActions';
 
 class TodoStore {
   constructor() {
@@ -110,8 +110,8 @@ Finally we'll need to tweak our `TodoApp` to operate based on `TodoStore` and `T
 'use strict';
 import React from 'react';
 import TodoItem from './TodoItem';
-import TodoActions from './TodoActions';
-import TodoStore from './TodoStore';
+import TodoActions from './actions/TodoActions';
+import TodoStore from './stores/TodoStore';
 
 export default class TodoApp extends React.Component {
   constructor(props) {

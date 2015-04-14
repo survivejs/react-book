@@ -1,6 +1,6 @@
 'use strict';
-import alt from './alt';
-import TodoActions from './TodoActions';
+import alt from '../alt';
+import TodoActions from '../actions/TodoActions';
 
 class TodoStore {
   constructor() {

@@ -1,8 +1,8 @@
 'use strict';
 import React from 'react';
 import Lane from './Lane';
-import AppActions from './AppActions';
-import appStore from './AppStore';
+import AppActions from './actions/AppActions';
+import appStore from './stores/AppStore';
 import alt from './alt';
 import persist from './persist';
 import storage from './storage';

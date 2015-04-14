@@ -227,8 +227,8 @@ Here we just pass `storeKey` to `TodoList`. Nothing special apart from that.
 'use strict';
 import React from 'react';
 import TodoItem from './TodoItem';
-import TodoActions from './TodoActions';
-import todoStore from './TodoStore';
+import TodoActions from './actions/TodoActions';
+import todoStore from './stores/TodoStore';
 import alt from './alt';
 
 export default class TodoList extends React.Component {
@@ -311,7 +311,7 @@ The signature of our `persist` behavior looks like this:
 
 In order to make it work on `App` level we'll need to define `AppStore` and `AppActions`. `AppActions` should contain `init` method. The rest look straightforward. You might be able to implement this on your own now so try giving it a go. I've included a possible solution for reference below:
 
-**app/AppActions.js**
+**app/actions/AppActions.js**
 
 ```javascript
 'use strict';
@@ -323,7 +323,7 @@ export default class AppActions {
 }
 ```
 
-**app/AppStore.js**
+**app/stores/AppStore.js**
 
 ```javascript
 'use strict';

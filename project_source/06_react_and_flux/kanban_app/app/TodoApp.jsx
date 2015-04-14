@@ -1,8 +1,8 @@
 'use strict';
 import React from 'react';
 import TodoItem from './TodoItem';
-import TodoActions from './TodoActions';
-import TodoStore from './TodoStore';
+import TodoActions from './actions/TodoActions';
+import TodoStore from './stores/TodoStore';
 import persist from './persist';
 import storage from './storage';
 
