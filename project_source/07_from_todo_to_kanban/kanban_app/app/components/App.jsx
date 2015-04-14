@@ -1,20 +1,29 @@
 'use strict';
 import React from 'react';
+import Baobab from 'baobab';
 import Lane from './Lane';
-import persist from '../behaviors/persist';
 import connect from '../behaviors/connect';
-import appActions from '../actions/AppActions';
 import storage from '../storage';
-import tree from '../tree';
+import appActions from '../actions/AppActions';
 
+const appStorage = 'app';
+const tree = new Baobab(storage.get(appStorage) || {
+  // {name: <str>, todos: [{task: <str>}]}
+  lanes: []
+});
 const cursor = tree.root();
-const actions = appActions(cursor);
 
-export default class App extends React.Component {
+window.addEventListener('beforeunload', function() {
+  storage.set(appStorage, cursor.get());
+}, false);
+
+class App extends React.Component {
   constructor(props: {
     lanes: Array;
   }) {
     super(props);
+
+    this.actions = appActions(cursor);
   }
   render() {
     var lanes = this.props.lanes;
@@ -22,30 +31,18 @@ export default class App extends React.Component {
     return (
       <div className='app'>
         <div className='controls'>
-          <button onClick={this.addLane.bind(this)}>Add lane</button>
+          <button onClick={this.actions.createLane.bind(null, 'New lane')}>
+            Add lane
+          </button>
         </div>
         <div className='lanes'>
           {lanes.map((lane, i) =>
-            <Lane key={'lane' + i} cursor={cursor.select('lanes', i, 'todos')} {...lane} />
+            <Lane key={'lane' + i} cursor={cursor.select('lanes', i)} />
           )}
         </div>
       </div>
     );
   }
-  addLane() {
-    actions.createLane('New lane');
-  }
 }
 
 export default connect(App, cursor);
-
-// TODO: persist
-/*
-export default persist(
-  connect(App, store),
-  actions.init,
-  store,
-  storage,
-  'app'
-);
-*/

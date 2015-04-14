@@ -31,7 +31,6 @@
     "webpack-dev-server": "^1.8.0"
   },
   "dependencies": {
-    "alt": "^0.15.4",
     "baobab": "^0.4.4",
     "react": "^0.13.1"
   }

@@ -379,6 +379,4 @@ We can build new behaviors for various functionalities, such as undo, in this ma
 
 In this chapter you saw how to port our simple application to use Flux architecture. Initially it might seem like a lot of extra code. Flux isn't about minimizing the amount of code written. It is about making it understandable. Now that we have a clear separation between Actions, Stores and Views, it is much easier to navigate around and see what triggers what behavior.
 
-We will continue developing our Todo application in later chapters. It isn't that useful without a proper backend so we'll build one. Utilizing Webpack of course.
-
-Next we will take a small detour to discuss how to manage various assets using Webpack. That will help us to make the Todo application look a little nicer. Now it's pretty barebone.
+Next we will expand our application into a Kanban board. In the process you will learn something about functional lenses and a library known as baobab.

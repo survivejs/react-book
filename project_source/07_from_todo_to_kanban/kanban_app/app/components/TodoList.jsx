@@ -6,14 +6,13 @@ import todoActions from '../actions/TodoActions';
 export default class TodoList extends React.Component {
   constructor(props: {
     cursor: Object;
-    todos: Array;
   }) {
     super(props);
 
     this.actions = todoActions(props.cursor);
   }
   render() {
-    var todos = this.props.todos;
+    var todos = this.props.cursor.get();
 
     return (
       <div>

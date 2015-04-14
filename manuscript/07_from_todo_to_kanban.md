@@ -36,9 +36,67 @@ Most importantly we'll need to model the concept of lane. The current `TodoApp` 
 }
 ```
 
-The question is how do we map this structure to our React app. We'll need `LaneStore` at least for coordinating an individual Lanes. We also need to fit in some new controls to the App. We need to be able to create, modify and remove lanes.
+The question is how do we map this structure to our React app. [baobab](https://github.com/Yomguithereal/baobab) is a JavaScript data tree library that supports cursors. We can use it to provide our components views to the data they need. All components will operate on the same structure but on a degree we define.
 
-In the mockup above I have included task creation within the first lane so that's something to take in count. Finally we'll need some way to move tasks between lanes so we can keep track of their completion.
+## Building a Baobab Tree
+
+Before getting started, hit `npm i baobab --save`. You can also remove `alt` dependency from the project by editing *package.json*. Next we'll need to plant our tree to the project:
+
+**app/components/App.jsx**
+
+```javascript
+...
+'use strict';
+import React from 'react';
+import Baobab from 'baobab';
+import Lane from './Lane';
+import connect from '../behaviors/connect';
+import storage from '../storage';
+import appActions from '../actions/AppActions';
+
+const appStorage = 'app';
+const tree = new Baobab(storage.get(appStorage) || {
+  // {name: <str>, todos: [{task: <str>}]}
+  lanes: []
+});
+const cursor = tree.root();
+
+window.addEventListener('beforeunload', function() {
+  storage.set(appStorage, cursor.get());
+}, false);
+
+class App extends React.Component {
+  constructor(props: {
+    lanes: Array;
+  }) {
+    super(props);
+
+    this.actions = appActions(cursor);
+  }
+  render() {
+    var lanes = this.props.lanes;
+
+    return (
+      <div className='app'>
+        <div className='controls'>
+          <button onClick={this.actions.createLane.bind(null, 'New lane')}>
+            Add lane
+          </button>
+        </div>
+        <div className='lanes'>
+          {lanes.map((lane, i) =>
+            <Lane key={'lane' + i} cursor={cursor.select('lanes', i)} />
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default connect(App, cursor);
+```
+
+TODO
 
 ## Reorganizing Project
 
