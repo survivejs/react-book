@@ -4,21 +4,23 @@ import TodoList from './TodoList';
 
 export default class Lane extends React.Component {
   constructor(props: {
-    storeKey: string;
+    index: number;
+    actions: Object;
     name: string;
     todos: Array;
   }) {
     super(props);
   }
   render() {
+    var index = this.props.index;
     var name = this.props.name;
     var todos = this.props.todos;
-    var storeKey = this.props.storeKey;
+    var actions = this.props.actions;
 
     return (
       <div className='lane'>
         <div className='name'>{name}</div>
-        <TodoList storeKey={storeKey} todos={todos} />
+        <TodoList lane={index} actions={actions} todos={todos} />
       </div>
     );
   }

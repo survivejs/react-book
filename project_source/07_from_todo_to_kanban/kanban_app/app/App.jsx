@@ -35,7 +35,7 @@ export default class App extends React.Component {
           {lanes.map((lane, i) => {
             var key = 'lane' + i;
 
-            return <Lane key={key} storeKey={key} {...lane} />;
+            return <Lane key={key} index={i} actions={actions} {...lane} />;
           }
           )}
         </div>
