@@ -4,7 +4,7 @@
 
 So far our Todo Application is very simplistic. We can manipulate the Todo items. There is also basic level of persistency. We are still missing some vital functionality that is needed to turn it this into a proper Kanban table (see image above).
 
-Most importantly we'll need to model the concept of lane. The current `TodoApp` is pretty much equal of a list contained by a lane. Besides a list of items a lane contains a name. If we model these requirements as a data structure, we'll end up with something like this:
+Most importantly we'll need to model the concept of lane. The current `App` is pretty much equal of a list contained by a lane. Besides a list of items a lane contains a name. If we model these requirements as a data structure, we'll end up with something like this:
 
 ```javascript
 {
