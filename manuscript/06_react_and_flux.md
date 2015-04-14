@@ -357,6 +357,8 @@ You can connect it with `App` like this:
 **app/App.jsx**
 
 ```javascript
+import connect from './behaviors/connect';
+
 ...
 
 class App extends React.Component {

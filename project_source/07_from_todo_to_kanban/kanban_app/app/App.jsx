@@ -5,6 +5,7 @@ import AppActions from './actions/AppActions';
 import appStore from './stores/AppStore';
 import alt from './alt';
 import persist from './behaviors/persist';
+import connect from './behaviors/connect';
 import storage from './storage';
 
 const actions = alt.createActions(AppActions);
@@ -62,4 +63,10 @@ export default class App extends React.Component {
 
 // XXXXX: changes made to child stores won't show up here
 // -> add functional lenses? baobab
-export default persist(App, actions.init, store, storage, 'app');
+export default persist(
+  connect(App, store),
+  actions.init,
+  store,
+  storage,
+  'app'
+);
