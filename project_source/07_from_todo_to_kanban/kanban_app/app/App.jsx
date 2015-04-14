@@ -15,25 +15,16 @@ const store = alt.createStore(
 );
 
 export default class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props: {
+    lanes: Array;
+  }) {
+    super(props);
 
     this.actions = actions;
     this.store = store;
-    this.state = this.store.getState();
-  }
-  // XXXXX: push to a behavior
-  componentDidMount() {
-    this.store.listen(this.storeChanged.bind(this));
-  }
-  componentWillUnmount() {
-    this.store.unlisten(this.storeChanged.bind(this));
-  }
-  storeChanged() {
-    this.setState(this.store.getState());
   }
   render() {
-    var lanes = this.state.lanes;
+    var lanes = this.props.lanes;
 
     return (
       <div className='app'>
@@ -52,11 +43,9 @@ export default class App extends React.Component {
     );
   }
   addLane() {
-    this.setState({
-      lanes: this.state.lanes.concat({
-        name: 'New lane',
-        todos: []
-      })
+    actions.createLane({
+      name: 'New lane',
+      todos: []
     });
   }
 }

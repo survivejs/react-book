@@ -8,5 +8,13 @@ export default (actions) => {
     init(data) {
       this.setState(data || {lanes: []});
     }
+    createLane(data) {
+      this.setState({
+        lanes: this.lanes.concat({
+          name: 'New lane',
+          todos: []
+        })
+      });
+    }
   };
 };
