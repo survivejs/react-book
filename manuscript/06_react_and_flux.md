@@ -294,15 +294,10 @@ export default (Component, initAction, store, storage, storageName) => {
       super(props);
 
       initAction(storage.get(storageName));
-    }
-    componentDidMount() {
-      store.listen(this.storeChanged.bind(this));
-    }
-    componentWillUnmount() {
-      store.unlisten(this.storeChanged.bind(this));
-    }
-    storeChanged(d) {
-      storage.set(storageName, d);
+
+      window.addEventListener('beforeunload', function(e){
+        storage.set(storageName, store.getState());
+      }, false);
     }
     render() {
       return <Component {...this.props} {...this.state} />;
