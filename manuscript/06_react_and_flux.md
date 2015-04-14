@@ -244,7 +244,7 @@ Now we have an application that can restore its state based on `localStorage`. I
 
 In the current solution persistency logic is decoupled with `App`. Given it would be nice to reuse it elsewhere, we can extract it to a higher order component. Let's do that next.
 
-## Extracting Persistency Logic into a Higher Order Component
+## Extracting Higher Order Components
 
 There are a couple of places in `App` we would like to clean up. I've adjusted the code as follows:
 
@@ -303,6 +303,69 @@ export default (Component, initAction, store, storage, storageName) => {
 ```
 
 As you can see it is a component that performs the behavior we are after and renders the component we pass to it. We have more code than earlier but we have factored it better. If you want to persist some other component, it is simple now.
+
+We can implement a behavior for connecting a component with a Store as well. Here's an example:
+
+**app/behaviors/connect.js**
+
+```javascript
+'use strict';
+import React from 'react';
+
+export default (Component, store) => {
+  return class Persist extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = store.getState();
+    }
+    componentDidMount() {
+      store.listen(this.storeChanged.bind(this));
+    }
+    componentWillUnmount() {
+      store.unlisten(this.storeChanged.bind(this));
+    }
+    storeChanged() {
+      this.setState(store.getState());
+    }
+    render() {
+      return <Component {...this.props} {...this.state} />;
+    }
+  };
+};
+```
+
+You can connect it with `App` like this:
+
+**app/App.jsx**
+
+```javascript
+...
+
+class App extends React.Component {
+  constructor(props: {
+    todos: Array;
+  }) {
+    super(props);
+  }
+  render() {
+    var todos = this.props.todos;
+
+    ...
+  }
+  ...
+}
+
+export default persist(
+  connect(App, TodoStore),
+  TodoActions.init,
+  TodoStore,
+  storage,
+  'todos'
+);
+```
+
+Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects.
 
 We can build new behaviors for various functionalities, such as undo, in this manner. By slicing our logic into higher order components we get an application that is easier to develop. Best of all behaviors such as the one we implemented can be easily reused in some other project.
 

@@ -4,25 +4,17 @@ import TodoList from './TodoList';
 import TodoActions from './actions/TodoActions';
 import TodoStore from './stores/TodoStore';
 import persist from './behaviors/persist';
+import connect from './behaviors/connect';
 import storage from './storage';
 
 class App extends React.Component {
-  constructor(props) {
+  constructor(props: {
+    todos: Array;
+  }) {
     super(props);
-
-    this.state = TodoStore.getState();
-  }
-  componentDidMount() {
-    TodoStore.listen(this.storeChanged.bind(this));
-  }
-  componentWillUnmount() {
-    TodoStore.unlisten(this.storeChanged.bind(this));
-  }
-  storeChanged() {
-    this.setState(TodoStore.getState());
   }
   render() {
-    var todos = this.state.todos;
+    var todos = this.props.todos;
 
     return (
       <div>
@@ -44,4 +36,10 @@ class App extends React.Component {
   }
 }
 
-export default persist(App, TodoActions.init, TodoStore, storage, 'todos');
+export default persist(
+  connect(App, TodoStore),
+  TodoActions.init,
+  TodoStore,
+  storage,
+  'todos'
+);
