@@ -61,18 +61,10 @@ class TodoStore {
     this.todos = [];
   }
   createTodo(task) {
-    this.setState({
-      todos: this.todos.concat([{
-        task: task
-      }])
-    });
+    this.todos.push({task});
   }
   updateTodo({id, task}) {
-    const todos = this.todos;
-
-    todos[id].task = task;
-
-    this.setState({todos});
+    this.todos[id].task = task;
   }
   removeTodo(id) {
     const todos = this.todos;
