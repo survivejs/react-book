@@ -35,7 +35,7 @@ export default class TodoItem extends React.Component {
 }
 ```
 
-> Note that we're using *jsx* extension here to tell modules using JSX syntax apart from regular ones. This is a good convention to have.
+T> Note that we're using *jsx* extension here to tell modules using JSX syntax apart from regular ones. This is a good convention to have.
 
 In addition we'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. Here's one solution:
 
@@ -63,7 +63,7 @@ This change needs to be taken in count at configuration. Change entry path like 
 }
 ```
 
-> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own.
+W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own.
 
 ## Setting Up Webpack
 
@@ -234,7 +234,7 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
 }
 ```
 
-> XXX: `"no-unused-vars": false` should be removed but looks like there might be some bug in babel-eslint/eslint-plugin-react preventing that to work correctly. Need to get back at this.
+W> `"no-unused-vars": false` should be removed but looks like there might be some bug in babel-eslint/eslint-plugin-react preventing that to work correctly. XXX: this needs to be removed once the issue has been resolved.
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 

@@ -67,7 +67,7 @@ To recap, when you run `npm run dev` this will fire up the webservice, watch for
 
 Go to **http://localhost:8080** and you should see something. If you want to use some other port than 8080, you can pass `--port` parameter (ie. `--port 4000`) to *webpack-dev-server*.
 
-> Alternatively we can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process. You can alternatively examine your browser log for the same information and possible errors.
+T> Alternatively we can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process. You can alternatively examine your browser log for the same information and possible errors.
 
 ## Automatic Browser Refresh
 
