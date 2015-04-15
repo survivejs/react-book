@@ -50,7 +50,7 @@ Before getting started, hit `npm i baobab --save`. You can also remove `alt` dep
 import React from 'react';
 import Baobab from 'baobab';
 import Lane from './Lane';
-import connect from '../behaviors/connect';
+import connect from '../decorators/connect';
 import storage from '../storage';
 import appActions from '../actions/AppActions';
 
@@ -359,7 +359,7 @@ After these changes each `TodoList` operates on its own instance of `TodoActions
 
 ## Restoring Persistency
 
-The signature of our `persist` behavior looks like this:
+The signature of our `persist` decorator looks like this:
 
 ```javascript
 (Component, initAction, store, storage, storageName)

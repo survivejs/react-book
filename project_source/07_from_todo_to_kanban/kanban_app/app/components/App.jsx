@@ -2,7 +2,7 @@
 import React from 'react';
 import Baobab from 'baobab';
 import Lane from './Lane';
-import connect from '../behaviors/connect';
+import connect from '../decorators/connect';
 import storage from '../storage';
 import appActions from '../actions/AppActions';
 

@@ -261,7 +261,7 @@ There are a couple of places in `App` we would like to clean up. I've adjusted t
 
 ```javascript
 ...
-import persist from '../behaviors/persist';
+import persist from '../decorators/persist';
 import storage from '../storage';
 
 export default class App extends React.Component {
@@ -282,7 +282,7 @@ export default persist(App, TodoActions.init, TodoStore, storage, 'todos');
 
 Now we are close to what we had there earlier. Only new bit is that `persist` thinger. Let's look at its implementation next:
 
-**app/behaviors/persist.js**
+**app/decorators/persist.js**
 
 ```javascript
 'use strict';
@@ -306,11 +306,11 @@ export default (Component, initAction, store, storage, storageName) => {
 };
 ```
 
-As you can see it is a component that performs the behavior we are after and renders the component we pass to it. We have more code than earlier but we have factored it better. If you want to persist some other component, it is simple now.
+As you can see it is a component that triggers the decorator and renders the component we pass to it. We have more code than earlier but we have factored it better. If you want to persist some other component, it is simple now.
 
-We can implement a behavior for connecting a component with a Store as well. Here's an example:
+We can implement a decorator for connecting a component with a Store as well. Here's an example:
 
-**app/behaviors/connect.js**
+**app/decorators/connect.js**
 
 ```javascript
 'use strict';
@@ -344,7 +344,7 @@ You can connect it with `App` like this:
 **app/components/App.jsx**
 
 ```javascript
-import connect from '../behaviors/connect';
+import connect from '../decorators/connect';
 
 ...
 
@@ -373,7 +373,7 @@ export default persist(
 
 Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects.
 
-We can build new behaviors for various functionalities, such as undo, in this manner. By slicing our logic into higher order components we get an application that is easier to develop. Best of all behaviors such as the one we implemented can be easily reused in some other project.
+We can build new decorators for various functionalities, such as undo, in this manner. By slicing our logic into higher order components we get an application that is easier to develop. Best of all decorators such as the one we implemented can be easily reused in some other project.
 
 ## Conclusion
 
