@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import TodoList from './TodoList';
+import todoActions from '../actions/TodoActions';
 
 export default class Lane extends React.Component {
   constructor(props: {
@@ -9,12 +10,18 @@ export default class Lane extends React.Component {
     super(props);
   }
   render() {
-    var cursor = this.props.cursor;
+    const cursor = this.props.cursor;
+    const todoCursor = cursor.select('todos');
+    const actions = todoActions(todoCursor);
 
     return (
       <div className='lane'>
-        <div className='name'>{cursor.get().name}</div>
-        <TodoList cursor={cursor.select('todos')} />
+        <div className='lane-controls'>
+          <div className='lane-name'>{cursor.get().name}</div>
+          <button className='lane-add-todo'
+            onClick={actions.createTodo.bind(null, 'New task')}>+</button>
+        </div>
+        <TodoList cursor={todoCursor} />
       </div>
     );
   }

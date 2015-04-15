@@ -15,21 +15,16 @@ export default class TodoList extends React.Component {
     var todos = this.props.cursor.get();
 
     return (
-      <div>
-        <button onClick={this.addItem.bind(this)}>+</button>
-
-        <ul>{todos.map((todo, i) =>
+      <ul className='todo-list'>
+        {todos.map((todo, i) =>
           <li key={'todo' + i}>
             <TodoItem
               task={todo.task}
               onEdit={this.itemEdited.bind(this, i)} />
           </li>
-        )}</ul>
-      </div>
+        )}
+      </ul>
     );
-  }
-  addItem() {
-    this.actions.createTodo('New task');
   }
   itemEdited(id, task) {
     if(task) {

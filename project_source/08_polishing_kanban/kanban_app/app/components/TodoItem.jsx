@@ -16,7 +16,7 @@ export default class TodoItem extends React.Component {
     var edited = this.state.edited;
     var task = this.props.task;
 
-    return <div>{
+    return <div className='todo-item'>{
       edited
       ? <input type='text'
         defaultValue={task}
