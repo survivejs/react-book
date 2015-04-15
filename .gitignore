@@ -2,4 +2,6 @@
 _book/
 node_modules/
 book.pdf
+*.diff
+*.log
 
