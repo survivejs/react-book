@@ -95,7 +95,6 @@ Hit `npm i baobab --save` to include baobab in the project. You can also remove 
 **app/components/App.jsx**
 
 ```javascript
-...
 'use strict';
 import React from 'react';
 import Baobab from 'baobab';
