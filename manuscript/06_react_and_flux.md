@@ -28,7 +28,7 @@ Before delving into the implementation itself, `npm i alt --save` to get the dep
 
 ```javascript
 'use strict';
-import alt from '../alt';
+import alt from '../libs/alt';
 
 class TodoActions {
   createTodo(task) {
@@ -51,7 +51,7 @@ Next we will need to define a Store that maintains the data based on these actio
 
 ```javascript
 'use strict';
-import alt from '../alt';
+import alt from '../libs/alt';
 import TodoActions from '../actions/TodoActions';
 
 class TodoStore {
@@ -84,7 +84,7 @@ The Store listens to our actions and then updates its state accordingly. The fun
 
 We will also need a module to maintain an instance of Alt. It will deal with coordination of our Actions and Stores.
 
-**app/alt.js**
+**app/libs/alt.js**
 
 ```javascript
 'use strict';
@@ -175,7 +175,7 @@ This is what makes Flux a strong architecture when used with React. It isn't har
 
 Given it's not nice to lose your Todos during a refresh, we can tweak our implementation of `TodoStore` to persist the data on change. Most of the work is related to `localStorage`. In order to deal with it, here's a little wrapper:
 
-**app/storage.js**
+**app/libs/storage.js**
 
 ```javascript
 'use strict';
@@ -203,7 +203,7 @@ Besides this little utility we'll need to adapt our application to use it.
 
 ```javascript
 ...
-import storage from '../storage';
+import storage from '../libs/storage';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -262,7 +262,7 @@ There are a couple of places in `App` we would like to clean up. I've adjusted t
 ```javascript
 ...
 import persist from '../decorators/persist';
-import storage from '../storage';
+import storage from '../libs/storage';
 
 export default class App extends React.Component {
   constructor(props) {

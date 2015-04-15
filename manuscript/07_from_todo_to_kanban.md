@@ -101,7 +101,7 @@ import React from 'react';
 import Baobab from 'baobab';
 import Lane from './Lane';
 import connect from '../decorators/connect';
-import storage from '../storage';
+import storage from '../lib/storage';
 import appActions from '../actions/AppActions';
 
 const appStorage = 'app';

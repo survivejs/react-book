@@ -1,5 +1,5 @@
 'use strict';
-import alt from '../alt';
+import alt from '../libs/alt';
 import TodoActions from '../actions/TodoActions';
 
 class TodoStore {

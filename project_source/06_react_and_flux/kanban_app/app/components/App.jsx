@@ -5,7 +5,7 @@ import TodoActions from '../actions/TodoActions';
 import TodoStore from '../stores/TodoStore';
 import persist from '../decorators/persist';
 import connect from '../decorators/connect';
-import storage from '../storage';
+import storage from '../libs/storage';
 
 class App extends React.Component {
   constructor(props: {

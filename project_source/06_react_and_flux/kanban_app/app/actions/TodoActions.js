@@ -1,5 +1,5 @@
 'use strict';
-import alt from '../alt';
+import alt from '../libs/alt';
 
 class TodoActions {
   init(todos) {
