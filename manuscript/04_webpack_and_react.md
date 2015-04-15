@@ -42,7 +42,7 @@ In addition we'll need to adjust our `main.js` to render the component correctly
 **app/main.jsx**
 
 ```javascript
-import './main.css';
+import './stylesheets/main.css';
 
 import React from 'react';
 import App from './components/App';

@@ -108,7 +108,7 @@ module.exports = {
 
 The configuration we added simply tells Webpack that whenever it meets some file ending with `css` it should invoke the power of loaders in this specific order. Note that loaders are evaluated from right to left. So first it will pass a possible CSS file to *css-loader* and to *style-loader* after that.
 
-We are missing just one bit, the actual CSS itself. Define *app/main.css* with contents like this:
+We are missing just one bit, the actual CSS itself. Define *app/stylesheets/main.css* with contents like this:
 
 ```css
 body {
@@ -116,9 +116,9 @@ body {
 }
 ```
 
-In addition we'll need to make Webpack aware of this file. Insert `require('./main.css')` statement to the beginning of *app/main.js*. Finally, hit `npm run dev` and point your browser to *localhost:8080* provided you are using the default port.
+In addition we'll need to make Webpack aware of this file. Insert `require('./stylesheets/main.css')` statement to the beginning of *app/main.js*. Finally, hit `npm run dev` and point your browser to *localhost:8080* provided you are using the default port.
 
-To see the magic in action, you should open up *app/main.css* and change the background color to something nice like `lime` (`background: lime`). Develop styles as needed. Experiment.
+To see the magic in action, you should open up *main.css* and change the background color to something nice like `lime` (`background: lime`). Develop styles as needed. Experiment.
 
 In order to make our normal build (`npm run build`) work with CSS, you could attach that *module* bit to `webpack.config.js` too. Given it can be cumbersome to maintain configuration like this, I'll show you a nicer way.
 
