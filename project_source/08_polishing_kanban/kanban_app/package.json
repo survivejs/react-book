@@ -1,0 +1,37 @@
+{
+  "name": "kanban_app",
+  "version": "0.0.0",
+  "description": "Webpack demo app",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config config/build",
+    "dev": "webpack-dev-server --config config/develop --devtool eval --progress --colors --hot --content-base build",
+    "lint": "eslint . --ext .js --ext .jsx"
+  },
+  "keywords": [
+    "webpack",
+    "demo"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^5.1.0",
+    "babel-eslint": "^2.0.2",
+    "babel-loader": "^5.0.0",
+    "css-loader": "^0.10.1",
+    "eslint": "^0.19.0",
+    "eslint-loader": "^0.10.0",
+    "eslint-plugin-react": "^2.1.0",
+    "flowcheck": "^0.2.3",
+    "flowcheck-loader": "^1.0.0",
+    "lodash": "^3.6.0",
+    "react-hot-loader": "^1.2.4",
+    "style-loader": "^0.10.1",
+    "webpack": "^1.8.4",
+    "webpack-dev-server": "^1.8.0"
+  },
+  "dependencies": {
+    "baobab": "^0.4.4",
+    "react": "^0.13.1"
+  }
+}

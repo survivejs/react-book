@@ -6,7 +6,8 @@
 05_implementing_todo.md
 06_react_and_flux.md
 07_from_todo_to_kanban.md
-08_asset_management.md
-09_deploying_applications.md
-10_debugging_webpack.md
-11_http2.md
+08_polishing_kanban.md
+09_asset_management.md
+10_deploying_applications.md
+11_debugging_webpack.md
+12_http2.md
