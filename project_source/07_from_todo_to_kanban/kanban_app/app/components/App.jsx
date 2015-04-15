@@ -8,8 +8,18 @@ import appActions from '../actions/AppActions';
 
 const appStorage = 'app';
 const tree = new Baobab(storage.get(appStorage) || {
-  // {name: <str>, todos: [{task: <str>}]}
   lanes: []
+}, {
+  validate: {
+    lanes: [{
+      name: 'string',
+      todos: [
+        {
+          task: 'string',
+        }
+      ]
+    }]
+  }
 });
 const cursor = tree.root();
 

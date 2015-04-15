@@ -106,8 +106,18 @@ import appActions from '../actions/AppActions';
 
 const appStorage = 'app';
 const tree = new Baobab(storage.get(appStorage) || {
-  // {name: <str>, todos: [{task: <str>}]}
   lanes: []
+}, {
+  validate: {
+    lanes: [{
+      name: 'string',
+      todos: [
+        {
+          task: 'string',
+        }
+      ]
+    }]
+  }
 });
 const cursor = tree.root();
 
@@ -146,7 +156,7 @@ class App extends React.Component {
 export default connect(App, cursor);
 ```
 
-We define a stub for our tree at the beginning. If it's available at the storage, we'll use it. If not, we'll use a default one. We also make sure we stash the tree to storage once the application gets terminated.
+We define a stub for our tree at the beginning and define a schema for it. The schema is based on [typology](https://github.com/jacomyal/typology) syntax which is simple yet powerful. After that we do some storage checks (XXX: this will likely go back to a decorator).
 
 Finally we connect our baobab tree with `App` like this:
 
@@ -180,8 +190,6 @@ export default (Component, cursor) => {
 The solution isn't very optimized but will do for now. The basic idea is that we update the `App` state through a prop if the tree changes. After that the changes will propagate through the components.
 
 W> As of time of writing there's no official way to use Baobab with ES6 style classes. Once there is, we should get more performance etc. XXX: Update this when an official solution is available.
-
-W> XXX: See if it's possible to push persistency back to a decorator (need to be able to replace whole content of a tree at once).
 
 ## Modeling AppActions
 
