@@ -12,4 +12,5 @@
 * [Asset Management](manuscript/09_asset_management.md)
 * [Deploying Applications](manuscript/10_deploying_applications.md)
 * [Debugging Webpack](manuscript/11_debugging_webpack.md)
-* [HTTP/2](manuscript/12_http2.md)
+* [Authoring Libraries](manuscript/12_http2.md)
+* [HTTP/2](manuscript/13_http2.md)

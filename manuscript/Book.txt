@@ -10,4 +10,5 @@
 09_asset_management.md
 10_deploying_applications.md
 11_debugging_webpack.md
-12_http2.md
+12_authoring_libraries.md
+13_http2.md
