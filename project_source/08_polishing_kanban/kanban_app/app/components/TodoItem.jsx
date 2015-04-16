@@ -1,10 +1,20 @@
 'use strict';
 import React from 'react';
+import { configureDragDrop } from 'react-dnd';
 
-export default class TodoItem extends React.Component {
+// XXX: move to ItemTypes.js
+const ItemTypes = {
+  TODO: 'todo'
+};
+
+class TodoItem extends React.Component {
   constructor(props: {
     task: string;
     onEdit: Function;
+    onMove: Function;
+    isDragging: boolean;
+    dragSourceRef: Function;
+    //dragTargetRef: Function; // why undefined?
   }) {
     super(props);
 
@@ -13,10 +23,16 @@ export default class TodoItem extends React.Component {
     };
   }
   render() {
+    const { task, isDragging, dragSourceRef, dropTargetRef } = this.props;
     var edited = this.state.edited;
-    var task = this.props.task;
 
-    return <div className='todo-item'>{
+    return <div
+      className='todo-item'
+      ref={c => {
+          dragSourceRef(c);
+          dropTargetRef(c);
+        }
+      }>{
       edited
       ? <input type='text'
         defaultValue={task}
@@ -43,3 +59,33 @@ export default class TodoItem extends React.Component {
     });
   }
 }
+
+const todoSource = {
+  beginDrag(props) {
+    return {
+      id: props.id
+    };
+  }
+};
+
+const todoTarget = {
+  hover(props, monitor) {
+    const draggedId = monitor.getItem().id;
+
+    if (draggedId !== props.id) {
+      props.onMove(draggedId, props.id);
+    }
+  }
+};
+
+export default configureDragDrop(TodoItem, {
+  configure: (register) => ({
+    todoSourceId: register.dragSource(ItemTypes.TODO, todoSource),
+    todoTargetId: register.dropTarget(ItemTypes.TODO, todoTarget)
+  }),
+  collect: (connect, monitor, { todoSourceId, todoTargetId }) => ({
+    isDragging: monitor.isDragging(todoSourceId),
+    dragSourceRef: connect.dragSource(todoSourceId),
+    dropTargetRef: connect.dropTarget(todoTargetId)
+  })
+});

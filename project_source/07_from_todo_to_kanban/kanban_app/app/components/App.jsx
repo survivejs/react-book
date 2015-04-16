@@ -15,6 +15,7 @@ const tree = new Baobab(storage.get(appStorage) || {
       name: 'string',
       todos: [
         {
+          id: 'number',
           task: 'string',
         }
       ]

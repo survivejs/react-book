@@ -25,6 +25,7 @@
     "flowcheck": "^0.2.3",
     "flowcheck-loader": "^1.0.0",
     "lodash": "^3.6.0",
+    "react-dnd": "gaearon/react-dnd#dnd-core",
     "react-hot-loader": "^1.2.4",
     "style-loader": "^0.10.1",
     "webpack": "^1.8.4",

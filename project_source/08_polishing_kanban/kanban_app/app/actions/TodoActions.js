@@ -3,7 +3,9 @@
 export default (cursor) => {
   return {
     createTodo: (task) => {
-      cursor.push({task});
+      const id = cursor.get().length;
+
+      cursor.push({id, task});
     },
     updateTodo: (i, task) => {
       cursor.select(i).update({
