@@ -1,22 +1,21 @@
 {
-  "name": "webpack-book",
+  "name": "survivejs-webpack",
   "private": true,
   "version": "0.1.0",
-  "description": "This is the private repo for possible commercial version of the book. I've split it up in a couple of parts.",
-  "main": "index.js",
+  "description": "SurviveJS - Webpack + React",
   "scripts": {
     "start": "gitbook pdf . ./book.pdf",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bebraw/webpack-book.git"
+    "url": "https://github.com/survivejs/webpack.git"
   },
   "author": "Juho Vepsalainen",
   "bugs": {
-    "url": "https://github.com/bebraw/webpack-book/issues"
+    "url": "https://github.com/survivejs/webpack/issues"
   },
-  "homepage": "https://github.com/bebraw/webpack-book",
+  "homepage": "https://github.com/survivejs/webpack",
   "dependencies": {},
   "devDependencies": {
     "gitbook-cli": "^0.3.3"
