@@ -16,14 +16,16 @@ export default class TodoItem extends React.Component {
     var edited = this.state.edited;
     var task = this.props.task;
 
-    return <div>{
-      edited
-      ? <input type='text'
-        defaultValue={task}
-        onBlur={this.finishEdit.bind(this)}
-        onKeyPress={this.checkEnter.bind(this)}/>
-      : <div onClick={this.edit.bind(this)}>{task}</div>
-    }</div>;
+    return (
+      <div>{
+        edited
+        ? <input type='text'
+          defaultValue={task}
+          onBlur={this.finishEdit.bind(this)}
+          onKeyPress={this.checkEnter.bind(this)}/>
+        : <div onClick={this.edit.bind(this)}>{task}</div>
+      }</div>
+    );
   }
   edit() {
     this.setState({

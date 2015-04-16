@@ -206,8 +206,7 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "react"
   ],
   "ecmaFeatures": {
-    "jsx": true,
-    "globalReturn": false
+    "jsx": true
   },
   "rules": {
     "no-unused-vars": false,
@@ -215,26 +214,21 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "no-use-before-define": false,
     "quotes": [2, "single"],
     "comma-dangle": "always",
-    "react/display-name": true,
-    "react/jsx-boolean-value": true,
-    "react/jsx-quotes": true,
-    "react/jsx-no-undef": true,
-    "react/jsx-sort-props": true,
-    "react/jsx-uses-react": true,
-    "react/jsx-uses-vars": true,
-    "react/no-did-mount-set-state": true,
-    "react/no-did-update-set-state": true,
-    "react/no-multi-comp": true,
-    "react/no-unknown-property": true,
-    "react/prop-types": true,
-    "react/react-in-jsx-scope": true,
-    "react/self-closing-comp": true,
-    "react/wrap-multilines": true
+    "react/jsx-boolean-value": 1,
+    "react/jsx-quotes": 1,
+    "react/jsx-no-undef": 1,
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1,
+    "react/no-did-mount-set-state": 1,
+    "react/no-did-update-set-state": 1,
+    "react/no-multi-comp": 1,
+    "react/no-unknown-property": 1,
+    "react/react-in-jsx-scope": 1,
+    "react/self-closing-comp": 1,
+    "react/wrap-multilines": 1
   }
 }
 ```
-
-W> `"no-unused-vars": false` should be removed but looks like there might be some bug in babel-eslint/eslint-plugin-react preventing that to work correctly. XXX: this needs to be removed once the issue has been resolved.
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 

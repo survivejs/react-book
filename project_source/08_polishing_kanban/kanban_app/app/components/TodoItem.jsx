@@ -26,20 +26,22 @@ class TodoItem extends React.Component {
     const { task, isDragging, dragSourceRef, dropTargetRef } = this.props;
     var edited = this.state.edited;
 
-    return <div
-      className='todo-item'
-      ref={c => {
-          dragSourceRef(c);
-          dropTargetRef(c);
-        }
-      }>{
-      edited
-      ? <input type='text'
-        defaultValue={task}
-        onBlur={this.finishEdit.bind(this)}
-        onKeyPress={this.checkEnter.bind(this)}/>
-      : <div onClick={this.edit.bind(this)}>{task}</div>
-    }</div>;
+    return (
+      <div
+        className='todo-item'
+        ref={c => {
+            dragSourceRef(c);
+            dropTargetRef(c);
+          }
+        }>{
+        edited
+        ? <input type='text'
+          defaultValue={task}
+          onBlur={this.finishEdit.bind(this)}
+          onKeyPress={this.checkEnter.bind(this)}/>
+        : <div onClick={this.edit.bind(this)}>{task}</div>
+      }</div>
+    );
   }
   edit() {
     this.setState({
