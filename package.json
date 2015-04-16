@@ -5,7 +5,7 @@
   "description": "This is the private repo for possible commercial version of the book. I've split it up in a couple of parts.",
   "main": "index.js",
   "scripts": {
-    "gitbook": "node ./scripts/gitbook.js",
+    "start": "node ./scripts/gitbook.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
