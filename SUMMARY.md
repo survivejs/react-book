@@ -1,6 +1,3 @@
-# Understanding Webpack
-
-* [Introduction](manuscript/00_introduction.md)
 * [Getting Started](manuscript/01_getting_started.md)
 * [Webpack Compared](manuscript/02_webpack_compared.md)
 * [Developing with Webpack](manuscript/03_developing_with_webpack.md)

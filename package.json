@@ -5,19 +5,20 @@
   "description": "This is the private repo for possible commercial version of the book. I've split it up in a couple of parts.",
   "main": "index.js",
   "scripts": {
-    "start": "node ./scripts/gitbook.js",
+    "start": "gitbook pdf . ./book.pdf",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/bebraw/webpack-book.git"
   },
-  "author": "",
+  "author": "Juho Vepsalainen",
   "bugs": {
     "url": "https://github.com/bebraw/webpack-book/issues"
   },
   "homepage": "https://github.com/bebraw/webpack-book",
-  "dependencies": {
-    "gitbook": "^1.5.0"
+  "dependencies": {},
+  "devDependencies": {
+    "gitbook-cli": "^0.3.3"
   }
 }

@@ -4,7 +4,7 @@ This is a project based book that teaches you to use Webpack and React.js effect
 
 ## Generating
 
-To generate a pdf version of the book, hit `npm install` and `npm start`. After that you should have `_book/index.pdf`.
+To generate a pdf version of the book, hit `npm install` and `npm start`. After that you should have `./book.pdf`.
 
 ## License
 
