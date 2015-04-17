@@ -142,6 +142,20 @@ module.exports = {
 
 Webpack allows you to use different module formats, but under the hood they all work the same way. All of them also work straight out of the box.
 
+**CommonJS**
+
+If you have used Node.js, you are likely familiar with CommonJS already. Here's a brief example:
+
+```javascript
+var MyModule = require('./MyModule');
+
+// export at module root
+module.exports = function() { ... };
+
+// alternatively export individual functions
+exports.hello = function() {...};
+```
+
 **ES6**
 
 ES6 is probably the format we all have been waiting for since 1995. As you can see it resembles CommonJS a little bit and is quite clear!
