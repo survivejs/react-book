@@ -1,6 +1,6 @@
 00_introduction.md
-01_getting_started.md
-02_webpack_compared.md
+01_webpack_compared.md
+02_getting_started.md
 03_developing_with_webpack.md
 04_webpack_and_react.md
 05_implementing_todo.md

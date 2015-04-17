@@ -1,5 +1,5 @@
-* [Getting Started](manuscript/01_getting_started.md)
-* [Webpack Compared](manuscript/02_webpack_compared.md)
+* [Webpack Compared](manuscript/01_webpack_compared.md)
+* [Getting Started](manuscript/02_getting_started.md)
 * [Developing with Webpack](manuscript/03_developing_with_webpack.md)
 * [Webpack and React](manuscript/04_webpack_and_react.md)
 * [Implementing a Basic Todo App](manuscript/05_implementing_todo.md)
