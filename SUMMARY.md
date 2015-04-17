@@ -2,7 +2,7 @@
 * [Getting Started](manuscript/02_getting_started.md)
 * [Developing with Webpack](manuscript/03_developing_with_webpack.md)
 * [Webpack and React](manuscript/04_webpack_and_react.md)
-* [Implementing a Basic Todo App](manuscript/05_implementing_todo.md)
+* [Implementing a Basic Note App](manuscript/05_implementing_notes.md)
 * [React and Flux](manuscript/06_react_and_flux.md)
 * [From Todo to Kanban](manuscript/07_from_todo_to_kanban.md)
 * [Polishing Kanban](manuscript/08_from_todo_to_kanban.md)

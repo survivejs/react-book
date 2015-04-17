@@ -3,7 +3,7 @@
 02_getting_started.md
 03_developing_with_webpack.md
 04_webpack_and_react.md
-05_implementing_todo.md
+05_implementing_notes.md
 06_react_and_flux.md
 07_from_todo_to_kanban.md
 08_polishing_kanban.md

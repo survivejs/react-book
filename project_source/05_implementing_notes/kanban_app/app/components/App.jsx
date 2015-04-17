@@ -1,13 +1,13 @@
 'use strict';
 import React from 'react';
-import TodoList from './TodoList';
+import Notes from './Notes';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      todos: [{
+      notes: [{
         task: 'Learn Webpack'
       }, {
         task: 'Learn React'
@@ -17,34 +17,34 @@ export default class App extends React.Component {
     };
   }
   render() {
-    var todos = this.state.todos;
+    var notes = this.state.notes;
 
     return (
       <div>
         <button onClick={this.addItem.bind(this)}>+</button>
-        <TodoList todos={todos} onEdit={this.itemEdited.bind(this)} />
+        <Notes items={notes} onEdit={this.itemEdited.bind(this)} />
       </div>
     );
   }
   addItem() {
     this.setState({
-      todos: this.state.todos.concat([{
+      notes: this.state.notes.concat([{
         task: 'New task'
       }])
     });
   }
   itemEdited(i, task) {
-    var todos = this.state.todos;
+    var notes = this.state.notes;
 
     if(task) {
-      todos[i].task = task;
+      notes[i].task = task;
     }
     else {
-      todos = todos.slice(0, i).concat(todos.slice(i + 1));
+      notes = notes.slice(0, i).concat(notes.slice(i + 1));
     }
 
     this.setState({
-      todos: todos
+      notes: notes
     });
   }
 }
