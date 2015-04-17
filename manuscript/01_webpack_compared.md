@@ -10,6 +10,8 @@ Historically speaking there have been many build systems. [Make](https://en.wiki
 
 ## Grunt
 
+![Grunt](images/grunt.png)
+
 Grunt went mainstream before Gulp. It was made popular particularly due to its plugin architecture. At the same time this is the Achilles' heel of Grunt. You *don't* want to end up having to maintain a 300 line `Gruntfile`. Grunt scales up to a point. Just in case you are curious what the configuration looks like, here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
 
 ```javascript
@@ -43,6 +45,8 @@ In practice you would have a lot of small tasks such as these for various purpos
 T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin allows you to use Webpack in Grunt environment. You can leave the heavy lifting to Webpack while utilizing the Grunt plugins you are familiar with.
 
 ## Gulp
+
+![Gulp](images/gulp.png)
 
 Gulp takes a different approach. Instead of relying on configuration per plugin you deal with actual code. Gulp builds on top of the tried and true concept of piping. If you are familiar with Unix, it's the same here.
 
@@ -96,6 +100,8 @@ T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use 
 
 ## Browserify
 
+![Browserify](images/browserify.png)
+
 Dealing with JavaScript modules has always been a bit of a problem given the language actually doesn't have a concept of module till ES6. Ergo we are stuck with the 90s when it comes to browser environment. Various solutions, including [AMD](http://browserify.org/), have been proposed.
 
 In practice it can be useful just to use CommonJS, the Node.js format, and let tooling deal with the rest. The advantage is that you can often hook into NPM and avoid reinventing the wheel.
@@ -105,6 +111,8 @@ In practice it can be useful just to use CommonJS, the Node.js format, and let t
 Browserify ecosystem is composed from a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than Webpack and in fact it is a good alternative to it.
 
 ## Webpack
+
+![Webpack](images/webpack.png)
 
 You could say Webpack takes more monolithic approach than Browserify. You simply get more out of the box. It is extended using loaders and relies on configuration. As we saw in the previous chapter it took some effort to get a build done. But after the initial curve it eases out considerably.
 
