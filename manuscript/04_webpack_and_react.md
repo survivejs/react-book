@@ -12,7 +12,7 @@ Even if React isn't the smallest library out there it does manage to solve some 
 
 The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and layout system whereas providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
 
-Webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React and implement a rough subset of our target. As a Kanban board consists of lanes each of which contains notes, we'll focus on a single lane. Specifically we'll implement something that allows us to keep track of them. Later on we will expand on this.
+Webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React easily. Before we get to implement anything serious, it's a good idea to make sure we have a decent development environment. That will make everything so much easier.
 
 ## Installing React
 
@@ -22,23 +22,25 @@ To get started install React to your project. Just hit `npm i react --save` and 
 
 ```javascript
 import React from 'react';
-import TodoItem from './TodoItem';
+import Note from './Note';
 
 export default class App extends React.Component {
   render() {
-    return <TodoItem />;
+    return <Note />;
   }
 }
 ```
 
 `App` will work as an entry point to our application. Later on it will orchestrate logic etc.
 
-**app/components/TodoItem.jsx**
+We also need to define that `Note` component:
+
+**app/components/Note.jsx**
 
 ```javascript
 import React from 'react';
 
-export default class TodoItem extends React.Component {
+export default class Note extends React.Component {
   render() {
     return <div>Learn Webpack</div>;
   }
@@ -105,7 +107,6 @@ resolve: {
 If you hit `npm run build` now, you should get some output after a while. Here's a sample:
 
 ```bash
-> webpack_demo@1.0.0 build /Users/something/projects/webpack_demo
 > webpack --config config/build
 
 Hash: 070e822e8cffd925a27c
@@ -117,13 +118,79 @@ bundle.js  645 kB       0  [emitted]  main
     + 162 hidden modules
 ```
 
-As you can see, the output is quite chunky in this case! Don't worry. This is just an unoptimized build. We can do a lot about the size at a later stage when we apply optimizations, minification and split things up.
+As you can see, the output is quite chunky!
+
+## Optimizing Build Size
+
+We can resolve this issue by minifying our build. As easy way to do this is to pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your Webpack configuration:
+
+```javascript
+var webpack = require('webpack');
+
+...
+
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+    }),
+  ],
+}
+```
+
+If you hit `npm run build` now, you should see better results:
+
+```bash
+> webpack --config config/build
+
+Hash: 88ce689da36358669b22
+Version: webpack 1.8.4
+Time: 5240ms
+    Asset    Size  Chunks             Chunk Names
+bundle.js  170 kB       0  [emitted]  main
+   [0] multi main 28 bytes {0} [built]
+    + 163 hidden modules
+```
+
+Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
+
+We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get in an optimized manner. This will disable some checks (ie. property type checks) but it will give you a smaller build and improved performance.
+
+In Webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
+
+```bash
+new webpack.DefinePlugin({
+  'process.env': {
+    // This has effect on the react lib size
+    'NODE_ENV': JSON.stringify('production'),
+  }
+}),
+```
+
+Hit `npm run build` again and you should see improved results:
+
+```bash
+> webpack --config config/build
+
+Hash: 9ced39bb13d4b29e5c7a
+Version: webpack 1.8.4
+Time: 4850ms
+    Asset    Size  Chunks             Chunk Names
+bundle.js  122 kB       0  [emitted]  main
+   [0] multi main 28 bytes {0} [built]
+    + 158 hidden modules
+```
+
+So we went from 645k to 170k and finally to 122k. The final build is a little faster than the previous one. As that 122k can be served gzipped, it is very reasonable. Things will get more problematic as we continue to add dependencies to our project. In that case we will have to apply some other strategies and be smarter about loading.
 
 ## Activating Hot Loading for Development
 
-If you hit `npm run dev`, hit *localhost:8080* and try to modify our component (make it output `Learn React` or something), you'll see it actually works. After a flash. We can get something fancier with Webpack, namely hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/).
+If you hit `npm run dev`, hit *localhost:8080* and try to modify our component (make it output `Learn React` or something), you'll see it actually works. After a flash. That's a little unfortunate especially if our application is more complex has state. It is annoying to manipulate the user interface back to the state in which it was in order to test something.
 
-To make this work, you should `npm i react-hot-loader --save-dev` and tweak the configuration as follows:
+We can work around this problem using hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/). It will swap React components one by one as they change without forcing a full refresh. There will be times when that will be necessary but it will help a lot. Once you get used to hot loading, it is hard to live without.
+
+To enable hot loading for React, you should perform `npm i react-hot-loader --save-dev` and tweak the configuration as follows:
 
 **config/index.js**
 
@@ -157,7 +224,8 @@ exports.build = mergeConfig({
         include: path.join(ROOT_PATH, 'app'),
       }
     ]
-  }
+  },
+  plugins: [...]
 });
 
 exports.develop = mergeConfig({
@@ -178,11 +246,7 @@ exports.develop = mergeConfig({
 });
 ```
 
-Try hitting `npm run dev` again and modifying the component. Note what doesn't happen this time. There's no flash! What did we just do?
-
-*react-hot-loader* swaps component with a new version if it detects the component has changed. This process retains application state. Even though this might feel like a small thing in practice it's bigger as you don't need to manipulate the whole application to the same state just in order to test something.
-
-There will be times when you will need to force refresh but this eliminates a lot of manual refresh work required and allows you to focus more on development. It is one of those little things but it adds up as we will see.
+Try hitting `npm run dev` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.
 
 ## Setting Up ESLint
 
