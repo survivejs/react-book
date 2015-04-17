@@ -8,7 +8,7 @@ In this chapter we will be using [Alt](https://github.com/goatslacker/alt), a li
 
 Flux allows us to push the state our components depend upon outside of them into **Stores**. After that we don't need to care *how* the state is derived. It could be fetched from a backend or it could come from *localStorage*. On component **View** level we don't need to care.
 
-Stores may be modified through **Actions**. In our Todo application we could define a set of basic operations such as `createTodo`, `updateTodo` and `removeTodo`. We would then trigger these Actions at our View. This in turn would cause Store to change which in turn would cause our components to update.
+Stores may be modified through **Actions**. In our Notes application we could define a set of basic operations such as `create`, `update` and `remove`. We would then trigger these Actions at our View. This in turn would cause Store to change which in turn would cause our components to update.
 
 As you can see it's a cyclic system. This makes Flux easy to reason about and to visualize. The original architecture contains one extra component, **Dispatcher**, but we will skip it in this case as in practice you can get far by keeping it implicit. It is a part that would sit between Actions and Stores. Dispatchers would allow more fine-grained control over which Stores an Action would trigger.
 
@@ -20,62 +20,61 @@ This means you would require a **GraphQL** compatible server. GraphGL is a custo
 
 At least in the time of writing no open source Relay/GraphQL implementation exists. For now it's a good idea to learn Flux as it will greatly simplify React development.
 
-## Porting Todo app to Alt
+## Porting Notes Application to Alt
 
 Before delving into the implementation itself, `npm i alt --save` to get the dependency we need. As discussed earlier, we'll need a set of actions to operate on our data. In terms of Alt it would look like this:
 
-**app/actions/TodoActions.js**
+**app/actions/NoteActions.js**
 
 ```javascript
 'use strict';
 import alt from '../libs/alt';
 
-class TodoActions {
-  createTodo(task) {
+class NoteActions {
+  create(task) {
     this.dispatch(task);
   }
-  updateTodo(id, task) {
+  update(id, task) {
     this.dispatch({id, task});
   }
-  removeTodo(id) {
+  remove(id) {
     this.dispatch(id);
   }
 }
 
-export default alt.createActions(TodoActions);
+export default alt.createActions(NoteActions);
 ```
 
 Next we will need to define a Store that maintains the data based on these actions:
 
-**app/stores/TodoStore.js**
+**app/stores/NoteStore.js**
 
 ```javascript
 'use strict';
 import alt from '../libs/alt';
-import TodoActions from '../actions/TodoActions';
+import NoteActions from '../actions/NoteActions';
 
-class TodoStore {
+class NoteStore {
   constructor() {
-    this.bindActions(TodoActions);
-
-    this.todos = [];
+    this.bindActions(NoteActions);
   }
-  createTodo(task) {
-    this.todos.push({task});
+  create(task) {
+    this.notes.push({task});
   }
-  updateTodo({id, task}) {
-    this.todos[id].task = task;
+  update({id, task}) {
+    this.notes[id].task = task;
   }
-  removeTodo(id) {
-    const todos = this.todos;
+  remove(id) {
+    const notes = this.notes;
 
     this.setState({
-      todos: todos.slice(0, id).concat(todos.slice(id + 1))
+      notes: notes.slice(0, id).concat(notes.slice(id + 1))
     });
   }
 }
 
-export default alt.createStore(TodoStore, 'TodoStore');
+export default alt.createStore(NoteStore, 'NoteStore');
+
 ```
 
 `bindActions` is a shortcut that allows us to map Action handlers automatically based on name. We need to use a factory in order to pass Actions to Store.
@@ -92,51 +91,51 @@ import Alt from 'alt';
 export default new Alt();
 ```
 
-Finally we'll need to tweak our `App` to operate based on `TodoStore` and `TodoActions`:
+Finally we'll need to tweak our `App` to operate based on `NoteStore` and `NoteActions`:
 
 **app/components/App.jsx**
 
 ```javascript
 'use strict';
 import React from 'react';
-import TodoItem from './TodoItem';
-import TodoActions from '../actions/TodoActions';
-import TodoStore from '../stores/TodoStore';
+import Notes from './Notes';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = TodoStore.getState();
+    this.state = NoteStore.getState();
   }
   componentDidMount() {
-    TodoStore.listen(this.storeChanged.bind(this));
+    NoteStore.listen(this.storeChanged.bind(this));
   }
   componentWillUnmount() {
-    TodoStore.unlisten(this.storeChanged.bind(this));
+    NoteStore.unlisten(this.storeChanged.bind(this));
   }
   storeChanged() {
-    this.setState(TodoStore.getState());
+    this.setState(NoteStore.getState());
   }
   render() {
-    var todos = this.state.todos;
+    var notes = this.state.notes;
 
     return (
       <div>
         <button onClick={this.addItem.bind(this)}>+</button>
-        <TodoList todos={todos} onEdit={this.itemEdited.bind(this)} />
+        <Notes items={notes} onEdit={this.itemEdited.bind(this)} />
       </div>
     );
   }
   addItem() {
-    TodoActions.createTodo('New task');
+    NoteActions.create('New task');
   }
   itemEdited(id, task) {
     if(task) {
-      TodoActions.updateTodo(id, task);
+      NoteActions.update(id, task);
     }
     else {
-      TodoActions.removeTodo(id);
+      NoteActions.remove(id);
     }
   }
 }
@@ -146,14 +145,14 @@ As you can see, we pushed the logic out of our application. We actually have mor
 
 ## On Component Design
 
-Note that given we are using Flux now and have concepts of Actions and Stores, we can push logic lower in the hierarchy if we want to. Ie. in case of `TodoList` we could trigger the actions we want there. This depends on what sort of coupling we want to create between components.
+Note that given we are using Flux now and have concepts of Actions and Stores, we can push logic lower in the hierarchy if we want to. Ie. in case of `Notes` we could trigger the actions we want there. This depends on what sort of coupling we want to create between components.
 
-One alternative would be to factor `TodoList` like this:
+One alternative would be to factor `Notes` like this:
 
 ```javascript
-<TodoList
-  todos={todos}
-  item={(todo, i) => <span onClick={...}>{todo.task}</span>}
+<Notes
+  items={notes}
+  item={(note, i) => <span onClick={...}>{item.task}</span>}
 />
 ```
 
@@ -165,15 +164,15 @@ More specific components can be developed on top of generic ones. You could have
 
 Fortunately the effort was not all in vain. Consider the following questions:
 
-1. Let's say we wanted to persist the Todos within `localStorage`, where would you implement that? It would be natural to plug that into our `TodoStore`.
-2. What if we had multiple components relying on the data? We would just consume `TodoStore` and display it however we want.
-3. What if we had multiple, separate Todo lists for different type of tasks? We would set up multiple instances of `TodoStore`. If we wanted to move items between lists, we would already have ready-made Actions for that purpose.
+1. Let's say we wanted to persist the Notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`.
+2. What if we had multiple components relying on the data? We would just consume `NoteStore` and display it however we want.
+3. What if we had multiple, separate Note lists for different type of tasks? We would set up multiple instances of `NoteStore`. If we wanted to move items between lists, we would already have ready-made Actions for that purpose.
 
 This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code it is easier to reason about. Given we are dealing with unidirectional flow we have something that is simple to debug and test.
 
 ## Implementing Persistency over `localStorage`
 
-Given it's not nice to lose your Todos during a refresh, we can tweak our implementation of `TodoStore` to persist the data on change. Most of the work is related to `localStorage`. In order to deal with it, here's a little wrapper:
+Given it's not nice to lose your Notes during a refresh, we can tweak our implementation of `NoteStore` to persist the data on change. Most of the work is related to `localStorage`. In order to deal with it, here's a little wrapper:
 
 **app/libs/storage.js**
 
@@ -197,6 +196,8 @@ export default {
 
 As `localStorage` deals with strings by default we'll need to serialize and deserialize data. That brings some overhead to the implementation. A smarter implementation would abstract storage and provide some form of caching to avoid `JSON.parse` always.
 
+In addition it would take `localStorage` size limits in count. Most browsers raise an exception if you try to write even though there is no space left. Internet Explorer can fail silently and you will have to treat that case separately by inspecting a property containing remaining space.
+
 Besides this little utility we'll need to adapt our application to use it.
 
 **app/components/App.jsx**
@@ -209,14 +210,14 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    TodoActions.init(storage.get('todos'));
-    this.state = TodoStore.getState();
+    NoteActions.init(storage.get('notes'));
+    this.state = NoteStore.getState();
   }
   ...
   storeChanged(d) {
-    storage.set('todos', d);
+    storage.set('notes', d);
 
-    this.setState(TodoStore.getState());
+    this.setState(NoteStore.getState());
   }
   ...
 }
@@ -224,26 +225,26 @@ export default class App extends React.Component {
 
 The idea is that when the application is initialized, we'll read `localStorage` and initialize Store state using it. If the Store gets changed, we'll write the changes to `localStorage`. For this to work we'll need to tweak Actions and Store slightly.
 
-**app/actions/TodoActions.js**
+**app/actions/NoteActions.js**
 
 ```javascript
-class TodoActions {
-  init(todos) {
-    this.dispatch(todos);
+class NoteActions {
+  init(notes) {
+    this.dispatch(notes);
   }
   ...
 }
 ```
 
-**app/stores/TodoStore.js**
+**app/stores/NoteStore.js**
 
 ```javascript
-class TodoStore {
+class NoteStore {
   constructor() {
-    this.bindActions(TodoActions);
+    this.bindActions(NoteActions);
   }
-  init(todos) {
-    this.setState(data || {todos: []});
+  init(data) {
+    this.setState(data || {notes: []});
   }
   ...
 }
@@ -268,16 +269,16 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = TodoStore.getState();
+    this.state = NoteStore.getState();
   }
   ...
   storeChanged() {
-    this.setState(TodoStore.getState());
+    this.setState(NoteStore.getState());
   }
   ...
 }
 
-export default persist(App, TodoActions.init, TodoStore, storage, 'todos');
+export default persist(App, NoteActions.init, NoteStore, storage, 'notes');
 ```
 
 Now we are close to what we had there earlier. Only new bit is that `persist` thinger. Let's look at its implementation next:
@@ -350,12 +351,12 @@ import connect from '../decorators/connect';
 
 class App extends React.Component {
   constructor(props: {
-    todos: Array;
+    notes: Array;
   }) {
     super(props);
   }
   render() {
-    var todos = this.props.todos;
+    var notes = this.props.notes;
 
     ...
   }
@@ -363,11 +364,11 @@ class App extends React.Component {
 }
 
 export default persist(
-  connect(App, TodoStore),
-  TodoActions.init,
-  TodoStore,
+  connect(App, NoteStore),
+  NoteActions.init,
+  NoteStore,
   storage,
-  'todos'
+  'notes'
 );
 ```
 

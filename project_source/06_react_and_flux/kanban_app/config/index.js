@@ -35,7 +35,20 @@ exports.build = mergeConfig({
         include: path.join(ROOT_PATH, 'app'),
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        // This has effect on the react lib size
+        'NODE_ENV': JSON.stringify('production'),
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+    }),
+  ],
 });
 
 exports.develop = mergeConfig({

@@ -1,45 +1,45 @@
 'use strict';
 import React from 'react';
-import TodoList from './TodoList';
-import TodoActions from '../actions/TodoActions';
-import TodoStore from '../stores/TodoStore';
+import Notes from './Notes';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
 import persist from '../decorators/persist';
 import connect from '../decorators/connect';
 import storage from '../libs/storage';
 
 class App extends React.Component {
   constructor(props: {
-    todos: Array;
+    notes: Array;
   }) {
     super(props);
   }
   render() {
-    var todos = this.props.todos;
+    var notes = this.props.notes;
 
     return (
       <div>
         <button onClick={this.addItem.bind(this)}>+</button>
-        <TodoList todos={todos} onEdit={this.itemEdited.bind(this)} />
+        <Notes items={notes} onEdit={this.itemEdited.bind(this)} />
       </div>
     );
   }
   addItem() {
-    TodoActions.createTodo('New task');
+    NoteActions.create('New task');
   }
   itemEdited(id, task) {
     if(task) {
-      TodoActions.updateTodo(id, task);
+      NoteActions.update(id, task);
     }
     else {
-      TodoActions.removeTodo(id);
+      NoteActions.remove(id);
     }
   }
 }
 
 export default persist(
-  connect(App, TodoStore),
-  TodoActions.init,
-  TodoStore,
+  connect(App, NoteStore),
+  NoteActions.init,
+  NoteStore,
   storage,
-  'todos'
+  'notes'
 );
