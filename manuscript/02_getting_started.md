@@ -143,61 +143,6 @@ Later on this approach will become more powerful as project complexity grows. Yo
 
 The potential problem with this approach is that it can tie you to a Unix environment in case you use environment specific commands. If so, you may want to consider using something environment agnostic, such as [gulp-webpack](https://www.npmjs.com/package/gulp-webpack).
 
-## Supported Module Formats
-
-Webpack allows you to use different module formats, but under the hood they all work the same way. All of them also works straight out of the box. So far we have used **CommonJS** familiar from Node.js but we can also work with various others. You can try the following.
-
-**ES6**
-
-ES6 is probably the format we all have been waiting for since 1995. As you can see it resembles CommonJS a little bit and is quite clear!
-
-```javascript
-import MyModule from './MyModule.js';
-
-// export at module root
-export default function () { ... };
-
-// alternatively export as module function
-export function hello() {...};
-```
-
-**AMD**
-
-AMD, or Asynchronous Module Definition, is a solution that was invented to work around the pain of a world without modules. It introduces a `define` wrapper.
-
-```javascript
-define(['./MyModule.js'], function (MyModule) {
-  // export at module root
-  return function() {};
-});
-
-// alternatively
-define(['./MyModule.js'], function (MyModule) {
-  // export as module function
-  return {
-    hello: function() {...}
-  };
-});
-```
-
-Incidentally it is possible to use `require` within the wrapper like this:
-
-```javascript
-define(['require'], function (require) {
-  var MyModule = require('./MyModule.js');
-
-  return function() {...};
-});
-```
-
-This approach definitely eliminates some of the clutter but you will still end up with some code that might feel redundant. Given there's ES6 now, it probably doesn't make much sense to use AMD anymore unless you really have to.
-
-**UMD**
-
-UMD, Universal Module Definition, is a monster of a format that aims to make the aforementioned formats compatible with each other. I will spare your eyes from it. Never write it yourself, leave it to the tools. If that didn't scare you off, check out [the official definitions](https://github.com/umdjs/umd).
-
-Webpack can generate UMD wrapper for you (`output.libraryTarget: 'umd'`). This is particularly useful for library authors. We'll get back to this later.
-
 ## Conclusion
 
 Getting a simple build like this isn't very complex. In the end you'll end up with a little bit configuration. Webpack deals with the nasty details for you after that. We are close to unleashing the power of Webpack here as you will soon see.

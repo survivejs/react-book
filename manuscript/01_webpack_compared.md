@@ -138,6 +138,61 @@ module.exports = {
 };
 ```
 
+### Supported Module Formats
+
+Webpack allows you to use different module formats, but under the hood they all work the same way. All of them also work straight out of the box.
+
+**ES6**
+
+ES6 is probably the format we all have been waiting for since 1995. As you can see it resembles CommonJS a little bit and is quite clear!
+
+```javascript
+import MyModule from './MyModule.js';
+
+// export at module root
+export default function () { ... };
+
+// alternatively export as module function
+export function hello() {...};
+```
+
+**AMD**
+
+AMD, or Asynchronous Module Definition, is a solution that was invented to work around the pain of a world without modules. It introduces a `define` wrapper.
+
+```javascript
+define(['./MyModule.js'], function (MyModule) {
+  // export at module root
+  return function() {};
+});
+
+// alternatively
+define(['./MyModule.js'], function (MyModule) {
+  // export as module function
+  return {
+    hello: function() {...}
+  };
+});
+```
+
+Incidentally it is possible to use `require` within the wrapper like this:
+
+```javascript
+define(['require'], function (require) {
+  var MyModule = require('./MyModule.js');
+
+  return function() {...};
+});
+```
+
+This approach definitely eliminates some of the clutter but you will still end up with some code that might feel redundant. Given there's ES6 now, it probably doesn't make much sense to use AMD anymore unless you really have to.
+
+**UMD**
+
+UMD, Universal Module Definition, is a monster of a format that aims to make the aforementioned formats compatible with each other. I will spare your eyes from it. Never write it yourself, leave it to the tools. If that didn't scare you off, check out [the official definitions](https://github.com/umdjs/umd).
+
+Webpack can generate UMD wrapper for you (`output.libraryTarget: 'umd'`). This is particularly useful for library authors. We'll get back to this later.
+
 ## Conclusion
 
 In the following chapters we'll build on top of this idea and show how powerful it is. You can, and probably should, use Webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling, however, and that's one worry less during development.
