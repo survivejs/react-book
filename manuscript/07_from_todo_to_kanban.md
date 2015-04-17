@@ -190,7 +190,7 @@ The solution isn't very optimized but will do for now. The basic idea is that we
 
 W> As of time of writing there's no official way to use Baobab with ES6 style classes. Once there is, we should get more performance etc. XXX: Update this when an official solution is available.
 
-## Modeling AppActions
+## Modeling `AppActions`
 
 We get a reference to the tree root at this level. We pass a more specific cursor to each lane. We also have `App` level actions:
 
@@ -255,7 +255,7 @@ export default class Lane extends React.Component {
 
 The idea is the same as above. We operate based on the cursor. We get some data from it to show and create another cursor for `TodoList`.
 
-## Altering TodoList
+## Altering `TodoList`
 
 As there are plenty of changes in `TodoList`, I'll show it in its entirety.
 
