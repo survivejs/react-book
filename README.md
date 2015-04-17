@@ -1,6 +1,6 @@
-# SurviveJS - Webpack and React
-
 [![Join the chat at https://gitter.im/survivejs/webpack_react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/webpack_react?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+# SurviveJS - Webpack and React
 
 <img align="right" width="124" height="180" src="manuscript/images/title_page_small.jpg">
 
