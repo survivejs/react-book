@@ -2,7 +2,7 @@
 
 [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications. You can get quite far by keeping everything in components but eventually that will become painful. Flux provides one way out of this.
 
-In this chapter we will be using [Alt](https://github.com/goatslacker/alt), a light Flux implementation. It gets rid of a lot of baggage provided with Flux and allows you to focus on the essential.
+In this chapter we will be using [Alt](http://alt.js.org/), a light Flux implementation. It gets rid of a lot of baggage provided with Flux and allows you to focus on the essential.
 
 ## Introduction to Flux
 
