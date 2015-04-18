@@ -21,6 +21,7 @@ To get started install React to your project. Just hit `npm i react --save` and 
 **app/components/App.jsx**
 
 ```javascript
+'use strict';
 import React from 'react';
 import Note from './Note';
 
@@ -38,6 +39,7 @@ We also need to define that `Note` component:
 **app/components/Note.jsx**
 
 ```javascript
+'use strict';
 import React from 'react';
 
 export default class Note extends React.Component {
@@ -54,6 +56,7 @@ In addition we'll need to adjust our `main.js` to render the component correctly
 **app/main.jsx**
 
 ```javascript
+'use strict';
 import './stylesheets/main.css';
 
 import React from 'react';
@@ -125,6 +128,7 @@ As you can see, the output is quite chunky!
 We can resolve this issue by minifying our build. As easy way to do this is to pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your Webpack configuration:
 
 ```javascript
+'use strict';
 var webpack = require('webpack');
 
 ...
@@ -195,6 +199,7 @@ To enable hot loading for React, you should perform `npm i react-hot-loader --sa
 **config/index.js**
 
 ```javascript
+'use strict';
 var path = require('path');
 var webpack = require('webpack');
 var _ = require('lodash');
@@ -247,82 +252,6 @@ exports.develop = mergeConfig({
 ```
 
 Try hitting `npm run dev` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.
-
-## Setting Up ESLint
-
-A little discipline goes a long way in programming. Linting is one of those techniques that will simplify your life a lot at a minimal cost. You can fix potential problems before they escalate into actual issues. It won't replace testing but will definitely help. It is possible to integrate this process into your editor/IDE.
-
-[ESLint](http://eslint.org/) is a recent linting solution for JavaScript. It builds on top of ideas presented by JSLint and JSHint. Most importantly it allows you to develop custom rules. As a result a nice set of rules have been developed for React in form of [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react).
-
-In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. To get it installed, invoke `npm i babel-eslint eslint eslint-plugin-react --save-dev`. That will add ESLint and the plugin we want to use as our project development dependency.
-
-Next we'll need to do some configuration. Add `"lint": "eslint . --ext .js --ext .jsx"` to the *scripts* section of **package.json**. This will run ESLint on our all JS and JSX files of our project. That's definitely too much so we'll need to restrict it. Set up *.eslintignore* to the project root like this:
-
-**.eslintignore**
-
-```bash
-node_modules/
-build/
-```
-
-Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. You'll find more information about the rules at [the official rule documentation](http://eslint.org/docs/rules/).
-
-**.eslintrc**
-
-```json
-{
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "plugins": [
-    "react"
-  ],
-  "ecmaFeatures": {
-    "jsx": true
-  },
-  "rules": {
-    "no-unused-vars": false,
-    "no-underscore-dangle": false,
-    "no-use-before-define": false,
-    "quotes": [2, "single"],
-    "comma-dangle": "always",
-    "react/jsx-boolean-value": 1,
-    "react/jsx-quotes": 1,
-    "react/jsx-no-undef": 1,
-    "react/jsx-uses-react": 1,
-    "react/jsx-uses-vars": 1,
-    "react/no-did-mount-set-state": 1,
-    "react/no-did-update-set-state": 1,
-    "react/no-multi-comp": 1,
-    "react/no-unknown-property": 1,
-    "react/react-in-jsx-scope": 1,
-    "react/self-closing-comp": 1,
-    "react/wrap-multilines": 1
-  }
-}
-```
-
-If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
-
-We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). Hit `npm i eslint-loader --save-dev` to add it to the project. We also need to tweak our development configuration to include it. Add the following section to it:
-
-**config/index.js**
-
-```
-preLoaders: [
-  {
-    test: /\.jsx?$/,
-    loader: 'eslint',
-    include: path.join(ROOT_PATH, 'app'),
-  }
-],
-```
-
-We are using `preLoaders` section here as we want to play it safe. This section is executed before `loaders` get triggered.
-
-If you execute `npm run dev` now and break some linting rule while developing, you should see that in terminal output.
 
 ## Conclusion
 
