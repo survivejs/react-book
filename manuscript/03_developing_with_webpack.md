@@ -136,7 +136,7 @@ In order to make our normal build (`npm run build`) work with CSS, you could att
 
 ## Sharing Common Configuration
 
-As duplication is the mother of all mistakes, it can make sense adopt approaches that allow us to avoid that. Given Webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure Webpack expects, we should be fine.
+If we don't structure our configuration in a smart way, it will become easy to make mistakes. We'll want to avoid unnecessary duplication. Given Webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure Webpack expects, we should be fine.
 
 One way to do this is to keep configuration within a single file and expose it from there via small wrappers for Webpack to consume. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place. The wrappers cause a little bit of extra work but it's not a bad price to pay for some clarity.
 
@@ -146,6 +146,7 @@ We can adapt this approach to our project quite easily. First of all let's set u
   - index.js - This is where the configuration goes
   - build.js - Build configuration exposed to Webpack
   - develop.js - Development configuration exposed to Webpack
+  - merge.js - A merge utility we'll be using to avoid duplication
 
 Those *build.js* and *develop.js* simply point at our *index.js*. To give you an idea, they can simply look like this:
 
