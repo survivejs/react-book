@@ -77,9 +77,7 @@ We can easily extend the approach to work with CSS. Webpack allows us to modify 
 
 ## Loading CSS
 
-In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke `npm i css-loader style-loader --save-dev`. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* allows us to `require` specific CSS files at our JavaScript. Similar approach works with CSS preprocessors. You'll likely find some loader for them and configure in the same way.
-
-Now that we have the loaders we need, we'll need to make sure Webpack is aware of them. It's time to configure.
+In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke `npm i css-loader style-loader --save-dev`. Now that we have the loaders we need, we'll need to make sure Webpack is aware of them. It's time to configure.
 
 **webpack.development.js**
 
@@ -106,9 +104,13 @@ module.exports = {
 };
 ```
 
-The configuration we added simply tells Webpack that whenever it meets some file ending with `css` it should invoke the power of loaders in this specific order. Note that loaders are evaluated from right to left. So first it will pass a possible CSS file to *css-loader* and to *style-loader* after that.
+The configuration we added tells Webpack that whenever it meets some file ending with `css` it should invoke the power of loaders in this specific order. This is done by matching against `test` regular expression.
 
-We are missing just one bit, the actual CSS itself. Define *app/stylesheets/main.css* with contents like this:
+Loaders are evaluated from right to left. In this case it will pass a possible CSS file to *css-loader* first and to *style-loader* after that. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* deals with `require` statements in our JavaScript. Similar approach works with CSS preprocessors.
+
+We are missing just one bit, the actual CSS itself:
+
+**app/stylesheets/main.css**
 
 ```css
 body {
@@ -116,7 +118,17 @@ body {
 }
 ```
 
-In addition we'll need to make Webpack aware of this file. Insert `require('./stylesheets/main.css')` statement to the beginning of *app/main.js*. Finally, hit `npm run dev` and point your browser to *localhost:8080* provided you are using the default port.
+In addition we'll need to make Webpack aware of this file:
+
+**app/main.js**
+
+```
+require('./stylesheets/main.css');
+
+...
+```
+
+Hit `npm run dev` now and point your browser to *localhost:8080* provided you are using the default port.
 
 To see the magic in action, you should open up *main.css* and change the background color to something nice like `lime` (`background: lime`). Develop styles as needed. Experiment.
 
