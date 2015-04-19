@@ -7,13 +7,46 @@ const ItemTypes = {
   NOTE: 'note'
 };
 
-class Note extends React.Component {
+const NoteTarget = {
+  drop() {
+    return { name: 'Note' };
+  }
+};
+
+/*
+export default configureDragDrop(Note, {
+  configure: (register) => ({
+    noteSourceId: register.dragSource(ItemTypes.NOTE, noteSource),
+    noteTargetId: register.dropTarget(ItemTypes.NOTE, noteTarget)
+  }),
+  collect: (connect, monitor, { noteSourceId, noteTargetId }) => ({
+    isDragging: monitor.isDragging(noteSourceId),
+    dragSourceRef: connect.dragSource(noteSourceId),
+    dropTargetRef: connect.dropTarget(noteTargetId)
+  })
+});
+ */
+
+@configureDragDrop(
+  register =>
+    register.dropTarget(ItemTypes.NOTE, NoteTarget),
+
+  noteTarget => ({
+    connectDropTarget: noteTarget.connect(),
+    isOver: noteTarget.isOver(),
+    canDrop: noteTarget.canDrop()
+  })
+)
+export default class Note extends React.Component {
   constructor(props: {
     task: string;
     onEdit: Function;
     onMove: Function;
-    isDragging: boolean;
-    dragSourceRef: Function;
+    connectDropTarget: Function;
+    isOver: boolean;
+    canDrop: boolean;
+    //isDragging: boolean;
+    //dragSourceRef: Function;
     //dragTargetRef: Function; // why undefined?
   }) {
     super(props);
@@ -23,17 +56,19 @@ class Note extends React.Component {
     };
   }
   render() {
-    const { task, isDragging, dragSourceRef, dropTargetRef } = this.props;
+    //const { task, isDragging, dragSourceRef, dropTargetRef } = this.props;
+    const { task, connectDropTarget, isOver, canDrop } = this.props;
     var edited = this.state.edited;
 
     return (
       <div
         className='note'
-        ref={c => {
+        /*ref={c => {
             dragSourceRef(c);
             dropTargetRef(c);
           }
-        }>{
+        }*/
+      >{
         edited
         ? <input type='text'
           defaultValue={task}
@@ -79,15 +114,3 @@ const noteTarget = {
     }
   }
 };
-
-export default configureDragDrop(Note, {
-  configure: (register) => ({
-    noteSourceId: register.dragSource(ItemTypes.NOTE, noteSource),
-    noteTargetId: register.dropTarget(ItemTypes.NOTE, noteTarget)
-  }),
-  collect: (connect, monitor, { noteSourceId, noteTargetId }) => ({
-    isDragging: monitor.isDragging(noteSourceId),
-    dragSourceRef: connect.dragSource(noteSourceId),
-    dropTargetRef: connect.dropTarget(noteTargetId)
-  })
-});

@@ -1,12 +1,12 @@
 'use strict';
 import React from 'react';
 import { configureDragDropContext } from 'react-dnd';
-// XXXXX
 import HTML5Backend from 'react-dnd/dist-modules/backends/HTML5';
 import Note from './Note';
 import noteActions from '../actions/NoteActions';
 
-class Notes extends React.Component {
+@configureDragDropContext(HTML5Backend)
+export default class Notes extends React.Component {
   constructor(props: {
     cursor: Object;
   }) {
@@ -78,5 +78,3 @@ class Notes extends React.Component {
     */
   }
 }
-
-export default configureDragDropContext(Notes, HTML5Backend);
