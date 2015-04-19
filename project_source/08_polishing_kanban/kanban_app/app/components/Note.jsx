@@ -4,10 +4,10 @@ import { configureDragDrop } from 'react-dnd';
 
 // XXX: move to ItemTypes.js
 const ItemTypes = {
-  TODO: 'todo'
+  NOTE: 'note'
 };
 
-class TodoItem extends React.Component {
+class Note extends React.Component {
   constructor(props: {
     task: string;
     onEdit: Function;
@@ -28,7 +28,7 @@ class TodoItem extends React.Component {
 
     return (
       <div
-        className='todo-item'
+        className='note'
         ref={c => {
             dragSourceRef(c);
             dropTargetRef(c);
@@ -62,7 +62,7 @@ class TodoItem extends React.Component {
   }
 }
 
-const todoSource = {
+const noteSource = {
   beginDrag(props) {
     return {
       id: props.id
@@ -70,7 +70,7 @@ const todoSource = {
   }
 };
 
-const todoTarget = {
+const noteTarget = {
   hover(props, monitor) {
     const draggedId = monitor.getItem().id;
 
@@ -80,14 +80,14 @@ const todoTarget = {
   }
 };
 
-export default configureDragDrop(TodoItem, {
+export default configureDragDrop(Note, {
   configure: (register) => ({
-    todoSourceId: register.dragSource(ItemTypes.TODO, todoSource),
-    todoTargetId: register.dropTarget(ItemTypes.TODO, todoTarget)
+    noteSourceId: register.dragSource(ItemTypes.NOTE, noteSource),
+    noteTargetId: register.dropTarget(ItemTypes.NOTE, noteTarget)
   }),
-  collect: (connect, monitor, { todoSourceId, todoTargetId }) => ({
-    isDragging: monitor.isDragging(todoSourceId),
-    dragSourceRef: connect.dragSource(todoSourceId),
-    dropTargetRef: connect.dropTarget(todoTargetId)
+  collect: (connect, monitor, { noteSourceId, noteTargetId }) => ({
+    isDragging: monitor.isDragging(noteSourceId),
+    dragSourceRef: connect.dragSource(noteSourceId),
+    dropTargetRef: connect.dropTarget(noteTargetId)
   })
 });

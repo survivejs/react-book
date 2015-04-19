@@ -34,11 +34,11 @@ body {
   float: left;
 }
 
-.lane-add-todo {
+.lane-add-note {
   float: right;
 }
 
-.todo-list {
+.notes {
   margin: 0.5em;
 
   padding-left: 0;
@@ -46,7 +46,7 @@ body {
   list-style: none;
 }
 
-.todo-item {
+.note {
   margin-bottom: 0.25em;
   padding: 0.5em;
 

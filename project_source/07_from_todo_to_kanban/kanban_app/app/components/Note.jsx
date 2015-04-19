@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 
-export default class TodoItem extends React.Component {
+export default class Note extends React.Component {
   constructor(props: {
     task: string;
     onEdit: Function;
@@ -17,7 +17,7 @@ export default class TodoItem extends React.Component {
     var task = this.props.task;
 
     return (
-      <div>{
+      <div className='note'>{
         edited
         ? <input type='text'
           defaultValue={task}

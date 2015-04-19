@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import TodoList from './TodoList';
+import Notes from './Notes';
 
 export default class Lane extends React.Component {
   constructor(props: {
@@ -14,7 +14,7 @@ export default class Lane extends React.Component {
     return (
       <div className='lane'>
         <div className='name'>{cursor.get().name}</div>
-        <TodoList cursor={cursor.select('todos')} />
+        <Notes cursor={cursor.select('notes')} />
       </div>
     );
   }

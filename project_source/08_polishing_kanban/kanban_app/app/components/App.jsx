@@ -13,7 +13,7 @@ const tree = new Baobab(storage.get(appStorage) || {
   validate: {
     lanes: [{
       name: 'string',
-      todos: [
+      notes: [
         {
           task: 'string',
         }

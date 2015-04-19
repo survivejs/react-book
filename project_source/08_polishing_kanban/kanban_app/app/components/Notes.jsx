@@ -3,27 +3,27 @@ import React from 'react';
 import { configureDragDropContext } from 'react-dnd';
 // XXXXX
 import HTML5Backend from 'react-dnd/dist-modules/backends/HTML5';
-import TodoItem from './TodoItem';
-import todoActions from '../actions/TodoActions';
+import Note from './Note';
+import noteActions from '../actions/NoteActions';
 
-class TodoList extends React.Component {
+class Notes extends React.Component {
   constructor(props: {
     cursor: Object;
   }) {
     super(props);
 
-    this.actions = todoActions(props.cursor);
+    this.actions = noteActions(props.cursor);
   }
   render() {
-    var todos = this.props.cursor.get();
+    var notes = this.props.cursor.get();
 
     return (
-      <ul className='todo-list'>
-        {todos.map((todo, i) =>
-          <li key={'todo' + i}>
-            <TodoItem
-              id={todo.id}
-              task={todo.task}
+      <ul className='notes'>
+        {notes.map((note, i) =>
+          <li key={'note' + i}>
+            <Note
+              id={note.id}
+              task={note.task}
               onEdit={this.itemEdited.bind(this, i)}
               onMove={this.itemMoved.bind(this)}
             />
@@ -34,10 +34,10 @@ class TodoList extends React.Component {
   }
   itemEdited(id, task) {
     if(task) {
-      this.actions.updateTodo(id, task);
+      this.actions.update(id, task);
     }
     else {
-      this.actions.removeTodo(id);
+      this.actions.remove(id);
     }
   }
   itemMoved(id, afterId) {
@@ -49,23 +49,15 @@ class TodoList extends React.Component {
 
     // XXXXX: decouple this from array ids
     var cursor = this.props.cursor;
-    var todos = cursor.get();
-    var start = todos.slice(0, id);
-    var middle = todos.slice(id + 1, afterId);
-    var end = todos.slice(afterId + 1);
-    var newTodos = start.concat([todos[afterId]]).concat(middle).concat([todos[id]]).concat(end);
+    var notes = cursor.get();
+    var start = notes.slice(0, id);
+    var middle = notes.slice(id + 1, afterId);
+    var end = notes.slice(afterId + 1);
+    var newNotes = start.concat([notes[afterId]]).concat(middle).concat([notes[id]]).concat(end);
 
-    //cursor.edit(newTodos);
+    //cursor.edit(newNotes);
 
-    console.log(id, afterId);//, newTodos, start, middle, end);
-
-    /*
-    var todo = this.props.cursor.get(id);
-    var afterTodo = this.props.cursor.get(afterId);
-
-    // XXX: just manipulating state. it would be nicer to splice
-    console.log(todo, afterTodo, this.props.cursor.get());
-    */
+    console.log(id, afterId);
 
     /*
     const { cards } = this.state;
@@ -87,4 +79,4 @@ class TodoList extends React.Component {
   }
 }
 
-export default configureDragDropContext(TodoList, HTML5Backend);
+export default configureDragDropContext(Notes, HTML5Backend);

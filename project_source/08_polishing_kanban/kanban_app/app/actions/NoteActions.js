@@ -2,17 +2,19 @@
 
 export default (cursor) => {
   return {
-    createTodo: (task) => {
-      cursor.push({task});
+    create: (task) => {
+      const id = cursor.get().length;
+
+      cursor.push({id, task});
     },
-    updateTodo: (i, task) => {
+    update: (i, task) => {
       cursor.select(i).update({
         task: {
           $set: task
         }
       });
     },
-    removeTodo: (i) => {
+    remove: (i) => {
       cursor.unset(i);
     }
   };

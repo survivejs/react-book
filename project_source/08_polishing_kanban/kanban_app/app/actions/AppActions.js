@@ -5,7 +5,7 @@ export default (cursor) => {
     createLane: (name) => {
       cursor.select('lanes').push({
         name: name,
-        todos: []
+        notes: []
       });
     }
   };
