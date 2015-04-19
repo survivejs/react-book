@@ -15,23 +15,23 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^5.1.0",
-    "babel-eslint": "^2.0.2",
+    "babel-core": "^5.1.10",
+    "babel-eslint": "^3.0.1",
     "babel-loader": "^5.0.0",
     "css-loader": "^0.10.1",
     "eslint": "^0.19.0",
     "eslint-loader": "^0.10.0",
-    "eslint-plugin-react": "^2.1.0",
+    "eslint-plugin-react": "^2.1.1",
     "flowcheck": "^0.2.3",
     "flowcheck-loader": "^1.0.0",
-    "lodash": "^3.6.0",
-    "react-hot-loader": "^1.2.4",
-    "style-loader": "^0.10.1",
-    "webpack": "^1.8.4",
+    "lodash": "^3.7.0",
+    "react-hot-loader": "^1.2.5",
+    "style-loader": "^0.10.2",
+    "webpack": "^1.8.5",
     "webpack-dev-server": "^1.8.0"
   },
   "dependencies": {
-    "alt": "^0.15.4",
-    "react": "^0.13.1"
+    "alt": "^0.15.6",
+    "react": "^0.13.2"
   }
 }
