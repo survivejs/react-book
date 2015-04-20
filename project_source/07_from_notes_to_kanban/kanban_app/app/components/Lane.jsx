@@ -11,9 +11,12 @@ import Notes from './Notes';
     };
   }
 })
-export default class Lane extends React.Component {
-  static contextTypes: {
-    cursors: PropTypes.cursor
+class Lane extends React.Component {
+  // XXX: figure out why
+  // cursors: PropTypes.cursor
+  // yields a warning
+  static contextTypes = {
+    cursors: React.PropTypes.object
   }
   constructor(props: {
     index: number;
@@ -21,15 +24,16 @@ export default class Lane extends React.Component {
     super(props);
   }
   render() {
+    var cursor = this.context.cursors.lane;
     var lane = this.props.lane;
-
-    console.log('rendering lane', lane, 'context', this.context);
 
     return (
       <div className='lane'>
         <div className='name'>{lane.name}</div>
-        {/*<Notes cursor={cursor.select('notes')} />*/}
+        <Notes cursor={cursor.select('notes')} />
       </div>
     );
   }
 }
+
+export default Lane;

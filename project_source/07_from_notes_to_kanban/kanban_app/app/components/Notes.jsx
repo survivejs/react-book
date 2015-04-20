@@ -1,20 +1,11 @@
 'use strict';
 import React from 'react';
-import {branch} from 'baobab-react/decorators';
 import Note from './Note';
 import noteActions from '../actions/NoteActions';
 
-// XXXXX: figure this out - lanes -> i -> notes -> j
-@branch({
-  cursors: function() {
-    return {
-      notes: ['lanes', this.props.index],
-    };
-  }
-})
 export default class Notes extends React.Component {
   constructor(props: {
-    index: number;
+    cursor: object; // XXX: replace with a decorator based solution
   }) {
     super(props);
 
