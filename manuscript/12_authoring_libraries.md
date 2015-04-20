@@ -235,6 +235,14 @@ As keeping track of important changes can be a chore, there are a few services t
 
 For testing your projects you can consider solutions such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). Many others exist. The advantage of these is that they allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems for your package consumers.
 
+## Sharing Authorship
+
+As packages evolve you may want to start developing with others. You could become the new maintainer of some project or pass the torch to someone other. These things happen as packages evolve.
+
+NPM provides a few commands for these purposes. It's all behind `npm owner` namespace. More specifically you'll find `ls <package name>`, `add <user> <package name>` and `rm <user> <package name>` there (ie. `npm owner ls`). That's about it.
+
+See [NPM documentation](https://docs.npmjs.com/cli/owner) for most up to date information about the topic.
+
 ## Conclusion
 
 You should have a basic idea on how to author NPM libraries with the help of Webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.
