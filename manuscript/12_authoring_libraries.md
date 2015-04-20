@@ -47,7 +47,11 @@ I've annotated `package.json` of my [React component boilerplate](https://github
     "lint": "eslint . --ext .js --ext .jsx",
     "replace-meta": "node scripts/replace_meta.js"
   },
-  "main": "dist-modules/index.js", -- Entry point (defaults to index.js)
+  -- Entry point for terminal (ie. <package name>)
+  -- Don't set this unless you intend to allow cli usage
+  "bin": "./index.js",
+  -- Entry point (defaults to index.js)
+  "main": "dist-modules/index.js",
   "dependencies": {}, -- Package dependencies (keep small if possible)
   "devDependencies": { -- Package development dependencies
     "babel": "^5.1.10",
@@ -60,6 +64,8 @@ I've annotated `package.json` of my [React component boilerplate](https://github
   -- You may want to give a rough dependency hint for things like React components
   -- The idea is to avoid depending directly and let user deal with it instead
   -- You should use a loose rule here
+  -- If the rule is too strict, that will cause problems at the user end even if
+  -- the library would work.
   "peerDependencies": {
     "react": ">=0.11.2 <1.0.0"
   },
@@ -211,7 +217,23 @@ Besides `prepublish` NPM provides a set of other hooks. The naming is always the
 
 Even though NPM will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (ie. `npm run prepublish`). Regardless of the usage, the idea here is that we want to make our package as easy to consume and let our users get away with the least possible amount of work on their part.
 
-There are plenty of smaller tricks to learn for advanced usasge but those are better covered by [the official documentation](https://docs.npmjs.com/misc/scripts). Often all you need is just a `prepublish` script for build automation.
+There are plenty of smaller tricks to learn for advanced usage but those are better covered by [the official documentation](https://docs.npmjs.com/misc/scripts). Often all you need is just a `prepublish` script for build automation.
+
+## Keeping Dependencies Up to Date
+
+An important part of maintaining NPM packages is keeping their dependencies up to date. How to do this depends a lot on the maturity of your package. Ideally you have a nice set of tests covering the functionality. If not, things can get a little hairier.
+
+There are a few ways to approach dependency updates:
+
+* You can update all dependencies at once and hope for the best. Tools such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) or [mankees-update_deps](https://www.npmjs.com/package/mankees-update_deps) can do this for you. Remember to invoke `npm i` after to make sure you have the right dependencies installed for testing the changes.
+* Install newest version of some specific dependency. Ie. `npm install lodash@* --save`. This is more controlled way to approach the problem.
+* Patch version information by hand by modifying `package.json` directly.
+
+It is important to remember that your dependencies may introduce backwards incompatible changes. Therefore it can be useful to remember how SemVer works and study dependency release notes, if the exist, carefully. You should at least walk through version history to see what changes have been made and how they might affect you.
+
+As keeping track of important changes can be a chore, there are a few services that can help you with that: [David](https://david-dm.org/), [versioneye](https://www.versioneye.com/), [Gemnasium](https://gemnasium.com). These services provide badges you can integrate into your project `README.md`. In addition they may email you about important changes and even point out possible security issues that have been fixed.
+
+For testing your projects you can consider solutions such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). Many others exist. The advantage of these is that they allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems for your package consumers.
 
 ## Conclusion
 
