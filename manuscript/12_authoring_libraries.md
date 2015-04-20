@@ -175,6 +175,44 @@ T> The example uses the same `merge` utility we defined earlier on. You should c
 
 Most of the magic happens thanks to `devtool` and `output` declarations. In addition I have set up `externals` as I want to avoid bundling React into my library. Instead if will be loaded as an external dependency using the naming defined in the mapping.
 
+## NPM Lifecycle Hooks
+
+NPM provides various lifecycle hook that can be useful. Let's say you are authoring a React component using Babel and some of its goodies. Even though you could let `package.json` *main* field point at the UMD version as generated above, this won't be ideal for those who consume it through NPM.
+
+It is better to generate a ES5 compatible version of the package for NPM consumers. This can be achieved using **babel** cli tool:
+
+```bash
+babel ./lib --out-dir ./dist-modules
+```
+
+This will walk through `./lib` directory and output a processed file for each it encounters to `./dist-modules`.
+
+Since we want to avoid having to run the command directly whenever we publish a new version, we can connect it to `prepublish` hook like this:
+
+```json
+"scripts": {
+  ...
+  "prepublish": "babel ./lib --out-dir ./dist-modules"
+}
+```
+
+Make sure you hit `npm i babel --save-dev` to include the tool into your project.
+
+As you probably don't want the directory content to end up to your Git repository accidentally and prefer to keep your `git status` clean, you should modify your `.gitignore` like this:
+
+```bash
+dist-modules/
+...
+```
+
+W> Dealing with regular `dist` that gets versioned is trickier. Ideally the contents of it would get updated when you hit `npm version` and get into the version commit NPM performs. If someone knows a nice way to achieve this, let me know!
+
+Besides `prepublish` NPM provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`.
+
+Even though NPM will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (ie. `npm run prepublish`). Regardless of the usage, the idea here is that we want to make our package as easy to consume and let our users get away with the least possible amount of work on their part.
+
+There are plenty of smaller tricks to learn for advanced usasge but those are better covered by [the official documentation](https://docs.npmjs.com/misc/scripts). Often all you need is just a `prepublish` script for build automation.
+
 ## Conclusion
 
 You should have a basic idea on how to author NPM libraries with the help of Webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.
