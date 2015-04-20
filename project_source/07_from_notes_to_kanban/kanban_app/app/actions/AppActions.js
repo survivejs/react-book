@@ -1,11 +1,9 @@
 'use strict';
 
-export default (tree) => {
+export default (cursor) => {
   return {
     createLane: (name) => {
-      var lanes = tree.select('lanes');
-
-      console.log('creating lane', name, 'lanes before', lanes.get());
+      var lanes = cursor.select('lanes');
 
       lanes.push({
         id: lanes.get().length,

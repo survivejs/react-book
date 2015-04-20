@@ -12,6 +12,7 @@ const tree = new Baobab(storage.get(appStorage) || {
 }, {
   validate: {
     lanes: [{
+      id: 'number',
       name: 'string',
       notes: [
         {

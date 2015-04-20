@@ -3,7 +3,9 @@
 export default (cursor) => {
   return {
     create: (task) => {
-      cursor.push({task});
+      const id = cursor.get().length;
+
+      cursor.push({id, task});
     },
     update: (i, task) => {
       cursor.select(i).update({
