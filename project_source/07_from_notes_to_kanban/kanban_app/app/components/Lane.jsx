@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import {branch} from 'baobab-react/decorators';
+import PropTypes from 'baobab-react/prop-types';
 import Notes from './Notes';
 
 @branch({
@@ -11,6 +12,9 @@ import Notes from './Notes';
   }
 })
 export default class Lane extends React.Component {
+  static contextTypes: {
+    cursors: PropTypes.cursor
+  }
   constructor(props: {
     index: number;
   }) {
@@ -19,7 +23,7 @@ export default class Lane extends React.Component {
   render() {
     var lane = this.props.lane;
 
-    console.log('rendering lane', lane);
+    console.log('rendering lane', lane, 'context', this.context);
 
     return (
       <div className='lane'>

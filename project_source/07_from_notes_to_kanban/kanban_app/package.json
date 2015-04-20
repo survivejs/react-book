@@ -31,7 +31,7 @@
     "webpack-dev-server": "^1.8.0"
   },
   "dependencies": {
-    "baobab": "Yomguithereal/baobab#v1",
+    "baobab": "1.0.0-rc1",
     "baobab-react": "Yomguithereal/baobab-react",
     "react": "^0.13.2"
   }
