@@ -7,9 +7,8 @@ import persist from '../decorators/persist';
 import storage from '../libs/storage';
 import appActions from '../actions/AppActions';
 
-// XXXXX: push storage logic to a decorator
 const appStorage = 'app';
-const tree = new Baobab(/*storage.get(appStorage) ||*/ {
+const tree = new Baobab({
   lanes: []
 }, {
   validate: {
@@ -25,15 +24,8 @@ const tree = new Baobab(/*storage.get(appStorage) ||*/ {
     }]
   }
 });
-//const cursor = tree.root();
 
-/*
-window.addEventListener('beforeunload', function() {
-  storage.set(appStorage, cursor.get());
-}, false);
-*/
-
-@persist(tree)
+@persist(tree, storage, 'app')
 @root(tree)
 export default class App extends React.Component {
   constructor(props: {
