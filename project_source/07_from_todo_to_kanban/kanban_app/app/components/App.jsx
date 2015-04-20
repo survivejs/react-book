@@ -1,17 +1,19 @@
 'use strict';
 import React from 'react';
 import Baobab from 'baobab';
-import Lane from './Lane';
-import connect from '../decorators/connect';
+import {root} from 'baobab-react/decorators';
+import Lanes from './Lanes';
 import storage from '../libs/storage';
 import appActions from '../actions/AppActions';
 
+// XXXXX: push storage logic to a decorator
 const appStorage = 'app';
-const tree = new Baobab(storage.get(appStorage) || {
+const tree = new Baobab(/*storage.get(appStorage) ||*/ {
   lanes: []
 }, {
   validate: {
     lanes: [{
+      id: 'number',
       name: 'string',
       notes: [
         {
@@ -22,23 +24,24 @@ const tree = new Baobab(storage.get(appStorage) || {
     }]
   }
 });
-const cursor = tree.root();
+//const cursor = tree.root();
 
+/*
 window.addEventListener('beforeunload', function() {
   storage.set(appStorage, cursor.get());
 }, false);
+*/
 
-class App extends React.Component {
+@root(tree)
+export default class App extends React.Component {
   constructor(props: {
     lanes: Array;
   }) {
     super(props);
 
-    this.actions = appActions(cursor);
+    this.actions = appActions(tree);
   }
   render() {
-    var lanes = this.props.lanes;
-
     return (
       <div className='app'>
         <div className='controls'>
@@ -46,14 +49,8 @@ class App extends React.Component {
             Add lane
           </button>
         </div>
-        <div className='lanes'>
-          {lanes.map((lane, i) =>
-            <Lane key={'lane' + i} cursor={cursor.select('lanes', i)} />
-          )}
-        </div>
+        <Lanes />
       </div>
     );
   }
 }
-
-export default connect(App, cursor);

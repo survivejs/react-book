@@ -64,7 +64,8 @@ exports.develop = mergeConfig({
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel', 'flowcheck'],
+        // XXXXX: flowcheck doesn't work with decorators yet
+        loaders: ['react-hot', 'babel?stage=1'], //'flowcheck'],
         include: path.join(ROOT_PATH, 'app'),
       }
     ]
