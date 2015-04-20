@@ -1,4 +1,4 @@
-# From Todo to Kanban
+# From Notes to Kanban
 
 ![Kanban board](images/kanban.png)
 

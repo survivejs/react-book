@@ -3,6 +3,7 @@ import React from 'react';
 import Baobab from 'baobab';
 import {root} from 'baobab-react/decorators';
 import Lanes from './Lanes';
+import persist from '../decorators/persist';
 import storage from '../libs/storage';
 import appActions from '../actions/AppActions';
 
@@ -32,6 +33,7 @@ window.addEventListener('beforeunload', function() {
 }, false);
 */
 
+@persist(tree)
 @root(tree)
 export default class App extends React.Component {
   constructor(props: {
