@@ -11,4 +11,3 @@
 10_deploying_applications.md
 11_debugging_webpack.md
 12_authoring_libraries.md
-13_http2.md
