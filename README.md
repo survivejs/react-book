@@ -1,4 +1,4 @@
-[![Join the chat at https://gitter.im/survivejs/webpack_react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/webpack_react?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) <script data-gratipay-username="bebraw" data-gratipay-widget="button" src="//grtp.co/v1.js"></script>
+[![Join the chat at https://gitter.im/survivejs/webpack_react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/webpack_react?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) <a href="https://gratipay.com/bebraw/"><img src="//img.shields.io/gratipay/bebraw.svg"></a>
 
 # SurviveJS - Webpack and React
 
