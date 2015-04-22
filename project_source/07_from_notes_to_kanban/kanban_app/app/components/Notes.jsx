@@ -5,7 +5,7 @@ import noteActions from '../actions/NoteActions';
 
 export default class Notes extends React.Component {
   constructor(props: {
-    cursor: object; // XXX: replace with a decorator based solution
+    cursor: Object; // XXX: replace with a decorator based solution
   }) {
     super(props);
 

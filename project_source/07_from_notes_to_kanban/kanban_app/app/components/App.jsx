@@ -28,9 +28,7 @@ const tree = new Baobab({
 @persist(tree, storage, 'app')
 @root(tree)
 export default class App extends React.Component {
-  constructor(props: {
-    lanes: Array;
-  }) {
+  constructor(props) {
     super(props);
 
     this.actions = appActions(tree);
