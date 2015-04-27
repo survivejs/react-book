@@ -21,23 +21,13 @@ export default class Notes extends React.Component {
   }
   constructor(props: {
     index: number;
-  }) {
+  }, context) {
     super(props);
 
-    // XXX: no context here?
-    console.log('constructor context', this.context);
-
-    // XXX: need to get reference to cursor here
-    //noteActions(this.context.cursors.notes);
-    this.actions = {
-      update: () => {},
-      remove: () => {},
-    };
+    this.actions = noteActions(context.cursors.notes);
   }
-  render() {
+  render(props, context) {
     var notes = this.props.notes;
-
-    console.log('render context', this.context);
 
     return (
       <div className='notes'>

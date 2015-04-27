@@ -5,9 +5,7 @@ import PropTypes from 'baobab-react/prop-types';
 import Notes from './Notes';
 
 @branch({
-  cursors: function(props, context) {
-    console.log('props', props, 'context', context);
-
+  cursors: function(props) {
     return {
       // XXX: this shouldn't know anything about lanes (problem of parent)
       lane: ['lanes', props.index],
