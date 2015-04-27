@@ -50,7 +50,6 @@ Wouldn't it be useful if we could operate on the data structure we just defined 
 'use strict';
 var Baobab = require('baobab');
 
-// some predefined data
 var tree = new Baobab({
   lanes: [
     {
@@ -64,25 +63,48 @@ var tree = new Baobab({
   ],
 });
 
-// a couple of cursors
-var rootCursor = tree.root();
-var laneCursor = tree.select('lanes', 0); // first lane
+var rootCursor = tree.root;
+var laneCursor = tree.select('lanes', 0);
 var todoCursor = laneCursor.select('todos');
 
-// watch for changes
 rootCursor.on('update', function() {
-  console.log('updated root', rootCursor.get());
+  console.log(
+    'updated root',
+    JSON.stringify(rootCursor.get(), null, 2)
+  );
 });
 
 laneCursor.on('update', function() {
   console.log('updated lane', laneCursor.get());
 });
 
-// operate on todo
 todoCursor.push({task: 'Demo task'});
 ```
 
-Even though simple, the demo shows the power of baobab. Imagine the same in the context of React. We could model a small API for operations and a cursor per component. On the high level we would have the data we need without having to think about syncing. The data structure takes care of it for you.
+If you run the code, you should see output like this:
+
+
+```javascript
+updated root {
+  "lanes": [
+    {
+      "name": "demo",
+      "todos": [
+        {
+          "task": "foo"
+        },
+        {
+          "task": "Demo task"
+        }
+      ]
+    }
+  ]
+}
+updated lane { name: 'demo',
+  todos: [ { task: 'foo' }, { task: 'Demo task' } ] }
+```
+
+Imagine the same in the context of React. We could model a small API for operations and a cursor per component. On the high level we would have the data we need without having to think about syncing. The data structure takes care of it for you.
 
 A baobab tree can keep track of it changes. In naive cases, such as ours, this can give us an undo system pretty much for free. We will just need to active the functionality and hook up the underlying API with our application.
 
