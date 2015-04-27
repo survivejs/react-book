@@ -5,7 +5,9 @@ import PropTypes from 'baobab-react/prop-types';
 import Notes from './Notes';
 
 @branch({
-  cursors: function() {
+  cursors: function(props, context) {
+    console.log('props', props, 'context', context);
+
     return {
       // XXX: this shouldn't know anything about lanes (problem of parent)
       lane: ['lanes', this.props.index],
@@ -15,7 +17,7 @@ import Notes from './Notes';
 export default class Lane extends React.Component {
   static contextTypes = {
     tree: PropTypes.baobab,
-    cursors: PropTypes.cursor
+    cursors: PropTypes.cursors
   }
   constructor(props: {
     index: number;

@@ -17,7 +17,7 @@ import noteActions from '../actions/NoteActions';
 export default class Notes extends React.Component {
   static contextTypes = {
     tree: PropTypes.baobab,
-    cursors: PropTypes.cursor
+    cursors: PropTypes.cursors
   }
   constructor(props: {
     index: number;
