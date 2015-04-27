@@ -8,9 +8,7 @@ import noteActions from '../actions/NoteActions';
 @branch({
   cursors: function(props, context) {
     return {
-      // XXX: not ideal since there's too much info about context
-      // ideally this should be just ['notes']
-      notes: ['lanes', props.index, 'notes'],
+      notes: props.notesCursor
     };
   }
 })
@@ -20,7 +18,7 @@ export default class Notes extends React.Component {
     cursors: PropTypes.cursors
   }
   constructor(props: {
-    index: number;
+    notesCursor: Array;
   }, context) {
     super(props);
 

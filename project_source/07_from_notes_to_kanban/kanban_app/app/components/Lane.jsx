@@ -7,30 +7,24 @@ import Notes from './Notes';
 @branch({
   cursors: function(props) {
     return {
-      // XXX: this shouldn't know anything about lanes (problem of parent)
-      lane: ['lanes', props.index],
+      lane: props.laneCursor
     };
   }
 })
 export default class Lane extends React.Component {
-  static contextTypes = {
-    tree: PropTypes.baobab,
-    cursors: PropTypes.cursors
-  }
   constructor(props: {
-    index: number;
+    laneCursor: Array;
   }) {
     super(props);
   }
   render() {
-    var cursor = this.context.cursors.lane;
+    var laneCursor = this.props.laneCursor;
     var lane = this.props.lane;
-    var index = this.props.index;
 
     return (
       <div className='lane'>
         <div className='name'>{lane.name}</div>
-        <Notes index={index} />
+        <Notes notesCursor={laneCursor.concat(['notes'])} />
       </div>
     );
   }
