@@ -6,7 +6,7 @@ import Note from './Note';
 import noteActions from '../actions/NoteActions';
 
 @branch({
-  cursors: function(props, context) {
+  cursors: function(props) {
     return {
       notes: props.notesCursor
     };
