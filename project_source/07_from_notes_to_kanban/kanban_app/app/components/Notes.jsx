@@ -6,11 +6,11 @@ import Note from './Note';
 import noteActions from '../actions/NoteActions';
 
 @branch({
-  cursors: function() {
+  cursors: function(props, context) {
     return {
       // XXX: not ideal since there's too much info about context
       // ideally this should be just ['notes']
-      notes: ['lanes', this.props.index, 'notes'],
+      notes: ['lanes', props.index, 'notes'],
     };
   }
 })
@@ -25,7 +25,7 @@ export default class Notes extends React.Component {
     super(props);
 
     // XXX: no context here?
-    console.log('context', this.context);
+    console.log('constructor context', this.context);
 
     // XXX: need to get reference to cursor here
     //noteActions(this.context.cursors.notes);
@@ -36,6 +36,8 @@ export default class Notes extends React.Component {
   }
   render() {
     var notes = this.props.notes;
+
+    console.log('render context', this.context);
 
     return (
       <div className='notes'>

@@ -10,7 +10,7 @@ import Notes from './Notes';
 
     return {
       // XXX: this shouldn't know anything about lanes (problem of parent)
-      lane: ['lanes', this.props.index],
+      lane: ['lanes', props.index],
     };
   }
 })
