@@ -1,18 +1,41 @@
 'use strict';
 import React from 'react';
+import {branch} from 'baobab-react/decorators';
+import PropTypes from 'baobab-react/prop-types';
 import Note from './Note';
 import noteActions from '../actions/NoteActions';
 
+@branch({
+  cursors: function() {
+    return {
+      // XXX: not ideal since there's too much info about context
+      // ideally this should be just ['notes']
+      notes: ['lanes', this.props.index, 'notes'],
+    };
+  }
+})
 export default class Notes extends React.Component {
+  static contextTypes = {
+    tree: PropTypes.baobab,
+    cursors: PropTypes.cursor
+  }
   constructor(props: {
-    cursor: Object; // XXX: replace with a decorator based solution
+    index: number;
   }) {
     super(props);
 
-    this.actions = noteActions(props.cursor);
+    // XXX: no context here?
+    console.log('context', this.context);
+
+    // XXX: need to get reference to cursor here
+    //noteActions(this.context.cursors.notes);
+    this.actions = {
+      update: () => {},
+      remove: () => {},
+    };
   }
   render() {
-    var notes = this.props.cursor.get();
+    var notes = this.props.notes;
 
     return (
       <div className='notes'>

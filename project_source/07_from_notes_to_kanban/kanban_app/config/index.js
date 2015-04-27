@@ -31,7 +31,7 @@ exports.build = mergeConfig({
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: 'babel',
+        loader: 'babel?stage=0',
         include: path.join(ROOT_PATH, 'app'),
       }
     ]

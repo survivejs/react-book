@@ -7,16 +7,15 @@ import Notes from './Notes';
 @branch({
   cursors: function() {
     return {
+      // XXX: this shouldn't know anything about lanes (problem of parent)
       lane: ['lanes', this.props.index],
     };
   }
 })
-class Lane extends React.Component {
-  // XXX: figure out why
-  // cursors: PropTypes.cursor
-  // yields a warning
+export default class Lane extends React.Component {
   static contextTypes = {
-    cursors: React.PropTypes.object
+    tree: PropTypes.baobab,
+    cursors: PropTypes.cursor
   }
   constructor(props: {
     index: number;
@@ -26,14 +25,13 @@ class Lane extends React.Component {
   render() {
     var cursor = this.context.cursors.lane;
     var lane = this.props.lane;
+    var index = this.props.index;
 
     return (
       <div className='lane'>
         <div className='name'>{lane.name}</div>
-        <Notes cursor={cursor.select('notes')} />
+        <Notes index={index} />
       </div>
     );
   }
 }
-
-export default Lane;
