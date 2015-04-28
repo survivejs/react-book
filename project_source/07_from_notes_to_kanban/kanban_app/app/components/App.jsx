@@ -7,7 +7,6 @@ import persist from '../decorators/persist';
 import storage from '../libs/storage';
 import appActions from '../actions/AppActions';
 
-const appStorage = 'app';
 const tree = new Baobab({
   lanes: []
 }, {
