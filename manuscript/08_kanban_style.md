@@ -131,6 +131,82 @@ This approach is simple and probably enough for our application. What happens wh
 
 We could battle this problem by making the selectors more specific, using some naming rules and so on but where to draw the line? There are various alternative approaches you can consider.
 
+## Generating a Separate Bundle for CSS
+
+The current approach works well for simple cases. It simply inlines the CSS as a part of our JavaScript bundle. Although this can be performant (one less request), easy to set up and compiles fast, it may not be ideal always.
+
+We cannot for instance leverage caching for our CSS. If only JavaScript portion changes all CSS will be loaded still. As our CSS is injected through JavaScript, there is additional overhead. If the user isn't running JavaScript, no styling will be applied to the markup at all.
+
+There is a plugin that allows us to work around these problems. [extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin) generates a separate bundle for CSS. It comes with some overhead during compilation phase and won't work with hot module reloading (HMR). It also takes some additional setup. In our case configuration would look like this:
+
+**config/index.js**
+
+```javascript
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+...
+
+var common = {
+  entry: [path.join(ROOT_PATH, 'app/main.jsx')],
+  output: {
+    path: path.resolve(ROOT_PATH, 'build'),
+    filename: 'bundle.js',
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  }
+};
+
+exports.build = mergeConfig({
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css')
+      },
+      ...
+    ]
+  },
+  plugins: [
+    new ExtractTextPlugin('styles.css'),
+    ...
+  ],
+});
+
+exports.develop = mergeConfig({
+  ...
+  module: {
+    ...
+    loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css'],
+      },
+      ...
+    ]
+  },
+  ...
+});
+```
+
+Using this set up we can still benefit from HMR during development. For production build we generate a separate CSS. In order to take that CSS in count, we'll need to refer to it from `index.html`.
+
+**build/index.html**
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    ...
+  </body>
+</html>
+```
+
+After this change we should have all the benefits of a separate CSS file with a tiny configuration and performance overhead.
+
 ## cssnext, Less, Sass
 
 The problem with vanilla CSS is that it is missing some functionality that would improve maintainability. For instance from a programmer's perspective it could be nice to have basic features such as variables, math functions, color manipulation functions and so on. Better yet it would be nice if it was possible to forget about browser specific prefixes.

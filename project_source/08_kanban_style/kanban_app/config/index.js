@@ -1,6 +1,7 @@
 'use strict';
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var merge = require('./merge');
 
 var ROOT_PATH = path.resolve(__dirname, '..');
@@ -13,15 +14,7 @@ var common = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-      }
-    ]
-  },
+  }
 };
 
 var mergeConfig = merge.bind(null, common);
@@ -30,6 +23,10 @@ exports.build = mergeConfig({
   module: {
     loaders: [
       {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css')
+      },
+      {
         test: /\.jsx?$/,
         loader: 'babel?stage=0',
         include: path.join(ROOT_PATH, 'app'),
@@ -37,6 +34,7 @@ exports.build = mergeConfig({
     ]
   },
   plugins: [
+    new ExtractTextPlugin('styles.css'),
     new webpack.DefinePlugin({
       'process.env': {
         // This has effect on the react lib size
@@ -62,6 +60,10 @@ exports.develop = mergeConfig({
       }
     ],
     loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css'],
+      },
       {
         test: /\.jsx?$/,
         // XXXXX: flowcheck doesn't support annotations yet so we need to hack
