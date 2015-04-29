@@ -6,9 +6,10 @@
 05_implementing_notes.md
 06_react_and_flux.md
 07_from_notes_to_kanban.md
-08_polishing_kanban.md
-09_asset_management.md
-10_deploying_applications.md
-11_debugging_webpack.md
-12_authoring_libraries.md
+08_kanban_style.md
+09_polishing_kanban.md
+10_asset_management.md
+11_deploying_applications.md
+12_debugging_webpack.md
+13_authoring_libraries.md
 
