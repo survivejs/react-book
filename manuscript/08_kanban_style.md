@@ -258,10 +258,155 @@ Compared to vanilla CSS preprocessors bring a lot to the table. They deal with c
 
 In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing rounded corners of our lanes would look good even in legacy browsers. In addition we could parametrize styling thanks to variables.
 
-## react-style etc.
+## Radium, react-style, jsxstyle
 
-TODO
+With React we have some additional alternatives. What if the way we've been thinking about styling has been misguided? CSS is powerful but it can become an unmaintainable mess without some discipline. Where to draw the line between CSS and JavaScript?
+
+There are various approaches for React that allow us to push styling to component level. It may sound heretical. React, being an iconoclast, may lead the way here.
+
+### Inline Styles to Rescue
+
+Ironically the way solutions based on React solve this is through inline styles. Getting rid of inline styles was one of the main reasons for using separate CSS files in the first place. Now we are back there.
+
+This means that instead of something like
+
+```javascript
+render(props, context) {
+  var notes = this.props.notes;
+
+  return (
+    <ul className='notes'>{notes.map((note, i) =>
+      ...
+    )}</ul>
+  );
+}
+```
+
+and accompanying CSS, we'll do something like this:
+
+```javascript
+render(props, context) {
+  var notes = this.props.notes;
+  var style = {
+    margin: '0.5em',
+    paddingLeft: 0,
+    listStyle: 'none',
+  };
+
+  return (
+    <ul style={style}>{notes.map((note, i) =>
+      ...
+    )}</ul>
+  );
+}
+```
+
+Just like with HTML attribute names, we are using the same camelcase convention for CSS properties.
+
+Note that now that we have styling at component level we can implement logic touching it easily. One classic way to do this has been to alter class name based on the outlook we want. Now we can adjust the properties we want directly.
+
+We have lost something in process. Now all of our styling is tied to our JavaScript code. It is going to be difficult to perform large, sweeping changes to our codebase as we need to tweak a lot of components to achieve that.
+
+We can try to work against this by injecting a part of styling through props. A component could provide patch its style based on provided one. This can be improved further by coming up with conventions that allow parts of style configuration mapped to some specific part. We just reinvented selectors on a small scale.
+
+How about things like media queries? This naive approach won't quite cut it. Fortunately people have come up with libraries to solve these tough problems for us.
+
+### Radium
+
+As of writing [Radium](http://projects.formidablelabs.com/radium/) doesn't support ES6 style classes yet because it injects certain key functionality through mixins. It does have certain valuable ideas that are worth covering, however. Most importantly it provides abstractions required to deal with media queries, browser states (ie. `:hover`) and modifiers (primary/secondary button and so on).
+
+It expands the basic syntax as follows:
+
+```javascript
+var style = {
+  // general styles
+  padding: '1em',
+  // :hover, :focus etc.
+  states: [
+    {
+      hover: {
+        border: '1px solid black'
+      }
+    },
+  ],
+  // kind='<type>' properties map to these
+  modifiers: [
+    {
+      kind: {
+        primary: {
+          background: 'green'
+        },
+        warning: {
+          background: 'yellow'
+        }
+      }
+    }
+  ],
+  // media queries
+  '@media (min-width: 800px)': {
+    width: '100%',
+
+    ':hover': {
+      background: 'white'
+    }
+  }
+};
+```
+
+### React Style
+
+[React Style](https://github.com/js-next/react-style) uses the same syntax as React Native [StyleSheet](https://facebook.github.io/react-native/docs/stylesheet.html#content). It expands the basic definition by introducing additional keys for fragments.
+
+```javascript
+var StyleSheet = require('react-style');
+
+var styles = StyleSheet.create({
+  primary: {
+    background: 'green'
+  },
+  warning: {
+    background: 'yellow'
+  },
+  button: {
+    padding: '1em'
+  },
+  // media queries
+  '@media (min-width: 800px)': {
+      button: {
+        width: '100%'
+      }
+  }
+});
+
+...
+
+<button styles={[styles.button, styles.primary]}>Confirm</button>
+```
+
+As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you browser states (ie. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
+
+Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to but without cascades. We also have our style declarations on component level.
+
+### jsxstyle
+
+Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate some problems of React Style's approach. As you saw in previous examples we still have style definitions separate from the component markup. jsxstyle merges these two concepts. Consider the following example:
+
+```javascript
+// PrimaryButton component
+<button
+  padding='1em'
+  background='green'
+>Confirm</button>
+```
+
+The approach is still in its early days. For instance support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
+
+Just like React Style, also jsxstyle comes with a Webpack loader that can extract CSS into a separate file.
 
 ## Conclusion
 
-TODO
+It is simple to try out various styling approaches with Webpack. You can do it all ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
+
+React based styling approaches allow us to push styles to component level. This provides an interesting contract to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS but in return you gain something that is simpler to understand and harder to break.
+
+It is likely possible to combine various approaches to some extent. Perhaps you could keep high level styling on old skool CSS while on component level you would do something more fitting. There are no best practices yet and we are still figuring out the best ways to do this in React.
