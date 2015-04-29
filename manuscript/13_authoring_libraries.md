@@ -109,6 +109,8 @@ Working with NPM is surprisingly simple. Provided you have created an account on
 
 T> Before starting to develop it can be a good idea to spend a little bit of time on that naming issue. It's not very fun to write an awesome package just to notice the name has been taken. Save some time and nerves by doing a little bit of research. With some luck you could find something fitting your purposes and avoid the chore of writing a library.
 
+T> As of NPM 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that format when naming your project.
+
 Bumping a version is simple too. You'll just need to invoke `npm version <x.y.z>`. That will update `package.json` and create a version commit automatically. If you hit `npm publish`, you should have something new out there.
 
 T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node will resolve to the linked version unless local `node_modules` happens to contain a version.
