@@ -79,6 +79,8 @@ exports.develop = mergeConfig({
 
 In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
 
+T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESlint.
+
 ## Introduction to Baobab
 
 Wouldn't it be useful if we could operate on the data structure we just defined and give our components views to it based on their requirements? If some part of the structure changed, we would still have something consistent on the highest level on the hierarchy.
