@@ -258,7 +258,7 @@ Compared to vanilla CSS preprocessors bring a lot to the table. They deal with c
 
 In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing rounded corners of our lanes would look good even in legacy browsers. In addition we could parametrize styling thanks to variables.
 
-## Radium, react-style, jsxstyle
+## React Based Approaches
 
 With React we have some additional alternatives. What if the way we've been thinking about styling has been misguided? CSS is powerful but it can become an unmaintainable mess without some discipline. Where to draw the line between CSS and JavaScript?
 
@@ -358,7 +358,7 @@ var style = {
 [React Style](https://github.com/js-next/react-style) uses the same syntax as React Native [StyleSheet](https://facebook.github.io/react-native/docs/stylesheet.html#content). It expands the basic definition by introducing additional keys for fragments.
 
 ```javascript
-var StyleSheet = require('react-style');
+var StyleSheet = import 'react-style';
 
 var styles = StyleSheet.create({
   primary: {
@@ -386,6 +386,26 @@ var styles = StyleSheet.create({
 As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you browser states (ie. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
 
 Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to but without cascades. We also have our style declarations on component level.
+
+### React Inline
+
+[React Inline](https://github.com/martinandert/react-inline) is an interesting twist on StyleSheet. It generates CSS based on `className` prop of elements where it is used. The example above could be adapted to React Inline like this:
+
+```javascript
+import cx from 'classnames';
+...
+
+class ConfirmButton extends React.Component {
+  render() {
+    const {className} = this.props;
+    const classes = cx(styles.button, styles.primary, className);
+
+    return <button className={classes}>Confirm</button>;
+  }
+}
+```
+
+Unlike React Style, the approach supports browser states (ie. `:hover` etc.). Unfortunately it relies on its own custom tooling to generate React code and CSS it needs to work. As of yet there's no Webpack loader available.
 
 ### jsxstyle
 
