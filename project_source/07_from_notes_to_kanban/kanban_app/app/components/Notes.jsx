@@ -14,7 +14,6 @@ import noteActions from '../actions/NoteActions';
 })
 export default class Notes extends React.Component {
   static contextTypes = {
-    tree: PropTypes.baobab,
     cursors: PropTypes.cursors
   }
   constructor(props: {
@@ -28,21 +27,14 @@ export default class Notes extends React.Component {
     var notes = this.props.notes;
 
     return (
-      <div className='notes'>
-        <button onClick={this.addItem.bind(this)}>+</button>
-
-        <ul>{notes.map((note, i) =>
-          <li key={'note' + i}>
-            <Note
-              task={note.task}
-              onEdit={this.itemEdited.bind(this, i)} />
-          </li>
-        )}</ul>
-      </div>
+      <ul className='notes'>{notes.map((note, i) =>
+        <li key={'note' + i}>
+          <Note
+            task={note.task}
+            onEdit={this.itemEdited.bind(this, i)} />
+        </li>
+      )}</ul>
     );
-  }
-  addItem() {
-    this.actions.create('New task');
   }
   itemEdited(id, task) {
     if(task) {

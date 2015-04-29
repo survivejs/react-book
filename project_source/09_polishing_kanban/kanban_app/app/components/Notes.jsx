@@ -1,35 +1,39 @@
 'use strict';
 import React from 'react';
-import { configureDragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd/dist-modules/backends/HTML5';
+import {branch} from 'baobab-react/decorators';
+import PropTypes from 'baobab-react/prop-types';
 import Note from './Note';
 import noteActions from '../actions/NoteActions';
 
-@configureDragDropContext(HTML5Backend)
+@branch({
+  cursors: function(props) {
+    return {
+      notes: props.notesCursor
+    };
+  }
+})
 export default class Notes extends React.Component {
+  static contextTypes = {
+    cursors: PropTypes.cursors
+  }
   constructor(props: {
-    cursor: Object;
-  }) {
+    notesCursor: Array;
+  }, context) {
     super(props);
 
-    this.actions = noteActions(props.cursor);
+    this.actions = noteActions(context.cursors.notes);
   }
-  render() {
-    var notes = this.props.cursor.get();
+  render(props, context) {
+    var notes = this.props.notes;
 
     return (
-      <ul className='notes'>
-        {notes.map((note, i) =>
-          <li key={'note' + i}>
-            <Note
-              id={note.id}
-              task={note.task}
-              onEdit={this.itemEdited.bind(this, i)}
-              onMove={this.itemMoved.bind(this)}
-            />
-          </li>
-        )}
-      </ul>
+      <ul className='notes'>{notes.map((note, i) =>
+        <li key={'note' + i}>
+          <Note
+            task={note.task}
+            onEdit={this.itemEdited.bind(this, i)} />
+        </li>
+      )}</ul>
     );
   }
   itemEdited(id, task) {
@@ -39,42 +43,5 @@ export default class Notes extends React.Component {
     else {
       this.actions.remove(id);
     }
-  }
-  itemMoved(id, afterId) {
-    if(id > afterId) {
-      var tmp = id;
-      id = afterId;
-      afterId = tmp;
-    }
-
-    // XXXXX: decouple this from array ids
-    var cursor = this.props.cursor;
-    var notes = cursor.get();
-    var start = notes.slice(0, id);
-    var middle = notes.slice(id + 1, afterId);
-    var end = notes.slice(afterId + 1);
-    var newNotes = start.concat([notes[afterId]]).concat(middle).concat([notes[id]]).concat(end);
-
-    //cursor.edit(newNotes);
-
-    console.log(id, afterId);
-
-    /*
-    const { cards } = this.state;
-
-    const card = cards.filter(c => c.id === id)[0];
-    const afterCard = cards.filter(c => c.id === afterId)[0];
-    const cardIndex = cards.indexOf(card);
-    const afterIndex = cards.indexOf(afterCard);
-
-    this.setState(update(this.state, {
-      cards: {
-        $splice: [
-          [cardIndex, 1],
-          [afterIndex, 0, card]
-        ]
-      }
-    }));
-    */
   }
 }

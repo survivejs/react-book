@@ -1,7 +1,9 @@
 'use strict';
 import React from 'react';
 import {branch} from 'baobab-react/decorators';
+import PropTypes from 'baobab-react/prop-types';
 import Notes from './Notes';
+import noteActions from '../actions/NoteActions';
 
 @branch({
   cursors: function(props) {
@@ -11,10 +13,15 @@ import Notes from './Notes';
   }
 })
 export default class Lane extends React.Component {
+  static contextTypes = {
+    cursors: PropTypes.cursors
+  }
   constructor(props: {
     laneCursor: Array;
-  }) {
+  }, context) {
     super(props);
+
+    this.actions = noteActions(context.cursors.lane.select('notes'));
   }
   render() {
     var laneCursor = this.props.laneCursor;
@@ -22,7 +29,13 @@ export default class Lane extends React.Component {
 
     return (
       <div className='lane'>
-        <div className='name'>{lane.name}</div>
+        <div className='lane-header'>
+          <div className='lane-name'>{lane.name}</div>
+          <div className='lane-controls'>
+            <button className='lane-add-note'
+              onClick={this.actions.create.bind(null, 'New task')}>+</button>
+          </div>
+        </div>
         <Notes notesCursor={laneCursor.concat(['notes'])} />
       </div>
     );

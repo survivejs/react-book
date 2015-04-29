@@ -272,7 +272,9 @@ The lanes operate within a specific part of the tree. I use `@branch` decorator 
 'use strict';
 import React from 'react';
 import {branch} from 'baobab-react/decorators';
+import PropTypes from 'baobab-react/prop-types';
 import Notes from './Notes';
+import noteActions from '../actions/NoteActions';
 
 @branch({
   cursors: function(props) {
@@ -282,10 +284,15 @@ import Notes from './Notes';
   }
 })
 export default class Lane extends React.Component {
+  static contextTypes = {
+    cursors: PropTypes.cursors
+  }
   constructor(props: {
     laneCursor: Array;
-  }) {
+  }, context) {
     super(props);
+
+    this.actions = noteActions(context.cursors.lane.select('notes'));
   }
   render() {
     var laneCursor = this.props.laneCursor;
@@ -293,7 +300,13 @@ export default class Lane extends React.Component {
 
     return (
       <div className='lane'>
-        <div className='name'>{lane.name}</div>
+        <div className='lane-header'>
+          <div className='lane-name'>{lane.name}</div>
+          <div className='lane-controls'>
+            <button className='lane-add-note'
+              onClick={this.actions.create.bind(null, 'New task')}>+</button>
+          </div>
+        </div>
         <Notes notesCursor={laneCursor.concat(['notes'])} />
       </div>
     );
@@ -301,11 +314,13 @@ export default class Lane extends React.Component {
 }
 ```
 
+Note that `Lane` deals with `add` now for clarity.
+
 ## Altering `Notes`
 
-As there are plenty of changes in `TodoList`, I'll show it in its entirety.
+As there are plenty of changes in `Notes`, I'll show it in its entirety.
 
-**app/components/TodoList.jsx**
+**app/components/Notes.jsx**
 
 ```javascript
 'use strict';
@@ -324,7 +339,6 @@ import noteActions from '../actions/NoteActions';
 })
 export default class Notes extends React.Component {
   static contextTypes = {
-    tree: PropTypes.baobab,
     cursors: PropTypes.cursors
   }
   constructor(props: {
@@ -338,21 +352,14 @@ export default class Notes extends React.Component {
     var notes = this.props.notes;
 
     return (
-      <div className='notes'>
-        <button onClick={this.addItem.bind(this)}>+</button>
-
-        <ul>{notes.map((note, i) =>
-          <li key={'note' + i}>
-            <Note
-              task={note.task}
-              onEdit={this.itemEdited.bind(this, i)} />
-          </li>
-        )}</ul>
-      </div>
+      <ul className='notes'>{notes.map((note, i) =>
+        <li key={'note' + i}>
+          <Note
+            task={note.task}
+            onEdit={this.itemEdited.bind(this, i)} />
+        </li>
+      )}</ul>
     );
-  }
-  addItem() {
-    this.actions.create('New task');
   }
   itemEdited(id, task) {
     if(task) {
@@ -363,7 +370,6 @@ export default class Notes extends React.Component {
     }
   }
 }
-
 ```
 
 The most important change has to do with the way we deal with Actions. Just like with `AppActions`, `NoteActions` is as light as possible. It operates using the cursor directly as below:
