@@ -364,6 +364,28 @@ Besides the official documentation available at [eslint.org](http://eslint.org/)
 * [Detect Problems in JavaScript Automatically with ESLint](http://davidwalsh.name/eslint) - A good tutorial on the topic.
 * [Understanding the Real Advantages of Using ESLint](http://rangle.io/blog/understanding-the-real-advantages-of-using-eslint/) - Evan Schultz's post digs into details.
 
+## Checking JavaScript Style with JSCS
+
+Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short it can get pretty messy without any discipline.
+
+Fortunately there is a tool known as [JSCS](http://jscs.info/). It will allow you to define a style guide for your project.
+
+[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESlint. You would define `.jscsrc` with your style guide and use configuration like this:
+
+```javascript
+module: {
+  preLoaders: [
+    {
+      test: /\.jsx?$/,
+      loaders: ['eslint', 'jscs'],
+      include: path.join(ROOT_PATH, 'app'),
+    }
+  ],
+},
+```
+
+We won't use the tool in this project but it's good to be aware of it.
+
 ## Conclusion
 
 In this chapter you learned how to go beyond a basic Webpack configuration. Webpack's development server is a powerful feature that has even more in store. We also learned how to organize our configuration more effectively. Next we'll delve deeper as we discuss hot module reloading and React in the next chapter.
