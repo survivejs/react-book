@@ -370,7 +370,7 @@ Especially in a team environment it can be annoying if one guy uses tabs and oth
 
 Fortunately there is a tool known as [JSCS](http://jscs.info/). It will allow you to define a style guide for your project.
 
-[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESlint. You would define `.jscsrc` with your style guide and use configuration like this:
+[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESlint. You would define `.jscsrc` with your style guide rules and use configuration like this:
 
 ```javascript
 module: {
@@ -382,6 +382,17 @@ module: {
     }
   ],
 },
+```
+
+To make it work with JSX, you'll need to point it to `esprima-fb` parser through `.jscsrc` like this:
+
+**.jscsrc**
+
+```json
+{
+  "esprima": "esprima-fb",
+  ...
+}
 ```
 
 We won't use the tool in this project but it's good to be aware of it.
