@@ -277,6 +277,14 @@ If you hit `npm run lint-css` now, you should see some output, hopefully without
 
 Thanks to the Webpack configuration we did, you should get output during `npm run dev` process as well. In addition you should consider setting up csslint with your editor. That way you get more integrated development experience.
 
+## CSS Methodologies
+
+Coming up with de facto rules for styling might work a while. Over longer term as your codebase grows, you might start to experience challenges with that. As a result various methodologies have appeared in which people have taken these concerns in count.
+
+Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS) and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each comes with its set of conventions. They can help to structure your CSS development.
+
+Maintaining long class names BEM requires can be boring. Various libraries have appeared to make this easier. Examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react). As of writing no such libraries exist for OOCSS and SMACSS.
+
 ## cssnext, Less, Sass
 
 The problem with vanilla CSS is that it is missing some functionality that would improve maintainability. For instance from a programmer's perspective it could be nice to have basic features such as variables, math functions, color manipulation functions and so on. Better yet it would be nice if it was possible to forget about browser specific prefixes.
