@@ -207,6 +207,76 @@ Using this set up we can still benefit from HMR during development. For producti
 
 After this change we should have all the benefits of a separate CSS file with a tiny configuration and performance overhead.
 
+## Linting CSS
+
+As we saw earlier linting can be powerful. It points out potential problems before they escalate into real issues. [csslint](https://www.npmjs.com/package/csslint) allows us to lint CSS. [csslint-loader](https://www.npmjs.com/package/csslint-loader) makes it possible to integrate it into our project. To get started hit `npm i csslint csslint-loader --save-dev`.
+
+Next we'll need to integrate it with our configuration:
+
+**config/index.js**
+
+```javascript
+...
+
+exports.develop = mergeConfig({
+  entry: ['webpack/hot/dev-server'],
+  module: {
+    preLoaders: [
+      {
+        test: /\.css$/,
+        loader: 'csslint',
+      },
+      ...
+    ],
+    ...
+  },
+  ...
+});
+```
+
+To keep things nice and tidy I put it into the `preLoaders` section of configuration.
+
+**.csslintrc**
+
+```json
+{
+  "adjoining-classes": false,
+  "box-sizing": false,
+  "box-model": false,
+  "compatible-vendor-prefixes": false,
+  "floats": false,
+  "font-sizes": false,
+  "gradients": false,
+  "important": false,
+  "known-properties": false,
+  "outline-none": false,
+  "qualified-headings": false,
+  "regex-selectors": false,
+  "shorthand": false,
+  "text-indent": false,
+  "unique-headings": false,
+  "universal-selector": false,
+  "unqualified-attributes": false
+}
+```
+
+I decided to use a set of rules from Twitter Bootstrap. These seem like a good starting point.
+
+**package.json**
+
+```json
+"scripts": {
+  ...
+  "lint": "npm run lint-js && npm run lint-css",
+  "lint-js": "eslint . --ext .js --ext .jsx",
+  "lint-css": "csslint app/stylesheets --quiet"
+},
+```
+
+If you hit `npm run lint-css` now, you should see some output, hopefully without errors. That `--quiet` flag is there to keep the tool silent unless there are errors.
+
+Thanks to the Webpack configuration we did, you should get output during `npm run dev` process as well. In addition you should consider setting up csslint with your editor. That way you get more integrated development experience.
+
 ## cssnext, Less, Sass
 
 The problem with vanilla CSS is that it is missing some functionality that would improve maintainability. For instance from a programmer's perspective it could be nice to have basic features such as variables, math functions, color manipulation functions and so on. Better yet it would be nice if it was possible to forget about browser specific prefixes.

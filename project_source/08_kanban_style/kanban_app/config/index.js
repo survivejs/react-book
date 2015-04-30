@@ -54,6 +54,10 @@ exports.develop = mergeConfig({
   module: {
     preLoaders: [
       {
+        test: /\.css$/,
+        loader: 'csslint',
+      },
+      {
         test: /\.jsx?$/,
         loader: 'eslint',
         include: path.join(ROOT_PATH, 'app'),
