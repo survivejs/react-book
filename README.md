@@ -14,7 +14,8 @@ Feedback is welcome. You can provide it through [the issue tracker](https://gith
 
 ## Acknowledgments
 
-The book was inspired by work done with [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook).
+* [Christian Alfoni](https://github.com/christianalfoni) - Helped to author [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook). This book is continuation to that effort.
+* [vitaliy-kotov](https://github.com/vitaliy-kotov) - Pointed out various issues
 
 ## Generating
 
