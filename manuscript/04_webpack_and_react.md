@@ -99,7 +99,7 @@ In order to make everything work again, we'll need to tweak our configuration a 
 
 We will specifically include our `app` source to our loader. This way Webpack doesn't have to traverse whole source. Particularly going through `node_modules` can take a while. You can try taking `include` statement out to see how that affects the performance.
 
-Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import TodoItem from './TodoItem';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
+Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import Note from './Note';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
 
 ```javascript
 resolve: {
