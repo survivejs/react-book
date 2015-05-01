@@ -84,27 +84,44 @@ W> Avoid rendering directly to `document.body`. This can cause strange problems 
 
 In order to make everything work again, we'll need to tweak our configuration a little. In order to deal with ES6 and JSX, we'll use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-loader --save-dev`. In addition add the following loader declaration to the *loaders* section of your configuration:
 
+**config/index.js**
+
 ```javascript
-{
-  // test for both js and jsx
-  test: /\.jsx?$/,
+var common = {
+  ...
+  module: {
+    loaders: [
+      {
+        // test for both js and jsx
+        test: /\.jsx?$/,
 
-  // use babel loader
-  loader: 'babel',
+        // use babel loader
+        loader: 'babel',
 
-  // operate only on our app directory
-  include: path.join(ROOT_PATH, 'app'),
-}
+        // operate only on our app directory
+        include: path.join(ROOT_PATH, 'app'),
+      },
+      ...
+    ]
+  },
+  ...
+};
 ```
 
 We will specifically include our `app` source to our loader. This way Webpack doesn't have to traverse whole source. Particularly going through `node_modules` can take a while. You can try taking `include` statement out to see how that affects the performance.
 
 Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import Note from './Note';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
 
+**config/index.js**
+
 ```javascript
-resolve: {
-  extensions: ['', '.js', '.jsx'],
-}
+var common = {
+  ...
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
+  ...
+};
 ```
 
 If you hit `npm run build` now, you should get some output after a while. Here's a sample:
@@ -127,12 +144,16 @@ As you can see, the output is quite chunky!
 
 We can resolve this issue by minifying our build. As easy way to do this is to pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your Webpack configuration:
 
+**config/index.js**
+
 ```javascript
 'use strict';
 var webpack = require('webpack');
 
 ...
 
+exports.build = mergeConfig({
+  ...
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -140,7 +161,7 @@ var webpack = require('webpack');
       },
     }),
   ],
-}
+});
 ```
 
 If you hit `npm run build` now, you should see better results:
@@ -163,13 +184,21 @@ We can perform one more step to decrease build size further. React relies on `pr
 
 In Webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
 
-```bash
-new webpack.DefinePlugin({
-  'process.env': {
-    // This has effect on the react lib size
-    'NODE_ENV': JSON.stringify('production'),
-  }
-}),
+**config/index.js**
+
+```javascript
+exports.build = mergeConfig({
+  ...
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        // This has effect on the react lib size
+        'NODE_ENV': JSON.stringify('production'),
+      }
+    }),
+    ...
+  ],
+});
 ```
 
 Hit `npm run build` again and you should see improved results:
@@ -230,7 +259,9 @@ exports.build = mergeConfig({
       }
     ]
   },
-  plugins: [...]
+  plugins: [
+    ...
+  ]
 });
 
 exports.develop = mergeConfig({
