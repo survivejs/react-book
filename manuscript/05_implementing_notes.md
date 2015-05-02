@@ -68,9 +68,7 @@ export default class Notes extends React.Component {
     return (
       <ul className='notes'>{notes.map((note, i) =>
         <li className='note' key={'note' + i}>
-          <Note
-            task={note.task}
-            onEdit={this.itemEdited.bind(this, i)} />
+          <Note task={note.task} />
         </li>
       )}</ul>
     );
