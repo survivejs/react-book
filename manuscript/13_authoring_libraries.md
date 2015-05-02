@@ -31,7 +31,7 @@ In addition you'll likely have various directories for source, tests, demos, doc
 
 All packages come with a `package.json` that describes metadata related to them. This includes information about the author, various links, dependencies and so on. The [official documentation](https://docs.npmjs.com/files/package.json) covers them in detail.
 
-I've annotated `package.json` of my [React component boilerplate](https://github.com/bebraw/react-component-boilerplate) below.
+I've annotated `package.json` of my [React component boilerplate](https://github.com/survivejs/react-component-boilerplate) below.
 
 ```json
 {
@@ -41,11 +41,16 @@ I've annotated `package.json` of my [React component boilerplate](https://github
   "user": "bebraw", -- This is boilerplate specific (not used by NPM)
   "version": "0.0.0", -- Version of the package
   "scripts": { -- `npm run <name>`
-    "start": "node dev-server/server.js",
-    "test": "jest && npm run lint",
-    ...
+    "start": "TARGET=dev node dev-server/server.js",
+    "test": "jest && npm run check-style && npm run lint",
+    "gh-pages": "TARGET=gh-pages webpack --config ./config",
+    "deploy-gh-pages": "TARGET=gh-pages node ./config/deploy-gh-pages.js",
+    "dist": "TARGET=dist webpack --config ./config && TARGET=dist-min webpack --config ./config",
     "lint": "eslint . --ext .js --ext .jsx",
-    "replace-meta": "node scripts/replace_meta.js"
+    "check-style": "jscs .",
+    "replace-meta": "node scripts/replace_meta.js",
+    "prepublish": "babel ./lib --out-dir ./dist-modules",
+    "version": "npm run test && npm run dist && npm version \"$@\" && npm run gh-pages && npm run deploy-gh-pages"
   },
   -- Entry point for terminal (ie. <package name>)
   -- Don't set this unless you intend to allow cli usage
