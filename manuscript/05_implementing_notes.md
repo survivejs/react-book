@@ -8,6 +8,8 @@ A good first step would be to extend `Note` interface. We would probably want to
 
 This means `App` will have to coordinate the state. Let's start by rendering a list and then expand from there. Here's sample code for an enhanced `render` method:
 
+**app/components/App.jsx**
+
 ```javascript
 render() {
   var notes = [{
@@ -35,6 +37,8 @@ We will use a special feature of JSX in form of `{}`. Within these braces we can
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
 If everything went correctly, you should see a list with three `Learn Webpack` items on it. That's almost nice. The problem is that we haven't taken `task` property in count at `Note`. We'll need to tweak its implementation like this:
+
+**app/components/Note.jsx**
 
 ```javascript
 render() {
