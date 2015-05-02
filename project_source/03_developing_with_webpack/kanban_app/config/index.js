@@ -1,6 +1,7 @@
 var path = require('path');
 var merge = require('./merge');
 
+var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname, '..');
 
 var common = {
@@ -21,17 +22,21 @@ var common = {
 
 var mergeConfig = merge.bind(null, common);
 
-exports.build = mergeConfig({});
+if(TARGET === 'build') {
+  module.exports = mergeConfig({});
+}
 
-exports.develop = mergeConfig({
-  entry: ['webpack/hot/dev-server'],
-  module: {
-    preLoaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'eslint',
-        include: path.join(ROOT_PATH, 'app'),
-      }
-    ],
-  },
-});
+if(TARGET === 'dev') {
+  module.exports = mergeConfig({
+    entry: ['webpack/hot/dev-server'],
+    module: {
+      preLoaders: [
+        {
+          test: /\.jsx?$/,
+          loader: 'eslint',
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ],
+    },
+  });
+}

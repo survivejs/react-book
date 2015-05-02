@@ -4,8 +4,8 @@
   "description": "Webpack demo app",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config config/build",
-    "dev": "webpack-dev-server --config config/develop --devtool eval --progress --colors --hot --content-base build",
+    "build": "TARGET=build webpack --config config",
+    "dev": "TARGET=dev webpack-dev-server --config config --devtool eval --progress --colors --hot --content-base build",
     "lint": "npm run lint-js && npm run lint-css",
     "lint-js": "eslint . --ext .js --ext .jsx",
     "lint-css": "csslint app/stylesheets --quiet"

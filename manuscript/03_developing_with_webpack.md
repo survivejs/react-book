@@ -146,20 +146,9 @@ We can adapt this approach to our project quite easily. First of all let's set u
 
 - /config
   - index.js - This is where the configuration goes
-  - build.js - Build configuration exposed to Webpack
-  - develop.js - Development configuration exposed to Webpack
   - merge.js - A merge utility we'll be using to avoid duplication
 
-Those *build.js* and *develop.js* simply point at our *index.js*. To give you an idea, they can simply look like this:
-
-**config/build.js**
-
-```javascript
-// use `develop` for the other
-module.exports = require('./').build;
-```
-
-Our *index.js* is more complex as it will have to contain all of our configuration. We'll implement a little helper using lodash so install it (`npm i lodash --save-dev`). Here's the full source:
+Our *index.js* will contain all of our configuration. We'll implement a little helper using lodash so install it (`npm i lodash --save-dev`). Here's the full source:
 
 **config/index.js**
 
@@ -167,6 +156,7 @@ Our *index.js* is more complex as it will have to contain all of our configurati
 var path = require('path');
 var merge = require('./merge');
 
+var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname, '..');
 
 var common = {
@@ -187,11 +177,15 @@ var common = {
 
 var mergeConfig = merge.bind(null, common);
 
-exports.build = mergeConfig({});
+if(TARGET === 'build') {
+  module.exports = mergeConfig({});
+}
 
-exports.develop = mergeConfig({
-  entry: ['webpack/hot/dev-server']
-});
+if(TARGET === 'dev') {
+  module.exports = mergeConfig({
+    entry: ['webpack/hot/dev-server']
+  });
+}
 ```
 
 **config/merge.js**
@@ -223,8 +217,8 @@ To make everything work again, we'll need to tweak our `package.json` **scripts*
 ```json
 {
   "scripts": {
-    "build": "webpack --config config/build",
-    "dev": "webpack-dev-server --config config/develop --devtool eval --progress --colors --hot --content-base build"
+    "build": "TARGET=build webpack --config config",
+    "dev": "TARGET=dev webpack-dev-server --config config --devtool eval --progress --colors --hot --content-base build"
   }
 }
 ```
@@ -310,18 +304,20 @@ We can make Webpack emit ESLint messages for us by using [eslint-loader](https:/
 **config/index.js**
 
 ```
-exports.develop = mergeConfig({
-  entry: ['webpack/hot/dev-server'],
-  module: {
-    preLoaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'eslint',
-        include: path.join(ROOT_PATH, 'app'),
-      }
-    ],
-  },
-});
+if(TARGET === 'dev') {
+  module.exports = mergeConfig({
+    entry: ['webpack/hot/dev-server'],
+    module: {
+      preLoaders: [
+        {
+          test: /\.jsx?$/,
+          loader: 'eslint',
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ],
+    },
+  });
+}
 ```
 
 We are using `preLoaders` section here as we want to play it safe. This section is executed before `loaders` get triggered.

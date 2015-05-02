@@ -71,6 +71,8 @@ function main() {
 
 This change needs to be taken in count at configuration. Change entry path like this:
 
+**config/index.js**
+
 ```javascript
 {
   entry: [path.join(ROOT_PATH, 'app/main.jsx')]
@@ -152,16 +154,18 @@ var webpack = require('webpack');
 
 ...
 
-exports.build = mergeConfig({
-  ...
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-    }),
-  ],
-});
+if(TARGET === 'build') {
+  module.exports = mergeConfig({
+    ...
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        },
+      }),
+    ],
+  });
+}
 ```
 
 If you hit `npm run build` now, you should see better results:
@@ -187,18 +191,20 @@ In Webpack terms you can add the following snippet to the `plugins` section of y
 **config/index.js**
 
 ```javascript
-exports.build = mergeConfig({
-  ...
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        // This has effect on the react lib size
-        'NODE_ENV': JSON.stringify('production'),
-      }
-    }),
+if(TARGET === 'build') {
+  module.exports = mergeConfig({
     ...
-  ],
-});
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          // This has effect on the react lib size
+          'NODE_ENV': JSON.stringify('production'),
+        }
+      }),
+      ...
+    ],
+  });
+}
 ```
 
 Hit `npm run build` again and you should see improved results:
@@ -249,37 +255,41 @@ var common = {
 
 ...
 
-exports.build = mergeConfig({
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel',
-        include: path.join(ROOT_PATH, 'app'),
-      }
+if(TARGET === 'build') {
+  module.exports = mergeConfig({
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loader: 'babel',
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ]
+    },
+    plugins: [
+      ...
     ]
-  },
-  plugins: [
-    ...
-  ]
-});
+  });
+}
 
-exports.develop = mergeConfig({
-  entry: ['webpack/hot/dev-server'],
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel'],
-        include: path.join(ROOT_PATH, 'app'),
-      }
-    ]
-  },
-  plugins: [
-    // do not reload if there is a syntax error in your code
-    new webpack.NoErrorsPlugin()
-  ],
-});
+if(TARGET === 'dev') {
+  module.exports = mergeConfig({
+    entry: ['webpack/hot/dev-server'],
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel'],
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ]
+    },
+    plugins: [
+      // do not reload if there is a syntax error in your code
+      new webpack.NoErrorsPlugin()
+    ],
+  });
+}
 ```
 
 Try hitting `npm run dev` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.

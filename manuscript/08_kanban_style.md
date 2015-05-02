@@ -156,36 +156,40 @@ var common = {
   }
 };
 
-exports.build = mergeConfig({
-  module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css')
-      },
+if(TARGET === 'build') {
+  module.exports = mergeConfig({
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract('style', 'css')
+        },
+        ...
+      ]
+    },
+    plugins: [
+      new ExtractTextPlugin('styles.css'),
       ...
-    ]
-  },
-  plugins: [
-    new ExtractTextPlugin('styles.css'),
-    ...
-  ],
-});
+    ],
+  });
+}
 
-exports.develop = mergeConfig({
-  ...
-  module: {
+if(TARGET === 'dev') {
+  module.exports = mergeConfig({
     ...
-    loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-      },
+    module: {
       ...
-    ]
-  },
-  ...
-});
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+        },
+        ...
+      ]
+    },
+    ...
+  });
+}
 ```
 
 Using this set up we can still benefit from HMR during development. For production build we generate a separate CSS. In order to take that CSS in count, we'll need to refer to it from `index.html`.
@@ -218,20 +222,22 @@ Next we'll need to integrate it with our configuration:
 ```javascript
 ...
 
-exports.develop = mergeConfig({
-  entry: ['webpack/hot/dev-server'],
-  module: {
-    preLoaders: [
-      {
-        test: /\.css$/,
-        loader: 'csslint',
-      },
+if(TARGET === 'dev') {
+  module.exports = mergeConfig({
+    entry: ['webpack/hot/dev-server'],
+    module: {
+      preLoaders: [
+        {
+          test: /\.css$/,
+          loader: 'csslint',
+        },
+        ...
+      ],
       ...
-    ],
+    },
     ...
-  },
-  ...
-});
+  });
+}
 ```
 
 To keep things nice and tidy I put it into the `preLoaders` section of configuration.
