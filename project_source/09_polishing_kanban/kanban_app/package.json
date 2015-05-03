@@ -4,7 +4,7 @@
   "description": "Webpack demo app",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config config/build",
+    "build": "webpack --config config/build/",
     "dev": "webpack-dev-server --config config/develop --devtool eval --progress --colors --hot --content-base build",
     "lint": "eslint . --ext .js --ext .jsx"
   },

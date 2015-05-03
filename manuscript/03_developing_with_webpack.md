@@ -217,8 +217,8 @@ To make everything work again, we'll need to tweak our `package.json` **scripts*
 ```json
 {
   "scripts": {
-    "build": "TARGET=build webpack --config config",
-    "dev": "TARGET=dev webpack-dev-server --config config --devtool eval --progress --colors --hot --content-base build"
+    "build": "TARGET=build webpack --config config/index.js",
+    "dev": "TARGET=dev webpack-dev-server --config config/index.js --devtool eval --progress --colors --hot --content-base build"
   }
 }
 ```
