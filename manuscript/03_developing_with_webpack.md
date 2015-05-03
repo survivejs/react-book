@@ -297,6 +297,20 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 
+In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error. If you want to hide this, you can change the script into this form:
+
+**package.json**
+
+```json
+"scripts": {
+  ...
+  "lint": "eslint . --ext .js --ext .jsx || true"
+}
+...
+```
+
+This will keep the output tidy. The potential problem with this approach is that in case you invoke `lint` through some continuous integration (CI) system and expect it to return non-zero exit code, it won't. In our case we rely on Webpack to run ESlint for us so the somewhat ugly output isn't that big an issue and allows CI to work.
+
 ### Connecting ESlint with Webpack
 
 We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). Hit `npm i eslint-loader --save-dev` to add it to the project. We also need to tweak our development configuration to include it. Add the following section to it:
