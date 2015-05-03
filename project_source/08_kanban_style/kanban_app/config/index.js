@@ -63,7 +63,7 @@ if(TARGET === 'dev') {
         },
         {
           test: /\.jsx?$/,
-          loader: 'eslint',
+          loader: 'eslint-loader',
           include: path.join(ROOT_PATH, 'app'),
         }
       ],
