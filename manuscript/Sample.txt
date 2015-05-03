@@ -2,5 +2,4 @@
 01_webpack_compared.md
 02_getting_started.md
 03_developing_with_webpack.md
-08_kanban_style.md
 13_authoring_libraries.md
