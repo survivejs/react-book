@@ -3,7 +3,7 @@
 export default (cursor) => {
   return {
     create: (task) => {
-      const id = cursor.get().length;
+      const id = cursor.get().length || 0;
 
       cursor.push({id, task});
     },

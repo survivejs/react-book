@@ -1,10 +1,51 @@
 'use strict';
 import React from 'react';
+import { configureDragDrop } from 'react-dnd';
 
+// XXX: push to ItemTypes.js
+const ItemTypes = {
+  NOTE: 'note'
+};
+
+const NoteSource = {
+  beginDrag(props) {
+    return {
+      id: props.id
+    };
+  }
+};
+
+const NoteTarget = {
+  hover(props, monitor) {
+    const draggedId = monitor.getItem().id;
+
+    if(draggedId !== props.id) {
+      props.moveNote(draggedId, props.id);
+    }
+  }
+};
+
+@configureDragDrop(
+  register => ({
+    noteSource: register.dragSource(ItemTypes.NOTE, NoteSource),
+    noteTarget: register.dropTarget(ItemTypes.NOTE, NoteTarget)
+  }),
+
+  ({ noteSource, noteTarget }) => ({
+    connectDragSource: noteSource.connect(),
+    connectDropTarget: noteTarget.connect(),
+    isDragging: noteSource.isDragging()
+  })
+)
 export default class Note extends React.Component {
   constructor(props: {
+    connectDragSource: Function;
+    connectDropTarget: Function;
+    isDragging: bool;
     task: string;
+    id: number;
     onEdit: Function;
+    moveNote: Function;
   }) {
     super(props);
 
@@ -13,13 +54,16 @@ export default class Note extends React.Component {
     };
   }
   render() {
+    const { text, isDragging, connectDragSource, connectDropTarget } = this.props;
     var edited = this.state.edited;
     var task = this.props.task;
 
     return (
-      <div className='note'>{
-        edited
-        ? <input type='text'
+      <div className='note'
+        ref={c => { connectDragSource(c); connectDropTarget(c); }}
+      >{
+        edited?
+        <input type='text'
           defaultValue={task}
           onBlur={this.finishEdit.bind(this)}
           onKeyPress={this.checkEnter.bind(this)}/>

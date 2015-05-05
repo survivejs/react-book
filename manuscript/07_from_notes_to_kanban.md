@@ -382,7 +382,7 @@ The most important change has to do with the way we deal with Actions. Just like
 export default (cursor) => {
   return {
     create: (task) => {
-      const id = cursor.get().length;
+      const id = cursor.get().length || 0;
 
       cursor.push({id, task});
     },
