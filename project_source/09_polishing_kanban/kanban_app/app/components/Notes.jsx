@@ -24,6 +24,8 @@ export default class Notes extends React.Component {
   }, context) {
     super(props);
 
+    // XXX
+    this.cursor = context.cursors.notes;
     this.actions = noteActions(context.cursors.notes);
   }
   render(props, context) {
@@ -51,26 +53,16 @@ export default class Notes extends React.Component {
     }
   }
   moveNote(id, afterId) {
-    console.log('move note', id, afterId);
+    var cursor = this.cursor;
+    var notes = this.props.notes;
 
-    // TODO: baobab logic for splicing
+    const note = notes.filter(c => c.id === id)[0];
+    const afterNote = notes.filter(c => c.id === afterId)[0];
+    const noteIndex = notes.indexOf(note);
+    const afterIndex = notes.indexOf(afterNote);
 
-    /*
-    const { cards } = this.state;
-
-    const card = cards.filter(c => c.id === id)[0];
-    const afterCard = cards.filter(c => c.id === afterId)[0];
-    const cardIndex = cards.indexOf(card);
-    const afterIndex = cards.indexOf(afterCard);
-
-    this.setState(update(this.state, {
-      cards: {
-        $splice: [
-          [cardIndex, 1],
-          [afterIndex, 0, card]
-        ]
-      }
-    }));
-    */
+    cursor.splice([noteIndex, 1]);
+    cursor.splice([afterIndex, 0, note]);
+    cursor.tree.commit();
   }
 }
