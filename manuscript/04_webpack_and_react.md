@@ -71,7 +71,7 @@ function main() {
 
 This change needs to be taken in count at configuration. Change entry path like this:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 {
@@ -86,7 +86,7 @@ W> Avoid rendering directly to `document.body`. This can cause strange problems 
 
 In order to make everything work again, we'll need to tweak our configuration a little. In order to deal with ES6 and JSX, we'll use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-loader --save-dev`. In addition add the following loader declaration to the *loaders* section of your configuration:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 var common = {
@@ -114,7 +114,7 @@ We will specifically include our `app` source to our loader. This way Webpack do
 
 Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import Note from './Note';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 var common = {
@@ -146,7 +146,7 @@ As you can see, the output is quite chunky!
 
 We can resolve this issue by minifying our build. As easy way to do this is to pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your Webpack configuration:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 'use strict';
@@ -188,7 +188,7 @@ We can perform one more step to decrease build size further. React relies on `pr
 
 In Webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 if(TARGET === 'build') {
@@ -231,7 +231,7 @@ We can work around this problem using hot loading. This is enabled by [react-hot
 
 To enable hot loading for React, you should perform `npm i react-hot-loader --save-dev` and tweak the configuration as follows:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 'use strict';

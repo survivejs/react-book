@@ -1,8 +1,8 @@
 var path = require('path');
-var merge = require('./merge');
+var merge = require('./lib/merge');
 
 var TARGET = process.env.TARGET;
-var ROOT_PATH = path.resolve(__dirname, '..');
+var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
   entry: [path.join(ROOT_PATH, 'app/main.js')],

@@ -44,7 +44,7 @@ As you can see this approach would get complex quite fast. Once you have some fo
 
 As we'll be relying on decorators and still like to use Flowcheck, we'll need to tweak configuration a little bit:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 exports.build = mergeConfig({

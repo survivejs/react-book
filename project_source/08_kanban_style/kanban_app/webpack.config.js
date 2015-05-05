@@ -1,10 +1,11 @@
 'use strict';
 var path = require('path');
 var webpack = require('webpack');
-var merge = require('./merge');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var merge = require('./lib/merge');
 
 var TARGET = process.env.TARGET;
-var ROOT_PATH = path.resolve(__dirname, '..');
+var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
   entry: [path.join(ROOT_PATH, 'app/main.jsx')],
@@ -14,15 +15,7 @@ var common = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-      }
-    ]
-  },
+  }
 };
 
 var mergeConfig = merge.bind(null, common);
@@ -32,13 +25,18 @@ if(TARGET === 'build') {
     module: {
       loaders: [
         {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract('style', 'css')
+        },
+        {
           test: /\.jsx?$/,
-          loader: 'babel',
+          loader: 'babel?stage=0',
           include: path.join(ROOT_PATH, 'app'),
         }
       ]
     },
     plugins: [
+      new ExtractTextPlugin('styles.css'),
       new webpack.DefinePlugin({
         'process.env': {
           // This has effect on the react lib size
@@ -60,6 +58,10 @@ if(TARGET === 'dev') {
     module: {
       preLoaders: [
         {
+          test: /\.css$/,
+          loader: 'csslint',
+        },
+        {
           test: /\.jsx?$/,
           loader: 'eslint-loader',
           include: path.join(ROOT_PATH, 'app'),
@@ -67,8 +69,14 @@ if(TARGET === 'dev') {
       ],
       loaders: [
         {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+        },
+        {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel', 'flowcheck'],
+          // XXXXX: flowcheck doesn't support annotations yet so we need to hack
+          // around a bit
+          loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
           include: path.join(ROOT_PATH, 'app'),
         }
       ]

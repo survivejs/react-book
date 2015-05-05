@@ -10,7 +10,7 @@ So far our approach to styling has been simple. We have just sprinkled some clas
 
 Webpack configuration has been something minimal as well:
 
-**app/config/index.js**
+**webpack.config.js**
 
 ```javascript
 var common = {
@@ -139,7 +139,7 @@ We cannot for instance leverage caching for our CSS. If only JavaScript portion 
 
 There is a plugin that allows us to work around these problems. [extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin) generates a separate bundle for CSS. It comes with some overhead during compilation phase and won't work with hot module reloading (HMR). It also takes some additional setup. In our case configuration would look like this:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -217,7 +217,7 @@ As we saw earlier linting can be powerful. It points out potential problems befo
 
 Next we'll need to integrate it with our configuration:
 
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 ...

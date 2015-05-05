@@ -140,24 +140,22 @@ In order to make our normal build (`npm run build`) work with CSS, you could att
 
 If we don't structure our configuration in a smart way, it will become easy to make mistakes. We'll want to avoid unnecessary duplication. Given Webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure Webpack expects, we should be fine.
 
-One way to do this is to keep configuration within a single file and expose it from there via small wrappers for Webpack to consume. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place. The wrappers cause a little bit of extra work but it's not a bad price to pay for some clarity.
+One way to do this is to keep all configuration in `webpack.config.js` and control what it returns using an environment variable. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place.
 
 We can adapt this approach to our project quite easily. First of all let's set up a structure like this:
 
-- /config
-  - index.js - This is where the configuration goes
-  - merge.js - A merge utility we'll be using to avoid duplication
+- webpack.config.js - Our configuration
+- /lib
+  - merge.js - This will merge configuration to avoid duplication
 
-Our *index.js* will contain all of our configuration. We'll implement a little helper using lodash so install it (`npm i lodash --save-dev`). Here's the full source:
-
-**config/index.js**
+**webpack.config.js**
 
 ```javascript
 var path = require('path');
-var merge = require('./merge');
+var merge = require('./lib/merge');
 
 var TARGET = process.env.TARGET;
-var ROOT_PATH = path.resolve(__dirname, '..');
+var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
   entry: [path.join(ROOT_PATH, 'app/main.js')],
@@ -183,12 +181,21 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = mergeConfig({
-    entry: ['webpack/hot/dev-server']
+    entry: ['webpack/hot/dev-server'],
+    module: {
+      preLoaders: [
+        {
+          test: /\.jsx?$/,
+          loader: 'eslint-loader',
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ],
+    },
   });
 }
 ```
 
-**config/merge.js**
+**lib/merge.js**
 
 ```javascript
 var _ = require('lodash');
@@ -217,11 +224,13 @@ To make everything work again, we'll need to tweak our `package.json` **scripts*
 ```json
 {
   "scripts": {
-    "build": "TARGET=build webpack --config config/index.js",
-    "dev": "TARGET=dev webpack-dev-server --config config/index.js --devtool eval --progress --colors --hot --content-base build"
+    "build": "TARGET=build webpack",
+    "dev": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --content-base build"
   }
 }
 ```
+
+W> `TARGET=build` type of declarations won't work on Windows! You should use `set TARGET=build && webpack` kind of syntax there. Later on Webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
 
 You can also eliminate those old configuration files at the project root while at it.
 
@@ -317,7 +326,7 @@ T> An alternative way to achieve a tidier output is to invoke `npm run lint --si
 
 We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). Hit `npm i eslint-loader --save-dev` to add it to the project. We also need to tweak our development configuration to include it. Add the following section to it:
 
-**config/index.js**
+**webpack.config.js**
 
 ```
 if(TARGET === 'dev') {
