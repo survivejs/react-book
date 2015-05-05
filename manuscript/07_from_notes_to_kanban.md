@@ -2,16 +2,16 @@
 
 ![Kanban board](images/kanban.png)
 
-So far our Todo Application is very simplistic. We can manipulate the Todo items. There is also basic level of persistency. We are still missing some vital functionality that is needed to turn it this into a proper Kanban table (see image above).
+So far our Notes Application is very simplistic. We can manipulate the Note items. There is also basic level of persistency. We are still missing some vital functionality that is needed to turn it this into a proper Kanban table (see image above).
 
-Most importantly we'll need to model the concept of lane. A lane is something that contains a name and some todo items. If we model these requirements as a data structure, we'll end up with something like this:
+Most importantly we'll need to model the concept of lane. A lane is something that contains a name and some note items. If we model these requirements as a data structure, we'll end up with something like this:
 
 ```javascript
 {
   lanes: [
     {
       name: 'Todo',
-      todos: [
+      notes: [
         {
           task: 'Learn Webpack'
         },
@@ -22,7 +22,7 @@ Most importantly we'll need to model the concept of lane. A lane is something th
     },
     {
       name: 'Doing',
-      todos: [
+      notes: [
         {
           task: 'Learn React'
         }
@@ -30,13 +30,13 @@ Most importantly we'll need to model the concept of lane. A lane is something th
     },
     {
       name: 'Done',
-      todos: []
+      notes: []
     }
   ]
 }
 ```
 
-The question is how do we map this structure to our React app. We could try to define a `AppStore` to manage the highest level of hierarchy. Ideally this would be something we could just serialize for persistency. Lower in the hierarchy there would perhaps be `LaneStore` and `TodoStore` for managing these particular structures. In addition we would have Actions for each. We would have to keep `AppStore` synced up somehow for serialization to work.
+The question is how do we map this structure to our React app. We could try to define a `AppStore` to manage the highest level of hierarchy. Ideally this would be something we could just serialize for persistency. Lower in the hierarchy there would perhaps be `LaneStore` and `NoteStore` for managing these particular structures. In addition we would have Actions for each. We would have to keep `AppStore` synced up somehow for serialization to work.
 
 As you can see this approach would get complex quite fast. Once you have some form of duplication in your application and need to think about syncing, you'll open a lot of possibilities for bugs. Clearly Flux, as discussed in the previous chapter, isn't the tool we want to apply here.
 
@@ -95,7 +95,7 @@ var tree = new Baobab({
   lanes: [
     {
       name: 'demo',
-      todos: [
+      notes: [
         {
           task: 'foo',
         }
@@ -106,7 +106,7 @@ var tree = new Baobab({
 
 var rootCursor = tree.root;
 var laneCursor = tree.select('lanes', 0);
-var todoCursor = laneCursor.select('todos');
+var noteCursor = laneCursor.select('notes');
 
 rootCursor.on('update', function() {
   console.log(
@@ -119,7 +119,7 @@ laneCursor.on('update', function() {
   console.log('updated lane', laneCursor.get());
 });
 
-todoCursor.push({task: 'Demo task'});
+noteCursor.push({task: 'Demo task'});
 ```
 
 If you run the code, you should see output like this:
@@ -130,7 +130,7 @@ updated root {
   "lanes": [
     {
       "name": "demo",
-      "todos": [
+      "notes": [
         {
           "task": "foo"
         },
@@ -142,7 +142,7 @@ updated root {
   ]
 }
 updated lane { name: 'demo',
-  todos: [ { task: 'foo' }, { task: 'Demo task' } ] }
+  notes: [ { task: 'foo' }, { task: 'Demo task' } ] }
 ```
 
 Imagine the same in the context of React. We could model a small API for operations and a cursor per component. On the high level we would have the data we need without having to think about syncing. The data structure takes care of it for you.
