@@ -181,16 +181,7 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = mergeConfig({
-    entry: ['webpack/hot/dev-server'],
-    module: {
-      preLoaders: [
-        {
-          test: /\.jsx?$/,
-          loader: 'eslint-loader',
-          include: path.join(ROOT_PATH, 'app'),
-        }
-      ],
-    },
+    entry: ['webpack/hot/dev-server']
   });
 }
 ```
