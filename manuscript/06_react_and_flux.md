@@ -252,7 +252,7 @@ class NoteStore {
 
 Now we have an application that can restore its state based on `localStorage`. It would be fairly simple to replace the backend with something else. We would just need to implement the storage interface again.
 
-In the current solution persistency logic is decoupled with `App`. Given it would be nice to reuse it elsewhere, we can extract it to a higher order component. Let's do that next.
+In the current solution persistency logic is coupled with `App`. Given it would be nice to reuse it elsewhere, we can extract it to a higher order component. Let's do that next.
 
 ## Extracting Higher Order Components
 
