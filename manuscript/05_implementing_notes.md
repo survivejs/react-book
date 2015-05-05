@@ -32,7 +32,7 @@ render() {
 }
 ```
 
-We will use a special feature of JSX in form of `{}`. Within these braces we can mix JavaScript with JSX. In this case we will render a bunch of `li` elements. Each contains a `TodoItem`. In order to tell React in which order to render the elements, we'll set `key` property for each. It is important that this is unique or otherwise it won't be able to figure out the correct order.
+We will use a special feature of JSX in form of `{}`. Within these braces we can mix JavaScript with JSX. In this case we will render a bunch of `li` elements. Each contains a `Note`. In order to tell React in which order to render the elements, we'll set `key` property for each. It is important that this is unique or otherwise it won't be able to figure out the correct order.
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
@@ -289,7 +289,7 @@ We can set up Flow type checking to our Webpack easily by first doing `npm i flo
 },
 ```
 
-Now we can start typing. For instance you could attach types for `TodoItem` props like this:
+Now we can start typing. For instance you could attach types for `Note` props like this:
 
 ```javascript
 constructor(props: {
