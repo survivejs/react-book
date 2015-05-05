@@ -18,6 +18,7 @@ export default class Lane extends React.Component {
   }
   constructor(props: {
     laneCursor: Array;
+    moveNote: Function;
   }, context) {
     super(props);
 
@@ -36,7 +37,7 @@ export default class Lane extends React.Component {
               onClick={this.actions.create.bind(null, 'New task')}>+</button>
           </div>
         </div>
-        <Notes notesCursor={laneCursor.concat(['notes'])} />
+        <Notes notesCursor={laneCursor.concat(['notes'])} moveNote={this.props.moveNote} />
       </div>
     );
   }
