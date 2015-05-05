@@ -137,7 +137,9 @@ The current approach works well for simple cases. It simply inlines the CSS as a
 
 We cannot for instance leverage caching for our CSS. If only JavaScript portion changes all CSS will be loaded still. As our CSS is injected through JavaScript, there is additional overhead. If the user isn't running JavaScript, no styling will be applied to the markup at all.
 
-There is a plugin that allows us to work around these problems. [extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin) generates a separate bundle for CSS. It comes with some overhead during compilation phase and won't work with hot module reloading (HMR). It also takes some additional setup. In our case configuration would look like this:
+There is a plugin that allows us to work around these problems. [extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin) generates a separate bundle for CSS. It comes with some overhead during compilation phase and won't work with hot module reloading (HMR). It also takes some additional setup.
+
+Hit `npm i extract-text-webpack-plugin --save-dev` and tweak configuration like this:
 
 **webpack.config.js**
 
