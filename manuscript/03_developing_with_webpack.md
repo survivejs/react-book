@@ -299,6 +299,10 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 
+T> Note that like some other tools, such as JSCS and JSHint, ESlint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
+
+### Dealing with `ELIFECYCLE` Error
+
 In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error. If you want to hide this, you can change the script into this form:
 
 **package.json**
@@ -413,6 +417,8 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
 ```
 
 We won't use the tool in this project but it's good to be aware of it.
+
+T> Note that like some other tools, such as ESlint and JSHint, JSCS supports `package.json` based configuration. Simply add a `jscsConfig` field to it and write the configuration there.
 
 ## Conclusion
 
