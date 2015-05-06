@@ -4,7 +4,7 @@ Back in the day it was enough to understand how Makefiles work. That said even t
 
 They don't aim to replace more general utilities such as [Grunt](http://gruntjs.com/) or [Gulp](http://gulpjs.com/). Rather they complement them. In this book we will focus primarily on Webpack, a module bundler. It is simply a tool that takes some input, bundles it and provides you something to serve to your clients. Even though this sounds simple, Webpack solves a fundamental problem for web developers.
 
-Previously you had to use numerous separate tools for compiling your assets. Webpack does this transparently for you. It is not just about Javascript. You can use it to bundle pretty much anything thanks to its loader based architecture. You can consume easily JSON, images and even fonts. Not only that, we can process these assets through transpilers, Base64 conversion etc. without much trouble.
+Previously you had to use numerous separate tools for compiling your assets. Webpack does this transparently for you. It is not just about Javascript. You can use it to bundle pretty much anything thanks to its loader based architecture. You can easily consume JSON, images and even fonts. Not only that, we can process these assets through transpilers, Base64 conversion etc. without much trouble.
 
 ## How Is This Book Organized?
 
@@ -16,4 +16,4 @@ The book content and source is available at [GitHub](https://github.com/survivej
 
 It is expected that you have basic knowledge of JavaScript and Node.js. You should be able to use NPM. If you know something about Webpack or React, that's great. That said, you should be able to deepen your understanding of the tool by reading this book and going through the project.
 
-Once you understand the power of Tobias Koppers' tool, it will help you to reach the next level of productivity as a web developer. You will be able to implement optimize your web application in ways that were hard previosly. And what's better, you will be able to develop more effectively. Thank you Tobias, and other contributors of Webpack, for easing our lifes as developers!
+Once you understand the power of Tobias Koppers' tool, it will help you to reach the next level of productivity as a web developer. You will be able to implement and optimize your web application in ways that were hard previously. And what's better, you will be able to develop more effectively. Thank you Tobias, and other contributors of Webpack, for easing our lifes as developers!
