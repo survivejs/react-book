@@ -410,6 +410,7 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
 
 **.jscsrc**
 
+```json
 {
   "esprima": "esprima-fb",
   "preset": "google",
@@ -434,6 +435,7 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
     "node_modules/**"
   ]
 }
+```
 
 We won't use the tool in this project but it's good to be aware of it.
 
