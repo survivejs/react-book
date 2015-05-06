@@ -28,26 +28,33 @@ export default class Lanes extends React.Component {
     );
   }
   moveNote(source, target) {
-    var lanesCursor = this.context.cursors.lanes;
+    const lanesCursor = this.context.cursors.lanes;
+    const sourceLaneCursor = lanesCursor.select(source.lane);
+    const sourceNoteCursor = sourceLaneCursor.select('notes');
+    const sourceNotes = sourceNoteCursor.get();
+
+    const targetLaneCursor = lanesCursor.select(target.lane);
+    const targetNoteCursor = targetLaneCursor.select('notes');
+    const targetNotes = targetNoteCursor.get();
+
+    const sourceNote = sourceNotes.filter(c => c.id === source.id)[0];
+    const targetNote = targetNotes.filter(c => c.id === target.id)[0];
+    const sourceIndex = sourceNotes.indexOf(sourceNote);
+    const targetIndex = targetNotes.indexOf(targetNote);
 
     console.log('move note', source, target);
 
     if(source.lane === target.lane) {
-      var laneCursor = lanesCursor.select(source.lane);
-      var noteCursor = laneCursor.select('notes');
-      var notes = noteCursor.get();
+      sourceNoteCursor.splice([sourceIndex, 1]);
+      targetNoteCursor.splice([targetIndex, 0, sourceNote]);
 
-      const sourceNote = notes.filter(c => c.id === source.id)[0];
-      const targetNote = notes.filter(c => c.id === target.id)[0];
-      const sourceIndex = notes.indexOf(sourceNote);
-      const targetIndex = notes.indexOf(targetNote);
-
-      console.log(sourceIndex, targetIndex);
-
-      noteCursor.splice([sourceIndex, 1]);
-      noteCursor.splice([targetIndex, 0, sourceNote]);
-      noteCursor.tree.commit();
+      // source and target are same so single commit is enough
+      targetNoteCursor.tree.commit();
     }
-    // TODO: allow moving from lane to lane
+    else {
+      console.log('move from lane to lane');
+
+      // TODO: replace contents now
+    }
   }
 }
