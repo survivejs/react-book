@@ -274,9 +274,9 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "jsx": true
   },
   "rules": {
-    "no-unused-vars": false,
     "no-underscore-dangle": false,
     "no-use-before-define": false,
+    "eol-last": false,
     "quotes": [2, "single"],
     "comma-dangle": "always",
     "react/jsx-boolean-value": 1,
