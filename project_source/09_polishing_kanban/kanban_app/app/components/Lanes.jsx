@@ -2,6 +2,7 @@ import React from 'react';
 import { configureDragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd/modules/backends/HTML5';
 import {branch} from 'baobab-react/decorators';
+import PropTypes from 'baobab-react/prop-types';
 import Lane from './Lane';
 
 @branch({
@@ -11,6 +12,9 @@ import Lane from './Lane';
 })
 @configureDragDropContext(HTML5Backend)
 export default class Lanes extends React.Component {
+  static contextTypes = {
+    cursors: PropTypes.cursors
+  }
   render() {
     var lanes = this.props.lanes;
 
@@ -23,24 +27,25 @@ export default class Lanes extends React.Component {
       </div>
     );
   }
-  moveNote(id, afterId) {
-    return console.log('move note', id, afterId, this);
+  moveNote(sourceNote, targetNote) {
+    var lanesCursor = this.context.cursors.lanes;
 
+    console.log('move note', sourceNote, targetNote);
+
+    if(sourceNote.lane === targetNote.lane) {
+      var laneCursor = lanesCursor.select(sourceNote.lane);
+      var noteCursor = laneCursor.select('notes');
+      var notes = noteCursor.get();
+
+      const note = notes.filter(c => c.id === sourceNote.id)[0];
+      const afterNote = notes.filter(c => c.id === targetNote.id)[0];
+      const noteIndex = notes.indexOf(note);
+      const afterIndex = notes.indexOf(afterNote);
+
+      noteCursor.splice([noteIndex, 1]);
+      noteCursor.splice([afterIndex, 0, note]);
+      noteCursor.tree.commit();
+    }
     // TODO: allow moving from lane to lane
-    // TODO: allow moving within a lane (done below)
-
-    /*
-    var cursor = this.cursor;
-    var notes = this.props.notes;
-
-    const note = notes.filter(c => c.id === id)[0];
-    const afterNote = notes.filter(c => c.id === afterId)[0];
-    const noteIndex = notes.indexOf(note);
-    const afterIndex = notes.indexOf(afterNote);
-
-    cursor.splice([noteIndex, 1]);
-    cursor.splice([afterIndex, 0, note]);
-    cursor.tree.commit();
-    */
   }
 }
