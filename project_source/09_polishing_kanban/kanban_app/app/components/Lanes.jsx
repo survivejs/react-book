@@ -42,7 +42,7 @@ export default class Lanes extends React.Component {
     const sourceIndex = sourceNotes.indexOf(sourceNote);
     const targetIndex = targetNotes.indexOf(targetNote);
 
-    console.log('move note', source, target);
+    console.log('moving note');
 
     if(source.lane === target.lane) {
       sourceNoteCursor.splice([sourceIndex, 1]);
@@ -52,9 +52,13 @@ export default class Lanes extends React.Component {
       targetNoteCursor.tree.commit();
     }
     else {
-      console.log('move from lane to lane');
+      // XXX: moving note gets triggered a lot in this case!!!
+      // -> commit?
+      sourceNoteCursor.set(sourceIndex, targetNote);
+      sourceNoteCursor.tree.commit();
 
-      // TODO: replace contents now
+      targetNoteCursor.set(targetIndex, sourceNote);
+      targetNoteCursor.tree.commit();
     }
   }
 }
