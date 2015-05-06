@@ -92,6 +92,7 @@ Given the following project file structure:
 You can create a configuration like this:
 
 **webpack.production.js**
+
 ```javascript
 var path = require('path');
 var webpack = require('webpack');
