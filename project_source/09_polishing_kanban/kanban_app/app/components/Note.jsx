@@ -1,10 +1,6 @@
 import React from 'react';
 import { configureDragDrop } from 'react-dnd';
-
-// XXX: push to ItemTypes.js
-const ItemTypes = {
-  NOTE: 'note'
-};
+import ItemTypes from './ItemTypes';
 
 const NoteSource = {
   beginDrag(props) {
