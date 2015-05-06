@@ -42,6 +42,11 @@ export default class Lanes extends React.Component {
     const sourceIndex = sourceNotes.indexOf(sourceNote);
     const targetIndex = targetNotes.indexOf(targetNote);
 
+    // XXX: why this can happen?
+    if(sourceIndex < 0 || targetIndex < 0) {
+      return;
+    }
+
     console.log('moving note');
 
     if(source.lane === target.lane) {
@@ -54,6 +59,9 @@ export default class Lanes extends React.Component {
     else {
       // XXX: moving note gets triggered a lot in this case!!!
       // -> commit?
+
+      console.log('across', sourceIndex, targetIndex, sourceNote, targetNote);
+
       sourceNoteCursor.set(sourceIndex, targetNote);
       sourceNoteCursor.tree.commit();
 

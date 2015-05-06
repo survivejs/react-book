@@ -1,8 +1,7 @@
 export default (lanesCursor, notesCursor) => {
   return {
     create: (task) => {
-      // TODO: calculate id based on amount of notes based on lanesCursor
-      const id = notesCursor.get().length || 0;
+      const id = getAmountOfNotes(lanesCursor);
 
       notesCursor.push({id, task});
     },
@@ -18,3 +17,7 @@ export default (lanesCursor, notesCursor) => {
     }
   };
 };
+
+function getAmountOfNotes(lanesCursor) {
+  return lanesCursor.get().map((lane) => lane.notes.length).reduce((a, b) => a + b) || 0;
+}
