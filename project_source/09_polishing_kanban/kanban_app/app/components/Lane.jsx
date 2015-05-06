@@ -7,6 +7,7 @@ import noteActions from '../actions/NoteActions';
 @branch({
   cursors: function(props) {
     return {
+      lanes: ['lanes'],
       lane: props.laneCursor
     };
   }
@@ -21,7 +22,10 @@ export default class Lane extends React.Component {
   }, context) {
     super(props);
 
-    this.actions = noteActions(context.cursors.lane.select('notes'));
+    this.actions = noteActions(
+      context.cursors.lanes,
+      context.cursors.lane.select('notes')
+    );
   }
   render() {
     var laneCursor = this.props.laneCursor;
