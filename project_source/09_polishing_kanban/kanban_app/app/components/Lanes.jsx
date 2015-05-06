@@ -42,12 +42,14 @@ export default class Lanes extends React.Component {
     const sourceIndex = sourceNotes.indexOf(sourceNote);
     const targetIndex = targetNotes.indexOf(targetNote);
 
+    console.log('moving note', source, sourceNote, sourceIndex, target, targetNote, targetIndex);
+
     // XXX: why this can happen?
+    // XXX: the problem here is that the lane index of source can change dynamically
+    // -> no match for source -> change source search algorithm to operate globally or patch source somehow?
     if(sourceIndex < 0 || targetIndex < 0) {
       return;
     }
-
-    console.log('moving note');
 
     if(source.lane === target.lane) {
       sourceNoteCursor.splice([sourceIndex, 1]);
