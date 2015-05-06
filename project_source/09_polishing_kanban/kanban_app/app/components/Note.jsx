@@ -5,17 +5,28 @@ import ItemTypes from './ItemTypes';
 const NoteSource = {
   beginDrag(props) {
     return {
-      id: props.id
+      id: props.id,
+      lane: props.lane,
     };
   }
 };
 
 const NoteTarget = {
   hover(props, monitor) {
-    const draggedId = monitor.getItem().id;
+    const draggedNote = monitor.getItem();
+    const draggedLane = draggedNote.lane.id;
+    const draggedId = draggedNote.id;
+    const targetLane = props.lane.id;
+    const targetId = props.id;
 
-    if(draggedId !== props.id) {
-      props.moveNote(draggedId, props.id);
+    if(draggedId !== targetId || draggedLane !== targetLane) {
+      props.moveNote({
+        id: draggedId,
+        lane: draggedLane,
+      }, {
+        id: props.id,
+        lane: targetLane,
+      });
     }
   }
 };
@@ -37,6 +48,7 @@ export default class Note extends React.Component {
     connectDragSource: Function;
     connectDropTarget: Function;
     isDragging: bool;
+    lane: Object;
     task: string;
     id: number;
     onEdit: Function;

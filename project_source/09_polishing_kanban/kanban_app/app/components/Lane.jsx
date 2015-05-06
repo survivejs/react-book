@@ -27,6 +27,8 @@ export default class Lane extends React.Component {
     var laneCursor = this.props.laneCursor;
     var lane = this.props.lane;
 
+    console.log('lane', lane);
+
     return (
       <div className='lane'>
         <div className='lane-header'>
@@ -36,7 +38,10 @@ export default class Lane extends React.Component {
               onClick={this.actions.create.bind(null, 'New task')}>+</button>
           </div>
         </div>
-        <Notes notesCursor={laneCursor.concat(['notes'])} moveNote={this.props.moveNote} />
+        <Notes
+          notesCursor={laneCursor.concat(['notes'])}
+          moveNote={this.props.moveNote}
+          lane={lane} />
       </div>
     );
   }

@@ -18,6 +18,7 @@ export default class Notes extends React.Component {
   constructor(props: {
     notesCursor: Array;
     moveNote: Function;
+    lane: Object;
   }, context) {
     super(props);
 
@@ -25,12 +26,14 @@ export default class Notes extends React.Component {
   }
   render(props, context) {
     var notes = this.props.notes;
+    var lane = this.props.lane;
 
     return (
       <ul className='notes'>{notes.map((note, i) =>
         <li key={'note' + i}>
           <Note
             id={note.id}
+            lane={lane}
             task={note.task}
             onEdit={this.itemEdited.bind(this, i)}
             moveNote={this.props.moveNote}
