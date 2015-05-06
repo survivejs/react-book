@@ -405,16 +405,34 @@ module: {
 },
 ```
 
-To make it work with JSX, you'll need to point it to `esprima-fb` parser through `.jscsrc` like this:
+To make it work with JSX, you'll need to point it to `esprima-fb` parser through `.jscsrc`. There are also various other options and even some presets. Consider the example below:
 
 **.jscsrc**
 
-```json
 {
   "esprima": "esprima-fb",
-  ...
+  "preset": "google",
+
+  "fileExtensions": [".js", ".jsx"],
+
+  "requireCurlyBraces": true,
+  "requireParenthesesAroundIIFE": true,
+
+  "maximumLineLength": 120,
+  "validateLineBreaks": "LF",
+  "validateIndentation": 4,
+
+  "disallowKeywords": ["with"],
+  "disallowSpacesInsideObjectBrackets": null,
+  "disallowImplicitTypeConversion": ["string"],
+
+  "safeContextKeyword": "that",
+
+  "excludeFiles": [
+    "dist/**",
+    "node_modules/**"
+  ]
 }
-```
 
 We won't use the tool in this project but it's good to be aware of it.
 
