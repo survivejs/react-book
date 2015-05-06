@@ -57,7 +57,6 @@ It is nice to keep the implementation of `App` on a high level. We can improve i
 **app/components/Notes.jsx**
 
 ```javascript
-'use strict';
 import React from 'react';
 import Note from './Note';
 

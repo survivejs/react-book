@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 import { configureDragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd/modules/backends/HTML5';

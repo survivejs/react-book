@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 
 export default (Component, initAction, store, storage, storageName) => {
@@ -8,7 +7,7 @@ export default (Component, initAction, store, storage, storageName) => {
 
       initAction(storage.get(storageName));
 
-      window.addEventListener('beforeunload', function(e){
+      window.addEventListener('beforeunload', function() {
         storage.set(storageName, store.getState());
       }, false);
     }

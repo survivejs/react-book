@@ -1,4 +1,3 @@
-'use strict';
 var path = require('path');
 var webpack = require('webpack');
 var merge = require('./lib/merge');

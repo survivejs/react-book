@@ -8,12 +8,14 @@
     "react"
   ],
   "ecmaFeatures": {
-    "jsx": true
+    "jsx": true,
+    "modules": true
   },
   "rules": {
-    "no-unused-vars": false,
+    "strict": [2, "global"],
     "no-underscore-dangle": false,
     "no-use-before-define": false,
+    "eol-last": false,
     "quotes": [2, "single"],
     "comma-dangle": "always",
     "react/jsx-boolean-value": 1,

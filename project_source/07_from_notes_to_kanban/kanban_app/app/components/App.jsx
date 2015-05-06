@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 import Baobab from 'baobab';
 import {root} from 'baobab-react/decorators';

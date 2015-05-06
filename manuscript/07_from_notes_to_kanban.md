@@ -88,7 +88,6 @@ Wouldn't it be useful if we could operate on the data structure we just defined 
 [baobab](https://github.com/Yomguithereal/baobab) is a JavaScript data tree library that allows us to do this. Consider the following demo:
 
 ```javascript
-'use strict';
 var Baobab = require('baobab');
 
 var tree = new Baobab({
@@ -158,7 +157,6 @@ Hit `npm i baobab baobab-react --save` to include baobab in the project. You can
 **app/components/App.jsx**
 
 ```javascript
-'use strict';
 import React from 'react';
 import Baobab from 'baobab';
 import {root} from 'baobab-react/decorators';
@@ -213,8 +211,6 @@ We get a reference to the tree root at this level. Now it's enough if we can cre
 **app/actions/AppActions.js**
 
 ```javascript
-'use strict';
-
 export default (cursor) => {
   return {
     createLane: (name) => {
@@ -239,7 +235,6 @@ To follow the same ideas as before I've split up Lanes into two concepts. Into a
 **app/components/Lanes.jsx**
 
 ```javascript
-'use strict';
 import React from 'react';
 import Lane from './Lane';
 import {branch} from 'baobab-react/decorators';
@@ -269,7 +264,6 @@ The lanes operate within a specific part of the tree. I use `@branch` decorator 
 **app/components/Lane.jsx**
 
 ```javascript
-'use strict';
 import React from 'react';
 import {branch} from 'baobab-react/decorators';
 import PropTypes from 'baobab-react/prop-types';
@@ -323,7 +317,6 @@ As there are plenty of changes in `Notes`, I'll show it in its entirety.
 **app/components/Notes.jsx**
 
 ```javascript
-'use strict';
 import React from 'react';
 import {branch} from 'baobab-react/decorators';
 import PropTypes from 'baobab-react/prop-types';
@@ -377,8 +370,6 @@ The most important change has to do with the way we deal with Actions. Just like
 **app/actions/NoteActions.jsx**
 
 ```javascript
-'use strict';
-
 export default (cursor) => {
   return {
     create: (task) => {
@@ -424,7 +415,6 @@ export default class App extends React.Component {
 **app/decorators/persist.js**
 
 ```javascript
-'use strict';
 import React from 'react';
 
 const root = (Component, tree, storage, storageName) => {
@@ -439,7 +429,7 @@ const root = (Component, tree, storage, storageName) => {
         tree.commit();
       }
 
-      window.addEventListener('beforeunload', function(e){
+      window.addEventListener('beforeunload', function() {
         storage.set(storageName, tree.get());
       }, false);
     }

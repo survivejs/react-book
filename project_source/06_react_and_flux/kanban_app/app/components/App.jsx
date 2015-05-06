@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';

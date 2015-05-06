@@ -27,7 +27,6 @@ Before delving into the implementation itself, `npm i alt --save` to get the dep
 **app/actions/NoteActions.js**
 
 ```javascript
-'use strict';
 import alt from '../libs/alt';
 
 class NoteActions {
@@ -50,7 +49,6 @@ Next we will need to define a Store that maintains the data based on these actio
 **app/stores/NoteStore.js**
 
 ```javascript
-'use strict';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
@@ -86,7 +84,6 @@ We will also need a module to maintain an instance of Alt. It will deal with coo
 **app/libs/alt.js**
 
 ```javascript
-'use strict';
 import Alt from 'alt';
 export default new Alt();
 ```
@@ -96,7 +93,6 @@ Finally we'll need to tweak our `App` to operate based on `NoteStore` and `NoteA
 **app/components/App.jsx**
 
 ```javascript
-'use strict';
 import React from 'react';
 import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
@@ -177,8 +173,6 @@ Given it's not nice to lose your Notes during a refresh, we can tweak our implem
 **app/libs/storage.js**
 
 ```javascript
-'use strict';
-
 export default {
   get: function(k) {
     try {
@@ -286,7 +280,6 @@ Now we are close to what we had there earlier. Only new bit is that `persist` th
 **app/decorators/persist.js**
 
 ```javascript
-'use strict';
 import React from 'react';
 
 export default (Component, initAction, store, storage, storageName) => {
@@ -296,7 +289,7 @@ export default (Component, initAction, store, storage, storageName) => {
 
       initAction(storage.get(storageName));
 
-      window.addEventListener('beforeunload', function(e){
+      window.addEventListener('beforeunload', function() {
         storage.set(storageName, store.getState());
       }, false);
     }
@@ -314,7 +307,6 @@ We can implement a decorator for connecting a component with a Store as well. He
 **app/decorators/connect.js**
 
 ```javascript
-'use strict';
 import React from 'react';
 
 export default (Component, store) => {
@@ -375,6 +367,9 @@ export default persist(
 Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects.
 
 We can build new decorators for various functionalities, such as undo, in this manner. By slicing our logic into higher order components we get an application that is easier to develop. Best of all decorators such as the one we implemented can be easily reused in some other project.
+
+> XXXXX: convert into a real decorator
+> mention "no-unused-vars": false and https://github.com/babel/babel-eslint/issues/72
 
 ## Conclusion
 

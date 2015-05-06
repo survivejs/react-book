@@ -1,4 +1,3 @@
-'use strict';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 

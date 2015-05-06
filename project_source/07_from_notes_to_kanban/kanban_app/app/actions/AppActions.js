@@ -1,5 +1,3 @@
-'use strict';
-
 export default (cursor) => {
   return {
     createLane: (name) => {

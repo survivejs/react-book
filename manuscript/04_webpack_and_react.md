@@ -21,7 +21,6 @@ To get started install React to your project. Just hit `npm i react --save` and 
 **app/components/App.jsx**
 
 ```javascript
-'use strict';
 import React from 'react';
 import Note from './Note';
 
@@ -39,7 +38,6 @@ We also need to define that `Note` component:
 **app/components/Note.jsx**
 
 ```javascript
-'use strict';
 import React from 'react';
 
 export default class Note extends React.Component {
@@ -56,7 +54,6 @@ In addition we'll need to adjust our `main.js` to render the component correctly
 **app/main.jsx**
 
 ```javascript
-'use strict';
 import './stylesheets/main.css';
 
 import React from 'react';
@@ -149,7 +146,6 @@ We can resolve this issue by minifying our build. As easy way to do this is to p
 **webpack.config.js**
 
 ```javascript
-'use strict';
 var webpack = require('webpack');
 
 ...
@@ -234,7 +230,6 @@ To enable hot loading for React, you should perform `npm i react-hot-loader --sa
 **webpack.config.js**
 
 ```javascript
-'use strict';
 var path = require('path');
 var webpack = require('webpack');
 var _ = require('lodash');

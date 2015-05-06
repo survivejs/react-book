@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 
 const root = (Component, tree, storage, storageName) => {
@@ -13,7 +12,7 @@ const root = (Component, tree, storage, storageName) => {
         tree.commit();
       }
 
-      window.addEventListener('beforeunload', function(e){
+      window.addEventListener('beforeunload', function() {
         storage.set(storageName, tree.get());
       }, false);
     }

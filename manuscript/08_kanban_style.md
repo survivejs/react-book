@@ -113,7 +113,6 @@ For notes it's enough just to replace some of that default list styling. We also
 **app/main.jsx**
 
 ```javascript
-'use strict';
 import './stylesheets/main.css';
 import './stylesheets/lane.css';
 import './stylesheets/note.css';

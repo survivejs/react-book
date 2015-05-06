@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 import Lane from './Lane';
 import {branch} from 'baobab-react/decorators';

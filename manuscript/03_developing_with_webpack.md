@@ -271,9 +271,11 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "react"
   ],
   "ecmaFeatures": {
-    "jsx": true
+    "jsx": true,
+    "modules": true
   },
   "rules": {
+    "strict": [2, "global"],
     "no-underscore-dangle": false,
     "no-use-before-define": false,
     "eol-last": false,

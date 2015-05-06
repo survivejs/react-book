@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 import {branch} from 'baobab-react/decorators';
 import PropTypes from 'baobab-react/prop-types';

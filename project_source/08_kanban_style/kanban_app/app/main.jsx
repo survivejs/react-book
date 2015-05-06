@@ -1,4 +1,3 @@
-'use strict';
 import './stylesheets/main.css';
 import './stylesheets/lane.css';
 import './stylesheets/note.css';
