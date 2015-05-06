@@ -364,12 +364,120 @@ export default persist(
 );
 ```
 
-Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects.
+Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects. It still isn't as nice as it can be. That HOC nesting isn't very readable. Fortunately we can convert them to use a nicer syntax.
+
+## Converting HOCs to Decorators
+
+If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. They just provide a nicer syntax for HOCs essentially.
+
+There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. There are a couple of tooling related gotchas we should patch before moving further.
+
+### Patching Tools to Work with Decorators
+
+As we'll be relying on decorators and still like to use Flowcheck, we'll need to tweak configuration a little bit:
+
+**webpack.config.js**
+
+```javascript
+exports.build = mergeConfig({
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel?stage=0',
+        include: path.join(ROOT_PATH, 'app'),
+      }
+    ]
+  },
+  ...
+});
+
+exports.develop = mergeConfig({
+  ...
+  module: {
+    ...
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
+        include: path.join(ROOT_PATH, 'app'),
+      }
+    ]
+    ...
+  }
+  ...
+});
+```
+
+In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
+
+Note that I'm enabling Stage 0 functionality as I'll be relying on some of that in the next chapter (primarily [class properties](https://gist.github.com/jeffmo/054df782c05639da2adb)).
+
+T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESlint.
+
+As babel-eslint's `no-unused-vars` rule doesn't detect decorators yet, we'll need to disable it for now ([related issue](https://github.com/babel/babel-eslint/issues/72)).
+
+**.eslintrc**
+
+```json
+{
+  ...
+  "rules": {
+    "no-unused-vars": false,
+    ...
+  }
+}
+```
+
+### Adding Decorator Wrappers
+
+In order to port our HOCs to be able to use decorator syntax, we'll need to tweak our current implementation a little bit.
+
+**app/decorators/connect.js**
+
+```javascript
+import React from 'react';
+
+const connect = (Component, store) => {
+  ...
+}
+
+export default (store) => {
+  return (target) => connect(target, store);
+};
+```
+
+**app/decorators/persist.js**
+
+```javascript
+import React from 'react';
+
+const persist = (Component, initAction, store, storage, storageName) => {
+  ...
+}
+
+export default (initAction, store, storage, storageName) => {
+  return (target) => persist(target, initAction, store, storage, storageName);
+};
+```
+
+As you can see the HOCs have been wrapped within functions that return functions. That's how decorators work by definition.
+
+**app/components/App.jsx**
+
+```javascript
+...
+
+@persist(NoteActions.init, NoteStore, storage, 'notes')
+@connect(NoteStore)
+export default class App extends React.Component {
+  ...
+}
+```
+
+Note how much neater our `App` is now. You can clearly see that we want to persist this component and connect it to a certain store.
 
 We can build new decorators for various functionalities, such as undo, in this manner. By slicing our logic into higher order components we get an application that is easier to develop. Best of all decorators such as the one we implemented can be easily reused in some other project.
-
-> XXXXX: convert into a real decorator
-> mention "no-unused-vars": false and https://github.com/babel/babel-eslint/issues/72
 
 ## Conclusion
 

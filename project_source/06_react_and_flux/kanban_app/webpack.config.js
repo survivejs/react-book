@@ -32,7 +32,7 @@ if(TARGET === 'build') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loader: 'babel',
+          loader: 'babel?stage=0',
           include: path.join(ROOT_PATH, 'app'),
         }
       ]
@@ -67,7 +67,7 @@ if(TARGET === 'dev') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel', 'flowcheck'],
+          loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
           include: path.join(ROOT_PATH, 'app'),
         }
       ]

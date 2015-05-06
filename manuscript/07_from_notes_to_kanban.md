@@ -40,47 +40,6 @@ The question is how do we map this structure to our React app. We could try to d
 
 As you can see this approach would get complex quite fast. Once you have some form of duplication in your application and need to think about syncing, you'll open a lot of possibilities for bugs. Clearly Flux, as discussed in the previous chapter, isn't the tool we want to apply here.
 
-## Making Flowcheck work with Decorators
-
-As we'll be relying on decorators and still like to use Flowcheck, we'll need to tweak configuration a little bit:
-
-**webpack.config.js**
-
-```javascript
-exports.build = mergeConfig({
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel?stage=0',
-        include: path.join(ROOT_PATH, 'app'),
-      }
-    ]
-  },
-  ...
-});
-
-exports.develop = mergeConfig({
-  ...
-  module: {
-    ...
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
-        include: path.join(ROOT_PATH, 'app'),
-      }
-    ]
-    ...
-  }
-  ...
-});
-```
-
-In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
-
-T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESlint.
-
 ## Introduction to Baobab
 
 Wouldn't it be useful if we could operate on the data structure we just defined and give our components views to it based on their requirements? If some part of the structure changed, we would still have something consistent on the highest level on the hierarchy.

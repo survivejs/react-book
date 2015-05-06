@@ -12,6 +12,7 @@
     "modules": true
   },
   "rules": {
+    "no-unused-vars": false,
     "strict": [2, "global"],
     "no-underscore-dangle": false,
     "no-use-before-define": false,

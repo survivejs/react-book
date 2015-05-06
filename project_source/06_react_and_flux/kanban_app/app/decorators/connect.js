@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default (Component, store) => {
+const connect = (Component, store) => {
   return class Connect extends React.Component {
     constructor(props) {
       super(props);
@@ -20,4 +20,8 @@ export default (Component, store) => {
       return <Component {...this.props} {...this.state} />;
     }
   };
+};
+
+export default (store) => {
+  return (target) => connect(target, store);
 };

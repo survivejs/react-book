@@ -6,7 +6,9 @@ import persist from '../decorators/persist';
 import connect from '../decorators/connect';
 import storage from '../libs/storage';
 
-class App extends React.Component {
+@persist(NoteActions.init, NoteStore, storage, 'notes')
+@connect(NoteStore)
+export default class App extends React.Component {
   constructor(props: {
     notes: Array;
   }) {
@@ -34,11 +36,3 @@ class App extends React.Component {
     }
   }
 }
-
-export default persist(
-  connect(App, NoteStore),
-  NoteActions.init,
-  NoteStore,
-  storage,
-  'notes'
-);
