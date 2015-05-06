@@ -27,23 +27,25 @@ export default class Lanes extends React.Component {
       </div>
     );
   }
-  moveNote(sourceNote, targetNote) {
+  moveNote(source, target) {
     var lanesCursor = this.context.cursors.lanes;
 
-    console.log('move note', sourceNote, targetNote);
+    console.log('move note', source, target);
 
-    if(sourceNote.lane === targetNote.lane) {
-      var laneCursor = lanesCursor.select(sourceNote.lane);
+    if(source.lane === target.lane) {
+      var laneCursor = lanesCursor.select(source.lane);
       var noteCursor = laneCursor.select('notes');
       var notes = noteCursor.get();
 
-      const note = notes.filter(c => c.id === sourceNote.id)[0];
-      const afterNote = notes.filter(c => c.id === targetNote.id)[0];
-      const noteIndex = notes.indexOf(note);
-      const afterIndex = notes.indexOf(afterNote);
+      const sourceNote = notes.filter(c => c.id === source.id)[0];
+      const targetNote = notes.filter(c => c.id === target.id)[0];
+      const sourceIndex = notes.indexOf(sourceNote);
+      const targetIndex = notes.indexOf(targetNote);
 
-      noteCursor.splice([noteIndex, 1]);
-      noteCursor.splice([afterIndex, 0, note]);
+      console.log(sourceIndex, targetIndex);
+
+      noteCursor.splice([sourceIndex, 1]);
+      noteCursor.splice([targetIndex, 0, sourceNote]);
       noteCursor.tree.commit();
     }
     // TODO: allow moving from lane to lane

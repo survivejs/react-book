@@ -27,8 +27,6 @@ export default class Lane extends React.Component {
     var laneCursor = this.props.laneCursor;
     var lane = this.props.lane;
 
-    console.log('lane', lane);
-
     return (
       <div className='lane'>
         <div className='lane-header'>
