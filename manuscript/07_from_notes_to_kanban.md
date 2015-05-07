@@ -111,7 +111,7 @@ T> Note that we will need to operate through baobab's API. It will apply changes
 
 ## Gluing Baobab with React
 
-Hit `npm i baobab baobab-react --save` to include baobab in the project. You can also remove `alt` dependency from the project by editing *package.json*. Here is what possible integration could look like:
+Hit `npm i baobab baobab-react typology --save` to include baobab in the project. You can also remove `alt` dependency from the project by editing *package.json*. Here is what possible integration could look like:
 
 **app/components/App.jsx**
 

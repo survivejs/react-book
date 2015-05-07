@@ -1,27 +1,10 @@
 import React from 'react';
-import Baobab from 'baobab';
 import {root} from 'baobab-react/decorators';
 import Lanes from './Lanes';
 import persist from '../decorators/persist';
 import storage from '../libs/storage';
 import appActions from '../actions/AppActions';
-
-const tree = new Baobab({
-  lanes: []
-}, {
-  validate: {
-    lanes: [{
-      id: 'number',
-      name: 'string',
-      notes: [
-        {
-          id: 'number',
-          task: 'string',
-        }
-      ]
-    }]
-  }
-});
+import tree from './tree';
 
 @persist(tree, storage, 'app')
 @root(tree)
