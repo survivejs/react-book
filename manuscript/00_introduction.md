@@ -27,3 +27,4 @@ This book wouldn't have been possible without these individuals. They all helped
 * [af7](https://github.com/af7) - Typo fixes and feedback
 * [Dan Abramov](https://github.com/gaearon) - Feedback and awesome tooling
 * [dnmd](https://github.com/dnmd) - Pointed out Windows related path issue
+* [James Cavanaugh](https://github.com/PlantBuilder) - Pointed out various typos and provided useful feedback
