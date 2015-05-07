@@ -225,7 +225,7 @@ To make everything work again, we'll need to tweak our `package.json` **scripts*
 }
 ```
 
-W> `TARGET=build` type of declarations won't work on Windows! You should use `set TARGET=build && webpack` kind of syntax there. Later on Webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
+W> `TARGET=build` type of declarations won't work on Windows! You should use `set TARGET=build&& webpack` kind of syntax there. It is important it's `build&&` and not `build &&` as that will fail. Later on Webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
 
 You can also eliminate those old configuration files at the project root while at it.
 
