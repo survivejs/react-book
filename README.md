@@ -42,6 +42,8 @@ These depend on how well the book manages.
 Chapter | Description | Progress | Notes
 --- | --- | --- | ---
 Routing with react-router | Extending further (multiple boards, charts) | 0% | It might be nice to discuss routing and expand the app while at it
+Backend | This would discuss the usage of Webpack on backend. REST API on top of Express and Swagger? | 5% | [Tech demo](https://github.com/bebraw/swagger-todo)
+Isomorphism | How to go isomorphic with the app. Discuss benefits and possible gotchas. | 0% |
 Performance | Performance strategies for Webpack and React | 0% | |
 Testing | Testing approaches/tools for Webpack and React | 0% | |
 Internationalization etc. | i18n/l10n/a11y | 0% | Gathering ideas
