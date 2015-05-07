@@ -1,6 +1,6 @@
 # Implementing a Basic Note App
 
-Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude Note List with basic manipulation operations. Hit `npm run dev`. It's time to start developing.
+Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude Note List with basic manipulation operations. Hit `npm start`. It's time to start developing.
 
 ## Extending Note
 

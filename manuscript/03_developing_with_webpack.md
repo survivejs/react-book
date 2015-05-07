@@ -14,7 +14,7 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 {
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --hot --content-base build"
+    "start": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --hot --content-base build"
   }
 }
 ```
@@ -53,7 +53,7 @@ module.exports = {
 </html>
 ```
 
-When you run `npm run dev` from your terminal it will execute the command stated as a value on the **dev** property. This is what it does:
+When you run `npm start` from your terminal it will execute the command stated as a value on the **dev** property. This is what it does:
 
 1. `webpack-dev-server` - Starts a web service on `localhost:8080`
 2. `--config webpack.development.js` - Points at custom development configuration we'll set up later
@@ -63,9 +63,11 @@ When you run `npm run dev` from your terminal it will execute the command stated
 6. '--hot' - Enable hot module loading
 7. `--content-base build` - Points to the output directory configured
 
-To recap, when you run `npm run dev` this will fire up the webservice, watch for file changes and automatically rebundle your application when any file changes occur.
+To recap, when you run `npm start` this will fire up the webservice, watch for file changes and automatically rebundle your application when any file changes occur.
 
 Go to **http://localhost:8080** and you should see something. If you want to use some other port than 8080, you can pass `--port` parameter (ie. `--port 4000`) to *webpack-dev-server*.
+
+T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start`).
 
 T> Alternatively we can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process. You can alternatively examine your browser log for the same information and possible errors.
 
@@ -130,7 +132,7 @@ require('./stylesheets/main.css');
 ...
 ```
 
-Hit `npm run dev` now and point your browser to *localhost:8080* provided you are using the default port.
+Hit `npm start` now and point your browser to *localhost:8080* provided you are using the default port.
 
 To see the magic in action, you should open up *main.css* and change the background color to something nice like `lime` (`background: lime`). Develop styles as needed. Experiment.
 
@@ -349,7 +351,7 @@ if(TARGET === 'dev') {
 
 We are using `preLoaders` section here as we want to play it safe. This section is executed before `loaders` get triggered.
 
-If you execute `npm run dev` now and break some linting rule while developing, you should see that in terminal output.
+If you execute `npm start` now and break some linting rule while developing, you should see that in terminal output.
 
 ### Customizing ESlint
 

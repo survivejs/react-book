@@ -18,7 +18,7 @@ Having server rendered HTML available is beneficial because the users will not g
 
 Creating a production configuration is not that much different from creating configuration for development. We'll use different paths for the output and avoid development workflow specific configuration. It is also common to add caching configuration to your production configuration.
 
-To run the configuration and create a distribution for deployment we create a script. In addition to our existing `npm run dev` we will add `npm run prod`. What differs with our new production script is that it does not use the `webpack-dev-server`. We will only use webpack to produce a distribution. To make this work, we’ll need to tweak our `package.json` like this:
+To run the configuration and create a distribution for deployment we create a script. In addition to our existing `npm start` we will add `npm run prod`. What differs with our new production script is that it does not use the `webpack-dev-server`. We will only use webpack to produce a distribution. To make this work, we’ll need to tweak our `package.json` like this:
 
 ```
 "scripts": {

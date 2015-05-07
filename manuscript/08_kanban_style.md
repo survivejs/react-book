@@ -282,7 +282,7 @@ I decided to use a set of rules from Twitter Bootstrap. These seem like a good s
 
 If you hit `npm run lint-css` now, you should see some output, hopefully without errors. That `--quiet` flag is there to keep the tool silent unless there are errors.
 
-Thanks to the Webpack configuration we did, you should get output during `npm run dev` process as well. In addition you should consider setting up csslint with your editor. That way you get more integrated development experience.
+Thanks to the Webpack configuration we did, you should get output during `npm start` process as well. In addition you should consider setting up csslint with your editor. That way you get more integrated development experience.
 
 ## CSS Methodologies
 

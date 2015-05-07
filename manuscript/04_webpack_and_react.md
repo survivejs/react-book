@@ -221,7 +221,7 @@ So we went from 645k to 170k and finally to 122k. The final build is a little fa
 
 ## Activating Hot Loading for Development
 
-If you hit `npm run dev`, hit *localhost:8080* and try to modify our component (make it output `Learn React` or something), you'll see it actually works. After a flash. That's a little unfortunate especially if our application is more complex has state. It is annoying to manipulate the user interface back to the state in which it was in order to test something.
+If you hit `npm start`, hit *localhost:8080* and try to modify our component (make it output `Learn React` or something), you'll see it actually works. After a flash. That's a little unfortunate especially if our application is more complex has state. It is annoying to manipulate the user interface back to the state in which it was in order to test something.
 
 We can work around this problem using hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/). It will swap React components one by one as they change without forcing a full refresh. There will be times when that will be necessary but it will help a lot. Once you get used to hot loading, it is hard to live without.
 
@@ -287,7 +287,7 @@ if(TARGET === 'dev') {
 }
 ```
 
-Try hitting `npm run dev` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.
+Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.
 
 ## Conclusion
 
