@@ -17,3 +17,13 @@ The book content and source is available at [GitHub](https://github.com/survivej
 It is expected that you have basic knowledge of JavaScript and Node.js. You should be able to use NPM. If you know something about Webpack or React, that's great. That said, you should be able to deepen your understanding of the tool by reading this book and going through the project.
 
 Once you understand the power of Tobias Koppers' tool, it will help you to reach the next level of productivity as a web developer. You will be able to implement and optimize your web application in ways that were hard previously. And what's better, you will be able to develop more effectively. Thank you Tobias, and other contributors of Webpack, for easing our lifes as developers!
+
+## Acknowledgments
+
+This book wouldn't have been possible without these individuals. They all helped to make it better, each in their own way. Thanks guys!
+
+* [Christian Alfoni](https://github.com/christianalfoni) - Helped to author [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook). This book is continuation to that effort.
+* [vitaliy-kotov](https://github.com/vitaliy-kotov) - Pointed out various issues
+* [af7](https://github.com/af7) - Typo fixes and feedback
+* [Dan Abramov](https://github.com/gaearon) - Feedback and awesome tooling
+* [dnmd](https://github.com/dnmd) - Pointed out Windows related path issue

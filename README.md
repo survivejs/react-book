@@ -55,15 +55,7 @@ Debugging Webpack | Various debugging strategies for Webpack | 0% | Need to go t
 
 Feedback is welcome. You can provide it through [the issue tracker](https://github.com/survivejs/webpack_react/issues).
 
-## Acknowledgments
-
-* [Christian Alfoni](https://github.com/christianalfoni) - Helped to author [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook). This book is continuation to that effort.
-* [vitaliy-kotov](https://github.com/vitaliy-kotov) - Pointed out various issues
-* [af7](https://github.com/af7) - Typo fixes and feedback
-* [Dan Abramov](https://github.com/gaearon) - Feedback and awesome tooling
-* [dnmd](https://github.com/dnmd) - Pointed out Windows related path issue
-
-## Generating
+## Generating Ebooks
 
 To generate a pdf version of the book, hit `npm install` and `npm start`. After that you should have `./book.pdf`.
 
