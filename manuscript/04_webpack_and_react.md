@@ -4,13 +4,13 @@ Facebook's [React](https://facebook.github.io/react/) is one of those projects t
 
 ## What the React?
 
-React isn't a framework like Angular.js or Ember. Instead it's just a library focusing on the view layer. It introduced a concept known as virtual DOM to web developers. This means that instead of manipulating DOM directly just like all the libraries and frameworks before it, React maintains a DOM of its own. As changed are made to virtual DOM, React will batch the changes to actual DOM as it sees best.
+React isn't a framework like Angular.js or Ember. Instead it's just a library focusing on the view layer. It introduced a concept known as virtual DOM to web developers. This means that instead of manipulating DOM directly just like all the libraries and frameworks before it, React maintains a DOM of its own. As changes are made to virtual DOM, React will batch the changes to actual DOM as it sees best.
 
 This has meant that the developers of React have decoupled themselves from the limitations of DOM. As a result React is highly performant although this comes with a cost. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire but it's still something.
 
 Even if React isn't the smallest library out there it does manage to solve some serious problems. It is a pleasure to develop with thanks to its relative simplicity and powerful API. You will need to complement with a set of tools but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
 
-The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and layout system whereas providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
+The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and layout system while providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
 
 Webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React easily. Before we get to implement anything serious, it's a good idea to make sure we have a decent development environment. That will make everything so much easier.
 
@@ -115,7 +115,7 @@ Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This
 
 ```javascript
 var common = {
-  ...
+  entry: [path.join(ROOT_PATH, 'app/main.jsx')],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },

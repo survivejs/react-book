@@ -28,7 +28,7 @@ var common = {
 
 To recap first [css-loader](https://www.npmjs.com/package/css-loader) goes through possible `@import` and `url()` statements within the matched files and treats them as regular `require`. This allows us to rely on various other loaders such as [file-loader](https://www.npmjs.com/package/file-loader) or [url-loader](https://www.npmjs.com/package/url-loader).
 
-file-loader generates files whereas url-loader can create inline data urls for small resources. This can be useful for optimizing application loading as you avoid unnecessary requests while providing a slightly bigger payload. Small improvements such as this can yield large benefits especially if you are depending on a large amount of small resources within your style definitions.
+`file-loader` generates files while `url-loader` can create inline data urls for small resources. This can be useful for optimizing application loading as you avoid unnecessary requests while providing a slightly bigger payload. Small improvements such as this can yield large benefits especially if you are depending on a large amount of small resources within your style definitions.
 
 ### Basic Style for Kanban
 

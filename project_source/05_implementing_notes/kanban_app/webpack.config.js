@@ -7,12 +7,12 @@ var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
   entry: [path.join(ROOT_PATH, 'app/main.jsx')],
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
   },
   module: {
     loaders: [

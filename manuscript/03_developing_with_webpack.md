@@ -208,6 +208,8 @@ module.exports = function(source, target) {
 };
 ```
 
+Remember to invoke `npm i lodash --save-dev` so our merge function will work!
+
 The common configuration has been separated to a section of its own. In this case `build` configuration is actually the same as `common` configuration. We do a little tweak for `develop` case. As you can see the configuration is quite easy to follow this way.
 
 To make everything work again, we'll need to tweak our `package.json` **scripts** section like this:
