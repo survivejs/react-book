@@ -48,11 +48,13 @@ render() {
 
 As you can see the property we passed to our component gets mapped to `this.props`. After that it is just a matter of showing it wherever we like.
 
-We haven't achieved much yet but we're getting there. Next we should add some logic to the list so this application can do something useful.
+We haven't achieved much yet but we're getting there. In order to get somewhere, we'll need to expand and refine our component hierarchy.
 
-## Extracting `Notes`
+## Refining Component Hierarchy
 
-It is nice to keep the implementation of `App` on a high level. We can improve it further by splitting up `Notes` from it. It is just a component that takes *items* as an input and renders them as above. Here's a sample implementation:
+It is nice to keep the implementation of `App` on a high level. Currently there are concerns that might not belong there. We can improve the situation by splitting `Notes` into a component of its own. It will be just a component that takes *items* as an input and renders them as above.
+
+We'll want to end up a hierarchy such as this: App -> Notes -> Note. Each of these components will map to a file within `components`. Our `Note` is fine as is. `Notes` needs to be extracted out of `App`. Here's a sample implementation:
 
 **app/components/Notes.jsx**
 
@@ -90,6 +92,8 @@ import Notes from './Notes';
 
 ...
 ```
+
+Not only this change keeps `App` cleaner but it also gives us flexibility. If you wanted to have multiple `Notes` lists, it would be simple now. This is one of the key things to understand about React. You will need to learn to think in terms of components.
 
 ## Adding New Items to Notes list
 
