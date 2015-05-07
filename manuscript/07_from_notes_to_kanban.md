@@ -111,33 +111,19 @@ T> Note that we will need to operate through baobab's API. It will apply changes
 
 ## Gluing Baobab with React
 
+> XXXXX: Danger Will Robinson. This part is under progress!
+
 Hit `npm i baobab baobab-react typology --save` to include baobab in the project. You can also remove `alt` dependency from the project by editing *package.json*. Here is what possible integration could look like:
 
 **app/components/App.jsx**
 
 ```javascript
 import React from 'react';
-import Baobab from 'baobab';
 import {root} from 'baobab-react/decorators';
 import Lanes from './Lanes';
+import storage from '../libs/storage';
 import appActions from '../actions/AppActions';
-
-const tree = new Baobab({
-  lanes: []
-}, {
-  validate: {
-    lanes: [{
-      id: 'number',
-      name: 'string',
-      notes: [
-        {
-          id: 'number',
-          task: 'string',
-        }
-      ]
-    }]
-  }
-});
+import tree from './tree';
 
 @root(tree)
 export default class App extends React.Component {
@@ -161,7 +147,43 @@ export default class App extends React.Component {
 }
 ```
 
-We define a stub for our tree at the beginning and define a schema for it. The schema is based on [typology](https://github.com/jacomyal/typology) syntax which is simple yet powerful.
+**app/components/Tree.js**
+
+```javascript
+import Baobab from 'baobab';
+import types from 'typology';
+
+export default new Baobab({
+    lanes: []
+  }, {
+    validate: (previousState, newState, affectedPaths) => {
+      const schema = {
+        lanes: [{
+          id: 'number',
+          name: 'string',
+          notes: [
+            {
+              id: 'number',
+              task: 'string',
+            }
+          ]
+        }]
+      };
+      const valid = types.check(schema, newState);
+
+      if(!valid) {
+        const err = types.scan(schema, newState);
+
+        console.error(err);
+
+        return new Error(err.error);
+      }
+    }
+  }
+);
+```
+
+It takes a little extra effort to validate the contents of our tree but it's worth it. This way we can be sure that the tree contains always data we expect. The validation logic could be extracted and made reusable but this will just fine for our purposes.
 
 ## Modeling `AppActions`
 
