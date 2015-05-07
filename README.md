@@ -14,6 +14,41 @@ The repository has been split in two main parts: `manuscript` and `project_sourc
 
 There is no single right way to approach the book. It depends on your experience level and interest. You can build the project from scratch by following the book or you can start from a specific stage. Just pick the source from previous chapter as your starting point.
 
+## Progress
+
+The following tables should give you some idea of the status of the project and planned content.
+
+**Core Chapters**
+
+These are guaranteed to go into the first stable release.
+
+Chapter | Description | Progress
+--- | --- | ---
+Introduction | Brief intro to book, how to use it and so on | 75%
+Webpack Compared | How Webpack differs from the rest | 90%
+Developing with Webpack | How to get started with Webpack | 90%
+Webpack and React | How to develop React with Webpack | 90%
+Implementing a Basic Note App | First steps with React | 90%
+React and Flux | Improving architecture by using Flux (Alt) | 70%
+From Notes to Kanban | Integrating Baobab | 65%
+Kanban Style | Styling application | 90%
+Polishing Kanban | Adding DnD | 20%
+Authoring Libraries | How to author libraries at NPM using Webpack | 90%
+
+**Bonus Chapters**
+
+These depend on how well the book manages.
+
+Chapter | Description | Progress | Notes
+--- | --- | --- | ---
+Routing with react-router | Extending further (multiple boards, charts) | 0% | It might be nice to discuss routing and expand the app while at it
+Performance | Performance strategies for Webpack and React | 0% | |
+Testing | Testing approaches/tools for Webpack and React | 0% | |
+Internationalization etc. | i18n/l10n/a11y | 0% | Gathering ideas
+Asset Management | How to deal with various assets | 10% | This might go away (integrated to others)
+Deploying Applications | How to deal with various deployment configurations | 30% | This needs a rewrite to fit project better
+Debugging Webpack | Various debugging strategies for Webpack | 0% | Need to go through various strategies and develop tooling
+
 ## Contributing
 
 Feedback is welcome. You can provide it through [the issue tracker](https://github.com/survivejs/webpack_react/issues).
