@@ -16,6 +16,8 @@ Feedback is welcome. You can provide it through [the issue tracker](https://gith
 
 * [Christian Alfoni](https://github.com/christianalfoni) - Helped to author [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook). This book is continuation to that effort.
 * [vitaliy-kotov](https://github.com/vitaliy-kotov) - Pointed out various issues
+* [af7](https://github.com/af7) - Typo fixes and feedback
+* [Dan Abramov](https://github.com/gaearon) - Feedback and awesome tooling
 
 ## Generating
 
