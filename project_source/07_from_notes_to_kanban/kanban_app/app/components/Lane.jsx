@@ -3,11 +3,13 @@ import {branch} from 'baobab-react/decorators';
 import PropTypes from 'baobab-react/prop-types';
 import Notes from './Notes';
 import noteActions from '../actions/NoteActions';
+import laneActions from '../actions/LaneActions';
 
 @branch({
   cursors: function(props) {
     return {
-      lane: props.laneCursor
+      lane: props.laneCursor,
+      lanes: ['lanes']
     };
   }
 })
@@ -21,6 +23,7 @@ export default class Lane extends React.Component {
     super(props);
 
     this.noteActions = noteActions(context.cursors.lane.select('notes'));
+    this.laneActions = laneActions(context.cursors.lanes);
   }
   render() {
     var laneCursor = this.props.laneCursor;
@@ -33,6 +36,8 @@ export default class Lane extends React.Component {
           <div className='lane-controls'>
             <button className='lane-add-note'
               onClick={this.noteActions.create.bind(null, 'New task')}>+</button>
+            <button className='lane-remove'
+              onClick={this.laneActions.remove.bind(null, lane.id)}>X</button>
           </div>
         </div>
         <Notes notesCursor={laneCursor.concat(['notes'])} />

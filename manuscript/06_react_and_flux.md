@@ -434,6 +434,7 @@ As babel-eslint's `no-unused-vars` rule doesn't detect decorators yet, we'll nee
 {
   ...
   "rules": {
+    "no-shadow": false,
     "no-unused-vars": false,
     ...
   }
