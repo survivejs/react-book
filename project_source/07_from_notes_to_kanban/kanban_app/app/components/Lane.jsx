@@ -20,7 +20,7 @@ export default class Lane extends React.Component {
   }, context) {
     super(props);
 
-    this.actions = noteActions(context.cursors.lane.select('notes'));
+    this.noteActions = noteActions(context.cursors.lane.select('notes'));
   }
   render() {
     var laneCursor = this.props.laneCursor;
@@ -32,7 +32,7 @@ export default class Lane extends React.Component {
           <div className='lane-name'>{lane.name}</div>
           <div className='lane-controls'>
             <button className='lane-add-note'
-              onClick={this.actions.create.bind(null, 'New task')}>+</button>
+              onClick={this.noteActions.create.bind(null, 'New task')}>+</button>
           </div>
         </div>
         <Notes notesCursor={laneCursor.concat(['notes'])} />

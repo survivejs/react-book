@@ -121,7 +121,7 @@ import React from 'react';
 import {root} from 'baobab-react/decorators';
 import Lanes from './Lanes';
 import storage from '../libs/storage';
-import appActions from '../actions/AppActions';
+import laneActions from '../actions/LaneActions';
 import tree from './tree';
 
 @root(tree)
@@ -129,13 +129,13 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.actions = appActions(tree);
+    this.laneActions = laneActions(tree.select('lanes'));
   }
   render() {
     return (
       <div className='app'>
         <div className='controls'>
-          <button onClick={this.actions.createLane.bind(null, 'New lane')}>
+          <button onClick={this.laneActions.create.bind(null, 'New lane')}>
             Add lane
           </button>
         </div>
@@ -184,19 +184,17 @@ export default new Baobab({
 
 It takes a little extra effort to validate the contents of our tree but it's worth it. This way we can be sure that the tree contains always data we expect. The validation logic could be extracted and made reusable but this will just fine for our purposes.
 
-## Modeling `AppActions`
+## Modeling `LaneActions`
 
 We get a reference to the tree root at this level. Now it's enough if we can create new lanes. Besides a name we'll attach an id to each lane based on their amount. Ids will come in handy later as we implement drag and drop.
 
-**app/actions/AppActions.js**
+**app/actions/LaneActions.js**
 
 ```javascript
 export default (cursor) => {
   return {
-    createLane: (name) => {
-      var lanes = cursor.select('lanes');
-
-      lanes.push({
+    create: (name) => {
+      cursor.push({
         id: lanes.get().length,
         name: name,
         notes: []
@@ -266,7 +264,7 @@ export default class Lane extends React.Component {
   }, context) {
     super(props);
 
-    this.actions = noteActions(context.cursors.lane.select('notes'));
+    this.laneActions = noteActions(context.cursors.lane.select('notes'));
   }
   render() {
     var laneCursor = this.props.laneCursor;
@@ -278,7 +276,7 @@ export default class Lane extends React.Component {
           <div className='lane-name'>{lane.name}</div>
           <div className='lane-controls'>
             <button className='lane-add-note'
-              onClick={this.actions.create.bind(null, 'New task')}>+</button>
+              onClick={this.laneActions.create.bind(null, 'New task')}>+</button>
           </div>
         </div>
         <Notes notesCursor={laneCursor.concat(['notes'])} />
@@ -428,6 +426,14 @@ export default (tree, storage, storageName) => {
 ```
 
 The nice thing about our implementation is that you can apply the decorator in any part of your tree, not just the root as we are doing here. So in case you wanted to persist just certain view within a more complex application, this could do it.
+
+## Removing Lanes
+
+TODO
+
+## Editing Lane Name
+
+TODO
 
 ## Undoing and Redoing
 
