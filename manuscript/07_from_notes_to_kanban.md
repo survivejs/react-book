@@ -82,7 +82,6 @@ noteCursor.push({task: 'Demo task'});
 
 If you run the code, you should see output like this:
 
-
 ```javascript
 updated root {
   "lanes": [
