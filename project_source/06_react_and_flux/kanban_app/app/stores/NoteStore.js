@@ -9,10 +9,20 @@ class NoteStore {
     this.setState(data || {notes: []});
   }
   create(task) {
-    this.notes.push({task});
+    const notes = this.notes;
+
+    this.setState({
+      notes: notes.concat({task})
+    });
   }
   update({id, task}) {
-    this.notes[id].task = task;
+    const notes = this.notes;
+
+    notes[id].task = task;
+
+    this.setState({
+      notes: notes
+    });
   }
   remove(id) {
     const notes = this.notes;

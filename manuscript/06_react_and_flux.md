@@ -6,7 +6,7 @@ In this chapter we will be using [Alt](http://alt.js.org/), a light Flux impleme
 
 ## Introduction to Flux
 
-Flux allows us to push the state our components depend upon outside of them into **Stores**. After that we don't need to care *how* the state is derived. It could be fetched from a backend or it could come from *localStorage*. On component **View** level we don't need to care.
+So far we have all of state within our components. It will become complicated to manage as we grow our application. Flux allows us to push some of it outside into **Stores**. After that we don't need to care *how* the state is derived. It could be fetched from a backend or it could come from *localStorage*. On component **View** level we don't need to care.
 
 Stores may be modified through **Actions**. In our Notes application we could define a set of basic operations such as `create`, `update` and `remove`. We would then trigger these Actions at our View. This in turn would cause Store to change which in turn would cause our components to update.
 
@@ -55,12 +55,24 @@ import NoteActions from '../actions/NoteActions';
 class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
+
+    this.notes = [];
   }
   create(task) {
-    this.notes.push({task});
+    const notes = this.notes;
+
+    this.setState({
+      notes: notes.concat({task})
+    });
   }
   update({id, task}) {
-    this.notes[id].task = task;
+    const notes = this.notes;
+
+    notes[id].task = task;
+
+    this.setState({
+      notes: notes
+    });
   }
   remove(id) {
     const notes = this.notes;
@@ -72,7 +84,6 @@ class NoteStore {
 }
 
 export default alt.createStore(NoteStore, 'NoteStore');
-
 ```
 
 `bindActions` is a shortcut that allows us to map Action handlers automatically based on name. We need to use a factory in order to pass Actions to Store.
@@ -141,7 +152,7 @@ As you can see, we pushed the logic out of our application. We actually have mor
 
 ## On Component Design
 
-Note that given we are using Flux now and have concepts of Actions and Stores, we can push logic lower in the hierarchy if we want to. Ie. in case of `Notes` we could trigger the actions we want there. This depends on what sort of coupling we want to create between components.
+Note that given we are using Flux now and have concepts of Actions and Stores, we can push logic lower in the hierarchy if we want to; i.e. in case of `Notes` we could trigger the actions we want there. This depends on what sort of coupling we want to create between components.
 
 One alternative would be to factor `Notes` like this:
 

@@ -87,9 +87,15 @@ Remember to replace the old list with `<Notes items={notes} />` at *App.jsx*:
 import Notes from './Notes';
 
 ...
+render() {
+  ...
 
-<Notes items={notes} />
-
+  return (
+    <div>
+      <Notes items={notes} />
+    </div>
+  );
+}
 ...
 ```
 
@@ -97,17 +103,23 @@ Not only this change keeps `App` cleaner but it also gives us flexibility. If yo
 
 ## Adding New Items to Notes list
 
-It would be useful if we could add new items to our Notes list. Let's just do a button with plus that when triggered adds a new dummy item to our list.
+It would be useful if we could add new items to our Notes list. Let's just do a plus button that adds a new dummy item to our list.
 
-To get a button show up, add
+To get a button show up, change `render` method like this:
 
-```html
-<button onClick={this.addItem.bind(this)}>+</button>
-```
-
-in the beginning of `App` JSX. Besides this we'll need to define that `onClick` handler. Define a method like this:
+**app/components/App.jsx**
 
 ```javascript
+render() {
+  ...
+
+  return (
+    <div>
+      <button onClick={this.addItem.bind(this)}>+</button>
+      <Notes items={notes} />
+    </div>
+  );
+},
 addItem() {
   console.log('add item');
 }
@@ -117,7 +129,7 @@ Now when you click the button, you should see something at your browser console.
 
 ## Connecting `addItem` with Data Model
 
-Next we will need to connect this with our data model somehow. It is problematic that now it is stored within our `render` method. React provides a concept known as state for this purpose. We can move our data there like this:
+Next we will need to connect this with our data model somehow. It is problematic that data is stored within our `render` method. React provides a concept known as state for this purpose. We can move our data there like this:
 
 ```javascript
 constructor(props) {
@@ -159,7 +171,7 @@ Our Notes list is almost useful now. It is a little unfortunate that even though
 
 A natural way to do this would be to allow the user to click an item. When an item is clicked, it would be replaced with an input control that would allow you to edit. After confirmed, the modification should remain there.
 
-This means we'll need to extend `Note` somehow and communicate possible changes to `App` so that it knows to update data model. In addition `Note` needs to keep track of its edit state and show the correct element (div or input) based on that.
+This means we'll need to extend `Note` somehow and communicate possible changes to `App` so that it knows to update the data model. In addition `Note` needs to keep track of its edit state and show the correct element (div or input) based on that.
 
 We can achieve these goals using a callback and a ternary expression. Here's a sample implementation of the idea:
 
