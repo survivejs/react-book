@@ -10,13 +10,17 @@ Previously you had to use numerous separate tools for compiling your assets. Web
 
 We will start from zero and develop a little Kanban application for tracking projects. During the process you will learn a lot about Webpack and a bit of [React](https://facebook.github.io/react/). Facebook's React has changed the way we think about frontend development. As it happens Webpack is a very good fit with React. We will also discuss Webpack on the backend and access some nifty language features that might not be otherwise available for us.
 
-The book content and source is available at [GitHub](https://github.com/survivejs/webpack_react). Even though it is recommended you will work through the material and experiment as you go, you can also just pick a starting point from there and then work on it instead. This is useful especially if you master basics already. Or in case you want to skip the React part.
-
 ## Who Is This Book For?
 
 It is expected that you have basic knowledge of JavaScript and Node.js. You should be able to use NPM. If you know something about Webpack or React, that's great. That said, you should be able to deepen your understanding of the tool by reading this book and going through the project.
 
 Once you understand the power of Tobias Koppers' tool, it will help you to reach the next level of productivity as a web developer. You will be able to implement and optimize your web application in ways that were hard previously. And what's better, you will be able to develop more effectively. Thank you Tobias, and other contributors of Webpack, for easing our lifes as developers!
+
+## Additional Material
+
+The book content and source is available at [GitHub](https://github.com/survivejs/webpack_react). Even though it is recommended you will work through the material and experiment as you go, you can also just pick a starting point from there and then work on it instead. This is useful especially if you master basics already. Or in case you want to skip the React part.
+
+In case you want infrequent updates about the book, I recommend following [@survivejs](https://twitter.com/survivejs) at Twitter.
 
 ## Acknowledgments
 
