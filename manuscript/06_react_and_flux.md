@@ -390,34 +390,38 @@ As we'll be relying on decorators and still like to use Flowcheck, we'll need to
 **webpack.config.js**
 
 ```javascript
-exports.build = mergeConfig({
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel?stage=0',
-        include: path.join(ROOT_PATH, 'app'),
-      }
-    ]
-  },
-  ...
-});
+if(TARGET === 'build') {
+  module.exports = mergeConfig({
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loader: 'babel?stage=0',
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ]
+    },
+    ...
+  });
+}
 
-exports.develop = mergeConfig({
-  ...
-  module: {
+if(TARGET === 'dev') {
+  module.exports = mergeConfig({
     ...
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
-        include: path.join(ROOT_PATH, 'app'),
-      }
-    ]
+    module: {
+      ...
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ]
+      ...
+    }
     ...
-  }
-  ...
-});
+  });
+}
 ```
 
 In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.

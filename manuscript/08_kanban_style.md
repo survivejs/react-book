@@ -120,7 +120,7 @@ import './stylesheets/note.css';
 ...
 ```
 
-Finally we make sure our application takes the new declarations in count. You could argue that each component could deal with the import by itself but this is one way to go. It makes testing components easier as you don't have to worry about the import in other environments.
+Finally we make sure our application takes the new declarations into account. You could argue that each component could deal with the import by itself but this is one way to go. It makes testing components easier as you don't have to worry about the import in other environments.
 
 If we use lazy loading for our components, it may make sense to move `require` on component level. The lazy loading machinery will be able to benefit from that. As a result the initial CSS your user has to load will be smaller.
 
@@ -232,7 +232,11 @@ if(TARGET === 'dev') {
           test: /\.css$/,
           loader: 'csslint',
         },
-        ...
+        {
+          test: /\.jsx?$/,
+          loader: 'eslint-loader',
+          include: path.join(ROOT_PATH, 'app'),
+        }
       ],
       ...
     },
@@ -286,7 +290,7 @@ Thanks to the Webpack configuration we did, you should get output during `npm st
 
 ## CSS Methodologies
 
-Coming up with de facto rules for styling might work a while. Over longer term as your codebase grows, you might start to experience challenges with that. As a result various methodologies have appeared in which people have taken these concerns in count.
+Coming up with de facto rules for styling might work a while. Over the longer term as your codebase grows, you might start to experience challenges with that. As a result various methodologies have appeared in which people have taken these concerns into account.
 
 Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS) and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each comes with its set of conventions. They can help to structure your CSS development.
 
@@ -298,7 +302,7 @@ The problem with vanilla CSS is that it is missing some functionality that would
 
 ### cssnext
 
-As it happens these features are in the future. [cssnext](https://cssnext.github.io/) is a project that allows us to experience future now. There are some restrictions but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case you would end up with the following:
+As it happens these features are in the future. [cssnext](https://cssnext.github.io/), however, is a project that allows us to experience the future now. There are some restrictions but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case you would end up with the following:
 
 ```javascript
 {
@@ -468,7 +472,7 @@ var styles = StyleSheet.create({
 <button styles={[styles.button, styles.primary]}>Confirm</button>
 ```
 
-As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you browser states (ie. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
+As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (ie. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
 
 Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to but without cascades. We also have our style declarations on component level.
 
@@ -512,6 +516,6 @@ Just like React Style, also jsxstyle comes with a Webpack loader that can extrac
 
 It is simple to try out various styling approaches with Webpack. You can do it all ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
 
-React based styling approaches allow us to push styles to component level. This provides an interesting contract to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS but in return you gain something that is simpler to understand and harder to break.
+React based styling approaches allow us to push styles to component level. This provides an interesting contrast to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS but in return you gain something that is simpler to understand and harder to break.
 
 It is likely possible to combine various approaches to some extent. Perhaps you could keep high level styling on old skool CSS while on component level you would do something more fitting. There are no best practices yet and we are still figuring out the best ways to do this in React.

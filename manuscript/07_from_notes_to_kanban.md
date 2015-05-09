@@ -2,7 +2,7 @@
 
 ![Kanban board](images/kanban.png)
 
-So far our Notes Application is very simplistic. We can manipulate the Note items. There is also basic level of persistency. We are still missing some vital functionality that is needed to turn it this into a proper Kanban table (see image above).
+So far our Notes Application is very simplistic. We can manipulate the Note items. There is also a basic level of persistency. We are still missing some vital functionality that is needed to turn it this into a proper Kanban table (see image above).
 
 Most importantly we'll need to model the concept of lane. A lane is something that contains a name and some note items. If we model these requirements as a data structure, we'll end up with something like this:
 
@@ -104,7 +104,7 @@ updated lane { name: 'demo',
 
 Imagine the same in the context of React. We could model a small API for operations and a cursor per component. On the high level we would have the data we need without having to think about syncing. The data structure takes care of it for you.
 
-A baobab tree can keep track of it changes. In naive cases, such as ours, this can give us an undo system pretty much for free. We will just need to active the functionality and hook up the underlying API with our application.
+A baobab tree can keep track of it changes. In naive cases, such as ours, this can give us an undo system pretty much for free. We will just need to activate the functionality and hook up the underlying API with our application.
 
 T> Note that we will need to operate through baobab's API. It will apply changes asynchronously by default. If you need something synchronous, you'll need to hit `tree.commit()` after an operation to force instant refresh.
 
@@ -182,11 +182,11 @@ export default new Baobab({
 );
 ```
 
-It takes a little extra effort to validate the contents of our tree but it's worth it. This way we can be sure that the tree contains always data we expect. The validation logic could be extracted and made reusable but this will just fine for our purposes.
+It takes a little extra effort to validate the contents of our tree but it's worth it. We can now be sure that the tree always contains the data we expect. The validation logic could be extracted and made reusable but this will just fine for our purposes.
 
 ## Modeling `LaneActions`
 
-We get a reference to the tree root at this level. Now it's enough if we can create new lanes. Besides a name we'll attach an id to each lane based on their amount. Ids will come in handy later as we implement drag and drop.
+We get a reference to the tree root at this level. For now it's enough if we can create new lanes. Besides a name we'll attach an id to each lane based on their amount. Ids will come in handy later as we implement drag and drop.
 
 **app/actions/LaneActions.js**
 
@@ -343,7 +343,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-The most important change has to do with the way we deal with Actions. Just like with `AppActions`, `NoteActions` is as light as possible. It operates using the cursor directly as below:
+The most important change has to do with the way we deal with Actions. Just like with `LaneActions`, `NoteActions` is as light as possible. It operates using the cursor directly as below:
 
 **app/actions/NoteActions.jsx**
 
@@ -441,4 +441,4 @@ XXX: show how to implement a simple undo to the app on top of baobab
 
 ## Conclusion
 
-After these changes we should have something rough together that works. It might not be the prettiest Kanban application out there and it might be missing some functionality but at least we have lanes now and can define notes within them. In the next chapter we will start polishing the application so that it actually looks good.
+After these changes we should have something roughed together that works. It might not be the prettiest Kanban application out there and it might be missing some functionality but at least we have lanes now and can define notes within them. In the next chapter we will start polishing the application so that it actually looks good.

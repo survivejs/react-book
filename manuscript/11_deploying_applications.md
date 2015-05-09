@@ -77,7 +77,7 @@ Run `npm run prod` in the root of the project and a `bundle.js` file will be ava
 
 ## Splitting App and Vendors
 
-You will want to split app and vendors when your project consists of relatively large dependencies, compared to the project itself. This is beneficial when you do bug fixes or other changes to the application, as users does not need to download the vendors bundle again. The initial loading time of your application is not optimized compared to a single bundle, actually it is a bit slower because now you have to set up two HTTP requests to get the required assets. As with everything, it is about balance.
+You will want to split app and vendors when your project consists of relatively large dependencies, compared to the project itself. This is beneficial when you do bug fixes or other changes to the application, as users do not need to download the vendors bundle again. The initial loading time of your application is not optimized compared to a single bundle, actually it is a bit slower because now you have to set up two HTTP requests to get the required assets. As with everything, it is about balance.
 
 > Generally the more HTTP requests you have to fire, the slower things will get. Even though request payload itself might be small, each request comes with overhead. The overhead adds up quickly. This is the reason why clever bundling approaches are required. The situation is likely to change as HTTP/2 gets adopted. The situation is quite opposite there.
 
@@ -239,11 +239,11 @@ React.render(<App/>, document.body);
 
 So this is just an example. You would probably hook this up to a router, but the important part is using `require.ensure`. When Webpack finds that statement it will automatically create a chunk that can be lazy loaded.
 
-**What is the array on the first argument?**: If you try to lazy load a chunk that depends on an other lazy loaded chunk you can set it as a dependency in the array. Just type in the path to the chunk. E.g. `['./FunnyButton.js']`
+**What is the array on the first argument?**: If you try to lazy load a chunk that depends on an other lazy loaded chunk you can set it as a dependency in the array. Just type in the path to the chunk; e.g. `['./FunnyButton.js']`
 
 ## Isomorphic App
 
-So the great thing about React is that it runs on the server too. But that does not mean you can just create any app and run it on the server. You have to make some decisions on the architecture. The reason is that even though React and the components run on the server, you might be having dependencies in those components that does not run on the server.
+So the great thing about React is that it runs on the server too. But that does not mean you can just create any app and run it on the server. You have to make some decisions on the architecture. The reason is that even though React and the components run on the server, you might have dependencies in those components that does not run on the server.
 
 ### Injecting state
 
