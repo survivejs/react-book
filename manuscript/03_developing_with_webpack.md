@@ -305,6 +305,8 @@ If you hit `npm run lint` now, you should get some errors and warnings to fix de
 
 T> Note that like some other tools, such as JSCS and JSHint, ESlint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
 
+T> It is possible to generate a sample `.eslintrc` using `eslint --init` (or `node_modules/.bin/eslint --init` for local install). This can be useful on new projects.
+
 ### Dealing with `ELIFECYCLE` Error
 
 In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error. If you want to hide this, you can change the script into this form:
