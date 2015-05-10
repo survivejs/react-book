@@ -270,7 +270,7 @@ There are a couple of places in `App` we would like to clean up. I've adjusted t
 import persist from '../decorators/persist';
 import storage from '../libs/storage';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
