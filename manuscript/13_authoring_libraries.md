@@ -218,7 +218,7 @@ dist-modules/
 ...
 ```
 
-W> Dealing with regular `dist` that gets versioned is trickier. Ideally the contents of it would get updated when you hit `npm version` and get into the version commit NPM performs. If someone knows a nice way to achieve this, let me know!
+T> Dealing with regular `dist` that gets versioned is trickier. Ideally the contents of it would get updated when you hit `npm version` and get into the version commit NPM performs. I've set up a custom `npm run` script for this in the example above. It will run tests, generate a distribution build and hit `npm version` internally. Basic idea: `"version": "npm run test && npm run dist && npm version \"$@\" && npm run gh-pages && npm run deploy-gh-pages"`.
 
 Besides `prepublish` NPM provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`.
 
