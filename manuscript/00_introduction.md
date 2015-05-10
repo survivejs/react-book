@@ -22,6 +22,15 @@ The book content and source is available at [GitHub](https://github.com/survivej
 
 In case you want infrequent updates about the book, I recommend following [@survivejs](https://twitter.com/survivejs) at Twitter.
 
+## Getting Support
+
+As no book is perfect you will likely come by issues and might have some questions related to content. There are a couple of options:
+
+* [GitHub Issue Tracker](https://github.com/survivejs/webpack_react/issues)
+* [Gitter Chat](https://gitter.im/survivejs/webpack_react)
+* Twitter - @survivejs or poke me directly using @bebraw
+* Email - bebraw@gmail.com
+
 ## Acknowledgments
 
 This book wouldn't have been possible without these individuals. They all helped to make it better, each in their own way. Thanks guys!
