@@ -32,3 +32,4 @@ This book wouldn't have been possible without these individuals. They all helped
 * [Dan Abramov](https://github.com/gaearon) - Feedback and awesome tooling
 * [dnmd](https://github.com/dnmd) - Pointed out Windows related path issue
 * [James Cavanaugh](https://github.com/PlantBuilder) - Pointed out various typos and provided useful feedback
+* [Josh Perez](https://github.com/goatslacker) - Helped to improve Alt chapter somewhat

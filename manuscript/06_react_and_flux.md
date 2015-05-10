@@ -16,13 +16,17 @@ As you can see it's a cyclic system. This makes Flux easy to reason about and to
 
 Flux isn't without its problems. Facebook's [Relay architecture](https://gist.github.com/wincent/598fa75e22bdfa44cf47) aims to solve some of those. Most importantly Relay allows you to push component data requirements to component level. It then composes queries based on this information.
 
-This means you would require a **GraphQL** compatible server. GraphGL is a custom query language developed for this purpose. It is possible this will hinder its adoption. We might see some implementations that try to bridge Flux with this particular idea. Time will tell.
+This means Relay would fit particularly well cases where you need to deal with asynchronous data fetching from server. In case you are using Flux this can become quite complicated. Relay uses a specific query language known as **GraphQL** to abstract this. You will need a backend compatible with it. It will likely be possible to build adapters on top of RESTful APIs to provide support for GraphQL.
 
 At least in the time of writing no open source Relay/GraphQL implementation exists. For now it's a good idea to learn Flux as it will greatly simplify React development.
 
 ## Porting Notes Application to Alt
 
-Before delving into the implementation itself, `npm i alt --save` to get the dependency we need. As discussed earlier, we'll need a set of actions to operate on our data. In terms of Alt it would look like this:
+Before delving into the implementation itself, `npm i alt --save` to get the dependency we need.
+
+### Defining Actions
+
+As discussed earlier, we'll need a set of actions to operate on our data. In terms of Alt it would look like this:
 
 **app/actions/NoteActions.js**
 
@@ -43,6 +47,8 @@ class NoteActions {
 
 export default alt.createActions(NoteActions);
 ```
+
+### Defining Store
 
 Next we will need to define a Store that maintains the data based on these actions:
 
@@ -90,6 +96,10 @@ export default alt.createStore(NoteStore, 'NoteStore');
 
 The Store listens to our actions and then updates its state accordingly. The functions have been adapted based on our earlier implementation of `App`.
 
+T> It would be possible to operate directly on data. Ie. a oneliner such as `this.notes.splice(id, 1)` would work for `remove`. Even though this works it is recommended that you use `setState` with Alt to keep things clear.
+
+### Maintaining an Instance of Alt
+
 We will also need a module to maintain an instance of Alt. It will deal with coordination of our Actions and Stores.
 
 **app/libs/alt.js**
@@ -98,6 +108,8 @@ We will also need a module to maintain an instance of Alt. It will deal with coo
 import Alt from 'alt';
 export default new Alt();
 ```
+
+### Gluing It All Together
 
 Finally we'll need to tweak our `App` to operate based on `NoteStore` and `NoteActions`:
 
@@ -121,8 +133,8 @@ export default class App extends React.Component {
   componentWillUnmount() {
     NoteStore.unlisten(this.storeChanged.bind(this));
   }
-  storeChanged() {
-    this.setState(NoteStore.getState());
+  storeChanged(state) {
+    this.setState(state);
   }
   render() {
     var notes = this.state.notes;
@@ -148,7 +160,7 @@ export default class App extends React.Component {
 }
 ```
 
-As you can see, we pushed the logic out of our application. We actually have more code now than before. On the plus side we managed to tidy up our `App` considerably.
+As you can see, we pushed the logic out of our application. We actually have more code now than before. On the plus side we managed to tidy up our `App` a little bit.
 
 ## On Component Design
 
@@ -261,7 +273,13 @@ In the current solution persistency logic is coupled with `App`. Given it would 
 
 ## Extracting Higher Order Components
 
-There are a couple of places in `App` we would like to clean up. I've adjusted the code as follows:
+There are a couple of places in `App` we would like to clean up. The code is simply getting confusing. We can separate some of that into higher order components (HOCs).
+
+A higher order component is a React component which can be used to wrap another component and apply some behavior to it. It is easier to understand how they work through a couple of examples.
+
+### Pushing Persistency to a HOC
+
+Persistency can be pushed to a HOC like this:
 
 **app/components/App.jsx**
 
@@ -285,8 +303,6 @@ class App extends React.Component {
 
 export default persist(App, NoteActions.init, NoteStore, storage, 'notes');
 ```
-
-Now we are close to what we had there earlier. Only new bit is that `persist` thinger. Let's look at its implementation next:
 
 **app/decorators/persist.js**
 
@@ -313,7 +329,13 @@ export default (Component, initAction, store, storage, storageName) => {
 
 As you can see it is a component that triggers the decorator and renders the component we pass to it. We have more code than earlier but we have factored it better. If you want to persist some other component, it is simple now.
 
-We can implement a decorator for connecting a component with a Store as well. Here's an example:
+T> The implementation of `persist` could be pushed further using `alt.takeSnapshot` and `alt.bootstrap` functions. That would allow us to implement a generic version for the whole application should we want to.
+
+W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
+
+### Pushing Connection to a HOC
+
+We can implement a decorator for connecting a component to a Store as well. Here's a example:
 
 **app/decorators/connect.js**
 
@@ -375,13 +397,15 @@ export default persist(
 );
 ```
 
-Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects. It still isn't as nice as it can be. That HOC nesting isn't very readable. Fortunately we can convert them to use a nicer syntax.
+Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects. We can take the approach further by converting our HOCs into decorators.
 
 ## Converting HOCs to Decorators
 
 If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. They just provide a nicer syntax for HOCs essentially.
 
 There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. There are a couple of tooling related gotchas we should patch before moving further.
+
+By definition a decorator is simply a function that returns a function. For instance invocation of our `persist` decorator could look like `persist(App)(NoteActions.init, NoteStore, storage, 'notes')` without using the decorator syntax (`@persist(NoteActions.init, ...)`).
 
 ### Patching Tools to Work with Decorators
 
@@ -494,6 +518,44 @@ export default class App extends React.Component {
 Note how much neater our `App` is now. You can clearly see that we want to persist this component and connect it to a certain store.
 
 We can build new decorators for various functionalities, such as undo, in this manner. By slicing our logic into higher order components we get an application that is easier to develop. Best of all decorators such as the one we implemented can be easily reused in some other project.
+
+## Using `AltContainer` Instead of a Decorator
+
+Even though our `@connect` is kind of cool, we can use something special Alt provides just for this purpose. It provides `AltContainer` that does the same thing and a bit more. Consider the example below:
+
+**app/components/App.jsx**
+
+```javascript
+import AltContainer from 'alt/AltContainer';
+import React from 'react';
+import Notes from './Notes';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
+import persist from '../decorators/persist';
+import storage from '../libs/storage';
+
+@persist(NoteActions.init, NoteStore, storage, 'notes')
+export default class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <button onClick={this.addItem.bind(this)}>+</button>
+        <AltContainer
+          stores={[NoteStore]}
+          inject={{
+            items: () => NoteStore.getState().notes || []
+          }}
+        >
+          <Notes onEdit={this.itemEdited.bind(this)} />
+        </AltContainer>
+      </div>
+    );
+  }
+  ...
+}
+```
+
+As you can see an `AltContainer` provides us even more control. It can connect multiple stores at once. We also have control over how their contents are mapped to the props of the components the wrapper contains.
 
 ## Conclusion
 
