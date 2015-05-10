@@ -1,4 +1,4 @@
-[![Join the chat at https://gitter.im/survivejs/webpack_react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/webpack_react?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) <a href="https://gratipay.com/bebraw/"><img src="https://img.shields.io/gratipay/bebraw.svg"></a>
+[![Join the chat at https://gitter.im/survivejs/webpack_react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/webpack_react?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) <a href="https://gratipay.com/bebraw/"><img src="https://img.shields.io/gratipay/bebraw.svg"></a> [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=bebraw&url=https://github.com/survivejs/webpack_react&title=SurviveJS - Webpack and React&language=&tags=github&category=software)
 
 # SurviveJS - Webpack and React
 
