@@ -26,10 +26,10 @@ In case you want infrequent updates about the book, I recommend following [@surv
 
 This book wouldn't have been possible without these individuals. They all helped to make it better, each in their own way. Thanks guys!
 
-* [Christian Alfoni](https://github.com/christianalfoni) - Helped to author [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook). This book is continuation to that effort.
-* [vitaliy-kotov](https://github.com/vitaliy-kotov) - Pointed out various issues
-* [af7](https://github.com/af7) - Typo fixes and feedback
-* [Dan Abramov](https://github.com/gaearon) - Feedback and awesome tooling
-* [dnmd](https://github.com/dnmd) - Pointed out Windows related path issue
-* [James Cavanaugh](https://github.com/PlantBuilder) - Pointed out various typos and provided useful feedback
-* [Josh Perez](https://github.com/goatslacker) - Helped to improve Alt chapter somewhat
+* Christian Alfoni - @christianalfoni - Helped to author [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook). This book is continuation to that effort.
+* @vitaliy-kotov - Pointed out various issues
+* @af7 - Typo fixes and feedback
+* Dan Abramov - @gaearon - Feedback and awesome tooling
+* @dnmd - Pointed out Windows related path issue
+* James Cavanaugh - @PlantBuilder - Pointed out various typos and provided useful feedback
+* Josh Perez - @goatslacker - Helped to improve Alt chapter somewhat
