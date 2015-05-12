@@ -2,8 +2,9 @@
 
 module.exports = {
   output: 'build',
-  name: 'Antwar minimal boilerplate',
-  author: 'Dr A N Twar',
+  name: 'SurviveJS - Survive the jungles of JavaScript',
+  author: 'Juho Vepsäläinen',
+  blogRoot: 'webpack_react',
   deploy: {
     branch: 'gh-pages',
   },
@@ -11,9 +12,7 @@ module.exports = {
     name: 'antwar-default-theme',
     navigation: [
       {title: 'Home', path: '/'},
-      {title: 'Blog', path: '/blog'},
-      {title: 'Page', path: '/page'},
-      {title: 'MarkdownPage', path: '/markdownpage'}
+      {title: 'Book', path: '/webpack_react'},
     ],
   }
 };
