@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "antwar-minimal-theme": "git://github.com/antwarjs/minimal-theme"
+    "antwar-default-theme": "git://github.com/antwarjs/default-theme"
   },
   "devDependencies": {
     "gitbook-cli": "^0.3.3"
