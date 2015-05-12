@@ -1,23 +1,33 @@
 {
   "name": "survivejs-webpack",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.7",
   "description": "SurviveJS - Webpack and React",
+  "author": "Juho Vepsalainen <bebraw@gmail.com>",
   "scripts": {
     "start": "gitbook pdf . ./book.pdf",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "antwar-minimal-theme": "git://github.com/antwarjs/minimal-theme"
+  },
+  "devDependencies": {
+    "gitbook-cli": "^0.3.3"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/survivejs/webpack_react.git"
   },
-  "author": "Juho Vepsalainen",
+  "homepage": "https://www.survivejs.com",
   "bugs": {
     "url": "https://github.com/survivejs/webpack_react/issues"
   },
-  "homepage": "https://github.com/survivejs/webpack_react",
-  "dependencies": {},
-  "devDependencies": {
-    "gitbook-cli": "^0.3.3"
-  }
+  "keywords": [
+    "javascript",
+    "webpack",
+    "react",
+    "book",
+    "antwar"
+  ],
+  "licenses": "MIT"
 }
