@@ -14,7 +14,7 @@ module.exports = {
       {title: 'Blog', path: '/blog'},
       {title: 'Page', path: '/page'},
       {title: 'MarkdownPage', path: '/markdownpage'}
-    ]
+    ],
   }
 };
 
