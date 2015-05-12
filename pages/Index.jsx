@@ -25,6 +25,7 @@ var Index = React.createClass({
                     <div className='front__buttons'>
                         <a href='webpack_react' className='btn btn--inverted'>Read the Book</a>
                         <a href='https://github.com/survivejs/webpack_react' className='btn btn--inverted'>View on GitHub</a>
+                        <a href='https://leanpub.com/survivejs_webpack' className='btn btn--inverted'>Buy the Ebook</a>
                     </div>
                 </div>
                 <div className='post__content'>
