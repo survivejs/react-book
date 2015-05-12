@@ -5,6 +5,7 @@ module.exports = {
   name: 'SurviveJS - Survive the jungles of JavaScript',
   author: 'Juho Vepsäläinen',
   blogRoot: 'webpack_react',
+  blogPosts: 'manuscript',
   deploy: {
     branch: 'gh-pages',
   },
@@ -12,7 +13,7 @@ module.exports = {
     name: 'antwar-default-theme',
     navigation: [
       {title: 'Home', path: '/'},
-      {title: 'Book', path: '/webpack_react'},
+      {title: 'Read the Book', path: '/webpack_react'},
     ],
   }
 };
