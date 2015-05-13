@@ -327,11 +327,13 @@ T> An alternative way to achieve a tidier output is to invoke `npm run lint --si
 
 ### Connecting ESlint with Webpack
 
-We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). Hit `npm i eslint-loader --save-dev` to add it to the project. We also need to tweak our development configuration to include it. Add the following section to it:
+We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step hit `npm i eslint-loader --save-dev` to add it to the project.
+
+Next we need to tweak our development configuration to include it. Add the following section to it:
 
 **webpack.config.js**
 
-```
+```javascript
 if(TARGET === 'dev') {
   module.exports = mergeConfig({
     entry: ['webpack/hot/dev-server'],
