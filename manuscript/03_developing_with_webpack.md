@@ -53,7 +53,7 @@ module.exports = {
 </html>
 ```
 
-When you run `npm start` from your terminal it will execute the command stated as a value on the **dev** property. This is what it does:
+When you run `npm start` from your terminal it will execute the command mapping to `start` script of the `scripts` section. This is what it does:
 
 1. `webpack-dev-server` - Starts a web service on `localhost:8080`
 2. `--config webpack.development.js` - Points at custom development configuration we'll set up later
@@ -67,7 +67,7 @@ To recap, when you run `npm start` this will fire up the webservice, watch for f
 
 Go to **http://localhost:8080** and you should see something. If you want to use some other port than 8080, you can pass `--port` parameter (ie. `--port 4000`) to *webpack-dev-server*.
 
-T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start`).
+T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start` or `npm run build`).
 
 T> Alternatively we can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process. You can alternatively examine your browser log for the same information and possible errors.
 
