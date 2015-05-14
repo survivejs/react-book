@@ -31,7 +31,7 @@ Webpack and React | How to develop React with Webpack | 90%
 Implementing a Basic Note App | First steps with React | 90%
 React and Flux | Improving architecture by using Flux (Alt) | 70%
 From Notes to Kanban | Integrating Baobab | 65%
-Kanban Style | Styling application | 90%
+Styling React | Styling application | 90%
 Polishing Kanban | Adding DnD | 20%
 Authoring Libraries | How to author libraries at NPM using Webpack | 90%
 
