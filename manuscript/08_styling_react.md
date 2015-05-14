@@ -294,7 +294,17 @@ Coming up with de facto rules for styling might work a while. Over the longer te
 
 Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS) and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each comes with its set of conventions. They can help to structure your CSS development.
 
-Maintaining long class names BEM requires can be boring. Various libraries have appeared to make this easier. Examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react). As of writing no such libraries exist for OOCSS and SMACSS.
+### BEM
+
+Maintaining long class names BEM requires can be boring. Various libraries have appeared to make this easier. Examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react).
+
+Note that [postcss-bem-linter](https://www.npmjs.com/package/postcss-bem-linter) allows you to lint your CSS for BEM conformance.
+
+### OOCSS and SMACSS
+
+As of writing no React specific helper libraries exist for OOCSS and SMACSS.
+
+csslint rules `Disallow qualified headings` and `Headings should only be defined once` allow you to check your CSS against OOCSS principles.
 
 ## cssnext, Less, Sass
 
