@@ -6,7 +6,7 @@
 05_implementing_notes.md
 06_react_and_flux.md
 07_from_notes_to_kanban.md
-08_kanban_style.md
+08_styling_react.md
 09_polishing_kanban.md
 10_asset_management.md
 11_deploying_applications.md

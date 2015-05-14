@@ -5,7 +5,7 @@
 * [Implementing a Basic Note App](manuscript/05_implementing_notes.md)
 * [React and Flux](manuscript/06_react_and_flux.md)
 * [From Notes to Kanban](manuscript/07_from_notes_to_kanban.md)
-* [Kanban Style](manuscript/08_kanban_style.md)
+* [Styling React](manuscript/08_styling_react.md)
 * [Polishing Kanban](manuscript/09_polishing_kanban.md)
 * [Asset Management](manuscript/10_asset_management.md)
 * [Deploying Applications](manuscript/11_deploying_applications.md)

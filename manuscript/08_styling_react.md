@@ -1,4 +1,4 @@
-# Kanban Style
+# Styling React
 
 Traditionally web pages have been split up in markup (ie. HTML), styling (ie. CSS) and logic (ie. JavaScript). Even though it looks like an simple abstraction, there are some interesting overlaps. You can push some logic to CSS but how much is too much? Is the separation actually useful for application development? These become big questions particularly in React context. As a result some interesting solutions have appeared although the scene is still in flux.
 
