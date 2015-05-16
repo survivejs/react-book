@@ -27,10 +27,10 @@ Chapter | Description | Progress
 Introduction | Brief intro to book, how to use it and so on | 75%
 Webpack Compared | How Webpack differs from the rest | 90%
 Developing with Webpack | How to get started with Webpack | 90%
-Linting in Webpack | How to lint in Webpack | 10%
+Linting in Webpack | How to lint in Webpack | 90%
 Webpack and React | How to develop React with Webpack | 90%
 Implementing a Basic Note App | First steps with React | 90%
-React and Flux | Improving architecture by using Flux (Alt) | 70%
+React and Flux | Improving architecture by using Flux (Alt) | 90%
 From Notes to Kanban | Integrating Baobab | 65%
 Styling React | Styling application | 90%
 Polishing Kanban | Adding DnD | 20%
