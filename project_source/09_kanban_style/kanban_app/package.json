@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "TARGET=build webpack",
-    "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
+    "start": "TARGET=dev node dev-server/server.js",
     "lint": "npm run lint-js && npm run lint-css",
     "lint-js": "eslint . --ext .js --ext .jsx",
     "lint-css": "csslint app/stylesheets --quiet"
@@ -17,27 +17,29 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^5.1.13",
-    "babel-eslint": "^3.0.1",
-    "babel-loader": "^5.0.0",
-    "css-loader": "^0.12.0",
+    "babel-core": "^5.4.3",
+    "babel-eslint": "^3.1.3",
+    "babel-loader": "^5.1.0",
+    "css-loader": "^0.12.1",
     "csslint": "^0.10.0",
     "csslint-loader": "^0.2.0",
-    "eslint": "^0.20.0",
-    "eslint-loader": "^0.11.1",
-    "eslint-plugin-react": "^2.2.0",
-    "extract-text-webpack-plugin": "^0.7.0",
+    "eslint": "^0.21.1",
+    "eslint-loader": "^0.11.2",
+    "eslint-plugin-react": "^2.3.0",
+    "extract-text-webpack-plugin": "^0.8.0",
     "flowcheck": "^0.2.6",
     "flowcheck-loader": "^1.0.0",
-    "lodash": "^3.7.0",
-    "react-hot-loader": "^1.2.5",
-    "style-loader": "^0.12.0",
-    "webpack": "^1.8.10",
+    "html-webpack-plugin": "^1.3.0",
+    "lodash": "^3.8.0",
+    "node-libs-browser": "^0.5.0",
+    "react-hot-loader": "^1.2.7",
+    "style-loader": "^0.12.2",
+    "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },
   "dependencies": {
-    "baobab": "^1.0.2",
-    "baobab-react": "^0.1.0",
-    "react": "^0.13.2"
+    "baobab": "^1.1.0",
+    "baobab-react": "^0.1.1",
+    "react": "^0.13.3"
   }
 }

@@ -1,6 +1,7 @@
 var path = require('path');
-var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var webpack = require('webpack');
 var merge = require('./lib/merge');
 
 var TARGET = process.env.TARGET;
@@ -47,13 +48,25 @@ if(TARGET === 'build') {
           warnings: false
         },
       }),
+      new HtmlWebpackPlugin({
+        title: 'Kanban app',
+        template: path.join(ROOT_PATH, 'app/index.tpl')
+      }),
     ],
   });
 }
 
 if(TARGET === 'dev') {
+  var IP = '0.0.0.0';
+  var PORT = 8080;
+
   module.exports = mergeConfig({
-    entry: ['webpack/hot/dev-server'],
+    ip: IP,
+    port: PORT,
+    entry: [
+      'webpack-dev-server/client?http://' + IP + ':' + PORT,
+      'webpack/hot/only-dev-server',
+    ],
     module: {
       preLoaders: [
         {
@@ -73,16 +86,19 @@ if(TARGET === 'dev') {
         },
         {
           test: /\.jsx?$/,
-          // XXXXX: flowcheck doesn't support annotations yet so we need to hack
-          // around a bit
           loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
           include: path.join(ROOT_PATH, 'app'),
         }
       ]
     },
+    output: {
+      path: __dirname,
+      filename: 'bundle.js',
+      publicPath: '/dev-server/'
+    },
     plugins: [
-      // do not reload if there is a syntax error in your code
-      new webpack.NoErrorsPlugin()
-    ],
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoErrorsPlugin(),
+    ]
   });
 }

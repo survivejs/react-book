@@ -148,13 +148,13 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var common = {
   entry: [path.join(ROOT_PATH, 'app/main.jsx')],
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
   },
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
-  }
 };
 
 if(TARGET === 'build') {
@@ -193,24 +193,7 @@ if(TARGET === 'dev') {
 }
 ```
 
-Using this set up we can still benefit from HMR during development. For production build we generate a separate CSS. In order to take that CSS in count, we'll need to refer to it from `index.html`.
-
-**build/index.html**
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-  </head>
-  <body>
-    ...
-  </body>
-</html>
-```
-
-After this change we should have all the benefits of a separate CSS file with a tiny configuration and performance overhead.
+Using this set up we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
 
 ## Linting CSS
 
