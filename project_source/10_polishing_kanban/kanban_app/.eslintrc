@@ -12,8 +12,8 @@
     "modules": true
   },
   "rules": {
-    "no-shadow": false,
     "no-unused-vars": false,
+    "no-shadow": false,
     "strict": [2, "global"],
     "no-underscore-dangle": false,
     "no-use-before-define": false,

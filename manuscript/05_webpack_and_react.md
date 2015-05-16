@@ -71,7 +71,7 @@ This change needs to be taken in count at configuration. Change entry path like 
 **webpack.config.js**
 
 ```javascript
-{
+var common = {
   entry: [path.join(ROOT_PATH, 'app/main.jsx')]
   ...
 }
@@ -126,15 +126,16 @@ var common = {
 If you hit `npm run build` now, you should get some output after a while. Here's a sample:
 
 ```bash
-> webpack --config config/build
+> TARGET=build webpack
 
-Hash: 070e822e8cffd925a27c
-Version: webpack 1.8.4
-Time: 1858ms
-    Asset    Size  Chunks             Chunk Names
-bundle.js  645 kB       0  [emitted]  main
+Hash: e528fefc32654263da5f
+Version: webpack 1.9.6
+Time: 2008ms
+     Asset       Size  Chunks             Chunk Names
+ bundle.js     650 kB       0  [emitted]  main
+index.html  204 bytes          [emitted]
    [0] multi main 28 bytes {0} [built]
-    + 162 hidden modules
+    + 163 hidden modules
 ```
 
 As you can see, the output is quite chunky!
@@ -159,6 +160,7 @@ if(TARGET === 'build') {
           warnings: false
         },
       }),
+      ...
     ],
   });
 }
@@ -167,13 +169,14 @@ if(TARGET === 'build') {
 If you hit `npm run build` now, you should see better results:
 
 ```bash
-> webpack --config config/build
+> TARGET=build webpack
 
-Hash: 88ce689da36358669b22
-Version: webpack 1.8.4
-Time: 5240ms
-    Asset    Size  Chunks             Chunk Names
-bundle.js  170 kB       0  [emitted]  main
+Hash: d2df9c8478b9894d8d5e
+Version: webpack 1.9.6
+Time: 5517ms
+     Asset       Size  Chunks             Chunk Names
+ bundle.js     172 kB       0  [emitted]  main
+index.html  204 bytes          [emitted]
    [0] multi main 28 bytes {0} [built]
     + 163 hidden modules
 ```
@@ -203,21 +206,24 @@ if(TARGET === 'build') {
 }
 ```
 
+T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error.
+
 Hit `npm run build` again and you should see improved results:
 
 ```bash
-> webpack --config config/build
+> TARGET=build webpack
 
-Hash: 9ced39bb13d4b29e5c7a
-Version: webpack 1.8.4
-Time: 4850ms
-    Asset    Size  Chunks             Chunk Names
-bundle.js  122 kB       0  [emitted]  main
+Hash: 6fc5ea486a0560f13c59
+Version: webpack 1.9.6
+Time: 4709ms
+     Asset       Size  Chunks             Chunk Names
+ bundle.js     123 kB       0  [emitted]  main
+index.html  204 bytes          [emitted]
    [0] multi main 28 bytes {0} [built]
     + 158 hidden modules
 ```
 
-So we went from 645k to 170k and finally to 122k. The final build is a little faster than the previous one. As that 122k can be served gzipped, it is very reasonable. Things will get more problematic as we continue to add dependencies to our project. In that case we will have to apply some other strategies and be smarter about loading.
+So we went from 650k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. Things will get more problematic as we continue to add dependencies to our project. In that case we will have to apply some other strategies and be smarter about loading.
 
 ## Activating Hot Loading for Development
 
@@ -230,12 +236,6 @@ To enable hot loading for React, you should perform `npm i react-hot-loader --sa
 **webpack.config.js**
 
 ```javascript
-var path = require('path');
-var webpack = require('webpack');
-var _ = require('lodash');
-
-...
-
 var common = {
   ...
   module: {
@@ -269,8 +269,12 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = mergeConfig({
-    entry: ['webpack/hot/dev-server'],
+    entry: [
+      'webpack-dev-server/client?http://' + IP + ':' + PORT,
+      'webpack/hot/only-dev-server', // only-dev-server!
+    ],
     module: {
+      ...
       loaders: [
         {
           test: /\.jsx?$/,
@@ -279,10 +283,6 @@ if(TARGET === 'dev') {
         }
       ]
     },
-    plugins: [
-      // do not reload if there is a syntax error in your code
-      new webpack.NoErrorsPlugin()
-    ],
   });
 }
 ```
