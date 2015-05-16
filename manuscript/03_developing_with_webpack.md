@@ -233,6 +233,10 @@ If everything went fine, the old commands should work still. Now we have somethi
 
 ## html-webpack-plugin
 
+In our current solution we've entangled our build and development version `index.html`. We definitely don't want reference to `http://localhost:8080/webpack-dev-server.js` to end up in our production version.
+
+Fortunately we can resolve this problem by extending our system a little. We'll set up our own little server in which we'll wrap `WebpackDevServer` in addition we'll generate HTML of our production version dynamically with some hash so we get to benefit from client level caching.
+
 TODO: discuss WebpackDevServer and html-webpack-plugin
 
 It would be possible to generate this file with Webpack using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). You can give it a go if you are feeling adventurous. It is mostly a matter of configuration.
