@@ -27,6 +27,7 @@ Chapter | Description | Progress
 Introduction | Brief intro to book, how to use it and so on | 75%
 Webpack Compared | How Webpack differs from the rest | 90%
 Developing with Webpack | How to get started with Webpack | 90%
+Linting in Webpack | How to lint in Webpack | 10%
 Webpack and React | How to develop React with Webpack | 90%
 Implementing a Basic Note App | First steps with React | 90%
 React and Flux | Improving architecture by using Flux (Alt) | 70%
