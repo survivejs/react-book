@@ -1,6 +1,10 @@
 # Linting in Webpack
 
+why etc.
+
 TODO
+
+JSlint, JShint etc.
 
 ## Setting Up ESLint
 
