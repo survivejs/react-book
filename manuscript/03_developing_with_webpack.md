@@ -231,6 +231,12 @@ You can also eliminate those old configuration files at the project root while a
 
 If everything went fine, the old commands should work still. Now we have something a little tidier together that's possible to grow even further with minimal work.
 
+## html-webpack-plugin
+
+TODO: discuss WebpackDevServer and html-webpack-plugin
+
+It would be possible to generate this file with Webpack using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). You can give it a go if you are feeling adventurous. It is mostly a matter of configuration.
+
 ## Setting Up ESLint
 
 A little discipline goes a long way in programming. Linting is one of those techniques that will simplify your life a lot at a minimal cost. You can fix potential problems before they escalate into actual issues. It won't replace testing but will definitely help. It is possible to integrate this process into your editor/IDE.

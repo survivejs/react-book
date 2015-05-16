@@ -117,9 +117,7 @@ In order to actually use our bundle, we'll need to define the last missing bit, 
 </html>
 ```
 
-We simply just point at the bundle via *script* `src`, nothing more than that. It would be possible to generate this file with Webpack using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). You can give it a go if you are feeling adventurous. It is mostly a matter of configuration.
-
-Generally this is the way you work with Webpack. You figure out what you want to load, find a loader and hook it up. Sometimes you'll need to implement loaders yourself but we'll cover that later.
+We simply just point at the bundle via *script* `src`, nothing more than that. Generally this is the way you work with Webpack. You figure out what you want to load, find a loader and hook it up. Sometimes you'll need to implement loaders yourself but we'll cover that later.
 
 ## Running the Application
 
