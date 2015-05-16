@@ -297,11 +297,22 @@ As we saw earlier with `onEdit`, it gave us a nasty error before we actually def
 We can set up Flow type checking to our Webpack easily by first doing `npm i flowcheck-loader --save-dev` and then extending our development configuration a little like this:
 
 ```javascript
-{
-  test: /\.jsx?$/,
-  loaders: ['react-hot', 'babel', 'flowcheck'],
-  include: path.join(ROOT_PATH, 'app'),
-},
+if(TARGET === 'dev') {
+  module.exports = mergeConfig({
+    ...
+    module: {
+      ...
+      loaders: {
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel', 'flowcheck'],
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      }
+    },
+    ...
+  });
+}
 ```
 
 Now we can start typing. For instance you could attach types for `Note` props like this:

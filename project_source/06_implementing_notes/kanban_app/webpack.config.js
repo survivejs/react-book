@@ -1,4 +1,5 @@
 var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('./lib/merge');
 
@@ -49,13 +50,25 @@ if(TARGET === 'build') {
           warnings: false
         },
       }),
+      new HtmlWebpackPlugin({
+        title: 'Kanban app',
+        template: path.join(ROOT_PATH, 'app/index.tpl')
+      }),
     ],
   });
 }
 
 if(TARGET === 'dev') {
+  var IP = '0.0.0.0';
+  var PORT = 8080;
+
   module.exports = mergeConfig({
-    entry: ['webpack/hot/dev-server'],
+    ip: IP,
+    port: PORT,
+    entry: [
+      'webpack-dev-server/client?http://' + IP + ':' + PORT,
+      'webpack/hot/only-dev-server',
+    ],
     module: {
       preLoaders: [
         {
@@ -72,9 +85,14 @@ if(TARGET === 'dev') {
         }
       ]
     },
+    output: {
+      path: __dirname,
+      filename: 'bundle.js',
+      publicPath: '/dev-server/'
+    },
     plugins: [
-      // do not reload if there is a syntax error in your code
-      new webpack.NoErrorsPlugin()
-    ],
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoErrorsPlugin(),
+    ]
   });
 }
