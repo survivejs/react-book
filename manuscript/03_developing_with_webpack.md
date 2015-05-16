@@ -322,7 +322,6 @@ This contains the div our app depends on. In addition it loads the bundle genera
 **dev-server/server.js**
 
 ```javascript
-'use strict';
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 
