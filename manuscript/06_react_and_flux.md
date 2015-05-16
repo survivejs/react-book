@@ -317,7 +317,10 @@ export default (Component, initAction, store, storage, storageName) => {
       initAction(storage.get(storageName));
 
       window.addEventListener('beforeunload', function() {
-        storage.set(storageName, store.getState());
+        // escape hatch for debugging
+        if(!storage.get('debug')) {
+          storage.set(storageName, store.getState());
+        }
       }, false);
     }
     render() {
@@ -329,9 +332,13 @@ export default (Component, initAction, store, storage, storageName) => {
 
 As you can see it is a component that triggers the decorator and renders the component we pass to it. We have more code than earlier but we have factored it better. If you want to persist some other component, it is simple now.
 
+Given it can be useful to be able to disable the behavior temporarily, I built an escape hatch. In case you hit `localStorage.setItem('debug', true)` at browser console, the behavior gets disabled. Set it back to `false` in order to enable it again. If you want to clear whole `localStorage` for some reason, you can just hit `localStorage.clear()`.
+
 T> The implementation of `persist` could be pushed further using `alt.takeSnapshot` and `alt.bootstrap` functions. That would allow us to implement a generic version for the whole application should we want to.
 
 W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
+
+W> Another to keep in mind is that `beforeunload` doesn't get triggered in case something catastrophic happens (ie. browser crashes). Therefore it could be justified to trigger `storage.set` on each change.
 
 ### Pushing Connection to a HOC
 

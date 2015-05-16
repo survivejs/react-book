@@ -13,7 +13,10 @@ const root = (Component, tree, storage, storageName) => {
       }
 
       window.addEventListener('beforeunload', function() {
-        storage.set(storageName, tree.get());
+        // escape hatch for debugging
+        if(!storage.get('debug')) {
+          storage.set(storageName, tree.get());
+        }
       }, false);
     }
     render() {

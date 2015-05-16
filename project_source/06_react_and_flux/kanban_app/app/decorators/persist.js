@@ -8,7 +8,10 @@ const persist = (Component, initAction, store, storage, storageName) => {
       initAction(storage.get(storageName));
 
       window.addEventListener('beforeunload', function() {
-        storage.set(storageName, store.getState());
+        // escape hatch for debugging
+        if(!storage.get('debug')) {
+          storage.set(storageName, store.getState());
+        }
       }, false);
     }
     render() {

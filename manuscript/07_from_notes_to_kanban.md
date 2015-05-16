@@ -408,7 +408,10 @@ const root = (Component, tree, storage, storageName) => {
       }
 
       window.addEventListener('beforeunload', function() {
-        storage.set(storageName, tree.get());
+        // escape hatch for debugging
+        if(!storage.get('debug')) {
+          storage.set(storageName, tree.get());
+        }
       }, false);
     }
     render() {
@@ -423,6 +426,7 @@ export default (tree, storage, storageName) => {
   // * set(storageName, data)
   return (target) => root(target, tree, storage, storageName);
 };
+
 ```
 
 The nice thing about our implementation is that you can apply the decorator in any part of your tree, not just the root as we are doing here. So in case you wanted to persist just certain view within a more complex application, this could do it.
