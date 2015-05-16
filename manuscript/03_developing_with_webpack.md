@@ -231,15 +231,72 @@ You can also eliminate those old configuration files at the project root while a
 
 If everything went fine, the old commands should work still. Now we have something a little tidier together that's possible to grow even further with minimal work.
 
-## html-webpack-plugin
+## WebpackDevServer and html-webpack-plugin
 
 In our current solution we've entangled our build and development version `index.html`. We definitely don't want reference to `http://localhost:8080/webpack-dev-server.js` to end up in our production version.
 
 Fortunately we can resolve this problem by extending our system a little. We'll set up our own little server in which we'll wrap `WebpackDevServer` in addition we'll generate HTML of our production version dynamically with some hash so we get to benefit from client level caching.
 
-TODO: discuss WebpackDevServer and html-webpack-plugin
+### Setting up html-webpack-plugin
 
-It would be possible to generate this file with Webpack using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). You can give it a go if you are feeling adventurous. It is mostly a matter of configuration.
+As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build.index.html`. We'll generate that dynamically next with some configuration.
+
+**webpack.config.js**
+
+```javascript
+var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var merge = require('./lib/merge');
+
+...
+
+if(TARGET === 'build') {
+  module.exports = mergeConfig({
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Kanban app',
+            template: path.join(ROOT_PATH, 'app/index.tpl')
+        }),
+    ],
+  });
+}
+```
+
+As we rely on a custom div we will need to define a custom template:
+
+**app/index.tpl**
+
+```html
+<!DOCTYPE html>
+<html{% if(o.htmlWebpackPlugin.files.manifest) { %} manifest="{%= o.htmlWebpackPlugin.files.manifest %}"{% } %}>
+  <head>
+    <meta charset="UTF-8">
+    <title>{%=o.htmlWebpackPlugin.options.title || 'Webpack App'%}</title>
+    {% for (var css in o.htmlWebpackPlugin.files.css) { %}
+    <link href="{%=o.htmlWebpackPlugin.files.css[css] %}" rel="stylesheet">
+    {% } %}
+  </head>
+  <body>
+    <div id="app"></div>
+
+    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+    <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+    {% } %}
+  </body>
+</html>
+```
+
+This is just the default template of the project with our div included. Note that `html-webpack-plugin` supports other templating languages. It defaults to [blueimp](https://www.npmjs.com/package/blueimp-tmpl).
+
+If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. We still need to make our development server work to get back where we started.
+
+### Setting Up WebpackDevServer
+
+Set up a file structure like this within `kanban-app`:
+
+* dev-server/
+* dev-server/index.html
+* dev-server/server.js
 
 ## Conclusion
 
