@@ -73,7 +73,7 @@ module.exports = function () {
 };
 ```
 
-*app/main.js*
+**app/main.js**
 
 ```javascript
 var component = require('./component.js');
