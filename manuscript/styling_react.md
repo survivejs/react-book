@@ -425,7 +425,7 @@ var style = {
     }
   ],
   // media queries
-  '@media (min-width: 800px)': {
+  '@media (max-width: 200px)': {
     width: '100%',
 
     ':hover': {
@@ -453,7 +453,7 @@ var styles = StyleSheet.create({
     padding: '1em'
   },
   // media queries
-  '@media (min-width: 800px)': {
+  '@media (max-width: 200px)': {
       button: {
         width: '100%'
       }
@@ -468,6 +468,38 @@ var styles = StyleSheet.create({
 As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (ie. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
 
 Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to but without cascades. We also have our style declarations on component level.
+
+### smart-css
+
+[smart-css](https://github.com/hackhat/smart-css) takes a similar approach except this time we are operating based on classes. To give you a better idea, consider the example below:
+
+```javascript
+var SmartCSS = require('smart-css');
+var css = new SmartCSS();
+
+css.setClass('.button', {
+    padding: '1em'
+});
+css.setClass('.button', {
+    width: '100%'
+}, {
+    media: 'max-width: 200px'
+});
+css.setClass('.primary', {
+    background: 'green'
+});
+css.setClass('.warning', {
+    background: 'yellow'
+});
+
+...
+
+<button className={css.getClasses({button: true, primary: true})}>Confirm</button>
+```
+
+The approach supports pseudoselectors. Ie. you could define a selector such as `.button:hover` and it would just work.
+
+There are plans to introduce autoprefixing, better ways to deal with measurements, better APIs for complex properties and for a Webpack plugin to extract the CSS into an external file.
 
 ### React Inline
 
