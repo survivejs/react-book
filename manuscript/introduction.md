@@ -41,4 +41,6 @@ This book wouldn't have been possible without these individuals. They all helped
 * Dan Abramov - @gaearon - Feedback and awesome tooling
 * @dnmd - Pointed out Windows related path issue
 * James Cavanaugh - @PlantBuilder - Pointed out various typos and provided useful feedback
-* Josh Perez - @goatslacker - Helped to improve Alt chapter somewhat
+* Josh Perez - @goatslacker - Helped to improve Alt chapter
+* Nicholas C. Zakas - @nzakas - Helped to improve linting chapter
+* Ilya Volodin - @ilyavolodin - Helped to improve linting chapter

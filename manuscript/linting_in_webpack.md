@@ -4,7 +4,7 @@ Nothing is easier than making mistakes when coding in JavaScript. Linting is one
 
 Perhaps the most known linter that started it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization.
 
-[ESLint](http://eslint.org/) is the newest tool in vogue. It has learned from JSHint and makes it possible for you to easily implement rules of your own. This makes it an invaluable tool with specific libraries such as React or Angular. You will find pre-made rules that will help you to perform better in your particular situation.
+[ESLint](http://eslint.org/) is the newest tool in vogue. It has learned from its predecessors and takes linting to the next level. Besides allowing you to implement custom rules, you can hook it with custom parsers and reporters. This means ESLint will work with Babel and JSX syntax. The project rules have been well documented and you will have control over their severity. These features alone make it a powerful tool.
 
 Besides linting for issues it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and all kinds of shenanigans. Stylistically consistent code reads better and is easier to work with particularly in a team environment.
 
@@ -81,7 +81,6 @@ This will trigger ESlint against all JS and JSX files of our project. That's def
 **.eslintignore**
 
 ```bash
-node_modules/
 build/
 ```
 
@@ -126,6 +125,8 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
   }
 }
 ```
+
+Note how we can define severity of an individual rule by passing it a number. Zero or ´false` would mean a rule is set off. One would mark it as a warning. Two would yield an error. In some cases you can pass additional parameters to a rule by using an array notation.
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them if there are any. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 
@@ -212,6 +213,48 @@ Sometimes you'll want to skip certain rules per file or per line. Consider the f
 // disable rule per line
 alert('foo'); // eslint-disable-line no-alert
 ```
+
+Note that the rule specific examples assume you have the rules in your configuration in the first place! You cannot specify new rules here. Instead you can modify the behavior of existing rules.
+
+### Writing Your Own Rules
+
+ESlint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools such as [recast](https://github.com/benjamn/recast) that allow you perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
+
+To get a better idea of how AST works and what it looks like you can check out [online JavaScript AST visualization](http://jointjs.com/demos/javascript-ast). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with at ESlint rules.
+
+In ESlint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
+
+1. Create a directory for your rules, say `eslint-rules`
+2. Point ESlint to the directory using `eslint ... --rulesdir eslint-rules`.
+3. Create a file for your rule there, you can call it `demo.js`
+4. Modify your `.eslintrc` to use the rule like this:
+
+**.eslintrc**
+
+```json
+"rules": {
+  "demo": 1,
+  ...
+}
+```
+
+Finally you will need to make the rule to do something. In this case we just report for every identifier found:
+
+**eslint-rules/demo.js**
+
+```javascript
+module.exports = function(context) {
+    return {
+        Identifier: function(node) {
+            context.report(node, 'This is unexpected!');
+        }
+    };
+};
+```
+
+If you invoke ESlint now (remember to pass `rulesdir`), you should see a bunch of warnings.
+
+Of course the rule doesn't do anything useful yet. To get forward I recommend checking out [the official documentation about rules](http://eslint.org/docs/developer-guide/working-with-rules.html). You can also check out some of the existing rules and plugins for inspiration.
 
 ### ESlint Resources
 
