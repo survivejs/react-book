@@ -149,7 +149,7 @@ In case the linting process fails, `npm` will give you a nasty looking `ELIFECYC
 
 This will keep the output tidy. The potential problem with this approach is that in case you invoke `lint` through some continuous integration (CI) system and expect it to return non-zero exit code, it won't. In our case we rely on Webpack to run ESlint for us so the somewhat ugly output isn't that big an issue and allows CI to work.
 
-T> An alternative way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit.
+T> An alternative way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit. You can define an alias for this purpose. At Unix you would do `alias run='npm run --silent'` and then `run <script>`.
 
 ### Connecting ESlint with Webpack
 
