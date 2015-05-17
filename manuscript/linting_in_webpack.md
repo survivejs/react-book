@@ -186,7 +186,7 @@ We are using `preLoaders` section here as we want to play it safe. This section 
 
 If you execute `npm start` now and break some linting rule while developing, you should see that in terminal output.
 
-### Customizing ESlint
+## Customizing ESlint
 
 Sometimes you'll want to skip certain rules per file or per line. Consider the following examples:
 
