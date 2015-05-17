@@ -224,37 +224,49 @@ To get a better idea of how AST works and what it looks like you can check [Espr
 
 In ESlint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
-1. Create a directory for your rules, say `eslint-rules`
-2. Point ESlint to the directory using `eslint ... --rulesdir eslint-rules`.
-3. Create a file for your rule there, you can call it `demo.js`
-4. Modify your `.eslintrc` to use the rule like this:
+1. Set up a new project named `eslint-plugin-custom`. You can replace `custom` with whatever you want. ESLint follows this naming convention.
+2. Hit `npm init` to create a dummy `package.json`
+3. Set up `index.js` in the project root with content like this:
+
+**eslint-plugin-custom/index.js**
+
+```javascript
+module.exports = {
+    rules: {
+        demo: function(context) {
+            return {
+                Identifier: function(node) {
+                    context.report(node, 'This is unexpected!');
+                }
+            };
+        }
+    }
+};
+```
+
+In this case we just report for every identifier found. In practice you'll likely want to do something more complex than this but this is a good starting point.
+
+Next you need to hit `npm link` within `eslint-plugin-custom`. This will make your plugin visible within your system. `npm link` allows you to consume easily a development version of a library you are developing. To reverse the link you can hit `npm unlink` when you feel like it.
+
+T> If you want to do something serious, you should point to your plugin through `package.json`.
+
+Next we need to alter our project configuration to make it to find the plugin and the rule within.
 
 **.eslintrc**
 
 ```json
+"plugins": {
+  "custom",
+},
 "rules": {
-  "demo": 1,
+  "custom/demo": 1,
   ...
 }
 ```
 
-Finally you will need to make the rule to do something. In this case we just report for every identifier found:
+If you invoke ESlint now, you should see a bunch of warnings. Mission accomplished!
 
-**eslint-rules/demo.js**
-
-```javascript
-module.exports = function(context) {
-    return {
-        Identifier: function(node) {
-            context.report(node, 'This is unexpected!');
-        }
-    };
-};
-```
-
-If you invoke ESlint now (remember to pass `rulesdir`), you should see a bunch of warnings.
-
-Of course the rule doesn't do anything useful yet. To get forward I recommend checking out [the official documentation about rules](http://eslint.org/docs/developer-guide/working-with-rules.html). You can also check out some of the existing rules and plugins for inspiration.
+Of course the rule doesn't do anything useful yet. To get forward I recommend checking out the official documentation about [plugins](http://eslint.org/docs/developer-guide/working-with-plugins.html) and [rules](http://eslint.org/docs/developer-guide/working-with-rules.html). You can also check out some of the existing rules and plugins for inspiration to see how they achieve certain things.
 
 ### ESlint Resources
 
