@@ -1,5 +1,5 @@
-00_introduction.md
-01_webpack_compared.md
-02_getting_started.md
-03_developing_with_webpack.md
-14_authoring_libraries.md
+introduction.md
+webpack_compared.md
+getting_started.md
+developing_with_webpack.md
+authoring_libraries.md
