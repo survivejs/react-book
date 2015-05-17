@@ -12,12 +12,12 @@
     "modules": true
   },
   "rules": {
-    "no-shadow": false,
-    "no-unused-vars": false,
+    "no-shadow": 0,
+    "no-unused-vars": 0,
     "strict": [2, "global"],
-    "no-underscore-dangle": false,
-    "no-use-before-define": false,
-    "eol-last": false,
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "eol-last": 0,
     "quotes": [2, "single"],
     "comma-dangle": "always",
     "react/jsx-boolean-value": 1,

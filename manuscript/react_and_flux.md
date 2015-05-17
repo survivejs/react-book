@@ -469,7 +469,7 @@ As babel-eslint's `no-unused-vars` rule doesn't detect decorators yet, we'll nee
 {
   ...
   "rules": {
-    "no-unused-vars": false,
+    "no-unused-vars": 0,
     ...
   }
 }
