@@ -135,7 +135,9 @@ T> It is possible to generate a sample `.eslintrc` using `eslint --init` (or `no
 
 ### Dealing with `ELIFECYCLE` Error
 
-In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error. If you want to hide this, you can change the script into this form:
+In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error.A good way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit. You can define an alias for this purpose. At Unix you would do `alias run='npm run --silent'` and then `run <script>`.
+
+Alternatively you could pipe output to `true` like this:
 
 **package.json**
 
@@ -147,9 +149,7 @@ In case the linting process fails, `npm` will give you a nasty looking `ELIFECYC
 ...
 ```
 
-This will keep the output tidy. The potential problem with this approach is that in case you invoke `lint` through some continuous integration (CI) system and expect it to return non-zero exit code, it won't. In our case we rely on Webpack to run ESlint for us so the somewhat ugly output isn't that big an issue and allows CI to work.
-
-T> An alternative way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit. You can define an alias for this purpose. At Unix you would do `alias run='npm run --silent'` and then `run <script>`.
+The potential problem with this approach is that in case you invoke `lint` through some other command, it will pass the test even if there are failures! In other words if you have another script that does something like `npm run lint && npm run build`, it will build regardless of the output of the first command.
 
 ### Connecting ESlint with Webpack
 
