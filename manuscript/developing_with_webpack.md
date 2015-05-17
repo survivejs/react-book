@@ -290,7 +290,7 @@ This is just the default template of the project with our div included. Note tha
 
 If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. We still need to make our development server work to get back where we started.
 
-T> Alternatively we could use the default template provided by `html-webpack-plugin` and just append the div we need. On the plus side at least you now know how to set up a custom template! This will come in handy in more complex scenarios.
+T> Alternatively we could use the default template provided by `html-webpack-plugin` and just append the div we need at application initialization stage. On the plus side at least you now know how to set up a custom template! This will come in handy in more complex scenarios.
 
 ### Setting Up WebpackDevServer
 
