@@ -34,6 +34,7 @@ React and Flux | Improving architecture by using Flux (Alt) | 90%
 From Notes to Kanban | Integrating Baobab | 65%
 Styling React | Styling application | 90%
 Polishing Kanban | Adding DnD | 20%
+Deploying Applications | How to deal with various deployment configurations | 30% | This needs a partial rewrite
 Authoring Libraries | How to author libraries at NPM using Webpack | 90%
 
 **Bonus Chapters**
@@ -49,7 +50,6 @@ Performance | Performance strategies for Webpack and React | 0% | |
 Testing | Testing approaches/tools for Webpack and React | 0% | |
 Internationalization etc. | i18n/l10n/a11y | 0% | Gathering ideas
 Asset Management | How to deal with various assets | 10% | This might go away (integrated to others)
-Deploying Applications | How to deal with various deployment configurations | 30% | This needs a rewrite to fit project better
 Debugging Webpack | Various debugging strategies for Webpack | 0% | Need to go through various strategies and develop tooling
 
 ## Contributing
