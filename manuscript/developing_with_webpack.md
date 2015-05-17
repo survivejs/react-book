@@ -343,7 +343,7 @@ new WebpackDevServer(webpack(config), {
 });
 ```
 
-The serve has been configured in `hot` mode and it has `historyApiFallback` enabled. We'll get back to that `hot` setting in the React chapter. `historyApiFallback` will come in handy if/when our application has History API routing. It will allow us to access the application directly from the routes we have defined for it instead of having to go through root always.
+The server has been configured in `hot` mode and it has `historyApiFallback` enabled. We'll get back to that `hot` setting in the React chapter. `historyApiFallback` will come in handy if/when our application has History API routing. It will allow us to access the application directly from the routes we have defined for it instead of having to go through root always.
 
 **webpack.config.js**
 
