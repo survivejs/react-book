@@ -4,9 +4,9 @@ To understand Webpack, it will help to look at the history. That will put the to
 
 This problem has been escalated by the rise of Single Page Applications. They tend to rely on various quite heavy libraries and be complex by nature. Ideally you would just load the assets you need per page.
 
-The popularity of Node.js and [NPM](https://www.npmjs.com/), the Node.js package manager, provides more context. Before these developments, it was difficult to consume dependencies. Now that NPM is used increasingly for frontend development, the situation has changed dramatically. Thanks to modern tooling we have nice ways to manage the dependencies of our frontend projects.
+The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package manager, provides more context. Before these developments, it was difficult to consume dependencies. Now that npm is used increasingly for frontend development, the situation has changed dramatically. Thanks to modern tooling we have nice ways to manage the dependencies of our frontend projects.
 
-Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the most known one and still a viable option in many cases. In the world of frontend development particularly [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have gained popularity. Both are made powerful by plugins available via NPM.
+Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the most known one and still a viable option in many cases. In the world of frontend development particularly [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have gained popularity. Both are made powerful by plugins available via npm.
 
 ## Grunt
 
@@ -104,7 +104,7 @@ T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use 
 
 Dealing with JavaScript modules has always been a bit of a problem given the language actually doesn't have a concept of module till ES6. Ergo we are stuck with the 90s when it comes to browser environment. Various solutions, including [AMD](http://browserify.org/), have been proposed.
 
-In practice it can be useful just to use CommonJS, the Node.js format, and let tooling deal with the rest. The advantage is that you can often hook into NPM and avoid reinventing the wheel.
+In practice it can be useful just to use CommonJS, the Node.js format, and let tooling deal with the rest. The advantage is that you can often hook into npm and avoid reinventing the wheel.
 
 [Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. In addition there are tons of smaller transformation tools that allow you to move beyond the basic usage (ie. [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development automatically). This will save some effort and no doubt is a good solution up to a point.
 
