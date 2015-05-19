@@ -69,7 +69,7 @@ export default class Note extends React.Component {
       <div className='note'
         ref={c => { connectDragSource(c); connectDropTarget(c); }}
       >{
-        edited?
+        edited ?
         <input type='text'
           defaultValue={task}
           onBlur={this.finishEdit.bind(this)}

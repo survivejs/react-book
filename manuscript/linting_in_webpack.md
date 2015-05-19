@@ -103,7 +103,6 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "modules": true
   },
   "rules": {
-    "no-shadow": 0,
     "strict": [2, "global"],
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,

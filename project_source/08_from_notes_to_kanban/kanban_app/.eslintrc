@@ -12,7 +12,6 @@
     "modules": true
   },
   "rules": {
-    "no-shadow": 0,
     "no-unused-vars": 0,
     "strict": [2, "global"],
     "no-underscore-dangle": 0,
