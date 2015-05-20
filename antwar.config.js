@@ -49,19 +49,7 @@ module.exports = {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
       sort: function(files) {
-        // TODO: figure out a nice way to make this work in browser context!
-        // now this works for static build but not in development mode
-        var fs = require('fs');
-
-        // browser context
-        if(!fs.readFileSync) {
-          return files;
-        }
-
-        var order = fs.readFileSync('./manuscript/Book.txt', {
-          encoding: 'utf8'
-        }).split('\n').filter(id);
-
+        var order = require('raw!./manuscript/Book.txt').split('\n').filter(id);
         var ret = [];
 
         order.forEach(function(name) {
