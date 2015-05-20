@@ -14,6 +14,8 @@ module.exports = {
     branch: 'gh-pages',
   },
   theme: {
+    // TODO: push blogTitle per path?
+    blogTitle: 'Table of Contents',
     name: 'antwar-default-theme',
     navigation: [
       {title: 'Home', path: '/'},
