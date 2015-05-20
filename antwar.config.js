@@ -25,6 +25,9 @@ module.exports = {
       path: function() {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
+      url: function(file, fileName) {
+        return fileName.slice(0, fileName.length - 3);
+      },
       title: function(file) {
         return removeMd(file.__content.split('\n')[0]);
       },
