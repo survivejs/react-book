@@ -5,7 +5,8 @@
   "description": "SurviveJS - Webpack and React",
   "author": "Juho Vepsalainen <bebraw@gmail.com>",
   "scripts": {
-    "start": "gitbook pdf . ./book.pdf",
+    "start": "antwar -d",
+    "generate-pdf": "gitbook pdf . ./book.pdf",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
