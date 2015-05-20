@@ -35,12 +35,12 @@ module.exports = {
         return mdWriter.render(mdReader.parse(content));
       },
       preview: function(file) {
+        var previewLimit = 200;
         var content = file.__content.split('\n').slice(1).join('\n');
-
         var stripped = removeMd(content);
 
-        if(stripped.length > 100) {
-          return stripped.substr(0, 100) + '…';
+        if(stripped.length > previewLimit) {
+          return stripped.substr(0, previewLimit) + '…';
         }
 
         return stripped;
