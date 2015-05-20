@@ -12,7 +12,8 @@
     "antwar-default-theme": "git://github.com/antwarjs/default-theme"
   },
   "devDependencies": {
-    "gitbook-cli": "^0.3.3"
+    "gitbook-cli": "^0.3.3",
+    "remove-markdown": "0.0.2"
   },
   "repository": {
     "type": "git",
