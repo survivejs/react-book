@@ -1,5 +1,9 @@
 'use strict';
 var removeMd = require('remove-markdown');
+var markdown = require('commonmark');
+
+var mdReader = new markdown.Parser();
+var mdWriter = new markdown.HtmlRenderer();
 
 module.exports = {
   output: 'build',
@@ -18,15 +22,16 @@ module.exports = {
   paths: {
     webpack_react: {
       title: function(file) {
-        var title =  file.__content.split('\n')[0];
-        var parts = title.split('#');
-
-        // maybe there's a nicer way to trim markdown?
-        return parts.length > 1 ? parts[1].trim(): '';
+        return removeMd(file.__content.split('\n')[0]);
       },
       date: function(file) {
         // dates aren't needed
         return;
+      },
+      content: function(file) {
+        var content = file.__content.split('\n').slice(1).join('\n');
+
+        return mdWriter.render(mdReader.parse(content));
       },
       preview: function(file) {
         var content = file.__content.split('\n').slice(1).join('\n');
