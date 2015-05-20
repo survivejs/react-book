@@ -20,7 +20,7 @@ module.exports = {
     name: 'antwar-default-theme',
     navigation: [
       {title: 'Home', path: '/'},
-      {title: 'Read the Book', path: '/webpack_react'},
+      {title: 'Table of Contents', path: '/webpack_react'},
     ],
   },
   paths: {
@@ -44,7 +44,7 @@ module.exports = {
         return mdWriter.render(mdReader.parse(content));
       },
       preview: function(file) {
-        var previewLimit = 200;
+        var previewLimit = 150;
         var content = file.__content.split('\n').slice(1).join('\n');
         var stripped = removeMd(content);
 

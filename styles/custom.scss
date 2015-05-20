@@ -19,3 +19,11 @@ body {}
 .header-image--front {
     background-size: 100%;
 }
+
+.grid, .post {
+    max-width: 800px;
+}
+
+.post, .post__content p, .post__content pre {
+    width: 800px;
+}
