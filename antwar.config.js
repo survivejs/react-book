@@ -1,4 +1,5 @@
 'use strict';
+var _ = require('lodash');
 var removeMd = require('remove-markdown');
 var markdown = require('commonmark');
 
@@ -46,8 +47,37 @@ module.exports = {
       },
       path: function() {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
-      }
+      },
+      sort: function(files) {
+        // TODO: figure out a nice way to make this work in browser context!
+        // now this works for static build but not in development mode
+        var fs = require('fs');
+
+        // browser context
+        if(!fs.readFileSync) {
+          return files;
+        }
+
+        var order = fs.readFileSync('./manuscript/Book.txt', {
+          encoding: 'utf8'
+        }).split('\n').filter(id);
+
+        var ret = [];
+
+        order.forEach(function(name) {
+          var result = _.findWhere(files, {
+            name: name,
+          });
+
+          if(result) {
+            ret.unshift(result);
+          }
+        });
+
+        return ret;
+      },
     }
   }
 };
 
+function id(a) {return a;}
