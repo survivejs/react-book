@@ -14,6 +14,7 @@ module.exports = {
     branch: 'gh-pages',
   },
   theme: {
+    customStyles: 'custom.scss',
     // TODO: push blogTitle per path?
     blogTitle: 'Table of Contents',
     name: 'antwar-default-theme',
