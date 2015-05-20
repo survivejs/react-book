@@ -22,6 +22,9 @@ module.exports = {
   },
   paths: {
     webpack_react: {
+      path: function() {
+        return require.context('./manuscript', true, /^\.\/.*\.md$/);
+      },
       title: function(file) {
         return removeMd(file.__content.split('\n')[0]);
       },
@@ -44,9 +47,6 @@ module.exports = {
         }
 
         return stripped;
-      },
-      path: function() {
-        return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
       sort: function(files) {
         var order = require('raw!./manuscript/Book.txt').split('\n').filter(id);
