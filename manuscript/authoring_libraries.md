@@ -1,15 +1,15 @@
 # Authoring Libraries
 
-[NPM](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Although initially it was used mostly for managing backend packages, it has become increasingly popular in frontend development. As you have seen so far it is easy to consume NPM packages using Webpack.
+[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Although initially it was used mostly for managing backend packages, it has become increasingly popular in frontend development. As you have seen so far it is easy to consume npm packages using Webpack.
 
 Eventually you might want to publish your own packages. You can consider our demo application a package of its own, sort of. We could even design applications to be pluggable so that you could glue them into a bigger whole. This would take some careful thought but in theory you could split everything up in smaller sections which you then knit together.
 
-## Anatomy of a NPM Package
+## Anatomy of a npm Package
 
-Most of NPM packages are small and include just a select few files such as:
+Most of npm packages are small and include just a select few files such as:
 
 * `index.js` - On small projects it's enough to have the code at the root. On larger ones you may want to start splitting it up further.
-* `package.json` - NPM metadata in JSON format
+* `package.json` - npm metadata in JSON format
 * `README.md` - README is the most important document of your project. It is written in Markdown format and provides an overview. On simple projects whole documentation can fit there. It will be shown at the package page at `npmjs.com`.
 * `LICENSE` - You should include licensing information within your project. You can refer to it from `package.json`.
 
@@ -18,10 +18,10 @@ In bigger projects you may find the following:
 * `CONTRIBUTING.md` - A guide for potential contributors. How should the code be developed and so on.
 * `CHANGELOG.md` - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history provided you write nice enough commits.
 * `.travis.yml` - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course but Travis is very popular.
-* `bower.json` - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for frontend. That said, just providing NPM support is often enough.
+* `bower.json` - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for frontend. That said, just providing npm support is often enough.
 * `.gitignore` - Ignore patterns for Git. Ie. which file shouldn't go to version control.
 * `.eslintignore` - Ignore patterns for ESlint. Again, tool specific.
-* `.npmignore` - Ignore patterns for NPM. This describes which files shouldn't go to your distribution version.
+* `.npmignore` - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
 * `.eslintrc` - Linting rules. You can use `.jshintrc` etc. based on your preferences.
 * `webpack.config.js` - If you are using a simple setup, you might as well have the configuration at project root.
 
@@ -38,7 +38,7 @@ I've annotated `package.json` of my [React component boilerplate](https://github
   "name": "react-component-boilerplate", -- Name of the project
   "description": "Boilerplate for React.js components", -- Brief description
   "author": "Juho Vepsalainen <email goes here>", -- Who is the author + optional email
-  "user": "bebraw", -- This is boilerplate specific (not used by NPM)
+  "user": "bebraw", -- This is boilerplate specific (not used by npm)
   "version": "0.0.0", -- Version of the package
   "scripts": { -- `npm run <name>`
     "start": "TARGET=dev node dev-server/server.js",
@@ -106,15 +106,15 @@ I've annotated `package.json` of my [React component boilerplate](https://github
 }
 ```
 
-As you can see `package.json` can contain a lot of information. You can attach non-NPM specific metadata there that can be used by tooling.
+As you can see `package.json` can contain a lot of information. You can attach non-npm specific metadata there that can be used by tooling.
 
-## NPM Workflow
+## npm Workflow
 
-Working with NPM is surprisingly simple. Provided you have created an account on the service and logged in once using [npm adduser](https://docs.npmjs.com/cli/adduser), all you need to do is to hit `npm publish`. Given that the package name is still available, you should have something out there!
+Working with npm is surprisingly simple. Provided you have created an account on the service and logged in once using [npm adduser](https://docs.npmjs.com/cli/adduser), all you need to do is to hit `npm publish`. Given that the package name is still available, you should have something out there!
 
 T> Before starting to develop it can be a good idea to spend a little bit of time on that naming issue. It's not very fun to write an awesome package just to notice the name has been taken. Save some time and nerves by doing a little bit of research. With some luck you could find something fitting your purposes and avoid the chore of writing a library.
 
-T> As of NPM 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that format when naming your project.
+T> As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that format when naming your project.
 
 Bumping a version is simple too. You'll just need to invoke `npm version <x.y.z>`. That will update `package.json` and create a version commit automatically. If you hit `npm publish`, you should have something new out there.
 
@@ -188,11 +188,11 @@ T> The example uses the same `merge` utility we defined earlier on. You should c
 
 Most of the magic happens thanks to `devtool` and `output` declarations. In addition I have set up `externals` as I want to avoid bundling React into my library. Instead if will be loaded as an external dependency using the naming defined in the mapping.
 
-## NPM Lifecycle Hooks
+## npm Lifecycle Hooks
 
-NPM provides various lifecycle hook that can be useful. Let's say you are authoring a React component using Babel and some of its goodies. Even though you could let `package.json` *main* field point at the UMD version as generated above, this won't be ideal for those who consume it through NPM.
+npm provides various lifecycle hook that can be useful. Let's say you are authoring a React component using Babel and some of its goodies. Even though you could let `package.json` *main* field point at the UMD version as generated above, this won't be ideal for those who consume it through npm.
 
-It is better to generate a ES5 compatible version of the package for NPM consumers. This can be achieved using **babel** cli tool:
+It is better to generate a ES5 compatible version of the package for npm consumers. This can be achieved using **babel** cli tool:
 
 ```bash
 babel ./lib --out-dir ./dist-modules
@@ -218,17 +218,17 @@ dist-modules/
 ...
 ```
 
-T> Dealing with regular `dist` that gets versioned is trickier. Ideally the contents of it would get updated when you hit `npm version` and get into the version commit NPM performs. I've set up a custom `npm run` script for this in the example above. It will run tests, generate a distribution build and hit `npm version` internally. Basic idea: `"version": "npm run test && npm run dist && npm version \"$@\" && npm run gh-pages && npm run deploy-gh-pages"`.
+T> Dealing with regular `dist` that gets versioned is trickier. Ideally the contents of it would get updated when you hit `npm version` and get into the version commit npm performs. I've set up a custom `npm run` script for this in the example above. It will run tests, generate a distribution build and hit `npm version` internally. Basic idea: `"version": "npm run test && npm run dist && npm version \"$@\" && npm run gh-pages && npm run deploy-gh-pages"`.
 
-Besides `prepublish` NPM provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`.
+Besides `prepublish` npm provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`.
 
-Even though NPM will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (ie. `npm run prepublish`). Regardless of the usage, the idea here is that we want to make our package as easy to consume and let our users get away with the least possible amount of work on their part.
+Even though npm will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (ie. `npm run prepublish`). Regardless of the usage, the idea here is that we want to make our package as easy to consume and let our users get away with the least possible amount of work on their part.
 
 There are plenty of smaller tricks to learn for advanced usage but those are better covered by [the official documentation](https://docs.npmjs.com/misc/scripts). Often all you need is just a `prepublish` script for build automation.
 
 ## Keeping Dependencies Up to Date
 
-An important part of maintaining NPM packages is keeping their dependencies up to date. How to do this depends a lot on the maturity of your package. Ideally you have a nice set of tests covering the functionality. If not, things can get a little hairier.
+An important part of maintaining npm packages is keeping their dependencies up to date. How to do this depends a lot on the maturity of your package. Ideally you have a nice set of tests covering the functionality. If not, things can get a little hairier.
 
 There are a few ways to approach dependency updates:
 
@@ -246,10 +246,10 @@ For testing your projects you can consider solutions such as [Travis CI](https:/
 
 As packages evolve you may want to start developing with others. You could become the new maintainer of some project or pass the torch to someone other. These things happen as packages evolve.
 
-NPM provides a few commands for these purposes. It's all behind `npm owner` namespace. More specifically you'll find `ls <package name>`, `add <user> <package name>` and `rm <user> <package name>` there (ie. `npm owner ls`). That's about it.
+npm provides a few commands for these purposes. It's all behind `npm owner` namespace. More specifically you'll find `ls <package name>`, `add <user> <package name>` and `rm <user> <package name>` there (ie. `npm owner ls`). That's about it.
 
-See [NPM documentation](https://docs.npmjs.com/cli/owner) for most up to date information about the topic.
+See [npm documentation](https://docs.npmjs.com/cli/owner) for most up to date information about the topic.
 
 ## Conclusion
 
-You should have a basic idea on how to author NPM libraries with the help of Webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.
+You should have a basic idea on how to author npm libraries with the help of Webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.

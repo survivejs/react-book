@@ -22,7 +22,7 @@ Next you should get Webpack installed. We'll do a local install and save it as a
 
 T> We are using `--save-dev` here instead of `--save` as we want to use Webpack as a development dependency. Use `--save-dev` for parts you need to generate your distribution version. Otherwise `--save` is a good pick.
 
-T> `node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from NPM 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
+T> `node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
 
 T> Webpack works using a global install as well (`-g` flag) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
 
@@ -137,7 +137,7 @@ In this case we can move the build step behind `npm run build` by adding the fol
 }
 ```
 
-You can either replace the current `scripts` section with the above or just add that `build` line there. To invoke a build, you can hit `npm run build` now. NPM will find it as `npm run` adds Webpack to the `PATH` temporarily.
+You can either replace the current `scripts` section with the above or just add that `build` line there. To invoke a build, you can hit `npm run build` now. npm will find it as `npm run` adds Webpack to the `PATH` temporarily.
 
 Later on this approach will become more powerful as project complexity grows. You can hide the complexity within `scripts` while keeping the interface simple.
 
