@@ -28,7 +28,7 @@ export default class Notes extends React.Component {
       context.cursors.notes
     );
   }
-  render(props, context) {
+  render(props) {
     var notes = this.props.notes;
     var lane = this.props.lane;
 

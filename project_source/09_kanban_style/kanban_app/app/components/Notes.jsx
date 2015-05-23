@@ -22,7 +22,7 @@ export default class Notes extends React.Component {
 
     this.actions = noteActions(context.cursors.notes);
   }
-  render(props, context) {
+  render() {
     var notes = this.props.notes;
 
     return (

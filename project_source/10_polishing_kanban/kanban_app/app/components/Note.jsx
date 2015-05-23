@@ -61,7 +61,7 @@ export default class Note extends React.Component {
     };
   }
   render() {
-    const { text, isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { connectDragSource, connectDropTarget } = this.props;
     var edited = this.state.edited;
     var task = this.props.task;
 

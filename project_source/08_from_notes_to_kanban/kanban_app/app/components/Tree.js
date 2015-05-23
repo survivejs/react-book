@@ -4,7 +4,7 @@ import types from 'typology';
 export default new Baobab({
     lanes: []
   }, {
-    validate: (previousState, newState, affectedPaths) => {
+    validate: (previousState, newState) => {
       const schema = {
         lanes: [{
           id: 'number',

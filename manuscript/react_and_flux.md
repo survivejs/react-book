@@ -461,20 +461,6 @@ Note that I'm enabling Stage 0 functionality as I'll be relying on some of that 
 
 T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESlint.
 
-As babel-eslint's `no-unused-vars` rule doesn't detect decorators yet, we'll need to disable it for now ([related issue](https://github.com/babel/babel-eslint/issues/72)).
-
-**.eslintrc**
-
-```json
-{
-  ...
-  "rules": {
-    "no-unused-vars": 0,
-    ...
-  }
-}
-```
-
 ### Adding Decorator Wrappers
 
 In order to port our HOCs to be able to use decorator syntax, we'll need to tweak our current implementation a little bit.
