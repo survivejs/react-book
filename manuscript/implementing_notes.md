@@ -119,7 +119,7 @@ render() {
       <Notes items={notes} />
     </div>
   );
-},
+}
 addItem() {
   console.log('add item');
 }
