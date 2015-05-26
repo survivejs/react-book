@@ -1,6 +1,6 @@
 # From Notes to Kanban
 
-![Kanban board](images/kanban.png)
+![Kanban board](/images/kanban.png)
 
 So far our Notes Application is very simplistic. We can manipulate the Note items. There is also a basic level of persistency. We are still missing some vital functionality that is needed to turn it this into a proper Kanban table (see image above).
 

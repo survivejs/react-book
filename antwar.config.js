@@ -7,6 +7,12 @@ var mdReader = new markdown.Parser();
 var mdWriter = new markdown.HtmlRenderer();
 
 module.exports = {
+  assets: [
+    {
+      from: 'manuscript/images',
+      to: 'images',
+    }
+  ],
   output: 'build',
   name: 'SurviveJS - Survive the jungles of JavaScript',
   author: 'Juho Vepsäläinen',
