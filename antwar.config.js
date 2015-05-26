@@ -56,7 +56,8 @@ module.exports = {
     name: 'antwar-default-theme',
     navigation: [
       {title: 'Home', path: '/'},
-      {title: 'Table of Contents', path: 'webpack_react'},
+      // XXX: hot fix for ToC
+      {title: 'Table of Contents', path: '/webpack_react'},
     ],
   },
   paths: {
