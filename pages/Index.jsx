@@ -11,7 +11,7 @@ var Index = React.createClass({
             },
             headerImage: {
                 background: '#bde2bd',
-                backgroundImage: 'url(/assets/img/front.jpg)',
+                backgroundImage: 'url(assets/img/front.jpg)',
                 backgroundSize: 'cover',
             }
         };
