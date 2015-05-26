@@ -2,6 +2,7 @@
 var _ = require('lodash');
 var removeMd = require('remove-markdown');
 var markdown = require('commonmark');
+var highlightPlugin = require('antwar-highlight-plugin');
 
 var mdReader = new markdown.Parser();
 var mdWriter = new markdown.HtmlRenderer();
@@ -19,6 +20,14 @@ module.exports = {
   deploy: {
     branch: 'gh-pages',
   },
+  plugins: [
+    highlightPlugin({
+      style: function() {
+        require('highlight.js/styles/github.css');
+      },
+      languages: ['bash', 'javascript', 'json', 'html'],
+    }),
+  ],
   theme: {
     customStyles: 'custom.scss',
     // TODO: push sectionTitle per path?
