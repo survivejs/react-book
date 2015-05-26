@@ -3,6 +3,7 @@ var _ = require('lodash');
 var removeMd = require('remove-markdown');
 var markdown = require('commonmark');
 var highlightPlugin = require('antwar-highlight-plugin');
+var prevnextPlugin = require('antwar-prevnext-plugin');
 
 var mdReader = new markdown.Parser();
 var mdWriter = new markdown.HtmlRenderer();
@@ -27,6 +28,7 @@ module.exports = {
       },
       languages: ['bash', 'javascript', 'json', 'html'],
     }),
+    prevnextPlugin,
   ],
   theme: {
     customStyles: 'custom.scss',
@@ -43,9 +45,9 @@ module.exports = {
       path: function() {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
-      url: function(file, fileName) {
+      /*url: function(file, fileName) {
         return fileName.slice(0, fileName.length - 3);
-      },
+      },*/
       title: function(file) {
         return removeMd(file.__content.split('\n')[0]);
       },
