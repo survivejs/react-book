@@ -33,8 +33,14 @@ module.exports = {
         previous: function(o) {
           return o.title;
         },
+        previousUrl: function(o) {
+          return '../' + o.split('/').slice(1).join('/');
+        },
         next: function(o) {
           return o.title;
+        },
+        nextUrl: function(o) {
+          return '../' + o.split('/').slice(1).join('/');
         },
       })
     }),
