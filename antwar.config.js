@@ -29,12 +29,14 @@ module.exports = {
       languages: ['bash', 'javascript', 'json', 'html'],
     }),
     prevnextPlugin({
-      previous: function(o) {
-        return o.title;
-      },
-      next: function(o) {
-        return o.title;
-      },
+      bodyContent: prevnextPlugin.bodyContent({
+        previous: function(o) {
+          return o.title;
+        },
+        next: function(o) {
+          return o.title;
+        },
+      })
     }),
   ],
   theme: {
@@ -52,9 +54,6 @@ module.exports = {
       path: function() {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
-      /*url: function(file, fileName) {
-        return fileName.slice(0, fileName.length - 3);
-      },*/
       title: function(file) {
         return removeMd(file.__content.split('\n')[0]);
       },
