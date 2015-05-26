@@ -42,10 +42,10 @@ body {}
     right: 10px;
 }
 
-.previous-page::after {
-    content: "\2190 Previous Chapter";
+.previous-page::before {
+    content: "\2190";
 }
 
 .next-page::after {
-    content: "Next Chapter \2192";
+    content: "\2192";
 }

@@ -28,7 +28,14 @@ module.exports = {
       },
       languages: ['bash', 'javascript', 'json', 'html'],
     }),
-    prevnextPlugin,
+    prevnextPlugin({
+      previous: function(o) {
+        return o.title;
+      },
+      next: function(o) {
+        return o.title;
+      },
+    }),
   ],
   theme: {
     customStyles: 'custom.scss',
