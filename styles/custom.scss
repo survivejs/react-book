@@ -19,3 +19,8 @@ body {}
 .header-image--front {
     background-size: 100%;
 }
+
+.post__content img {
+    position: inherit;
+    width: 100%;
+}
