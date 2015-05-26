@@ -15,8 +15,8 @@ module.exports = {
   },
   theme: {
     customStyles: 'custom.scss',
-    // TODO: push blogTitle per path?
-    blogTitle: 'Table of Contents',
+    // TODO: push sectionTitle per path?
+    sectionTitle: 'Table of Contents',
     name: 'antwar-default-theme',
     navigation: [
       {title: 'Home', path: '/'},
