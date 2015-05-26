@@ -13,6 +13,10 @@ module.exports = {
     {
       from: 'manuscript/images',
       to: 'images',
+    },
+    {
+      from: './CNAME',
+      to: './',
     }
   ],
   output: 'build',
