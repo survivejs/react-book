@@ -20,8 +20,8 @@ var Index = React.createClass({
             <div className='post post--front'>
                 <div className='header-image header-image--front' style={styles.headerImage}></div>
                 <div className='post__heading'>
-                    <h1 className='front-header' style={styles.frontHeader}>SurviveJS</h1>
-                    <h3>Survive the jungles of JavaScript</h3>
+                    <h1 className='front-header' style={styles.frontHeader}>SurviveJS - Webpack and React</h1>
+                    <h3>Go from zero to Webpack and React hero</h3>
                     <div className='front__buttons'>
                         <a href='webpack_react' className='btn btn--inverted'>Read the Book</a>
                         <a href='https://github.com/survivejs/webpack_react' className='btn btn--inverted'>View on GitHub</a>
@@ -45,6 +45,9 @@ var Index = React.createClass({
                     <h3>When?</h3>
 
                     <p>An early version of the book is already available. I keep track of the status of the book in <a href="https://github.com/survivejs/webpack_react#progress">the project README</a>. Especially early chapters and a couple of the later ones are in a good condition. Feedback is very welcome.</p>
+
+                    <h3>How to support?</h3>
+
                     <p>Even though the book is free under CC BY-NC-ND license, financial support is welcome. You can for instance purchase <a href="https://leanpub.com/survivejs_webpack">an electronic copy of the book</a>.</p>
                 </div>
             </div>
