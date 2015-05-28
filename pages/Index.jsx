@@ -38,9 +38,9 @@ var Index = React.createClass({
 
                     <h3>Why?</h3>
 
-                    <p>SurviveJS - Webpack and React is a book I wish I had when I bumped into these technologies for the first time. I would have saved a lot of time and headache. But worry not. You don't have to be as unlucky.</p>
-                    <p>I have distilled my knowledge about the topic in this book in an easy to follow format. Following the book you will build a simplistic Kanban application that can be used for tracking tasks. When ready you can even you use it with your own projects.</p>
-                    <p>As I am aware just following along can be boring I have set up the project in its various steps in the accompanying GitHub repository. The book isn't entirely tutorial-driven. Some parts provide you more general view of the scene. For instance I discuss topics such as styling and library authorship in greater detail.</p>
+                    <p>SurviveJS - Webpack and React is the book I wish I had when I bumped into these technologies the first time. It would have saved a lot of time and headaches. But worry not. You don't have to be as unlucky.</p>
+                    <p>I have distilled my knowledge about the topic in this book in an easy to follow format. Following the book you will build a simple Kanban application that can be used for tracking tasks. When ready you can even you use it with your own projects.</p>
+                    <p>As I am aware just following along can be boring I have set up the project in its various steps in the accompanying GitHub repository. The book isn't entirely tutorial-driven. Some parts provide you more general view of the web development scene. For instance I discuss topics such as styling and library authorship in greater detail.</p>
 
                     <h3>When?</h3>
 
