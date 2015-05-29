@@ -187,6 +187,10 @@ If you execute `npm start` now and break some linting rule while developing, you
 
 ## Customizing ESlint
 
+Even though you can get very far with vanilla ESlint there are several techniques you should be aware of. For instance sometimes you might want to skip some particular rules per file or you might want to implement rules of your own. We'll cover these cases briefly next.
+
+### Skipping ESlint Rules
+
 Sometimes you'll want to skip certain rules per file or per line. This can be useful when you happen to have some exceptional case in your code where some particular rule doesn't make sense. As usual exception confirms the rule. Consider the following examples:
 
 ```javascript
