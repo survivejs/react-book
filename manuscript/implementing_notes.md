@@ -179,10 +179,7 @@ We can achieve these goals using a callback and a ternary expression. Here's a s
 
 ```javascript
 export default class Note extends React.Component {
-  constructor(props: {
-    task: string;
-    onEdit: Function;
-  }) {
+  constructor(props) {
     super(props);
 
     this.state = {
