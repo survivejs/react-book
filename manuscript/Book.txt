@@ -9,7 +9,5 @@ react_and_flux.md
 from_notes_to_kanban.md
 styling_react.md
 polishing_kanban.md
-asset_management.md
 deploying_applications.md
-debugging_webpack.md
 authoring_libraries.md
