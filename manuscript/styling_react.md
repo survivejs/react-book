@@ -395,7 +395,7 @@ How about things like media queries? This naive approach won't quite cut it. For
 
 ### Radium
 
-As of writing [Radium](http://projects.formidablelabs.com/radium/) doesn't support ES6 style classes yet because it injects certain key functionality through mixins. It does have certain valuable ideas that are worth covering, however. Most importantly it provides abstractions required to deal with media queries, browser states (ie. `:hover`) and modifiers (primary/secondary button and so on).
+[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth covering. Most importantly it provides abstractions required to deal with media queries, browser states (ie. `:hover`) and modifiers (primary/secondary button and so on).
 
 It expands the basic syntax as follows:
 
