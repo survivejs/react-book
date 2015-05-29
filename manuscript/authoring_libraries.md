@@ -50,7 +50,8 @@ I've annotated `package.json` of my [React component boilerplate](https://github
     "check-style": "jscs .",
     "replace-meta": "node scripts/replace_meta.js",
     "prepublish": "babel ./lib --out-dir ./dist-modules",
-    "version": "npm run test && npm run dist && npm version \"$@\" && npm run gh-pages && npm run deploy-gh-pages"
+    "postpublish": "npm run gh-pages && npm run deploy-gh-pages",
+    "preversion": "npm run test && npm run dist",
   },
   -- Entry point for terminal (ie. <package name>)
   -- Don't set this unless you intend to allow cli usage
@@ -117,6 +118,8 @@ T> Before starting to develop it can be a good idea to spend a little bit of tim
 T> As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that format when naming your project.
 
 Bumping a version is simple too. You'll just need to invoke `npm version <x.y.z>`. That will update `package.json` and create a version commit automatically. If you hit `npm publish`, you should have something new out there.
+
+Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build and it will get tested just in case.
 
 T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node will resolve to the linked version unless local `node_modules` happens to contain a version.
 
