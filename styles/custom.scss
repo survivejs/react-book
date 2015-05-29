@@ -49,3 +49,23 @@ body {}
 .next-page::after {
     content: "\2192";
 }
+
+@media (max-width: 550px) {
+    .post__heading h1 {
+        margin: 0;
+    }
+
+    .next-page, .previous-page {
+        padding: 5px;
+        background: white;
+        top: inherit;
+    }
+
+    .previous-page {
+        bottom: 50px;
+    }
+
+    .next-page {
+        bottom: 10px;
+    }
+}
