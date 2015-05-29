@@ -187,7 +187,7 @@ If you execute `npm start` now and break some linting rule while developing, you
 
 ## Customizing ESlint
 
-Sometimes you'll want to skip certain rules per file or per line. Consider the following examples:
+Sometimes you'll want to skip certain rules per file or per line. This can be useful when you happen to have some exceptional case in your code where some particular rule doesn't make sense. As usual exception confirms the rule. Consider the following examples:
 
 ```javascript
 // everything
