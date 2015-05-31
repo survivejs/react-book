@@ -51,8 +51,6 @@ module.exports = {
   ],
   theme: {
     customStyles: 'custom.scss',
-    // TODO: push sectionTitle per path?
-    sectionTitle: 'Table of Contents',
     name: 'antwar-default-theme',
     navigation: [
       {title: 'Home', url: '/'},
@@ -61,32 +59,36 @@ module.exports = {
     ],
   },
   paths: {
+    '/': {
+      path: function() {
+        return require.context('./pages');
+      },
+    },
     webpack_react: {
+      title: 'Table of Contents',
       path: function() {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
-      title: function(file) {
-        return removeMd(file.__content.split('\n')[0]);
-      },
-      date: function(file) {
-        // dates aren't needed
-        return;
-      },
-      content: function(file) {
-        var content = file.__content.split('\n').slice(1).join('\n');
+      processItem: {
+        title: function(file) {
+          return removeMd(file.__content.split('\n')[0]);
+        },
+        content: function(file) {
+          var content = file.__content.split('\n').slice(1).join('\n');
 
-        return mdWriter.render(mdReader.parse(content));
-      },
-      preview: function(file) {
-        var previewLimit = 150;
-        var content = file.__content.split('\n').slice(1).join('\n');
-        var stripped = removeMd(content);
+          return mdWriter.render(mdReader.parse(content));
+        },
+        preview: function(file) {
+          var previewLimit = 150;
+          var content = file.__content.split('\n').slice(1).join('\n');
+          var stripped = removeMd(content);
 
-        if(stripped.length > previewLimit) {
-          return stripped.substr(0, previewLimit) + '…';
-        }
+          if(stripped.length > previewLimit) {
+            return stripped.substr(0, previewLimit) + '…';
+          }
 
-        return stripped;
+          return stripped;
+        },
       },
       sort: function(files) {
         var order = require('raw!./manuscript/Book.txt').split('\n').filter(id);
