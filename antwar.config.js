@@ -70,17 +70,17 @@ module.exports = {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
       processItem: {
-        title: function(file) {
-          return removeMd(file.__content.split('\n')[0]);
+        title: function(o) {
+          return removeMd(o.file.__content.split('\n')[0]);
         },
-        content: function(file) {
-          var content = file.__content.split('\n').slice(1).join('\n');
+        content: function(o) {
+          var content = o.file.__content.split('\n').slice(1).join('\n');
 
           return mdWriter.render(mdReader.parse(content));
         },
-        preview: function(file) {
+        preview: function(o) {
           var previewLimit = 150;
-          var content = file.__content.split('\n').slice(1).join('\n');
+          var content = o.file.__content.split('\n').slice(1).join('\n');
           var stripped = removeMd(content);
 
           if(stripped.length > previewLimit) {
