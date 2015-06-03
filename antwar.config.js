@@ -107,31 +107,31 @@ module.exports = {
 };
 
 function parseQuotes(data) {
-    var tokens = marked.lexer(data).map(function(t) {
-        if(t.type === 'paragraph') {
-            return parseCustomQuote(t, 'T>', 'tip') ||
-                parseCustomQuote(t, 'W>', 'warning') ||
-                t;
-        }
+  var tokens = marked.lexer(data).map(function(t) {
+    if(t.type === 'paragraph') {
+      return parseCustomQuote(t, 'T>', 'tip') ||
+        parseCustomQuote(t, 'W>', 'warning') ||
+        t;
+    }
 
-        return t;
-    });
-    tokens.links = [];
+    return t;
+  });
+  tokens.links = [];
 
-    return marked.parser(tokens);
+  return marked.parser(tokens);
 }
 
 function parseCustomQuote(token, match, className) {
-    if(token.type === 'paragraph') {
-        var text = token.text;
+  if(token.type === 'paragraph') {
+    var text = token.text;
 
-        if(text.indexOf(match) === 0) {
-            return {
-                type: 'html',
-                text: '<blockquote class="' + className + '">' + text.slice(2).trim() + '</blockquote>',
-            };
-        }
+    if(text.indexOf(match) === 0) {
+      return {
+        type: 'html',
+        text: '<blockquote class="' + className + '">' + text.slice(2).trim() + '</blockquote>',
+      };
     }
+  }
 }
 
 function id(a) {return a;}
