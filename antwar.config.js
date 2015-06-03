@@ -72,7 +72,7 @@ module.exports = {
         content: function(o) {
           var content = o.file.__content.split('\n').slice(1).join('\n');
 
-          return marked(content);
+          return parseQuotes(content);
         },
         preview: function(o) {
           var previewLimit = 150;
@@ -105,5 +105,33 @@ module.exports = {
     }
   }
 };
+
+function parseQuotes(data) {
+    var tokens = marked.lexer(data).map(function(t) {
+        if(t.type === 'paragraph') {
+            return parseCustomQuote(t, 'T>', 'tip') ||
+                parseCustomQuote(t, 'W>', 'warning') ||
+                t;
+        }
+
+        return t;
+    });
+    tokens.links = [];
+
+    return marked.parser(tokens);
+}
+
+function parseCustomQuote(token, match, className) {
+    if(token.type === 'paragraph') {
+        var text = token.text;
+
+        if(text.indexOf(match) === 0) {
+            return {
+                type: 'html',
+                text: '<blockquote class="' + className + '">' + text.slice(2).trim() + '</blockquote>',
+            };
+        }
+    }
+}
 
 function id(a) {return a;}

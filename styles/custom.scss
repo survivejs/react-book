@@ -69,3 +69,15 @@ body {}
         bottom: 10px;
     }
 }
+
+blockquote.tip {
+    background-color: rgb(234, 255, 247);
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+blockquote.warning {
+    background-color: rgb(255, 255, 239);
+    padding: 1em;
+    margin-bottom: 1em;
+}
