@@ -90,13 +90,8 @@ I've annotated `package.json` of my [React component boilerplate](https://github
     "reactjs",
     "boilerplate"
   ],
-  -- Which licenses are available
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/bebraw/react-component-boilerplate/blob/master/LICENSE"
-    }
-  ],
+  -- Which license to use
+  "license": "MIT",
   -- Jest specific metadata
   "jest": {
     "scriptPreprocessor": "./config/preprocessor.js",
