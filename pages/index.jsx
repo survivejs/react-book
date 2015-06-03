@@ -10,7 +10,7 @@ var Index = React.createClass({
                 lineHeight: '1.5',
             },
             headerImage: {
-                background: '#bde2bd',
+                background: '#558E8E',
                 backgroundImage: 'url(/images/front.jpg)',
                 backgroundSize: 'cover',
             }
