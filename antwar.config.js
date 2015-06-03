@@ -1,12 +1,9 @@
 'use strict';
 var _ = require('lodash');
 var removeMd = require('remove-markdown');
-var markdown = require('commonmark');
+var marked = require('marked');
 var highlightPlugin = require('antwar-highlight-plugin');
 var prevnextPlugin = require('antwar-prevnext-plugin');
-
-var mdReader = new markdown.Parser();
-var mdWriter = new markdown.HtmlRenderer();
 
 module.exports = {
   assets: [
@@ -75,7 +72,7 @@ module.exports = {
         content: function(o) {
           var content = o.file.__content.split('\n').slice(1).join('\n');
 
-          return mdWriter.render(mdReader.parse(content));
+          return marked(content);
         },
         preview: function(o) {
           var previewLimit = 150;
