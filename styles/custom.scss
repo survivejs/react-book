@@ -1,25 +1,3 @@
-body {}
-.logo {
-    margin-bottom: 40.5px;
-    > svg {
-        width: 135px;
-        height: 99px;
-        path {
-            height: 100%;
-            fill: #fff;
-        }
-    }
-
-}
-.front-header {
-    font-size: 54px;
-    line-height: 1.5;
-}
-
-.header-image--front {
-    background-size: 100%;
-}
-
 .post__content img {
     position: inherit;
     width: 100%;
