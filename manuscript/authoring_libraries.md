@@ -49,9 +49,9 @@ I've annotated `package.json` of my [React component boilerplate](https://github
     "lint": "eslint . --ext .js --ext .jsx",
     "check-style": "jscs .",
     "replace-meta": "node scripts/replace_meta.js",
+    "preversion": "npm run test && npm run dist && git commit -am \"Update dist\"",
     "prepublish": "babel ./src --out-dir ./dist-modules",
-    "postpublish": "npm run gh-pages && npm run deploy-gh-pages",
-    "preversion": "npm run test && npm run dist",
+    "postpublish": "npm run gh-pages && npm run deploy-gh-pages"
   },
   -- Entry point for terminal (ie. <package name>)
   -- Don't set this unless you intend to allow cli usage
