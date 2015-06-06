@@ -62,4 +62,4 @@ To generate a pdf version of the book, hit `npm install` and `npm start`. After 
 
 ## License
 
-CC BY-NC-ND.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a>
