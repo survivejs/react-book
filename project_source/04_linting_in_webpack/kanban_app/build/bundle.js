@@ -54,8 +54,9 @@
 	__webpack_require__(2);
 
 	var component = __webpack_require__(6);
-	var app = document.getElementById('app');
+	var app = document.createElement('div');
 
+	document.body.appendChild(app);
 	app.appendChild(component());
 
 

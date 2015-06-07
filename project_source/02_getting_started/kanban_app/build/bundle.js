@@ -45,8 +45,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var component = __webpack_require__(1);
-	var app = document.getElementById('app');
+	var app = document.createElement('div');
 
+	document.body.appendChild(app);
 	app.appendChild(component());
 
 /***/ },

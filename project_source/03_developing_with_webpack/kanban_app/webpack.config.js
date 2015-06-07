@@ -29,7 +29,6 @@ if(TARGET === 'build') {
     plugins: [
       new HtmlWebpackPlugin({
         title: 'Kanban app',
-        template: path.join(ROOT_PATH, 'app/index.tpl')
       }),
     ],
   });

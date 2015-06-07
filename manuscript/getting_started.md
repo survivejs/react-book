@@ -81,8 +81,9 @@ module.exports = function () {
 
 ```javascript
 var component = require('./component.js');
-var app = document.getElementById('app');
+var app = document.createElement('div');
 
+document.body.appendChild(app);
 app.appendChild(component());
 ```
 
@@ -114,8 +115,6 @@ In order to actually use our bundle, we'll need to define the last missing bit, 
     <meta charset="UTF-8"/>
   </head>
   <body>
-    <div id="app"></div>
-
     <script src="bundle.js"></script>
   </body>
 </html>

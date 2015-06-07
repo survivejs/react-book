@@ -44,3 +44,4 @@ This book wouldn't have been possible without these individuals. They all helped
 * Josh Perez - @goatslacker - Helped to improve Alt chapter
 * Nicholas C. Zakas - @nzakas - Helped to improve linting chapter
 * Ilya Volodin - @ilyavolodin - Helped to improve linting chapter
+* Jan Nicklas - @jantimon - Pointed out how to simplify html-webpack-plugin section

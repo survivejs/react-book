@@ -45,8 +45,6 @@ module.exports = {
     <meta charset="UTF-8"/>
   </head>
   <body>
-    <div id="app"></div>
-
     <script src="http://localhost:8080/webpack-dev-server.js"></script>
     <script src="bundle.js"></script>
   </body>
@@ -262,35 +260,9 @@ if(TARGET === 'build') {
 }
 ```
 
-As we rely on a custom div we will need to define a custom template:
-
-**app/index.tpl**
-
-```html
-<!DOCTYPE html>
-<html{% if(o.htmlWebpackPlugin.files.manifest) { %} manifest="{%= o.htmlWebpackPlugin.files.manifest %}"{% } %}>
-  <head>
-    <meta charset="UTF-8">
-    <title>{%=o.htmlWebpackPlugin.options.title || 'Webpack App'%}</title>
-    {% for (var css in o.htmlWebpackPlugin.files.css) { %}
-    <link href="{%=o.htmlWebpackPlugin.files.css[css] %}" rel="stylesheet">
-    {% } %}
-  </head>
-  <body>
-    <div id="app"></div>
-
-    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
-    <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
-    {% } %}
-  </body>
-</html>
-```
-
-This is just the default template of the project with our div included. Note that `html-webpack-plugin` supports other templating languages. It defaults to [blueimp](https://www.npmjs.com/package/blueimp-tmpl).
-
 If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. We still need to make our development server work to get back where we started.
 
-T> Alternatively we could use the default template provided by `html-webpack-plugin` and just append the div we need at application initialization stage. On the plus side at least you now know how to set up a custom template! This will come in handy in more complex scenarios.
+T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
 
 ### Setting Up WebpackDevServer
 
@@ -312,8 +284,6 @@ Next we'll need to add some content to those files.
     <title>Demo</title>
   </head>
   <body>
-    <div id="app"></div>
-
     <script src="/dev-server/bundle.js"></script>
   </body>
 </html>

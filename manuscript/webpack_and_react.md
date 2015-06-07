@@ -62,7 +62,10 @@ import App from './components/App';
 main();
 
 function main() {
-    React.render(<App />, document.getElementById('app'));
+    var app = document.createElement('div');
+    document.body.appendChild(app);
+
+    React.render(<App />, app);
 }
 ```
 
