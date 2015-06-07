@@ -93,11 +93,12 @@ if(TARGET === 'dev') {
     output: {
       path: __dirname,
       filename: 'bundle.js',
-      publicPath: '/dev-server/'
+      publicPath: '/'
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin(),
+      new HtmlWebpackPlugin(),
     ]
   });
 }
