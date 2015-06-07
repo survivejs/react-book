@@ -459,7 +459,7 @@ In effect we're letting Babel process everything except Flow parts before passin
 
 Note that I'm enabling Stage 0 functionality as I'll be relying on some of that in the next chapter (primarily [class properties](https://gist.github.com/jeffmo/054df782c05639da2adb)).
 
-T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESlint.
+T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint.
 
 ### Adding Decorator Wrappers
 

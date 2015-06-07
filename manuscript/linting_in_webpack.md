@@ -76,7 +76,7 @@ In order to integrate ESLint with our project, we'll need to do a couple of litt
 ...
 ```
 
-This will trigger ESlint against all JS and JSX files of our project. That's definitely too much so we'll need to restrict it. Set up *.eslintignore* to the project root like this:
+This will trigger ESLint against all JS and JSX files of our project. That's definitely too much so we'll need to restrict it. Set up *.eslintignore* to the project root like this:
 
 **.eslintignore**
 
@@ -129,7 +129,7 @@ Note how we can define severity of an individual rule by passing it a number. Ze
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them if there are any. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 
-T> Note that like some other tools, such as JSCS and JSHint, ESlint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
+T> Note that like some other tools, such as JSCS and JSHint, ESLint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
 
 T> It is possible to generate a sample `.eslintrc` using `eslint --init` (or `node_modules/.bin/eslint --init` for local install). This can be useful on new projects.
 
@@ -151,7 +151,7 @@ Alternatively you could pipe output to `true` like this:
 
 The potential problem with this approach is that in case you invoke `lint` through some other command, it will pass the test even if there are failures! In other words if you have another script that does something like `npm run lint && npm run build`, it will build regardless of the output of the first command.
 
-### Connecting ESlint with Webpack
+### Connecting ESLint with Webpack
 
 We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step hit `npm i eslint-loader --save-dev` to add it to the project.
 
@@ -168,7 +168,7 @@ if(TARGET === 'dev') {
         {
           test: /\.jsx?$/,
           // we are using `eslint-loader` explicitly since
-          // we have eslint module installed. This way we
+          // we have ESLint module installed. This way we
           // can be certain that it uses the right loader
           loader: 'eslint-loader',
           include: path.join(ROOT_PATH, 'app'),
@@ -185,11 +185,11 @@ We are using `preLoaders` section here as we want to play it safe. This section 
 
 If you execute `npm start` now and break some linting rule while developing, you should see that in terminal output.
 
-## Customizing ESlint
+## Customizing ESLint
 
-Even though you can get very far with vanilla ESlint there are several techniques you should be aware of. For instance sometimes you might want to skip some particular rules per file or you might want to implement rules of your own. We'll cover these cases briefly next.
+Even though you can get very far with vanilla ESLint there are several techniques you should be aware of. For instance sometimes you might want to skip some particular rules per file or you might want to implement rules of your own. We'll cover these cases briefly next.
 
-### Skipping ESlint Rules
+### Skipping ESLint Rules
 
 Sometimes you'll want to skip certain rules per file or per line. This can be useful when you happen to have some exceptional case in your code where some particular rule doesn't make sense. As usual exception confirms the rule. Consider the following examples:
 
@@ -221,11 +221,11 @@ Note that the rule specific examples assume you have the rules in your configura
 
 ### Writing Your Own Rules
 
-ESlint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools such as [recast](https://github.com/benjamn/recast) that allow you perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
+ESLint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools such as [recast](https://github.com/benjamn/recast) that allow you perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
 
-To get a better idea of how AST works and what it looks like you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [JS AST Explorer by Felix Kling](http://felix-kling.de/esprima_ast_explorer/). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with at ESlint rules.
+To get a better idea of how AST works and what it looks like you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [JS AST Explorer by Felix Kling](http://felix-kling.de/esprima_ast_explorer/). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with at ESLint rules.
 
-In ESlint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
+In ESLint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
 1. Set up a new project named `eslint-plugin-custom`. You can replace `custom` with whatever you want. ESLint follows this naming convention.
 2. Hit `npm init` to create a dummy `package.json`
@@ -267,15 +267,15 @@ Next we need to alter our project configuration to make it to find the plugin an
 }
 ```
 
-If you invoke ESlint now, you should see a bunch of warnings. Mission accomplished!
+If you invoke ESLint now, you should see a bunch of warnings. Mission accomplished!
 
 Of course the rule doesn't do anything useful yet. To get forward I recommend checking out the official documentation about [plugins](http://eslint.org/docs/developer-guide/working-with-plugins.html) and [rules](http://eslint.org/docs/developer-guide/working-with-rules.html). You can also check out some of the existing rules and plugins for inspiration to see how they achieve certain things.
 
-### ESlint Resources
+### ESLint Resources
 
 Besides the official documentation available at [eslint.org](http://eslint.org/), you should check out the following blog posts:
 
-* [Lint Like It's 2015](https://medium.com/@dan_abramov/lint-like-it-s-2015-6987d44c5b48) - This post by Dan Abramov shows how to get ESlint work well with Sublime Text.
+* [Lint Like It's 2015](https://medium.com/@dan_abramov/lint-like-it-s-2015-6987d44c5b48) - This post by Dan Abramov shows how to get ESLint work well with Sublime Text.
 * [Detect Problems in JavaScript Automatically with ESLint](http://davidwalsh.name/eslint) - A good tutorial on the topic.
 * [Understanding the Real Advantages of Using ESLint](http://rangle.io/blog/understanding-the-real-advantages-of-using-eslint/) - Evan Schultz's post digs into details.
 * [eslint-plugin-smells](https://github.com/elijahmanor/eslint-plugin-smells) - This plugin by Elijah Manor allows you to lint against various JavaScript smells. Recommended.
@@ -284,7 +284,7 @@ Besides the official documentation available at [eslint.org](http://eslint.org/)
 
 Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short it can get pretty messy without any discipline. Fortunately there is a tool known as JSCS. It will allow you to define a style guide for your project.
 
-[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESlint. You would define `.jscsrc` with your style guide rules and use configuration like this:
+[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define `.jscsrc` with your style guide rules and use configuration like this:
 
 ```javascript
 module: {
@@ -331,7 +331,7 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
 
 We won't use the tool in this project but it's good to be aware of it.
 
-T> Note that like some other tools, such as ESlint and JSHint, JSCS supports `package.json` based configuration. Simply add a `jscsConfig` field to it and write the configuration there.
+T> Note that like some other tools, such as ESLint and JSHint, JSCS supports `package.json` based configuration. Simply add a `jscsConfig` field to it and write the configuration there.
 
 ## Conclusion
 
