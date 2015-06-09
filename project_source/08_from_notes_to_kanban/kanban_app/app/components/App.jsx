@@ -12,11 +12,11 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.addItem.bind(this)}>+</button>
+        <button onClick={this.addLane}>+</button>
         <AltContainer
           stores={[LaneStore]}
           inject={{
-            items: () => LaneStore.getState().lanes || []
+            items: () => LaneStore.getState().lanes || [],
           }}
         >
           <Lanes />
@@ -24,15 +24,7 @@ export default class App extends React.Component {
       </div>
     );
   }
-  addItem() {
+  addLane() {
     LaneActions.create('New lane');
-  }
-  itemEdited(id, task) {
-    if(task) {
-      LaneActions.update(id, task);
-    }
-    else {
-      LaneActions.remove(id);
-    }
   }
 }

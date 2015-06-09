@@ -12,13 +12,21 @@ class LaneStore {
     const lanes = this.lanes;
 
     this.setState({
-      lanes: lanes.concat({name})
+      lanes: lanes.concat({
+        name: name,
+        notes: [],
+      })
     });
   }
   update({id, lane}) {
     const lanes = this.lanes;
+    const laneToUpdate = lanes[id];
 
-    lanes[id] = lane;
+    Object.keys(lane).forEach(function(k) {
+      laneToUpdate[k] = lane[k];
+    });
+
+    lanes[id] = laneToUpdate;
 
     this.setState({
       lanes: lanes
