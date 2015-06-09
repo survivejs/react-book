@@ -10,8 +10,6 @@ export default class Lanes extends React.Component {
   render() {
     var lanes = this.props.items;
 
-    console.log(lanes);
-
     return (
       <ul className='lanes'>{lanes.map((lane, i) =>
         <li className='lane' key={'lane' + i}>
