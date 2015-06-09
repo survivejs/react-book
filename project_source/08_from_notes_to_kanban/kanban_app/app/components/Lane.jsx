@@ -1,46 +1,58 @@
+import Alt from 'alt';
 import AltContainer from 'alt/AltContainer';
+import AltManager from 'alt/utils/AltManager';
 import React from 'react';
 import Notes from './Notes';
 
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
+var altManager = new AltManager(Alt);
+
 export default class Lane extends React.Component {
   constructor(props: {
     name: string;
+    i: number;
   }) {
     super(props);
+
+    const i = this.props.i;
+    const alt = altManager.getOrCreate('lane-' + i);
+
+    this.noteActions = alt.createActions(NoteActions);
+    this.noteStore = alt.createStore(NoteStore, null, this.noteActions);
+
+    this.noteActions.init();
   }
   render() {
     const name = this.props.name;
 
-    // TODO: deal with multiple contexts
     return (
       <div>
         <div className='header'>
           <div className='name'>{name}</div>
-          <button onClick={this.addNote}>+</button>
+          <button onClick={this.addNote.bind(this)}>+</button>
         </div>
         <AltContainer
-          stores={[NoteStore]}
+          stores={[this.noteStore]}
           inject={{
-            items: () => NoteStore.getState().notes || [],
+            items: () => this.noteStore.getState().notes || [],
           }}
         >
-          <Notes onEdit={this.noteEdited} />
+          <Notes onEdit={this.noteEdited.bind(this)} />
         </AltContainer>
       </div>
     );
   }
   addNote() {
-    NoteActions.create('New note');
+    this.noteActions.create('New note');
   }
   noteEdited(id, note) {
     if(note) {
-      NoteActions.update(id, note);
+      this.noteActions.update(id, note);
     }
     else {
-      NoteActions.remove(id);
+      this.noteActions.remove(id);
     }
   }
 }

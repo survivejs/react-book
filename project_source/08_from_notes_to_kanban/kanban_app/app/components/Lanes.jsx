@@ -13,7 +13,7 @@ export default class Lanes extends React.Component {
     return (
       <ul className='lanes'>{lanes.map((lane, i) =>
         <li className='lane' key={'lane' + i}>
-          <Lane {...lane} />
+          <Lane {...lane} i={i} />
         </li>
       )}</ul>
     );

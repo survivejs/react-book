@@ -1,6 +1,4 @@
-import alt from '../libs/alt';
-
-class NoteActions {
+export default class NoteActions {
   init(notes) {
     this.dispatch(notes);
   }
@@ -14,5 +12,3 @@ class NoteActions {
     this.dispatch(id);
   }
 }
-
-export default alt.createActions(NoteActions);
