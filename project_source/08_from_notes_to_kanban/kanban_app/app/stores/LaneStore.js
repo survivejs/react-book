@@ -14,7 +14,6 @@ class LaneStore {
     this.setState({
       lanes: lanes.concat({
         name: name,
-        notes: [],
       })
     });
   }

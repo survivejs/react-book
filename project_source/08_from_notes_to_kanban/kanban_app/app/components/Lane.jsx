@@ -20,7 +20,10 @@ export default class Lane extends React.Component {
     const alt = altManager.getOrCreate('lane-' + i);
 
     this.noteActions = alt.createActions(NoteActions);
-    this.noteStore = alt.createStore(NoteStore, null, this.noteActions);
+    this.noteStore = alt.createStore(NoteStore, 'notes-' + i, this.noteActions);
+
+    // TODO: trigger persist
+    // @persist(LaneActions.init, LaneStore, storage, 'lanes')
 
     this.noteActions.init();
   }
