@@ -6,6 +6,8 @@ import Notes from './Notes';
 
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
+//import persist from '../decorators/persist';
+import storage from '../libs/storage';
 
 var altManager = new AltManager(Alt);
 
@@ -17,17 +19,25 @@ export default class Lane extends React.Component {
     super(props);
 
     const i = this.props.i;
-    const alt = altManager.getOrCreate('lane-' + i);
+    const laneId = 'lane-' + i;
+    const alt = altManager.getOrCreate(laneId);
 
     this.noteActions = alt.createActions(NoteActions);
     this.noteStore = alt.createStore(NoteStore, 'notes-' + i, this.noteActions);
 
-    // TODO: trigger persist
-    // @persist(LaneActions.init, LaneStore, storage, 'lanes')
+    // XXX: push to Lanes level? handle through alt instance or just snapshot?
+    this.noteActions.init(storage.get(laneId));
 
-    this.noteActions.init();
+    const that = this;
+    this.listener = window.addEventListener('beforeunload', function() {
+      // escape hatch for debugging
+      if(!storage.get('debug')) {
+        storage.set(laneId, that.noteStore.getState());
+      }
+    }, false);
   }
   render() {
+    //const i = this.props.i;
     const name = this.props.name;
 
     return (
