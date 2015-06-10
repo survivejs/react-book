@@ -45,3 +45,4 @@ This book wouldn't have been possible without these individuals. They all helped
 * Nicholas C. Zakas - @nzakas - Helped to improve linting chapter
 * Ilya Volodin - @ilyavolodin - Helped to improve linting chapter
 * Jan Nicklas - @jantimon - Helper to improve `html-webpack-plugin` related configuration a lot
+* Daniel de la Cruz - @danderu - Removed redundant reference to `.tpl`
