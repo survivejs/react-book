@@ -6,8 +6,15 @@ import NoteStore from '../stores/NoteStore';
 import persist from '../decorators/persist';
 import storage from '../libs/storage';
 
-@persist(NoteActions.init, NoteStore, storage, 'notes')
+const noteStorageName = 'notes';
+
+@persist(storage, noteStorageName, () => NoteStore.getState())
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    NoteActions.init(storage.get(noteStorageName));
+  }
   render() {
     return (
       <div>

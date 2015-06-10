@@ -288,9 +288,13 @@ Persistency can be pushed to a HOC like this:
 import persist from '../decorators/persist';
 import storage from '../libs/storage';
 
+const noteStorageName = 'notes';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    NoteActions.init(storage.get(noteStorageName));
 
     this.state = NoteStore.getState();
   }
@@ -301,7 +305,7 @@ class App extends React.Component {
   ...
 }
 
-export default persist(App, NoteActions.init, NoteStore, storage, 'notes');
+export default persist(App, storage, noteStorageName, () => NoteStore.getState());
 ```
 
 **app/decorators/persist.js**
@@ -309,17 +313,15 @@ export default persist(App, NoteActions.init, NoteStore, storage, 'notes');
 ```javascript
 import React from 'react';
 
-export default (Component, initAction, store, storage, storageName) => {
+export default (Component, storage, storageName, getData) => {
   return class Persist extends React.Component {
     constructor(props) {
       super(props);
 
-      initAction(storage.get(storageName));
-
       window.addEventListener('beforeunload', function() {
         // escape hatch for debugging
         if(!storage.get('debug')) {
-          storage.set(storageName, store.getState());
+          storage.set(storageName, getData());
         }
       }, false);
     }
@@ -397,10 +399,9 @@ class App extends React.Component {
 
 export default persist(
   connect(App, NoteStore),
-  NoteActions.init,
-  NoteStore,
   storage,
-  'notes'
+  noteStorageName,
+  () => NoteStore.getState()
 );
 ```
 
@@ -484,12 +485,12 @@ export default (store) => {
 ```javascript
 import React from 'react';
 
-const persist = (Component, initAction, store, storage, storageName) => {
+const persist = (Component, storage, storageName, getData) => {
   ...
 }
 
-export default (initAction, store, storage, storageName) => {
-  return (target) => persist(target, initAction, store, storage, storageName);
+export default (storage, storageName, getData) => {
+  return (target) => persist(target, storage, storageName, getData);
 };
 ```
 
@@ -500,7 +501,7 @@ As you can see the HOCs have been wrapped within functions that return functions
 ```javascript
 ...
 
-@persist(NoteActions.init, NoteStore, storage, 'notes')
+@persist(noteStorageName, () => NoteStore.getState())
 @connect(NoteStore)
 export default class App extends React.Component {
   ...
@@ -526,8 +527,15 @@ import NoteStore from '../stores/NoteStore';
 import persist from '../decorators/persist';
 import storage from '../libs/storage';
 
-@persist(NoteActions.init, NoteStore, storage, 'notes')
+const noteStorageName = 'notes';
+
+@persist(storage, noteStorageName, () => NoteStore.getState())
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    NoteActions.init(storage.get(noteStorageName));
+  }
   render() {
     return (
       <div>
