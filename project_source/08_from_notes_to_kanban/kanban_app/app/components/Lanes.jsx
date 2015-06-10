@@ -31,8 +31,7 @@ export default class Lanes extends React.Component {
     var lanes = this.props.items;
 
     return (
-      <div className='lanes'>
-      {lanes.map((lane, i) => {
+      <div className='lanes'>{lanes.map((lane, i) => {
         const id = 'lane-' + i;
 
         return (
@@ -42,8 +41,7 @@ export default class Lanes extends React.Component {
             manager={altManager}
             notes={this.notes[id]} />
         );
-      })}
-      </div>
+      })}</div>
     );
   }
 }

@@ -102,7 +102,7 @@ export default alt.createStore(LaneStore, 'LaneStore');
 
 The idea is the same as before with lanes. We are also going to need that `Lanes` container.
 
-**app/component/Lanes.jsx**
+**app/components/Lanes.jsx**
 
 ```javascript
 import React from 'react';
@@ -115,18 +115,98 @@ export default class Lanes extends React.Component {
   }
   render() {
     return (
-      <div>
-      lanes should go here
+      <div className='lanes'>
+        lanes should go here
       </div>
     );
   }
 }
 ```
 
-The current implementation doesn't do much. We still need to model `Lane` and attach `Notes` to those.
+The current implementation doesn't do much. We still need to model `Lane` and attach `Notes` to that.
 
 ## Modeling `Lane`
 
+To start with a `Lane` is pretty much what our `App` was earlier. This time around we'll want to render a header that contains name and a control for adding new notes within it.
 
+First of all let's extend the `render` method of `Lanes` to make some room for individual lanes:
+
+**app/components/Lanes.jsx**
+
+```javascript
+import Lane from './Lane';
+
+...
+
+render() {
+  const lanes = this.props.items;
+
+  return (
+    <div className='lanes'>{lanes.map((lane, i) => {
+      return <Lane className='lane' key={'lane-' + i} {...lane}/>;
+    })}</div>
+  );
+}
+```
+
+Next we can model `Lane` based on our earlier work with `App`.
+
+**app/components/Lane.jsx**
+
+```javascript
+import AltContainer from 'alt/AltContainer';
+import React from 'react';
+import Notes from './Notes';
+
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
+
+export default class Lane extends React.Component {
+  constructor(props: {
+    name: string;
+  }) {
+    super(props);
+
+    NoteActions.init();
+  }
+  render() {
+    return (
+      <div {...this.props}>
+        <div className='header'>
+          <div className='name'>{name}</div>
+          <button onClick={this.addNote.bind(this)}>+</button>
+        </div>
+        <AltContainer
+          stores={[NoteStore]}
+          inject={{
+            items: () => NoteStore.getState().notes || [],
+          }}
+        >
+          <Notes onEdit={this.noteEdited.bind(this)} />
+        </AltContainer>
+      </div>
+    );
+  }
+  addNote() {
+    NoteActions.create('New note');
+  }
+  noteEdited(id, note) {
+    if(note) {
+      NoteActions.update(id, note);
+    }
+    else {
+      NoteActions.remove(id);
+    }
+  }
+}
+```
+
+Now we have something that sort of works. You can see there's something seriously wrong, though. If you add new Notes to a Lane, the Note appears to each Lane. Also if you modify a Note, also other Lanes update. In addition created Notes aren't persisted correctly. Just Lane data appears to get saved.
+
+The reason why this happens is quite simple. Currently out `NoteStore` is a singleton. Even though this behavior is often convenient, it's definitely not the right for our application. We'll need to convert those singletons into separate instances.
+
+## Going from Note Singletons to Instances
+
+TODO
 
 ## Conclusion
