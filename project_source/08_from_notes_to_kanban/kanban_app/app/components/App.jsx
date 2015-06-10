@@ -7,8 +7,15 @@ import LaneStore from '../stores/LaneStore';
 import persist from '../decorators/persist';
 import storage from '../libs/storage';
 
-@persist(LaneActions.init, LaneStore, storage, 'lanes')
+const laneStorageName = 'lanes';
+
+@persist(storage, laneStorageName, () => LaneStore.getState())
 export default class App extends React.Component {
+  constructor() {
+    super();
+
+    LaneActions.init(storage.get(laneStorageName));
+  }
   render() {
     return (
       <div>

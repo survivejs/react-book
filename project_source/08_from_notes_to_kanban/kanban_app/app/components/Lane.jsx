@@ -1,43 +1,28 @@
-import Alt from 'alt';
 import AltContainer from 'alt/AltContainer';
-import AltManager from 'alt/utils/AltManager';
 import React from 'react';
 import Notes from './Notes';
 
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
-//import persist from '../decorators/persist';
-import storage from '../libs/storage';
-
-var altManager = new AltManager(Alt);
 
 export default class Lane extends React.Component {
   constructor(props: {
     name: string;
-    i: number;
+    notes: any; // XXX: undefined or object
+    id: string;
   }) {
     super(props);
 
-    const i = this.props.i;
-    const laneId = 'lane-' + i;
-    const alt = altManager.getOrCreate(laneId);
+    const manager = this.props.manager;
+    const laneId = this.props.id;
+    const alt = manager.getOrCreate(laneId);
 
     this.noteActions = alt.createActions(NoteActions);
-    this.noteStore = alt.createStore(NoteStore, 'notes-' + i, this.noteActions);
+    this.noteStore = alt.createStore(NoteStore, null, this.noteActions);
 
-    // XXX: push to Lanes level? handle through alt instance or just snapshot?
-    this.noteActions.init(storage.get(laneId));
-
-    const that = this;
-    this.listener = window.addEventListener('beforeunload', function() {
-      // escape hatch for debugging
-      if(!storage.get('debug')) {
-        storage.set(laneId, that.noteStore.getState());
-      }
-    }, false);
+    this.noteActions.init(this.props.notes);
   }
   render() {
-    //const i = this.props.i;
     const name = this.props.name;
 
     return (

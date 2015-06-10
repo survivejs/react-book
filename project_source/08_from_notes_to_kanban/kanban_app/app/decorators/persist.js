@@ -1,16 +1,14 @@
 import React from 'react';
 
-const persist = (Component, initAction, store, storage, storageName) => {
+const persist = (Component, storage, storageName, getData) => {
   return class Persist extends React.Component {
     constructor(props) {
       super(props);
 
-      initAction(storage.get(storageName));
-
       window.addEventListener('beforeunload', function() {
         // escape hatch for debugging
         if(!storage.get('debug')) {
-          storage.set(storageName, store.getState());
+          storage.set(storageName, getData());
         }
       }, false);
     }
@@ -20,6 +18,6 @@ const persist = (Component, initAction, store, storage, storageName) => {
   };
 };
 
-export default (initAction, store, storage, storageName) => {
-  return (target) => persist(target, initAction, store, storage, storageName);
+export default (storage, storageName, getData) => {
+  return (target) => persist(target, storage, storageName, getData);
 };
