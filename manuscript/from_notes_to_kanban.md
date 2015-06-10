@@ -54,4 +54,79 @@ export default class App extends React.Component {
 }
 ```
 
+Just to get the code compile here are initial implementations for some new actions and a store.
+
+**app/actions/LaneActions.js**
+
+```javascript
+import alt from '../libs/alt';
+
+class LaneActions {
+  init(lanes) {
+    this.dispatch(lanes);
+  }
+  create(name) {
+    this.dispatch(name);
+  }
+}
+
+export default alt.createActions(LaneActions);
+```
+
+**app/stores/LaneStore.js**
+
+```javascript
+import alt from '../libs/alt';
+import LaneActions from '../actions/LaneActions';
+
+class LaneStore {
+  constructor() {
+    this.bindActions(LaneActions);
+  }
+  init(data) {
+    this.setState(data || {lanes: []});
+  }
+  create(name) {
+    const lanes = this.lanes;
+
+    this.setState({
+      lanes: lanes.concat({
+        name: name,
+      })
+    });
+  }
+}
+
+export default alt.createStore(LaneStore, 'LaneStore');
+```
+
+The idea is the same as before with lanes. We are also going to need that `Lanes` container.
+
+**app/component/Lanes.jsx**
+
+```javascript
+import React from 'react';
+
+export default class Lanes extends React.Component {
+  constructor(props: {
+    items: Array;
+  }) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+      lanes should go here
+      </div>
+    );
+  }
+}
+```
+
+The current implementation doesn't do much. We still need to model `Lane` and attach `Notes` to those.
+
+## Modeling `Lane`
+
+
+
 ## Conclusion
