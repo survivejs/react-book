@@ -8,7 +8,7 @@ import NoteStore from '../stores/NoteStore';
 export default class Lane extends React.Component {
   constructor(props: {
     name: string;
-    notes: any; // XXX: undefined or object
+    notes: any; // XXX; why ?Object; doesn't work?
     id: string;
   }) {
     super(props);
