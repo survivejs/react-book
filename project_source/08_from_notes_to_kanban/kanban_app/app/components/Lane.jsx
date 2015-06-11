@@ -3,10 +3,9 @@ import React from 'react';
 
 import Notes from './Notes';
 import alt from '../libs/alt';
-import storage from '../libs/storage';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
-import {getInitialData, getStorageName} from '../libs/utils';
+import {getInitialData} from '../libs/storage';
 
 export default class Lane extends React.Component {
   constructor(props: {
@@ -22,8 +21,7 @@ export default class Lane extends React.Component {
 
     const storeName = 'NoteStore-' + i;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
-
-    this.actions.init(getInitialData(storage, getStorageName(), storeName));
+    this.actions.init(getInitialData(storeName));
   }
   render() {
     /* eslint-disable no-unused-vars */

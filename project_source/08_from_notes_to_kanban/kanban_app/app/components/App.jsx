@@ -6,17 +6,14 @@ import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 import persist from '../decorators/persist';
-import storage from '../libs/storage';
-import {getInitialData, getStorageName} from '../libs/utils';
+import {storage, storageName, getInitialData} from '../libs/storage';
 
-const STORAGE_NAME = getStorageName();
-
-@persist(storage, STORAGE_NAME, () => JSON.parse(alt.takeSnapshot()))
+@persist(storage, storageName, () => JSON.parse(alt.takeSnapshot()))
 export default class App extends React.Component {
   constructor() {
     super();
 
-    LaneActions.init(getInitialData(storage, STORAGE_NAME, 'LaneStore'));
+    LaneActions.init(getInitialData('LaneStore'));
   }
   render() {
     return (
