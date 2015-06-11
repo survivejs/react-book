@@ -14,8 +14,11 @@ export default class Lane extends React.Component {
     super(props);
 
     const i = this.props.i;
-    this.actions = getOrCreateActions(NoteActions, 'NoteActions-' + i);
-    this.store = getOrCreateStore(NoteStore, 'NoteStore-' + i, this.actions);
+
+    this.actions = alt.createActions(NoteActions);
+    alt.addActions('NoteActions-' + i, this.actions);
+
+    this.store = alt.createStore(NoteStore, 'NoteStore-' + i, this.actions);
   }
   render() {
     /* eslint-disable no-unused-vars */
@@ -51,28 +54,3 @@ export default class Lane extends React.Component {
     }
   }
 }
-
-// TODO: push to lib
-function getOrCreateActions(actionsClass, name) {
-  let actions = alt.getActions(name);
-
-  if(actions) {
-    return actions;
-  }
-
-  actions = alt.createActions(actionsClass);
-  alt.addActions(name, actions);
-
-  return actions;
-}
-
-function getOrCreateStore(storeClass, name, actions) {
-  const store = alt.getStore(name);
-
-  if(store) {
-    return store;
-  }
-
-  return alt.createStore(storeClass, name, actions);
-}
-
