@@ -14,12 +14,9 @@ export default class Lane extends React.Component {
   }) {
     super(props);
 
-    const i = this.props.i;
-
     this.actions = alt.createActions(NoteActions);
-    alt.addActions('NoteActions-' + i, this.actions);
 
-    const storeName = 'NoteStore-' + i;
+    const storeName = 'NoteStore-' + this.props.i;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
     this.actions.init(getInitialData(storeName));
   }
