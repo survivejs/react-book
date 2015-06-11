@@ -1,21 +1,25 @@
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
+
 import Notes from './Notes';
+import alt from '../libs/alt';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
 
 export default class Lane extends React.Component {
   constructor(props: {
     name: string;
-    actions: Object;
-    store: Object;
-    //notes: any; // XXX; why ?Object; doesn't work?
+    i: number;
   }) {
     super(props);
 
-    //this.props.actions.init(this.props.notes);
+    const i = this.props.i;
+    this.actions = getOrCreateActions(NoteActions, 'NoteActions-' + i);
+    this.store = getOrCreateStore(NoteStore, 'NoteStore-' + i, this.actions);
   }
   render() {
     /* eslint-disable no-unused-vars */
-    const {name, actions, store, notes, ...props} = this.props;
+    const {i, name, ...props} = this.props;
     /* eslint-enable no-unused-vars */
 
     return (
@@ -25,9 +29,9 @@ export default class Lane extends React.Component {
           <button onClick={this.addNote.bind(this)}>+</button>
         </div>
         <AltContainer
-          stores={[this.props.store]}
+          stores={[this.store]}
           inject={{
-            items: () => this.props.store.getState().notes || [],
+            items: () => this.store.getState().notes || [],
           }}
         >
           <Notes onEdit={this.noteEdited.bind(this)} />
@@ -36,14 +40,39 @@ export default class Lane extends React.Component {
     );
   }
   addNote() {
-    this.props.actions.create('New note');
+    this.actions.create('New note');
   }
   noteEdited(id, note) {
     if(note) {
-      this.props.actions.update(id, note);
+      this.actions.update(id, note);
     }
     else {
-      this.props.actions.remove(id);
+      this.actions.remove(id);
     }
   }
 }
+
+// TODO: push to lib
+function getOrCreateActions(actionsClass, name) {
+  let actions = alt.getActions(name);
+
+  if(actions) {
+    return actions;
+  }
+
+  actions = alt.createActions(actionsClass);
+  alt.addActions(name, actions);
+
+  return actions;
+}
+
+function getOrCreateStore(storeClass, name, actions) {
+  const store = alt.getStore(name);
+
+  if(store) {
+    return store;
+  }
+
+  return alt.createStore(storeClass, name, actions);
+}
+
