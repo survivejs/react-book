@@ -1,11 +1,11 @@
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 
-import Notes from './Notes';
 import alt from '../libs/alt';
+import {getInitialData} from '../libs/storage';
+import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
-import {getInitialData} from '../libs/storage';
 
 export default class Lane extends React.Component {
   constructor(props: {
