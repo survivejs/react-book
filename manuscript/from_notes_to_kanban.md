@@ -17,9 +17,9 @@ As a first step we will need to make some room for `Lanes` at our `App` level. C
 ```javascript
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
-import Lanes from './Lanes';
 
 import alt from '../libs/alt';
+import Lanes from './Lanes';
 import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 import persist from '../decorators/persist';
@@ -161,18 +161,23 @@ First of all let's extend the `render` method of `Lanes` to make some room for i
 **app/components/Lanes.jsx**
 
 ```javascript
+import React from 'react';
+
 import Lane from './Lane';
 
-...
-
-render() {
-  const lanes = this.props.items;
-
-  return (
-    <div className='lanes'>{lanes.map((lane, i) => {
-      return <Lane className='lane' key={'lane-' + i} {...lane}/>;
-    })}</div>
-  );
+export default class Lanes extends React.Component {
+  constructor(props: {
+    items: Array;
+  }) {
+    super(props);
+  }
+  render() {
+    return (
+      <div className='lanes'>{this.props.items.map((lane, i) =>
+          <Lane className='lane' key={'lane-' + i} i={i} {...lane} />
+      )}</div>
+    );
+  }
 }
 ```
 
@@ -183,14 +188,15 @@ Next we can model `Lane` based on our earlier work with `App`.
 ```javascript
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
-import Notes from './Notes';
 
+import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class Lane extends React.Component {
   constructor(props: {
     name: string;
+    i: number;
   }) {
     super(props);
 
@@ -234,6 +240,91 @@ The reason why this happens is quite simple. Currently out `NoteStore` is a sing
 
 ## Going from Note Singletons to Instances
 
-TODO
+A good first step towards getting rid of our Note singletons is to make our `NoteStore` more generic. We simply need to remove its direct dependency on Alt. Consider the code below:
+
+**app/stores/NoteStore.js**
+
+```javascript
+export default class NoteStore {
+  constructor(actions: Object) {
+    this.bindActions(actions);
+  }
+  ...
+}
+```
+
+**app/actions/NoteActions.js**
+
+`NoteActions` require similar treatment as well. Otherwise we'll end up transmitting the same signal to all of our stores are back to square one.
+
+```javascript
+export default class NoteActions {
+  init(notes) {
+    this.dispatch(notes);
+  }
+  create(task) {
+    this.dispatch(task);
+  }
+  update(id, task) {
+    this.dispatch({id, task});
+  }
+  remove(id) {
+    this.dispatch(id);
+  }
+}
+```
+
+To make it all work together we need to tweak `Lane` to maintain actions and a store.
+
+**app/components/Lane.jsx**
+
+```javascript
+import AltContainer from 'alt/AltContainer';
+import React from 'react';
+
+import alt from '../libs/alt';
+import {getInitialData} from '../libs/storage';
+import Notes from './Notes';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
+
+export default class Lane extends React.Component {
+  constructor(props: {
+    name: string;
+    i: number;
+  }) {
+    super(props);
+
+    this.actions = alt.createActions(NoteActions);
+
+    const storeName = 'NoteStore-' + this.props.i;
+    this.store = alt.createStore(NoteStore, storeName, this.actions);
+    this.actions.init(getInitialData(storeName));
+  }
+  render() {
+    /* eslint-disable no-unused-vars */
+    const {i, name, ...props} = this.props;
+    /* eslint-enable no-unused-vars */
+
+    return (
+      <div {...props}>
+      ...
+      </div>
+    );
+  }
+  addNote() {
+    this.actions.create('New note');
+  }
+  noteEdited(id, note) {
+    if(note) {
+      this.actions.update(id, note);
+    }
+    else {
+      this.actions.remove(id);
+    }
+  }
+```
 
 ## Conclusion
+
+If you run the application now, you should have something quite functional together! Even persistency works. It definitely is an eyesore still and we're missing some functionality like moving notes from a lane to lane. Before getting further on that let's take a little break and study various ways to style applications in React.
