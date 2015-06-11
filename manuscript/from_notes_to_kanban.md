@@ -19,19 +19,18 @@ import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Lanes from './Lanes';
 
+import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 import persist from '../decorators/persist';
-import storage from '../libs/storage';
+import {storage, storageName, getInitialData} from '../libs/storage';
 
-const laneStorageName = 'lanes';
-
-@persist(storage, laneStorageName, () => LaneStore.getState())
+@persist(storage, storageName, () => JSON.parse(alt.takeSnapshot()))
 export default class App extends React.Component {
   constructor() {
     super();
 
-    LaneActions.init(storage.get(laneStorageName));
+    LaneActions.init(getInitialData('LaneStore'));
   }
   render() {
     return (
@@ -51,6 +50,34 @@ export default class App extends React.Component {
   addLane() {
     LaneActions.create('New lane');
   }
+}
+```
+
+Note that the implementation of `../libs/storage` has been changed to make it easier to operate on it through a more complex hierarchy. We'll need this later when we attach more stores to the system.
+
+**app/libs/storage.js**
+
+```javascript
+export const storageName = 'kanban_storage';
+
+export const storage = {
+  get: function(k) {
+    try {
+      return JSON.parse(localStorage.getItem(k));
+    }
+    catch(e) {
+      return null;
+    }
+  },
+  set: function(k, v) {
+    localStorage.setItem(k, JSON.stringify(v));
+  }
+};
+
+export function getInitialData(storeName) {
+  var o = storage.get(storageName);
+
+  return o && o[storeName];
 }
 ```
 
