@@ -13,11 +13,11 @@ This means `App` will have to coordinate the state. Let's start by rendering a l
 ```javascript
 render() {
   var notes = [{
-    task: 'Learn Webpack'
+    task: 'Learn Webpack',
   }, {
-    task: 'Learn React'
+    task: 'Learn React',
   }, {
-    task: 'Do laundry'
+    task: 'Do laundry',
   }];
 
   return (
@@ -137,12 +137,12 @@ constructor(props) {
 
   this.state = {
     notes: [{
-      task: 'Learn Webpack'
+      task: 'Learn Webpack',
     }, {
-      task: 'Learn React'
+      task: 'Learn React',
     }, {
-      task: 'Do laundry'
-    }]
+      task: 'Do laundry',
+    }],
   };
 }
 render() {
@@ -157,7 +157,7 @@ Now our `render` method points at `state`. As a result we can implement `addItem
 addItem() {
   this.setState({
     notes: this.state.notes.concat([{
-      task: 'New task'
+      task: 'New task',
     }])
   });
 }
@@ -183,7 +183,7 @@ export default class Note extends React.Component {
     super(props);
 
     this.state = {
-      edited: false
+      edited: false,
     };
   }
   render() {
@@ -203,7 +203,7 @@ export default class Note extends React.Component {
   }
   edit() {
     this.setState({
-        edited: true
+        edited: true,
     });
   }
   checkEnter(e) {
@@ -215,7 +215,7 @@ export default class Note extends React.Component {
     this.props.onEdit(e.target.value);
 
     this.setState({
-      edited: false
+      edited: false,
     });
   }
 }
@@ -241,7 +241,7 @@ itemEdited(i, task) {
   notes[i].task = task;
 
   this.setState({
-    notes: notes
+    notes: notes,
   });
 }
 ```
@@ -278,7 +278,7 @@ itemEdited(i, task) {
   }
 
   this.setState({
-    notes: notes
+    notes: notes,
   });
 }
 ```
@@ -304,8 +304,8 @@ if(TARGET === 'dev') {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel', 'flowcheck'],
           include: path.join(ROOT_PATH, 'app'),
-        }
-      }
+        },
+      },
     },
     ...
   });

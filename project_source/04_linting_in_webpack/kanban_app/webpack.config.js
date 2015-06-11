@@ -16,9 +16,9 @@ var common = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css']
-      }
-    ]
+        loaders: ['style', 'css'],
+      },
+    ],
   },
 };
 
@@ -57,12 +57,12 @@ if(TARGET === 'dev') {
     output: {
       path: __dirname,
       filename: 'bundle.js',
-      publicPath: '/'
+      publicPath: '/',
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin(),
       new HtmlWebpackPlugin(),
-    ]
+    ],
   });
 }

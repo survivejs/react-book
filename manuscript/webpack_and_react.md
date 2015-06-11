@@ -246,8 +246,8 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-      }
-    ]
+      },
+    ],
   },
 };
 
@@ -261,12 +261,12 @@ if(TARGET === 'build') {
           test: /\.jsx?$/,
           loader: 'babel',
           include: path.join(ROOT_PATH, 'app'),
-        }
-      ]
+        },
+      ],
     },
     plugins: [
       ...
-    ]
+    ],
   });
 }
 
@@ -283,8 +283,8 @@ if(TARGET === 'dev') {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel'],
           include: path.join(ROOT_PATH, 'app'),
-        }
-      ]
+        },
+      ],
     },
   });
 }

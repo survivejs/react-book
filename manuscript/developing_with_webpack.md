@@ -27,7 +27,7 @@ var path = require('path');
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    path.resolve(__dirname, 'app/main.js')
+    path.resolve(__dirname, 'app/main.js'),
   ],
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -87,7 +87,7 @@ var path = require('path');
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    path.resolve(__dirname, 'app/main.js')
+    path.resolve(__dirname, 'app/main.js'),
   ],
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -97,9 +97,9 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css']
-      }
-    ]
+        loaders: ['style', 'css'],
+      },
+    ],
   }
 };
 ```
@@ -167,9 +167,9 @@ var common = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css']
-      }
-    ]
+        loaders: ['style', 'css'],
+      },
+    ],
   },
 };
 
@@ -315,13 +315,13 @@ if(TARGET === 'dev') {
     output: {
       path: __dirname,
       filename: 'bundle.js',
-      publicPath: '/'
+      publicPath: '/',
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin(),
       new HtmlWebpackPlugin(),
-    ]
+    ],
   });
 }
 ```

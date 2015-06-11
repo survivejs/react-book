@@ -23,9 +23,9 @@ module: {
       test: /\.js$/,
       // define an include so we check just the files we need
       include: path.join(ROOT_PATH, 'app'),
-      loader: 'jshint'
-    }
-  ]
+      loader: 'jshint',
+    },
+  ],
 },
 ```
 
@@ -172,7 +172,7 @@ if(TARGET === 'dev') {
           // can be certain that it uses the right loader
           loader: 'eslint-loader',
           include: path.join(ROOT_PATH, 'app'),
-        }
+        },
       ],
     },
     output: {...},
@@ -240,10 +240,10 @@ module.exports = {
             return {
                 Identifier: function(node) {
                     context.report(node, 'This is unexpected!');
-                }
+                },
             };
-        }
-    }
+        },
+    },
 };
 ```
 
@@ -293,7 +293,7 @@ module: {
       test: /\.jsx?$/,
       loaders: ['eslint', 'jscs'],
       include: path.join(ROOT_PATH, 'app'),
-    }
+    },
   ],
 },
 ```

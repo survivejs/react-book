@@ -20,8 +20,8 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-      }
-    ]
+      },
+    ],
   },
 };
 
@@ -35,8 +35,8 @@ if(TARGET === 'build') {
           test: /\.jsx?$/,
           loader: 'babel?stage=0',
           include: path.join(ROOT_PATH, 'app'),
-        }
-      ]
+        },
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -47,7 +47,7 @@ if(TARGET === 'build') {
       }),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
-          warnings: false
+          warnings: false,
         },
       }),
       new HtmlWebpackPlugin({
@@ -74,25 +74,25 @@ if(TARGET === 'dev') {
           test: /\.jsx?$/,
           loader: 'eslint-loader',
           include: path.join(ROOT_PATH, 'app'),
-        }
+        },
       ],
       loaders: [
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
           include: path.join(ROOT_PATH, 'app'),
-        }
-      ]
+        },
+      ],
     },
     output: {
       path: __dirname,
       filename: 'bundle.js',
-      publicPath: '/'
+      publicPath: '/',
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin(),
       new HtmlWebpackPlugin(),
-    ]
+    ],
   });
 }

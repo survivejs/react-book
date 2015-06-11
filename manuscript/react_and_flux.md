@@ -171,8 +171,7 @@ One alternative would be to factor `Notes` like this:
 ```javascript
 <Notes
   items={notes}
-  item={(note, i) => <span onClick={...}>{item.task}</span>}
-/>
+  item={(note, i) => <span onClick={...}>{item.task}</span>} />
 ```
 
 Now we give the consumer absolute control over how list items are rendered. This approach is more generic than our `onEdit` property and allows you to customize components significantly more.

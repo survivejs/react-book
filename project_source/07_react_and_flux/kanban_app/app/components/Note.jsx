@@ -8,7 +8,7 @@ export default class Note extends React.Component {
     super(props);
 
     this.state = {
-      edited: false
+      edited: false,
     };
   }
   render() {
@@ -28,7 +28,7 @@ export default class Note extends React.Component {
   }
   edit() {
     this.setState({
-        edited: true
+        edited: true,
     });
   }
   checkEnter(e) {
@@ -40,7 +40,7 @@ export default class Note extends React.Component {
     this.props.onEdit(e.target.value);
 
     this.setState({
-      edited: false
+      edited: false,
     });
   }
 }
