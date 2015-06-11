@@ -7,11 +7,11 @@ export default class Lane extends React.Component {
     name: string;
     actions: Object;
     store: Object;
-    notes: any; // XXX; why ?Object; doesn't work?
+    //notes: any; // XXX; why ?Object; doesn't work?
   }) {
     super(props);
 
-    this.props.actions.init(this.props.notes);
+    //this.props.actions.init(this.props.notes);
   }
   render() {
     /* eslint-disable no-unused-vars */

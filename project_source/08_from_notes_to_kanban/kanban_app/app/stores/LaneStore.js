@@ -4,9 +4,8 @@ import LaneActions from '../actions/LaneActions';
 class LaneStore {
   constructor() {
     this.bindActions(LaneActions);
-  }
-  init(data) {
-    this.setState(data || {lanes: []});
+
+    this.lanes = [];
   }
   create(name) {
     const lanes = this.lanes;

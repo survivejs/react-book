@@ -1,9 +1,8 @@
 export default class NoteStore {
   constructor(actions: Object) {
     this.bindActions(actions);
-  }
-  init(data) {
-    this.setState(data || {notes: []});
+
+    this.notes = [];
   }
   create(task) {
     const notes = this.notes;
