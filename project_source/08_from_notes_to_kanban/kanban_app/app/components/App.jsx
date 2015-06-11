@@ -7,9 +7,9 @@ import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 import persist from '../decorators/persist';
 import storage from '../libs/storage';
-import {getInitialData} from '../libs/utils';
+import {getInitialData, getStorageName} from '../libs/utils';
 
-const STORAGE_NAME = 'kanban_storage';
+const STORAGE_NAME = getStorageName();
 
 @persist(storage, STORAGE_NAME, () => JSON.parse(alt.takeSnapshot()))
 export default class App extends React.Component {

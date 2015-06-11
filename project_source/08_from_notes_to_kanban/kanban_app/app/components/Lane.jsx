@@ -6,10 +6,7 @@ import alt from '../libs/alt';
 import storage from '../libs/storage';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
-import {getInitialData} from '../libs/utils';
-
-// XXX: push into a lib
-const STORAGE_NAME = 'kanban_storage';
+import {getInitialData, getStorageName} from '../libs/utils';
 
 export default class Lane extends React.Component {
   constructor(props: {
@@ -26,7 +23,7 @@ export default class Lane extends React.Component {
     const storeName = 'NoteStore-' + i;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
 
-    this.actions.init(getInitialData(storage, STORAGE_NAME, storeName));
+    this.actions.init(getInitialData(storage, getStorageName(), storeName));
   }
   render() {
     /* eslint-disable no-unused-vars */
