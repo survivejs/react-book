@@ -31,7 +31,7 @@ Linting in Webpack | How to lint in Webpack | 90%
 Webpack and React | How to develop React with Webpack | 90%
 Implementing a Basic Note App | First steps with React | 90%
 React and Flux | Improving architecture by using Flux (Alt) | 90%
-From Notes to Kanban | Integrating Baobab | 65%
+From Notes to Kanban | Going from singleton to instances (Alt) | 80%
 Styling React | Styling application | 90%
 Polishing Kanban | Adding DnD | 20%
 Deploying Applications | How to deal with various deployment configurations | 30% | This needs a partial rewrite
@@ -51,6 +51,7 @@ Testing | Testing approaches/tools for Webpack and React | 0% | |
 Internationalization etc. | i18n/l10n/a11y | 0% | Gathering ideas
 Asset Management | How to deal with various assets | 10% | This might go away (integrated to others)
 Debugging Webpack | Various debugging strategies for Webpack | 0% | Need to go through various strategies and develop tooling
+Data trees (baobab) | How to port the application to Baobab | 0% | I had some material on this initially but went with Alt instead as it felt simpler and more fitting for the book
 
 ## Contributing
 
