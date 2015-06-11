@@ -1,5 +1,5 @@
 export default class NoteStore {
-  constructor(actions) {
+  constructor(actions: Object) {
     this.bindActions(actions);
   }
   init(data) {
