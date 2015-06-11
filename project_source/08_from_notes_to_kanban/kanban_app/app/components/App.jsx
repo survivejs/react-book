@@ -7,18 +7,16 @@ import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 import persist from '../decorators/persist';
 import storage from '../libs/storage';
+import {getInitialData} from '../libs/utils';
 
-const storageName = 'kanban_storage';
+const STORAGE_NAME = 'kanban_storage';
 
-@persist(storage, storageName, () => alt.takeSnapshot())
+@persist(storage, STORAGE_NAME, () => JSON.parse(alt.takeSnapshot()))
 export default class App extends React.Component {
   constructor() {
     super();
 
-    console.log('initial data', storage.get(storageName));
-
-    // XXX: problem is that NoteStores don't exist yet
-    alt.bootstrap(storage.get(storageName));
+    LaneActions.init(getInitialData(storage, STORAGE_NAME, 'LaneStore'));
   }
   render() {
     return (
