@@ -203,11 +203,17 @@ export default class Lane extends React.Component {
     NoteActions.init();
   }
   render() {
+    /* eslint-disable no-unused-vars */
+    const {i, name, ...props} = this.props;
+    /* eslint-enable no-unused-vars */
+
     return (
-      <div {...this.props}>
-        <div className='header'>
-          <div className='name'>{name}</div>
-          <button onClick={this.addNote.bind(this)}>+</button>
+      <div {...props}>
+        <div className='lane-header'>
+          <div className='lane-name'>{name}</div>
+          <div className='lane-add-note'>
+            <button onClick={this.addNote.bind(this)}>+</button>
+          </div>
         </div>
         <AltContainer
           stores={[NoteStore]}

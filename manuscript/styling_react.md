@@ -1,14 +1,16 @@
 # Styling React
 
-Traditionally web pages have been split up in markup (ie. HTML), styling (ie. CSS) and logic (ie. JavaScript). Even though it looks like an simple abstraction, there are some interesting overlaps. You can push some logic to CSS but how much is too much? Is the separation actually useful for application development? These become big questions particularly in React context. As a result some interesting solutions have appeared although the scene is still in flux.
+Traditionally web pages have been split up in markup (ie. HTML), styling (ie. CSS) and logic (ie. JavaScript). Even though this sounds simple in practice there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
 
-## Old Skool Styling
+I will show you how to style our application the traditional way and then discuss some more advanced alternatives you might want to consider. With React things are still in bit of a flux and we're still figuring out the best ways to deal with styling. Some patterns have begun to emerge, however. Perhaps some of the ideas will stick.
 
-So far our approach to styling has been simple. We have just sprinkled some classes around and hoped for the best.
+## Old School Styling
+
+The old school approach to styling was just to sprinkle some ids and classes around, set up some rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default everything is global in CSS. Furthermore nesting definitions (ie. `.main .sidebar .button`) creates implicit logic to your styling.
 
 ### Webpack Configuration for Vanilla CSS
 
-Webpack configuration has been something minimal as well:
+It is easy to configure vanilla CSS is Webpack. Consider the example below:
 
 **webpack.config.js**
 
@@ -20,9 +22,10 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-      }
-    ]
+      },
+    ],
   },
+  ...
 };
 ```
 
@@ -32,7 +35,7 @@ To recap first [css-loader](https://www.npmjs.com/package/css-loader) goes throu
 
 ### Basic Style for Kanban
 
-To give our application slightly nicer outlook, we can try some old skool CSS tricks:
+To give our application slightly nicer outlook, we can try some old school CSS tricks:
 
 **app/stylesheets/main.css**
 

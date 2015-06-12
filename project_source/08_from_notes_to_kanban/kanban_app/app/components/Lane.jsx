@@ -27,9 +27,11 @@ export default class Lane extends React.Component {
 
     return (
       <div {...props}>
-        <div className='header'>
-          <div className='name'>{name}</div>
-          <button onClick={this.addNote.bind(this)}>+</button>
+        <div className='lane-header'>
+          <div className='lane-name'>{name}</div>
+          <div className='lane-add-note'>
+            <button onClick={this.addNote.bind(this)}>+</button>
+          </div>
         </div>
         <AltContainer
           stores={[this.store]}
