@@ -194,12 +194,6 @@ if(TARGET === 'dev') {
 
 Using this set up we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
 
-### Pros and Cons
-
-This approach is simple and probably enough for our application. What happens when the application starts to grow and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
-
-We could battle this problem by making the selectors more specific, using some naming rules and so on but where to draw the line? There are various alternative approaches you can consider.
-
 ## Linting CSS
 
 As we saw earlier linting can be powerful. It points out potential problems before they escalate into real issues. [csslint](https://www.npmjs.com/package/csslint) allows us to lint CSS. [csslint-loader](https://www.npmjs.com/package/csslint-loader) makes it possible to integrate it into our project. To get started hit `npm i csslint csslint-loader --save-dev`.
@@ -224,7 +218,7 @@ if(TARGET === 'dev') {
           test: /\.jsx?$/,
           loader: 'eslint-loader',
           include: path.join(ROOT_PATH, 'app'),
-        }
+        },
       ],
       ...
     },
@@ -278,29 +272,45 @@ Thanks to the Webpack configuration we did, you should get output during `npm st
 
 ## CSS Methodologies
 
-Coming up with de facto rules for styling might work a while. Over the longer term as your codebase grows, you might start to experience challenges with that. As a result various methodologies have appeared in which people have taken these concerns into account.
+This old school approach is simple and probably enough for our application. What happens when the application starts to grow and new concepts get added, though? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
 
-Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS) and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each comes with its set of conventions. They can help to structure your CSS development.
+We could battle this problem by making the selectors more specific, using some naming rules and so on but where to draw the line? There are various alternative methodologies you can consider.
+
+Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS) and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each of them solves problems of vanilla CSS in their own way.
 
 ### BEM
 
-Maintaining long class names BEM requires can be boring. Various libraries have appeared to make this easier. Examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react).
+BEM originates from Yandex. They realized the traditional way of dealing with CSS isn't enough and decided to do something about it. The goal of BEM is to allow reusable components and code sharing through that. Sites such as [Get BEM](http://getbem.com/) help you to understand the methodology in more detail.
+
+As maintaining long class names BEM requires can be ardious various libraries have appeared to make this easier. For React examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react).
 
 Note that [postcss-bem-linter](https://www.npmjs.com/package/postcss-bem-linter) allows you to lint your CSS for BEM conformance.
 
 ### OOCSS and SMACSS
 
-As of writing no React specific helper libraries exist for OOCSS and SMACSS.
+Just like BEM both OOCSS and SMACSS come with their own conventions and methodology. As of writing no React specific helper libraries exist for OOCSS and SMACSS.
 
 csslint rules `Disallow qualified headings` and `Headings should only be defined once` allow you to check your CSS against OOCSS principles.
 
+### Pros and Cons
+
+The primary benefit of adopting a methodology is that it brings certain structure to your project. Rather than writing ad hoc rules and hoping everything works you will actually have something stronger to fall back onto. The methodologies overcome some of the basic issues of CSS and help you develop good software over longer term. Conventions they bring help particularly in maintenance and are less prone to lead to a mess.
+
+On the downside once you adopt one you are pretty much stuck with that on your project. But if you are willing to commit, there are benefits to gain.
+
+The methodologies also bring their own quirks (ie. complex naming schemes) and may make certain things more complicated than they have to be. They don't necessarily solve any of the bigger underlying issues but rather provide patches around them.
+
+There are various approaches, such as using preprocessors, that go deeper and solve some of these fundamental problems. That said it's not an either-or proposition. You may adopt a methodology even if you use some preprocessor.
+
 ## cssnext, Less, Sass
 
-The problem with vanilla CSS is that it is missing some functionality that would improve maintainability. For instance from a programmer's perspective it could be nice to have basic features such as variables, math functions, color manipulation functions and so on. Better yet it would be nice if it was possible to forget about browser specific prefixes.
+Vanilla CSS is missing some functionality that would make maintenance work easier. Consider something basic like variables, math/color functions and so on. It would also be nice to be able to forget about browser specific prefixes. These are small things that add up quite fast and make it annoying to write vanilla CSS.
 
 ### cssnext
 
-As it happens these features are in the future. [cssnext](https://cssnext.github.io/), however, is a project that allows us to experience the future now. There are some restrictions but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case you would end up with the following:
+![cssnext](/images/cssnext.jpg)
+
+[cssnext](https://cssnext.github.io/) is a project that allows us to experience the future now. There are some restrictions but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case you would end up with the following:
 
 ```javascript
 {
@@ -315,6 +325,8 @@ If that sounds a little much or you are just interested in a particular feature 
 
 ### Less
 
+![Less](/images/less.png)
+
 Less is a popular CSS preprocessor that implements functionality we talked about and comes with a syntax of its own. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
 
 ```javascript
@@ -327,6 +339,8 @@ Less is a popular CSS preprocessor that implements functionality we talked about
 There is also support for Less plugins, sourcemaps and so on but to understand how those work you should check out the project itself.
 
 ### Sass
+
+![Sass](/images/sass.png)
 
 Sass is a popular alternative to Less. You should use [sass-loader](https://www.npmjs.com/package/sass-loader) with it. Remember to install `node-sass` to your project as the loader has a peer dependency on that. Webpack configuration is light again:
 
