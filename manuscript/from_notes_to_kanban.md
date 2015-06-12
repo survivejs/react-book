@@ -1,6 +1,6 @@
 # From Notes to Kanban
 
-![Kanban board](/images/kanban.png)
+![Kanban board](images/kanban.png)
 
 So far we have managed to set up a nice little development environment and develop an application for keeping track of notes in `localStorage`. We have still work to do in order to turn this into a real Kanban as pictured above.
 

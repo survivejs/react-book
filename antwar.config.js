@@ -2,8 +2,15 @@
 var _ = require('lodash');
 var removeMd = require('remove-markdown');
 var marked = require('marked');
+var renderer = new marked.Renderer();
 var highlightPlugin = require('antwar-highlight-plugin');
 var prevnextPlugin = require('antwar-prevnext-plugin');
+
+// alter marked renderer to add slashes to beginning so images point at root
+// leanpub expects images without slash...
+renderer.image = function(href, title, text) {
+    return '<img src="/' + href + '" alt="' + text + '">';
+};
 
 module.exports = {
   assets: [
@@ -71,8 +78,11 @@ module.exports = {
         },
         content: function(o) {
           var content = o.file.__content.split('\n').slice(1).join('\n');
+          var tokens = parseQuotes(content);
 
-          return parseQuotes(content);
+          return marked.parser(tokens, {
+            renderer: renderer,
+          });
         },
         preview: function(o) {
           var previewLimit = 150;
@@ -118,7 +128,7 @@ function parseQuotes(data) {
   });
   tokens.links = [];
 
-  return marked.parser(tokens);
+  return tokens;
 }
 
 function parseCustomQuote(token, match, className) {

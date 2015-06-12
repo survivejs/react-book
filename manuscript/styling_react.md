@@ -308,7 +308,7 @@ Vanilla CSS is missing some functionality that would make maintenance work easie
 
 ### cssnext
 
-![cssnext](/images/cssnext.jpg)
+![cssnext](images/cssnext.jpg)
 
 [cssnext](https://cssnext.github.io/) is a project that allows us to experience the future now. There are some restrictions but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case you would end up with the following:
 
@@ -325,7 +325,7 @@ If that sounds a little much or you are just interested in a particular feature 
 
 ### Less
 
-![Less](/images/less.png)
+![Less](images/less.png)
 
 Less is a popular CSS preprocessor that implements functionality we talked about and comes with a syntax of its own. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
 
@@ -340,7 +340,7 @@ There is also support for Less plugins, sourcemaps and so on but to understand h
 
 ### Sass
 
-![Sass](/images/sass.png)
+![Sass](images/sass.png)
 
 Sass is a popular alternative to Less. You should use [sass-loader](https://www.npmjs.com/package/sass-loader) with it. Remember to install `node-sass` to your project as the loader has a peer dependency on that. Webpack configuration is light again:
 
