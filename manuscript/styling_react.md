@@ -125,13 +125,7 @@ import './stylesheets/note.css';
 
 Finally we make sure our application takes the new declarations into account. You could argue that each component could deal with the import by itself but this is one way to go. It makes testing components easier as you don't have to worry about the import in other environments.
 
-If we use lazy loading for our components, it may make sense to move `require` on component level. The lazy loading machinery will be able to benefit from that. As a result the initial CSS your user has to load will be smaller.
-
-### Pros and Cons
-
-This approach is simple and probably enough for our application. What happens when the application starts to grow and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
-
-We could battle this problem by making the selectors more specific, using some naming rules and so on but where to draw the line? There are various alternative approaches you can consider.
+If we use lazy loading for our components, it makes sense to move `require` on component level. The lazy loading machinery will then be able to benefit from that. As a result the initial CSS your user has to load will be smaller.
 
 ## Generating a Separate Bundle for CSS
 
@@ -159,6 +153,8 @@ var common = {
     filename: 'bundle.js',
   },
 };
+
+var mergeConfig = merge.bind(null, common);
 
 if(TARGET === 'build') {
   module.exports = mergeConfig({
@@ -197,6 +193,12 @@ if(TARGET === 'dev') {
 ```
 
 Using this set up we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
+
+### Pros and Cons
+
+This approach is simple and probably enough for our application. What happens when the application starts to grow and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
+
+We could battle this problem by making the selectors more specific, using some naming rules and so on but where to draw the line? There are various alternative approaches you can consider.
 
 ## Linting CSS
 

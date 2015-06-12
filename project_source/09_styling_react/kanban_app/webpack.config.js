@@ -1,4 +1,5 @@
 var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('./lib/merge');
@@ -15,14 +16,6 @@ var common = {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
   },
-  module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-      },
-    ],
-  },
 };
 
 var mergeConfig = merge.bind(null, common);
@@ -32,6 +25,10 @@ if(TARGET === 'build') {
     module: {
       loaders: [
         {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract('style', 'css')
+        },
+        {
           test: /\.jsx?$/,
           loader: 'babel?stage=0',
           include: path.join(ROOT_PATH, 'app'),
@@ -39,6 +36,7 @@ if(TARGET === 'build') {
       ],
     },
     plugins: [
+      new ExtractTextPlugin('styles.css'),
       new webpack.DefinePlugin({
         'process.env': {
           // This has effect on the react lib size
@@ -77,6 +75,10 @@ if(TARGET === 'dev') {
         },
       ],
       loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+        },
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
