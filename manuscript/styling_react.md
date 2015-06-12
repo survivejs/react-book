@@ -406,15 +406,25 @@ Just like with HTML attribute names, we are using the same camelcase convention 
 
 Note that now that we have styling at component level we can implement logic touching it easily. One classic way to do this has been to alter class name based on the outlook we want. Now we can adjust the properties we want directly.
 
-We have lost something in process. Now all of our styling is tied to our JavaScript code. It is going to be difficult to perform large, sweeping changes to our codebase as we need to tweak a lot of components to achieve that.
+We have lost something in process, though. Now all of our styling is tied to our JavaScript code. It is going to be difficult to perform large, sweeping changes to our codebase as we need to tweak a lot of components to achieve that.
 
 We can try to work against this by injecting a part of styling through props. A component could provide patch its style based on provided one. This can be improved further by coming up with conventions that allow parts of style configuration mapped to some specific part. We just reinvented selectors on a small scale.
 
 How about things like media queries? This naive approach won't quite cut it. Fortunately people have come up with libraries to solve these tough problems for us.
 
+According to Michele Bertoli basic features of these libraries are
+
+* Autoprefixing - Ie. for `border`, `animation`, `flex`, ...
+* Pseudo classes - `:hover`, `:active`, ...
+* Media queries - `@media (max-width: 200px)`, ...
+* Styles as Object Literals - See example above
+* CSS style extraction - It is useful to be able to extract separate CSS files as that helps with the initial loading of the page. Back to start!
+
+I will cover some of the available libraries to give you a better idea how they work. See [Michele's list](https://github.com/MicheleBertoli/css-in-js) for more a comprehensive outlook of the situation.
+
 ### Radium
 
-[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth covering. Most importantly it provides abstractions required to deal with media queries, browser states (ie. `:hover`) and modifiers (primary/secondary button and so on).
+[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth highlighting. Most importantly it provides abstractions required to deal with media queries, pseudo classes (ie. `:hover`) and modifiers (primary/secondary button and so on).
 
 It expands the basic syntax as follows:
 
@@ -560,10 +570,55 @@ The approach is still in its early days. For instance support for media queries 
 
 Just like React Style, also jsxstyle comes with a Webpack loader that can extract CSS into a separate file.
 
+## CSS Modules
+
+As if there weren't enough styling options for React, there's one more that's worth mentioning. [CSS Modules](https://github.com/css-modules/css-modules) starts from the premise that CSS rules should be local by default. Globals should be treated as a special case. Mark Dalgleish's post [The End of Global CSS](https://medium.com/seek-ui-engineering/the-end-of-global-css-90d2a4a06284) goes more detail into this.
+
+The genius of this approach is in that it still allows us to develop CSS as we've been used to. This itself solves a large amount of problems libraries above try to solve in their own ways. If we need global styles, we can still get them. We still might want to have some around for some higher level styling after all. This time we're being explicit about it.
+
+To give you a better idea, consider the example below:
+
+**style.css**
+
+```css
+.primary {
+  background: 'green';
+}
+
+.warning {
+  background: 'yellow';
+}
+
+.button {
+  padding: 1em;
+}
+
+@media (max-width: 200px) {
+  .button {
+    width: 100%;
+  }
+}
+```
+
+**button.jsx**
+
+```javascript
+import classNames from 'classnames';
+import styles from './style.css';
+
+...
+
+<button className={classNames(styles.button, styles.primary)}>Confirm</button>
+```
+
+As you can see, this approach provides a good balance between what a lot of people are familiar with already and what various React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
+
 ## Conclusion
 
 It is simple to try out various styling approaches with Webpack. You can do it all ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
 
 React based styling approaches allow us to push styles to component level. This provides an interesting contrast to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS but in return you gain something that is simpler to understand and harder to break.
 
-It is likely possible to combine various approaches to some extent. Perhaps you could keep high level styling on old skool CSS while on component level you would do something more fitting. There are no best practices yet and we are still figuring out the best ways to do this in React.
+CSS Modules strike in between conventional approach and React specific approaches. Even though it's a newcomer, it shows a lot of promise. The biggest benefit seems to be that it doesn't lose too much in the process even though it's a nice step ahead from what was before.
+
+There are no best practices yet and we are still figuring out the best ways to do this in React. You will likely have to do some experimentation of your own to figure out what ways fit your use case the best.
