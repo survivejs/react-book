@@ -4,6 +4,7 @@
 }
 
 .header-extra {
+    font-size: small;
     font-family: "Avenir Next", "Helvetica Neue", sans-serif;
     position: absolute;
     top: 0;
@@ -13,6 +14,9 @@
     z-index: 400;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+}
+.header-extra a {
+    color: #ddd;
 }
 
 .previous-page, .next-page {
