@@ -3,6 +3,18 @@
     width: 100%;
 }
 
+.header-extra {
+    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: calc(95vh);
+    margin-left: calc(5vh);
+    z-index: 400;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
 .previous-page, .next-page {
     font-family: "Avenir Next", "Helvetica Neue", sans-serif;
     text-transform: uppercase;

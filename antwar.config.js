@@ -69,6 +69,7 @@ module.exports = {
     },
     webpack_react: {
       title: 'Table of Contents',
+      layout: 'blog',
       path: function() {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
@@ -97,13 +98,21 @@ module.exports = {
         },
       },
       sort: function(files) {
+        var headers = require('./manuscript/headers.json');
         var order = require('raw!./manuscript/Book.txt').split('\n').filter(id);
         var ret = [];
 
-        order.forEach(function(name) {
+        order.forEach(function(name, i) {
           var result = _.findWhere(files, {
             name: name,
           });
+          var header = headers[i];
+
+          result.file.headerExtra = '<a href="' + header.source + '">' +
+            header.author + ' ('+ header.license + ')</a>';
+          result.file.headerImage = '/images/' + header.image;
+          result.file.previousInfo = 'Previous chapter';
+          result.file.nextInfo = 'Next chapter';
 
           if(result) {
             ret.push(result);
