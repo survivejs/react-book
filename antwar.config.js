@@ -14,12 +14,15 @@ renderer.image = function(href, title, text) {
 
 // patch ids (this.options.headerPrefix can be undefined!)
 renderer.heading = function(text, level, raw) {
+  var id = raw.toLowerCase().replace(/[^\w]+/g, '-');
+
   return '<h'
     + level
     + ' id="'
-    + raw.toLowerCase().replace(/[^\w]+/g, '-')
+    + id
     + '">'
     + text
+    + '<a class="header-anchor" href="#' + id + '">#</a>'
     + '</h'
     + level
     + '>\n';
