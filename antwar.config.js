@@ -9,7 +9,20 @@ var prevnextPlugin = require('antwar-prevnext-plugin');
 // alter marked renderer to add slashes to beginning so images point at root
 // leanpub expects images without slash...
 renderer.image = function(href, title, text) {
-    return '<img src="/' + href + '" alt="' + text + '">';
+  return '<img src="/' + href + '" alt="' + text + '">';
+};
+
+// patch ids (this.options.headerPrefix can be undefined!)
+renderer.heading = function(text, level, raw) {
+  return '<h'
+    + level
+    + ' id="'
+    + raw.toLowerCase().replace(/[^\w]+/g, '-')
+    + '">'
+    + text
+    + '</h'
+    + level
+    + '>\n';
 };
 
 module.exports = {
