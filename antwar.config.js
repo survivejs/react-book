@@ -85,11 +85,13 @@ module.exports = {
     },
     webpack_react: {
       title: 'Table of Contents',
-      layout: 'blog',
       path: function() {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
       processItem: {
+        layout: function() {
+          return require('antwar-default-theme/DocsItem.coffee');
+        },
         title: function(o) {
           return removeMd(o.file.__content.split('\n')[0]);
         },
