@@ -57,6 +57,16 @@
     content: "\2192";
 }
 
+@media (max-width: 1150px) {
+    .docs-nav__wrapper {
+        margin-top: 100vh;
+    }
+
+    .header-image + .post__heading + .post__content {
+        margin-top: 0;
+    }
+}
+
 @media (max-width: 550px) {
     .post__heading h1 {
         margin: 0;
