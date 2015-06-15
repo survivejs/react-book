@@ -96,13 +96,15 @@
 }
 
 blockquote.tip {
-    background-color: rgb(234, 255, 247);
+    font-size: medium;
+    background-color: #F5FFFB;
     padding: 1em;
     margin-bottom: 1em;
 }
 
 blockquote.warning {
-    background-color: rgb(255, 255, 239);
+    font-size: medium;
+    background-color: #FFFFFA;
     padding: 1em;
     margin-bottom: 1em;
 }
