@@ -75,6 +75,7 @@ module.exports = {
     navigation: [
       {title: 'Home', url: '/'},
       {title: 'Table of Contents', url: '/webpack_react'},
+      {title: 'Buy the ebook', url: 'https://leanpub.com/survivejs_webpack'},
     ],
   },
   paths: {
