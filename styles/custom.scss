@@ -23,6 +23,15 @@
     margin-left: 0.25em;
 }
 
+.prevnext-pages {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10vh;
+    background: linear-gradient(to top, rgba(#fff, 0) 0%, #fff 35%, #fff 100%);
+}
+
 .previous-page, .next-page {
     font-family: "Avenir Next", "Helvetica Neue", sans-serif;
     text-transform: uppercase;
@@ -51,6 +60,14 @@
 @media (max-width: 550px) {
     .post__heading h1 {
         margin: 0;
+    }
+
+    .prevnext-pages {
+        position: inherit;
+        height: auto;
+        top: auto;
+        left: auto;
+        right: auto;
     }
 
     .next-page, .previous-page {
