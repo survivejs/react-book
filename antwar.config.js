@@ -40,7 +40,7 @@ module.exports = {
     }
   ],
   output: 'build',
-  name: 'SurviveJS - Survive the jungles of JavaScript',
+  name: 'SurviveJS - Webpack and React',
   author: 'Juho Vepsäläinen',
   deploy: {
     branch: 'gh-pages',
