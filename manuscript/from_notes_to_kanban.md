@@ -339,6 +339,24 @@ We can follow the same idea as for `Note` here. Ie. if you click `Lane` name, it
 
 Given `Note` already contains some of the logic we need, we can generalize the component. Simply rename `Note.jsx` as `Editable.jsx`. Make `Notes.jsx` point at `Editable` instead of `Note`.
 
+Next we should replace `Lane` name to be rendered through `Editable`:
+
+**app/components/Lane.jsx**
+
+```javascript
+...
+
+import Editable from './Editable';
+
+...
+
+<Editable className='lane-name' value={name}
+  onEdit={this.nameEdited.bind(this)} />
+
+...
+
+```
+
 ## Conclusion
 
 If you run the application now, you should have something quite functional together! Even persistency works. It definitely is an eyesore still and we're missing some functionality like moving notes from a lane to lane. Before getting further on that let's take a little break and study various ways to style applications in React.

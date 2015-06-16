@@ -3,6 +3,7 @@ import React from 'react';
 
 import alt from '../libs/alt';
 import {getInitialData} from '../libs/storage';
+import Editable from './Editable';
 import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
@@ -28,7 +29,8 @@ export default class Lane extends React.Component {
     return (
       <div {...props}>
         <div className='lane-header'>
-          <div className='lane-name'>{name}</div>
+          <Editable className='lane-name' value={name}
+            onEdit={this.nameEdited.bind(this)} />
           <div className='lane-add-note'>
             <button onClick={this.addNote.bind(this)}>+</button>
           </div>
@@ -46,6 +48,9 @@ export default class Lane extends React.Component {
   }
   addNote() {
     this.actions.create('New note');
+  }
+  nameEdited(name) {
+    console.log('edited lane name', name);
   }
   noteEdited(id, note) {
     if(note) {

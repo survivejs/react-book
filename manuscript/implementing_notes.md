@@ -187,11 +187,13 @@ export default class Note extends React.Component {
     };
   }
   render() {
-    var edited = this.state.edited;
-    var value = this.props.value;
+  /* eslint-disable no-unused-vars */
+  const {value, onEdit, ...props} = this.props;
+  /* eslint-enable no-unused-vars */
+  var edited = this.state.edited;
 
-    return (
-      <div>{
+  return (
+    <div {...props}>{
         edited
         ? <input type='text'
           defaultValue={value}
