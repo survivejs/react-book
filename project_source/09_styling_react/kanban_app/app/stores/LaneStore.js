@@ -17,6 +17,22 @@ class LaneStore {
       })
     });
   }
+  update({id, name}) {
+    const lanes = this.lanes;
+
+    lanes[id].name = name;
+
+    this.setState({
+      lanes: lanes,
+    });
+  }
+  remove(id) {
+    const lanes = this.lanes;
+
+    this.setState({
+      lanes: lanes.slice(0, id).concat(lanes.slice(id + 1)),
+    });
+  }
 }
 
 export default alt.createStore(LaneStore, 'LaneStore');

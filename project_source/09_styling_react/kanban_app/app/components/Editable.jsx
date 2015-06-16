@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default class Note extends React.Component {
+export default class Editable extends React.Component {
   constructor(props: {
-    task: string;
+    value: string;
     onEdit: Function;
   }) {
     super(props);
@@ -12,23 +12,27 @@ export default class Note extends React.Component {
     };
   }
   render() {
+    /* eslint-disable no-unused-vars */
+    const {value, onEdit, ...props} = this.props;
+    /* eslint-enable no-unused-vars */
     var edited = this.state.edited;
-    var task = this.props.task;
 
     return (
-      <div>{
+      <div {...props}>{
         edited
-        ? <input type='text'
-          defaultValue={task}
+        ?
+        <input type='text'
+          defaultValue={value}
           onBlur={this.finishEdit.bind(this)}
           onKeyPress={this.checkEnter.bind(this)}/>
-        : <div onClick={this.edit.bind(this)}>{task}</div>
+        :
+        <div onClick={this.edit.bind(this)}>{value}</div>
       }</div>
     );
   }
   edit() {
     this.setState({
-        edited: true,
+      edited: true,
     });
   }
   checkEnter(e) {
