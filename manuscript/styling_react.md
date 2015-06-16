@@ -424,45 +424,41 @@ I will cover some of the available libraries to give you a better idea how they 
 
 ### Radium
 
-[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth highlighting. Most importantly it provides abstractions required to deal with media queries, pseudo classes (ie. `:hover`) and modifiers (primary/secondary button and so on).
+[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth highlighting. Most importantly it provides abstractions required to deal with media queries and pseudo classes (ie. `:hover`).
 
 It expands the basic syntax as follows:
 
 ```javascript
-var style = {
-  // general styles
-  padding: '1em',
-  // :hover, :focus etc.
-  states: [
-    {
-      hover: {
-        border: '1px solid black'
-      }
-    },
-  ],
-  // kind='<type>' properties map to these
-  modifiers: [
-    {
-      kind: {
-        primary: {
-          background: 'green'
-        },
-        warning: {
-          background: 'yellow'
-        }
-      }
-    }
-  ],
-  // media queries
-  '@media (max-width: 200px)': {
-    width: '100%',
+var styles = {
+  button: {
+    padding: '1em',
 
     ':hover': {
-      background: 'white'
-    }
-  }
+      border: '1px solid black'
+    },
+
+    '@media (max-width: 200px)': {
+      width: '100%',
+
+      ':hover': {
+        background: 'white',
+      },
+    },
+  },
+  primary: {
+    background: 'green'
+  },
+  warning: {
+    background: 'yellow'
+  },
 };
+
+...
+
+<button style={[styles.button, styles.primary]}>Confirm</button>
 ```
+
+For `style` prop to work, you'll need to annotate your classes using `@Radium` decorator.
 
 ### React Style
 
