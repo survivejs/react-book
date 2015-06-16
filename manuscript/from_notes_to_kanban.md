@@ -331,6 +331,16 @@ export default class Lane extends React.Component {
   }
 ```
 
+Now we have something that mostly works. We have separate lanes, you can add new notes to them and modify/remote them. There are still a few bits we're missing. Namely lane name editing and lane removal. Let's get those done next.
+
+## Implementing Edit for `Lane` Names
+
+TODO
+
+## Implementing `Lane` Removal
+
+TODO
+
 ## Conclusion
 
 If you run the application now, you should have something quite functional together! Even persistency works. It definitely is an eyesore still and we're missing some functionality like moving notes from a lane to lane. Before getting further on that let's take a little break and study various ways to style applications in React.
