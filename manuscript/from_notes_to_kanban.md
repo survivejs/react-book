@@ -351,11 +351,62 @@ import Editable from './Editable';
 ...
 
 <Editable className='lane-name' value={name}
-  onEdit={this.nameEdited.bind(this)} />
+  onEdit={this.nameEdited.bind(this, this.props.i)} />
 
 ...
 
+nameEdited(id, name) {
+  console.log('edited lane name', id, name);
+}
 ```
+
+If you try to edit a lane name now, you should see a console print. We still need some logic (ie. actions and store tweaks) to make this work. A good starting point is to sketch out the component level logic:
+
+**app/components/Lane.jsx**
+
+```javascript
+...
+import LaneActions from '../actions/LaneActions';
+
+...
+
+nameEdited(id, name) {
+  if(name) {
+    LaneActions.update(i, name);
+  }
+  else {
+    LaneActions.remove(i);
+  }
+}
+```
+
+This is exactly the same logic as for notes. In fact it is be possible to factor the behavior into a method of its own. This can be done by extracting actions into a parameter. As duplication is root of all evil, let's change it to this form:
+
+**app/components/Lane.jsx**
+
+```javascript
+...
+
+<Editable className='lane-name' value={name}
+  onEdit={this.edited.bind(this, LaneActions, this.props.i)} />
+
+...
+
+<Notes onEdit={this.edited.bind(this, this.actions)} />
+
+...
+
+edited(actions, id, value) {
+  if(value) {
+    actions.update(id, value);
+  }
+  else {
+    actions.remove(id);
+  }
+}
+```
+
+Now our editing logic in a single place. We could have done this modification later but this felt like a good place to do that. Sometimes it can be justified to get rid of duplicates and push them to methods, components or decorators. We are still missing some of the logic to make `Lane` edit/remove work, though.
 
 ## Conclusion
 
