@@ -406,7 +406,61 @@ edited(actions, id, value) {
 }
 ```
 
-Now our editing logic in a single place. We could have done this modification later but this felt like a good place to do that. Sometimes it can be justified to get rid of duplicates and push them to methods, components or decorators. We are still missing some of the logic to make `Lane` edit/remove work, though.
+Now our editing logic in a single place. We could have done this modification later but this felt like a good place to do that. Sometimes it can be justified to get rid of duplicates and push them to methods, components or decorators. We are still missing some of the logic to make `Lane` edit/remove work, though. To achieve that we need to extend `Lane` actions and store.
+
+**app/actions/LaneActions.js**
+
+```javascript
+import alt from '../libs/alt';
+
+class LaneActions {
+  init(lanes) {
+    this.dispatch(lanes);
+  }
+  create(name) {
+    this.dispatch(name);
+  }
+  update(id, name) {
+    this.dispatch({id, name});
+  }
+  remove(id) {
+    this.dispatch(id);
+  }
+}
+
+export default alt.createActions(LaneActions);
+```
+
+It's the same idea as for `NoteActions` apart from the way we instantiate the stores. It would be possible to extract the instantiation logic from here as well. That could be a good idea especially if you want to have multiple boards in your application.
+
+One radical option would be to use the same base class for both `LaneActions` and `NoteActions` but that feels like a premature optimization as it is difficult to say how these APIs might evolve. Some amount of duplication can be acceptable.
+
+We still need those `LaneStore` methods. Not surprisingly it's going to be very similar `NoteStore` implementation. Again, a possible place to clean up later.
+
+**app/stores/LaneStore.js**
+
+```javascript
+...
+
+update({id, name}) {
+  const lanes = this.lanes;
+
+  lanes[id].name = name;
+
+  this.setState({
+    lanes: lanes,
+  });
+}
+remove(id) {
+  const lanes = this.lanes;
+
+  this.setState({
+    lanes: lanes.slice(0, id).concat(lanes.slice(id + 1)),
+  });
+}
+```
+
+After these changes you should be able to modify lane names and remove lanes. Even persistency should just work without requiring any further tweaking. The implementation could be trimmed and some code could be removed but for now it's nice to have some room to maneuver. Who knows what sort of requirements might come up after all.
 
 ## Conclusion
 
