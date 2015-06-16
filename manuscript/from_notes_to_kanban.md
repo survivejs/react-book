@@ -464,4 +464,4 @@ After these changes you should be able to modify lane names and remove lanes. Ev
 
 ## Conclusion
 
-If you run the application now, you should have something quite functional together! Even persistency works. It definitely is an eyesore still and we're missing some functionality like moving notes from a lane to lane. Before getting further on that let's take a little break and study various ways to style applications in React.
+In this chapter we managed to generalize our application somehow. We actually have something you can sort of use! It's not pretty and the user experience is quite horrible. Still, it's better than before. Before focusing on advanced functionality let's try to make the application look a little better and study some styling approaches.
