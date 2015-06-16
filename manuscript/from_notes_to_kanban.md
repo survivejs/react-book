@@ -333,13 +333,11 @@ export default class Lane extends React.Component {
 
 Now we have something that mostly works. We have separate lanes, you can add new notes to them and modify/remote them. There are still a few bits we're missing. Namely lane name editing and lane removal. Let's get those done next.
 
-## Implementing Edit for `Lane` Names
+## Implementing Edit/Remove for `Lane`
 
-TODO
+We can follow the same idea as for `Note` here. Ie. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can extract it from `Note` and then reuse at `Lane`.
 
-## Implementing `Lane` Removal
-
-TODO
+Given `Note` already contains some of the logic we need, we can generalize the component. Simply rename `Note.jsx` as `Editable.jsx`. Make `Notes.jsx` point at `Editable` instead of `Note`.
 
 ## Conclusion
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Note from './Note';
+import Editable from './Editable';
 
 export default class Notes extends React.Component {
   constructor(props: {
@@ -14,8 +14,8 @@ export default class Notes extends React.Component {
     return (
       <ul className='notes'>{notes.map((note, i) =>
         <li className='note' key={'note' + i}>
-          <Note
-            task={note.task}
+          <Editable
+            value={note.task}
             onEdit={this.props.onEdit.bind(this, i)} />
         </li>
       )}</ul>

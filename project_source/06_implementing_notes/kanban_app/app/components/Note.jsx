@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class Note extends React.Component {
   constructor(props: {
-    task: string;
+    value: string;
     onEdit: Function;
   }) {
     super(props);
@@ -13,16 +13,16 @@ export default class Note extends React.Component {
   }
   render() {
     var edited = this.state.edited;
-    var task = this.props.task;
+    var value = this.props.value;
 
     return (
       <div>{
         edited
         ? <input type='text'
-          defaultValue={task}
+          defaultValue={value}
           onBlur={this.finishEdit.bind(this)}
           onKeyPress={this.checkEnter.bind(this)}/>
-        : <div onClick={this.edit.bind(this)}>{task}</div>
+        : <div onClick={this.edit.bind(this)}>{value}</div>
       }</div>
     );
   }

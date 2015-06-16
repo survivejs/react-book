@@ -24,7 +24,7 @@ render() {
     <div>
       <ul>{notes.map((note, i) =>
         <li key={'note' + i}>
-          <Note task={note.task} />
+          <Note value={note.task} />
         </li>
       )}</ul>
     </div>
@@ -36,13 +36,13 @@ We will use a special feature of JSX in form of `{}`. Within these braces we can
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
-If everything went correctly, you should see a list with three `Learn Webpack` items on it. That's almost nice. The problem is that we haven't taken `task` property in count at `Note`. We'll need to tweak its implementation like this:
+If everything went correctly, you should see a list with three `Learn Webpack` items on it. That's almost nice. The problem is that we haven't taken `value` property in count at `Note`. We'll need to tweak its implementation like this:
 
 **app/components/Note.jsx**
 
 ```javascript
 render() {
-  return <div>{this.props.task}</div>;
+  return <div>{this.props.value}</div>;
 }
 ```
 
@@ -69,7 +69,7 @@ export default class Notes extends React.Component {
     return (
       <ul className='notes'>{notes.map((note, i) =>
         <li className='note' key={'note' + i}>
-          <Note task={note.task} />
+          <Note value={note.task} />
         </li>
       )}</ul>
     );
@@ -188,16 +188,16 @@ export default class Note extends React.Component {
   }
   render() {
     var edited = this.state.edited;
-    var task = this.props.task;
+    var value = this.props.value;
 
     return (
       <div>{
         edited
         ? <input type='text'
-          defaultValue={task}
+          defaultValue={value}
           onBlur={this.finishEdit.bind(this)}
           onKeyPress={this.checkEnter.bind(this)}/>
-        : <div onClick={this.edit.bind(this)}>{task}</div>
+        : <div onClick={this.edit.bind(this)}>{value}</div>
       }</div>
     );
   }
@@ -253,7 +253,7 @@ We also need to tweak `Notes` like this:
 ```javascript
 ...
 <Note
-  task={note.task}
+  value={note.task}
   onEdit={this.props.onEdit.bind(this, i)} />
 ...
 ```
@@ -316,7 +316,7 @@ Now we can start typing. For instance you could attach types for `Note` props li
 
 ```javascript
 constructor(props: {
-  task: string;
+  value: string;
   onEdit: Function;
 }) {...}
 ```
