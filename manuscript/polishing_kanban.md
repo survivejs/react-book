@@ -4,7 +4,7 @@ Our Kanban application is almost usable now. It doesn't look that bad and there'
 
 ## Setting Up React DnD
 
-Before going further hit `npm i react-dnd --save-dev` to add React DnD to the project. Next we'll need to patch out application to use it.
+Before going further hit `npm i react-dnd --save` to add React DnD to the project. Next we'll need to patch out application to use it.
 
 **app/components/App.jsx**
 
