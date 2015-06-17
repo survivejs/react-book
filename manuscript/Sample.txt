@@ -1,5 +1,0 @@
-introduction.md
-webpack_compared.md
-getting_started.md
-developing_with_webpack.md
-authoring_libraries.md
