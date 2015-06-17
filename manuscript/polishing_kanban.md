@@ -77,9 +77,64 @@ export default class Note extends React.Component {
 
 Now we have a little `Note` wrapper which we can decorate. The design could have been different. `Note` could contain `Editable` itself but then we would have to maintain a constructor since we need to pass the data there. Now `Note` is more about encapsulating DnD logic and showing whatever we pass to it. Next we need to connect that logic to it.
 
-## Sorting Notes Within a Lane
+## Allowing Notes to Be Dragged
 
-TODO
+React DnD uses constants to tell different draggables apart. Set up a file for tracking `Note` as follows:
+
+**app/components/ItemTypes.js**
+
+```javascript
+export default {
+  NOTE: 'note',
+};
+```
+
+We'll expand this later as we add new types to the system but this is enough for now. Next we need to tell our `Note` that it's possible to drag and drop it.
+
+**app/components/Note.jsx**
+
+```javascript
+import { DragSource, DropTarget } from 'react-dnd';
+
+import ItemTypes from './ItemTypes';
+
+const noteSource = {
+  beginDrag(props) {
+    console.log('begin dragging note', props);
+
+    return {};
+  }
+};
+
+const noteTarget = {
+  hover(props, monitor) {
+    console.log('dragging note', props, monitor);
+  }
+};
+
+@DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+  connectDropTarget: connect.dropTarget(),
+}))
+@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging(),
+}))
+export default class Note extends React.Component {
+  render() {
+    const { isDragging, connectDragSource, connectDropTarget, ...props } = this.props;
+
+    return connectDragSource(connectDropTarget(
+      <li {...props}>{props.children}</li>
+    ));
+  }
+}
+```
+
+If you drag a `Note` now, you should see some debug prints at console. We still need to figure out logic. Both `noteSource` and `noteTarget` give us access to `Note` props. In addition at `noteTarget` we can access the target `Note` through `monitor.getItem()`. For DnD operations to make sense we'll to be able to tell individual notes apart. We'll need to model the concept of identity before we can move further.
+
+## Modeling Identity for Notes
+
+
 
 ## Conclusion
 
