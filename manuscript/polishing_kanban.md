@@ -1,11 +1,10 @@
 # Polishing Kanban
 
-TODO: show how to style better (purecss + cssnext?)
-TODO: show how to use react-router and add concept of boards?
-TODO: show how to implement drag and drop (react-dnd) for moving todo items around. Blocked by https://github.com/gaearon/react-dnd/issues/109 .
+Our Kanban application is almost usable now. It doesn't look that bad and there's some basic functionality in place. In this chapter I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter you should be able to sort notes within a lane, drag them from a lane to another and sort lanes.
 
-TODO: add classes to TodoItem and TodoList
-TODO: npm i cssnext-loader --save + tweak config - loaders: ['style', 'css', 'cssnext'],
+## Sorting Notes Within a Lane
+
+TODO
 
 ## Conclusion
 
