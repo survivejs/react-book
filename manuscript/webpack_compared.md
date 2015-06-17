@@ -138,6 +138,22 @@ module.exports = {
 };
 ```
 
+### Why Webpack?
+
+Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling but there's so much more. The reason why I picked up Webpack initially was actually its support for Hot Module Replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
+
+You might be familiar with tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/) already. These tools make it much faster to iterate as they refresh the browser(s) automatically as you make changes. HMR takes things one step further. Instead of performing a full refresh in React's case it will just patch the component that changed while retaining application state. This sounds simple but it makes a big difference in practice.
+
+Besides HMR Webpack's bundling capabilities are extensive. It allows you to split bundles in various ways and even load them dynamically as your application gets executed. This sort of lazy loading comes in handy especially for larger applications where you need some specific libraries only for some specific purpose and want to keep initial bundles smaller.
+
+With Webpack you can easily inject a hash to each bundle name. This allows you to invalidate bundles on client side as changes are made. Thanks to bundle splitting the client might need to reload only a small bundle containing your application code while vendor code remains unchanged.
+
+Even though it would be possible to achieve some of these with other tools such as Gulp or Grunt, it would definitely take a lot more work to pull off. In Webpack it's a matter of configuration. Note that you can get HMR to Browserify through [livereactload](https://github.com/milankinen/livereactload) so it's not a feature that's exclusive to Webpack.
+
+All of these smaller features add up. You can get surprisingly many things done out of the box. And if you are missing something there are loaders and plugins available that allow you to go further. Webpack comes with a significant learning curve but it's a tool worth learning given it saves so much time and effort over longer term.
+
+To get a better idea how it compares to some other tools, check out [the official comparison](https://webpack.github.io/docs/comparison.html).
+
 ### Supported Module Formats
 
 Webpack allows you to use different module formats, but under the hood they all work the same way. All of them also work straight out of the box.
