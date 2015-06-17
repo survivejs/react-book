@@ -37,9 +37,49 @@ In order to silence that `new-cap` error ESlint gives, set it off as follows. We
 
 The application looks exactly the same as before. We are now ready to add some sweet functionality to it, though.
 
+## Preparing Notes to Be Sorted
+
+Next we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll want to annotate them accordingly. In addition we'll need some logic to tell what happens during this process.
+
+Earlier we extracted some of the editing functionality from `Note` and ended up dropping it. Since we need to decorate the component and don't want to end up with a mess, it seems like we'll want to add that concept back if only for decoration purposes.
+
+**app/components/Notes.jsx**
+
+```javascript
+...
+
+import Note from './Note';
+
+...
+
+<ul className='notes'>{notes.map((note, i) =>
+  <Note className='note' key={'note' + i}>
+    <Editable
+      value={note.task}
+      onEdit={this.props.onEdit.bind(this, i)} />
+  </Note>
+)}</ul>
+```
+
+**app/components/Note.jsx**
+
+```javascript
+import React from 'react';
+
+export default class Note extends React.Component {
+  render() {
+    return (
+      <li {...this.props}>{this.props.children}</li>
+    );
+  }
+}
+```
+
+Now we have a little `Note` wrapper which we can decorate. The design could have been different. `Note` could contain `Editable` itself but then we would have to maintain a constructor since we need to pass the data there. Now `Note` is more about encapsulating DnD logic and showing whatever we pass to it. Next we need to connect that logic to it.
+
 ## Sorting Notes Within a Lane
 
-
+TODO
 
 ## Conclusion
 
