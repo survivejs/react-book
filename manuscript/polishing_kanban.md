@@ -130,11 +130,84 @@ export default class Note extends React.Component {
 }
 ```
 
-If you drag a `Note` now, you should see some debug prints at console. We still need to figure out logic. Both `noteSource` and `noteTarget` give us access to `Note` props. In addition at `noteTarget` we can access the target `Note` through `monitor.getItem()`. For DnD operations to make sense we'll to be able to tell individual notes apart. We'll need to model the concept of identity before we can move further.
+If you drag a `Note` now, you should see some debug prints at console. We still need to figure out logic. Both `noteSource` and `noteTarget` give us access to `Note` props. In addition at `noteTarget` we can access the source `Note` through `monitor.getItem()` while `props` map to target. For DnD operations to make sense we'll to be able to tell individual notes apart. We'll need to model the concept of identity before we can move further.
 
-## Modeling Identity for Notes
+W> Note that React DnD isn't hot loading compatible so you may need to refresh browser manually while doing testing these changes.
 
+## Developing `onMove` API for Notes
 
+In order to make `Note` operate based on id, we'll need to tweak it a little.
+
+**app/components/Note.jsx**
+
+```javascript
+...
+
+const noteSource = {
+  beginDrag(props) {
+    return {
+      id: props.id,
+    };
+  }
+};
+
+const noteTarget = {
+  hover(props, monitor) {
+    const targetId = props.id;
+    const sourceId = monitor.getItem().id;
+
+    if(sourceId !== targetId) {
+      props.onMove(sourceId, targetId);
+    }
+  }
+};
+
+export default class Note extends React.Component {
+  constructor(props: {
+    id: number;
+    onMove: Function;
+  }) {
+    super(props);
+  }
+  ...
+}
+```
+
+Now `Note` will trigger `onMove` callback whenever something is dragged on top of a `Note`. Next we need to make `Notes` aware of that.
+
+**app/components/Notes.jsx**
+
+```javascript
+...
+
+export default class Notes extends React.Component {
+  ...
+  render() {
+    var notes = this.props.items;
+
+    return (
+      <ul className='notes'>{notes.map((note, i) =>
+        <Note onMove={this.onMoveNote.bind(this)} className='note' key={'note' + i} id={i}>
+          <Editable
+            value={note.task}
+            onEdit={this.props.onEdit.bind(this, i)} />
+        </Note>
+      )}</ul>
+    );
+  }
+  onMoveNote(source, target) {
+    console.log('source', source, 'target', target);
+  }
+}
+```
+
+If you drag a `Note` around now, you should see prints like `source 1 target 0` at console. It doesn't take long to see we have a little flaw in our system. The way we are deriving ids doesn't scale to this purpose as they aren't unique enough. We could try to generate ids based on the lane in which the notes belong and their position within all.
+
+This won't work for drag and drop, though, as just as you would swap items it would just swap them right back as the callback gets triggered! So clearly we can't go this way. Normally we can just leave dealing with unique ids to the backend. In this case it won't be as simple. Instead we have to generate some unique ids ourselves.
+
+## Generating Unique Ids for Notes
+
+TODO
 
 ## Conclusion
 

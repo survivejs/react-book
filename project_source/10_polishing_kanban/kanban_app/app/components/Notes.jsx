@@ -15,12 +15,15 @@ export default class Notes extends React.Component {
 
     return (
       <ul className='notes'>{notes.map((note, i) =>
-        <Note className='note' key={'note' + i}>
+        <Note onMove={this.onMoveNote.bind(this)} className='note' key={'note' + i} id={i}>
           <Editable
             value={note.task}
             onEdit={this.props.onEdit.bind(this, i)} />
         </Note>
       )}</ul>
     );
+  }
+  onMoveNote(source, target) {
+    console.log('source', source, 'target', target);
   }
 }

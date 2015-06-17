@@ -5,15 +5,20 @@ import ItemTypes from './ItemTypes';
 
 const noteSource = {
   beginDrag(props) {
-    console.log('begin dragging note', props);
-
-    return {};
+    return {
+      id: props.id,
+    };
   }
 };
 
 const noteTarget = {
   hover(props, monitor) {
-    console.log('dragging note', props, monitor);
+    const targetId = props.id;
+    const sourceId = monitor.getItem().id;
+
+    if(sourceId !== targetId) {
+      props.onMove(sourceId, targetId);
+    }
   }
 };
 
@@ -25,6 +30,12 @@ const noteTarget = {
   isDragging: monitor.isDragging(),
 }))
 export default class Note extends React.Component {
+  constructor(props: {
+    id: number;
+    onMove: Function;
+  }) {
+    super(props);
+  }
   render() {
     const { isDragging, connectDragSource, connectDropTarget, ...props } = this.props;
 
