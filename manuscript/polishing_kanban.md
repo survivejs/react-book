@@ -307,7 +307,6 @@ The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In
 onMoveNote(source, target) {
   console.log('source', source, 'target', target);
 
-  /*
   source.store.remove({id: source.data});
 
   if(source.store === target.store) {
@@ -316,7 +315,6 @@ onMoveNote(source, target) {
   else {
     target.store.createBefore(target.data.id, source.data);
   }
-  */
 }
 ...
 ```
@@ -413,7 +411,7 @@ Now we have the data our sket
 
 ## Implementing Note Drag and Drop Logic
 
-TODO
+Next we'll need to implement the APIs we're missing.
 
 ## Conclusion
 

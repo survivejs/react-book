@@ -28,7 +28,6 @@ export default class Notes extends React.Component {
   onMoveNote(source, target) {
     console.log('source', source, 'target', target);
 
-    /*
     source.store.remove({id: source.data});
 
     if(source.store === target.store) {
@@ -37,6 +36,5 @@ export default class Notes extends React.Component {
     else {
       target.store.createBefore(target.data.id, source.data);
     }
-    */
   }
 }
