@@ -1,3 +1,4 @@
+import update from 'react/lib/update';
 import uuid from 'node-uuid';
 import findIndex from 'lodash/array/findIndex';
 import isObject from 'lodash/lang/isObject';
@@ -16,32 +17,24 @@ export default class NoteStore {
       notes: notes.concat({task, id: uuid.v4()}),
     });
   }
-  createAfter({id, data}) {
+  move({source, target}) {
     const notes = this.notes;
-    const i = findIndex(notes, {id});
-
-    if(i < 0) {
-      return console.warn('Failed to create after id', id, notes);
-    }
-
-    notes.splice(i + 1, 0, data);
-
-    this.setState({
-      notes: notes,
+    const sourceIndex = findIndex(notes, {
+      id: source.id,
     });
-  }
-  createBefore({id, data}) {
-    const notes = this.notes;
-    const i = findIndex(notes, {id});
+    const targetIndex = findIndex(notes, {
+      id: target.id,
+    });
+    var splices = [[targetIndex, 0, source]];
 
-    if(i < 0) {
-      return console.warn('Failed to create before id', id, notes);
+    if(sourceIndex >= 0) {
+      splices.unshift([sourceIndex, 1]);
     }
 
-    notes.splice(i, 0, data);
-
     this.setState({
-      notes: notes,
+      notes: update(this.notes, {
+        $splice: splices,
+      }),
     });
   }
   update({id, task}) {
@@ -61,7 +54,7 @@ export default class NoteStore {
     }
 
     if(id < 0) {
-      return console.warn('Failed to remove by id', id, notes);
+      return;
     }
 
     this.setState({

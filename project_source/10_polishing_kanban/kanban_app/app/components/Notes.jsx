@@ -28,17 +28,12 @@ export default class Notes extends React.Component {
   onMoveNote(source, target) {
     console.log('source', source, 'target', target);
 
-    // TODO: rethink logic (splice?)
-    if(source.actions === target.actions) {
+    if(source.actions !== target.actions) {
+      // TODO: check all lanes and get rid of possible old instance
+      // since we don't want to leave that hanging around
       source.actions.remove({id: source.data.id});
-
-      target.actions.createAfter(target.data.id, source.data);
     }
-    else {
-      source.actions.remove({id: source.data.id});
-      target.actions.remove({id: source.data.id});
 
-      target.actions.createBefore(target.data.id, source.data);
-    }
+    target.actions.move(source.data, target.data);
   }
 }

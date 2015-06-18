@@ -5,11 +5,8 @@ export default class NoteActions {
   create(task) {
     this.dispatch(task);
   }
-  createAfter(id, data) {
-    this.dispatch({id, data});
-  }
-  createBefore(id, data) {
-    this.dispatch({id, data});
+  move(source, target) {
+    this.dispatch({source, target});
   }
   update(id, task) {
     this.dispatch({id, task});
