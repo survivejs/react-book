@@ -207,6 +207,65 @@ This won't work for drag and drop, though, as just as you would swap items it wo
 
 ## Generating Unique Ids for Notes
 
+One of the simplest ways to generate unique ids is simply to use an UUID generator. Hit `npm i node-uuid --save` to add one to our project. There are more possible approaches listed at [a Stackoverflow question about the topic](https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript) but this will do fine for our purposes.
+
+Next we'll need to tweak our `Notes` to contain these ids. This is logic that should go to `NoteStore` as follows.
+
+**app/stores/NoteStore.js**
+
+```javascript
+import uuid from 'node-uuid';
+
+export default class NoteStore {
+  ...
+  create(task) {
+    const notes = this.notes;
+
+    task.id = uuid.v4();
+
+    this.setState({
+      notes: notes.concat({task})
+    });
+  }
+  ...
+}
+```
+
+Now newly created `Notes` should contain unique ids. Possible older data won't. We could simply nuke our `localStorage` by doing something like `localStorage.clear()` and `localStorage.debug = true` at console, then refreshing the page and setting `debug` flag back to false. That's not a solution that works well in production environment. Instead we can perform a little migration trick.
+
+**app/stores/NoteStore.js**
+
+```javascript
+...
+
+export default class NoteStore {
+  ...
+  init(data) {
+    this.setState(data ? migrate(data) : {notes: []});
+  }
+  ...
+}
+
+function migrate(data) {
+  // patch data with ids in case they are missing
+  if(data) {
+    data.notes = data.notes.map((note) => {
+      if(!note.id) {
+        note.id = uuid.v4();
+      }
+
+      return note;
+    });
+  }
+
+  return data;
+}
+```
+
+Now in case some of the notes is missing an id, we will generate one for it. The approach could be improved a lot. You could for instance attach version information to store data. Then you would check against version and perform only migrations that are needed to bring it to current. You can get inspiration from various backend libraries.
+
+## Using Note Ids While Dragging
+
 TODO
 
 ## Conclusion
