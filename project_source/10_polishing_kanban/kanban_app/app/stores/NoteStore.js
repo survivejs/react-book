@@ -1,4 +1,6 @@
 import uuid from 'node-uuid';
+import findIndex from 'lodash/array/findIndex';
+import isObject from 'lodash/lang/isObject';
 
 export default class NoteStore {
   constructor(actions: Object) {
@@ -14,6 +16,34 @@ export default class NoteStore {
       notes: notes.concat({task, id: uuid.v4()}),
     });
   }
+  createAfter({id, data}) {
+    const notes = this.notes;
+    const i = findIndex(notes, {id});
+
+    if(i < 0) {
+      return console.warn('Failed to create after id', id, notes);
+    }
+
+    notes.splice(i + 1, 0, data);
+
+    this.setState({
+      notes: notes,
+    });
+  }
+  createBefore({id, data}) {
+    const notes = this.notes;
+    const i = findIndex(notes, {id});
+
+    if(i < 0) {
+      return console.warn('Failed to create before id', id, notes);
+    }
+
+    notes.splice(i, 0, data);
+
+    this.setState({
+      notes: notes,
+    });
+  }
   update({id, task}) {
     const notes = this.notes;
 
@@ -25,6 +55,14 @@ export default class NoteStore {
   }
   remove(id) {
     const notes = this.notes;
+
+    if(isObject(id)) {
+      id = findIndex(notes, id);
+    }
+
+    if(id < 0) {
+      return console.warn('Failed to remove by id', id, notes);
+    }
 
     this.setState({
       notes: notes.slice(0, id).concat(notes.slice(id + 1)),

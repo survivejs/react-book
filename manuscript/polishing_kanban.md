@@ -307,7 +307,7 @@ The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In
 onMoveNote(source, target) {
   console.log('source', source, 'target', target);
 
-  source.actions.remove({id: source.data});
+  source.actions.remove({id: source.data.id});
 
   if(source.actions === target.actions) {
     target.actions.createAfter(target.data.id, source.data);
@@ -411,7 +411,78 @@ Now we have the data our sket
 
 ## Implementing Note Drag and Drop Logic
 
-Next we'll need to implement the APIs we're missing.
+Next we'll need to implement the APIs we're missing. As a first step we should fill in the missing actions.
+
+**app/actions/NoteActions.js**
+
+```javascript
+export default class NoteActions {
+  ...
+  createAfter(id, data) {
+    this.dispatch({id, data});
+  }
+  createBefore(id, data) {
+    this.dispatch({id, data});
+  }
+  ...
+```
+
+Now we shouldn't be getting any errors at console anymore. Next we'll need to tweak `remove` method of `NoteStore` to operate based on object correctly and implement the missing methods. As `lodash` will come in handy here, move it from `devDependencies` to `dependencies` at `package.json`.
+
+**package.json**
+
+```json
+{
+  ...
+  "dependencies": {
+    ...
+    "lodash": "^3.8.0",
+    ...
+  },
+  ...
+}
+```
+
+Next we can use it for implementing the missing `remove` bit:
+
+**app/stores/NoteStore.js**
+
+```javascript
+...
+import findIndex from 'lodash/array/findIndex';
+import isObject from 'lodash/lang/isObject';
+
+export default class NoteStore {
+  ...
+  remove(id) {
+    const notes = this.notes;
+
+    if(isObject(id)) {
+      id = findIndex(notes, id);
+    }
+
+    if(id < 0) {
+      return console.warn('Failed to remove by id', id, notes);
+    }
+
+    this.setState({
+      notes: notes.slice(0, id).concat(notes.slice(id + 1)),
+    });
+  }
+  ...
+}
+```
+
+That's halfway there. We still need to add the data removed back through those create methods we specified earlier.
+
+**app/stores/NoteStore.js**
+
+```javascript
+  ...
+
+  ...
+}
+```
 
 ## Conclusion
 

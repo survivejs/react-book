@@ -5,6 +5,12 @@ export default class NoteActions {
   create(task) {
     this.dispatch(task);
   }
+  createAfter(id, data) {
+    this.dispatch({id, data});
+  }
+  createBefore(id, data) {
+    this.dispatch({id, data});
+  }
   update(id, task) {
     this.dispatch({id, task});
   }
