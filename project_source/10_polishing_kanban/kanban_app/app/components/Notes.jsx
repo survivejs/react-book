@@ -27,5 +27,16 @@ export default class Notes extends React.Component {
   }
   onMoveNote(source, target) {
     console.log('source', source, 'target', target);
+
+    /*
+    source.store.remove({id: source.data});
+
+    if(source.store === target.store) {
+      target.store.createAfter(target.data.id, source.data);
+    }
+    else {
+      target.store.createBefore(target.data.id, source.data);
+    }
+    */
   }
 }

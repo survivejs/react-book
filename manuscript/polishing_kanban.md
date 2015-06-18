@@ -298,13 +298,16 @@ In case you drag a `Note` around now, you should see correct `source` and `targe
 
 ## Sketching Up Note Drag and Drop Logic
 
-The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F. So first we have to get rid of the source item and then add it to an appropriate place depending on target. This logic can be modeled at `onMoveNote` as follows (pseudocode).
+The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F. So first we have to get rid of the source item and then add it to an appropriate place depending on target. This logic can be modeled at `onMoveNote` as follows.
 
 **app/components/Notes.jsx**
 
 ```javascript
 ...
 onMoveNote(source, target) {
+  console.log('source', source, 'target', target);
+
+  /*
   source.store.remove({id: source.data});
 
   if(source.store === target.store) {
@@ -313,6 +316,7 @@ onMoveNote(source, target) {
   else {
     target.store.createBefore(target.data.id, source.data);
   }
+  */
 }
 ...
 ```
