@@ -108,7 +108,7 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "no-use-before-define": 0,
     "eol-last": 0,
     "quotes": [2, "single"],
-    "comma-dangle": "always",
+    "comma-dangle": 1,
     "react/jsx-boolean-value": 1,
     "react/jsx-quotes": 1,
     "react/jsx-no-undef": 1,
@@ -125,7 +125,7 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
 }
 ```
 
-Note how we can define severity of an individual rule by passing it a number. Zero or ´false` would mean a rule is set off. One would mark it as a warning. Two would yield an error. In some cases you can pass additional parameters to a rule by using an array notation.
+Note how we can define severity of an individual rule by passing it a number. Zero or `false` would mean a rule is set off. One would mark it as a warning. Two would yield an error. In some cases you can pass additional parameters to a rule by using an array notation.
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them if there are any. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 

@@ -17,7 +17,7 @@
     "no-use-before-define": 0,
     "eol-last": 0,
     "quotes": [2, "single"],
-    "comma-dangle": "always",
+    "comma-dangle": 1,
     "react/jsx-boolean-value": 1,
     "react/jsx-quotes": 1,
     "react/jsx-no-undef": 1,
