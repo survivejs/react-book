@@ -307,19 +307,19 @@ The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In
 onMoveNote(source, target) {
   console.log('source', source, 'target', target);
 
-  source.store.remove({id: source.data});
+  source.actions.remove({id: source.data});
 
-  if(source.store === target.store) {
-    target.store.createAfter(target.data.id, source.data);
+  if(source.actions === target.actions) {
+    target.actions.createAfter(target.data.id, source.data);
   }
   else {
-    target.store.createBefore(target.data.id, source.data);
+    target.actions.createBefore(target.data.id, source.data);
   }
 }
 ...
 ```
 
-The logic is a bit different depending on whether we are operating within the same lane or targeting another one. In addition it appears we will need information about stores at `onMoveNote` and some new API needs to be set up.
+The logic is a bit different depending on whether we are operating within the same lane or targeting another one. In addition it appears we will need information about actions at `onMoveNote` and some new API needs to be set up.
 
 ## Passing Needed Data to `onMoveNote`
 
@@ -330,7 +330,7 @@ Since a `Note` is going to need a reference to `NoteStore` we had better start b
 ```javascript
 ...
 
-<Notes store={this.store} onEdit={this.edited.bind(this, this.actions)} />
+<Notes actions={this.actions} onEdit={this.edited.bind(this, this.actions)} />
 
 ...
 ```
@@ -344,7 +344,7 @@ Next we need to take this in count at `Notes`.
 
 export default class Notes extends React.Component {
   constructor(props: {
-    store: Object;
+    actions: Object;
     items: Array;
     onEdit: Function;
   }) {
@@ -354,7 +354,7 @@ export default class Notes extends React.Component {
     ...
 
     <Note onMove={this.onMoveNote.bind(this)} className='note'
-      key={'note-' + note.id} store={this.props.store} data={note}>
+      key={'note-' + note.id} actions={this.props.actions} data={note}>
 
     ...
   }
@@ -372,7 +372,7 @@ const noteSource = {
   beginDrag(props) {
     return {
       data: props.data,
-      store: props.store,
+      actions: props.actions,
     };
   }
 };
@@ -392,7 +392,7 @@ const noteTarget = {
 ...
 export default class Note extends React.Component {
   constructor(props: {
-    store: Object;
+    actions: Object;
     data: Object;
     onMove: Function;
   }) {
@@ -400,7 +400,7 @@ export default class Note extends React.Component {
   }
   render() {
     const { isDragging, connectDragSource, connectDropTarget,
-      store, data, ...props } = this.props;
+      actions, data, ...props } = this.props;
 
     ...
   }
