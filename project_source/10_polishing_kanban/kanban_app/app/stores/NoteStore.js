@@ -10,10 +10,8 @@ export default class NoteStore {
   create(task) {
     const notes = this.notes;
 
-    task.id = uuid.v4();
-
     this.setState({
-      notes: notes.concat({task})
+      notes: notes.concat({task, id: uuid.v4()}),
     });
   }
   update({id, task}) {
@@ -22,14 +20,14 @@ export default class NoteStore {
     notes[id].task = task;
 
     this.setState({
-      notes: notes
+      notes: notes,
     });
   }
   remove(id) {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.slice(0, id).concat(notes.slice(id + 1))
+      notes: notes.slice(0, id).concat(notes.slice(id + 1)),
     });
   }
 }

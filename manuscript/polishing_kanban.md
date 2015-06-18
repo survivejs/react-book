@@ -221,10 +221,8 @@ export default class NoteStore {
   create(task) {
     const notes = this.notes;
 
-    task.id = uuid.v4();
-
     this.setState({
-      notes: notes.concat({task})
+      notes: notes.concat({task, id: uuid.v4()}),
     });
   }
   ...
@@ -266,7 +264,7 @@ Now in case some of the notes is missing an id, we will generate one for it. The
 
 ## Using Note Ids While Dragging
 
-TODO
+Our data structures should be up to the task now. Next we'll need to start gluing things together.
 
 ## Conclusion
 
