@@ -108,7 +108,7 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "no-use-before-define": 0,
     "eol-last": 0,
     "quotes": [2, "single"],
-    "comma-dangle": 1,
+    "comma-dangle": 0,
     "react/jsx-boolean-value": 1,
     "react/jsx-quotes": 1,
     "react/jsx-no-undef": 1,
@@ -119,8 +119,7 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "react/no-multi-comp": 1,
     "react/no-unknown-property": 1,
     "react/react-in-jsx-scope": 1,
-    "react/self-closing-comp": 1,
-    "react/wrap-multilines": 1
+    "react/self-closing-comp": 1
   }
 }
 ```
