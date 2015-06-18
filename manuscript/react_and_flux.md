@@ -427,7 +427,7 @@ if(TARGET === 'build') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loader: 'babel?stage=0',
+          loader: 'babel?stage=1',
           include: path.join(ROOT_PATH, 'app'),
         }
       ]
@@ -444,7 +444,7 @@ if(TARGET === 'dev') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=0&blacklist=flow'],
+          loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
           include: path.join(ROOT_PATH, 'app'),
         }
       ]
@@ -456,8 +456,6 @@ if(TARGET === 'dev') {
 ```
 
 In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
-
-Note that I'm enabling Stage 0 functionality as I'll be relying on some of that in the next chapter (primarily [class properties](https://gist.github.com/jeffmo/054df782c05639da2adb)).
 
 T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint.
 
