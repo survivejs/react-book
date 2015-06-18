@@ -5,6 +5,7 @@ import Note from './Note';
 
 export default class Notes extends React.Component {
   constructor(props: {
+    store: Object;
     items: Array;
     onEdit: Function;
   }) {
@@ -16,7 +17,7 @@ export default class Notes extends React.Component {
     return (
       <ul className='notes'>{notes.map((note, i) =>
         <Note onMove={this.onMoveNote.bind(this)} className='note'
-          key={'note-' + note.id} id={note.id}>
+          key={'note-' + note.id} store={this.props.store} data={note}>
           <Editable
             value={note.task}
             onEdit={this.props.onEdit.bind(this, i)} />

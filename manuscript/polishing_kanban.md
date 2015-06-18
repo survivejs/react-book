@@ -305,13 +305,13 @@ The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In
 ```javascript
 ...
 onMoveNote(source, target) {
-  source.store.remove({id: source.item});
+  source.store.remove({id: source.data});
 
   if(source.store === target.store) {
-    target.store.createAfter(target.id, source.item);
+    target.store.createAfter(target.data.id, source.data);
   }
   else {
-    target.store.createBefore(target.id, source.item);
+    target.store.createBefore(target.data.id, source.data);
   }
 }
 ...
@@ -320,6 +320,94 @@ onMoveNote(source, target) {
 The logic is a bit different depending on whether we are operating within the same lane or targeting another one. In addition it appears we will need information about stores at `onMoveNote` and some new API needs to be set up.
 
 ## Passing Needed Data to `onMoveNote`
+
+Since a `Note` is going to need a reference to `NoteStore` we had better start by passing that.
+
+**app/components/Lane.jsx**
+
+```javascript
+...
+
+<Notes store={this.store} onEdit={this.edited.bind(this, this.actions)} />
+
+...
+```
+
+Next we need to take this in count at `Notes`.
+
+**app/components/Notes.jsx**
+
+```javascript
+...
+
+export default class Notes extends React.Component {
+  constructor(props: {
+    store: Object;
+    items: Array;
+    onEdit: Function;
+  }) {
+    super(props);
+  }
+  render() {
+    ...
+
+    <Note onMove={this.onMoveNote.bind(this)} className='note'
+      key={'note-' + note.id} store={this.props.store} data={note}>
+
+    ...
+  }
+}
+```
+
+And finally at `Note`.
+
+**app/components/Notes.jsx**
+
+```javascript
+...
+
+const noteSource = {
+  beginDrag(props) {
+    return {
+      data: props.data,
+      store: props.store,
+    };
+  }
+};
+
+const noteTarget = {
+  hover(props, monitor) {
+    const targetData = props.data || {};
+    const sourceProps = monitor.getItem();
+    const sourceData = sourceProps.data || {};
+
+    if(sourceData.id !== targetData.id) {
+      props.onMove(sourceProps, props);
+    }
+  }
+};
+
+...
+export default class Note extends React.Component {
+  constructor(props: {
+    store: Object;
+    data: Object;
+    onMove: Function;
+  }) {
+    super(props);
+  }
+  render() {
+    const { isDragging, connectDragSource, connectDropTarget,
+      store, data, ...props } = this.props;
+
+    ...
+  }
+}
+```
+
+Now we have the data our sket
+
+## Implementing Note Drag and Drop Logic
 
 TODO
 
