@@ -31,7 +31,7 @@ const noteTarget = {
 }))
 export default class Note extends React.Component {
   constructor(props: {
-    id: number;
+    id: string;
     onMove: Function;
   }) {
     super(props);

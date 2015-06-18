@@ -264,7 +264,41 @@ Now in case some of the notes is missing an id, we will generate one for it. The
 
 ## Using Note Ids While Dragging
 
-Our data structures should be up to the task now. Next we'll need to start gluing things together.
+Our data structures should be up to the task now. Next we'll need to start gluing things together. First we need to pass the correct id to a `Note`.
+
+**app/components/Notes.jsx**
+
+```javascript
+...
+
+<Note onMove={this.onMoveNote.bind(this)} className='note'
+  key={'note-' + note.id} id={note.id}>
+
+...
+```
+
+As this will blow up our type definition, we'll want to tweak that as well.
+
+**app/components/Note.jsx**
+
+```javascript
+...
+export default class Note extends React.Component {
+  constructor(props: {
+    id: string;
+    onMove: Function;
+  }) {
+    ...
+  }
+  ...
+}
+```
+
+In case you drag a `Note` around now, you should see correct `source` and `target` ids at console. Now that we have the right data at the right place we can finally put logic in place to manipulate our data structures.
+
+## Adding Note Drag and Drop Logic
+
+TODO
 
 ## Conclusion
 
