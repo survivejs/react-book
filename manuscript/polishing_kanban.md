@@ -296,7 +296,30 @@ export default class Note extends React.Component {
 
 In case you drag a `Note` around now, you should see correct `source` and `target` ids at console. Now that we have the right data at the right place we can finally put logic in place to manipulate our data structures.
 
-## Adding Note Drag and Drop Logic
+## Sketching Up Note Drag and Drop Logic
+
+The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F. So first we have to get rid of the source item and then add it to an appropriate place depending on target. This logic can be modeled at `onMoveNote` as follows (pseudocode).
+
+**app/components/Notes.jsx**
+
+```javascript
+...
+onMoveNote(source, target) {
+  source.store.remove({id: source.item});
+
+  if(source.store === target.store) {
+    target.store.createAfter(target.id, source.item);
+  }
+  else {
+    target.store.createBefore(target.id, source.item);
+  }
+}
+...
+```
+
+The logic is a bit different depending on whether we are operating within the same lane or targeting another one. In addition it appears we will need information about stores at `onMoveNote` and some new API needs to be set up.
+
+## Passing Needed Data to `onMoveNote`
 
 TODO
 
