@@ -10,9 +10,13 @@ ul ul li {
     margin-bottom: 0.25em;
 }
 
-pre, code {
+pre {
     padding: 0.5em;
     line-height: 1.5;
+}
+
+code {
+    padding: 0.25em;
 }
 
 .post__content img {
