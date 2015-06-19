@@ -11,12 +11,12 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 **package.json**
 
 ```json
-{
-  "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --hot --content-base build"
-  }
-}
+...
+"scripts": {
+  "build": "webpack",
+  "start": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --hot --content-base build"
+},
+...
 ```
 
 **webpack.development.js**
@@ -58,14 +58,16 @@ When you run `npm start` from your terminal it will execute the command mapping 
 3. `--devtool eval` - Creates source urls for your code. Making you able to pinpoint by filename and line number where any errors are thrown
 4. `--progress` - Will show progress of bundling your application
 5. `--colors` - Colors in the terminal!
-6. '--hot' - Enable hot module loading
+6. `--hot` - Enable hot module loading
 7. `--content-base build` - Points to the output directory configured
 
 To recap, when you run `npm start` this will fire up the webservice, watch for file changes and automatically rebundle your application when any file changes occur.
 
 Go to **http://localhost:8080** and you should see something. If you want to use some other port than 8080, you can pass `--port` parameter (ie. `--port 4000`) to *webpack-dev-server*.
 
-Alternatively we can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process. You can see this same information at your browser console log. It also injects `webpack-dev-server.js` automatically. So if you use the dev server through that specific url, you don't need that `script` line of ours at `index.html`.
+Alternatively we can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
+
+You can see this same information at your browser console log. It also injects `webpack-dev-server.js` automatically. So if you use the dev server through that specific url, you don't need that `script` line of ours at `index.html`.
 
 T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start` or `npm run build`).
 
@@ -215,12 +217,12 @@ The common configuration has been separated to a section of its own. In this cas
 To make everything work again, we'll need to tweak our `package.json` **scripts** section like this:
 
 ```json
-{
-  "scripts": {
-    "build": "TARGET=build webpack",
-    "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --content-base build"
-  }
-}
+...
+"scripts": {
+  "build": "TARGET=build webpack",
+  "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --content-base build"
+},
+...
 ```
 
 W> `TARGET=build` type of declarations won't work on Windows! You should use `set TARGET=build&& webpack` kind of syntax there. It is important it's `build&&` and not `build &&` as that will fail. Later on Webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
@@ -237,7 +239,7 @@ Fortunately we can resolve this problem by extending our system a little. We'll 
 
 ### Setting up html-webpack-plugin
 
-As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build.index.html`. We'll generate that dynamically next with some configuration.
+As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build/index.html`. We'll generate that dynamically next with some configuration.
 
 **webpack.config.js**
 
@@ -333,13 +335,15 @@ Finally we'll need to tweak `package.json`:
 **package.json**
 
 ```
+...
 "scripts": {
   "build": "TARGET=build webpack",
   "start": "TARGET=dev node dev-server/server.js"
 },
+...
 ```
 
-If you hit `npm start` now and start tweaking `app/component.js` you should see the browser refresh.
+If you hit `npm start` at `kanban_app/` now and start tweaking `app/component.js` you should see the browser refresh.
 
 ## Conclusion
 
