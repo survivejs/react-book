@@ -46,3 +46,4 @@ This book wouldn't have been possible without these individuals. They all helped
 * Ilya Volodin - @ilyavolodin - Helped to improve linting chapter
 * Jan Nicklas - @jantimon - Helper to improve `html-webpack-plugin` related configuration a lot
 * Daniel de la Cruz - @danderu - Removed redundant reference to `.tpl`
+* Robert Smith - @rbrtsmith - Pointed out issues at Developing with Webpack
