@@ -14,7 +14,9 @@ In this chapter I'll go through these tools briefly. We'll integrate just ESLint
 
 ## Webpack and JSHint
 
-Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately there's one for JSHint. If you already using it, setting it up with Webpack is easy. You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition you will need a little bit of configuration.
+Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately there's one for JSHint. On a legacy project setting it up with Webpack is easy. We won't be using it for our application but it's a good thing to know. At least you'll see some familiar patterns.
+
+You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition you will need a little bit of configuration.
 
 ```javascript
 module: {
