@@ -34,7 +34,7 @@ React and Flux | Improving architecture by using Flux (Alt) | 90%
 From Notes to Kanban | Going from singleton to instances (Alt) | 80%
 Styling React | Styling application | 90%
 Implementing Drag and Drop | Adding DnD | 90%
-Deploying Applications | How to deal with various deployment configurations | 30% | This needs a partial rewrite
+Deploying Applications | How to deal with various deployment configurations | 80%
 Authoring Libraries | How to author libraries at NPM using Webpack | 90%
 
 **Bonus Chapters**
