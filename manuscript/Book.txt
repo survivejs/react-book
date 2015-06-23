@@ -8,6 +8,6 @@ implementing_notes.md
 react_and_flux.md
 from_notes_to_kanban.md
 styling_react.md
-polishing_kanban.md
+implementing_dnd.md
 deploying_applications.md
 authoring_libraries.md
