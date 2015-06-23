@@ -46,7 +46,7 @@ export default class Lane extends React.Component {
     );
   }
   addNote() {
-    this.actions.create('New note ' + (this.store.getState().notes.length + 1));
+    this.actions.create('New note');
   }
   edited(actions, id, value) {
     if(value) {
