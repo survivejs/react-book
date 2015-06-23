@@ -115,6 +115,11 @@ module.exports = {
 
           return stripped;
         },
+        url: function(o) {
+          var fileName = o.fileName.split('.')[0].toLowerCase();
+
+          return o.sectionName + '/' + fileName.split('_').slice(1).join('_');
+        },
       },
       sort: function(files) {
         var headers = require('./manuscript/headers.json');
