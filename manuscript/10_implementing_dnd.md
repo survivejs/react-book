@@ -121,7 +121,8 @@ const noteTarget = {
 }))
 export default class Note extends React.Component {
   render() {
-    const { isDragging, connectDragSource, connectDropTarget, ...props } = this.props;
+    const { isDragging, connectDragSource, connectDropTarget,
+      onMove, data, ...props } = this.props;
 
     return connectDragSource(connectDropTarget(
       <li {...props}>{props.children}</li>
@@ -146,25 +147,26 @@ In order to make `Note` operate based on id, we'll need to tweak it a little.
 const noteSource = {
   beginDrag(props) {
     return {
-      id: props.id,
+      data: props.data,
     };
   }
 };
 
 const noteTarget = {
   hover(props, monitor) {
-    const targetId = props.id;
-    const sourceId = monitor.getItem().id;
+  const targetData = props.data || {};
+  const sourceProps = monitor.getItem();
+  const sourceData = sourceProps.data || {};
 
-    if(sourceId !== targetId) {
-      props.onMove(sourceId, targetId);
-    }
+  if(sourceData.id !== targetData.id) {
+    props.onMove(sourceProps.data, props.data);
+  }
   }
 };
 
 export default class Note extends React.Component {
   constructor(props: {
-    id: number;
+    data: Object;
     onMove: Function;
   }) {
     super(props);
@@ -187,7 +189,8 @@ export default class Notes extends React.Component {
 
     return (
       <ul className='notes'>{notes.map((note, i) =>
-        <Note onMove={this.onMoveNote.bind(this)} className='note' key={'note' + i} id={i}>
+        <Note onMove={this.onMoveNote.bind(this)} className='note'
+          key={'note-' + i} data={note}>
           <Editable
             value={note.task}
             onEdit={this.props.onEdit.bind(this, i)} />
@@ -201,9 +204,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-If you drag a `Note` around now, you should see prints like `source 1 target 0` at console. It doesn't take long to see we have a little flaw in our system. The way we are deriving ids doesn't scale to this purpose as they aren't unique enough. We could try to generate ids based on the lane in which the notes belong and their position within all.
-
-This won't work for drag and drop, though, as just as you would swap items it would just swap them right back as the callback gets triggered! So clearly we can't go this way. Normally we can just leave dealing with unique ids to the backend. In this case it won't be as simple. Instead we have to generate some unique ids ourselves.
+If you drag a `Note` around now, you should see prints like `source [Object] target [Object]` at console. It doesn't take long to see we have a little flaw in our system. The way we are deriving `Note` ids doesn't scale to this purpose as they aren't unique enough. They are unique per lane but not globally. This will be an issue when moving notes between lanes. Normally dealing with ids would be the backend's problem but since we don't have we can generate some ourselves.
 
 ## Generating Unique Ids for Notes
 
@@ -260,175 +261,76 @@ function migrate(data) {
 }
 ```
 
-Now in case some of the notes is missing an id, we will generate one for it. The approach could be improved a lot. You could for instance attach version information to store data. Then you would check against version and perform only migrations that are needed to bring it to current. You can get inspiration from various backend libraries.
-
-## Using Note Ids While Dragging
-
-Our data structures should be up to the task now. Next we'll need to start gluing things together. First we need to pass the correct id to a `Note`.
-
-**app/components/Notes.jsx**
-
-```javascript
-...
-
-<Note onMove={this.onMoveNote.bind(this)} className='note'
-  key={'note-' + note.id} id={note.id}>
-
-...
-```
-
-As this will blow up our type definition, we'll want to tweak that as well.
-
-**app/components/Note.jsx**
-
-```javascript
-...
-export default class Note extends React.Component {
-  constructor(props: {
-    id: string;
-    onMove: Function;
-  }) {
-    ...
-  }
-  ...
-}
-```
-
-In case you drag a `Note` around now, you should see correct `source` and `target` ids at console. Now that we have the right data at the right place we can finally put logic in place to manipulate our data structures.
-
-## Sketching Up Note Drag and Drop Logic
-
-The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F. So first we have to get rid of the source item and then add it to an appropriate place depending on target. This logic can be modeled at `onMoveNote` as follows.
-
-**app/components/Notes.jsx**
-
-```javascript
-...
-onMoveNote(source, target) {
-  console.log('source', source, 'target', target);
-
-  source.actions.remove({id: source.data.id});
-
-  if(source.actions === target.actions) {
-    target.actions.createAfter(target.data.id, source.data);
-  }
-  else {
-    target.actions.createBefore(target.data.id, source.data);
-  }
-}
-...
-```
-
-The logic is a bit different depending on whether we are operating within the same lane or targeting another one. In addition it appears we will need information about actions at `onMoveNote` and some new API needs to be set up.
-
-## Passing Needed Data to `onMoveNote`
-
-Since a `Note` is going to need a reference to `NoteStore` we had better start by passing that.
-
-**app/components/Lane.jsx**
-
-```javascript
-...
-
-<Notes actions={this.actions} onEdit={this.edited.bind(this, this.actions)} />
-
-...
-```
-
-Next we need to take this in count at `Notes`.
-
-**app/components/Notes.jsx**
-
-```javascript
-...
-
-export default class Notes extends React.Component {
-  constructor(props: {
-    actions: Object;
-    items: Array;
-    onEdit: Function;
-  }) {
-    super(props);
-  }
-  render() {
-    ...
-
-    <Note onMove={this.onMoveNote.bind(this)} className='note'
-      key={'note-' + note.id} actions={this.props.actions} data={note}>
-
-    ...
-  }
-}
-```
-
-And finally at `Note`.
-
-**app/components/Notes.jsx**
-
-```javascript
-...
-
-const noteSource = {
-  beginDrag(props) {
-    return {
-      data: props.data,
-      actions: props.actions,
-    };
-  }
-};
-
-const noteTarget = {
-  hover(props, monitor) {
-    const targetData = props.data || {};
-    const sourceProps = monitor.getItem();
-    const sourceData = sourceProps.data || {};
-
-    if(sourceData.id !== targetData.id) {
-      props.onMove(sourceProps, props);
-    }
-  }
-};
-
-...
-export default class Note extends React.Component {
-  constructor(props: {
-    actions: Object;
-    data: Object;
-    onMove: Function;
-  }) {
-    super(props);
-  }
-  render() {
-    const { isDragging, connectDragSource, connectDropTarget,
-      actions, data, ...props } = this.props;
-
-    ...
-  }
-}
-```
-
-Now we have the data our sket
+Now in case some of the notes is missing an id, we will generate one for them. The approach could be improved. You could for instance attach version information to store data. Then you would check against version and perform only migrations that are needed to bring it to current. You can get inspiration from various backend libraries.
 
 ## Implementing Note Drag and Drop Logic
 
-Next we'll need to implement the APIs we're missing. As a first step we should fill in the missing actions.
+The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
-**app/actions/NoteActions.js**
+In our case we'll get some extra complexity due to lane to lane dragging. Note that when we move a `Note` we know its original position and the intended target position. While dragging around, however, we'll want to make sure the store data gets updated as well. The problem is how to communicate this to our `NoteStores` so that they know to update their state?
+
+This can be solved by setting up a custom action for this particular purpose. We'll model `move` method there and make `NoteStores` react to that. After that it's up to each `NoteStore` to deal with it. In order to achieve this we'll need to do some wiring.
+
+**app/components/Notes.jsx**
 
 ```javascript
-export default class NoteActions {
+...
+import NoteDndActions from '../actions/NoteDndActions';
+
+export default class Notes extends React.Component {
   ...
-  createAfter(id, data) {
-    this.dispatch({id, data});
+  render() {
+    var notes = this.props.items;
+
+    return (
+      <ul className='notes'>{notes.map((note, i) =>
+        <Note onMove={NoteDndActions.move} className='note'
+          key={'note-' + note.id} data={note}>
+          <Editable
+            value={note.task}
+            onEdit={this.props.onEdit.bind(this, i)} />
+        </Note>
+      )}</ul>
+    );
   }
-  createBefore(id, data) {
-    this.dispatch({id, data});
-  }
-  ...
 }
 ```
 
-Now we shouldn't be getting any errors at console anymore. Next we'll need to tweak `remove` method of `NoteStore` to operate based on object correctly and implement the missing methods. As `lodash` will come in handy here, move it from `devDependencies` to `dependencies` at `package.json`.
+**app/actions/NoteDndActions.jsx**
+
+```javascript
+import alt from '../libs/alt';
+
+class NoteDndActions {
+  move(source, target) {
+    this.dispatch({source, target});
+  }
+}
+
+export default alt.createActions(NoteDndActions);
+```
+
+**app/stores/NoteStore.jsx**
+
+```javascript
+...
+
+import NoteDndActions from '../actions/NoteDndActions';
+
+export default class NoteStore {
+  constructor(actions: Object) {
+    this.bindActions(actions);
+    this.bindActions(NoteDndActions);
+  }
+  move({source, target}) {
+    console.log('source', source, 'target', target);
+  }
+}
+```
+
+If you drag and drop a `Note` now, you should see each `NoteStore` trigger. Next we'll need to add some logic to make this work.
+
+Before doing that make sure you move `lodash` to core dependencies of the project. It will come in handy here.
 
 **package.json**
 
@@ -444,47 +346,58 @@ Now we shouldn't be getting any errors at console anymore. Next we'll need to tw
 }
 ```
 
-Next we can use it for implementing the missing `remove` bit:
-
-**app/stores/NoteStore.js**
+**app/stores/NoteStore.jsx**
 
 ```javascript
-...
+import update from 'react/lib/update';
 import findIndex from 'lodash/array/findIndex';
-import isObject from 'lodash/lang/isObject';
+
+...
 
 export default class NoteStore {
-  ...
-  remove(id) {
+  move({source, target}) {
     const notes = this.notes;
-
-    if(isObject(id)) {
-      id = findIndex(notes, id);
-    }
-
-    if(id < 0) {
-      return console.warn('Failed to remove by id', id, notes);
-    }
-
-    this.setState({
-      notes: notes.slice(0, id).concat(notes.slice(id + 1)),
+    const sourceIndex = findIndex(notes, {
+      id: source.id,
     });
+    const targetIndex = findIndex(notes, {
+      id: target.id,
+    });
+
+    if(sourceIndex >= 0 && targetIndex >= 0) {
+      this.setState({
+        notes: update(this.notes, {
+          $splice: [
+            [sourceIndex, 1],
+            [targetIndex, 0, source],
+          ],
+        }),
+      });
+    }
+    else if(targetIndex >= 0) {
+      this.setState({
+        notes: update(this.notes, {
+          $splice: [
+            [targetIndex, 0, source],
+          ],
+        }),
+      });
+    }
+    else if(sourceIndex >= 0) {
+      this.remove(sourceIndex);
+    }
   }
-  ...
 }
 ```
 
-That's halfway there. We still need to add the data removed back through those create methods we specified earlier.
+There is actually quite a bit going on here. I modeled the solution based on React DnD draggable example and then expanded on it. Primarily there are three cases to worry about. In the first case we're dragging within the lane itself. We can use `$splice` there from [React immutability helpers](https://facebook.github.io/react/docs/update.html). In this case we splice an item out of source index and move source to target as you might expect. In the second case we are dragging into a new lane so it's enough just to add to target position. The final case gets rid of possible data remaining at a previous lane.
 
-**app/stores/NoteStore.js**
-
-```javascript
-  ...
-
-  ...
-}
-```
+T> This probably isn't the most effective solution as we'll be performing the check for each lane. But given we'll have likely only a couple of lanes in our system it seems like an acceptable compromise. A more optimized solution would operate using minimal amount of lanes (maximum of two) per operation but that would get more complex to handle.
 
 ## Conclusion
 
-TODO
+In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids and finally you'll add some logic to make it all work together.
+
+The solution presented here isn't the only possible one. In our case we have some complexity at store level as we decided to model a store per `Notes`. An alternative solution for that would have been simply to have a single store for all notes and deal with the complexity there.
+
+In that case it wouldn't be necessary to set up a shared `move` action. Instead you could deal with the move logic in a single method. On the other hand some other operations might become more complex to implement as you need to deal with collections yourself. Now they are implicit in the structure.

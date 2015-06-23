@@ -1,8 +1,8 @@
 import React from 'react';
 
-import NoteDndActions from '../actions/NoteDndActions';
 import Editable from './Editable';
 import Note from './Note';
+import NoteDndActions from '../actions/NoteDndActions';
 
 export default class Notes extends React.Component {
   constructor(props: {

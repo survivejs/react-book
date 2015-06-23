@@ -1,7 +1,6 @@
 import update from 'react/lib/update';
-import uuid from 'node-uuid';
 import findIndex from 'lodash/array/findIndex';
-import isObject from 'lodash/lang/isObject';
+import uuid from 'node-uuid';
 
 import NoteDndActions from '../actions/NoteDndActions';
 
@@ -63,14 +62,6 @@ export default class NoteStore {
   }
   remove(id) {
     const notes = this.notes;
-
-    if(isObject(id)) {
-      id = findIndex(notes, id);
-    }
-
-    if(id < 0) {
-      return;
-    }
 
     this.setState({
       notes: notes.slice(0, id).concat(notes.slice(id + 1)),
