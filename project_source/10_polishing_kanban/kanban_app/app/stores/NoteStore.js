@@ -39,6 +39,15 @@ export default class NoteStore {
         }),
       });
     }
+    else if(targetIndex >= 0) {
+      this.setState({
+        notes: update(this.notes, {
+          $splice: [
+            [targetIndex, 0, source],
+          ],
+        }),
+      });
+    }
     else if(sourceIndex >= 0) {
       this.remove(sourceIndex);
     }
