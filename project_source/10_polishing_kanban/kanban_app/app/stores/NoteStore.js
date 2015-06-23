@@ -3,9 +3,12 @@ import uuid from 'node-uuid';
 import findIndex from 'lodash/array/findIndex';
 import isObject from 'lodash/lang/isObject';
 
+import NoteDndActions from '../actions/NoteDndActions';
+
 export default class NoteStore {
   constructor(actions: Object) {
     this.bindActions(actions);
+    this.bindActions(NoteDndActions);
   }
   init(data) {
     this.setState(data ? migrate(data) : {notes: []});
@@ -25,17 +28,20 @@ export default class NoteStore {
     const targetIndex = findIndex(notes, {
       id: target.id,
     });
-    var splices = [[targetIndex, 0, source]];
 
-    if(sourceIndex >= 0) {
-      splices.unshift([sourceIndex, 1]);
+    if(sourceIndex >= 0 && targetIndex >= 0) {
+      this.setState({
+        notes: update(this.notes, {
+          $splice: [
+            [sourceIndex, 1],
+            [targetIndex, 0, source],
+          ],
+        }),
+      });
     }
-
-    this.setState({
-      notes: update(this.notes, {
-        $splice: splices,
-      }),
-    });
+    else if(sourceIndex >= 0) {
+      this.remove(sourceIndex);
+    }
   }
   update({id, task}) {
     const notes = this.notes;

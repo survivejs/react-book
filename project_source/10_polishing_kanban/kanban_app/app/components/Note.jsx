@@ -7,7 +7,6 @@ const noteSource = {
   beginDrag(props) {
     return {
       data: props.data,
-      actions: props.actions,
     };
   }
 };
@@ -19,7 +18,7 @@ const noteTarget = {
     const sourceData = sourceProps.data || {};
 
     if(sourceData.id !== targetData.id) {
-      props.onMove(sourceProps, props);
+      props.onMove(sourceProps.data, props.data);
     }
   }
 };
@@ -33,7 +32,6 @@ const noteTarget = {
 }))
 export default class Note extends React.Component {
   constructor(props: {
-    actions: Object;
     data: Object;
     onMove: Function;
   }) {
@@ -41,7 +39,7 @@ export default class Note extends React.Component {
   }
   render() {
     const { isDragging, connectDragSource, connectDropTarget,
-      actions, data, ...props } = this.props;
+      onMove, data, ...props } = this.props;
 
     return connectDragSource(connectDropTarget(
       <li {...props}>{props.children}</li>
