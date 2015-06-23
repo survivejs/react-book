@@ -23,9 +23,7 @@ export default class Lane extends React.Component {
     this.actions.init(getInitialData(storeName));
   }
   render() {
-    /* eslint-disable no-unused-vars */
     const {i, name, ...props} = this.props;
-    /* eslint-enable no-unused-vars */
 
     return (
       <div {...props}>

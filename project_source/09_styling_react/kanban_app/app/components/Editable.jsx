@@ -12,9 +12,7 @@ export default class Editable extends React.Component {
     };
   }
   render() {
-    /* eslint-disable no-unused-vars */
     const {value, onEdit, ...props} = this.props;
-    /* eslint-enable no-unused-vars */
     var edited = this.state.edited;
 
     return (

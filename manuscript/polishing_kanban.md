@@ -425,6 +425,7 @@ export default class NoteActions {
     this.dispatch({id, data});
   }
   ...
+}
 ```
 
 Now we shouldn't be getting any errors at console anymore. Next we'll need to tweak `remove` method of `NoteStore` to operate based on object correctly and implement the missing methods. As `lodash` will come in handy here, move it from `devDependencies` to `dependencies` at `package.json`.
