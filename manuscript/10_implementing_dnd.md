@@ -366,7 +366,7 @@ export default class NoteStore {
 
     if(sourceIndex >= 0 && targetIndex >= 0) {
       this.setState({
-        notes: update(this.notes, {
+        notes: update(notes, {
           $splice: [
             [sourceIndex, 1],
             [targetIndex, 0, source],
@@ -376,7 +376,7 @@ export default class NoteStore {
     }
     else if(targetIndex >= 0) {
       this.setState({
-        notes: update(this.notes, {
+        notes: update(notes, {
           $splice: [
             [targetIndex, 0, source],
           ],
