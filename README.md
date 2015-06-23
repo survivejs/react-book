@@ -33,7 +33,7 @@ Implementing a Basic Note App | First steps with React | 90%
 React and Flux | Improving architecture by using Flux (Alt) | 90%
 From Notes to Kanban | Going from singleton to instances (Alt) | 80%
 Styling React | Styling application | 90%
-Polishing Kanban | Adding DnD | 20%
+Implementing Drag and Drop | Adding DnD | 90%
 Deploying Applications | How to deal with various deployment configurations | 30% | This needs a partial rewrite
 Authoring Libraries | How to author libraries at NPM using Webpack | 90%
 
