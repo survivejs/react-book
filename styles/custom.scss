@@ -24,6 +24,25 @@ code {
     width: 100%;
 }
 
+.header-image + .post__heading {
+    margin-top: calc(35vh);
+}
+.header-image {
+    height: 70vh;
+}
+.header-image + .post__heading + .post__content {
+    margin-top: 70vh;
+    padding-top: 5vh;
+}
+.docs-nav__wrapper--push-down {
+    margin-top: 70vh;
+}
+@media screen and (min-width: 1150px) {
+    .docs-nav__wrapper--push-down + .header-image + .post__heading + .post__content {
+        margin-top: 70vh;
+    }
+}
+
 .header-extra {
     font-size: small;
     font-family: "Avenir Next", "Helvetica Neue", sans-serif;
