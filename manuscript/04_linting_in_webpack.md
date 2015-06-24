@@ -287,6 +287,8 @@ If you just want some starting point quickly, you can pick one of [eslint-config
 
 ## Checking JavaScript Style with JSCS
 
+![JSCS](images/jscs.png)
+
 Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short it can get pretty messy without any discipline. Fortunately there is a tool known as JSCS. It will allow you to define a style guide for your project.
 
 [jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define `.jscsrc` with your style guide rules and use configuration like this:
