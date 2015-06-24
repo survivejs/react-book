@@ -32,5 +32,10 @@ module.exports = React.createClass
         item.title
       div className: 'post__content',
         if item.isDraft then span className: 'draft-text', ' Draft'
+
+        div className: 'post__meta',
+          if item.startSource then div className: 'post__start_source', a href: item.startSource, target: '_blank', 'Start source code'
+          if item.endSource then div className: 'post__end_source', a href: item.endSource, target: '_blank', 'Finished source code'
+
         div dangerouslySetInnerHTML: __html: item.content
       if author then div className: 'post__author', "Authored by #{author}"

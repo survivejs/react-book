@@ -15,55 +15,64 @@
         "author": "Mugu Marculescu",
         "source": "https://www.flickr.com/photos/48282484@N00/135720337",
         "license": "CC BY-NC-SA",
-        "image": "training.jpg"
+        "image": "training.jpg",
+        "source": "02_getting_started"
     },
     {
         "author": "Fumi Yamazaki",
         "source": "https://www.flickr.com/photos/35237097961@N01/3561706030",
         "license": "CC BY-NC-SA",
-        "image": "oscillo.jpg"
+        "image": "oscillo.jpg",
+        "source": "03_developing_with_webpack"
     },
     {
         "author": "Eva the Weaver",
         "source": "https://www.flickr.com/photos/16324044@N00/10833734686",
         "license": "CC BY-NC-SA",
-        "image": "lint.jpg"
+        "image": "lint.jpg",
+        "source": "04_linting_in_webpack"
     },
     {
         "author": "Jairus Khan",
         "source": "https://www.flickr.com/photos/10282509@N00/4674249352",
         "license": "CC BY-NC-SA",
-        "image": "mainframe.jpg"
+        "image": "mainframe.jpg",
+        "source": "05_webpack_and_react"
     },
     {
         "author": "Angela",
         "source": "https://www.flickr.com/photos/73635318@N00/2663422833",
         "license": "CC BY-NC-SA",
-        "image": "notes.jpg"
+        "image": "notes.jpg",
+        "source": "06_implementing_notes"
     },
     {
         "author": "jeremyg3030",
         "source": "https://www.flickr.com/photos/126433814@N04/16298563416",
         "license": "CC BY",
-        "image": "delorean.jpg"
+        "image": "delorean.jpg",
+        "source": "07_react_and_flux"
     },
     {
         "author": "Radek Orszewski",
         "source": "https://www.flickr.com/photos/61745819@N00/10588140955",
         "license": "CC BY-NC-ND",
-        "image": "kanban_photo.jpg"
+        "image": "kanban_photo.jpg",
+        "source": "08_from_notes_to_kanban"
     },
     {
         "author": "Andrea Williams",
         "source": "https://www.flickr.com/photos/82405581@N00/3173065446",
         "license": "CC BY-NC-ND",
-        "image": "taxi.jpg"
+        "image": "taxi.jpg",
+        "source": "09_styling_react"
     },
     {
         "author": "Emma Story",
         "source": "https://www.flickr.com/photos/15146367@N00/4083260446",
         "license": "CC BY-NC",
-        "image": "dnd.jpg"
+        "image": "dnd.jpg",
+        "source": "10_implementing_dnd"
     },
     {
         "author": "Acid Pix",

@@ -122,6 +122,8 @@ module.exports = {
         },
       },
       sort: function(files) {
+        var sourcePrefix = 'https://github.com/survivejs/webpack_react/tree/master/project_source/';
+        var sourceSuffix = '/kanban_app';
         var headers = require('./manuscript/headers.json');
         var order = require('raw!./manuscript/Book.txt').split('\n').filter(id);
         var ret = [];
@@ -137,6 +139,16 @@ module.exports = {
           result.file.headerImage = '/images/' + header.image;
           result.file.previousInfo = 'Previous chapter';
           result.file.nextInfo = 'Next chapter';
+
+          if(header.source) {
+            var previous = headers[i - 1] || {};
+
+            if(previous.source) {
+              result.file.startSource = sourcePrefix + previous.source + sourceSuffix;
+            }
+
+            result.file.endSource = sourcePrefix + header.source + sourceSuffix;
+          }
 
           if(result) {
             ret.push(result);
