@@ -159,7 +159,10 @@ const noteTarget = {
   const sourceData = sourceProps.data || {};
 
   if(sourceData.id !== targetData.id) {
-    props.onMove(sourceProps.data, props.data);
+    props.onMove({
+      source: sourceProps.data,
+      target: props.data,
+    });
   }
   }
 };
@@ -301,13 +304,7 @@ export default class Notes extends React.Component {
 ```javascript
 import alt from '../libs/alt';
 
-class NoteDndActions {
-  move(source, target) {
-    this.dispatch({source, target});
-  }
-}
-
-export default alt.createActions(NoteDndActions);
+export default alt.generateActions('move');
 ```
 
 **app/stores/NoteStore.jsx**

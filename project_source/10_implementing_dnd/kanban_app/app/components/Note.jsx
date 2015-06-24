@@ -18,7 +18,10 @@ const noteTarget = {
     const sourceData = sourceProps.data || {};
 
     if(sourceData.id !== targetData.id) {
-      props.onMove(sourceProps.data, props.data);
+      props.onMove({
+        source: sourceProps.data,
+        target: props.data,
+      });
     }
   }
 };
