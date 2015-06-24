@@ -18,12 +18,6 @@ I have distilled my knowledge about the topic in this book in an easy to follow 
 
 The project and book source is available at [GitHub](https://github.com/survivejs/webpack_react). The book isn't entirely tutorial-driven. Some parts provide you more general view of the web development scene. For instance I discuss topics such as styling and library authorship in greater detail.
 
-## When will the book be available?
-
-An early version of the book is already available. I keep track of the status of the book in [the project README](https://github.com/survivejs/webpack_react#progress). Especially early chapters and a couple of the later ones are in a good condition. Feedback is very welcome.
-
-After initial release and depending on how that goes I will develop new content to the book based on demand. Other installments are possible as well. But this all depends on how well we get started.
-
 ## How to support?
 
 Even though the book is freely available under [CC BY-NC-ND](https://creativecommons.org/licenses/by-nc-nd/4.0/) license, financial support is welcome. It will help me to devote more time improving the content and developing new one. If you think this is a worthy cause, you can purchase [an electronic copy of the book](https://leanpub.com/survivejs_webpack).
