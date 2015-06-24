@@ -49,3 +49,4 @@ This book wouldn't have been possible without these individuals. They all helped
 * Robert Smith - @rbrtsmith - Pointed out issues at Developing with Webpack
 * Andreas Eldh - @eldh - Helped to develop Antwar, the tool that's powering the book's site. Also helped immensely with the base theme
 * Brandon Tilley - @binarymuse - Gave some well needed inspiration for drag and drop implementation
+* Braden Evans - @braden - Pointed out site related horizontal scrollbar issue

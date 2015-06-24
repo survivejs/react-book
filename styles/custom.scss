@@ -24,6 +24,10 @@ code {
     width: 100%;
 }
 
+.header-image, .post__heading {
+    max-width: 100%;
+}
+
 .header-image + .post__heading {
     margin-top: calc(35vh);
 }
