@@ -35,12 +35,18 @@ I've annotated `package.json` of my [React component boilerplate](https://github
 
 ```json
 {
-  "name": "react-component-boilerplate", -- Name of the project
-  "description": "Boilerplate for React.js components", -- Brief description
-  "author": "Juho Vepsalainen <email goes here>", -- Who is the author + optional email
-  "user": "bebraw", -- This is boilerplate specific (not used by npm)
-  "version": "0.0.0", -- Version of the package
-  "scripts": { -- `npm run <name>`
+  /* Name of the project */
+  "name": "react-component-boilerplate",
+  /* Brief description */
+  "description": "Boilerplate for React.js components",
+  /* Who is the author + optional email */
+  "author": "Juho Vepsalainen <email goes here>",
+  /* This is boilerplate specific (not used by npm) */
+  "user": "bebraw",
+  /* Version of the package */
+  "version": "0.0.0",
+  /* `npm run <name>` */
+  "scripts": {
     "start": "TARGET=dev node dev-server/server.js",
     "test": "jest && npm run check-style && npm run lint",
     "gh-pages": "TARGET=gh-pages webpack --config ./config",
@@ -53,13 +59,15 @@ I've annotated `package.json` of my [React component boilerplate](https://github
     "preversion": "npm run test && npm run dist && npm run dist-modules && git commit -am \"Update dist\"",
     "postpublish": "npm run gh-pages && npm run deploy-gh-pages"
   },
-  -- Entry point for terminal (ie. <package name>)
-  -- Don't set this unless you intend to allow cli usage
+  /* Entry point for terminal (ie. <package name>) */
+  /* Don't set this unless you intend to allow cli usage */
   "bin": "./index.js",
-  -- Entry point (defaults to index.js)
+  /* Entry point (defaults to index.js) */
   "main": "dist-modules/index.js",
-  "dependencies": {}, -- Package dependencies (keep small if possible)
-  "devDependencies": { -- Package development dependencies
+  /* Package dependencies (small if possible) */
+  "dependencies": {},
+  /* Package development dependencies */
+  "devDependencies": {
     "babel": "^5.1.10",
     "babel-eslint": "^3.0.1",
     "babel-loader": "^5.0.0",
@@ -67,15 +75,16 @@ I've annotated `package.json` of my [React component boilerplate](https://github
     "webpack": "^1.8.4",
     "webpack-dev-server": "^1.8.0"
   },
-  -- You may want to give a rough dependency hint for things like React components
-  -- The idea is to avoid depending directly and let user deal with it instead
-  -- You should use a loose rule here
-  -- If the rule is too strict, that will cause problems at the user end even if
-  -- the library would work.
+  /* You may want to give a rough dependency hint for things
+   * like React components. The idea is to avoid depending
+   * directly and let user deal with it instead.
+   *
+   * If the rule is too strict, that will cause problems for
+   * the user. */
   "peerDependencies": {
     "react": ">=0.11.2 <1.0.0"
   },
-  -- Links to repository, homepage and so on
+  /* Links to repository, homepage and so on */
   "repository": {
     "type": "git",
     "url": "https://github.com/bebraw/react-component-boilerplate.git"
@@ -84,15 +93,16 @@ I've annotated `package.json` of my [React component boilerplate](https://github
   "bugs": {
     "url": "https://github.com/bebraw/react-component-boilerplate/issues"
   },
-  -- Keywords related to package, fill this well to make the package findable
+  /* Keywords related to package,
+   * fill this well to make the package findable */
   "keywords": [
     "react",
     "reactjs",
     "boilerplate"
   ],
-  -- Which license to use
+  /* Which license to use */
   "license": "MIT",
-  -- Jest specific metadata
+  /* Jest specific metadata */
   "jest": {
     "scriptPreprocessor": "./config/preprocessor.js",
     "unmockedModulePathPatterns": [
