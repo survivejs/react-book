@@ -7,9 +7,9 @@ The first book of the series, *SurviveJS - Webpack and React*, focuses on [Webpa
 ## What's in it for me?
 
 <div style="margin-bottom: 1em">
-    <div style="background-image: url('images/kanban_small.jpg'); height: 170px; background-position: center; background-size: cover;">
+    <div style="background-image: url('images/kanban_small.jpg'); height: 220px; background-position: top; background-size: cover;">
     </div>
-    <span class="legend" style="font-size: small;">[Radek Orszewski](https://www.flickr.com/photos/61745819@N00/10588398873/) - Kanban (CC BY-NC-ND)</span>
+    <span class="legend" style="font-size: small;">[Dennis Hamilton](https://www.flickr.com/photos/91555706@N00/3879384912/) - Kanban (CC BY)</span>
 </div>
 
 *SurviveJS - Webpack and React* is the book I wish I had when I bumped into these technologies the first time. It would have saved a lot of time and headache. But worry not. You don't have to be as unlucky.
