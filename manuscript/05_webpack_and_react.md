@@ -84,7 +84,11 @@ W> Avoid rendering directly to `document.body`. This can cause strange problems 
 
 ## Setting Up Webpack
 
-In order to make everything work again, we'll need to tweak our configuration a little. In order to deal with ES6 and JSX, we'll use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-loader --save-dev`. In addition add the following loader declaration to the *loaders* section of your configuration:
+![Babel](images/babel.png)
+
+In order to make everything work again, we'll need to tweak our configuration a little. In order to deal with ES6 and JSX, we'll use [babel-loader](https://www.npmjs.com/package/babel-loader). Babel provides support for the newest JavaScript features and even includes some experimental ones. It is possible to develop custom features of your own against its API. It also works with JSX making it ideal for our purposes.
+
+Install it using `npm i babel-loader --save-dev`. In addition add the following loader declaration to the *loaders* section of your configuration:
 
 **webpack.config.js**
 
