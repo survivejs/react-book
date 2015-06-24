@@ -52,7 +52,7 @@
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function () {
 	  var element = document.createElement('h1');
