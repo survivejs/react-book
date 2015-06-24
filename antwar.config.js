@@ -82,6 +82,12 @@ module.exports = {
       {title: 'Buy the ebook', url: 'https://leanpub.com/survivejs_webpack'},
     ],
   },
+  handlers: {
+    sectionIndex: function() {
+      // TODO: push to section level
+      return require('./layouts/SectionIndex.coffee');
+    },
+  },
   paths: {
     '/': {
       path: function() {
