@@ -91,7 +91,7 @@ module.exports = {
       },
       processItem: {
         layout: function() {
-          return require('antwar-default-theme/DocsItem.coffee');
+          return require('./layouts/Chapter.coffee');
         },
         title: function(o) {
           return removeMd(o.file.__content.split('\n')[0]);
