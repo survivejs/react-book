@@ -37,3 +37,16 @@ module.exports = React.createClass
           if item.demo then div className: 'post__demo', a href: item.demo, target: '_blank', 'Demo'
 
         div dangerouslySetInnerHTML: __html: item.content
+
+        if item.next or item.prev
+          div className: 'prevnext',
+            if item.prev
+                div {className: 'prevnext__prev'},
+                  div {className: 'prevnext__bg', style: backgroundImage: "url(#{item.prev.headerImage})"}
+                  span className: 'prevnext__info', "Previous chapter"
+                  a className: 'prevnext__link', href: "/#{item.prev.url}", item.prev.title
+            if item.next
+                div {className: 'prevnext__next'},
+                  div {className: 'prevnext__bg', style: backgroundImage: "url(#{item.next.headerImage})"}
+                  span className: 'prevnext__info', "Next chapter"
+                  a className: 'prevnext__link', href: "/#{item.next.url}", item.next.title
