@@ -105,8 +105,8 @@ module.exports = {
           });
         },
         preview: function(o) {
-          var previewLimit = 150;
-          var content = o.file.__content.split('\n').slice(1).join('\n');
+          var previewLimit = 300;
+          var content = o.file.__content.split('##')[0].split('\n').slice(1).join('\n');
           var stripped = removeMd(content);
 
           if(stripped.length > previewLimit) {
