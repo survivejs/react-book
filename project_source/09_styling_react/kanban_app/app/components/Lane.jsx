@@ -5,7 +5,7 @@ import alt from '../libs/alt';
 import {getInitialData} from '../libs/storage';
 import Editable from './Editable';
 import Notes from './Notes';
-import NoteActions from '../actions/NoteActions';
+import createNoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 import LaneActions from '../actions/LaneActions';
 
@@ -16,7 +16,7 @@ export default class Lane extends React.Component {
   }) {
     super(props);
 
-    this.actions = alt.createActions(NoteActions);
+    this.actions = createNoteActions(alt);
 
     const storeName = 'NoteStore-' + this.props.i;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
@@ -29,7 +29,7 @@ export default class Lane extends React.Component {
       <div {...props}>
         <div className='lane-header'>
           <Editable className='lane-name' value={name}
-            onEdit={this.edited.bind(this, LaneActions, this.props.i)} />
+            onEdit={this.edited.bind(this, LaneActions, 'name', this.props.i)} />
           <div className='lane-add-note'>
             <button onClick={this.addNote.bind(this)}>+</button>
           </div>
@@ -40,7 +40,7 @@ export default class Lane extends React.Component {
             items: () => this.store.getState().notes || [],
           }}
         >
-          <Notes onEdit={this.edited.bind(this, this.actions)} />
+          <Notes onEdit={this.edited.bind(this, this.actions, 'task')} />
         </AltContainer>
       </div>
     );
@@ -48,9 +48,9 @@ export default class Lane extends React.Component {
   addNote() {
     this.actions.create('New note');
   }
-  edited(actions, id, value) {
+  edited(actions, field, id, value) {
     if(value) {
-      actions.update(id, value);
+      actions.update({id, [field]: value});
     }
     else {
       actions.remove(id);
