@@ -29,7 +29,7 @@ module.exports = React.createClass
                                 item: item
                             , item.title
                             if item.isDraft then span className: 'draft-text', ' Draft'
-                            if item.demo then div className: 'post-list__demo', a href: item.demo, target: '_blank', 'Demo'
+                        if item.demo then div className: 'post-list__demo', a href: item.demo, target: '_blank', 'Demo'
                         if item.date
                             MomentDisplay
                                 datetime: item.date

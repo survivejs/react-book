@@ -78,7 +78,7 @@ module.exports = {
     name: 'antwar-default-theme',
     navigation: [
       {title: 'Home', url: '/'},
-      {title: 'Table of Contents', url: '/webpack_react'},
+      {title: 'Read the book', url: '/webpack_react/introduction'},
       {title: 'Buy the ebook', url: 'https://leanpub.com/survivejs_webpack'},
     ],
   },
@@ -150,14 +150,14 @@ module.exports = {
           result.file.previousInfo = 'Previous chapter';
           result.file.nextInfo = 'Next chapter';
 
-          if(header.source) {
+          if(header.demo) {
             var previous = headers[i - 1] || {};
 
-            if(previous.source) {
-              result.file.startSource = sourcePrefix + previous.source + sourceSuffix;
+            if(previous.demo) {
+              result.file.startSource = sourcePrefix + previous.demo + sourceSuffix;
             }
 
-            result.file.endSource = sourcePrefix + header.source + sourceSuffix;
+            result.file.endSource = sourcePrefix + header.demo + sourceSuffix;
 
             result.file.demo = header.demo && '/demos/' + header.demo;
           }
