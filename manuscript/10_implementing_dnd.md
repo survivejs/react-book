@@ -387,7 +387,9 @@ export default class NoteStore {
 }
 ```
 
-There is actually quite a bit going on here. I modeled the solution based on React DnD draggable example and then expanded on it. Primarily there are three cases to worry about. In the first case we're dragging within the lane itself. We can use `$splice` there from [React immutability helpers](https://facebook.github.io/react/docs/update.html). In this case we splice an item out of source index and move source to target as you might expect. In the second case we are dragging into a new lane so it's enough just to add to target position. The final case gets rid of possible data remaining at a previous lane.
+There is actually quite a bit going on here. I modeled the solution based on React DnD draggable example and then expanded on it. Primarily there are three cases to worry about. In the first case we're dragging within the lane itself. We can use `$splice` there from [React immutability helpers](https://facebook.github.io/react/docs/update.html).
+
+In this case we splice an item out of source index and move source to target as you might expect. In the second case we are dragging into a new lane so it's enough just to add to target position. The final case gets rid of possible data remaining at a previous lane.
 
 T> This probably isn't the most effective solution as we'll be performing the check for each lane. But given we'll have likely only a couple of lanes in our system it seems like an acceptable compromise. A more optimized solution would operate using minimal amount of lanes (maximum of two) per operation but that would get more complex to handle.
 
