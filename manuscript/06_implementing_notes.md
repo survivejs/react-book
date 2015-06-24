@@ -304,7 +304,7 @@ if(TARGET === 'dev') {
       loaders: {
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel', 'flowcheck'],
+          loaders: ['react-hot', 'babel?stage=1', 'flowcheck'],
           include: path.join(ROOT_PATH, 'app'),
         },
       },
