@@ -35,6 +35,10 @@ module.exports = {
       to: 'images',
     },
     {
+      from: 'project_source/builds',
+      to: 'demos',
+    },
+    {
       from: './CNAME',
       to: './',
     }
@@ -147,6 +151,8 @@ module.exports = {
             }
 
             result.file.endSource = sourcePrefix + header.source + sourceSuffix;
+
+            result.file.demo = '/demos/' + header.source;
           }
 
           if(result) {

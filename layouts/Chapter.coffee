@@ -34,5 +34,6 @@ module.exports = React.createClass
         div className: 'post__meta',
           if item.startSource then div className: 'post__start_source', a href: item.startSource, target: '_blank', 'Start source code'
           if item.endSource then div className: 'post__end_source', a href: item.endSource, target: '_blank', 'Finished source code'
+          if item.demo then div className: 'post__demo', a href: item.demo, target: '_blank', 'Demo'
 
         div dangerouslySetInnerHTML: __html: item.content
