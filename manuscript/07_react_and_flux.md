@@ -22,7 +22,9 @@ At least in the time of writing no open source Relay/GraphQL implementation exis
 
 ## Porting Notes Application to Alt
 
-Before delving into the implementation itself, `npm i alt --save` to get the dependency we need.
+![Alt](images/alt.png)
+
+Alt is an implementation of Flux that doesn't get into your way. The implementation supports isomorphic rendering out of the box and supports interesting features such as snapshots. We can take a snapshot of our application and restore its state back to where it was. To get started `npm i alt --save` to add the dependency we need to our project.
 
 ### Defining Actions
 
