@@ -62,6 +62,8 @@ Besides setting it up with Webpack it can be highly beneficial to look into an i
 
 ## Setting Up ESLint
 
+![ESLint](images/eslint.png)
+
 [ESLint](http://eslint.org/) is a recent linting solution for JavaScript. It builds on top of ideas presented by JSLint and JSHint. Most importantly it allows you to develop custom rules. As a result a nice set of rules have been developed for React in form of [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react).
 
 ### Connecting ESlint with `package.json`
