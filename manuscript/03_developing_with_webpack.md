@@ -269,7 +269,7 @@ T> Note that you can pass a custom template to `html-webpack-plugin`. In our cas
 
 We'll write a custom little server of ours for dealing with development. This will give us a bit more control and helps us to keep `package.json` neater. Set up `dev-server/server.js` like this:
 
-**dev-server/server.js**
+**lib/dev_server.js**
 
 ```javascript
 var webpack = require('webpack');
@@ -338,7 +338,7 @@ Finally we'll need to tweak `package.json`:
 ...
 "scripts": {
   "build": "TARGET=build webpack",
-  "start": "TARGET=dev node dev-server/server.js"
+  "start": "TARGET=dev node lib/dev_server.js"
 },
 ...
 ```
