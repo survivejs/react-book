@@ -86,6 +86,10 @@ code {
     margin-top: 70vh;
 }
 @media screen and (min-width: 1150px) {
+    .docs-nav__link {
+        margin-right: auto;
+    }
+
     .docs-nav__wrapper--push-down + .header-image + .post__heading + .post__content {
         margin-top: 70vh;
     }
