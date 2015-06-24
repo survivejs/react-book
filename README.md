@@ -14,32 +14,9 @@ The repository has been split in two main parts: `manuscript` and `project_sourc
 
 There is no single right way to approach the book. It depends on your experience level and interest. You can build the project from scratch by following the book or you can start from a specific stage. Just pick the source from previous chapter as your starting point.
 
-## Progress
+## Bonus Chapters?
 
-The following tables should give you some idea of the status of the project and planned content.
-
-**Core Chapters**
-
-These are guaranteed to go into the first stable release.
-
-Chapter | Description | Progress
---- | --- | ---
-Introduction | Brief intro to book, how to use it and so on | 75%
-Webpack Compared | How Webpack differs from the rest | 90%
-Developing with Webpack | How to get started with Webpack | 90%
-Linting in Webpack | How to lint in Webpack | 90%
-Webpack and React | How to develop React with Webpack | 90%
-Implementing a Basic Note App | First steps with React | 90%
-React and Flux | Improving architecture by using Flux (Alt) | 90%
-From Notes to Kanban | Going from singleton to instances (Alt) | 80%
-Styling React | Styling application | 90%
-Implementing Drag and Drop | Adding DnD | 90%
-Deploying Applications | How to deal with various deployment configurations | 80%
-Authoring Libraries | How to author libraries at NPM using Webpack | 90%
-
-**Bonus Chapters**
-
-These depend on how well the book manages.
+It is possible new content will be developed to the book. This depends on your support. You can see some potential ideas below.
 
 Chapter | Description | Progress | Notes
 --- | --- | --- | ---
