@@ -7,7 +7,7 @@ SectionLink = React.createFactory require('antwar-core/SectionLink')
 config = require 'config'
 _ = require('lodash')
 
-{ div, li, p, ul, h1, h3, span } = require 'react-coffee-elements'
+{ div, li, p, ul, h1, h3, span, a } = require 'react-coffee-elements'
 
 module.exports = React.createClass
 
@@ -29,6 +29,7 @@ module.exports = React.createClass
                                 item: item
                             , item.title
                             if item.isDraft then span className: 'draft-text', ' Draft'
+                            if item.demo then div className: 'post-list__demo', a href: item.demo, target: '_blank', 'Demo'
                         if item.date
                             MomentDisplay
                                 datetime: item.date

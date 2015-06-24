@@ -159,7 +159,7 @@ module.exports = {
 
             result.file.endSource = sourcePrefix + header.source + sourceSuffix;
 
-            result.file.demo = '/demos/' + header.source;
+            result.file.demo = header.demo && '/demos/' + header.demo;
           }
 
           if(result) {
