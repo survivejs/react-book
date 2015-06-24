@@ -19,7 +19,7 @@ module.exports = React.createClass
     sectionItems = @getSectionItems()
     div className: 'post',
       div className: "docs-nav__wrapper#{if item.headerImage? then ' docs-nav__wrapper--push-down' else ''}",
-        h4 className: 'docs-nav--header', @getSectionTitle() or 'Documentation'
+        h4 className: 'docs-nav--header', 'Table of Contents'
         div className: 'docs-nav',
           _.map sectionItems, (navItem, i) ->
             if navItem.title is item.title
@@ -31,11 +31,8 @@ module.exports = React.createClass
       h1 className: 'post__heading',
         item.title
       div className: 'post__content',
-        if item.isDraft then span className: 'draft-text', ' Draft'
-
         div className: 'post__meta',
           if item.startSource then div className: 'post__start_source', a href: item.startSource, target: '_blank', 'Start source code'
           if item.endSource then div className: 'post__end_source', a href: item.endSource, target: '_blank', 'Finished source code'
 
         div dangerouslySetInnerHTML: __html: item.content
-      if author then div className: 'post__author', "Authored by #{author}"
