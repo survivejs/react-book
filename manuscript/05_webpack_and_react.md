@@ -101,8 +101,8 @@ var common = {
         // test for both js and jsx
         test: /\.jsx?$/,
 
-        // use babel loader
-        loader: 'babel',
+        // use babel loader with Stage 1 features
+        loader: 'babel?stage=1',
 
         // operate only on our app directory
         include: path.join(ROOT_PATH, 'app'),
@@ -115,6 +115,8 @@ var common = {
 ```
 
 We will specifically include our `app` source to our loader. This way Webpack doesn't have to traverse whole source. Particularly going through `node_modules` can take a while. You can try taking `include` statement out to see how that affects the performance.
+
+T> We'll be using certain Stage 1 (proposal) features later on in this book so it's a good idea to have that set up. It is possible they will receive updates later on. Especially Stage 0 features are subject to change. You can find more information at [Babel documentation](https://babeljs.io/docs/usage/experimental/).
 
 Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import Note from './Note';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
 
@@ -263,7 +265,7 @@ if(TARGET === 'build') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loader: 'babel',
+          loader: 'babel?stage=1',
           include: path.join(ROOT_PATH, 'app'),
         },
       ],
@@ -285,7 +287,7 @@ if(TARGET === 'dev') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel'],
+          loaders: ['react-hot', 'babel?stage=1'],
           include: path.join(ROOT_PATH, 'app'),
         },
       ],
