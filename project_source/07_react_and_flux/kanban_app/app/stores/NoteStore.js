@@ -12,7 +12,7 @@ class NoteStore {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.concat({task})
+      notes: notes.concat({task}),
     });
   }
   update({id, task}) {
@@ -20,17 +20,15 @@ class NoteStore {
 
     notes[id].task = task;
 
-    this.setState({
-      notes: notes
-    });
+    this.setState({notes});
   }
   remove(id) {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.slice(0, id).concat(notes.slice(id + 1))
+      notes: notes.slice(0, id).concat(notes.slice(id + 1)),
     });
   }
 }
 
-export default alt.createStore(NoteStore, 'NoteStore');
+export default alt.createStore(NoteStore);

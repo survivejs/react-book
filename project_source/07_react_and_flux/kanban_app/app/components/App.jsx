@@ -35,7 +35,7 @@ export default class App extends React.Component {
   }
   itemEdited(id, task) {
     if(task) {
-      NoteActions.update(id, task);
+      NoteActions.update({id, task});
     }
     else {
       NoteActions.remove(id);

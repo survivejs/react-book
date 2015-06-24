@@ -35,19 +35,7 @@ As discussed earlier, we'll need a set of actions to operate on our data. In ter
 ```javascript
 import alt from '../libs/alt';
 
-class NoteActions {
-  create(task) {
-    this.dispatch(task);
-  }
-  update(id, task) {
-    this.dispatch({id, task});
-  }
-  remove(id) {
-    this.dispatch(id);
-  }
-}
-
-export default alt.createActions(NoteActions);
+export default alt.generateActions('create', 'update', 'remove');
 ```
 
 ### Defining Store
@@ -70,7 +58,7 @@ class NoteStore {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.concat({task})
+      notes: notes.concat({task}),
     });
   }
   update({id, task}) {
@@ -78,20 +66,18 @@ class NoteStore {
 
     notes[id].task = task;
 
-    this.setState({
-      notes: notes
-    });
+    this.setState({notes});
   }
   remove(id) {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.slice(0, id).concat(notes.slice(id + 1))
+      notes: notes.slice(0, id).concat(notes.slice(id + 1)),
     });
   }
 }
 
-export default alt.createStore(NoteStore, 'NoteStore');
+export default alt.createStore(NoteStore);
 ```
 
 `bindActions` is a shortcut that allows us to map Action handlers automatically based on name. We need to use a factory in order to pass Actions to Store.
@@ -153,7 +139,7 @@ export default class App extends React.Component {
   }
   itemEdited(id, task) {
     if(task) {
-      NoteActions.update(id, task);
+      NoteActions.update({id, task});
     }
     else {
       NoteActions.remove(id);
@@ -246,17 +232,16 @@ The idea is that when the application is initialized, we'll read `localStorage` 
 **app/actions/NoteActions.js**
 
 ```javascript
-class NoteActions {
-  init(notes) {
-    this.dispatch(notes);
-  }
-  ...
-}
+import alt from '../libs/alt';
+
+export default alt.generateActions('init', 'create', 'update', 'remove');
 ```
 
 **app/stores/NoteStore.js**
 
 ```javascript
+...
+
 class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
