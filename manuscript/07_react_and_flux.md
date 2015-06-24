@@ -403,6 +403,8 @@ By definition a decorator is simply a function that returns a function. For inst
 
 ### Patching Tools to Work with Decorators
 
+![Flowcheck](images/flowcheck.png)
+
 As we'll be relying on decorators and still like to use Flowcheck, we'll need to tweak configuration a little bit:
 
 **webpack.config.js**
