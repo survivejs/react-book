@@ -1,3 +1,31 @@
+/* https://eduardoboucas.com/blog/2015/06/18/viewport-sized-typography-with-minimum-and-maximum-sizes.html */
+@mixin responsive-font($responsive, $min, $max: false, $fallback: false) {
+    $responsive-unitless: $responsive / ($responsive - $responsive + 1);
+    $dimension: if(unit($responsive) == 'vh', 'height', 'width');
+    $min-breakpoint: $min / $responsive-unitless * 100;
+
+    @media (max-#{$dimension}: #{$min-breakpoint}) {
+        font-size: $min;
+    }
+
+    @if $max {
+        $max-breakpoint: $max / $responsive-unitless * 100;
+
+        @media (min-#{$dimension}: #{$max-breakpoint}) {
+            font-size: $max;
+        }
+    }
+
+    @if $fallback {
+        font-size: $fallback;
+    }
+    font-size: $responsive;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    @include responsive-font(1.5vw, 1em);
+}
+
 ul ul {
     margin-left: 1em;
 }
@@ -22,6 +50,10 @@ pre code {
 
 code {
     padding: 0.25em;
+}
+
+.nav {
+    padding-bottom: 0.25em;
 }
 
 .post__content img {
