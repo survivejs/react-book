@@ -289,7 +289,7 @@ If you just want some starting point quickly, you can pick one of [eslint-config
 
 ![JSCS](images/jscs.png)
 
-Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short it can get pretty messy without any discipline. Fortunately there is a tool known as JSCS. It will allow you to define a style guide for your project.
+Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short it can get pretty messy without any discipline. Fortunately there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project but it's good to be aware of it.
 
 [jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define `.jscsrc` with your style guide rules and use configuration like this:
 
@@ -335,8 +335,6 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
   ]
 }
 ```
-
-We won't use the tool in this project but it's good to be aware of it.
 
 T> Note that like some other tools, such as ESLint and JSHint, JSCS supports `package.json` based configuration. Simply add a `jscsConfig` field to it and write the configuration there.
 
