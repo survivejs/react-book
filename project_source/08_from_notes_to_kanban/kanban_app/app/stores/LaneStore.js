@@ -14,7 +14,7 @@ class LaneStore {
     this.setState({
       lanes: lanes.concat({
         name: name,
-      })
+      }),
     });
   }
   update({id, name}) {
@@ -22,9 +22,7 @@ class LaneStore {
 
     lanes[id].name = name;
 
-    this.setState({
-      lanes: lanes,
-    });
+    this.setState({lanes});
   }
   remove(id) {
     const lanes = this.lanes;
@@ -35,4 +33,4 @@ class LaneStore {
   }
 }
 
-export default alt.createStore(LaneStore, 'LaneStore');
+export default alt.createStore(LaneStore);

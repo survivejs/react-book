@@ -6,7 +6,7 @@ So far we have managed to set up a nice little development environment and devel
 
 Most importantly our system is missing the concept of Lane. A Lane is something that should be able to contain multiple Notes within itself. In the current system that is implicit. We'll need to extract that into a component of its own.
 
-## Extracting Lanes
+## Extracting `Lanes`
 
 As earlier we can use the same idea of two components here. There will be a component for higher level (ie. `Lanes`) and for lower level (ie. `Lane`). The higher level component will deal with aspects such as persistency and lane ordering. An individual `Lane` will just render its contents (ie. name and `Notes`) and provide basic manipulation operations as needed.
 
@@ -88,16 +88,7 @@ Just to get the code compile here are initial implementations for some new actio
 ```javascript
 import alt from '../libs/alt';
 
-class LaneActions {
-  init(lanes) {
-    this.dispatch(lanes);
-  }
-  create(name) {
-    this.dispatch(name);
-  }
-}
-
-export default alt.createActions(LaneActions);
+export default alt.generateActions('init', 'create');
 ```
 
 **app/stores/LaneStore.js**
@@ -227,9 +218,9 @@ export default class Lane extends React.Component {
   addNote() {
     NoteActions.create('New note');
   }
-  noteEdited(id, note) {
+  noteEdited(id, task) {
     if(note) {
-      NoteActions.update(id, note);
+      NoteActions.update({id, task});
     }
     else {
       NoteActions.remove(id);
@@ -262,20 +253,7 @@ export default class NoteStore {
 `NoteActions` require similar treatment as well. Otherwise we'll end up transmitting the same signal to all of our stores are back to square one.
 
 ```javascript
-export default class NoteActions {
-  init(notes) {
-    this.dispatch(notes);
-  }
-  create(task) {
-    this.dispatch(task);
-  }
-  update(id, task) {
-    this.dispatch({id, task});
-  }
-  remove(id) {
-    this.dispatch(id);
-  }
-}
+export default (alt) => alt.generateActions('init', 'create', 'update', 'remove');
 ```
 
 To make it all work together we need to tweak `Lane` to maintain actions and a store.
@@ -289,7 +267,7 @@ import React from 'react';
 import alt from '../libs/alt';
 import {getInitialData} from '../libs/storage';
 import Notes from './Notes';
-import NoteActions from '../actions/NoteActions';
+import createNoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class Lane extends React.Component {
@@ -299,7 +277,7 @@ export default class Lane extends React.Component {
   }) {
     super(props);
 
-    this.actions = alt.createActions(NoteActions);
+    this.actions = createNoteActions(alt);
 
     const storeName = 'NoteStore-' + this.props.i;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
@@ -319,7 +297,7 @@ export default class Lane extends React.Component {
   }
   noteEdited(id, note) {
     if(note) {
-      this.actions.update(id, note);
+      this.actions.update({id, note});
     }
     else {
       this.actions.remove(id);
@@ -368,7 +346,7 @@ import LaneActions from '../actions/LaneActions';
 
 nameEdited(id, name) {
   if(name) {
-    LaneActions.update(i, name);
+    LaneActions.update({i, name});
   }
   else {
     LaneActions.remove(i);
@@ -384,17 +362,17 @@ This is exactly the same logic as for notes. In fact it is be possible to factor
 ...
 
 <Editable className='lane-name' value={name}
-  onEdit={this.edited.bind(this, LaneActions, this.props.i)} />
+  onEdit={this.edited.bind(this, LaneActions, 'name', this.props.i)} />
 
 ...
 
-<Notes onEdit={this.edited.bind(this, this.actions)} />
+<Notes onEdit={this.edited.bind(this, this.actions, 'task')} />
 
 ...
 
-edited(actions, id, value) {
+edited(actions, field, id, value) {
   if(value) {
-    actions.update(id, value);
+    actions.update({id, [field]: value});
   }
   else {
     actions.remove(id);
@@ -409,22 +387,7 @@ Now our editing logic in a single place. We could have done this modification la
 ```javascript
 import alt from '../libs/alt';
 
-class LaneActions {
-  init(lanes) {
-    this.dispatch(lanes);
-  }
-  create(name) {
-    this.dispatch(name);
-  }
-  update(id, name) {
-    this.dispatch({id, name});
-  }
-  remove(id) {
-    this.dispatch(id);
-  }
-}
-
-export default alt.createActions(LaneActions);
+export default alt.generateActions('init', 'create', 'update', 'remove');
 ```
 
 It's the same idea as for `NoteActions` apart from the way we instantiate the stores. It would be possible to extract the instantiation logic from here as well. That could be a good idea especially if you want to have multiple boards in your application.
@@ -438,22 +401,25 @@ We still need those `LaneStore` methods. Not surprisingly it's going to be very 
 ```javascript
 ...
 
-update({id, name}) {
-  const lanes = this.lanes;
+class LaneStore {
+  ...
+  update({id, name}) {
+    const lanes = this.lanes;
 
-  lanes[id].name = name;
+    lanes[id].name = name;
 
-  this.setState({
-    lanes: lanes,
-  });
+    this.setState({lanes});
+  }
+  remove(id) {
+    const lanes = this.lanes;
+
+    this.setState({
+      lanes: lanes.slice(0, id).concat(lanes.slice(id + 1)),
+    });
+  }
 }
-remove(id) {
-  const lanes = this.lanes;
 
-  this.setState({
-    lanes: lanes.slice(0, id).concat(lanes.slice(id + 1)),
-  });
-}
+export default alt.createStore(LaneStore);
 ```
 
 After these changes you should be able to modify lane names and remove lanes. Even persistency should just work without requiring any further tweaking. The implementation could be trimmed and some code could be removed but for now it's nice to have some room to maneuver. Who knows what sort of requirements might come up after all.
