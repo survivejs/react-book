@@ -95,6 +95,7 @@ module.exports = {
       },
     },
     webpack_react: {
+      title: 'Table of Contents',
       path: function() {
         return require.context('./manuscript', true, /^\.\/.*\.md$/);
       },
