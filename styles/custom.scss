@@ -12,7 +12,12 @@ ul ul li {
 
 pre {
     padding: 0.5em;
+    padding-left: 1em;
+}
+
+pre code {
     line-height: 1.5;
+    font-size: 0.8rem;
 }
 
 code {

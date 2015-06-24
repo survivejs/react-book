@@ -50,3 +50,5 @@ This book wouldn't have been possible without these individuals. They all helped
 * Andreas Eldh - @eldh - Helped to develop Antwar, the tool that's powering the book's site. Also helped immensely with the base theme
 * Brandon Tilley - @binarymuse - Gave some well needed inspiration for drag and drop implementation
 * Braden Evans - @braden - Pointed out site related horizontal scrollbar issue
+* Daniele Zannotti - @dzannotti - Helped to improve site code example outlook
+* Patrick Forringer - @destos - Helped to improve site code example outlook
