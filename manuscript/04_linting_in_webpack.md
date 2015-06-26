@@ -262,7 +262,7 @@ Next we need to alter our project configuration to make it to find the plugin an
 
 ```json
 "plugins": {
-  "custom",
+  "custom"
 },
 "rules": {
   "custom/demo": 1,
