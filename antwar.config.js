@@ -49,6 +49,15 @@ module.exports = {
   deploy: {
     branch: 'gh-pages',
   },
+  pageTitle: function(config, pageTitle) {
+    var siteName = config.name;
+
+    if(pageTitle === 'index') {
+      return siteName;
+    }
+
+    return siteName + ' - ' + pageTitle;
+  },
   plugins: [
     highlightPlugin({
       style: function() {
