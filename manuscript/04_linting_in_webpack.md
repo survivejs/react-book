@@ -238,15 +238,15 @@ In ESLint's case we just want to check the structure and report in case somethin
 
 ```javascript
 module.exports = {
-    rules: {
-        demo: function(context) {
-            return {
-                Identifier: function(node) {
-                    context.report(node, 'This is unexpected!');
-                },
-            };
+  rules: {
+    demo: function(context) {
+      return {
+        Identifier: function(node) {
+          context.report(node, 'This is unexpected!');
         },
+      };
     },
+  },
 };
 ```
 
