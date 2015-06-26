@@ -327,13 +327,10 @@ export default class NoteStore {
 
 If you drag and drop a `Note` now, you should see each `NoteStore` trigger. Next we'll need to add some logic to make this work.
 
-As we'll be relying on the excellent [lodash](https://lodash.com/) utility library, be sure to install it to your project by hitting `npm i lodash --save`.
-
 **app/stores/NoteStore.jsx**
 
 ```javascript
 import update from 'react/lib/update';
-import findIndex from 'lodash/array/findIndex';
 
 ...
 
@@ -370,6 +367,12 @@ export default class NoteStore {
       this.remove(sourceIndex);
     }
   }
+}
+
+function findIndex(arr, prop, value) {
+  var o = arr.filter(c => c[prop] === value)[0];
+
+  return o && arr.indexOf(o);
 }
 ```
 

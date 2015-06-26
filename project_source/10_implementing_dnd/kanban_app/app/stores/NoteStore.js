@@ -1,5 +1,4 @@
 import update from 'react/lib/update';
-import findIndex from 'lodash/array/findIndex';
 import uuid from 'node-uuid';
 
 import NoteDndActions from '../actions/NoteDndActions';
@@ -21,12 +20,8 @@ export default class NoteStore {
   }
   move({source, target}) {
     const notes = this.notes;
-    const sourceIndex = findIndex(notes, {
-      id: source.id,
-    });
-    const targetIndex = findIndex(notes, {
-      id: target.id,
-    });
+    const sourceIndex = findIndex(notes, 'id', source.id);
+    const targetIndex = findIndex(notes, 'id', target.id);
 
     if(sourceIndex >= 0 && targetIndex >= 0) {
       this.setState({
@@ -67,6 +62,12 @@ export default class NoteStore {
       notes: notes.slice(0, id).concat(notes.slice(id + 1)),
     });
   }
+}
+
+function findIndex(arr, prop, value) {
+  var o = arr.filter(c => c[prop] === value)[0];
+
+  return o && arr.indexOf(o);
 }
 
 function migrate(data) {
