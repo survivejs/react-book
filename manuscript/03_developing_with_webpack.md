@@ -142,19 +142,15 @@ In order to make our normal build (`npm run build`) work with CSS, you could att
 
 If we don't structure our configuration in a smart way, it will become easy to make mistakes. We'll want to avoid unnecessary duplication. Given Webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure Webpack expects, we should be fine.
 
-One way to do this is to keep all configuration in `webpack.config.js` and control what it returns using an environment variable. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place.
+One way to do this is to keep all configuration in `webpack.config.js` and control what it returns using an environment variable. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place. We can adapt this approach to our project quite easily.
 
-We can adapt this approach to our project quite easily. First of all let's set up a structure like this:
-
-- webpack.config.js - Our configuration
-- /lib
-  - merge.js - This will merge configuration to avoid duplication
+In order to make it easier to deal with this arrangement I've developed a little custom merge utility known as `webpack-merge`. Install it using `npm i webpack-merge --save-dev` to your project. Compared to `merge` you might be used to this variant concatenates arrays instead of replacing them. This is very useful with Webpack as we'll see below.
 
 **webpack.config.js**
 
 ```javascript
 var path = require('path');
-var merge = require('./lib/merge');
+var merge = require('webpack-merge');
 
 var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
@@ -187,30 +183,6 @@ if(TARGET === 'dev') {
   });
 }
 ```
-
-**lib/merge.js**
-
-```javascript
-var _ = require('lodash');
-
-module.exports = function(source, target) {
-  return _.merge(target, source, joinArrays);
-
-  // concat possible arrays
-  function joinArrays(a, b) {
-    if(_.isArray(a) && _.isArray(b)) {
-      return a.concat(b);
-    }
-    if(_.isPlainObject(a) && _.isPlainObject(b)) {
-      return _.merge(a, b, joinArrays);
-    }
-
-    return a;
-  }
-};
-```
-
-Remember to invoke `npm i lodash --save-dev` so our merge function will work!
 
 The common configuration has been separated to a section of its own. In this case `build` configuration is actually the same as `common` configuration. We do a little tweak for `develop` case. As you can see the configuration is quite easy to follow this way.
 
@@ -246,7 +218,7 @@ As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build/in
 ```javascript
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var merge = require('./lib/merge');
+var merge = require('webpack-merge');
 
 ...
 

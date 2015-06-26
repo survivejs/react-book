@@ -327,21 +327,7 @@ export default class NoteStore {
 
 If you drag and drop a `Note` now, you should see each `NoteStore` trigger. Next we'll need to add some logic to make this work.
 
-Before doing that make sure you move `lodash` to core dependencies of the project. It will come in handy here.
-
-**package.json**
-
-```json
-{
-  ...
-  "dependencies": {
-    ...
-    "lodash": "^3.8.0",
-    ...
-  },
-  ...
-}
-```
+As we'll be relying on the excellent [lodash](https://lodash.com/) utility library, be sure to install it to your project by hitting `npm i lodash --save`.
 
 **app/stores/NoteStore.jsx**
 

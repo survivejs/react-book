@@ -2,7 +2,7 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
-var merge = require('./lib/merge');
+var merge = require('webpack-merge');
 
 var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
