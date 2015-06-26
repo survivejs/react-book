@@ -26,10 +26,6 @@ The project and book source are available at [GitHub](https://github.com/survive
 
 Even though the book is freely available under [CC BY-NC-ND](https://creativecommons.org/licenses/by-nc-nd/4.0/) license, financial support is welcome. It will allow me to devote more time developing the content. If you think this is a worthy cause, you can purchase [an electronic copy of the book](https://leanpub.com/survivejs_webpack).
 
-<div>
-    <div style="background-image: url('images/title_page_small.jpg'); width: 248px; height: 360px; margin: 0 auto;"></div>
-</div>
-
 ## Who wrote this book?
 
 I, [Juho Vepsäläinen](https://twitter.com/bebraw), have been dealing with the web one way or another since the 90s. All hail *marquee*! I've seen the rise of web and JavaScript in particular. Besides React I have extensive experience in Angular, jQuery and various smaller libraries (mapping, charts, whatnot).

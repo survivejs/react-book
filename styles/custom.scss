@@ -52,6 +52,26 @@ code {
     padding: 0.25em;
 }
 
+.frontpage {
+    .front-header {
+        font-size: 54px;
+        line-height: 1.5;
+    }
+
+    .front-header, .front-motto {
+        color: #efefef;
+    }
+
+    .front-motto {
+        margin-top: 0;
+    }
+
+    .post__heading {
+        background: #333;
+        text-align: center;
+    }
+}
+
 .nav {
     padding-bottom: 0.25em;
     background: linear-gradient(to top, #fff 0%, rgba(255, 255, 255, 0.90) 35%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0) 100%);
@@ -77,15 +97,16 @@ code {
 }
 
 .header-image + .post__heading {
-    margin-top: calc(35vh);
+    margin-top: calc(40vh);
 }
 .header-image {
-    height: 70vh;
+    height: 78vh;
 }
 .header-image + .post__heading + .post__content {
-    margin-top: 70vh;
+    margin-top: 75vh;
     padding-top: 5vh;
 }
+@media (max-width: 550px) {}
 .docs-nav__wrapper--push-down {
     margin-top: 70vh;
 }
