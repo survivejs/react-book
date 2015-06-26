@@ -1,12 +1,8 @@
 ## What is SurviveJS - Webpack and React?
 
-I remember when I saw [React](https://facebook.github.io/react/) the first time. It took me a while get over JSX. Once I got into the right mindset, React started to make sense. During the process I had to unlearn some things and start thinking about state and most importantly components and lifecycle.
+[Webpack](https://webpack.github.io/) and [React](https://facebook.github.io/react/) are some of the newest tools available for a frontend developer. Webpack solves the difficult problem of bundling. Facebook's React provides immense view productivity. Combined these technologies provide a good starting point for frontend development.
 
-Facebook's React will change the way you think about frontend web development for better. Once you understand the basic concepts it will make you better as a web developer. Most importantly it allows you to become more efficient even if you don't stick with it.
-
-[Webpack](https://webpack.github.io/) is a tool I picked up later on. It simplifies work greatly as it solves the difficult problem of bundling. In addition it enables fast development flow with React and integrates well with various other technologies. In short it has allowed me to forget some of the grunt work involved (pun intended!).
-
-*SurviveJS - Webpack and React* is the book I wish I had when I started delving into React. It's not impossible to pick up these tools without support of a book. However, I believe this book will help to get you jumpstarted in the process.
+*SurviveJS - Webpack and React* is the book I wish I had when I started delving into the topic. Both come with a learning curve. This book is here to make it more palatable.
 
 I expect you know the basics of JavaScript but beyond that not much is needed. You just need to have patience to work through the book and poke me in case there's something you don't understand!
 
@@ -18,7 +14,7 @@ I expect you know the basics of JavaScript but beyond that not much is needed. Y
     <span class="legend" style="font-size: small;">[Dennis Hamilton](https://www.flickr.com/photos/91555706@N00/3879384912/) - Kanban (CC BY)</span>
 </div>
 
-The book is project based. I will show you how to set up a Webpack based development environment. After that I will help you to develop a Kanban application. Finally I will discuss deployment and library authoring related issues. The project won't be very complicated but I can assure you that you will learn a lot in the process.
+In this project based book I will show you how to develop a Kanban application. You will learn how to set up a Webpack based development environment and understand basics of React. In addition you will be able to deploy your code to production and author your own libraries after you have grasped the concepts discussed in the book.
 
 The project and book source are available at [GitHub](https://github.com/survivejs/webpack_react). In addition I have linked to the project source and demos on this website.
 
