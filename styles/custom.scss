@@ -54,6 +54,7 @@ code {
 
 .frontpage {
     .front-header {
+        margin-bottom: 0;
         text-transform: none;
         font-size: 54px;
         line-height: 1.5;
@@ -65,10 +66,16 @@ code {
 
     .front-motto {
         margin-top: 0;
+        margin-bottom: 2em;
+    }
+
+    .front-cover {
+        margin: 0 auto;
+        box-shadow: 0 0 1em 0.05em rgba(0,0,0,0.5);
     }
 
     .post__heading {
-        background: #333;
+        background: #323232;
         text-align: center;
     }
 
@@ -78,6 +85,11 @@ code {
         width: 100px;
         height: 100px;
         float: right;
+    }
+
+    .btn--buy {
+        border: 2px #fff solid;
+        background: #fff;
     }
 }
 

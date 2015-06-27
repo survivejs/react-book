@@ -9,10 +9,10 @@ var Index = React.createClass({
                 <div className='post__heading'>
                     <h1 className='front-header'>SurviveJS - Webpack and React</h1>
                     <h3 className='front-motto'>Go from zero to Webpack and React hero</h3>
-                    <img style={{margin: '0 auto'}} src='images/title_page_small.jpg' />
+                    <img className='front-cover' src='images/title_page_small.jpg' />
                     <div className='front__buttons'>
                         <a href='webpack_react/introduction' className='btn btn--inverted'>Read the Book</a>
-                        <a href='https://leanpub.com/survivejs_webpack' className='btn'>Buy the Ebook</a>
+                        <a href='https://leanpub.com/survivejs_webpack' className='btn btn--buy'>Buy the Ebook</a>
                         <a href='https://github.com/survivejs/webpack_react' className='btn btn--inverted'>View on GitHub</a>
                     </div>
                 </div>
