@@ -30,6 +30,7 @@ module.exports = React.createClass
       if item.headerImage? then div className: 'header-image', style: backgroundImage: "url(#{item.headerImage})"
       h1 className: 'post__heading',
         item.title
+
       div className: 'post__content',
         div className: 'post__meta',
           if item.startSource then div className: 'post__start_source', a href: item.startSource, target: '_blank', 'Start source code'
@@ -50,3 +51,5 @@ module.exports = React.createClass
                   div {className: 'prevnext__bg', style: backgroundImage: "url(#{item.next.headerImage})"}
                   span className: 'prevnext__info', "Next chapter"
                   a className: 'prevnext__link', href: "/#{item.next.url}", item.next.title
+
+      if item.headerExtra? then div className: 'header-extra', dangerouslySetInnerHTML: __html: item.headerExtra
