@@ -10,3 +10,4 @@
 * [Implementing Drag and Drop](manuscript/10_implementing_dnd.md)
 * [Deploying Applications](manuscript/11_deploying_applications.md)
 * [Authoring Libraries](manuscript/12_authoring_libraries.md)
+* [Troubleshooting](manuscript/13_troubleshooting.md)

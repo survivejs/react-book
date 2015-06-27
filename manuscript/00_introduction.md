@@ -31,6 +31,8 @@ As no book is perfect you will likely come by issues and might have some questio
 * Twitter - @survivejs or poke me directly using @bebraw
 * Email - bebraw@gmail.com
 
+In addition I have tried to cover some common issues at the `Troubleshooting` chapter. That will be expanded as problems are revealed.
+
 ## Acknowledgments
 
 This book wouldn't have been possible without these individuals. They all helped to make it better, each in their own way. Thanks guys!

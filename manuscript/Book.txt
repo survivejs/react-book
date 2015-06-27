@@ -11,3 +11,4 @@
 10_implementing_dnd.md
 11_deploying_applications.md
 12_authoring_libraries.md
+13_troubleshooting.md
