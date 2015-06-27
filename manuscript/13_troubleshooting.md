@@ -33,7 +33,7 @@ In human terms it means that some package, `eslint-loader` in this case, has too
 
 There are a couple of ways to work around this:
 
-1. Report the package author about the glitch and hope the version range will be expanded
+1. Report the package author about the glitch and hope the version range will be expanded.
 2. Resolve the conflict by settling to a version that satisfies the peer dependency. Ie. in this case we could fix `eslint` to version `0.23` (`"eslint": "0.23"`) and everyone should be happy.
 3. Fork the package, fix the version range and point at your custom version. In this case you would have `"<package>": "<github user>/<project>#<reference>"` kind of declaration at your dependencies.
 
