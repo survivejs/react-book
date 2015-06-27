@@ -85,5 +85,11 @@
         "source": "https://www.flickr.com/photos/19219926@N04/3707001321",
         "license": "CC BY-NC-SA",
         "image": "library.jpg"
+    },
+    {
+        "author": "Edvard Munch",
+        "source": "http://www.wikiart.org/en/edvard-munch/the-scream-1893",
+        "license": "Public Domain",
+        "image": "scream.jpg"
     }
 ]
