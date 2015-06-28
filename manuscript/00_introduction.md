@@ -55,3 +55,4 @@ This book wouldn't have been possible without these individuals. They all helped
 * Daniele Zannotti - @dzannotti - Helped to improve site code example outlook
 * Patrick Forringer - @destos - Helped to improve site code example and header outlook
 * Rafael Xavier de Souza - @rxaviers - Typo fixes
+* Dennis Bunskoek - @dbunskoek - Typo fixes, textual improvements
