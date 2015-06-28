@@ -4,18 +4,13 @@ Facebook's [React](https://facebook.github.io/react/) powers an increasing amoun
 
 *SurviveJS - Webpack and React* shows you how to build a simple Kanban application based on these technologies. During the process you will learn at least the following things:
 
-0. Set up a Webpack based development and production environment. You will learn to get most out of [react-hot-loader](https://github.com/gaearon/react-hot-loader) for development.
-0. Improve the quality of your code by using [ESLint](http://eslint.org/) and spot possible mistakes earlier.
-0. Use [Babel](https://babeljs.io/) to unlock the future features of JavaScript now.
-0. Understand the basics of React and get into the mindset. Even though React is conceptually simple, it has to "click" in order to become powerful.
-0. Learn the basics of [Alt](http://alt.js.org/), an implementation of [Flux Application Architecture](https://facebook.github.io/flux/docs/overview.html). Flux complements React well.
-0. Move beyond TODO application level and into application design and architecture.
+0. Set up a Webpack based development and production environment. You will learn to get most out of [react-hot-loader](https://github.com/gaearon/react-hot-loader) and [Babel](https://babeljs.io/) for development.
+0. Improve the quality of your code by using [ESLint](http://eslint.org/) and friends to spot possible mistakes earlier.
+0. Get into the React mindset while learning the basics of [Alt](http://alt.js.org/), an implementation of [Flux Application Architecture](https://facebook.github.io/flux/docs/overview.html).
 0. Style your React application in various emerging ways.
 0. Implement drag and drop for your application using [React DnD](https://gaearon.github.io/react-dnd/)
-0. Deploy your application into production environment using various deployment strategies.
-0. Author developer friendly JavaScript libraries for other developers to consume.
 
-If even one of those points sounded interesting, please check out [the online version](webpack_react/introduction) of the book. The book source is available at [GitHub](https://github.com/survivejs/webpack_react).
+Please check out [the online version](webpack_react/introduction) of the book to get started! The book source is available through [GitHub](https://github.com/survivejs/webpack_react).
 
 Although the book is freely available under [CC BY-NC-ND](https://creativecommons.org/licenses/by-nc-nd/4.0/) license, financial support is welcome. It will allow me to devote more time developing the content. If you think this is a worthy cause, you can purchase [an electronic copy of the book](https://leanpub.com/survivejs_webpack).
 
