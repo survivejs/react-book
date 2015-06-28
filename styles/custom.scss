@@ -107,8 +107,11 @@ code {
 }
 
 .nav {
-    padding-bottom: 0.25em;
-    background: linear-gradient(to top, #fff 0%, rgba(255, 255, 255, 0.90) 35%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0) 100%);
+    padding: 0;
+    top: 0;
+    bottom: auto;
+    position: fixed;
+    background: white;
 }
 
 .post__content img {
@@ -179,11 +182,11 @@ code {
 
 .prevnext-pages {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
     height: 10vh;
-    background: linear-gradient(to top, rgba(#fff, 0) 0%, #fff 35%, #fff 100%);
+    background: rgba(0,0,0,0);
 }
 
 .previous-page, .next-page {
@@ -192,7 +195,7 @@ code {
     text-rendering: optimizeLegibility;
 
     position: fixed;
-    top: 20px;
+    bottom: 20px;
 }
 
 .previous-page {
