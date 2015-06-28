@@ -32,6 +32,12 @@ h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
     font-size: inherit;
 }
 
+.header-anchor {
+    display: block;
+    position: relative;
+    top: -5vh;
+}
+
 ul ul {
     margin-left: 1em;
 }
