@@ -35,6 +35,10 @@ h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
     font-size: inherit;
 }
 
+.post__content h1, .post__content h2, .post__content h3, .post__content h4, .post__content h5, .post__content h6, .post__content p, .post__content ol, .post__content ul, .post__content pre {
+    width: auto;
+}
+
 .header-anchor {
     display: block;
     position: relative;
