@@ -29,9 +29,3 @@ I, [Juho Vepsäläinen](https://twitter.com/bebraw), have been dealing with the 
 </p>
 
 In addition to web development I have worked using C (embedded and systems level) and computer graphics. On backend side I'm most familiar with Node.js although I've done some work with PHP and Ruby.
-
-## Why was the book written?
-
-I've been blogging a few years at [nixtu.info](http://nixtu.info/). This book is an attempt to turn my freelancing career into a different direction. I hope it will yield a good way to combine my interest in technology with writing while helping the community.
-
-This book probably wouldn't have gotten written in its current form unless I had started [a cookbook about Webpack and React](https://christianalfoni.github.io/react-webpack-cookbook/) with [Christian Alfoni](http://www.christianalfoni.com/) and received a rejection from a publisher. In addition numerous people have devoted their precious time towards improving the book so thanks for that!
