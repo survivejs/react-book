@@ -2,7 +2,7 @@
 
 ![Kanban board](images/kanban.png)
 
-So far we have managed to set up a nice little development environment and develop an application for keeping track of notes in `localStorage`. We have still work to do in order to turn this into a real Kanban as pictured above.
+So far we have managed to set up a nice little development environment and develop an application for keeping track of notes in `localStorage`. We still have work to do in order to turn this into a real Kanban as pictured above.
 
 Most importantly our system is missing the concept of Lane. A Lane is something that should be able to contain multiple Notes within itself. In the current system that is implicit. We'll need to extract that into a component of its own.
 
@@ -81,7 +81,7 @@ export function getInitialData(storeName) {
 }
 ```
 
-Just to get the code compile here are initial implementations for some new actions and a store.
+Just to get the code to compile here are the initial implementations for some new actions and a store.
 
 **app/actions/LaneActions.js**
 
@@ -231,7 +231,7 @@ export default class Lane extends React.Component {
 
 Now we have something that sort of works. You can see there's something seriously wrong, though. If you add new Notes to a Lane, the Note appears to each Lane. Also if you modify a Note, also other Lanes update. In addition created Notes aren't persisted correctly. Just Lane data appears to get saved.
 
-The reason why this happens is quite simple. Currently out `NoteStore` is a singleton. Even though this behavior is often convenient, it's definitely not the right for our application. We'll need to convert those singletons into separate instances.
+The reason why this happens is quite simple. Currently out `NoteStore` is a singleton. Even though this behavior is often convenient, it's definitely not the right choice for our application. We'll need to convert those singletons into separate instances.
 
 ## Going from Note Singletons to Instances
 
@@ -250,7 +250,7 @@ export default class NoteStore {
 
 **app/actions/NoteActions.js**
 
-`NoteActions` require similar treatment as well. Otherwise we'll end up transmitting the same signal to all of our stores are back to square one.
+`NoteActions` require similar treatment as well. Otherwise we'll end up transmitting the same signal to all of our stores, and we are back to square one.
 
 ```javascript
 export default (alt) => alt.generateActions('init', 'create', 'update', 'remove');
@@ -354,7 +354,7 @@ nameEdited(id, name) {
 }
 ```
 
-This is exactly the same logic as for notes. In fact it is be possible to factor the behavior into a method of its own. This can be done by extracting actions into a parameter. As duplication is root of all evil, let's change it to this form:
+This is exactly the same logic as for notes. In fact it is be possible to factor the behavior into a method of its own. This can be done by extracting actions into a parameter. As duplication is the root of all evil, let's change it to this form:
 
 **app/components/Lane.jsx**
 
@@ -380,7 +380,7 @@ edited(actions, field, id, value) {
 }
 ```
 
-Now our editing logic in a single place. We could have done this modification later but this felt like a good place to do that. Sometimes it can be justified to get rid of duplicates and push them to methods, components or decorators. We are still missing some of the logic to make `Lane` edit/remove work, though. To achieve that we need to extend `Lane` actions and store.
+Now our editing logic is in a single place. We could have done this modification later but this felt like a good place to do that. Sometimes it can be justified to get rid of duplicates and push them to methods, components or decorators. We are still missing some of the logic to make `Lane` edit/remove work, though. To achieve that we need to extend `Lane` actions and store.
 
 **app/actions/LaneActions.js**
 
@@ -394,7 +394,7 @@ It's the same idea as for `NoteActions` apart from the way we instantiate the st
 
 One radical option would be to use the same base class for both `LaneActions` and `NoteActions` but that feels like a premature optimization as it is difficult to say how these APIs might evolve. Some amount of duplication can be acceptable.
 
-We still need those `LaneStore` methods. Not surprisingly it's going to be very similar `NoteStore` implementation. Again, a possible place to clean up later.
+We still need those `LaneStore` methods. Not surprisingly it's going to be very similar to the `NoteStore` implementation. Again, a possible place to clean up later.
 
 **app/stores/LaneStore.js**
 
