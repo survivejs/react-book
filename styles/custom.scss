@@ -233,6 +233,15 @@ code {
     .next-page {
         bottom: 10px;
     }
+
+    .nav {
+        padding-top: 0.5em;
+    }
+
+    .nav__wrapper {
+        z-index: 1000;
+        background: white;
+    }
 }
 
 blockquote.tip {
