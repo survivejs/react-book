@@ -11,6 +11,7 @@ var Index = React.createClass({
                     backgroundImage: 'url(/images/front.jpg)',
                     backgroundPosition: 'top center',
                     zIndex: 1000,
+                    width: '100%',
                 }}>
                     <h3 className='front-header'>SurviveJS - Webpack and React</h3>
                     <h1 className='front-motto'>Go from zero to Webpack and React hero</h1>

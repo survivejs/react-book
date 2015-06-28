@@ -220,6 +220,10 @@ code {
     content: "\2192";
 }
 
+.nav {
+    left: 0;
+}
+
 @media (max-width: 550px) {
     .post__heading h1 {
         margin: 0;
