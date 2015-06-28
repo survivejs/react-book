@@ -26,6 +26,11 @@ h1, h2, h3, h4, h5, h6 {
     @include responsive-font(1.5vw, 1em);
 }
 
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
+    background-color: inherit;
+    font-size: inherit;
+}
+
 ul ul {
     margin-left: 1em;
 }
