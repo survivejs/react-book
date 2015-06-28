@@ -82,13 +82,19 @@ code {
         color: #efefef;
     }
 
+    .front-header {
+        margin-top: 2em;
+        margin-bottom: 0;
+    }
+
     .front-motto {
         margin-top: 0;
+        margin-bottom: 2em;
     }
 
     .front-cover {
         margin: 0 auto;
-        margin-bottom: 0.5em;
+        margin-bottom: 1em;
         box-shadow: 0 0 1em 0.05em rgba(0,0,0,0.5);
     }
 
