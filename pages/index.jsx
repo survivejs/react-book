@@ -9,7 +9,7 @@ var Index = React.createClass({
                 <div className='front__heading' style={{
                     backgroundSize: 'cover',
                     backgroundImage: 'url(/images/front.jpg)',
-                    backgroundPosition: 'center center',
+                    backgroundPosition: 'top center',
                 }}>
                     <h3 className='front-header'>SurviveJS - Webpack and React</h3>
                     <h1 className='front-motto'>Go from zero to Webpack and React hero</h1>
