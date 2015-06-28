@@ -4,16 +4,16 @@ Facebook's [React](https://facebook.github.io/react/) powers an increasing amoun
 
 *SurviveJS - Webpack and React* shows you how to build a simple Kanban application based on these technologies. During the process you will learn at least the following things:
 
-0. To set up a Webpack based development and production environment. You will learn to get most out of [react-hot-loader](https://github.com/gaearon/react-hot-loader) for development.
-0. To improve the quality of your code by using [ESLint](http://eslint.org/) and spot possible mistakes earlier.
-0. To use [Babel](https://babeljs.io/) to unlock the future features of JavaScript now.
-0. To understand the basics of React and get into the mindset. Even though React is conceptually simple, it has to "click" in order to become powerful.
-0. To learn the basics of [Alt](http://alt.js.org/), an implementation of [Flux Application Architecture](https://facebook.github.io/flux/docs/overview.html). Flux complements React well.
-0. To move beyond TODO application level and into application design and architecture.
-0. To style your React application in various emerging ways.
-0. To implement drag and drop for your application using [React DnD](https://gaearon.github.io/react-dnd/)
-0. To deploy your application into production environment using various deployment strategies.
-0. To author developer friendly JavaScript libraries for other developers to consume.
+0. Set up a Webpack based development and production environment. You will learn to get most out of [react-hot-loader](https://github.com/gaearon/react-hot-loader) for development.
+0. Improve the quality of your code by using [ESLint](http://eslint.org/) and spot possible mistakes earlier.
+0. Use [Babel](https://babeljs.io/) to unlock the future features of JavaScript now.
+0. Understand the basics of React and get into the mindset. Even though React is conceptually simple, it has to "click" in order to become powerful.
+0. Learn the basics of [Alt](http://alt.js.org/), an implementation of [Flux Application Architecture](https://facebook.github.io/flux/docs/overview.html). Flux complements React well.
+0. Move beyond TODO application level and into application design and architecture.
+0. Style your React application in various emerging ways.
+0. Implement drag and drop for your application using [React DnD](https://gaearon.github.io/react-dnd/)
+0. Deploy your application into production environment using various deployment strategies.
+0. Author developer friendly JavaScript libraries for other developers to consume.
 
 If even one of those points sounded interesting, please check out [the online version](webpack_react/introduction) of the book. The book source is available at [GitHub](https://github.com/survivejs/webpack_react).
 
