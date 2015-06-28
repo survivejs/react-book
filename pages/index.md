@@ -1,4 +1,4 @@
-## What will I learn?
+## What will I learn by reading this book?
 
 Facebook's [React](https://facebook.github.io/react/) powers an increasing amount of sites. There is a good reason for this. It simplifies frontend development greatly. Combined with [Webpack](https://webpack.github.io/), a bundling tool, you have a powerful frontend development environment in your hands.
 
