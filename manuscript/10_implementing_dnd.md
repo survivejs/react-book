@@ -4,7 +4,7 @@ Our Kanban application is almost usable now. It doesn't look that bad and there'
 
 ## Setting Up React DnD
 
-Before going further hit `npm i react-dnd --save` to add React DnD to the project. Next we'll need to patch out application to use it.
+Before going further hit `npm i react-dnd --save` to add React DnD to the project. Next we'll need to patch our application to use it.
 
 **app/components/App.jsx**
 
@@ -22,9 +22,9 @@ export default class App extends React.Component {
 }
 ```
 
-This will tell us application that it's going to have some DnD goodies in it. We'll use `HTML5Backend`. In the future there might be other backends to support specific targets (ie. touch and such).
+This will tell our application that it's going to have some DnD goodies in it. We'll use `HTML5Backend`. In the future there might be other backends to support specific targets (ie. touch and such).
 
-In order to silence that `new-cap` error ESlint gives, set it off as follows. We won't be needing that.
+In order to silence that `new-cap` error ESlint gives, switch it off as follows. We won't be needing that.
 
 **.eslintrc**
 
@@ -133,7 +133,7 @@ export default class Note extends React.Component {
 
 If you drag a `Note` now, you should see some debug prints at console. We still need to figure out logic. Both `noteSource` and `noteTarget` give us access to `Note` props. In addition at `noteTarget` we can access the source `Note` through `monitor.getItem()` while `props` map to target. For DnD operations to make sense we'll to be able to tell individual notes apart. We'll need to model the concept of identity before we can move further.
 
-W> Note that React DnD isn't hot loading compatible so you may need to refresh browser manually while doing testing these changes.
+W> Note that React DnD isn't hot loading compatible so you may need to refresh browser manually while testing these changes.
 
 ## Developing `onMove` API for Notes
 
@@ -178,7 +178,7 @@ export default class Note extends React.Component {
 }
 ```
 
-Now `Note` will trigger `onMove` callback whenever something is dragged on top of a `Note`. Next we need to make `Notes` aware of that.
+Now `Note` will trigger the `onMove` callback whenever something is dragged on top of a `Note`. Next we need to make `Notes` aware of that.
 
 **app/components/Notes.jsx**
 
@@ -207,7 +207,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-If you drag a `Note` around now, you should see prints like `source [Object] target [Object]` at console. It doesn't take long to see we have a little flaw in our system. The way we are deriving `Note` ids doesn't scale to this purpose as they aren't unique enough. They are unique per lane but not globally. This will be an issue when moving notes between lanes. Normally dealing with ids would be the backend's problem but since we don't have we can generate some ourselves.
+If you drag a `Note` around now, you should see prints like `source [Object] target [Object]` at console. It doesn't take long to see we have a little flaw in our system. The way we are deriving `Note` ids doesn't scale to this purpose as they aren't unique enough. They are unique per lane but not globally. This will be an issue when moving notes between lanes. Normally dealing with ids would be the backend's problem but since we don't have a backend we can generate some ourselves.
 
 ## Generating Unique Ids for Notes
 

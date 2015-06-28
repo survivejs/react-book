@@ -1,6 +1,6 @@
 # Webpack Compared
 
-To understand Webpack, it will help to look at the history. That will put the tool in context and show you why the approach is powerful. Back in the day we were happy just to concat some scripts together but that won't do anymore. JavaScript libraries can be very large these days and nobody likes to wait for it all to load for the application show up.
+To understand Webpack, it will help to look at the history. That will put the tool in context and show you why the approach is powerful. Back in the day we were happy just to concat some scripts together but that won't do anymore. JavaScript libraries can be very large these days and nobody likes to wait for it all to load for the application to show up.
 
 This problem has been escalated by the rise of Single Page Applications. They tend to rely on various quite heavy libraries and be complex by nature. Ideally you would just load the assets you need per page.
 
@@ -108,13 +108,13 @@ In practice it can be useful just to use CommonJS, the Node.js format, and let t
 
 [Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. In addition there are tons of smaller transformation tools that allow you to move beyond the basic usage (ie. [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development automatically). This will save some effort and no doubt is a good solution up to a point.
 
-Browserify ecosystem is composed from a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than Webpack and in fact it is a good alternative to it.
+The Browserify ecosystem is composed from a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than Webpack and in fact it is a good alternative to it.
 
 ## Webpack
 
 ![Webpack](images/webpack.png)
 
-You could say Webpack takes more monolithic approach than Browserify. You simply get more out of the box. It is extended using loaders and relies on configuration. As we saw in the previous chapter it took some effort to get a build done. But after the initial curve it eases out considerably.
+You could say Webpack takes a more monolithic approach than Browserify. You simply get more out of the box. It is extended using loaders and relies on configuration. As we saw in the previous chapter it took some effort to get a build done. But after the initial curve it eases out considerably.
 
 Webpack expands on the idea of hooking into CommonJS `require`. What if you could just `require` whatever you needed in your code, be it CoffeeScript, Sass, Markdown or something? Well, Webpack does just this.
 

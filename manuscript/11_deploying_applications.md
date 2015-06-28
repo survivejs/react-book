@@ -1,12 +1,12 @@
 # Deploying Applications
 
-If you were developing a native application you would probably bundle everything into one file and deploy it to some application store. Size probably wouldn't that much. Web is different. You can get quite far with a single bundle but at certain point that becomes unwieldy. This is the area where Webpack excels. It will allow you to shape your bundles just the way you like it. In this chapter I will discuss more general strategies for dealing with it.
+If you were developing a native application you would probably bundle everything into one file and deploy it to some application store. Size probably wouldn't matter that much. Web is different. You can get quite far with a single bundle but at a certain point that becomes unwieldy. This is the area where Webpack excels. It will allow you to shape your bundles just the way you like it. In this chapter I will discuss more general strategies for dealing with it.
 
 The strategy you’ll want to use depends entirely on your goals. With Webpack you can end up with something very highly optimized. This incurs some extra complexity to the configuration but your users will be very glad you gave that extra effort. So far you've seen how to set up a basic minified bundle. The next step would be to split a vendor chunk from it.
 
 ## Splitting App and Vendors
 
-Separating app and vendors can make sense when your dependencies are large compared to the project itself. This is beneficial when you do bug fixes or other changes to the application. In that case your users would just need to download your app bundle in case vendor bundle remains unchanged. Compared to a single bundle initial loading will be slightly slower since each request comes with a slight overhead. But given we can leverage caching it's not a bad price to pay.
+Separating app and vendors can make sense when your dependencies are large compared to the project itself. This is beneficial when you do bug fixes or other changes to the application. In that case your users would just need to download your app bundle in case the vendor bundle remains unchanged. Compared to a single bundle initial loading will be slightly slower since each request comes with a slight overhead. But given we can leverage caching it's not a bad price to pay.
 
 T> Generally the more HTTP requests you have to fire, the slower things will get. Even though request payload itself might be small, each request comes with overhead. The overhead adds up quickly. This is the reason why clever bundling approaches are required. The situation is likely to change as HTTP/2 gets adopted. The situation is quite opposite there.
 
@@ -173,9 +173,9 @@ T> **What is the array on the first argument?**: If you try to lazy load a chunk
 
 ## Isomorphic App
 
-So the great thing about React is that it runs on the server too. But that does not mean you can just create any app and run it on the server. You have to make some decisions on the architecture. The reason is that even though React and the components run on the server, you might have dependencies in those components that does not run on the server.
+So the great thing about React is that it runs on the server too. But that does not mean you can just create any app and run it on the server. You have to make some decisions on the architecture. The reason is that even though React and the components run on the server, you might have dependencies in those components that do not run on the server.
 
-One of the most important decisions you make is to inject the state of your application through the top component. This basically means that your components does not have any external dependencies at all. All they need to know comes through this injected state.
+One of the most important decisions you make is to inject the state of your application through the top component. This basically means that your components do not have any external dependencies at all. All they need to know comes through this injected state.
 
 **main.js (client)**
 

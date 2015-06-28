@@ -1,6 +1,6 @@
 # Getting Started
 
-If you are not one of those guys that likes to skip introduction, you might have some clue what Webpack is. In its simplicity it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
+If you are not one of those guys that likes to skip introductions, you might have some clue what Webpack is. In its simplicity it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
 
 This sounds very simple but in practice it can be a very complicated and messy process. You definitely don't want to deal with all the details yourself. This is where Webpack fits in. Next we'll get Webpack set up and your first project running.
 

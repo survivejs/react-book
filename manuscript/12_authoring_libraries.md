@@ -10,7 +10,7 @@ Most of npm packages are small and include just a select few files such as:
 
 * `index.js` - On small projects it's enough to have the code at the root. On larger ones you may want to start splitting it up further.
 * `package.json` - npm metadata in JSON format
-* `README.md` - README is the most important document of your project. It is written in Markdown format and provides an overview. On simple projects whole documentation can fit there. It will be shown at the package page at `npmjs.com`.
+* `README.md` - README is the most important document of your project. It is written in Markdown format and provides an overview. On simple projects the whole documentation can fit there. It will be shown at the package page at `npmjs.com`.
 * `LICENSE` - You should include licensing information within your project. You can refer to it from `package.json`.
 
 In bigger projects you may find the following:
@@ -244,7 +244,7 @@ There are a few ways to approach dependency updates:
 * Install newest version of some specific dependency. Ie. `npm install lodash@* --save`. This is more controlled way to approach the problem.
 * Patch version information by hand by modifying `package.json` directly.
 
-It is important to remember that your dependencies may introduce backwards incompatible changes. Therefore it can be useful to remember how SemVer works and study dependency release notes, if the exist, carefully. You should at least walk through version history to see what changes have been made and how they might affect you.
+It is important to remember that your dependencies may introduce backwards incompatible changes. Therefore it can be useful to remember how SemVer works and study dependency release notes, if they exist, carefully. You should at least walk through version history to see what changes have been made and how they might affect you.
 
 As keeping track of important changes can be a chore, there are a few services that can help you with that: [David](https://david-dm.org/), [versioneye](https://www.versioneye.com/), [Gemnasium](https://gemnasium.com). These services provide badges you can integrate into your project `README.md`. In addition they may email you about important changes and even point out possible security issues that have been fixed.
 
