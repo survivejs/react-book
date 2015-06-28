@@ -7,8 +7,8 @@ var Index = React.createClass({
         return (
             <div className='frontpage'>
                 <div className='post__heading'>
-                    <h1 className='front-header'>SurviveJS - Webpack and React</h1>
-                    <h3 className='front-motto'>Go from zero to Webpack and React hero</h3>
+                    <h3 className='front-header'>SurviveJS - Webpack and React</h3>
+                    <h1 className='front-motto'>Go from zero to Webpack and React hero</h1>
                     <img className='front-cover' src='images/title_page_small.jpg' />
                     <div className='front__buttons'>
                         <a href='webpack_react/introduction' className='btn btn--inverted'>Read the Book</a>

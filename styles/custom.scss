@@ -53,21 +53,13 @@ code {
 }
 
 .frontpage {
-    .front-header {
-        margin-top: 0;
-        margin-bottom: 0;
-        text-transform: none;
-        font-size: 54px;
-        line-height: 1.5;
-    }
-
     .front-header, .front-motto {
+        margin-bottom: 0.5em;
         color: #efefef;
     }
 
     .front-motto {
         margin-top: 0;
-        margin-bottom: 2em;
     }
 
     .front-cover {
