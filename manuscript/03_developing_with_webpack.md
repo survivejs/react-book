@@ -144,7 +144,7 @@ If we don't structure our configuration in a smart way, it will become easy to m
 
 One way to do this is to keep all configuration in `webpack.config.js` and control what it returns using an environment variable. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place. We can adapt this approach to our project quite easily.
 
-In order to make it easier to deal with this arrangement I've developed a little custom merge utility known as `webpack-merge`. Install it using `npm i webpack-merge --save-dev` to your project. Compared to `merge` you might be used to this variant concatenates arrays instead of replacing them. This is very useful with Webpack as we'll see below.
+In order to make it easier to deal with this arrangement I've developed a little custom merge utility known as `webpack-merge`. Install it using `npm i webpack-merge --save-dev` to your project. Compared to `merge` you might be used to this variant that concatenates arrays instead of replacing them. This is very useful with Webpack as we'll see below.
 
 **webpack.config.js**
 
