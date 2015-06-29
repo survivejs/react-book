@@ -296,6 +296,20 @@ if(TARGET === 'dev') {
 }
 ```
 
+**lib/dev_server.js**
+
+```javascript
+...
+
+new WebpackDevServer(webpack(config), {
+  ...
+  hot: true,
+  ...
+}).listen(config.port, config.ip, function(err) {
+  ...
+});
+```
+
 Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.
 
 ## Conclusion
