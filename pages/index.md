@@ -2,7 +2,7 @@
 
 Facebook's [React](https://facebook.github.io/react/) powers an increasing amount of sites. There is a good reason for this. It simplifies frontend development greatly. Combined with [Webpack](https://webpack.github.io/), a bundling tool, you have a powerful frontend development environment in your hands.
 
-*SurviveJS - Webpack and React* shows you how to build a simple Kanban application based on these technologies. During the process you will learn at least the following things:
+*SurviveJS - Webpack and React* shows you how to build a simple [Kanban](https://en.wikipedia.org/wiki/Kanban_%28development%29) application based on these technologies. During the process you will learn at least the following things:
 
 0. Set up a Webpack based development and production environment. You will learn to get most out of [react-hot-loader](https://github.com/gaearon/react-hot-loader) and [Babel](https://babeljs.io/) for development.
 0. Improve the quality of your code by using [ESLint](http://eslint.org/) and friends to spot possible mistakes earlier.
