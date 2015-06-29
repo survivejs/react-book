@@ -79,8 +79,6 @@ code {
 .frontpage {
     .front-cover-wrapper {
       vertical-align: middle;
-      max-height: 50vh;
-      height: 100%;
     }
     .front-text-wrapper {
         margin: 1em;
@@ -103,6 +101,8 @@ code {
 
     .front-cover {
         box-shadow: 0 0 1em 0.05em rgba(0,0,0,0.5);
+        margin-top: 1em;
+        margin-bottom: 1em;
     }
 
     .front__heading {
