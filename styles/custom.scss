@@ -77,24 +77,27 @@ code {
 }
 
 .frontpage {
+    .front-cover-wrapper {}
+    .front-text-wrapper {
+        margin: 1em;
+        max-width: 100%;
+        text-shadow: 0 2px rgba(0,0,0,0.3);
+    }
+
     .front-header, .front-motto {
         margin-bottom: 0.5em;
         color: #efefef;
     }
 
     .front-header {
-        margin-top: 3em;
         margin-bottom: 0;
     }
 
     .front-motto {
         margin-top: 0;
-        margin-bottom: 2em;
     }
 
     .front-cover {
-        margin: 0 auto;
-        margin-bottom: 1em;
         box-shadow: 0 0 1em 0.05em rgba(0,0,0,0.5);
     }
 
