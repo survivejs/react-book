@@ -8,7 +8,7 @@ Facebook's [React](https://facebook.github.io/react/) powers an increasing amoun
 0. Improve the quality of your code by using [ESLint](http://eslint.org/) and friends to spot possible mistakes earlier.
 0. Get into the React mindset while learning the basics of [Alt](http://alt.js.org/), an implementation of [Flux Application Architecture](https://facebook.github.io/flux/docs/overview.html).
 0. Style your React application in various emerging ways.
-0. Implement drag and drop for your application using [React DnD](https://gaearon.github.io/react-dnd/)
+0. Implement drag and drop for your application using [React DnD](https://gaearon.github.io/react-dnd/).
 
 Please check out [the online version](webpack_react/introduction) of the book to get started! The book source is available through [GitHub](https://github.com/survivejs/webpack_react).
 
