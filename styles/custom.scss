@@ -83,7 +83,7 @@ code {
     }
 
     .front-header {
-        margin-top: 2em;
+        margin-top: 3em;
         margin-bottom: 0;
     }
 
@@ -118,6 +118,7 @@ code {
     bottom: auto;
     position: fixed;
     background: white;
+    z-index: 1000;
 }
 
 .post__content img {
