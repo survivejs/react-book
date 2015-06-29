@@ -52,4 +52,10 @@ module.exports = React.createClass
                   span className: 'prevnext__info', "Next chapter"
                   a className: 'prevnext__link', href: "/#{item.next.url}", item.next.title
 
+        if item.next
+          a className: 'next-page', href: '/' + item.next.url, item.next.title
+
+        if item.prev
+          a className: 'previous-page', href: '/' + item.prev.url, item.prev.title
+
       if item.headerExtra? then div className: 'header-extra', dangerouslySetInnerHTML: __html: item.headerExtra

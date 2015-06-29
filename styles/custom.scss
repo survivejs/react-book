@@ -186,16 +186,9 @@ code {
     margin-left: 0.25em;
 }
 
-.prevnext-pages {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 10vh;
-    background: rgba(0,0,0,0);
-}
-
 .previous-page, .next-page {
+    background: white;
+
     font-family: "Avenir Next", "Helvetica Neue", sans-serif;
     text-transform: uppercase;
     text-rendering: optimizeLegibility;

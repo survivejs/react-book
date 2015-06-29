@@ -64,22 +64,7 @@ module.exports = {
       },
       languages: ['bash', 'css', 'javascript', 'json', 'html'],
     }),
-    prevnextPlugin({
-      bodyContent: prevnextPlugin.bodyContent({
-        previous: function(o) {
-          return o.title;
-        },
-        previousUrl: function(o) {
-          return '../' + o.split('/').slice(1).join('/');
-        },
-        next: function(o) {
-          return o.title;
-        },
-        nextUrl: function(o) {
-          return '../' + o.split('/').slice(1).join('/');
-        },
-      })
-    }),
+    prevnextPlugin(),
   ],
   theme: {
     customStyles: 'custom.scss',
