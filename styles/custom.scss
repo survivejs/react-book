@@ -77,7 +77,11 @@ code {
 }
 
 .frontpage {
-    .front-cover-wrapper {}
+    .front-cover-wrapper {
+      vertical-align: middle;
+      max-height: 50vh;
+      height: 100%;
+    }
     .front-text-wrapper {
         margin: 1em;
         max-width: 100%;
