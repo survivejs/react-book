@@ -221,7 +221,7 @@ export default class Note extends React.Component {
 }
 ```
 
-It's a lot of code to digest. `Note` has *edited* state to keep track of. We will manipulate that to change the way it is rendered. If we hit **edit**, we'll trigger edit mode. Once input receives either *blur* event or Enter key, we'll finish editing and reset the value. When finishing we also trigger a callback so the app knows to react.
+`Note` keeps track of *edited* state. We will manipulate that to change the way it is rendered. If we hit **edit**, we'll trigger edit mode. Once input receives either *blur* event or Enter key, we'll finish editing and reset the value. When finishing we also trigger a callback so the app knows to react.
 
 In order to make that happen we'll need to define that callback for `App` like this:
 
