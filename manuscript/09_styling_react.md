@@ -154,10 +154,8 @@ var common = {
   },
 };
 
-var mergeConfig = merge.bind(null, common);
-
 if(TARGET === 'build') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     module: {
       loaders: [
         {
@@ -175,7 +173,7 @@ if(TARGET === 'build') {
 }
 
 if(TARGET === 'dev') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     ...
     module: {
       ...
@@ -206,7 +204,7 @@ Next we'll need to integrate it with our configuration:
 ...
 
 if(TARGET === 'dev') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     entry: ['webpack/hot/dev-server'],
     module: {
       preLoaders: [

@@ -413,7 +413,7 @@ As we'll be relying on decorators and still like to use Flowcheck, we'll need to
 
 ```javascript
 if(TARGET === 'build') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     module: {
       loaders: [
         {
@@ -428,7 +428,7 @@ if(TARGET === 'build') {
 }
 
 if(TARGET === 'dev') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     ...
     module: {
       ...

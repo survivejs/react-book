@@ -161,7 +161,7 @@ var webpack = require('webpack');
 ...
 
 if(TARGET === 'build') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     ...
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
@@ -200,7 +200,7 @@ In Webpack terms you can add the following snippet to the `plugins` section of y
 
 ```javascript
 if(TARGET === 'build') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     ...
     plugins: [
       new webpack.DefinePlugin({
@@ -260,7 +260,7 @@ var common = {
 ...
 
 if(TARGET === 'build') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     module: {
       loaders: [
         {
@@ -277,7 +277,7 @@ if(TARGET === 'build') {
 }
 
 if(TARGET === 'dev') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     entry: [
       'webpack-dev-server/client?http://' + IP + ':' + PORT,
       'webpack/hot/only-dev-server', // only-dev-server!

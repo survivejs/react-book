@@ -297,7 +297,7 @@ We can set up Flow type checking to our Webpack easily by first doing `npm i flo
 
 ```javascript
 if(TARGET === 'dev') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     ...
     module: {
       ...

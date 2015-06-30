@@ -18,10 +18,8 @@ var common = {
   },
 };
 
-var mergeConfig = merge.bind(null, common);
-
 if(TARGET === 'build') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     module: {
       loaders: [
         {
@@ -59,7 +57,7 @@ if(TARGET === 'dev') {
   var IP = '0.0.0.0';
   var PORT = 8080;
 
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     ip: IP,
     port: PORT,
     entry: [

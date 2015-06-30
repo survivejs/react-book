@@ -164,7 +164,7 @@ Next we need to tweak our development configuration to include it. Add the follo
 
 ```javascript
 if(TARGET === 'dev') {
-  module.exports = mergeConfig({
+  module.exports = merge(common, {
     entry: [...],
     module: {
       preLoaders: [
