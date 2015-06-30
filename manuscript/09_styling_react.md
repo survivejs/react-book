@@ -144,7 +144,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 ...
 
 var common = {
-  entry: [path.join(ROOT_PATH, 'app/main.jsx')],
+  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
@@ -215,7 +215,7 @@ if(TARGET === 'dev') {
         {
           test: /\.jsx?$/,
           loader: 'eslint-loader',
-          include: path.join(ROOT_PATH, 'app'),
+          include: path.resolve(ROOT_PATH, 'app'),
         },
       ],
       ...

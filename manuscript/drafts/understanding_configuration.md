@@ -10,7 +10,7 @@ Earlier in the book we did things like:
 
 ```javascript
 var common = {
-  entry: [path.join(ROOT_PATH, 'app/main.jsx')],
+  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',

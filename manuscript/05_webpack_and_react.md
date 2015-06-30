@@ -75,7 +75,7 @@ This change needs to be taken in count at configuration. Change entry path like 
 
 ```javascript
 var common = {
-  entry: [path.join(ROOT_PATH, 'app/main.jsx')]
+  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')]
   ...
 }
 ```
@@ -105,7 +105,7 @@ var common = {
         loader: 'babel?stage=1',
 
         // operate only on our app directory
-        include: path.join(ROOT_PATH, 'app'),
+        include: path.resolve(ROOT_PATH, 'app'),
       },
       ...
     ]
@@ -124,7 +124,7 @@ Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This
 
 ```javascript
 var common = {
-  entry: [path.join(ROOT_PATH, 'app/main.jsx')],
+  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
@@ -266,7 +266,7 @@ if(TARGET === 'build') {
         {
           test: /\.jsx?$/,
           loader: 'babel?stage=1',
-          include: path.join(ROOT_PATH, 'app'),
+          include: path.resolve(ROOT_PATH, 'app'),
         },
       ],
     },
@@ -288,7 +288,7 @@ if(TARGET === 'dev') {
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel?stage=1'],
-          include: path.join(ROOT_PATH, 'app'),
+          include: path.resolve(ROOT_PATH, 'app'),
         },
       ],
     },

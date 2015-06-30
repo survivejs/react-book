@@ -25,15 +25,16 @@ You can create a configuration like this:
 ```javascript
 var path = require('path');
 var webpack = require('webpack');
-var nodeModulesDir = path.resolve(__dirname, 'node_modules');
+
+var ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
   entry: {
-    app: [path.resolve(__dirname, 'app/main.js')],
+    app: [path.resolve(ROOT_PATH, 'app/main.js')],
     vendors: ['react']
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(ROOT_PATH, 'dist'),
     filename: 'app.[chunkhash].js'
   },
   plugins: [
@@ -72,15 +73,16 @@ Given the following project file structure:
 ```javascript
 var path = require('path');
 var webpack = require('webpack');
-var nodeModulesDir = path.resolve(__dirname, 'node_modules');
+
+var ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
   entry: {
-    appA: path.resolve(__dirname, 'appA/main.js'),
-    appB: path.resolve(__dirname, 'appB/main.js')
+    appA: path.resolve(ROOT_PATH, 'appA/main.js'),
+    appB: path.resolve(ROOT_PATH, 'appB/main.js')
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(ROOT_PATH, 'dist'),
     filename: '[name].js' // Notice we use a variable
   },
   plugins: [
@@ -113,21 +115,22 @@ Given the following project file structure:
 ```javascript
 var path = require('path');
 var webpack = require('webpack');
-var nodeModulesDir = path.resolve(__dirname, 'node_modules');
+
+var ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, 'app/main.js'),
+    app: path.resolve(ROOT_PATH, 'app/main.js'),
     vendors: ['react']
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(ROOT_PATH, 'dist'),
     filename: 'app.js'
   },
   module: {
     loaders: [{
       test: /\.js$/,
-      exclude: [nodeModulesDir],
+      exclude: [path.resolve(ROOT_PATH, 'node_modules')],
       loader: 'babel'
     }]
   },

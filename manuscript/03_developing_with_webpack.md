@@ -24,14 +24,16 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 ```javascript
 var path = require('path');
 
+var ROOT_PATH = path.resolve(__dirname);
+
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
     'webpack-dev-server/client?http://localhost:8080',
-    path.resolve(__dirname, 'app/main.js'),
+    path.resolve(ROOT_PATH, 'app/main.js'),
   ],
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
   },
 };
@@ -86,13 +88,15 @@ In order to load CSS to project, we'll need to use a couple of loaders. To get s
 ```javascript
 var path = require('path');
 
+var ROOT_PATH = path.resolve(__dirname);
+
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    path.resolve(__dirname, 'app/main.js'),
+    path.resolve(ROOT_PATH, 'app/main.js'),
   ],
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
   },
   module: {
@@ -156,7 +160,7 @@ var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: [path.join(ROOT_PATH, 'app/main')],
+  entry: [path.resolve(ROOT_PATH, 'app/main')],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
@@ -284,7 +288,7 @@ if(TARGET === 'dev') {
       'webpack/hot/dev-server',
     ],
     output: {
-      path: __dirname,
+      path: ROOT_PATH,
       filename: 'bundle.js',
       publicPath: '/',
     },

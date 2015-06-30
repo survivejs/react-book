@@ -8,7 +8,7 @@ var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: [path.join(ROOT_PATH, 'app/main.jsx')],
+  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
@@ -29,7 +29,7 @@ if(TARGET === 'build') {
         {
           test: /\.jsx?$/,
           loader: 'babel?stage=1',
-          include: path.join(ROOT_PATH, 'app'),
+          include: path.resolve(ROOT_PATH, 'app'),
         },
       ],
     },
@@ -73,7 +73,7 @@ if(TARGET === 'dev') {
         {
           test: /\.jsx?$/,
           loader: 'eslint-loader',
-          include: path.join(ROOT_PATH, 'app'),
+          include: path.resolve(ROOT_PATH, 'app'),
         },
       ],
       loaders: [
@@ -84,7 +84,7 @@ if(TARGET === 'dev') {
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
-          include: path.join(ROOT_PATH, 'app'),
+          include: path.resolve(ROOT_PATH, 'app'),
         },
       ],
     },

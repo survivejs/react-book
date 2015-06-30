@@ -1,9 +1,11 @@
 var path = require('path');
 
+var ROOT_PATH = path.resolve(__dirname);
+
 module.exports = {
-  entry: path.resolve(__dirname, 'app/main.js'),
+  entry: path.resolve(ROOT_PATH, 'app/main.js'),
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
   },
 };
