@@ -14,7 +14,7 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 ...
 "scripts": {
   "build": "webpack",
-  "start": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --hot --content-base build"
+  "start": "webpack-dev-server --config webpack.development.js --devtool eval-source --progress --colors --hot --content-base build"
 },
 ...
 ```
@@ -55,7 +55,7 @@ When you run `npm start` from your terminal it will execute the command mapping 
 
 1. `webpack-dev-server` - Starts a web service on `localhost:8080`
 2. `--config webpack.development.js` - Points at custom development configuration we'll set up later
-3. `--devtool eval` - Creates source urls for your code. Making you able to pinpoint by filename and line number where any errors are thrown
+3. `--devtool eval-source` - Creates source urls for your code. Making you able to pinpoint by filename and line number where any errors are thrown
 4. `--progress` - Will show progress of bundling your application
 5. `--colors` - Colors in the terminal!
 6. `--hot` - Enable hot module loading
