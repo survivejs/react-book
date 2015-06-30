@@ -1,6 +1,6 @@
 # Implementing a Basic Note App
 
-Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude Note List with basic manipulation operations. Hit `npm start`. It's time to start developing.
+Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude Note List with basic manipulation operations. We will start by doing things the hard way. We will grow our application from scratch and get into some trouble. After that you should understand better why architecture models such as Flux are needed.
 
 ## Extending Note
 
