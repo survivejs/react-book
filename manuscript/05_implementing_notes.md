@@ -258,7 +258,7 @@ We also need to tweak `Notes` like this:
 ...
 ```
 
-As you can see the nested hierarchy is starting to cause some subtle problems. We'll fix these later. Now we just want to get something to work. You should be able to edit todos now.
+After these changes you should be able to edit notes.
 
 ## Removing Notes
 
