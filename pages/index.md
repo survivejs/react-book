@@ -1,6 +1,9 @@
 ## What will I learn by reading this book?
 
+<p>
+<img src="images/react.jpg" alt="React" class="react-image" width="136" height="121" />
 Facebook's [React](https://facebook.github.io/react/) powers an increasing amount of sites. There is a good reason for this. It simplifies frontend development greatly. Combined with [Webpack](https://webpack.github.io/), a bundling tool, you have a powerful frontend development environment in your hands.
+</p>
 
 *SurviveJS - Webpack and React* shows you how to build a simple [Kanban](https://en.wikipedia.org/wiki/Kanban_%28development%29) application based on these technologies. During the process you will learn to:
 
