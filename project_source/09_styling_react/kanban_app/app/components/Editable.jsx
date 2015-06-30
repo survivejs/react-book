@@ -21,10 +21,10 @@ export default class Editable extends React.Component {
         ?
         <input type='text'
           defaultValue={value}
-          onBlur={this.finishEdit.bind(this)}
-          onKeyPress={this.checkEnter.bind(this)}/>
+          onBlur={(e) => this.finishEdit(e)}
+          onKeyPress={(e) => this.checkEnter(e)}/>
         :
-        <div onClick={this.edit.bind(this)}>{value}</div>
+        <div onClick={() => this.edit()}>{value}</div>
       }</div>
     );
   }

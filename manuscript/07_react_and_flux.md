@@ -527,14 +527,14 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.addItem.bind(this)}>+</button>
+        <button onClick={() => this.addItem()}>+</button>
         <AltContainer
           stores={[NoteStore]}
           inject={{
             items: () => NoteStore.getState().notes || []
           }}
         >
-          <Notes onEdit={this.itemEdited.bind(this)} />
+          <Notes onEdit={(id, task) => this.itemEdited(id, task)} />
         </AltContainer>
       </div>
     );

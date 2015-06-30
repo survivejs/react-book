@@ -115,7 +115,7 @@ render() {
 
   return (
     <div>
-      <button onClick={this.addItem.bind(this)}>+</button>
+      <button onClick={() => addItem()}>+</button>
       <Notes items={notes} />
     </div>
   );
@@ -195,9 +195,9 @@ export default class Note extends React.Component {
         edited
         ? <input type='text'
           defaultValue={value}
-          onBlur={this.finishEdit.bind(this)}
-          onKeyPress={this.checkEnter.bind(this)}/>
-        : <div onClick={this.edit.bind(this)}>{value}</div>
+          onBlur={(e) => this.finishEdit(e)}
+          onKeyPress={(e) => this.checkEnter(e)}/>
+        : <div onClick={() => this.edit()}>{value}</div>
       }</div>
     );
   }
@@ -232,7 +232,7 @@ render() {
   ...
   <Notes
     items={notes}
-    onEdit={this.itemEdited.bind(this)} />
+    onEdit={(i, task) => this.itemEdited(i, task)} />
   ...
 }
 itemEdited(i, task) {
@@ -283,7 +283,7 @@ itemEdited(i, task) {
 }
 ```
 
-An alternative way would have been to render some sort of button for removing an item. When pressed it would have triggered similar logic. If you feel like it, give it a go. Just have something like `<button onClick={this.removeItem.bind(null, i)}>-</button>` there, delete based on index and update state.
+An alternative way would have been to render some sort of button for removing an item. When pressed it would have triggered similar logic. If you feel like it, give it a go. Just have something like `<button onClick={(i) => this.removeItem(i)}>-</button>` there, delete based on index and update state.
 
 T> We just introduced some interesting behavior to our system. Note that as we track edit state on `Note` level, this means if you remove an item before the edited `Note`, the same old element remains edited. If we want to edit specific data, our data model should change to take this in count. Can you see how?
 

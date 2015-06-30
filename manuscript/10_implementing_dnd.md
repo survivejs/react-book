@@ -192,7 +192,7 @@ export default class Notes extends React.Component {
 
     return (
       <ul className='notes'>{notes.map((note, i) =>
-        <Note onMove={this.onMoveNote.bind(this)} className='note'
+        <Note onMove={() => this.onMoveNote()} className='note'
           key={'note-' + i} data={note}>
           <Editable
             value={note.task}

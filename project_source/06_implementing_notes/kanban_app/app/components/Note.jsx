@@ -20,9 +20,9 @@ export default class Note extends React.Component {
         edited
         ? <input type='text'
           defaultValue={value}
-          onBlur={this.finishEdit.bind(this)}
-          onKeyPress={this.checkEnter.bind(this)}/>
-        : <div onClick={this.edit.bind(this)}>{value}</div>
+          onBlur={() => this.finishEdit()}
+          onKeyPress={(e) => this.checkEnter(e)}/>
+        : <div onClick={() => this.edit()}>{value}</div>
       }</div>
     );
   }
