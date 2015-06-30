@@ -133,6 +133,9 @@ code {
     background: white;
     z-index: 1000;
 }
+.header-image, .header-image + .post__heading {
+    z-index: 0; /* make sure they are behind nav */
+}
 
 .post__content img {
     position: inherit;

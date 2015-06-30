@@ -12,7 +12,6 @@ var Index = React.createClass({
                     backgroundPosition: 'top center',
                     width: '100%',
                     flexDirection: 'row',
-                    paddingTop: '10vh',
                     paddingBottom: '2vh',
                 }}>
                     <div className='front-cover-wrapper'>
@@ -21,6 +20,11 @@ var Index = React.createClass({
                     <div className='front-text-wrapper'>
                         <h3 className='front-header'>SurviveJS - Webpack and React</h3>
                         <h1 className='front-motto'>Go from zero to Webpack and React hero</h1>
+
+                        <div className='front__buttons'>
+                            <a className='btn btn--inverted' href='/webpack_react/introduction'>Read the book</a>
+                            <a className='btn btn--inverted' href='https://leanpub.com/survivejs_webpack_react'>Buy the ebook</a>
+                        </div>
                     </div>
                 </div>
                 <div className='post post--front'>

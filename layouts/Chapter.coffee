@@ -5,7 +5,7 @@ Router = require 'react-router'
 config = require 'config'
 _ = require 'lodash'
 
-{ div, span, header, h1, h4, a } = require 'react-coffee-elements'
+{ div, span, header, h1, h4, a, nav } = require 'react-coffee-elements'
 
 module.exports = React.createClass
 

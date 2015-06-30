@@ -72,19 +72,30 @@ module.exports = {
     navigation: [
       {
         title: 'Home',
-        url: '/'
+        url: '/',
       },
       {
         title: 'Read the book',
-        url: '/webpack_react/introduction'
+        url: '/webpack_react/introduction',
       },
       {
         title: 'Buy the ebook',
-        url: 'https://leanpub.com/survivejs_webpack'
+        url: 'https://leanpub.com/survivejs_webpack',
+      },
+      {
+        title: '',
+        url: '',
+      },
+      {
+        title: '@survivejs',
+        url: 'https://twitter.com/survivejs',
       },
     ],
   },
   handlers: {
+    body: function() {
+      return require('./layouts/Body.coffee');
+    },
     sectionIndex: function() {
       // TODO: push to section level
       return require('./layouts/SectionIndex.coffee');
