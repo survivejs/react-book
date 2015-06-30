@@ -130,7 +130,7 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button onClick={this.addItem.bind(this)}>+</button>
+        <button onClick={() => addItem()}>+</button>
         <Notes items={notes} onEdit={this.itemEdited.bind(this)} />
       </div>
     );
