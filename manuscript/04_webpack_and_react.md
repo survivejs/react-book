@@ -82,7 +82,7 @@ var common = {
 
 W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own.
 
-## Setting Up Webpack
+## Setting Up Webpack and Babel
 
 ![Babel](images/babel.png)
 
