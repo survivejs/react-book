@@ -75,10 +75,6 @@ module.exports = {
         url: '/',
       },
       {
-        title: 'Read the book',
-        url: '/webpack_react/introduction',
-      },
-      {
         title: 'Buy the ebook',
         url: 'https://leanpub.com/survivejs_webpack',
       },
