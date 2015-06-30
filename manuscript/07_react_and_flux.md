@@ -113,13 +113,14 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.storeChanged = this.storeChanged.bind(this);
     this.state = NoteStore.getState();
   }
   componentDidMount() {
-    NoteStore.listen(this.storeChanged.bind(this));
+    NoteStore.listen(this.storeChanged);
   }
   componentWillUnmount() {
-    NoteStore.unlisten(this.storeChanged.bind(this));
+    NoteStore.unlisten(this.storeChanged);
   }
   storeChanged(state) {
     this.setState(state);
@@ -342,13 +343,14 @@ export default (Component, store) => {
     constructor(props) {
       super(props);
 
+      this.storeChanged = this.storeChanged.bind(this);
       this.state = store.getState();
     }
     componentDidMount() {
-      store.listen(this.storeChanged.bind(this));
+      store.listen(this.storeChanged);
     }
     componentWillUnmount() {
-      store.unlisten(this.storeChanged.bind(this));
+      store.unlisten(this.storeChanged);
     }
     storeChanged() {
       this.setState(store.getState());

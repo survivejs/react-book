@@ -59,3 +59,4 @@ This book wouldn't have been possible without these individuals. They all helped
 * Ross Mackay - @mcky - Helped to improve site design
 * Jimmy Jia - @taion - Helped to improve site design
 * Michael Bodnarchuk - @DavertMik - Helped to improve site header
+* Ronald Borman - Pointed out an issue with Alt connect
