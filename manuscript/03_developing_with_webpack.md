@@ -322,4 +322,4 @@ If you hit `npm start` at `kanban_app/` now and start tweaking `app/component.js
 
 Now we have a nice degree of separation between production and development builds. Initially Webpack tends to take some configuration work but after that working with it becomes faster as you start to think in terms of loaders and plugins and how those fit into your workflow. Webpack deals with the heavy lifting while you get to focus on development.
 
-In this chapter you learned how to go beyond a basic Webpack configuration. Webpack's development server is a powerful feature that has even more in store. We also learned how to organize our configuration more effectively. Next we'll delve deeper as we discuss how to deal with linting in Webpack and why it's a powerful technique to adopt.
+In this chapter you learned how to go beyond a basic Webpack configuration. Webpack's development server is a powerful feature that has even more in store. We also learned how to organize our configuration more effectively. Next we'll see how to configure Webpack to work well with React.
