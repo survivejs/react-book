@@ -26,53 +26,53 @@
         "demo": "03_developing_with_webpack"
     },
     {
-        "author": "Eva the Weaver",
-        "source": "https://www.flickr.com/photos/16324044@N00/10833734686",
-        "license": "CC BY-NC-SA",
-        "image": "lint.jpg",
-        "demo": "04_linting_in_webpack"
-    },
-    {
         "author": "Jairus Khan",
         "source": "https://www.flickr.com/photos/10282509@N00/4674249352",
         "license": "CC BY-NC-SA",
         "image": "mainframe.jpg",
-        "demo": "05_webpack_and_react"
+        "demo": "04_webpack_and_react"
     },
     {
         "author": "Angela",
         "source": "https://www.flickr.com/photos/73635318@N00/2663422833",
         "license": "CC BY-NC-SA",
         "image": "notes.jpg",
-        "demo": "06_implementing_notes"
+        "demo": "05_implementing_notes"
     },
     {
         "author": "jeremyg3030",
         "source": "https://www.flickr.com/photos/126433814@N04/16298563416",
         "license": "CC BY",
         "image": "delorean.jpg",
-        "demo": "07_react_and_flux"
+        "demo": "06_react_and_flux"
     },
     {
         "author": "Radek Orszewski",
         "source": "https://www.flickr.com/photos/61745819@N00/10588140955",
         "license": "CC BY-NC-ND",
         "image": "kanban_photo.jpg",
-        "demo": "08_from_notes_to_kanban"
+        "demo": "07_from_notes_to_kanban"
     },
     {
         "author": "Andrea Williams",
         "source": "https://www.flickr.com/photos/82405581@N00/3173065446",
         "license": "CC BY-NC-ND",
         "image": "taxi.jpg",
-        "demo": "09_styling_react"
+        "demo": "08_styling_react"
     },
     {
         "author": "Emma Story",
         "source": "https://www.flickr.com/photos/15146367@N00/4083260446",
         "license": "CC BY-NC",
         "image": "dnd.jpg",
-        "demo": "10_implementing_dnd"
+        "demo": "09_implementing_dnd"
+    },
+    {
+        "author": "Eva the Weaver",
+        "source": "https://www.flickr.com/photos/16324044@N00/10833734686",
+        "license": "CC BY-NC-SA",
+        "image": "lint.jpg",
+        "demo": "10_linting_in_webpack"
     },
     {
         "author": "Acid Pix",
