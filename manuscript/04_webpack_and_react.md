@@ -232,7 +232,7 @@ index.html  204 bytes          [emitted]
     + 158 hidden modules
 ```
 
-So we went from 650k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. Things will get more problematic as we continue to add dependencies to our project. In that case we will have to apply some other strategies and be smarter about loading.
+So we went from 650k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. As we add dependencies to the project the size will grow. Then we will have to apply some other strategies and be smarter about loading. Fortunately we can do all that with Webpack when the time comes.
 
 ## Activating Hot Loading for Development
 
