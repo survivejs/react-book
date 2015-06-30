@@ -4,6 +4,8 @@
 
 In this chapter we will be using [Alt](http://alt.js.org/), a light Flux implementation. It gets rid of a lot of baggage provided with Flux and allows you to focus on the essential.
 
+T> Note that there are dozens of Flux implementations out there. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) is a good starting point if you are interested in alternatives.
+
 ## Introduction to Flux
 
 So far we have all of state within our components. It will become complicated to manage as we grow our application. Flux allows us to push some of it outside into **Stores**. After that we don't need to care *how* the state is derived. It could be fetched from a backend or it could come from *localStorage*. On component **View** level we don't need to care.
