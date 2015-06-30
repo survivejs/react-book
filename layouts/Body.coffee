@@ -21,5 +21,5 @@ module.exports = React.createClass
         sectionName = @getSectionName()
 
         div { },
-            if sectionName and sectionName is not '/' then Nav()
+            if sectionName and sectionName != '/' then Nav()
             main { role: 'main' }, @props.children
