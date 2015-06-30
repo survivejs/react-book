@@ -35,28 +35,4 @@ In addition I have tried to cover some common issues at the `Troubleshooting` ch
 
 ## Acknowledgments
 
-This book wouldn't have been possible without these individuals. They all helped to make it better, each in their own way. Thanks guys!
-
-* Christian Alfoni - @christianalfoni - Helped to author [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook). This book is continuation to that effort.
-* @vitaliy-kotov - Pointed out various issues
-* @af7 - Typo fixes and feedback
-* Dan Abramov - @gaearon - Feedback and awesome tooling
-* @dnmd - Pointed out Windows related path issue
-* James Cavanaugh - @PlantBuilder - Pointed out various typos and provided useful feedback
-* Josh Perez - @goatslacker - Helped to improve Alt chapter
-* Nicholas C. Zakas - @nzakas - Helped to improve linting chapter
-* Ilya Volodin - @ilyavolodin - Helped to improve linting chapter
-* Jan Nicklas - @jantimon - Helper to improve `html-webpack-plugin` related configuration a lot
-* Daniel de la Cruz - @danderu - Removed redundant reference to `.tpl`
-* Robert Smith - @rbrtsmith - Pointed out issues at Developing with Webpack
-* Andreas Eldh - @eldh - Helped to develop Antwar, the tool that's powering the book's site. Also helped immensely with the base theme
-* Brandon Tilley - @binarymuse - Gave some well needed inspiration for drag and drop implementation
-* Braden Evans - @braden - Pointed out site related horizontal scrollbar issue
-* Daniele Zannotti - @dzannotti - Helped to improve site code example outlook
-* Patrick Forringer - @destos - Helped to improve site code example and header outlook
-* Rafael Xavier de Souza - @rxaviers - Typo fixes
-* Dennis Bunskoek - @dbunskoek - Typo fixes, textual improvements
-* Ross Mackay - @mcky - Helped to improve site design
-* Jimmy Jia - @taion - Helped to improve site design
-* Michael Bodnarchuk - @DavertMik - Helped to improve site header
-* Ronald Borman - Pointed out an issue with Alt connect
+This book wouldn't have been possible without support from the following individuals. Thanks a lot in no particular order Christian Alfoni, Vitaliy Kotov, @af7, Dan Abramov, @dnmd, James Cavanaugh, Josh Perez, Nicholas C. Zakas, Ilya Volodin, Jan Nicklas, Daniel de la Cruz, Robert Smith, Andreas Eldh, Brandon Tilley, Braden Evans, Daniele Zannotti, Partick Forringer, Rafael Xavier de Souza, Dennis Bunskoek, Ross Mackay, Jimmy Jia, Michael Bodnarchuk and Ronald Borman. Thanks a lot!
