@@ -252,7 +252,17 @@ code {
 }
 
 .header-anchor-select {
+    opacity: 0;
     margin-left: 0.25em;
+    transition: opacity .25s ease-in-out;
+}
+
+h1:hover .header-anchor-select,
+h2:hover .header-anchor-select,
+h3:hover .header-anchor-select,
+h4:hover .header-anchor-select {
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
 }
 
 .previous-page, .next-page {
