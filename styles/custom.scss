@@ -112,6 +112,7 @@ code {
         width: 255px;
         box-shadow: 0 0 1em 0.02em rgba(0,0,0,0.5);
         margin: 0 auto;
+        margin-bottom: 1em;
     }
 
     @media screen and (min-width: 1150px) {
@@ -124,7 +125,7 @@ code {
             flex-wrap: nowrap;
         }
         .post__content {
-            margin-right: 1em;
+            margin-right: 1.5em;
         }
         .post__sidebar {
             min-width: 250px;
