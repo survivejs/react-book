@@ -22,8 +22,21 @@
     font-size: $responsive;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1 {
+    @include responsive-font(1.5vw, 2em);
+}
+h2 {
+    @include responsive-font(1.5vw, 1.3em);
+}
+h3 {
     @include responsive-font(1.5vw, 1em);
+}
+h4 {
+    @include responsive-font(1.5vw, 0.7em);
+}
+
+
+h1, h2, h3, h4, h5, h6 {
     letter-spacing: 1px;
 }
 .prevnext-pages {
