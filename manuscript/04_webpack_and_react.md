@@ -1,5 +1,7 @@
 # Webpack and React
 
+![React](images/react_header.png)
+
 Facebook's [React](https://facebook.github.io/react/) is one of those projects that has changed the way we think about frontend development. Thanks to [React Native](https://facebook.github.io/react-native/) the approach isn't limited just to web. Although simple to learn, React provides plenty of power.
 
 ## What is React?
