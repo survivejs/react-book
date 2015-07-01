@@ -76,9 +76,6 @@ code {
 }
 
 .frontpage {
-    .front-cover-wrapper {
-      vertical-align: middle;
-    }
     .front-text-wrapper {
         margin: 1em;
         max-width: 100%;
@@ -98,12 +95,6 @@ code {
         margin-top: 0;
     }
 
-    .front-cover {
-        box-shadow: 0 0 1em 0.05em rgba(0,0,0,0.5);
-        margin-top: 1em;
-        margin-bottom: 1 em;
-    }
-
     .front__heading {
         background: #323232;
         text-align: center;
@@ -117,7 +108,17 @@ code {
         float: right;
     }
 
+    .front-cover {
+        width: 255px;
+        box-shadow: 0 0 1em 0.02em rgba(0,0,0,0.5);
+        margin: 0 auto;
+    }
+
     @media screen and (min-width: 1150px) {
+        .front-cover {
+            margin-top: 1em;
+        }
+
         .post--front {
             flex-direction: row;
             flex-wrap: nowrap;
@@ -128,6 +129,10 @@ code {
         .post__sidebar {
             min-width: 250px;
         }
+    }
+
+    .front-cover-wrapper {
+        vertical-align: middle;
     }
 
     .author-photo {

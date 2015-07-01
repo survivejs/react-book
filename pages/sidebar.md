@@ -1,3 +1,7 @@
+<div class='front-cover-wrapper'>
+  <img class='front-cover' src='images/title_page_small.jpg' width=255 height=330 />
+</div>
+
 ## About Author
 
 <img src="https://www.gravatar.com/avatar/b26ec3c2769168c2cbc64cc3df9cdd9c?s=100" alt="Juho Vepsäläinen" class="author-photo" width="100" height="100" />

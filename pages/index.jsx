@@ -14,9 +14,6 @@ var Index = React.createClass({
                     flexDirection: 'row',
                     paddingBottom: '2vh',
                 }}>
-                    <div className='front-cover-wrapper'>
-                        <img className='front-cover' src='images/title_page_small.jpg' />
-                    </div>
                     <div className='front-text-wrapper'>
                         <h3 className='front-header'>SurviveJS - Webpack and React</h3>
                         <h1 className='front-motto'>Go from zero to Webpack and React hero</h1>
@@ -29,7 +26,7 @@ var Index = React.createClass({
                 </div>
                 <div className='post post--front'>
                     <section className='post__content' dangerouslySetInnerHTML={{__html: require('./index.md').content}} />
-                    <aside className='post__sidebar' dangerouslySetInnerHTML={{__html: require('./author.md').content}} />
+                    <aside className='post__sidebar' dangerouslySetInnerHTML={{__html: require('./sidebar.md').content}} />
                 </div>
             </div>
         );
