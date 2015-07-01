@@ -77,23 +77,31 @@ code {
 
 .frontpage {
     .front-text-wrapper {
-        margin: 1em;
+        margin-top: 2em;
+        margin-bottom: 2em;
         max-width: 100%;
-        text-shadow: 0 0 0.4em rgba(0,0,0,0.8);
+        text-shadow: 0 0 0.1em rgba(0,0,0,1);
 
-        .front__buttons .btn--inverted {
-            &:hover {
-                text-shadow: initial;
+        .front__buttons {
+            .btn {
+                margin-bottom: 0.5em;
+            }
+
+            .btn--inverted {
+                &:hover {
+                    text-shadow: initial;
+                }
             }
         }
     }
 
     .front-header, .front-motto {
+        color: white;
         margin-bottom: 0.5em;
-        color: #efefef;
     }
 
     .front-header {
+        margin-top: 0;
         margin-bottom: 0;
     }
 
