@@ -157,6 +157,10 @@ code {
         .post__sidebar {
             min-width: 250px;
             font-size: 80%;
+
+            ul > li:before {
+                content: '';
+            }
         }
     }
 
