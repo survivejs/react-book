@@ -25,10 +25,3 @@ Although the book is freely available under [CC BY-NC-ND](https://creativecommon
 </div>
 
 I expect you know the basics of JavaScript but beyond that not much is needed. You just need to have patience to work through the book and poke me in case there's something you don't understand!
-
-## Who wrote this book?
-
-<p>
-<img src="https://www.gravatar.com/avatar/b26ec3c2769168c2cbc64cc3df9cdd9c?s=100" alt="Juho Vepsäläinen" class="author-photo" width="100" height="100" />
-I, [Juho Vepsäläinen](https://twitter.com/bebraw), have been dealing with the web one way or another since the 90s. All hail *marquee*! I've seen the rise of web and JavaScript in particular. Besides React I have extensive experience in Angular, jQuery and various smaller libraries (mapping, charts, whatnot).
-</p>

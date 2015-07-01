@@ -28,7 +28,8 @@ var Index = React.createClass({
                     </div>
                 </div>
                 <div className='post post--front'>
-                    <div className='post__content' dangerouslySetInnerHTML={{__html: require('./index.md').content}} />
+                    <section className='post__content' dangerouslySetInnerHTML={{__html: require('./index.md').content}} />
+                    <aside className='post__sidebar' dangerouslySetInnerHTML={{__html: require('./author.md').content}} />
                 </div>
             </div>
         );

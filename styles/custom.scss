@@ -109,19 +109,34 @@ code {
         text-align: center;
     }
 
-    .author-photo {
-        margin-left: 1em;
-        border-radius: 50px;
-        width: 100px;
-        height: 100px;
-        float: right;
-    }
-
     .react-image {
         margin-left: 1em;
+        margin-right: 1em;
         width: 136px;
         height: 121px;
         float: right;
+    }
+
+    @media screen and (min-width: 1150px) {
+        .post--front {
+            flex-direction: row;
+            flex-wrap: nowrap;
+        }
+        .post__content {
+            margin-right: 1em;
+        }
+        .post__sidebar {
+            min-width: 250px;
+        }
+    }
+
+    .author-photo {
+        clear: both;
+        float: right;
+        margin-left: 0.5em;
+        border-radius: 50px;
+        width: 100px;
+        height: 100px;
     }
 }
 
