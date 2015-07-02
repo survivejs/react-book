@@ -144,7 +144,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 ...
 
 var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')],
+  entry: [path.resolve(ROOT_PATH, 'app/main')],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },

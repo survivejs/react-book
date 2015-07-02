@@ -50,6 +50,7 @@
 	document.body.appendChild(app);
 	app.appendChild(component());
 
+
 /***/ },
 /* 1 */
 /***/ function(module, exports) {

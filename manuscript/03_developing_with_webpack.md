@@ -93,7 +93,7 @@ var ROOT_PATH = path.resolve(__dirname);
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    path.resolve(ROOT_PATH, 'app/main.js'),
+    path.resolve(ROOT_PATH, 'app/main'),
   ],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),

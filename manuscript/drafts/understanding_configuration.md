@@ -10,7 +10,7 @@ Earlier in the book we did things like:
 
 ```javascript
 var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')],
+  entry: [path.resolve(ROOT_PATH, 'app/main')],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
@@ -26,7 +26,7 @@ An alternative way to write this would be have configuration such as:
 ```javascript
 {
   context: ROOT_PATH,
-  entry: './app/main.jsx',
+  entry: './app/main',
   ...
 }
 ```
@@ -37,8 +37,8 @@ As you can see, we can manipulate the `context` of `entry`. This becomes useful 
 {
   context: ROOT_PATH,
   entry: {
-    main: './app/main.jsx',
-    charts: './app/charts.jsx'
+    main: './app/main',
+    charts: './app/charts'
   },
   // note that context doesn't apply here!
   output: {

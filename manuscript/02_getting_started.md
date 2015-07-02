@@ -53,7 +53,7 @@ In our case a basic configuration could look like this:
 var path = require('path');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'app/main.js'),
+  entry: path.resolve(__dirname, 'app/main'),
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
@@ -80,7 +80,7 @@ module.exports = function () {
 **app/main.js**
 
 ```javascript
-var component = require('./component.js');
+var component = require('./component');
 var app = document.createElement('div');
 
 document.body.appendChild(app);

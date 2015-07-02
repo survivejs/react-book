@@ -71,17 +71,6 @@ function main() {
 }
 ```
 
-This change needs to be taken in count at configuration. Change entry path like this:
-
-**webpack.config.js**
-
-```javascript
-var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')]
-  ...
-}
-```
-
 W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own.
 
 ## Setting Up Webpack and Babel
@@ -126,7 +115,7 @@ Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This
 
 ```javascript
 var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main.jsx')],
+  entry: [path.resolve(ROOT_PATH, 'app/main')],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
