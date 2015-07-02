@@ -210,7 +210,7 @@ export default class Lane extends React.Component {
             items: () => NoteStore.getState().notes || [],
           }}
         >
-          <Notes onEdit={this.noteEdited.bind(this)} />
+          <Notes onEdit={this.noteEdited} />
         </AltContainer>
       </div>
     );
@@ -219,7 +219,7 @@ export default class Lane extends React.Component {
     NoteActions.create('New note');
   }
   noteEdited(id, task) {
-    if(note) {
+    if(task) {
       NoteActions.update({id, task});
     }
     else {
@@ -325,7 +325,7 @@ import Editable from './Editable';
 ...
 
 <Editable className='lane-name' value={name}
-  onEdit={this.nameEdited.bind(this, this.props.i)} />
+  onEdit={this.nameEdited.bind(null, this.props.i)} />
 
 ...
 
@@ -362,11 +362,11 @@ This is exactly the same logic as for notes. In fact it is be possible to factor
 ...
 
 <Editable className='lane-name' value={name}
-  onEdit={this.edited.bind(this, LaneActions, 'name', this.props.i)} />
+  onEdit={this.edited.bind(null, LaneActions, 'name', this.props.i)} />
 
 ...
 
-<Notes onEdit={this.edited.bind(this, this.actions, 'task')} />
+<Notes onEdit={this.edited.bind(null, this.actions, 'task')} />
 
 ...
 

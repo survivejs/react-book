@@ -16,7 +16,7 @@ export default class Notes extends React.Component {
         <li className='note' key={'note' + i}>
           <Editable
             value={note.task}
-            onEdit={this.props.onEdit.bind(this, i)} />
+            onEdit={this.props.onEdit.bind(null, i)} />
         </li>
       )}</ul>
     );

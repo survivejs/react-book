@@ -254,7 +254,7 @@ We also need to tweak `Notes` like this:
 ...
 <Note
   value={note.task}
-  onEdit={this.props.onEdit.bind(this, i)} />
+  onEdit={this.props.onEdit.bind(null, i)} />
 ...
 ```
 

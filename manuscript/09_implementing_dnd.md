@@ -56,7 +56,7 @@ import Note from './Note';
   <Note className='note' key={'note' + i}>
     <Editable
       value={note.task}
-      onEdit={this.props.onEdit.bind(this, i)} />
+      onEdit={this.props.onEdit.bind(null, i)} />
   </Note>
 )}</ul>
 ```
@@ -196,7 +196,7 @@ export default class Notes extends React.Component {
           key={'note-' + i} data={note}>
           <Editable
             value={note.task}
-            onEdit={this.props.onEdit.bind(this, i)} />
+            onEdit={this.props.onEdit.bind(null, i)} />
         </Note>
       )}</ul>
     );
@@ -291,7 +291,7 @@ export default class Notes extends React.Component {
           key={'note-' + note.id} data={note}>
           <Editable
             value={note.task}
-            onEdit={this.props.onEdit.bind(this, i)} />
+            onEdit={this.props.onEdit.bind(null, i)} />
         </Note>
       )}</ul>
     );

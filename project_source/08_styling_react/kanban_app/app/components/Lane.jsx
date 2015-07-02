@@ -29,7 +29,7 @@ export default class Lane extends React.Component {
       <div {...props}>
         <div className='lane-header'>
           <Editable className='lane-name' value={name}
-            onEdit={this.edited.bind(this, LaneActions, 'name', this.props.i)} />
+            onEdit={this.edited.bind(null, LaneActions, 'name', this.props.i)} />
           <div className='lane-add-note'>
             <button onClick={() => addNote()}>+</button>
           </div>
@@ -40,7 +40,7 @@ export default class Lane extends React.Component {
             items: () => this.store.getState().notes || [],
           }}
         >
-          <Notes onEdit={this.edited.bind(this, this.actions, 'task')} />
+          <Notes onEdit={this.edited.bind(null, this.actions, 'task')} />
         </AltContainer>
       </div>
     );

@@ -20,7 +20,7 @@ export default class Notes extends React.Component {
           key={'note-' + note.id} data={note}>
           <Editable
             value={note.task}
-            onEdit={this.props.onEdit.bind(this, i)} />
+            onEdit={this.props.onEdit.bind(null, i)} />
         </Note>
       )}</ul>
     );
