@@ -298,6 +298,8 @@ if(TARGET === 'dev') {
 }
 ```
 
+T> `webpack/hot/only-dev-server` is useful because in case HMR fails for some reason, it allows you to examine the failure reason at browser console. If you want to just refresh the browser in this case use `webpack/hot/dev-server` instead.
+
 **lib/dev_server.js**
 
 ```javascript
