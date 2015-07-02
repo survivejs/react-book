@@ -73,13 +73,21 @@ function main() {
 
 W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own.
 
-## Setting Up Webpack and Babel
+## Babel
 
 ![Babel](images/babel.png)
 
-In order to make everything work again, we'll need to tweak our configuration a little. In order to deal with ES6 and JSX, we'll use [babel-loader](https://www.npmjs.com/package/babel-loader). Babel provides support for the newest JavaScript features and even includes some experimental ones. It is possible to develop custom features of your own against its API. It also works with JSX making it ideal for our purposes.
+[Babel](https://babeljs.io/) is one of those projects that has made a big impact on the community. It allows us to use features from the future of JavaScript. It will transform your futuristic code to a format browsers understand. Besides providing functionality it allows you to develop your own language features. In addition it comes with JSX support. That will come in handy here.
 
-Install it using `npm i babel-loader --save-dev`. In addition add the following loader declaration to the *loaders* section of your configuration:
+In addition to the standardized ES6 features Babel provides support for certain [experimental features](https://babeljs.io/docs/usage/experimental/) from ES7. Some of these might make it to the core language while some might be dropped altogether. The language proposals have been categorized within stages. Stage 0 is a strawman, stage 1 a proposal, stage 2 draft and so on.
+
+I would be especially careful with stage 0 as if a stage 0 feature you are depending upon goes away you'll have to rewrite some of your code. But in smaller projects that may be worth the risk. Babel has stage 2 and higher features enabled by default. In our project we'll enable stage 1 to use decorators and property spreading as they will make our code a little tidier.
+
+T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of code it generates.
+
+### Configuring babel-loader
+
+In order to set up Babel for our project we can use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-loader --save-dev`. In addition add the following loader declaration to the *loaders* section of your configuration:
 
 **webpack.config.js**
 
