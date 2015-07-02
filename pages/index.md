@@ -20,8 +20,8 @@ Although the book is freely available under [CC BY-NC-ND](https://creativecommon
 ## What are the prerequisites?
 
 <div style="margin-bottom: 1em">
-    <div style="background-image: url('images/kanban_small.jpg'); height: 220px; background-position: top; background-size: cover;"></div>
-    <span class="legend" style="font-size: small;">[Dennis Hamilton](https://www.flickr.com/photos/91555706@N00/3879384912/) - Kanban (CC BY)</span>
+  <img src="images/kanban_small.jpg" alt="Kanban board" class="kanban-image" width="646" height="232" />
+  <span class="legend" style="font-size: small;">[Dennis Hamilton](https://www.flickr.com/photos/91555706@N00/3879384912/) - Kanban (CC BY)</span>
 </div>
 
 I expect you know the basics of JavaScript but beyond that not much is needed. You just need to have patience to work through the book and poke me in case there's something you don't understand!
