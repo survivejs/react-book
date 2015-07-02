@@ -336,6 +336,64 @@ constructor(props: {
 
 With Flow you can type the most vital parts of your source. You can think it as an executable form of documentation that helps you during development. As with linting it won't replace tests but it will make it easier to work with the source. See [Try Flow](https://tryflow.org/) for more concrete examples.
 
+## React Component Styles
+
+Besides ES6 classes React allows you to construct components using `React.createClass()`. That was the original way to create components and is still in use. The approaches aren't equivalent by default.
+
+When you are using `React.createClass` it is possible to inject functionality to a component using mixins. This isn't possible in ES6 by default unless you are using a helper such as [react-mixin](https://github.com/brigand/react-mixin). In the next chapter we will go through various alternative approaches that allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
+
+In addition ES6 class based components won't bind their methods to `this` context by default. This is the reason you saw declarations such as `(e) => ...` above. As you may know `() => ...` binds the function context by default. It is equivalent to `.bind(this)`. In case you want automatic binding for ES6 classes you can use a solution such as [autobind-decorator](https://github.com/andreypopp/autobind-decorator).
+
+The biggest benefit of the class based approach is that it decreases the amount of concepts you have to worry about. Particularly `constructor` helps to keep things simpler than in `React.createClass` based approach where you need to define separate methods to achieve the same result.
+
+In the future it will be possible to use pure function based component definitions but that is not possible as of yet. This approach will likely get introduced with version 0.14 of React.
+
+## Understanding React Components
+
+Besides understanding how props and state work it is important to understand the concept of component lifecycle. We already touched it briefly above but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these three concepts throughout your application.
+
+To quote [the official documentation](https://facebook.github.io/react/docs/component-specs.html) React provides the following `React.createClass` specific component specifications:
+
+* `displayName` - It is preferable to set `displayName` as that will improve debug information. For ES6 classes this is derived automatically based on the class name.
+* `getInitialState()` - In class based approach the same can be achieved through `constructor`.
+* `getDefaultProps()` - In classes you can set these in `constructor`.
+* `propTypes` - As seen above you can use Flow to deal with prop types. In `React.createClass` you would build a complex looking declaration as seen in [the propType documentation](https://facebook.github.io/react/docs/reusable-components.html).
+* `mixins` - `mixins` contains an array of mixins to apply to component.
+* `statics` - `statics` contains static properties and method for a component. In ES6 you would assign them to the class like below:
+
+```javascript
+class Note {
+  render() {
+    ...
+  }
+}
+Note.willTransitionTo = () => {...};
+
+export default Note;
+```
+
+Some libraries such as `react-dnd` rely on static methods to provide transition hooks that allow you to control what happens when a component is shown or hidden. By definition statics are available through class itself as you might guess from the code above.
+
+Both component types support `render()`. As seen above this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything return either `null` or `false`.
+
+In addition React provides the following lifecycle hooks:
+
+* `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
+* `componentDidMount()` gets triggered after initial rendering. You have access to DOM here. You could use this hook to wrap a jQuery plugin within a component for instance.
+* `componentWillReceiveProps(object nextProps)` triggers when component receives new props. You could for instance modify your component state based on the received props.
+* `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize rendering. If you check the props and state and see that there's no need to update, return `false`.
+* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here but you can set class properties for instance.
+* `componentDidUpdate` is triggered after rendering. You can modify DOM here. This can be useful for adapting other code to work with React.
+* `componentWillUnmount` is triggered just before a component is unmounted from DOM. This is the ideal place to perform cleanup (ie. remove running timers, custom DOM elements and so on).
+
+## React Component Conventions
+
+As seen in the above code I prefer to have `constructor` first, possible lifecycle hooks then, `render()` and finally methods used by `render()`. I like this top-down approach as it makes it straight-forward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers for instance.
+
+In the end you will have to find conventions you like and that work the best for you. I go more detail in this topic at the linting chapter as I introduce various code quality related tools. It is possible to enforce coding style to some extent for instance.
+
+This can be useful in a team environment as it decreases the amount of friction when working on code written by others. Even on personal projects having some tools to check out things for you can be useful and lessen the amount and severity of mistakes.
+
 ## Conclusion
 
 The approach we discussed works up to a point. It is a little ugly but it works. In the next chapter we will clean things up as we introduce Flux architecture and port our application to use it.
