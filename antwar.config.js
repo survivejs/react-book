@@ -40,6 +40,10 @@ module.exports = {
     {
       from: './CNAME',
       to: './',
+    },
+    {
+      from: './favicon.ico',
+      to: './',
     }
   ],
   output: 'build',
