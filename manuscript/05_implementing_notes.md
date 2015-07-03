@@ -115,7 +115,7 @@ render() {
 
   return (
     <div>
-      <button onClick={() => addItem()}>+</button>
+      <button onClick={() => this.addItem()}>+</button>
       <Notes items={notes} />
     </div>
   );
@@ -126,6 +126,8 @@ addItem() {
 ```
 
 Now when you click the button, you should see something at your browser console.
+
+T> Note that `() => ...` kind of syntax binds method context to parent. If we used `this` at `addItem` instead of being `undefined` it would point to the class itself.
 
 ## Connecting `addItem` with Data Model
 
