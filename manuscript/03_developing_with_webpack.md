@@ -228,7 +228,7 @@ T> Note that you can pass a custom template to `html-webpack-plugin`. In our cas
 
 ### Setting Up `WebpackDevServer`
 
-We'll write a custom little server of ours for dealing with development. This will give us a bit more control and helps us to keep `package.json` neater. Set up `dev-server/server.js` like this:
+We'll write a custom little server of ours for dealing with development. This will give us a bit more control and helps us to keep `package.json` neater. Set up `lib/server.js` like this:
 
 **lib/dev_server.js**
 
