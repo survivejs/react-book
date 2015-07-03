@@ -198,7 +198,7 @@ In our current solution we've entangled our build and development version `index
 
 Fortunately we can resolve this problem by extending our system a little. We'll set up our own little server in which we'll wrap `WebpackDevServer` in addition we'll generate HTML of our production version dynamically with some hash so we get to benefit from client level caching.
 
-### Setting up html-webpack-plugin
+### Setting up `html-webpack-plugin`
 
 As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build/index.html`. We'll generate that dynamically next with some configuration.
 
@@ -226,7 +226,7 @@ If you hit `npm run build` now, you should get output that's roughly equal to wh
 
 T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
 
-### Setting Up WebpackDevServer
+### Setting Up `WebpackDevServer`
 
 We'll write a custom little server of ours for dealing with development. This will give us a bit more control and helps us to keep `package.json` neater. Set up `dev-server/server.js` like this:
 
