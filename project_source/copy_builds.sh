@@ -2,6 +2,7 @@
 
 BUILD_DIR=builds
 
+rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
 for d in */; do
