@@ -19,16 +19,15 @@ var common = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Kanban app',
+    }),
+  ],
 };
 
 if(TARGET === 'build') {
-  module.exports = merge(common, {
-    plugins: [
-      new HtmlWebpackPlugin({
-        title: 'Kanban app',
-      }),
-    ],
-  });
+  module.exports = common;
 }
 
 if(TARGET === 'dev') {
@@ -36,6 +35,6 @@ if(TARGET === 'dev') {
     entry: [
       'webpack-dev-server/client?http://0.0.0.0:8080',
       'webpack/hot/dev-server'
-    ]
+    ],
   });
 }

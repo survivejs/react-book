@@ -47,7 +47,7 @@ When you run `npm start` from your terminal it will execute the command mapping 
 4. `--progress` - Will show progress of bundling your application
 5. `--colors` - Colors in the terminal!
 6. `--hot` - Enable hot module loading
-7. `--content-base build` - Points to the output directory configured
+7. `--content-base build` - Points to `build` so we can reuse `index.html` from there. We'll eliminate this later in this chapter
 
 To recap, when you run `npm start` this will fire up the webservice, watch for file changes and automatically rebundle your application when any file changes occur.
 
@@ -163,7 +163,7 @@ var common = {
 };
 
 if(TARGET === 'build') {
-  module.exports = merge(common);
+  module.exports = common;
 }
 
 if(TARGET === 'dev') {
@@ -212,17 +212,32 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var merge = require('webpack-merge');
 
-...
+var TARGET = process.env.TARGET;
+var ROOT_PATH = path.resolve(__dirname);
 
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    plugins: [
-      new HtmlWebpackPlugin({
-        title: 'Kanban app'
-      }),
-    ],
-  });
-}
+var common = {
+  ...
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Kanban app',
+    }),
+  ],
+};
+
+...
+```
+
+We can also drop `--content-base` from the `start` script since the entry point will get generated dynamically.
+
+**package.json**
+
+```json
+...
+"scripts": {
+  "build": "webpack",
+  "start": "webpack-dev-server --config webpack.development.js --devtool eval-source --progress --colors --hot"
+},
+...
 ```
 
 If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. We still need to make our development server work to get back where we started.

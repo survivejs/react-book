@@ -161,14 +161,12 @@ var webpack = require('webpack');
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    ...
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false
         },
       }),
-      ...
     ],
   });
 }
@@ -202,7 +200,6 @@ In Webpack terms you can add the following snippet to the `plugins` section of y
 ```javascript
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    ...
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
@@ -256,6 +253,7 @@ var common = {
       },
     ],
   },
+  ...
 };
 
 ...

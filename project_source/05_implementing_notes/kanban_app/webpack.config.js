@@ -23,6 +23,11 @@ var common = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Kanban app',
+    }),
+  ],
 };
 
 if(TARGET === 'build') {
@@ -47,9 +52,6 @@ if(TARGET === 'build') {
         compress: {
           warnings: false,
         },
-      }),
-      new HtmlWebpackPlugin({
-        title: 'Kanban app',
       }),
     ],
   });

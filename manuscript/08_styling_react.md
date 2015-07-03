@@ -152,6 +152,7 @@ var common = {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
   },
+  ...
 };
 
 if(TARGET === 'build') {

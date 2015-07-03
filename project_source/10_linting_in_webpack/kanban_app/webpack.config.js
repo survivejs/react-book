@@ -16,6 +16,11 @@ var common = {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Kanban app',
+    }),
+  ],
 };
 
 if(TARGET === 'build') {
@@ -45,9 +50,6 @@ if(TARGET === 'build') {
         compress: {
           warnings: false,
         },
-      }),
-      new HtmlWebpackPlugin({
-        title: 'Kanban app',
       }),
     ],
   });

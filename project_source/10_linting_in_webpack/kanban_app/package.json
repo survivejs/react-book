@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "TARGET=build webpack",
-    "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
+    "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot",
     "lint": "npm run lint-js && npm run lint-css",
     "lint-js": "eslint . --ext .js --ext .jsx",
     "lint-css": "csslint app/stylesheets --quiet"
