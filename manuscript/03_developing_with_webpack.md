@@ -305,6 +305,16 @@ Finally we'll need to tweak `package.json`:
 
 If you hit `npm start` at `kanban_app/` now and start tweaking `app/component.js` you should see the browser refresh.
 
+## Other Configuration Approaches
+
+There is no one clear convention on how to deal with Webpack configuration. Given Webpack expects an object structure the way you generate it doesn't matter that much. The way you saw above is the one I find the most convenient as it allows you to share configuration easily while understanding what's going on.
+
+Some people prefer to write a separate configuration file per target. In order to share configuration they write a factory function. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
+
+This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a Webpack based library that wraps common scenarios within an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
+
+In fact Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon Webpack and React and hides a lot of the complexity of Webpack from the user. Webpack is a good fit for tools like this as it solves so many difficult problems well.
+
 ## Conclusion
 
 Now we have a nice degree of separation between production and development builds. Initially Webpack tends to take some configuration work but after that working with it becomes faster as you start to think in terms of loaders and plugins and how those fit into your workflow. Webpack deals with the heavy lifting while you get to focus on development.
