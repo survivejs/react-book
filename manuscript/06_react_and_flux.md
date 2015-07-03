@@ -2,9 +2,11 @@
 
 [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications. You can get quite far by keeping everything in components but eventually that will become painful. Flux provides one way out of this.
 
-In this chapter we will be using [Alt](http://alt.js.org/), a light Flux implementation. It gets rid of a lot of baggage provided with Flux and allows you to focus on the essential.
+In this chapter we will be using [Alt](http://alt.js.org/), a light Flux implementation. It gets rid of a lot of baggage provided with Flux and allows you to focus on the essential. It was chosen because it's versatile enough and has a strong community behind it. At the time of writing it was the most popular implementation based on npm download statistics.
 
-T> Note that there are dozens of Flux implementations out there. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) is a good starting point if you are interested in alternatives.
+There are dozens of other Flux implementations out there. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) is a good starting point if you are interested in alternatives.
+
+T> For debugging purposes you might want to pick up [alt-devtool](https://github.com/goatslacker/alt-devtool), a Chrome plugin. It won't be absolutely necessary but it might come in handy.
 
 ## Introduction to Flux
 
