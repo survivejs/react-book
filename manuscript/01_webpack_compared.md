@@ -114,9 +114,7 @@ The Browserify ecosystem is composed from a lot of small modules. This way they 
 
 ![Webpack](images/webpack.png)
 
-You could say Webpack takes a more monolithic approach than Browserify. You simply get more out of the box. It is extended using loaders and relies on configuration. As we saw in the previous chapter it took some effort to get a build done. But after the initial curve it eases out considerably.
-
-Webpack expands on the idea of hooking into CommonJS `require`. What if you could just `require` whatever you needed in your code, be it CoffeeScript, Sass, Markdown or something? Well, Webpack does just this.
+You could say Webpack takes a more monolithic approach than Browserify. You simply get more out of the box. It is extended using loaders and relies on configuration. Webpack expands on the idea of hooking into CommonJS `require`. What if you could just `require` whatever you needed in your code, be it CoffeeScript, Sass, Markdown or something? Well, Webpack does just this.
 
 It takes your dependencies, puts them through loaders and outputs browser compatible static assets. All of this is based on configuration. Here is a sample configuration from [the official Webpack tutorial](http://webpack.github.io/docs/tutorials/getting-started/):
 

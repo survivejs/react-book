@@ -6,9 +6,7 @@ This sounds very simple but in practice it can be a very complicated and messy p
 
 ## Setting Up Your First Project
 
-Webpack is one of those tools that depends on Node.js. Head to http://nodejs.org/ and get it installed unless you have done so already. You should have `npm` available at your terminal. Once you are done, continue.
-
-Next you should set a directory for your project, navigate there, hit `npm init` and fill in some details. Here are the commands in detail:
+Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and you can have `npm` available at your terminal. Next you should set a directory for your project, navigate there, hit `npm init` and fill in some details. Here are the commands in detail:
 
 ```bash
 mkdir kanban_app
@@ -22,11 +20,11 @@ As a result you should have `package.json`. If you are into version control, as 
 
 Next you should get Webpack installed. We'll do a local install and save it as a project dependency. This way you can invoke the build anywhere (build server, whatnot). Run `npm i webpack node-libs-browser --save-dev`. If you want to run the tool, hit `node_modules/.bin/webpack`.
 
-T> We are using `--save-dev` here instead of `--save` as we want to use Webpack as a development dependency. Use `--save-dev` for parts you need to generate your distribution version. Otherwise `--save` is a good pick.
+`node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
 
-T> `node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
+Webpack works using a global install as well (`-g` flag) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
 
-T> Webpack works using a global install as well (`-g` flag) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
+T> We are using `--save-dev` here instead of `--save` as we want to use Webpack as a development dependency. Use `--save-dev` for parts you need to generate your distribution version. Otherwise `--save` is a good choice.
 
 ## Directory Structure
 
