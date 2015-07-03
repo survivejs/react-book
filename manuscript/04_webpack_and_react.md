@@ -280,11 +280,10 @@ if(TARGET === 'build') {
 if(TARGET === 'dev') {
   module.exports = merge(common, {
     entry: [
-      'webpack-dev-server/client?http://' + IP + ':' + PORT,
-      'webpack/hot/only-dev-server', // only-dev-server!
+      'webpack-dev-server/client?http://0.0.0.0:8080',
+      'webpack/hot/dev-server'
     ],
     module: {
-      ...
       loaders: [
         {
           test: /\.jsx?$/,
@@ -295,22 +294,6 @@ if(TARGET === 'dev') {
     },
   });
 }
-```
-
-T> `webpack/hot/only-dev-server` is useful because in case HMR fails for some reason, it allows you to examine the failure reason at browser console. If you want to just refresh the browser in this case use `webpack/hot/dev-server` instead.
-
-**lib/dev_server.js**
-
-```javascript
-...
-
-new WebpackDevServer(webpack(config), {
-  ...
-  hot: true,
-  ...
-}).listen(config.port, config.ip, function(err) {
-  ...
-});
 ```
 
 Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.

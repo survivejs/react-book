@@ -1,6 +1,5 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
 var merge = require('webpack-merge');
 
 var TARGET = process.env.TARGET;
@@ -33,25 +32,10 @@ if(TARGET === 'build') {
 }
 
 if(TARGET === 'dev') {
-  var IP = '0.0.0.0';
-  var PORT = 8080;
-
   module.exports = merge(common, {
-    ip: IP,
-    port: PORT,
     entry: [
-      'webpack-dev-server/client?http://' + IP + ':' + PORT,
-      'webpack/hot/dev-server',
-    ],
-    output: {
-      path: __dirname,
-      filename: 'bundle.js',
-      publicPath: '/',
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
-      new HtmlWebpackPlugin(),
-    ],
+      'webpack-dev-server/client?http://0.0.0.0:8080',
+      'webpack/hot/dev-server'
+    ]
   });
 }

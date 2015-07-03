@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "TARGET=build webpack",
-    "start": "TARGET=dev node lib/dev_server.js",
+    "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
     "lint": "npm run lint-js && npm run lint-css",
     "lint-js": "eslint . --ext .js --ext .jsx",
     "lint-css": "csslint app/stylesheets --quiet"
@@ -17,28 +17,28 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^5.6.4",
+    "babel-core": "^5.6.15",
     "babel-eslint": "^3.1.20",
-    "babel-loader": "^5.1.4",
+    "babel-loader": "^5.2.2",
     "css-loader": "^0.15.1",
     "csslint": "^0.10.0",
     "csslint-loader": "^0.2.0",
     "eslint": "^0.24.0",
     "eslint-loader": "^0.14.1",
-    "eslint-plugin-react": "^2.6.3",
+    "eslint-plugin-react": "^2.6.4",
     "extract-text-webpack-plugin": "^0.8.2",
-    "flowcheck": "^0.2.6",
+    "flowcheck": "^0.2.7",
     "flowcheck-loader": "^1.0.0",
     "html-webpack-plugin": "^1.5.2",
     "node-libs-browser": "^0.5.2",
     "react-hot-loader": "^1.2.7",
     "style-loader": "^0.12.3",
-    "webpack": "^1.9.11",
-    "webpack-dev-server": "^1.9.0",
-    "webpack-merge": "^0.1.1"
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1",
+    "webpack-merge": "^0.1.2"
   },
   "dependencies": {
-    "alt": "^0.16.10",
+    "alt": "^0.17.0",
     "node-uuid": "^1.4.3",
     "react": "^0.13.3",
     "react-dnd": "^1.1.3"

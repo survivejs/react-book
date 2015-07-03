@@ -168,7 +168,10 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    entry: ['webpack/hot/dev-server']
+    entry: [
+      'webpack-dev-server/client?http://0.0.0.0:8080',
+      'webpack/hot/dev-server'
+    ]
   });
 }
 ```
@@ -225,85 +228,6 @@ if(TARGET === 'build') {
 If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. We still need to make our development server work to get back where we started.
 
 T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
-
-### Setting Up `WebpackDevServer`
-
-We'll write a custom little server of ours for dealing with development. This will give us a bit more control and helps us to keep `package.json` neater. Set up `lib/server.js` like this:
-
-**lib/dev_server.js**
-
-```javascript
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-
-var config = require('../webpack.config');
-
-new WebpackDevServer(webpack(config), {
-  contentBase: __dirname,
-  publicPath: config.output.publicPath,
-  historyApiFallback: true,
-  stats: {
-    colors: true,
-  },
-}).listen(config.port, config.ip, function(err) {
-  if (err) {
-    return console.log(err);
-  }
-
-  console.log('Listening at ' + config.ip + ':' + config.port);
-});
-```
-
-The server has been configured in `hot` mode and it has `historyApiFallback` enabled. We'll get back to that `hot` setting in the React chapter. `historyApiFallback` will come in handy if/when our application has History API routing. It will allow us to access the application directly from the routes we have defined for it instead of having to go through root always.
-
-**webpack.config.js**
-
-```javascript
-var webpack = require('webpack');
-
-...
-
-if(TARGET === 'dev') {
-  var IP = '0.0.0.0';
-  var PORT = 8080;
-
-  module.exports = merge(common, {
-    ip: IP,
-    port: PORT,
-    entry: [
-      'webpack-dev-server/client?http://' + IP + ':' + PORT,
-      'webpack/hot/dev-server',
-    ],
-    output: {
-      path: ROOT_PATH,
-      filename: 'bundle.js',
-      publicPath: '/',
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
-      new HtmlWebpackPlugin(),
-    ],
-  });
-}
-```
-
-In the Webpack configuration we make sure it includes Socket.io client and dev server bits. `webpack/hot/dev-server` will trigger full refresh in case it detects a change. Later on we will replace it with `webpack/hot/only-dev-server` which will work better with hot module reloading for React.
-
-Finally we'll need to tweak `package.json`:
-
-**package.json**
-
-```
-...
-"scripts": {
-  "build": "TARGET=build webpack",
-  "start": "TARGET=dev node lib/dev_server.js"
-},
-...
-```
-
-If you hit `npm start` at `kanban_app/` now and start tweaking `app/component.js` you should see the browser refresh.
 
 ## Other Configuration Approaches
 

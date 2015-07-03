@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "TARGET=build webpack",
-    "start": "TARGET=dev node lib/dev_server.js"
+    "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --content-base build"
   },
   "keywords": [
     "webpack",
@@ -18,8 +18,8 @@
     "html-webpack-plugin": "^1.5.2",
     "node-libs-browser": "^0.5.2",
     "style-loader": "^0.12.3",
-    "webpack": "^1.9.11",
-    "webpack-dev-server": "^1.9.0",
-    "webpack-merge": "^0.1.1"
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1",
+    "webpack-merge": "^0.1.2"
   }
 }

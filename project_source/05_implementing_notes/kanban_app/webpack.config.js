@@ -56,15 +56,10 @@ if(TARGET === 'build') {
 }
 
 if(TARGET === 'dev') {
-  var IP = '0.0.0.0';
-  var PORT = 8080;
-
   module.exports = merge(common, {
-    ip: IP,
-    port: PORT,
     entry: [
-      'webpack-dev-server/client?http://' + IP + ':' + PORT,
-      'webpack/hot/only-dev-server',
+      'webpack-dev-server/client?http://0.0.0.0:8080',
+      'webpack/hot/dev-server'
     ],
     module: {
       loaders: [
@@ -75,15 +70,5 @@ if(TARGET === 'dev') {
         },
       ],
     },
-    output: {
-      path: __dirname,
-      filename: 'bundle.js',
-      publicPath: '/',
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
-      new HtmlWebpackPlugin(),
-    ],
   });
 }
