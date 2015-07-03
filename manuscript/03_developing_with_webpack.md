@@ -39,20 +39,6 @@ module.exports = {
 };
 ```
 
-**build/index.html**
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8"/>
-  </head>
-  <body>
-    <script src="bundle.js"></script>
-  </body>
-</html>
-```
-
 When you run `npm start` from your terminal it will execute the command mapping to `start` script of the `scripts` section. This is what it does:
 
 1. `webpack-dev-server` - Starts a web service on `localhost:8080`
