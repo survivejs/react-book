@@ -201,7 +201,7 @@ export default class Lane extends React.Component {
         <div className='lane-header'>
           <div className='lane-name'>{name}</div>
           <div className='lane-add-note'>
-            <button onClick={() => addNote()}>+</button>
+            <button onClick={() => this.addNote()}>+</button>
           </div>
         </div>
         <AltContainer
