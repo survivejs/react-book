@@ -192,7 +192,7 @@ You can also eliminate those old configuration files at the project root while a
 
 If everything went fine, the old commands should work still. Now we have something a little tidier together that's possible to grow even further with minimal work.
 
-## WebpackDevServer and html-webpack-plugin
+## `WebpackDevServer` and `html-webpack-plugin`
 
 In our current solution we've entangled our build and development version `index.html`. We definitely don't want reference to `http://localhost:8080/webpack-dev-server.js` to end up in our production version.
 
