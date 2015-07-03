@@ -195,13 +195,9 @@ You can also eliminate those old configuration files at the project root while a
 
 If everything went fine, the old commands should work still. Now we have something a little tidier together that's possible to grow even further with minimal work.
 
-## `WebpackDevServer` and `html-webpack-plugin`
+## `html-webpack-plugin`
 
-In our current solution we've entangled our build and development version `index.html`. We definitely don't want reference to `http://localhost:8080/webpack-dev-server.js` to end up in our production version.
-
-Fortunately we can resolve this problem by extending our system a little. We'll set up our own little server in which we'll wrap `WebpackDevServer` in addition we'll generate HTML of our production version dynamically with some hash so we get to benefit from client level caching.
-
-### Setting up `html-webpack-plugin`
+In our current solution our build and development rely on the same `index.html`. That will cause problems as the project expands. Instead it's preferable to use `html-webpack-plugin` for this purpose. It can generate all the references we need without us having to tweak them manually.
 
 As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build/index.html`. We'll generate that dynamically next with some configuration.
 
