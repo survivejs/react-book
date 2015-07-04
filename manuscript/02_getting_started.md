@@ -144,6 +144,6 @@ The potential problem with this approach is that it can tie you to a Unix enviro
 
 ## Conclusion
 
-Getting a simple build like this isn't very complex. In the end you'll end up with a little bit configuration. Webpack deals with the nasty details for you after that. We are close to unleashing the power of Webpack here as you will soon see.
+Getting a simple build like this isn't very complex. In the end you'll end up with a little bit of configuration. Webpack deals with the nasty details for you after that. We are close to unleashing the power of Webpack here as you will soon see.
 
 Next we'll discuss Webpack compared to some other solutions. After that we'll get back to this example as hitting `npm run build` all the time and refreshing browser during development doesn't sound that efficient. We can do something about that.

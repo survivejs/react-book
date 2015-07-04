@@ -105,7 +105,7 @@ Not only this change keeps `App` cleaner but it also gives us flexibility. If yo
 
 It would be useful if we could add new items to our Notes list. Let's just do a plus button that adds a new dummy item to our list.
 
-To get a button show up, change `render` method like this:
+To implement the button, change `render` method like this:
 
 **app/components/App.jsx**
 
