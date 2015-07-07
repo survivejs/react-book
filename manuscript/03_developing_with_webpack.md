@@ -230,8 +230,8 @@ We can also drop `--content-base` from the `start` script since the entry point 
 ```json
 ...
 "scripts": {
-  "build": "webpack",
-  "start": "webpack-dev-server --config webpack.development.js --devtool eval-source --progress --colors --hot"
+  "build": "TARGET=build webpack",
+  "start": "TARGET=dev webpack-dev-server --config webpack.development.js --devtool eval-source --progress --colors --hot"
 },
 ...
 ```
