@@ -11,24 +11,28 @@ This means `App` will have to coordinate the state. Let's start by rendering a l
 **app/components/App.jsx**
 
 ```javascript
-render() {
-  var notes = [{
-    task: 'Learn Webpack',
-  }, {
-    task: 'Learn React',
-  }, {
-    task: 'Do laundry',
-  }];
+...
 
-  return (
-    <div>
-      <ul>{notes.map((note, i) =>
-        <li key={'note' + i}>
-          <Note value={note.task} />
-        </li>
-      )}</ul>
-    </div>
-  );
+export default class App extends React.Component {
+  render() {
+    var notes = [{
+      task: 'Learn Webpack',
+    }, {
+      task: 'Learn React',
+    }, {
+      task: 'Do laundry',
+    }];
+
+    return (
+      <div>
+        <ul>{notes.map((note, i) =>
+          <li key={'note' + i}>
+            <Note value={note.task} />
+          </li>
+        )}</ul>
+      </div>
+    );
+  }
 }
 ```
 
@@ -41,9 +45,14 @@ If everything went correctly, you should see a list with three `Learn Webpack` i
 **app/components/Note.jsx**
 
 ```javascript
-render() {
-  return <div>{this.props.value}</div>;
+import React from 'react';
+
+export default class Note extends React.Component {
+  render() {
+    return <div>Learn Webpack</div>;
+  }
 }
+
 ```
 
 As you can see the property we passed to our component gets mapped to `this.props`. After that it is just a matter of showing it wherever we like.
@@ -87,16 +96,19 @@ Remember to replace the old list with `<Notes items={notes} />` at *App.jsx*:
 import Notes from './Notes';
 
 ...
-render() {
-  ...
 
-  return (
-    <div>
-      <Notes items={notes} />
-    </div>
-  );
+export default class App extends React.Component {
+  render() {
+    ...
+
+    return (
+      <div>
+        <Notes items={notes} />
+      </div>
+    );
+  }
+  ...
 }
-...
 ```
 
 Not only this change keeps `App` cleaner but it also gives us flexibility. If you wanted to have multiple `Notes` lists, it would be simple now. This is one of the key things to understand about React. You will need to learn to think in terms of components.
@@ -110,18 +122,22 @@ To implement the button, change `render` method like this:
 **app/components/App.jsx**
 
 ```javascript
-render() {
-  ...
+...
 
-  return (
-    <div>
-      <button onClick={() => this.addItem()}>+</button>
-      <Notes items={notes} />
-    </div>
-  );
-}
-addItem() {
-  console.log('add item');
+export default class App extends React.Component {
+  render() {
+    ...
+
+    return (
+      <div>
+        <button onClick={() => this.addItem()}>+</button>
+        <Notes items={notes} />
+      </div>
+    );
+  }
+  addItem() {
+    console.log('add item');
+  }
 }
 ```
 
@@ -133,35 +149,48 @@ T> Note that `() => ...` kind of syntax binds method context to parent. If we us
 
 Next we will need to connect this with our data model somehow. It is problematic that data is stored within our `render` method. React provides a concept known as state for this purpose. We can move our data there like this:
 
-```javascript
-constructor(props) {
-  super(props);
+**app/components/App.jsx**
 
-  this.state = {
-    notes: [{
-      task: 'Learn Webpack',
-    }, {
-      task: 'Learn React',
-    }, {
-      task: 'Do laundry',
-    }],
-  };
-}
-render() {
-  var notes = this.state.notes;
-  ...
+```javascript
+...
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      notes: [{
+        task: 'Learn Webpack',
+      }, {
+        task: 'Learn React',
+      }, {
+        task: 'Do laundry',
+      }],
+    };
+  }
+  render() {
+    var notes = this.state.notes;
+    ...
+  }
 }
 ```
 
 Now our `render` method points at `state`. As a result we can implement `addItem` that actually does something useful:
 
+**app/components/App.jsx**
+
 ```javascript
-addItem() {
-  this.setState({
-    notes: this.state.notes.concat([{
-      task: 'New task',
-    }])
-  });
+...
+
+export default class App extends React.Component {
+  ...
+  addItem() {
+    this.setState({
+      notes: this.state.notes.concat([{
+        task: 'New task',
+      }])
+    });
+  }
 }
 ```
 
@@ -236,21 +265,25 @@ In order to make that happen we'll need to define that callback for `App` like t
 **app/components/App.jsx**
 
 ```javascript
-render() {
-  ...
-  <Notes
-    items={notes}
-    onEdit={(i, task) => this.itemEdited(i, task)} />
-  ...
-}
-itemEdited(i, task) {
-  var notes = this.state.notes;
+...
 
-  notes[i].task = task;
+export default class App extends React.Component {
+  render() {
+    ...
+    <Notes
+      items={notes}
+      onEdit={(i, task) => this.itemEdited(i, task)} />
+    ...
+  }
+  itemEdited(i, task) {
+    var notes = this.state.notes;
 
-  this.setState({
-    notes: notes,
-  });
+    notes[i].task = task;
+
+    this.setState({
+      notes: notes,
+    });
+  }
 }
 ```
 
@@ -260,10 +293,22 @@ We also need to tweak `Notes` like this:
 
 ```javascript
 ...
-<Note
-  value={note.task}
-  onEdit={this.props.onEdit.bind(null, i)} />
-...
+
+export default class Notes extends React.Component {
+render() {
+  var notes = this.props.items;
+
+  return (
+    <ul className='notes'>{notes.map((note, i) =>
+      <li className='note' key={'note' + i}>
+        <Note
+          value={note.task}
+          onEdit={this.props.onEdit.bind(null, i)} />
+      </li>
+    )}</ul>
+  );
+}
+}
 ```
 
 After these changes you should be able to edit notes.
@@ -274,20 +319,27 @@ We are still missing one vital functionality. It would be nice to be able to rem
 
 In case we empty a task, it would make sense to remove it. You can give it a go yourself or follow the example below. It is just a matter of modifying state.
 
+**app/components/App.jsx**
+
 ```javascript
-itemEdited(i, task) {
-  var notes = this.state.notes;
+...
 
-  if(task) {
-    notes[i].task = task;
-  }
-  else {
-    notes = notes.slice(0, i).concat(notes.slice(i + 1));
-  }
+export default class App extends React.Component {
+  ...
+  itemEdited(i, task) {
+    var notes = this.state.notes;
 
-  this.setState({
-    notes: notes,
-  });
+    if(task) {
+      notes[i].task = task;
+    }
+    else {
+      notes = notes.slice(0, i).concat(notes.slice(i + 1));
+    }
+
+    this.setState({
+      notes: notes,
+    });
+  }
 }
 ```
 
