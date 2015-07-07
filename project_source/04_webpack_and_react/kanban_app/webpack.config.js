@@ -60,7 +60,7 @@ if(TARGET === 'build') {
 if(TARGET === 'dev') {
   module.exports = merge(common, {
     entry: [
-      'webpack-dev-server/client?http://0.0.0.0:8080',
+      'webpack-dev-server/client?http://localhost:8080',
       'webpack/hot/dev-server'
     ],
     module: {
