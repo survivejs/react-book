@@ -14,7 +14,7 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 ...
 "scripts": {
   "build": "webpack",
-  "start": "webpack-dev-server --config webpack.development.js --devtool eval-source --progress --colors --hot --content-base build"
+  "start": "webpack-dev-server --config webpack.development.js --devtool eval-source --progress --colors --hot --inline --history-api-fallback --content-base build"
 },
 ...
 ```
@@ -29,7 +29,6 @@ var ROOT_PATH = path.resolve(__dirname);
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8080',
     path.resolve(ROOT_PATH, 'app/main.js'),
   ],
   output: {
@@ -47,7 +46,9 @@ When you run `npm start` from your terminal it will execute the command mapping 
 4. `--progress` - Will show progress of bundling your application
 5. `--colors` - Colors in the terminal!
 6. `--hot` - Enable hot module loading
-7. `--content-base build` - Points to `build` so we can reuse `index.html` from there. We'll eliminate this later in this chapter
+7. `--inline` - Embeds the webpack-dev-server runtime into the bundle
+8. `--history-api-fallback` - Allows HTML5 History API routes to work
+9. `--content-base build` - Points to `build` so we can reuse `index.html` from there. We'll eliminate this later in this chapter
 
 To recap, when you run `npm start` this will fire up the webservice, watch for file changes and automatically rebundle your application when any file changes occur.
 
@@ -78,7 +79,6 @@ var ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
   entry: [
-    'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/dev-server',
     path.resolve(ROOT_PATH, 'app/main'),
   ],
@@ -184,7 +184,7 @@ To make everything work again, we'll need to tweak our `package.json` **scripts*
 ...
 "scripts": {
   "build": "TARGET=build webpack",
-  "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --content-base build"
+  "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --inline --history-api-fallback --content-base build"
 },
 ...
 ```
@@ -231,7 +231,7 @@ We can also drop `--content-base` from the `start` script since the entry point 
 ...
 "scripts": {
   "build": "TARGET=build webpack",
-  "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot"
+  "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback"
 },
 ...
 ```
