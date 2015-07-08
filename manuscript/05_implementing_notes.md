@@ -49,10 +49,9 @@ import React from 'react';
 
 export default class Note extends React.Component {
   render() {
-    return <div>Learn Webpack</div>;
+    return <div>{this.props.value}</div>;
   }
 }
-
 ```
 
 As you can see the property we passed to our component gets mapped to `this.props`. After that it is just a matter of showing it wherever we like.
