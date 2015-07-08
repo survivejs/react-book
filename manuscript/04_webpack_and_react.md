@@ -16,65 +16,6 @@ The approach used by React allowed Facebook to develop React Native on top of th
 
 Webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React easily. Before we get to implement anything serious, it's a good idea to make sure we have a decent development environment. That will make everything so much easier.
 
-## Installing React
-
-To get started install React to your project. Just hit `npm i react --save` and you should be set. As a next step we could port our **app/component.js** to React. Provided we use ES6 module and class syntax and JSX, we can go with a solution like this:
-
-**app/components/App.jsx**
-
-```javascript
-import React from 'react';
-import Note from './Note';
-
-export default class App extends React.Component {
-  render() {
-    return <Note />;
-  }
-}
-```
-
-`App` will work as an entry point to our application. Later on it will orchestrate logic etc.
-
-We also need to define that `Note` component:
-
-**app/components/Note.jsx**
-
-```javascript
-import React from 'react';
-
-export default class Note extends React.Component {
-  render() {
-    return <div>Learn Webpack</div>;
-  }
-}
-```
-
-T> Note that we're using *jsx* extension here to tell modules using JSX syntax apart from regular ones. This is a good convention to have.
-
-In addition we'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. Here's one solution:
-
-**app/main.jsx**
-
-```javascript
-import './stylesheets/main.css';
-
-import React from 'react';
-import App from './components/App';
-
-main();
-
-function main() {
-    var app = document.createElement('div');
-    document.body.appendChild(app);
-
-    React.render(<App />, app);
-}
-```
-
-W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own.
-
-Given our code is relying on JSX our project won't build yet. We'll need to do some extra configuration work. For this purpose we'll be setting up Babel.
-
 ## Babel
 
 ![Babel](images/babel.png)
@@ -132,6 +73,63 @@ var common = {
   ...
 };
 ```
+
+## Installing React
+
+To get started install React to your project. Just hit `npm i react --save` and you should be set. As a next step we could port our **app/component.js** to React. Provided we use ES6 module and class syntax and JSX, we can go with a solution like this:
+
+**app/components/App.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note';
+
+export default class App extends React.Component {
+  render() {
+    return <Note />;
+  }
+}
+```
+
+`App` will work as an entry point to our application. Later on it will orchestrate logic etc.
+
+We also need to define that `Note` component:
+
+**app/components/Note.jsx**
+
+```javascript
+import React from 'react';
+
+export default class Note extends React.Component {
+  render() {
+    return <div>Learn Webpack</div>;
+  }
+}
+```
+
+T> Note that we're using *jsx* extension here to tell modules using JSX syntax apart from regular ones. This is a good convention to have.
+
+In addition we'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. Here's one solution:
+
+**app/main.jsx**
+
+```javascript
+import './stylesheets/main.css';
+
+import React from 'react';
+import App from './components/App';
+
+main();
+
+function main() {
+    var app = document.createElement('div');
+    document.body.appendChild(app);
+
+    React.render(<App />, app);
+}
+```
+
+W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own.
 
 If you hit `npm run build` now, you should get some output after a while. Here's a sample:
 
