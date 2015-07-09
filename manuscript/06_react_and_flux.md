@@ -219,6 +219,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.storeChanged = this.storeChanged.bind(this);
+
     NoteActions.init(storage.get('notes'));
     this.state = NoteStore.getState();
   }
