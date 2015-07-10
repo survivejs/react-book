@@ -60,6 +60,8 @@ We will specifically include our `app` source to our loader. This way Webpack do
 
 T> We'll be using certain Stage 1 (proposal) features later on in this book. Especially Stage 0 features are subject to change so that's why it's a good idea to be a little careful with them. Babel comes with Stage 2 (draft) enabled by default. You can find more information at [Babel documentation](https://babeljs.io/docs/usage/experimental/).
 
+T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint and many other tools.
+
 Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import Note from './Note';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
 
 **webpack.config.js**

@@ -255,6 +255,8 @@ import _ from 'lodash';
 class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
+
+    this.notes = [];
   }
   init(data) {
     var d = _.isArray(_.get(data, 'notes')) ? data : {notes: []};
@@ -342,7 +344,7 @@ W> Another to keep in mind is that `beforeunload` doesn't get triggered in case 
 
 ### Pushing Connection to a HOC
 
-We can implement a decorator for connecting a component to a Store as well. Here's a example:
+We can implement a decorator for connecting a component to a Store as well. Here's an example:
 
 **app/decorators/connect.js**
 
@@ -356,8 +358,7 @@ export default (Component, store) => {
 
       this.storeChanged = this.storeChanged.bind(this);
       this.state = store.getState();
-    }
-    componentDidMount() {
+
       store.listen(this.storeChanged);
     }
     componentWillUnmount() {
@@ -378,6 +379,7 @@ You can connect it with `App` like this:
 **app/components/App.jsx**
 
 ```javascript
+...
 import connect from '../decorators/connect';
 
 ...
@@ -387,7 +389,22 @@ class App extends React.Component {
     notes: Array;
   }) {
     super(props);
+
+    NoteActions.init(storage.get(noteStorageName));
   }
+  /*
+  These lines can be eliminated now!
+
+  componentDidMount() {
+    NoteStore.listen(this.storeChanged);
+  }
+  componentWillUnmount() {
+    NoteStore.unlisten(this.storeChanged);
+  }
+  storeChanged() {
+    this.setState(NoteStore.getState());
+  }
+  */
   render() {
     var notes = this.props.notes;
 
@@ -423,21 +440,6 @@ As we'll be relying on decorators and still like to use Flowcheck, we'll need to
 **webpack.config.js**
 
 ```javascript
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loader: 'babel?stage=1',
-          include: path.resolve(ROOT_PATH, 'app'),
-        }
-      ]
-    },
-    ...
-  });
-}
-
 if(TARGET === 'dev') {
   module.exports = merge(common, {
     ...
@@ -448,18 +450,16 @@ if(TARGET === 'dev') {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
           include: path.resolve(ROOT_PATH, 'app'),
-        }
-      ]
+        },
+      ],
       ...
-    }
+    },
     ...
   });
 }
 ```
 
 In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
-
-T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint and many other tools.
 
 ### Adding Decorator Wrappers
 
@@ -500,7 +500,7 @@ As you can see the HOCs have been wrapped within functions that return functions
 ```javascript
 ...
 
-@persist(noteStorageName, () => NoteStore.getState())
+@persist(storage, noteStorageName, () => NoteStore.getState())
 @connect(NoteStore)
 export default class App extends React.Component {
   ...
