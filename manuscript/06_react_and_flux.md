@@ -225,8 +225,8 @@ export default class App extends React.Component {
     this.state = NoteStore.getState();
   }
   ...
-  storeChanged(d) {
-    storage.set('notes', d);
+  storeChanged(state) {
+    storage.set('notes', state);
 
     this.setState(NoteStore.getState());
   }
