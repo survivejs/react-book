@@ -429,7 +429,7 @@ If you have used languages such as Java or Python before you might be familiar w
 
 There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. There are a couple of tooling related gotchas we should patch before moving further.
 
-By definition a decorator is simply a function that returns a function. For instance invocation of our `persist` decorator could look like `persist(NoteActions.init, NoteStore, storage, 'notes')(App)` without using the decorator syntax (`@persist(NoteActions.init, ...)`).
+By definition a decorator is simply a function that returns a function. For instance invocation of our `persist` decorator could look like `persist(storage, noteStorageName, () => NoteStore.getState())(App)` without using the decorator syntax (`@persist(storage, ...)`).
 
 ### Patching Tools to Work with Decorators
 
