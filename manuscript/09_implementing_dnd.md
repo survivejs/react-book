@@ -218,6 +218,7 @@ Next we'll need to tweak our `Notes` to contain these ids. This is logic that sh
 **app/stores/NoteStore.js**
 
 ```javascript
+...
 import uuid from 'node-uuid';
 
 export default class NoteStore {
@@ -243,7 +244,9 @@ Now newly created `Notes` should contain unique ids. Possible older data won't. 
 export default class NoteStore {
   ...
   init(data) {
-    this.setState(data ? migrate(data) : {notes: []});
+    var d = _.isArray(_.get(data, 'notes')) ? migrate(data) : {notes: []};
+
+    this.setState(d);
   }
   ...
 }
@@ -330,6 +333,7 @@ If you drag and drop a `Note` now, you should see each `NoteStore` trigger. Next
 **app/stores/NoteStore.jsx**
 
 ```javascript
+...
 import update from 'react/lib/update';
 
 ...

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
@@ -6,7 +7,9 @@ class NoteStore {
     this.bindActions(NoteActions);
   }
   init(data) {
-    this.setState(data || {notes: []});
+    var d = _.isArray(_.get(data, 'notes')) ? data : {notes: []};
+
+    this.setState(d);
   }
   create(task) {
     const notes = this.notes;

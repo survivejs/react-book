@@ -236,6 +236,8 @@ export default class App extends React.Component {
 
 The idea is that when the application is initialized, we'll read `localStorage` and initialize Store state using it. If the Store gets changed, we'll write the changes to `localStorage`. For this to work we'll need to tweak Actions and Store slightly.
 
+As we'll be relying on `lodash` for certain utilities here, hit `npm lodash --save` to add it to the project.
+
 **app/actions/NoteActions.js**
 
 ```javascript
@@ -247,6 +249,7 @@ export default alt.generateActions('init', 'create', 'update', 'remove');
 **app/stores/NoteStore.js**
 
 ```javascript
+import _ from 'lodash';
 ...
 
 class NoteStore {
@@ -254,7 +257,9 @@ class NoteStore {
     this.bindActions(NoteActions);
   }
   init(data) {
-    this.setState(data || {notes: []});
+    var d = _.isArray(_.get(data, 'notes')) ? data : {notes: []};
+
+    this.setState(d);
   }
   ...
 }

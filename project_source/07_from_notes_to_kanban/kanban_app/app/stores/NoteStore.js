@@ -1,9 +1,13 @@
+import _ from 'lodash';
+
 export default class NoteStore {
   constructor(actions: Object) {
     this.bindActions(actions);
   }
   init(data) {
-    this.setState(data || {notes: []});
+    var d = _.isArray(_.get(data, 'notes')) ? data : {notes: []};
+
+    this.setState(d);
   }
   create(task) {
     const notes = this.notes;
