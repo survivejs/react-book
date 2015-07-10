@@ -554,5 +554,3 @@ As you can see an `AltContainer` provides us even more control. It can connect m
 ## Conclusion
 
 In this chapter you saw how to port our simple application to use Flux architecture. Initially it might seem like a lot of extra code. Flux isn't about minimizing the amount of code written. It is about making it understandable. Now that we have a clear separation between Actions, Stores and Views, it is much easier to navigate around and see what triggers what behavior.
-
-Next we will expand our application into a Kanban board. In the process you will learn something about functional lenses and a library known as baobab.
