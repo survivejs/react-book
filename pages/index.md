@@ -15,7 +15,7 @@ Facebook's [React](https://facebook.github.io/react/) powers an increasing amoun
 
 Please check out [the online version](webpack_react/introduction) of the book to get started! The book source is available through [GitHub](https://github.com/survivejs/webpack_react).
 
-Although the book is freely available under [CC BY-NC-ND](https://creativecommons.org/licenses/by-nc-nd/4.0/) license, financial support is welcome. It will allow me to devote more time developing the content. If you think this is a worthy cause, you can purchase [an electronic copy of the book](https://leanpub.com/survivejs_webpack).
+The book is freely available under [CC BY-NC-ND](https://creativecommons.org/licenses/by-nc-nd/4.0/) license. You can support creation of new content by [purchasing a digital copy of the book](https://leanpub.com/survivejs_webpack).
 
 ## What are the prerequisites?
 
