@@ -38,9 +38,9 @@ export default class App extends React.Component {
         <button onClick={this.addLane}>+</button>
         <AltContainer
           stores={[LaneStore]}
-          inject={{
+          inject={ {
             items: () => LaneStore.getState().lanes || [],
-          }}
+          } }
         >
           <Lanes />
         </AltContainer>
@@ -206,9 +206,9 @@ export default class Lane extends React.Component {
         </div>
         <AltContainer
           stores={[NoteStore]}
-          inject={{
+          inject={ {
             items: () => NoteStore.getState().notes || [],
-          }}
+          } }
         >
           <Notes onEdit={this.noteEdited} />
         </AltContainer>
