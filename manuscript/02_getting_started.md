@@ -18,7 +18,7 @@ As a result you should have `package.json`. If you are into version control, as 
 
 ## Installing webpack
 
-Next you should get webpack installed. We'll do a local install and save it as a project dependency. This way you can invoke the build anywhere (build server, whatnot). Run `npm i webpack node-libs-browser --save-dev`. If you want to run the tool, hit `node_modules/.bin/webpack`.
+Next you should get webpack installed. We'll do a local install (i.e. install it in the node_modules subdirectory of our project, rather than a shared location) and save it as a project dependency. This way you can invoke the build anywhere (build server, whatnot). Run `npm i webpack node-libs-browser --save-dev`. If you want to run the tool, hit `node_modules/.bin/webpack`.
 
 `node-libs-browser` is installed as it is a peer dependency of webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
 
