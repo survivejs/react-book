@@ -1,6 +1,6 @@
 # Asset Management
 
-Loading assets, ie. stylesheets, JavaScript and such, is one of the challenges you will encounter at some point. Nobody likes to load megabytes of JavaScript. Until HTTP/2 is here, you will want to avoid performing too many HTTP requests while loading. That is a certain way to make your application feel slow.
+Loading assets, e.g. stylesheets, JavaScript and such, is one of the challenges you will encounter at some point. Nobody likes to load megabytes of JavaScript. Until HTTP/2 is here, you will want to avoid performing too many HTTP requests while loading. That is a certain way to make your application feel slow.
 
 There are multiple ways to work against this problem. We can for instance inline various assets and load them as a part of others. In case of small images, we can serve those as a part of CSS. The same goes for fonts. Or we can inline CSS as a part of markup. That is an approach that is becoming popular with React.
 

@@ -8,7 +8,7 @@ Most importantly our system is missing the concept of Lane. A Lane is something 
 
 ## Extracting `Lanes`
 
-As earlier we can use the same idea of two components here. There will be a component for higher level (ie. `Lanes`) and for lower level (ie. `Lane`). The higher level component will deal with aspects such as persistency and lane ordering. An individual `Lane` will just render its contents (ie. name and `Notes`) and provide basic manipulation operations as needed.
+As earlier we can use the same idea of two components here. There will be a component for higher level (i.e. `Lanes`) and for lower level (i.e. `Lane`). The higher level component will deal with aspects such as persistency and lane ordering. An individual `Lane` will just render its contents (i.e. name and `Notes`) and provide basic manipulation operations as needed.
 
 As a first step we will need to make some room for `Lanes` at our `App` level. Consider the example below:
 
@@ -311,7 +311,7 @@ Now we have something that mostly works. We have separate lanes, you can add new
 
 ## Implementing Edit/Remove for `Lane`
 
-We can follow the same idea as for `Note` here. Ie. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can extract it from `Note` and then reuse at `Lane`.
+We can follow the same idea as for `Note` here. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can extract it from `Note` and then reuse at `Lane`.
 
 Given `Note` already contains some of the logic we need, we can generalize the component. Simply rename `Note.jsx` as `Editable.jsx`. Make `Notes.jsx` point at `Editable` instead of `Note`.
 
@@ -336,7 +336,7 @@ nameEdited(id, name) {
 }
 ```
 
-If you try to edit a lane name now, you should see a console print. We still need some logic (ie. actions and store tweaks) to make this work. A good starting point is to sketch out the component level logic:
+If you try to edit a lane name now, you should see a console print. We still need some logic (i.e. actions and store tweaks) to make this work. A good starting point is to sketch out the component level logic:
 
 **app/components/Lane.jsx**
 

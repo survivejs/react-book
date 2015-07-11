@@ -22,7 +22,7 @@ export default class App extends React.Component {
 }
 ```
 
-This will tell our application that it's going to have some DnD goodies in it. We'll use `HTML5Backend`. In the future there might be other backends to support specific targets (ie. touch and such).
+This will tell our application that it's going to have some DnD goodies in it. We'll use `HTML5Backend`. In the future there might be other backends to support specific targets (i.e. touch and such).
 
 In order to silence that `new-cap` error ESlint gives, switch it off as follows. We won't be needing that.
 

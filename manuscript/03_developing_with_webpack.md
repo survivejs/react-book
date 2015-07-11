@@ -52,7 +52,7 @@ When you run `npm start` from your terminal it will execute the command mapping 
 
 To recap, when you run `npm start` this will fire up the webservice, watch for file changes and automatically rebundle your application when any file changes occur.
 
-Go to **http://localhost:8080** and you should see something. If you want to use some other port than 8080, you can pass `--port` parameter (ie. `--port 4000`) to *webpack-dev-server*.
+Go to **http://localhost:8080** and you should see something. If you want to use some other port than 8080, you can pass `--port` parameter (e.g. `--port 4000`) to *webpack-dev-server*.
 
 Alternatively we can run the application from **http://localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
 

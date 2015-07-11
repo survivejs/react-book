@@ -253,7 +253,7 @@ export default class Note extends React.Component {
 
 `Note` keeps track of *edited* state. We will manipulate that to change the way it is rendered. If we hit **edit**, we'll trigger edit mode. Once input receives either *blur* event or Enter key, we'll finish editing and reset the value. When finishing we also trigger a callback so the app knows to react.
 
-We are using [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread) here to keep our props generic. In other words that `<div {...props}>` sets props as element attributes. In order to avoid injecting `value` and `onEdit` I extract them out before doing this. If you want to be explicit about it, you can extract specific props and set them directly (ie. `style={style} className={className}`).
+We are using [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread) here to keep our props generic. In other words that `<div {...props}>` sets props as element attributes. In order to avoid injecting `value` and `onEdit` I extract them out before doing this. If you want to be explicit about it, you can extract specific props and set them directly (e.g. `style={style} className={className}`).
 
 The good thing about this approach is that it gives your components some extra flexibility. On the other hand it takes some little extra effort to make sure you don't end up setting attributes you don't really need.
 
@@ -441,7 +441,7 @@ In addition React provides the following lifecycle hooks:
 * `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize rendering. If you check the props and state and see that there's no need to update, return `false`.
 * `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here but you can set class properties for instance.
 * `componentDidUpdate` is triggered after rendering. You can modify DOM here. This can be useful for adapting other code to work with React.
-* `componentWillUnmount` is triggered just before a component is unmounted from DOM. This is the ideal place to perform cleanup (ie. remove running timers, custom DOM elements and so on).
+* `componentWillUnmount` is triggered just before a component is unmounted from DOM. This is the ideal place to perform cleanup (e.g. remove running timers, custom DOM elements and so on).
 
 ## React Component Conventions
 

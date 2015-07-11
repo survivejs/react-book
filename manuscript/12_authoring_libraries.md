@@ -19,7 +19,7 @@ In bigger projects you may find the following:
 * `CHANGELOG.md` - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history provided you write nice enough commits.
 * `.travis.yml` - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course but Travis is very popular.
 * `bower.json` - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for frontend. That said, just providing npm support is often enough.
-* `.gitignore` - Ignore patterns for Git. Ie. which file shouldn't go to version control.
+* `.gitignore` - Ignore patterns for Git. I.e. which file shouldn't go to version control.
 * `.eslintignore` - Ignore patterns for ESLint. Again, tool specific.
 * `.npmignore` - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
 * `.eslintrc` - Linting rules. You can use `.jshintrc` etc. based on your preferences.
@@ -59,7 +59,7 @@ I've annotated `package.json` of my [React component boilerplate](https://github
     "preversion": "npm run test && npm run dist && npm run dist-modules && git commit -am \"Update dist\"",
     "postpublish": "npm run gh-pages && npm run deploy-gh-pages"
   },
-  /* Entry point for terminal (ie. <package name>) */
+  /* Entry point for terminal (i.e. <package name>) */
   /* Don't set this unless you intend to allow cli usage */
   "bin": "./index.js",
   /* Entry point (defaults to index.js) */
@@ -134,7 +134,7 @@ An alternative way to consume a library is to point at it directly at `package.j
 
 ## Respect the SemVer
 
-Even though it is simple to publish new versions out there, it is important to respect the SemVer. Roughly it states that you should not break backwards compatibility given certain rules are met. Ie. if your current version is `0.1.4` and you do a breaking change, you should bump to `0.2.0` and document the changes. You can understand SemVer much better by studying [the online tool](http://semver.npmjs.com/) and how it behaves.
+Even though it is simple to publish new versions out there, it is important to respect the SemVer. Roughly it states that you should not break backwards compatibility given certain rules are met. E.g. if your current version is `0.1.4` and you do a breaking change, you should bump to `0.2.0` and document the changes. You can understand SemVer much better by studying [the online tool](http://semver.npmjs.com/) and how it behaves.
 
 ## Library Formats
 
@@ -230,7 +230,7 @@ T> Dealing with regular `dist` that gets versioned is trickier. Ideally the cont
 
 Besides `prepublish` npm provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`.
 
-Even though npm will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (ie. `npm run prepublish`). Regardless of the usage, the idea here is that we want to make our package as easy to consume and let our users get away with the least possible amount of work on their part.
+Even though npm will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (i.e. `npm run prepublish`). Regardless of the usage, the idea here is that we want to make our package as easy to consume and let our users get away with the least possible amount of work on their part.
 
 There are plenty of smaller tricks to learn for advanced usage but those are better covered by [the official documentation](https://docs.npmjs.com/misc/scripts). Often all you need is just a `prepublish` script for build automation.
 
@@ -241,7 +241,7 @@ An important part of maintaining npm packages is keeping their dependencies up t
 There are a few ways to approach dependency updates:
 
 * You can update all dependencies at once and hope for the best. Tools such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) or [mankees-update_deps](https://www.npmjs.com/package/mankees-update_deps) can do this for you. Remember to invoke `npm i` after to make sure you have the right dependencies installed for testing the changes.
-* Install newest version of some specific dependency. Ie. `npm install lodash@* --save`. This is more controlled way to approach the problem.
+* Install newest version of some specific dependency. I.e. `npm install lodash@* --save`. This is more controlled way to approach the problem.
 * Patch version information by hand by modifying `package.json` directly.
 
 It is important to remember that your dependencies may introduce backwards incompatible changes. Therefore it can be useful to remember how SemVer works and study dependency release notes, if they exist, carefully. You should at least walk through version history to see what changes have been made and how they might affect you.
@@ -254,7 +254,7 @@ For testing your projects you can consider solutions such as [Travis CI](https:/
 
 As packages evolve you may want to start developing with others. You could become the new maintainer of some project or pass the torch to someone other. These things happen as packages evolve.
 
-npm provides a few commands for these purposes. It's all behind `npm owner` namespace. More specifically you'll find `ls <package name>`, `add <user> <package name>` and `rm <user> <package name>` there (ie. `npm owner ls`). That's about it.
+npm provides a few commands for these purposes. It's all behind `npm owner` namespace. More specifically you'll find `ls <package name>`, `add <user> <package name>` and `rm <user> <package name>` there (i.e. `npm owner ls`). That's about it.
 
 See [npm documentation](https://docs.npmjs.com/cli/owner) for most up to date information about the topic.
 

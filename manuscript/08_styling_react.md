@@ -1,12 +1,12 @@
 # Styling React
 
-Traditionally web pages have been split up in markup (ie. HTML), styling (ie. CSS) and logic (ie. JavaScript). Even though this sounds simple in practice there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
+Traditionally web pages have been split up in markup (e.g. HTML), styling (e.g. CSS) and logic (e.g. JavaScript). Even though this sounds simple in practice there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
 
 I will show you how to style our application the traditional way and then discuss some more advanced alternatives you might want to consider. With React things are still in bit of a flux and we're still figuring out the best ways to deal with styling. Some patterns have begun to emerge, however. Perhaps some of the ideas will stick.
 
 ## Old School Styling
 
-The old school approach to styling was just to sprinkle some ids and classes around, set up some rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default everything is global in CSS. Furthermore nesting definitions (ie. `.main .sidebar .button`) creates implicit logic to your styling.
+The old school approach to styling was just to sprinkle some ids and classes around, set up some rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default everything is global in CSS. Furthermore nesting definitions (e.g. `.main .sidebar .button`) creates implicit logic to your styling.
 
 ### webpack Configuration for Vanilla CSS
 
@@ -221,7 +221,7 @@ The primary benefit of adopting a methodology is that it brings certain structur
 
 On the downside once you adopt one you are pretty much stuck with that on your project. But if you are willing to commit, there are benefits to gain.
 
-The methodologies also bring their own quirks (ie. complex naming schemes) and may make certain things more complicated than they have to be. They don't necessarily solve any of the bigger underlying issues but rather provide patches around them.
+The methodologies also bring their own quirks (e.g. complex naming schemes) and may make certain things more complicated than they have to be. They don't necessarily solve any of the bigger underlying issues but rather provide patches around them.
 
 There are various approaches, such as using preprocessors, that go deeper and solve some of these fundamental problems. That said it's not an either-or proposition. You may adopt a methodology even if you use some preprocessor.
 
@@ -278,7 +278,7 @@ Check out the loader for more advanced usage.
 
 ### Pros and Cons
 
-Compared to vanilla CSS preprocessors bring a lot to the table. They deal with certain annoyances (ie. autoprefixing) and provide useful features. Particularly cssnext and postcss seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
+Compared to vanilla CSS preprocessors bring a lot to the table. They deal with certain annoyances (e.g. autoprefixing) and provide useful features. Particularly cssnext and postcss seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
 
 In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing rounded corners of our lanes would look good even in legacy browsers. In addition we could parametrize styling thanks to variables.
 
@@ -337,7 +337,7 @@ How about things like media queries? This naive approach won't quite cut it. For
 
 According to Michele Bertoli basic features of these libraries are
 
-* Autoprefixing - Ie. for `border`, `animation`, `flex`, ...
+* Autoprefixing - E.g. for `border`, `animation`, `flex`, ...
 * Pseudo classes - `:hover`, `:active`, ...
 * Media queries - `@media (max-width: 200px)`, ...
 * Styles as Object Literals - See example above
@@ -347,7 +347,7 @@ I will cover some of the available libraries to give you a better idea how they 
 
 ### Radium
 
-[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth highlighting. Most importantly it provides abstractions required to deal with media queries and pseudo classes (ie. `:hover`).
+[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth highlighting. Most importantly it provides abstractions required to deal with media queries and pseudo classes (e.g. `:hover`).
 
 It expands the basic syntax as follows:
 
@@ -413,7 +413,7 @@ var styles = StyleSheet.create({
 <button styles={[styles.button, styles.primary]}>Confirm</button>
 ```
 
-As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (ie. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
+As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (e.g. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
 
 Interestingly there is a [React Style plugin for webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to but without cascades. We also have our style declarations on component level.
 
@@ -449,7 +449,7 @@ css.setClass('.warning', {
 SmartCSS.injectStyles();
 ```
 
-The approach supports pseudoselectors. Ie. you could define a selector such as `.button:hover` and it would just work.
+The approach supports pseudoselectors. I.e. you could define a selector such as `.button:hover` and it would just work.
 
 There are plans to introduce autoprefixing, better ways to deal with measurements, better APIs for complex properties and for a webpack plugin to extract the CSS into an external file.
 
@@ -471,7 +471,7 @@ class ConfirmButton extends React.Component {
 }
 ```
 
-Unlike React Style, the approach supports browser states (ie. `:hover` etc.). Unfortunately it relies on its own custom tooling to generate React code and CSS it needs to work. As of yet there's no webpack loader available.
+Unlike React Style, the approach supports browser states (e.g. `:hover` etc.). Unfortunately it relies on its own custom tooling to generate React code and CSS it needs to work. As of yet there's no webpack loader available.
 
 ### jsxstyle
 

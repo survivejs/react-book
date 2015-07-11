@@ -34,10 +34,10 @@ In human terms it means that some package, `eslint-loader` in this case, has too
 There are a couple of ways to work around this:
 
 1. Report the package author about the glitch and hope the version range will be expanded.
-2. Resolve the conflict by settling to a version that satisfies the peer dependency. Ie. in this case we could fix `eslint` to version `0.23` (`"eslint": "0.23"`) and everyone should be happy.
+2. Resolve the conflict by settling to a version that satisfies the peer dependency. I.e. in this case we could fix `eslint` to version `0.23` (`"eslint": "0.23"`) and everyone should be happy.
 3. Fork the package, fix the version range and point at your custom version. In this case you would have `"<package>": "<github user>/<project>#<reference>"` kind of declaration at your dependencies.
 
-T> Note that peer dependencies will be dealt with differently starting with npm 3. After that it's up to the package consumer (ie. you) to deal with it. This particular error will go away.
+T> Note that peer dependencies will be dealt with differently starting with npm 3. After that it's up to the package consumer (i.e. you) to deal with it. This particular error will go away.
 
 ## Project Fails to Compile
 

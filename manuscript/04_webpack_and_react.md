@@ -193,7 +193,7 @@ Given it needs to do more work, it took longer. But on the plus side the build i
 
 T> It is possible to push minification further by enabling variable name mangling. It comes with some extra complexity to worry about but may be worth it when you are pushing for minimal size. See [the official documentation](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) for details.
 
-We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get in an optimized manner. This will disable some checks (ie. property type checks) but it will give you a smaller build and improved performance.
+We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get in an optimized manner. This will disable some checks (i.e. property type checks) but it will give you a smaller build and improved performance.
 
 In webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
 

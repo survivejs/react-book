@@ -88,7 +88,7 @@ export default alt.createStore(NoteStore);
 
 The Store listens to our actions and then updates its state accordingly. The functions have been adapted based on our earlier implementation of `App`.
 
-T> It would be possible to operate directly on data. Ie. a oneliner such as `this.notes.splice(id, 1)` would work for `remove`. Even though this works it is recommended that you use `setState` with Alt to keep things clear.
+T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(id, 1)` would work for `remove`. Even though this works it is recommended that you use `setState` with Alt to keep things clear.
 
 ### Maintaining an Instance of Alt
 
@@ -340,7 +340,7 @@ T> The implementation of `persist` could be pushed further using `alt.takeSnapsh
 
 W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
 
-W> Another to keep in mind is that `beforeunload` doesn't get triggered in case something catastrophic happens (ie. browser crashes). Therefore it could be justified to trigger `storage.set` on each change.
+W> Another to keep in mind is that `beforeunload` doesn't get triggered in case something catastrophic happens (e.g. browser crashes). Therefore it could be justified to trigger `storage.set` on each change.
 
 ### Pushing Connection to a HOC
 
