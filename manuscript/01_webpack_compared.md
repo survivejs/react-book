@@ -50,7 +50,7 @@ T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin
 
 Gulp takes a different approach. Instead of relying on configuration per plugin you deal with actual code. Gulp builds on top of the tried and true concept of piping. If you are familiar with Unix, it's the same here.
 
-You simply have sources, filters and sinks. In this case sources happen to match to some files, filters perform some operations on those (ie. convert to JavaScript) and then output to sinks (your build directory etc.).
+You simply have sources, filters and sinks. In this case sources happen to match to some files, filters perform some operations on those (e.g. convert to JavaScript) and then output to sinks (your build directory etc.).
 
 Here's a sample `Gulpfile` to give you a better idea of the approach taken from the project README and abbreviated a bit:
 
