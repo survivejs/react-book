@@ -36,7 +36,7 @@ Feedback is welcome. You can provide it through [the issue tracker](https://gith
 
 ## Generating Ebooks
 
-It is possible to generate an ebook version through Calibre. Make sure you have it installed before trying the generation script. You can get it from [Calibre site](http://calibre-ebook.com/download) or alternatively you can use the package manager of your operating system (`Homebrew-cask` for Mac, `sudo apt-get install calibre calibre-bin` for Ubuntu). If you use Homebrew-cask, you may need to add the Calibre CLI to your PATH (e.g. `export PATH=$PATH://opt/homebrew-cask/Caskroom/calibre/2.31.0/calibre.app/Contents/MacOS`).
+It is possible to generate an ebook version through Calibre. Make sure you have it installed before trying the generation script. You can get it from [Calibre site](http://calibre-ebook.com/download) or alternatively you can use the package manager of your operating system (Homebrew-cask for Mac, `sudo apt-get install calibre calibre-bin` for Ubuntu). If you use Homebrew-cask, you may need to add the Calibre CLI to your PATH (e.g. `export PATH=$PATH://opt/homebrew-cask/Caskroom/calibre/2.31.0/calibre.app/Contents/MacOS`).
 
 To generate a pdf version of the book, hit `npm install` and `npm start`. After that you should have `./book.pdf`.
 
