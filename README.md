@@ -1,10 +1,10 @@
-[![Join the chat at https://gitter.im/survivejs/webpack_react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/webpack_react?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) <a href="https://gratipay.com/survivejs/"><img src="https://img.shields.io/gratipay/survivejs.svg"></a> [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=bebraw&url=https://github.com/survivejs/webpack_react&title=SurviveJS - Webpack and React&language=&tags=github&category=software)
+[![Join the chat at https://gitter.im/survivejs/webpack_react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/webpack_react?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # SurviveJS - Webpack and React
 
 <img align="right" width="124" height="180" src="manuscript/images/title_page_small.jpg">
 
-> **IMPORTANT!** If you want to support the development of this book, you can either [purchase a copy at Leanpub](https://leanpub.com/survivejs_webpack) or [use gratipay](https://gratipay.com/survivejs/). In case either won't work for reason or another, hit me through email. Feedback and word of mouth is valuable as well!
+> **IMPORTANT!** If you want to support the development of this book, you can [purchase a copy at Leanpub](https://leanpub.com/survivejs_webpack). Feedback is valuable as well.
 
 Webpack, a module bundler, solves a significant problem for web developers. It can be daunting to learn but once you grok it, life gets easier. Same goes for React, a JavaScript library for building UIs. This book shows you how to build a little Kanban application using these technologies. During the process you will learn the basics and will be able to take the skills to your own projects.
 
