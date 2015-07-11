@@ -36,6 +36,8 @@ Feedback is welcome. You can provide it through [the issue tracker](https://gith
 
 ## Generating Ebooks
 
+It is possible to generate an ebook version through Calibre. Make sure you have it installed before trying the generation script. You can get it from [Calibre site](http://calibre-ebook.com/download) or alternatively you can use the package manager of your operating system (`brew`, `sudo apt-get install calibre calibre-bin` for Ubuntu).
+
 To generate a pdf version of the book, hit `npm install` and `npm start`. After that you should have `./book.pdf`.
 
 ## License
