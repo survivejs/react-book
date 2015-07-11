@@ -21,9 +21,9 @@ export default class App extends React.Component {
         <button onClick={() => this.addItem()}>+</button>
         <AltContainer
           stores={[NoteStore]}
-          inject={{
+          inject={ {
             items: () => NoteStore.getState().notes || []
-          }}
+          } }
         >
           <Notes onEdit={(id, task) => this.itemEdited(id, task)} />
         </AltContainer>

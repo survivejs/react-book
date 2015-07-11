@@ -21,9 +21,9 @@ export default class App extends React.Component {
         <button onClick={this.addLane}>+</button>
         <AltContainer
           stores={[LaneStore]}
-          inject={{
+          inject={ {
             items: () => LaneStore.getState().lanes || [],
-          }}
+          } }
         >
           <Lanes />
         </AltContainer>
