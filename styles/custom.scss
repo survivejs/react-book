@@ -35,9 +35,12 @@ h4 {
     @include responsive-font(1.5vw, 0.7em);
 }
 
-/* XXX: removed from base theme??? */
-h1, h2, h3, h4, h5, h6, p, pre {
-    margin-bottom: 27px;
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.5em;
+}
+
+p, pre {
+    margin-bottom: 1.5em;
 }
 
 h1, h2, h3, h4, h5, h6 {
