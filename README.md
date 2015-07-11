@@ -6,7 +6,7 @@
 
 > **IMPORTANT!** If you want to support the development of this book, you can [purchase a copy at Leanpub](https://leanpub.com/survivejs_webpack). Feedback is valuable as well.
 
-Webpack, a module bundler, solves a significant problem for web developers. It can be daunting to learn but once you grok it, life gets easier. Same goes for React, a JavaScript library for building UIs. This book shows you how to build a little Kanban application using these technologies. During the process you will learn the basics and will be able to take the skills to your own projects.
+webpack, a module bundler, solves a significant problem for web developers. It can be daunting to learn but once you grok it, life gets easier. Same goes for React, a JavaScript library for building UIs. This book shows you how to build a little Kanban application using these technologies. During the process you will learn the basics and will be able to take the skills to your own projects.
 
 ## How to Use This Repository?
 
@@ -21,13 +21,13 @@ It is possible new content will be developed to the book. This depends on your s
 Chapter | Description | Progress | Notes
 --- | --- | --- | ---
 Routing with react-router | Extending further (multiple boards, charts) | 0% | It might be nice to discuss routing and expand the app while at it
-Backend | This would discuss the usage of Webpack on backend. REST API on top of Express and Swagger? | 5% | [Tech demo](https://github.com/bebraw/swagger-todo)
+Backend | This would discuss the usage of webpack on backend. REST API on top of Express and Swagger? | 5% | [Tech demo](https://github.com/bebraw/swagger-todo)
 Isomorphism | How to go isomorphic with the app. Discuss benefits and possible gotchas. | 0% |
-Performance | Performance strategies for Webpack and React | 0% | |
-Testing | Testing approaches/tools for Webpack and React | 0% | |
+Performance | Performance strategies for webpack and React | 0% | |
+Testing | Testing approaches/tools for webpack and React | 0% | |
 Internationalization etc. | i18n/l10n/a11y | 0% | Gathering ideas
 Asset Management | How to deal with various assets | 10% | This might go away (integrated to others)
-Debugging Webpack | Various debugging strategies for Webpack | 0% | Need to go through various strategies and develop tooling
+Debugging webpack | Various debugging strategies for webpack | 0% | Need to go through various strategies and develop tooling
 Data trees (baobab) | How to port the application to Baobab | 0% | I had some material on this initially but went with Alt instead as it felt simpler and more fitting for the book
 
 ## Contributing

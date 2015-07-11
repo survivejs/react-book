@@ -1,6 +1,6 @@
 # Authoring Libraries
 
-[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Although initially it was used mostly for managing backend packages, it has become increasingly popular in frontend development. As you have seen so far it is easy to consume npm packages using Webpack.
+[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Although initially it was used mostly for managing backend packages, it has become increasingly popular in frontend development. As you have seen so far it is easy to consume npm packages using webpack.
 
 Eventually you might want to publish your own packages. You can consider our demo application a package of its own, sort of. We could even design applications to be pluggable so that you could glue them into a bigger whole. This would take some careful thought but in theory you could split everything up in smaller sections which you then knit together.
 
@@ -144,7 +144,7 @@ In addition I generate so called *distribution bundles*: `.js` and `.min.js`. In
 
 UMD makes it possible to consume them from various environments including global, AMD and CommonJS (Node format). You can refresh your memory with these by checking the Getting Started chapter for examples.
 
-It is surprisingly easy to generate the aforementioned bundles using Webpack. In case of my boilerplate the configuration is as follows:
+It is surprisingly easy to generate the aforementioned bundles using webpack. In case of my boilerplate the configuration is as follows:
 
 ```javascript
 ...
@@ -260,4 +260,4 @@ See [npm documentation](https://docs.npmjs.com/cli/owner) for most up to date in
 
 ## Conclusion
 
-You should have a basic idea on how to author npm libraries with the help of Webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.
+You should have a basic idea on how to author npm libraries with the help of webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.

@@ -1,12 +1,12 @@
 # Getting Started
 
-If you are not one of those guys that likes to skip introductions, you might have some clue what Webpack is. In its simplicity it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
+If you are not one of those guys that likes to skip introductions, you might have some clue what webpack is. In its simplicity it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
 
-This sounds very simple but in practice it can be a very complicated and messy process. You definitely don't want to deal with all the details yourself. This is where Webpack fits in. Next we'll get Webpack set up and your first project running.
+This sounds very simple but in practice it can be a very complicated and messy process. You definitely don't want to deal with all the details yourself. This is where webpack fits in. Next we'll get webpack set up and your first project running.
 
 ## Setting Up Your First Project
 
-Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and you can have `npm` available at your terminal. Next you should set a directory for your project, navigate there, hit `npm init` and fill in some details. Here are the commands in detail:
+webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and you can have `npm` available at your terminal. Next you should set a directory for your project, navigate there, hit `npm init` and fill in some details. Here are the commands in detail:
 
 ```bash
 mkdir kanban_app
@@ -16,19 +16,19 @@ npm init
 
 As a result you should have `package.json`. If you are into version control, as you should, this would be a good time to up your repository. You can create commits as you progress with the chapter.
 
-## Installing Webpack
+## Installing webpack
 
-Next you should get Webpack installed. We'll do a local install and save it as a project dependency. This way you can invoke the build anywhere (build server, whatnot). Run `npm i webpack node-libs-browser --save-dev`. If you want to run the tool, hit `node_modules/.bin/webpack`.
+Next you should get webpack installed. We'll do a local install and save it as a project dependency. This way you can invoke the build anywhere (build server, whatnot). Run `npm i webpack node-libs-browser --save-dev`. If you want to run the tool, hit `node_modules/.bin/webpack`.
 
-`node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
+`node-libs-browser` is installed as it is a peer dependency of webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
 
-Webpack works using a global install as well (`-g` flag) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
+webpack works using a global install as well (`-g` flag) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
 
-T> We are using `--save-dev` here instead of `--save` as we want to use Webpack as a development dependency. Use `--save-dev` for parts you need to generate your distribution version. Otherwise `--save` is a good choice.
+T> We are using `--save-dev` here instead of `--save` as we want to use webpack as a development dependency. Use `--save-dev` for parts you need to generate your distribution version. Otherwise `--save` is a good choice.
 
 ## Directory Structure
 
-As projects with just `package.json` are very boring, we should set up something more concrete. Let's do a little web site that loads some JavaScript which we build using Webpack. Here's a structure that works:
+As projects with just `package.json` are very boring, we should set up something more concrete. Let's do a little web site that loads some JavaScript which we build using webpack. Here's a structure that works:
 
 - /app
   - main.js
@@ -39,9 +39,9 @@ As projects with just `package.json` are very boring, we should set up something
 - package.json
 - webpack.config.js
 
-In this case we'll generate `bundle.js` using Webpack based on our `/app`. To make this possible, let's set up `webpack.config.js`.
+In this case we'll generate `bundle.js` using webpack based on our `/app`. To make this possible, let's set up `webpack.config.js`.
 
-### Creating Webpack Configuration
+### Creating webpack Configuration
 
 In our case a basic configuration could look like this:
 
@@ -59,7 +59,7 @@ module.exports = {
 };
 ```
 
-We use `path.resolve` here as it is preferred to use absolute paths with Webpack. If you move your configuration below some directory, you'll need to take this in count.
+We use `path.resolve` here as it is preferred to use absolute paths with webpack. If you move your configuration below some directory, you'll need to take this in count.
 
 ## Running Your First Build
 
@@ -118,7 +118,7 @@ In order to actually use our bundle, we'll need to define the last missing bit, 
 </html>
 ```
 
-We simply just point at the bundle via *script* `src`, nothing more than that. Generally this is the way you work with Webpack. You figure out what you want to load, find a loader and hook it up. Sometimes you'll need to implement loaders yourself but we'll cover that later.
+We simply just point at the bundle via *script* `src`, nothing more than that. Generally this is the way you work with webpack. You figure out what you want to load, find a loader and hook it up. Sometimes you'll need to implement loaders yourself but we'll cover that later.
 
 ## Running the Application
 
@@ -136,7 +136,7 @@ In this case we can move the build step behind `npm run build` by adding the fol
 }
 ```
 
-You can either replace the current `scripts` section with the above or just add that `build` line there. To invoke a build, you can hit `npm run build` now. npm will find it as `npm run` adds Webpack to the `PATH` temporarily.
+You can either replace the current `scripts` section with the above or just add that `build` line there. To invoke a build, you can hit `npm run build` now. npm will find it as `npm run` adds webpack to the `PATH` temporarily.
 
 Later on this approach will become more powerful as project complexity grows. You can hide the complexity within `scripts` while keeping the interface simple.
 
@@ -144,6 +144,6 @@ The potential problem with this approach is that it can tie you to a Unix enviro
 
 ## Conclusion
 
-Getting a simple build like this isn't very complex. In the end you'll end up with a little bit of configuration. Webpack deals with the nasty details for you after that. We are close to unleashing the power of Webpack here as you will soon see.
+Getting a simple build like this isn't very complex. In the end you'll end up with a little bit of configuration. webpack deals with the nasty details for you after that. We are close to unleashing the power of webpack here as you will soon see.
 
-Next we'll discuss Webpack compared to some other solutions. After that we'll get back to this example as hitting `npm run build` all the time and refreshing browser during development doesn't sound that efficient. We can do something about that.
+Next we'll discuss webpack compared to some other solutions. After that we'll get back to this example as hitting `npm run build` all the time and refreshing browser during development doesn't sound that efficient. We can do something about that.

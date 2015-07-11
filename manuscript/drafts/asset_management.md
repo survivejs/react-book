@@ -6,15 +6,15 @@ There are multiple ways to work against this problem. We can for instance inline
 
 In isomorphic applications the server can provide basic markup and initial data within HTML. That will help us to avoid JavaScript processing and several roundtrips as the data is already there.
 
-Unfortunately there is no single solution that fits all cases. Instead we'll show you several strategies you can try to apply based on the situation. Webpack is quite versatile in this regard. With a bit of configuration you can get complex setups done.
+Unfortunately there is no single solution that fits all cases. Instead we'll show you several strategies you can try to apply based on the situation. webpack is quite versatile in this regard. With a bit of configuration you can get complex setups done.
 
 ## Inlining Images
 
-If you load a lot of images in your CSS it is possible to automatically inline these images as Base64 strings to lower the number of requests required. This can be based on the size of the image. There is a balance of size of download and number of downloads that you have to figure out for your project, and Webpack makes that balance easy to adjust.
+If you load a lot of images in your CSS it is possible to automatically inline these images as Base64 strings to lower the number of requests required. This can be based on the size of the image. There is a balance of size of download and number of downloads that you have to figure out for your project, and webpack makes that balance easy to adjust.
 
 ## Installing the url-loader
 
-`npm install url-loader --save-dev` will install the loader that can convert resolved paths as Base64 strings. As mentioned in other sections of this cookbook Webpack will resolve "url()" statements in your CSS as any other require or import statements. This means that if we test on image file extensions for this loader we can run them through it.
+`npm install url-loader --save-dev` will install the loader that can convert resolved paths as Base64 strings. As mentioned in other sections of this cookbook webpack will resolve "url()" statements in your CSS as any other require or import statements. This means that if we test on image file extensions for this loader we can run them through it.
 
 ```javascript
 var path = require('path');
@@ -183,7 +183,8 @@ If you want to use compiled CSS, there are two loaders available for you. The **
 
 `npm install less-loader` or `npm install sass-loader`.
 
-*webpack.config.js*
+**webpack.config.js**
+
 ```javascript
 var path = require('path');
 var config = {
@@ -215,7 +216,7 @@ var config = {
 
 ## What about imports in LESS and SASS?
 
-If you import one LESS/SASS file from an other, use the exact same pattern as anywhere else. Webpack will dig into these files and figure out the dependencies.
+If you import one LESS/SASS file from an other, use the exact same pattern as anywhere else. webpack will dig into these files and figure out the dependencies.
 
 ```less
 @import "./variables.less";
@@ -226,7 +227,7 @@ You can also load LESS files directly from your node_modules directory.
 $import "~bootstrap/less/bootstrap";
 ```
 
-**Note!** Webpack is currently unable to resolve SASS import statements, but it will very soon: [issue 31](https://github.com/jtangelder/sass-loader/issues/31)
+**Note!** webpack is currently unable to resolve SASS import statements, but it will very soon: [issue 31](https://github.com/jtangelder/sass-loader/issues/31)
 
 > TBD: hopefully this will be resolved before publication
 
@@ -234,7 +235,7 @@ $import "~bootstrap/less/bootstrap";
 
 ## Optimizing Caching
 
-When users hit the URL of your application they will need to download different assets. CSS, JavaScript, HTML, images and fonts. The great thing about Webpack is that you can stop thinking how you should download all these assets. You can do it through JavaScript.
+When users hit the URL of your application they will need to download different assets. CSS, JavaScript, HTML, images and fonts. The great thing about webpack is that you can stop thinking how you should download all these assets. You can do it through JavaScript.
 
 > OccurenceOrderPlugin
 

@@ -1,3 +1,3 @@
-# Debugging Webpack
+# Debugging webpack
 
-TBD: discuss debugging strategies here, ie. how to deal with errors that Webpack emits
+TBD: discuss debugging strategies here, ie. how to deal with errors that webpack emits

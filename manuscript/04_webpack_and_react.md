@@ -1,4 +1,4 @@
-# Webpack and React
+# webpack and React
 
 ![React](images/react_header.png)
 
@@ -14,7 +14,7 @@ Even if React isn't the smallest library out there it does manage to solve some 
 
 The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and layout system while providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
 
-Webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React easily. Before we get to implement anything serious, it's a good idea to make sure we have a decent development environment. That will make everything so much easier.
+webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React easily. Before we get to implement anything serious, it's a good idea to make sure we have a decent development environment. That will make everything so much easier.
 
 ## Babel
 
@@ -56,13 +56,13 @@ var common = {
 };
 ```
 
-We will specifically include our `app` source to our loader. This way Webpack doesn't have to traverse whole source. Particularly going through `node_modules` can take a while. You can try taking `include` statement out to see how that affects the performance.
+We will specifically include our `app` source to our loader. This way webpack doesn't have to traverse whole source. Particularly going through `node_modules` can take a while. You can try taking `include` statement out to see how that affects the performance.
 
 T> We'll be using certain Stage 1 (proposal) features later on in this book. Especially Stage 0 features are subject to change so that's why it's a good idea to be a little careful with them. Babel comes with Stage 2 (draft) enabled by default. You can find more information at [Babel documentation](https://babeljs.io/docs/usage/experimental/).
 
 T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint and many other tools.
 
-Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import Note from './Note';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
+webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import Note from './Note';` statement. In order to make it find JSX, we'll need to add another piece of configuration like this:
 
 **webpack.config.js**
 
@@ -104,7 +104,7 @@ import React from 'react';
 
 export default class Note extends React.Component {
   render() {
-    return <div>Learn Webpack</div>;
+    return <div>Learn webpack</div>;
   }
 }
 ```
@@ -152,7 +152,7 @@ As you can see, the output is quite chunky!
 
 ## Optimizing Build Size
 
-We can resolve this issue by minifying our build. As easy way to do this is to pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your Webpack configuration:
+We can resolve this issue by minifying our build. As easy way to do this is to pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your webpack configuration:
 
 **webpack.config.js**
 
@@ -195,7 +195,7 @@ T> It is possible to push minification further by enabling variable name manglin
 
 We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get in an optimized manner. This will disable some checks (ie. property type checks) but it will give you a smaller build and improved performance.
 
-In Webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
+In webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
 
 **webpack.config.js**
 
@@ -215,7 +215,7 @@ if(TARGET === 'build') {
 }
 ```
 
-T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error.
+T> That `JSON.stringify` is needed as webpack will perform string replace "as is". In this case we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error.
 
 Hit `npm run build` again and you should see improved results:
 
@@ -232,7 +232,7 @@ index.html  204 bytes          [emitted]
     + 158 hidden modules
 ```
 
-So we went from 650k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. As we add dependencies to the project the size will grow. Then we will have to apply some other strategies and be smarter about loading. Fortunately we can do all that with Webpack when the time comes.
+So we went from 650k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. As we add dependencies to the project the size will grow. Then we will have to apply some other strategies and be smarter about loading. Fortunately we can do all that with webpack when the time comes.
 
 ## Activating Hot Loading for Development
 
@@ -299,6 +299,6 @@ Try hitting `npm start` again and modifying the component. Note what doesn't hap
 
 ## Conclusion
 
-You should understand how to set up React with Webpack now. In the process we saw how to develop Webpack configuration and learned a few new concepts. This is the way you work with Webpack. You'll find loaders as you require them and integrate them to your project.
+You should understand how to set up React with webpack now. In the process we saw how to develop webpack configuration and learned a few new concepts. This is the way you work with webpack. You'll find loaders as you require them and integrate them to your project.
 
 Now that we have a good development environment, we can focus on React development more fully. In the next chapter you will see how to implement a little Todo application. That will be improved in the subsequent chapters into a full blown Kanban table.

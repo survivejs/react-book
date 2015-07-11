@@ -1,10 +1,10 @@
-# Developing with Webpack
+# Developing with webpack
 
-In `Getting Started` we set up a minimal Webpack based build. Hitting `npm run build` all the time will get boring eventually. In addition refreshing browser manually is annoying. We can get rid of both of these problems if we do a bit more configuration work.
+In `Getting Started` we set up a minimal webpack based build. Hitting `npm run build` all the time will get boring eventually. In addition refreshing browser manually is annoying. We can get rid of both of these problems if we do a bit more configuration work.
 
 ## Setting Up `webpack-dev-server`
 
-As a first step, hit `npm i webpack-dev-server --save-dev` at project root. This will add Webpack development server we'll be relying upon.
+As a first step, hit `npm i webpack-dev-server --save-dev` at project root. This will add webpack development server we'll be relying upon.
 
 In addition we'll need to tweak `package.json` *scripts* section to include it. Here's the basic idea:
 
@@ -64,11 +64,11 @@ T> Note that scripts such as `start` or `test` are special cases. You can run th
 
 When **webpack-dev-server** is running it will watch your files for changes. When that happens it rebundles your project and notifies browsers listening to refresh. If you try modifying **app/component.js** you should see the changes propagate to your browser now.
 
-We can easily extend the approach to work with CSS. Webpack allows us to modify CSS without forcing a full refresh. Let's see how to achieve that next.
+We can easily extend the approach to work with CSS. webpack allows us to modify CSS without forcing a full refresh. Let's see how to achieve that next.
 
 ## Loading CSS
 
-In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke `npm i css-loader style-loader --save-dev`. Now that we have the loaders we need, we'll need to make sure Webpack is aware of them. It's time to configure.
+In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke `npm i css-loader style-loader --save-dev`. Now that we have the loaders we need, we'll need to make sure webpack is aware of them. It's time to configure.
 
 **webpack.development.js**
 
@@ -97,7 +97,7 @@ module.exports = {
 };
 ```
 
-The configuration we added tells Webpack that whenever it meets some file ending with `css` it should invoke the power of loaders in this specific order. This is done by matching against `test` regular expression.
+The configuration we added tells webpack that whenever it meets some file ending with `css` it should invoke the power of loaders in this specific order. This is done by matching against `test` regular expression.
 
 Loaders are evaluated from right to left. In this case it will pass a possible CSS file to *css-loader* first and to *style-loader* after that. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* deals with `require` statements in our JavaScript. Similar approach works with CSS preprocessors.
 
@@ -113,7 +113,7 @@ body {
 }
 ```
 
-In addition we'll need to make Webpack aware of this file:
+In addition we'll need to make webpack aware of this file:
 
 **app/main.js**
 
@@ -131,11 +131,11 @@ In order to make our normal build (`npm run build`) work with CSS, you could att
 
 ## Sharing Common Configuration
 
-If we don't structure our configuration in a smart way, it will become easy to make mistakes. We'll want to avoid unnecessary duplication. Given Webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure Webpack expects, we should be fine.
+If we don't structure our configuration in a smart way, it will become easy to make mistakes. We'll want to avoid unnecessary duplication. Given webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure webpack expects, we should be fine.
 
 One way to do this is to keep all configuration in `webpack.config.js` and control what it returns using an environment variable. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place. We can adapt this approach to our project quite easily.
 
-In order to make it easier to deal with this arrangement I've developed a little custom merge utility known as `webpack-merge`. Install it using `npm i webpack-merge --save-dev` to your project. Compared to `merge` you might be used to this variant that concatenates arrays instead of replacing them. This is very useful with Webpack as we'll see below.
+In order to make it easier to deal with this arrangement I've developed a little custom merge utility known as `webpack-merge`. Install it using `npm i webpack-merge --save-dev` to your project. Compared to `merge` you might be used to this variant that concatenates arrays instead of replacing them. This is very useful with webpack as we'll see below.
 
 **webpack.config.js**
 
@@ -189,7 +189,7 @@ To make everything work again, we'll need to tweak our `package.json` **scripts*
 ...
 ```
 
-W> `TARGET=build` type of declarations won't work on Windows! You should use `set TARGET=build&& webpack` kind of syntax there. It is important it's `build&&` and not `build &&` as that will fail. Later on Webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
+W> `TARGET=build` type of declarations won't work on Windows! You should use `set TARGET=build&& webpack` kind of syntax there. It is important it's `build&&` and not `build &&` as that will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
 
 You can also eliminate those old configuration files at the project root while at it.
 
@@ -205,7 +205,7 @@ As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build/in
 
 ```javascript
 var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
 var merge = require('webpack-merge');
 
 var TARGET = process.env.TARGET;
@@ -214,7 +214,7 @@ var ROOT_PATH = path.resolve(__dirname);
 var common = {
   ...
   plugins: [
-    new HtmlWebpackPlugin({
+    new HtmlwebpackPlugin({
       title: 'Kanban app',
     }),
   ],
@@ -242,16 +242,16 @@ T> Note that you can pass a custom template to `html-webpack-plugin`. In our cas
 
 ## Other Configuration Approaches
 
-There is no one clear convention on how to deal with Webpack configuration. Given Webpack expects an object structure the way you generate it doesn't matter that much. The way you saw above is the one I find the most convenient as it allows you to share configuration easily while understanding what's going on.
+There is no one clear convention on how to deal with webpack configuration. Given webpack expects an object structure the way you generate it doesn't matter that much. The way you saw above is the one I find the most convenient as it allows you to share configuration easily while understanding what's going on.
 
 Some people prefer to write a separate configuration file per target. In order to share configuration they write a factory function. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
 
-This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a Webpack based library that wraps common scenarios within an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
+This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a webpack based library that wraps common scenarios within an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
 
-In fact Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon Webpack and React and hides a lot of the complexity of Webpack from the user. Webpack is a good fit for tools like this as it solves so many difficult problems well.
+In fact webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon webpack and React and hides a lot of the complexity of webpack from the user. webpack is a good fit for tools like this as it solves so many difficult problems well.
 
 ## Conclusion
 
-Now we have a nice degree of separation between production and development builds. Initially Webpack tends to take some configuration work but after that working with it becomes faster as you start to think in terms of loaders and plugins and how those fit into your workflow. Webpack deals with the heavy lifting while you get to focus on development.
+Now we have a nice degree of separation between production and development builds. Initially webpack tends to take some configuration work but after that working with it becomes faster as you start to think in terms of loaders and plugins and how those fit into your workflow. webpack deals with the heavy lifting while you get to focus on development.
 
-In this chapter you learned how to go beyond a basic Webpack configuration. Webpack's development server is a powerful feature that has even more in store. We also learned how to organize our configuration more effectively. Next we'll see how to configure Webpack to work well with React.
+In this chapter you learned how to go beyond a basic webpack configuration. webpack's development server is a powerful feature that has even more in store. We also learned how to organize our configuration more effectively. Next we'll see how to configure webpack to work well with React.

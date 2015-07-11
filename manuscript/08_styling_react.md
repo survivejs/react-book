@@ -8,9 +8,9 @@ I will show you how to style our application the traditional way and then discus
 
 The old school approach to styling was just to sprinkle some ids and classes around, set up some rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default everything is global in CSS. Furthermore nesting definitions (ie. `.main .sidebar .button`) creates implicit logic to your styling.
 
-### Webpack Configuration for Vanilla CSS
+### webpack Configuration for Vanilla CSS
 
-It is easy to configure vanilla CSS is Webpack. Consider the example below:
+It is easy to configure vanilla CSS is webpack. Consider the example below:
 
 **webpack.config.js**
 
@@ -233,7 +233,7 @@ Vanilla CSS is missing some functionality that would make maintenance work easie
 
 ![cssnext](images/cssnext.jpg)
 
-[cssnext](https://cssnext.github.io/) is a project that allows us to experience the future now. There are some restrictions but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case you would end up with the following:
+[cssnext](https://cssnext.github.io/) is a project that allows us to experience the future now. There are some restrictions but it may be worth a go. In webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case you would end up with the following:
 
 ```javascript
 {
@@ -250,7 +250,7 @@ If that sounds a little much or you are just interested in a particular feature 
 
 ![Less](images/less.png)
 
-Less is a popular CSS preprocessor that implements functionality we talked about and comes with a syntax of its own. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
+Less is a popular CSS preprocessor that implements functionality we talked about and comes with a syntax of its own. In webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
 
 ```javascript
 {
@@ -265,7 +265,7 @@ There is also support for Less plugins, sourcemaps and so on but to understand h
 
 ![Sass](images/sass.png)
 
-Sass is a popular alternative to Less. You should use [sass-loader](https://www.npmjs.com/package/sass-loader) with it. Remember to install `node-sass` to your project as the loader has a peer dependency on that. Webpack configuration is light again:
+Sass is a popular alternative to Less. You should use [sass-loader](https://www.npmjs.com/package/sass-loader) with it. Remember to install `node-sass` to your project as the loader has a peer dependency on that. webpack configuration is light again:
 
 ```javascript
 {
@@ -415,7 +415,7 @@ var styles = StyleSheet.create({
 
 As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (ie. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
 
-Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to but without cascades. We also have our style declarations on component level.
+Interestingly there is a [React Style plugin for webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to but without cascades. We also have our style declarations on component level.
 
 ### smart-css
 
@@ -451,7 +451,7 @@ SmartCSS.injectStyles();
 
 The approach supports pseudoselectors. Ie. you could define a selector such as `.button:hover` and it would just work.
 
-There are plans to introduce autoprefixing, better ways to deal with measurements, better APIs for complex properties and for a Webpack plugin to extract the CSS into an external file.
+There are plans to introduce autoprefixing, better ways to deal with measurements, better APIs for complex properties and for a webpack plugin to extract the CSS into an external file.
 
 ### React Inline
 
@@ -471,7 +471,7 @@ class ConfirmButton extends React.Component {
 }
 ```
 
-Unlike React Style, the approach supports browser states (ie. `:hover` etc.). Unfortunately it relies on its own custom tooling to generate React code and CSS it needs to work. As of yet there's no Webpack loader available.
+Unlike React Style, the approach supports browser states (ie. `:hover` etc.). Unfortunately it relies on its own custom tooling to generate React code and CSS it needs to work. As of yet there's no webpack loader available.
 
 ### jsxstyle
 
@@ -487,7 +487,7 @@ Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate so
 
 The approach is still in its early days. For instance support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
 
-Just like React Style, also jsxstyle comes with a Webpack loader that can extract CSS into a separate file.
+Just like React Style, also jsxstyle comes with a webpack loader that can extract CSS into a separate file.
 
 ## CSS Modules
 
@@ -530,11 +530,11 @@ import styles from './style.css';
 <button className={classNames(styles.button, styles.primary)}>Confirm</button>
 ```
 
-As you can see, this approach provides a good balance between what a lot of people are familiar with already and what various React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
+As you can see, this approach provides a good balance between what a lot of people are familiar with already and what various React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still early days. See [CSS Modules webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
 
 ## Conclusion
 
-It is simple to try out various styling approaches with Webpack. You can do it all ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
+It is simple to try out various styling approaches with webpack. You can do it all ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
 
 React based styling approaches allow us to push styles to component level. This provides an interesting contrast to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS but in return you gain something that is simpler to understand and harder to break.
 

@@ -16,7 +16,7 @@ This means `App` will have to coordinate the state. Let's start by rendering a l
 export default class App extends React.Component {
   render() {
     var notes = [{
-      task: 'Learn Webpack',
+      task: 'Learn webpack',
     }, {
       task: 'Learn React',
     }, {
@@ -40,7 +40,7 @@ We will use a special feature of JSX in form of `{}`. Within these braces we can
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
-If everything went correctly, you should see a list with three `Learn Webpack` items on it. That's almost nice. The problem is that we haven't taken `value` property in count at `Note`. We'll need to tweak its implementation like this:
+If everything went correctly, you should see a list with three `Learn webpack` items on it. That's almost nice. The problem is that we haven't taken `value` property in count at `Note`. We'll need to tweak its implementation like this:
 
 **app/components/Note.jsx**
 
@@ -159,7 +159,7 @@ export default class App extends React.Component {
 
     this.state = {
       notes: [{
-        task: 'Learn Webpack',
+        task: 'Learn webpack',
       }, {
         task: 'Learn React',
       }, {
@@ -352,7 +352,7 @@ T> We just introduced some interesting behavior to our system. Note that as we t
 
 As we saw earlier with `onEdit`, it gave us a nasty error before we actually defined a handler for the case. Thanks to [Flow](http://flowtype.org/) and [Flowcheck](https://gcanti.github.io/flowcheck/) we can add typing information to our source. This is very useful in a situation where you are working with large project and many developers
 
-We can set up Flow type checking to our Webpack easily by first doing `npm i flowcheck-loader --save-dev` and then extending our development configuration a little like this:
+We can set up Flow type checking to our webpack easily by first doing `npm i flowcheck-loader --save-dev` and then extending our development configuration a little like this:
 
 ```javascript
 if(TARGET === 'dev') {

@@ -1,6 +1,6 @@
-# Understanding Webpack Configuration
+# Understanding webpack Configuration
 
-One of the keys to understanding Webpack and mastering it is to have a good idea of how its configuration works. Even though we have touched at various bits of it already, it doesn't hurt to look into it more detail.
+One of the keys to understanding webpack and mastering it is to have a good idea of how its configuration works. Even though we have touched at various bits of it already, it doesn't hurt to look into it more detail.
 
 [The official documentation](https://webpack.github.io/docs/configuration.html) covers every piece of it in case you are interested in some particular part. Here I'll go through the important parts and how they relate to each other.
 
@@ -50,7 +50,7 @@ As you can see, we can manipulate the `context` of `entry`. This becomes useful 
 }
 ```
 
-Now Webpack will be able to output a bundle for each of our entries. You can also pass an array for an individual entry. The same rule applies here as above. All files will be loaded but only the last one will be exported.
+Now webpack will be able to output a bundle for each of our entries. You can also pass an array for an individual entry. The same rule applies here as above. All files will be loaded but only the last one will be exported.
 
 XXXXX: test this out + set up a demo. integrate into earlier material?
 

@@ -1,8 +1,8 @@
 # Deploying Applications
 
-If you were developing a native application you would probably bundle everything into one file and deploy it to some application store. Size probably wouldn't matter that much. Web is different. You can get quite far with a single bundle but at a certain point that becomes unwieldy. This is the area where Webpack excels. It will allow you to shape your bundles just the way you like it. In this chapter I will discuss more general strategies for dealing with it.
+If you were developing a native application you would probably bundle everything into one file and deploy it to some application store. Size probably wouldn't matter that much. Web is different. You can get quite far with a single bundle but at a certain point that becomes unwieldy. This is the area where webpack excels. It will allow you to shape your bundles just the way you like it. In this chapter I will discuss more general strategies for dealing with it.
 
-The strategy you’ll want to use depends entirely on your goals. With Webpack you can end up with something very highly optimized. This incurs some extra complexity to the configuration but your users will be very glad you gave that extra effort. So far you've seen how to set up a basic minified bundle. The next step would be to split a vendor chunk from it.
+The strategy you’ll want to use depends entirely on your goals. With webpack you can end up with something very highly optimized. This incurs some extra complexity to the configuration but your users will be very glad you gave that extra effort. So far you've seen how to set up a basic minified bundle. The next step would be to split a vendor chunk from it.
 
 ## Splitting App and Vendors
 
@@ -51,13 +51,13 @@ T> That `[chunkhash]` up there is used for generating a unique id per chunk for 
 
 The entry chunks and their individual children chunks will be bundled into two different JavaScript files, **app.js** and **vendors.js**. Both of the bundles has `react` as either part of the entry chunk itself, like vendors, or it is required with a `var React = require('react')` statement, like in app.
 
-Understanding this, you can understand how the CommonsChunkPlugin works. In the example above, if we did not configure a plugin at all React would be included in both entry chunks, app and vendors, and bundled into both the *app.js* file and *vendors.js* file. By using a plugin we can tell Webpack that the chunks included in vendors are common.
+Understanding this, you can understand how the CommonsChunkPlugin works. In the example above, if we did not configure a plugin at all React would be included in both entry chunks, app and vendors, and bundled into both the *app.js* file and *vendors.js* file. By using a plugin we can tell webpack that the chunks included in vendors are common.
 
 That means when an other entry chunk, like app in this example, tries to require react it will first check  entry chunks defined as common. In our example, using the CommonsChunkPlugin, we say that the vendors entry chunk is common and when it is bundled, call that file **vendors.js**. The result of this is that we will now get two bundles, app.js and vendors.js, where app.js grabs React from vendors.js.
 
 ## Multiple Bundles
 
-Let's say you are working on a big project and you have a family of applications. These applications have different functionality, but they still share a lot of code. With Webpack you can create completely separate bundles that share a single common bundle. How much should be shared is something Webpack can optimize for you.
+Let's say you are working on a big project and you have a family of applications. These applications have different functionality, but they still share a lot of code. With webpack you can create completely separate bundles that share a single common bundle. How much should be shared is something webpack can optimize for you.
 
 Given the following project file structure:
 
@@ -95,7 +95,7 @@ This configuration will create three files in the `dist/` folder. **appA.js**, *
 
 1. We are using a variable in our output configuration. Since we have multiple entries we want to produce one file for each of them, using the name of the entry as the name of the file.
 
-2. The CommonsChunkPlugin is now used a bit differently than in the previous strategy. Instead of pointing to an existing entry chunk, we create a brand new chunk called *common*. Its file name will be *common.js*. By default Webpack will make sure that if one entry chunk or its children require a chunk that also the other entry chunk or its children require, it will be moved over to the common chunk. This effectively moves vendors and shared chunks to the common bundle.
+2. The CommonsChunkPlugin is now used a bit differently than in the previous strategy. Instead of pointing to an existing entry chunk, we create a brand new chunk called *common*. Its file name will be *common.js*. By default webpack will make sure that if one entry chunk or its children require a chunk that also the other entry chunk or its children require, it will be moved over to the common chunk. This effectively moves vendors and shared chunks to the common bundle.
 
 ## Lazy Loaded Chunks
 
@@ -140,7 +140,7 @@ module.exports = {
 };
 ```
 
-So we are pretty much back where we started with a split application and vendors bundle. You do not really define your lazy dependencies in a configuration, Webpack automatically understands them when analyzing your code. So let us see how we would lazy load a **profile page**:
+So we are pretty much back where we started with a split application and vendors bundle. You do not really define your lazy dependencies in a configuration, webpack automatically understands them when analyzing your code. So let us see how we would lazy load a **profile page**:
 
 **main.js**
 
@@ -170,7 +170,7 @@ class App extends React.Component {
 React.render(<App/>, document.body);
 ```
 
-So this is just an example. You would probably hook this up to a router, but the important part is using `require.ensure`. When Webpack finds that statement it will automatically create a chunk that can be lazy loaded.
+So this is just an example. You would probably hook this up to a router, but the important part is using `require.ensure`. When webpack finds that statement it will automatically create a chunk that can be lazy loaded.
 
 T> **What is the array on the first argument?**: If you try to lazy load a chunk that depends on an other lazy loaded chunk you can set it as a dependency in the array. Just type in the path to the chunk; e.g. `['./FunnyButton.js']`
 
@@ -210,4 +210,4 @@ So this was a very naive and simple way of showing it, but what you should notic
 
 ## Conclusion
 
-In this chapter you saw some common strategies to help you deal with deployment. This is an area where Webpack shines. You can configure it in various way to suit your purposes as you saw above.
+In this chapter you saw some common strategies to help you deal with deployment. This is an area where webpack shines. You can configure it in various way to suit your purposes as you saw above.
