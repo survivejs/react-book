@@ -9,21 +9,21 @@ var common = {
   entry: [path.resolve(ROOT_PATH, 'app/main')],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css'],
-      },
-    ],
+        loaders: ['style', 'css']
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Kanban app',
-    }),
-  ],
+    })
+  ]
 };
 
 if(TARGET === 'build') {
@@ -34,6 +34,6 @@ if(TARGET === 'dev') {
   module.exports = merge(common, {
     entry: [
       'webpack/hot/dev-server'
-    ],
+    ]
   });
 }

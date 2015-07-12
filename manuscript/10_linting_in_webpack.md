@@ -113,7 +113,6 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "no-use-before-define": 0,
     "eol-last": 0,
     "quotes": [2, "single"],
-    "comma-dangle": 0,
     "react/jsx-boolean-value": 1,
     "react/jsx-quotes": 1,
     "react/jsx-no-undef": 1,

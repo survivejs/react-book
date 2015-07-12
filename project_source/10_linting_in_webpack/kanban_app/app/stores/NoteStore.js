@@ -18,7 +18,7 @@ export default class NoteStore {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.concat({task, id: uuid.v4()}),
+      notes: notes.concat({task, id: uuid.v4()})
     });
   }
   move({source, target}) {
@@ -31,18 +31,18 @@ export default class NoteStore {
         notes: update(notes, {
           $splice: [
             [sourceIndex, 1],
-            [targetIndex, 0, source],
-          ],
-        }),
+            [targetIndex, 0, source]
+          ]
+        })
       });
     }
     else if(targetIndex >= 0) {
       this.setState({
         notes: update(notes, {
           $splice: [
-            [targetIndex, 0, source],
-          ],
-        }),
+            [targetIndex, 0, source]
+          ]
+        })
       });
     }
     else if(sourceIndex >= 0) {
@@ -55,14 +55,14 @@ export default class NoteStore {
     notes[id].task = task;
 
     this.setState({
-      notes: notes,
+      notes: notes
     });
   }
   remove(id) {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.slice(0, id).concat(notes.slice(id + 1)),
+      notes: notes.slice(0, id).concat(notes.slice(id + 1))
     });
   }
 }

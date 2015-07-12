@@ -37,7 +37,7 @@ export default class Lane extends React.Component {
         <AltContainer
           stores={[this.store]}
           inject={{
-            items: () => this.store.getState().notes || [],
+            items: () => this.store.getState().notes || []
           }}
         >
           <Notes onEdit={this.edited.bind(this, this.actions, 'task')} />

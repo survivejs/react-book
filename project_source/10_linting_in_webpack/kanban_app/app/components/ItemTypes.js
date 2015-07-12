@@ -1,3 +1,3 @@
 export default {
-  NOTE: 'note',
+  NOTE: 'note'
 };

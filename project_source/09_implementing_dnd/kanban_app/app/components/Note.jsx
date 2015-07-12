@@ -6,7 +6,7 @@ import ItemTypes from './ItemTypes';
 const noteSource = {
   beginDrag(props) {
     return {
-      data: props.data,
+      data: props.data
     };
   }
 };
@@ -20,18 +20,18 @@ const noteTarget = {
     if(sourceData.id !== targetData.id) {
       props.onMove({
         source: sourceProps.data,
-        target: props.data,
+        target: props.data
       });
     }
   }
 };
 
 @DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
-  connectDropTarget: connect.dropTarget(),
+  connectDropTarget: connect.dropTarget()
 }))
 @DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging(),
+  isDragging: monitor.isDragging()
 }))
 export default class Note extends React.Component {
   constructor(props: {

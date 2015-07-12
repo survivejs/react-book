@@ -13,7 +13,7 @@ class LaneStore {
 
     this.setState({
       lanes: lanes.concat({
-        name: name,
+        name: name
       }),
     });
   }
@@ -28,7 +28,7 @@ class LaneStore {
     const lanes = this.lanes;
 
     this.setState({
-      lanes: lanes.slice(0, id).concat(lanes.slice(id + 1)),
+      lanes: lanes.slice(0, id).concat(lanes.slice(id + 1))
     });
   }
 }

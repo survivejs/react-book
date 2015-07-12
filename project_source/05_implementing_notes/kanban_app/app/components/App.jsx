@@ -11,8 +11,8 @@ export default class App extends React.Component {
       }, {
         task: 'Learn React',
       }, {
-        task: 'Do laundry',
-      }],
+        task: 'Do laundry'
+      }]
     };
   }
   render() {
@@ -28,7 +28,7 @@ export default class App extends React.Component {
   addItem() {
     this.setState({
       notes: this.state.notes.concat([{
-        task: 'New task',
+        task: 'New task'
       }])
     });
   }
@@ -43,7 +43,7 @@ export default class App extends React.Component {
     }
 
     this.setState({
-      notes: notes,
+      notes: notes
     });
   }
 }

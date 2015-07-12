@@ -10,17 +10,17 @@ var ROOT_PATH = path.resolve(__dirname);
 var common = {
   entry: [path.resolve(ROOT_PATH, 'app/main')],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx']
   },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Kanban app',
-    }),
-  ],
+      title: 'Kanban app'
+    })
+  ]
 };
 
 if(TARGET === 'build') {
@@ -34,24 +34,24 @@ if(TARGET === 'build') {
         {
           test: /\.jsx?$/,
           loader: 'babel?stage=1',
-          include: path.resolve(ROOT_PATH, 'app'),
-        },
-      ],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
     },
     plugins: [
       new ExtractTextPlugin('styles.css'),
       new webpack.DefinePlugin({
         'process.env': {
           // This has effect on the react lib size
-          'NODE_ENV': JSON.stringify('production'),
+          'NODE_ENV': JSON.stringify('production')
         }
       }),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
-          warnings: false,
-        },
-      }),
-    ],
+          warnings: false
+        }
+      })
+    ]
   });
 }
 
@@ -64,14 +64,14 @@ if(TARGET === 'dev') {
       loaders: [
         {
           test: /\.css$/,
-          loaders: ['style', 'css'],
+          loaders: ['style', 'css']
         },
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
-          include: path.resolve(ROOT_PATH, 'app'),
-        },
-      ],
-    },
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
   });
 }
