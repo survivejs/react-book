@@ -15,7 +15,7 @@ export const storage = {
 };
 
 export function getInitialData(storeName) {
-  var o = storage.get(storageName);
+  var data = storage.get(storageName);
 
-  return o && o[storeName];
+  return data && data[storeName];
 }
