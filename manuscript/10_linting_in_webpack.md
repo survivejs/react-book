@@ -298,7 +298,6 @@ Next we'll need to integrate it with our configuration:
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    entry: ['webpack/hot/dev-server'],
     module: {
       preLoaders: [
         {
@@ -312,8 +311,7 @@ if(TARGET === 'dev') {
         }
       ],
       ...
-    },
-    ...
+    }
   });
 }
 ```

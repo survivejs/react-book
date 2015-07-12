@@ -175,9 +175,7 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    ...
     module: {
-      ...
       loaders: [
         {
           test: /\.css$/,
@@ -185,8 +183,7 @@ if(TARGET === 'dev') {
         },
         ...
       ]
-    },
-    ...
+    }
   });
 }
 ```

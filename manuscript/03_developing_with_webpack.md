@@ -28,7 +28,6 @@ var ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
   entry: [
-    'webpack/hot/dev-server',
     path.resolve(ROOT_PATH, 'app/main.js')
   ],
   output: {
@@ -79,7 +78,6 @@ var ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
   entry: [
-    'webpack/hot/dev-server',
     path.resolve(ROOT_PATH, 'app/main')
   ],
   output: {
@@ -162,17 +160,13 @@ var common = {
   }
 };
 
+// we'll extend these later and use merge then
 if(TARGET === 'build') {
   module.exports = common;
 }
 
 if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    entry: [
-      'webpack-dev-server/client?http://localhost:8080',
-      'webpack/hot/dev-server'
-    ]
-  });
+  module.exports = common;
 }
 ```
 

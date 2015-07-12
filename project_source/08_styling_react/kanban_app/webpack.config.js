@@ -57,9 +57,6 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    entry: [
-      'webpack/hot/dev-server'
-    ],
     module: {
       loaders: [
         {

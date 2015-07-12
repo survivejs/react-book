@@ -437,19 +437,15 @@ As we'll be relying on decorators and still like to use Flowcheck, we'll need to
 ```javascript
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    ...
     module: {
-      ...
       loaders: [
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
           include: path.resolve(ROOT_PATH, 'app')
         }
-      ],
-      ...
-    },
-    ...
+      ]
+    }
   });
 }
 ```
