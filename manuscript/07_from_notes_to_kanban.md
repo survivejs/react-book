@@ -289,6 +289,8 @@ export default class Lane extends React.Component {
     return (
       <div {...props}>
       ...
+        <AltContainer stores={[this.store]} ... />
+      ...
       </div>
     );
   }
