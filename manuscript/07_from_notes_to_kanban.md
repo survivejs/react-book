@@ -109,7 +109,7 @@ class LaneStore {
 
     this.setState({
       lanes: lanes.concat({
-        name: name,
+        name: name
       })
     });
   }
@@ -118,7 +118,9 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-The idea is the same as before with lanes. We are also going to need that `Lanes` container.
+The second parameter in `createStore` is a string that is used as a unique identifier for serializing/deserializing your store. The name of the store comes from the class name but on production due to heavy minification it is a good idea to provide your own name to avoid collisions.
+
+The idea is the same as before with notes. We are also going to need that `Lanes` container.
 
 **app/components/Lanes.jsx**
 
