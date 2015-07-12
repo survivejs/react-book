@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import update from 'react/lib/update';
 import uuid from 'node-uuid';
 
@@ -10,9 +9,9 @@ export default class NoteStore {
     this.bindActions(NoteDndActions);
   }
   init(data) {
-    var d = _.isArray(_.get(data, 'notes')) ? migrate(data) : {notes: []};
-
-    this.setState(d);
+    this.setState(Array.isArray(data && data.notes) ? migrate(data) : {
+      notes: []
+    });
   }
   create(task) {
     const notes = this.notes;

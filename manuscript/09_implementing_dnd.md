@@ -244,9 +244,9 @@ Now newly created `Notes` should contain unique ids. Possible older data won't. 
 export default class NoteStore {
   ...
   init(data) {
-    var d = _.isArray(_.get(data, 'notes')) ? migrate(data) : {notes: []};
-
-    this.setState(d);
+    this.setState(Array.isArray(data && data.notes) ? migrate(data) : {
+      notes: []
+    });
   }
   ...
 }
