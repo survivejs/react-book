@@ -348,10 +348,10 @@ import LaneActions from '../actions/LaneActions';
 
 nameEdited(id, name) {
   if(name) {
-    LaneActions.update({i, name});
+    LaneActions.update({id, name});
   }
   else {
-    LaneActions.remove(i);
+    LaneActions.remove(id);
   }
 }
 ```
