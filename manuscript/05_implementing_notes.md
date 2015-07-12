@@ -253,9 +253,7 @@ export default class Note extends React.Component {
 
 `Note` keeps track of *edited* state. We will manipulate that to change the way it is rendered. If we hit **edit**, we'll trigger edit mode. Once input receives either *blur* event or Enter key, we'll finish editing and reset the value. When finishing we also trigger a callback so the app knows to react.
 
-We are using [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread) here to keep our props generic. In other words that `<div {...props}>` sets props as element attributes. In order to avoid injecting `value` and `onEdit` I extract them out before doing this. If you want to be explicit about it, you can extract specific props and set them directly (e.g. `style={style} className={className}`).
-
-The good thing about this approach is that it gives your components some extra flexibility. On the other hand it takes some little extra effort to make sure you don't end up setting attributes you don't really need.
+We are using [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread) here to keep our props generic. In other words that `<div {...props}>` sets props as element attributes. This gives an additional extension point with little effort. You could for instance attach custom event handlers there or set some standard HTML attributes (e.g. `<Note title='Demo title' value={note.task} />`). I extract `value` and `onEdit` out of `props` as I **don't** want to set these at `div`.
 
 T> It can be a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them quickly from other props and keep your code a little tidier.
 
