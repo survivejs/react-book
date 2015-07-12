@@ -39,7 +39,7 @@ export default class App extends React.Component {
         <AltContainer
           stores={[LaneStore]}
           inject={ {
-            items: () => LaneStore.getState().lanes || [],
+            items: () => LaneStore.getState().lanes || []
           } }
         >
           <Lanes />
@@ -209,7 +209,7 @@ export default class Lane extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={ {
-            items: () => NoteStore.getState().notes || [],
+            items: () => NoteStore.getState().notes || []
           } }
         >
           <Notes onEdit={this.noteEdited.bind(this)} />
@@ -418,7 +418,7 @@ class LaneStore {
     const lanes = this.lanes;
 
     this.setState({
-      lanes: lanes.slice(0, id).concat(lanes.slice(id + 1)),
+      lanes: lanes.slice(0, id).concat(lanes.slice(id + 1))
     });
   }
 }

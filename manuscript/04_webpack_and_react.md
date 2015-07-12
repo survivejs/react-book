@@ -47,7 +47,7 @@ var common = {
         loader: 'babel?stage=1',
 
         // operate only on our app directory
-        include: path.resolve(ROOT_PATH, 'app'),
+        include: path.resolve(ROOT_PATH, 'app')
       },
       ...
     ]
@@ -167,9 +167,9 @@ if(TARGET === 'build') {
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false
-        },
-      }),
-    ],
+        }
+      })
+    ]
   });
 }
 ```
@@ -206,11 +206,11 @@ if(TARGET === 'build') {
       new webpack.DefinePlugin({
         'process.env': {
           // This has effect on the react lib size
-          'NODE_ENV': JSON.stringify('production'),
+          'NODE_ENV': JSON.stringify('production')
         }
       }),
       ...
-    ],
+    ]
   });
 }
 ```
@@ -251,9 +251,9 @@ var common = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css'],
-      },
-    ],
+        loaders: ['style', 'css']
+      }
+    ]
   },
   ...
 };
@@ -267,13 +267,13 @@ if(TARGET === 'build') {
         {
           test: /\.jsx?$/,
           loader: 'babel?stage=1',
-          include: path.resolve(ROOT_PATH, 'app'),
-        },
-      ],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
     },
     plugins: [
       ...
-    ],
+    ]
   });
 }
 
@@ -287,10 +287,10 @@ if(TARGET === 'dev') {
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel?stage=1'],
-          include: path.resolve(ROOT_PATH, 'app'),
-        },
-      ],
-    },
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
   });
 }
 ```

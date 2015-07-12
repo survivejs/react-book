@@ -16,11 +16,11 @@ This means `App` will have to coordinate the state. Let's start by rendering a l
 export default class App extends React.Component {
   render() {
     var notes = [{
-      task: 'Learn webpack',
+      task: 'Learn webpack'
     }, {
-      task: 'Learn React',
+      task: 'Learn React'
     }, {
-      task: 'Do laundry',
+      task: 'Do laundry'
     }];
 
     return (
@@ -159,12 +159,12 @@ export default class App extends React.Component {
 
     this.state = {
       notes: [{
-        task: 'Learn webpack',
+        task: 'Learn webpack'
       }, {
-        task: 'Learn React',
+        task: 'Learn React'
       }, {
-        task: 'Do laundry',
-      }],
+        task: 'Do laundry'
+      }]
     };
   }
   render() {
@@ -186,7 +186,7 @@ export default class App extends React.Component {
   addItem() {
     this.setState({
       notes: this.state.notes.concat([{
-        task: 'New task',
+        task: 'New task'
       }])
     });
   }
@@ -213,7 +213,7 @@ export default class Note extends React.Component {
     super(props);
 
     this.state = {
-      edited: false,
+      edited: false
     };
   }
   render() {
@@ -233,7 +233,7 @@ export default class Note extends React.Component {
   }
   edit() {
     this.setState({
-        edited: true,
+        edited: true
     });
   }
   checkEnter(e) {
@@ -245,7 +245,7 @@ export default class Note extends React.Component {
     this.props.onEdit(e.target.value);
 
     this.setState({
-      edited: false,
+      edited: false
     });
   }
 }
@@ -280,7 +280,7 @@ export default class App extends React.Component {
     notes[i].task = task;
 
     this.setState({
-      notes: notes,
+      notes: notes
     });
   }
 }
@@ -336,7 +336,7 @@ export default class App extends React.Component {
     }
 
     this.setState({
-      notes: notes,
+      notes: notes
     });
   }
 }
@@ -364,9 +364,9 @@ if(TARGET === 'dev') {
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel?stage=1', 'flowcheck'],
-          include: path.resolve(ROOT_PATH, 'app'),
-        },
-      },
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      }
     },
     ...
   });

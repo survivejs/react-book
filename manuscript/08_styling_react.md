@@ -21,9 +21,9 @@ var common = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css'],
-      },
-    ],
+        loaders: ['style', 'css']
+      }
+    ]
   },
   ...
 };
@@ -146,11 +146,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var common = {
   entry: [path.resolve(ROOT_PATH, 'app/main')],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx']
   },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   ...
 };
@@ -169,7 +169,7 @@ if(TARGET === 'build') {
     plugins: [
       new ExtractTextPlugin('styles.css'),
       ...
-    ],
+    ]
   });
 }
 
@@ -181,7 +181,7 @@ if(TARGET === 'dev') {
       loaders: [
         {
           test: /\.css$/,
-          loaders: ['style', 'css'],
+          loaders: ['style', 'css']
         },
         ...
       ]
@@ -238,7 +238,7 @@ Vanilla CSS is missing some functionality that would make maintenance work easie
 ```javascript
 {
   test: /\.css$/,
-  loaders: ['style', 'css', 'cssnext'],
+  loaders: ['style', 'css', 'cssnext']
 }
 ```
 
@@ -255,7 +255,7 @@ Less is a popular CSS preprocessor that implements functionality we talked about
 ```javascript
 {
   test: /\.less$/,
-  loaders: ['style', 'css', 'less'],
+  loaders: ['style', 'css', 'less']
 }
 ```
 
@@ -270,7 +270,7 @@ Sass is a popular alternative to Less. You should use [sass-loader](https://www.
 ```javascript
 {
   test: /\.scss$/,
-  loaders: ['style', 'css', 'sass'],
+  loaders: ['style', 'css', 'sass']
 }
 ```
 
@@ -314,7 +314,7 @@ render(props, context) {
   var style = {
     margin: '0.5em',
     paddingLeft: 0,
-    listStyle: 'none',
+    listStyle: 'none'
   };
 
   return (
@@ -365,8 +365,8 @@ var styles = {
 
       ':hover': {
         background: 'white',
-      },
-    },
+      }
+    }
   },
   primary: {
     background: 'green'
@@ -402,9 +402,9 @@ var styles = StyleSheet.create({
   },
   // media queries
   '@media (max-width: 200px)': {
-      button: {
-        width: '100%'
-      }
+    button: {
+      width: '100%'
+    }
   }
 });
 

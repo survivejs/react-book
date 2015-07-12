@@ -29,11 +29,11 @@ var ROOT_PATH = path.resolve(__dirname);
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    path.resolve(ROOT_PATH, 'app/main.js'),
+    path.resolve(ROOT_PATH, 'app/main.js')
   ],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
 };
 ```
@@ -80,19 +80,19 @@ var ROOT_PATH = path.resolve(__dirname);
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    path.resolve(ROOT_PATH, 'app/main'),
+    path.resolve(ROOT_PATH, 'app/main')
   ],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css'],
-      },
-    ],
+        loaders: ['style', 'css']
+      }
+    ]
   }
 };
 ```
@@ -150,16 +150,16 @@ var common = {
   entry: [path.resolve(ROOT_PATH, 'app/main')],
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css'],
-      },
-    ],
-  },
+        loaders: ['style', 'css']
+      }
+    ]
+  }
 };
 
 if(TARGET === 'build') {
@@ -215,9 +215,9 @@ var common = {
   ...
   plugins: [
     new HtmlwebpackPlugin({
-      title: 'Kanban app',
-    }),
-  ],
+      title: 'Kanban app'
+    })
+  ]
 };
 
 ...

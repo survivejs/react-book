@@ -154,7 +154,7 @@ var mergeDist = merge.bind(null, {
     output: {
         path: config.paths.dist,
         libraryTarget: 'umd',
-        library: config.library,
+        library: config.library
     },
     entry: config.paths.lib,
     externals: {
@@ -166,7 +166,7 @@ var mergeDist = merge.bind(null, {
             {
                 test: /\.jsx?$/,
                 loaders: ['babel'],
-                include: config.paths.lib,
+                include: config.paths.lib
             }
         ]
     }
@@ -174,21 +174,21 @@ var mergeDist = merge.bind(null, {
 
 exports.dist = mergeDist({
     output: {
-        filename: config.filename + '.js',
+        filename: config.filename + '.js'
     },
 });
 
 exports.distMin = mergeDist({
     output: {
-        filename: config.filename + '.min.js',
+        filename: config.filename + '.min.js'
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
-            },
-        }),
-    ],
+            }
+        })
+    ]
 });
 ```
 
