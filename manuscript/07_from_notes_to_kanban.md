@@ -210,7 +210,7 @@ export default class Lane extends React.Component {
             items: () => NoteStore.getState().notes || [],
           } }
         >
-          <Notes onEdit={this.noteEdited} />
+          <Notes onEdit={this.noteEdited.bind(this)} />
         </AltContainer>
       </div>
     );
