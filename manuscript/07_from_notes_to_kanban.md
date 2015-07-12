@@ -119,6 +119,7 @@ export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 The idea is the same as before with lanes. We are also going to need that `Lanes` container.
+The idea is the same as before with notes. We are also going to need that `Lanes` container.
 
 **app/components/Lanes.jsx**
 
