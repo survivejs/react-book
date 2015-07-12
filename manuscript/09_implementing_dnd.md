@@ -85,7 +85,7 @@ React DnD uses constants to tell different draggables apart. Set up a file for t
 
 ```javascript
 export default {
-  NOTE: 'note',
+  NOTE: 'note'
 };
 ```
 
@@ -113,11 +113,11 @@ const noteTarget = {
 };
 
 @DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
-  connectDropTarget: connect.dropTarget(),
+  connectDropTarget: connect.dropTarget()
 }))
 @DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging(),
+  isDragging: monitor.isDragging()
 }))
 export default class Note extends React.Component {
   render() {
@@ -147,7 +147,7 @@ In order to make `Note` operate based on id, we'll need to tweak it a little.
 const noteSource = {
   beginDrag(props) {
     return {
-      data: props.data,
+      data: props.data
     };
   }
 };
@@ -161,7 +161,7 @@ const noteTarget = {
   if(sourceData.id !== targetData.id) {
     props.onMove({
       source: sourceProps.data,
-      target: props.data,
+      target: props.data
     });
   }
   }
@@ -227,7 +227,7 @@ export default class NoteStore {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.concat({task, id: uuid.v4()}),
+      notes: notes.concat({task, id: uuid.v4()})
     });
   }
   ...
@@ -342,10 +342,10 @@ export default class NoteStore {
   move({source, target}) {
     const notes = this.notes;
     const sourceIndex = findIndex(notes, {
-      id: source.id,
+      id: source.id
     });
     const targetIndex = findIndex(notes, {
-      id: target.id,
+      id: target.id
     });
 
     if(sourceIndex >= 0 && targetIndex >= 0) {
@@ -353,18 +353,18 @@ export default class NoteStore {
         notes: update(notes, {
           $splice: [
             [sourceIndex, 1],
-            [targetIndex, 0, source],
-          ],
-        }),
+            [targetIndex, 0, source]
+          ]
+        })
       });
     }
     else if(targetIndex >= 0) {
       this.setState({
         notes: update(notes, {
           $splice: [
-            [targetIndex, 0, source],
-          ],
-        }),
+            [targetIndex, 0, source]
+          ]
+        })
       });
     }
     else if(sourceIndex >= 0) {

@@ -63,7 +63,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var del = require('del');
 
 var paths = {
-    scripts: ['client/js/**/*.coffee', '!client/external/**/*.coffee'],
+    scripts: ['client/js/**/*.coffee', '!client/external/**/*.coffee']
 };
 
 // Not all tasks need to use streams

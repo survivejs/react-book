@@ -62,7 +62,7 @@ class NoteStore {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.concat({task}),
+      notes: notes.concat({task})
     });
   }
   update({id, task}) {
@@ -76,7 +76,7 @@ class NoteStore {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.slice(0, id).concat(notes.slice(id + 1)),
+      notes: notes.slice(0, id).concat(notes.slice(id + 1))
     });
   }
 }
@@ -449,8 +449,8 @@ if(TARGET === 'dev') {
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
-          include: path.resolve(ROOT_PATH, 'app'),
-        },
+          include: path.resolve(ROOT_PATH, 'app')
+        }
       ],
       ...
     },

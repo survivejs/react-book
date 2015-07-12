@@ -25,10 +25,10 @@ module: {
       test: /\.js$/,
       // define an include so we check just the files we need
       include: path.resolve(ROOT_PATH, 'app'),
-      loader: 'jshint',
-    },
-  ],
-},
+      loader: 'jshint'
+    }
+  ]
+}
 ```
 
 You can also define custom settings using a `jshint` object. The project README covers that in detail. The tool will look into specific rules to apply from `.jshintrc`. Those have been covered at JSHint documentation in detail. An example configuration could look like this:
@@ -175,9 +175,9 @@ if(TARGET === 'dev') {
           // we have ESLint module installed. This way we
           // can be certain that it uses the right loader
           loader: 'eslint-loader',
-          include: path.resolve(ROOT_PATH, 'app'),
-        },
-      ],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
     },
     output: {...},
     ...
@@ -244,10 +244,10 @@ module.exports = {
       return {
         Identifier: function(node) {
           context.report(node, 'This is unexpected!');
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 ```
 
@@ -304,13 +304,13 @@ if(TARGET === 'dev') {
       preLoaders: [
         {
           test: /\.css$/,
-          loader: 'csslint',
+          loader: 'csslint'
         },
         {
           test: /\.jsx?$/,
           loader: 'eslint-loader',
-          include: path.resolve(ROOT_PATH, 'app'),
-        },
+          include: path.resolve(ROOT_PATH, 'app')
+        }
       ],
       ...
     },
@@ -355,7 +355,7 @@ I decided to use a set of rules from Twitter Bootstrap. These seem like a good s
   "lint": "npm run lint-js && npm run lint-css",
   "lint-js": "eslint . --ext .js --ext .jsx",
   "lint-css": "csslint app/stylesheets --quiet"
-},
+}
 ```
 
 If you hit `npm run lint-css` now, you should see some output, hopefully without errors. That `--quiet` flag is there to keep the tool silent unless there are errors.
@@ -376,10 +376,10 @@ module: {
     {
       test: /\.jsx?$/,
       loaders: ['eslint', 'jscs'],
-      include: path.resolve(ROOT_PATH, 'app'),
-    },
-  ],
-},
+      include: path.resolve(ROOT_PATH, 'app')
+    }
+  ]
+}
 ```
 
 To make it work with JSX, you'll need to point it to `esprima-fb` parser through `.jscsrc`. There are also various other options and even some presets. Consider the example below:
