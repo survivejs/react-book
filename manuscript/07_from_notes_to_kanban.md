@@ -240,8 +240,6 @@ A good first step towards getting rid of our Note singletons is to make our `Not
 **app/stores/NoteStore.js**
 
 ```javascript
-import _ from 'lodash';
-
 export default class NoteStore {
   constructor(actions: Object) {
     this.bindActions(actions);
