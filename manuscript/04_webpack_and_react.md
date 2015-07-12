@@ -30,7 +30,7 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 
 ### Configuring babel-loader
 
-In order to set up Babel for our project we can use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-loader --save-dev`. In addition add the following loader declaration to the *loaders* section of your configuration:
+In order to set up Babel for our project we can use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-core babel-loader --save-dev`. `babel-core` is a peer dependency of `babel-loader` so that needs to be installed explicitly to make the project work with npm 3. In addition add the following loader declaration to the *loaders* section of your configuration:
 
 **webpack.config.js**
 
