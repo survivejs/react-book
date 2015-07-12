@@ -212,7 +212,7 @@ export default class Lane extends React.Component {
             items: () => NoteStore.getState().notes || [],
           } }
         >
-          <Notes onEdit={this.noteEdited} />
+          <Notes onEdit={this.noteEdited.bind(this)} />
         </AltContainer>
       </div>
     );
@@ -242,8 +242,6 @@ A good first step towards getting rid of our Note singletons is to make our `Not
 **app/stores/NoteStore.js**
 
 ```javascript
-import _ from 'lodash';
-
 export default class NoteStore {
   constructor(actions: Object) {
     this.bindActions(actions);
@@ -292,6 +290,8 @@ export default class Lane extends React.Component {
 
     return (
       <div {...props}>
+      ...
+        <AltContainer stores={[this.store]} ... />
       ...
       </div>
     );
@@ -350,10 +350,10 @@ import LaneActions from '../actions/LaneActions';
 
 nameEdited(id, name) {
   if(name) {
-    LaneActions.update({i, name});
+    LaneActions.update({id, name});
   }
   else {
-    LaneActions.remove(i);
+    LaneActions.remove(id);
   }
 }
 ```
