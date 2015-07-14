@@ -14,6 +14,7 @@
     "antwar-default-theme": "git://github.com/antwarjs/default-theme",
     "antwar-highlight-plugin": "git://github.com/antwarjs/highlight-plugin",
     "antwar-prevnext-plugin": "git://github.com/antwarjs/prevnext-plugin",
+    "antwar-rss-plugin": "antwarjs/rss-plugin",
     "gitbook-cli": "^0.3.3",
     "highlight.js": "^8.6.0",
     "lodash": "^3.9.1",

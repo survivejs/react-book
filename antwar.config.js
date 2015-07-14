@@ -3,6 +3,7 @@ var _ = require('lodash');
 var removeMd = require('remove-markdown');
 var marked = require('marked');
 var renderer = new marked.Renderer();
+var rssPlugin = require('antwar-rss-plugin');
 var highlightPlugin = require('antwar-highlight-plugin');
 var prevnextPlugin = require('antwar-prevnext-plugin');
 
@@ -62,6 +63,10 @@ module.exports = {
     return siteName + ' - ' + pageTitle;
   },
   plugins: [
+    rssPlugin({
+      baseUrl: 'http://survivejs.com/',
+      sections: ['blog'],
+    }),
     highlightPlugin({
       style: function() {
         require('highlight.js/styles/github.css');
