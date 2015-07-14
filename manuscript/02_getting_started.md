@@ -59,7 +59,7 @@ module.exports = {
 };
 ```
 
-We use `path.resolve` here as it is preferred to use absolute paths with webpack. If you move your configuration below some directory, you'll need to take this in count.
+We use `path.resolve` here as it is preferred to use absolute paths with webpack. If you move your configuration below some directory, you'll need to take this into account.
 
 ## Running Your First Build
 
