@@ -128,7 +128,7 @@ Note that in the example above I've set up `version` related hooks to make sure 
 
 T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node will resolve to the linked version unless local `node_modules` happens to contain a version.
 
-Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish <x.y.z> --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
+Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
 
 An alternative way to consume a library is to point at it directly at `package.json`. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag or branch. This can be useful especially if you need to hack around something and cannot wait for a fix.
 
