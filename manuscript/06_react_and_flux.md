@@ -94,11 +94,18 @@ T> It would be possible to operate directly on data. E.g. a oneliner such as `th
 
 We will also need a module to maintain an instance of Alt. It will deal with coordination of our Actions and Stores.
 
+T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After installed you can connect Alt with it by uncommenting the lines below. You can use it to debug the state of your stores, search and travel in time.
+
 **app/libs/alt.js**
 
 ```javascript
 import Alt from 'alt';
-export default new Alt();
+//import chromeDebug from 'alt/utils/chromeDebug';
+
+const alt = new Alt();
+//chromeDebug(alt);
+
+export default alt;
 ```
 
 ### Gluing It All Together
