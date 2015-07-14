@@ -79,6 +79,10 @@ module.exports = {
         url: '/',
       },
       {
+        title: 'Read the blog',
+        url: '/blog',
+      },
+      {
         title: 'Buy the ebook',
         url: 'https://leanpub.com/survivejs_webpack',
       },
@@ -106,6 +110,32 @@ module.exports = {
       path: function() {
         return require.context('./pages');
       },
+    },
+    blog: {
+      path: function() {
+        return require.context('./posts', true, /^\.\/.*\.md$/);
+      },
+      /*
+      draft: function() {
+        return require.context('./drafts', true, /^\.\/.*\.md$/);
+      },
+      */
+      processItem: {
+        layout: function() {
+          return require('./layouts/BlogItem.coffee');
+        },
+        url: function(o) {
+          if(o.file.url) {
+            return o.file.url;
+          }
+
+          var page = o.fileName.split('.')[0].split('-').slice(1).join('-');
+
+          return o.sectionName + '/' + page;
+        }
+      },
+      layout: 'blog',
+      title: 'Blog posts',
     },
     webpack_react: {
       title: 'Table of Contents',

@@ -187,6 +187,19 @@ code {
         width: 100px;
         height: 100px;
     }
+
+    .front__latestpost a {
+        color: white;
+    }
+
+    .front__latestpost a:hover {
+        color: #76E5EF;
+    }
+}
+
+/* TODO: push to base template */
+.post__heading {
+    line-height: 1;
 }
 
 .nav {
