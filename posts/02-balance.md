@@ -4,7 +4,7 @@ date: 2015-07-15
 author: 'Juho Vepsäläinen'
 headerImage: '/images/open_closed.jpg'
 ---
-If there's one thing technical authors have in common, it's that they all want to help other people. The question is how to achieve that most effectively. In my [previous post](./the-story-so-far) I discussed how I have fared with my first effort so far. The results have been mixed. Community response has been amazing in many ways but that hasn't translated amazing sales. That said I'm grateful to all that have contributed. In the end sales enable further efforts.
+If there's one thing technical authors have in common, it's that they all want to help other people. The question is how to achieve that most effectively. In my [previous post](./the-story-so-far) I discussed how I have fared with my first effort so far. The results have been mixed. Community response has been amazing in many ways but that hasn't translated to amazing sales. That said I'm grateful to all that have contributed. In the end sales enable further efforts.
 
 I was likely naive in thinking that having the content freely available while offering a way to purchase a digital copy would work by default. The greatest benefit of this approach has been possible extra visibility (easy to link) and the amount of external contributions. I believe this has improved the quality of the book further than I could have ever achieved alone. Next time around I might have a group of people that are interested in pushing the content straight from the start!
 
