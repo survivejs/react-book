@@ -4,8 +4,6 @@ date: 2015-07-16
 author: 'Juho Vepsäläinen'
 headerImage: '/images/levels.jpg'
 ---
-# Reaching Towards the Next Level
-
 In [my previous post](./balance) I discussed some of the difficulties of related to technical publishing. I also presented a possible solution, a mixed model that might make open publishing more feasible. The idea is that starting closed and asking for money beforehand you reward early adopters while decreasing the risk of the author. As the content gets opened eventually others can benefit from it. I know this goes against the common wisdoms of book publishing but it's a model I would like to try.
 
 It has become apparent to me that if I put my weight behind it, I could grow this into a business that's able to support me and perhaps a few others should I get so lucky. Even though Finland has its issues it isn't a bad place to start a company. In fact there's support for starting businesses that can help to cover starting costs up to 18 months. It will be enough to get past the beginning stage.
