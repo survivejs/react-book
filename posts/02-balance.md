@@ -1,6 +1,6 @@
 ---
 title: 'Balancing Between Open and Closed Publishing'
-date: 2015-07-15
+date: 2015-07-14
 author: 'Juho Vepsäläinen'
 headerImage: '/images/open_closed.jpg'
 ---

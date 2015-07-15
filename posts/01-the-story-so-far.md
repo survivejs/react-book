@@ -1,6 +1,6 @@
 ---
 title: 'SurviveJS - The Story So Far'
-date: 2015-07-14
+date: 2015-07-13
 author: 'Juho Vepsäläinen'
 headerImage: '/images/sunset2.jpg'
 ---
