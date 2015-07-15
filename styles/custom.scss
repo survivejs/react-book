@@ -24,6 +24,8 @@
 
 h1 {
     @include responsive-font(1.5vw, 2em);
+
+    line-height: 1.25;
 }
 h2 {
     @include responsive-font(1.5vw, 1.3em);
