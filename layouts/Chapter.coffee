@@ -5,7 +5,7 @@ Router = require 'react-router'
 config = require 'config'
 _ = require 'lodash'
 
-{ div, span, header, h1, h4, a, nav } = require 'react-coffee-elements'
+{ div, span, header, h1, h4, a, nav, script } = require 'react-coffee-elements'
 
 module.exports = React.createClass
 
@@ -40,6 +40,8 @@ module.exports = React.createClass
         div dangerouslySetInnerHTML: __html: item.content
         div className: 'social-links', dangerouslySetInnerHTML: __html: '<blockquote>If you enjoyed this chapter, consider subscribing to <a href="http://eepurl.com/bth1v5">the mailing list</a> or following <a href="https://twitter.com/survivejs">@survivejs</a> for occasional updates. There is also <a href="http://localhost:8000/atom.xml">RSS</a> available for old beards (no pun intended).</blockquote>'
 
+        div id: 'disqus_thread'
+
         if item.next or item.prev
           div className: 'prevnext',
             if item.prev
@@ -60,3 +62,5 @@ module.exports = React.createClass
           a className: 'previous-page', href: '/' + item.prev.url, item.prev.title
 
       if item.headerExtra? then div className: 'header-extra', dangerouslySetInnerHTML: __html: item.headerExtra
+
+      script {type: 'text/javascript', dangerouslySetInnerHTML: __html: "var disqus_shortname = 'survivejs';(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();"}
