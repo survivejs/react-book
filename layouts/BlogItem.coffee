@@ -24,7 +24,7 @@ module.exports = React.createClass
         div className: 'post__content',
           if item.isDraft then span className: 'draft-text', ' Draft'
           div dangerouslySetInnerHTML: __html: item.content
-          div className: 'social-links', dangerouslySetInnerHTML: __html: '<blockquote>If you enjoyed this post, consider subscribing to <a href="http://eepurl.com/bth1v5">the mailing list</a> or following <a href="https://twitter.com/survivejs">@survivejs</a> for occasional updates. There is also <a href="http://localhost:8000/atom.xml">RSS</a> available for old beards (no pun intended).</blockquote>'
+          div className: 'social-links', dangerouslySetInnerHTML: __html: '<blockquote>If you enjoyed this post, consider subscribing to <a href="http://eepurl.com/bth1v5">the mailing list</a> or following <a href="https://twitter.com/survivejs">@survivejs</a> for occasional updates. There is also <a href="/atom.xml">RSS</a> available for old beards (no pun intended).</blockquote>'
         if item.headerExtra? then div className: 'header-extra', dangerouslySetInnerHTML: __html: item.headerExtra
         if item.date then MomentDisplay className: 'post__moment', datetime: item.date
         if author then div className: 'post__author', "Authored by #{author}"
