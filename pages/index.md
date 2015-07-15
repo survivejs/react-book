@@ -25,3 +25,7 @@ The book is freely available under [CC BY-NC-ND](https://creativecommons.org/lic
 </div>
 
 I expect you know the basics of JavaScript but beyond that not much is needed. You just need to have patience to work through the book and poke me in case there's something you don't understand!
+
+---
+
+> If you want to stay up to date when it comes to SurviveJS, please check out [the blog](/blog) ([RSS](/atom.xml)). You can also consider subscribing to [the mailing list](http://eepurl.com/bth1v5) or following [@survivejs](https://twitter.com/survivejs) for occasional updates.
