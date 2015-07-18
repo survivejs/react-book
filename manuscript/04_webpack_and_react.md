@@ -152,7 +152,7 @@ As you can see, the output is quite chunky!
 
 ## Optimizing Build Size
 
-We can resolve this issue by minifying our build. As easy way to do this is to pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your webpack configuration:
+We can resolve this issue by minifying our build. An easy way to do this is to pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your webpack configuration:
 
 **webpack.config.js**
 
