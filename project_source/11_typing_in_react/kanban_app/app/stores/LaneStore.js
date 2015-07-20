@@ -11,9 +11,11 @@ class LaneStore {
   create(name) {
     const lanes = this.lanes;
 
+    console.log('name', name);
+
     this.setState({
       lanes: lanes.concat({
-        name: name
+        name: 123456 // XXX: name
       })
     });
   }

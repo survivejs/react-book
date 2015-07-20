@@ -16,6 +16,9 @@ export default class Lane extends React.Component {
   }) {
     super(props);
 
+    // XXX: why type check doesn't catch this?
+    console.log('name', props.name);
+
     this.actions = createNoteActions(alt);
 
     const storeName = 'NoteStore-' + this.props.i;

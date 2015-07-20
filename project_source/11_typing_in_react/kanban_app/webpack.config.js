@@ -80,7 +80,7 @@ if(TARGET === 'dev') {
         },
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel?stage=1'],
+          loaders: ['react-hot', 'babel?stage=1&plugins[]=typecheck'],
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]

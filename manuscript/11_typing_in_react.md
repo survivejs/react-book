@@ -57,6 +57,8 @@ As using Flow for static checking requires binaries of its own and the [official
 
 ![Flowcheck](images/flowcheck.png)
 
+XXX: might as well drop this if Babel Typecheck works!
+
 Integrating Flowcheck to a webpack project is fairly straightforward. In our case there's a gotcha, though. Flowcheck doesn't support decorator syntax yet. This means we'll need to perform some extra processing before applying it on our project.
 
 In case you want to give Flowcheck a go, you should hit `npm i flowcheck-loader --save-dev` first and then extend configuration like this:
@@ -82,13 +84,24 @@ if(TARGET === 'dev') {
 
 ### Configuring Babel Typecheck
 
-As mentioned above Babel Typecheck goes a step beyond Flowcheck. Configuring it is straight-forward. Hit `npm i --save-dev babel-plugin-typecheck` first and set up `.babelrc` as follows:
+As mentioned above Babel Typecheck goes a step beyond Flowcheck. Configuring it is straight-forward. Hit `npm i --save-dev babel-plugin-typecheck` first and tweak configuration as follows:
 
-**.babelrc**
+**webpack.config.js**
 
-```
-{
-  "plugins": ["typecheck"]
+```javascript
+if(TARGET === 'dev') {
+  module.exports = merge(common, {
+    ...
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel?stage=1&plugins[]=typecheck'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
+  });
 }
 ```
 
