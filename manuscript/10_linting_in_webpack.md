@@ -8,7 +8,7 @@ Perhaps the most known linter that started it all for JavaScript is Douglas Croc
 
 Besides linting for issues it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and all kinds of shenanigans. Stylistically consistent code reads better and is easier to work with particularly in a team environment.
 
-[JSCS](http://jscs.info/) is a tool that makes it possible to define a style guide of your own for JavaScript code. It is easy to integrate into your project through webpack.
+[JSCS](http://jscs.info/) is a tool that makes it possible to define a style guide of your own for JavaScript code. It is easy to integrate into your project through webpack. ESLint implements a large part of its functionality, though, and it is possible you may get away with ESLint only.
 
 In this chapter I'll go through these tools briefly. We'll integrate just ESLint into our project. Of course if you want, you can give the other tools a go. Just don't be surprised that they aren't included in the demonstration code.
 
@@ -409,6 +409,8 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
   ]
 }
 ```
+
+T> ESLint implements a large part of the functionality provided by JSCS. It is possible you can skip JSCS altogether provided you configure ESLint correctly. There's a large amount of presets available.
 
 T> Note that like some other tools, such as ESLint and JSHint, JSCS supports `package.json` based configuration. Simply add a `jscsConfig` field to it and write the configuration there.
 
