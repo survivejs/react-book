@@ -154,16 +154,16 @@ const noteSource = {
 
 const noteTarget = {
   hover(props, monitor) {
-  const targetData = props.data || {};
-  const sourceProps = monitor.getItem();
-  const sourceData = sourceProps.data || {};
+    const targetData = props.data || {};
+    const sourceProps = monitor.getItem();
+    const sourceData = sourceProps.data || {};
 
-  if(sourceData.id !== targetData.id) {
-    props.onMove({
-      source: sourceProps.data,
-      target: props.data
-    });
-  }
+    if(sourceData.id !== targetData.id) {
+      props.onMove({
+        source: sourceProps.data,
+        target: props.data
+      });
+    }
   }
 };
 
@@ -341,12 +341,8 @@ import update from 'react/lib/update';
 export default class NoteStore {
   move({source, target}) {
     const notes = this.notes;
-    const sourceIndex = findIndex(notes, {
-      id: source.id
-    });
-    const targetIndex = findIndex(notes, {
-      id: target.id
-    });
+    const sourceIndex = findIndex(notes, 'id', source.id);
+    const targetIndex = findIndex(notes, 'id', target.id);
 
     if(sourceIndex >= 0 && targetIndex >= 0) {
       this.setState({

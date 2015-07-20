@@ -217,18 +217,18 @@ export default class Note extends React.Component {
     };
   }
   render() {
-  const {value, onEdit, ...props} = this.props;
-  var edited = this.state.edited;
+    const {value, onEdit, ...props} = this.props;
+    var edited = this.state.edited;
 
-  return (
-    <div {...props}>{
-        edited
-        ? <input type='text'
-          defaultValue={value}
-          onBlur={(e) => this.finishEdit(e)}
-          onKeyPress={(e) => this.checkEnter(e)}/>
-        : <div onClick={() => this.edit()}>{value}</div>
-      }</div>
+    return (
+      <div {...props}>{
+          edited
+          ? <input type='text'
+            defaultValue={value}
+            onBlur={(e) => this.finishEdit(e)}
+            onKeyPress={(e) => this.checkEnter(e)}/>
+          : <div onClick={() => this.edit()}>{value}</div>
+        }</div>
     );
   }
   edit() {
