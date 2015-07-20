@@ -45,60 +45,21 @@ Note that React skips `propTypes` when run in production mode (`NODE_ENV=product
 
 Even though `propTypes` can be nice, you can get equal results and then some by using Flow.
 
-## Adding Type Checking with Flow
+## Type Checking with Flow
 
 ![Flow](images/flow.png)
 
-TODO
+[Flow](http://flowtype.org/) is Facebook's answer to the typing problem. There are entirely languages, such as [TypeScript](http://www.typescriptlang.org/), that focus on it and compile to JavaScript. Flow in comparison is a lighter approach. It has been implemented as a static type checker. I.e. it will run through your source a bit like linter. [Flowcheck](https://gcanti.github.io/flowcheck/) provides runtime checks based on your type definitions. [Babel Typecheck](https://github.com/codemix/babel-plugin-typecheck) is a Babel plugin that implements both.
 
-As we saw earlier with `onEdit`, it gave us a nasty error before we actually defined a handler for the case. Thanks to [Flow](http://flowtype.org/) and [Flowcheck](https://gcanti.github.io/flowcheck/) we can add typing information to our source. This is very useful in a situation where you are working with large project and many developers
+As using Flow for static checking requires binaries of its own and the [official getting started guide](http://flowtype.org/docs/getting-started.html) covers it well, I won't go into detail here. Instead I will show you how to configure Flowcheck and Babel Typecheck. See [Try Flow](https://tryflow.org/) for more concrete examples. You can find a Flow annotated version of the project at [the project repository](https://github.com/survivejs/webpack_react).
 
-We can set up Flow type checking to our webpack easily by first doing `npm i flowcheck-loader --save-dev` and then extending our development configuration a little like this:
-
-```javascript
-if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      ...
-      loaders: {
-        {
-          test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel?stage=1', 'flowcheck'],
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      }
-    },
-    ...
-  });
-}
-```
-
-Now we can start typing. For instance you could attach types for `Note` props like this:
-
-```javascript
-constructor(props: {
-  value: string;
-  onEdit: Function;
-}) {...}
-```
-
-`Notes` would look similar expect in that case we would perform an assertion like
-
-```javascript
-constructor(props: {
-  items: Array;
-  onEdit: Function;
-}) {...}
-```
-
-With Flow you can type the most vital parts of your source. You can think it as an executable form of documentation that helps you during development. As with linting it won't replace tests but it will make it easier to work with the source. See [Try Flow](https://tryflow.org/) for more concrete examples.
-
-### Patching Tools to Work with Decorators
+### Configuring Flowcheck
 
 ![Flowcheck](images/flowcheck.png)
 
-As we'll be relying on decorators and still like to use Flowcheck, we'll need to tweak configuration a little bit:
+Integrating Flowcheck to a webpack project is fairly straightforward. In our case there's a gotcha, though. Flowcheck doesn't support decorator syntax yet. This means we'll need to perform some extra processing before applying it on our project.
+
+In case you want to give Flowcheck a go, you should hit `npm i flowcheck-loader --save-dev` first and then extend configuration like this:
 
 **webpack.config.js**
 
@@ -119,7 +80,19 @@ if(TARGET === 'dev') {
 }
 ```
 
-In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
+### Configuring Babel Typecheck
+
+As mentioned above Babel Typecheck goes a step beyond Flowcheck. Configuring it is straight-forward. Hit `npm i --save-dev babel-plugin-typecheck` first and set up `.babelrc` as follows:
+
+**.babelrc**
+
+```
+{
+  "plugins": ["typecheck"]
+}
+```
+
+...
 
 ## Conclusion
 
