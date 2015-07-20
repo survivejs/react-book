@@ -166,16 +166,6 @@ const noteTarget = {
   }
   }
 };
-
-export default class Note extends React.Component {
-  constructor(props: {
-    data: Object;
-    onMove: Function;
-  }) {
-    super(props);
-  }
-  ...
-}
 ```
 
 Now `Note` will trigger the `onMove` callback whenever something is dragged on top of a `Note`. Next we need to make `Notes` aware of that.

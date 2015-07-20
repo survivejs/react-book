@@ -387,9 +387,7 @@ import connect from '../decorators/connect';
 ...
 
 class App extends React.Component {
-  constructor(props: {
-    notes: Array;
-  }) {
+  constructor(props) {
     super(props);
 
     NoteActions.init(storage.get(noteStorageName));
@@ -432,33 +430,6 @@ If you have used languages such as Java or Python before you might be familiar w
 There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. There are a couple of tooling related gotchas we should patch before moving further.
 
 By definition a decorator is simply a function that returns a function. For instance invocation of our `persist` decorator could look like `persist(storage, noteStorageName, () => NoteStore.getState())(App)` without using the decorator syntax (`@persist(storage, ...)`).
-
-### Patching Tools to Work with Decorators
-
-![Flowcheck](images/flowcheck.png)
-
-As we'll be relying on decorators and still like to use Flowcheck, we'll need to tweak configuration a little bit:
-
-**webpack.config.js**
-
-```javascript
-if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    }
-  });
-}
-```
-
-In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
 
 ### Adding Decorator Wrappers
 

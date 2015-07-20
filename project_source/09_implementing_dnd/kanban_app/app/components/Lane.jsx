@@ -10,10 +10,7 @@ import NoteStore from '../stores/NoteStore';
 import LaneActions from '../actions/LaneActions';
 
 export default class Lane extends React.Component {
-  constructor(props: {
-    name: string;
-    i: number;
-  }) {
+  constructor(props) {
     super(props);
 
     this.actions = createNoteActions(alt);

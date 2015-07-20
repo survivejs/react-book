@@ -5,12 +5,6 @@ import Note from './Note';
 import NoteDndActions from '../actions/NoteDndActions';
 
 export default class Notes extends React.Component {
-  constructor(props: {
-    items: Array;
-    onEdit: Function;
-  }) {
-    super(props);
-  }
   render() {
     var notes = this.props.items;
 

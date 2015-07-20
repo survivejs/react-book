@@ -49,6 +49,33 @@ constructor(props: {
 
 With Flow you can type the most vital parts of your source. You can think it as an executable form of documentation that helps you during development. As with linting it won't replace tests but it will make it easier to work with the source. See [Try Flow](https://tryflow.org/) for more concrete examples.
 
+### Patching Tools to Work with Decorators
+
+![Flowcheck](images/flowcheck.png)
+
+As we'll be relying on decorators and still like to use Flowcheck, we'll need to tweak configuration a little bit:
+
+**webpack.config.js**
+
+```javascript
+if(TARGET === 'dev') {
+  module.exports = merge(common, {
+    ...
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
+  });
+}
+```
+
+In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
+
 ## Conclusion
 
 TODO

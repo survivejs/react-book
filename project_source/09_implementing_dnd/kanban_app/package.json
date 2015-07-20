@@ -18,8 +18,6 @@
     "babel-loader": "^5.2.2",
     "css-loader": "^0.15.1",
     "extract-text-webpack-plugin": "^0.8.2",
-    "flowcheck": "^0.2.7",
-    "flowcheck-loader": "^1.0.0",
     "html-webpack-plugin": "^1.5.2",
     "node-libs-browser": "^0.5.2",
     "react-hot-loader": "^1.2.7",
