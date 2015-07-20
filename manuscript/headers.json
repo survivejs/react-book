@@ -75,6 +75,13 @@
         "demo": "10_linting_in_webpack"
     },
     {
+        "author": "Markus Mayer",
+        "source": "http://www.flickr.com/photos/10832246@N06/2925254789/",
+        "license": "CC BY-NC-ND",
+        "image": "type.jpg",
+        "demo": "11_typing_in_react"
+    },
+    {
         "author": "Acid Pix",
         "source": "https://www.flickr.com/photos/7870246@N03/481256246",
         "license": "CC BY",

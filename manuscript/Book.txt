@@ -9,6 +9,7 @@
 08_styling_react.md
 09_implementing_dnd.md
 10_linting_in_webpack.md
-11_deploying_applications.md
-12_authoring_libraries.md
-13_troubleshooting.md
+11_typing_in_react.md
+12_deploying_applications.md
+13_authoring_libraries.md
+14_troubleshooting.md
