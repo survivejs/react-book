@@ -444,6 +444,7 @@ As we'll be relying on decorators and still like to use Flowcheck, we'll need to
 ```javascript
 if(TARGET === 'dev') {
   module.exports = merge(common, {
+    ...
     module: {
       loaders: [
         {

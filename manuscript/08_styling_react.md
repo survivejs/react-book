@@ -157,6 +157,7 @@ var common = {
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    ...
     module: {
       loaders: [
         {

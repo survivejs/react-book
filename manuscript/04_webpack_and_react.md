@@ -279,15 +279,19 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
+    entry: [
+      'webpack-dev-server/client?http://0.0.0.0:8080',
+      'webpack/hot/dev-server'
+    ],
     module: {
       loaders: [
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel?stage=1'],
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    }
+          include: path.resolve(ROOT_PATH, 'app'),
+        },
+      ],
+    },
   });
 }
 ```
