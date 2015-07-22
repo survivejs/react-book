@@ -14,7 +14,7 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 ...
 "scripts": {
   "build": "webpack",
-  "start": "webpack-dev-server --config webpack.development.js --devtool eval-source --progress --colors --hot --inline --history-api-fallback --content-base build"
+  "start": "webpack-dev-server --config webpack.development.js --devtool eval-source-map --progress --colors --hot --inline --history-api-fallback --content-base build"
 },
 ...
 ```
@@ -41,7 +41,7 @@ When you run `npm start` from your terminal it will execute the command mapping 
 
 1. `webpack-dev-server` - Starts a web service on `localhost:8080`
 2. `--config webpack.development.js` - Points at custom development configuration we'll set up later
-3. `--devtool eval-source` - Creates source urls for your code. Making you able to pinpoint by filename and line number where any errors are thrown
+3. `--devtool eval-source-map` - Creates source urls for your code. Making you able to pinpoint by filename and line number where any errors are thrown
 4. `--progress` - Will show progress of bundling your application
 5. `--colors` - Colors in the terminal!
 6. `--hot` - Enable hot module loading
@@ -84,6 +84,7 @@ module.exports = {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
   },
+  devtool: 'eval-source-map',
   module: {
     loaders: [
       {
@@ -162,15 +163,21 @@ var common = {
 
 // we'll extend these later and use merge then
 if(TARGET === 'build') {
-  module.exports = common;
+  module.exports = merge(common, {
+    devtool: 'source-map'
+  });
 }
 
 if(TARGET === 'dev') {
-  module.exports = common;
+  module.exports = merge(common, {
+    devtool: 'eval-source-map'
+  });
 }
 ```
 
 The common configuration has been separated to a section of its own. In this case `build` configuration is actually the same as `common` configuration. We do a little tweak for `develop` case. As you can see the configuration is quite easy to follow this way.
+
+T> Those `devtool` bits in the configuration define how webpack deals with sourcemaps. Setting this up gives you better debug information in browser. There are a variety of options as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). The current ones are good starting points.
 
 To make everything work again, we'll need to tweak our `package.json` **scripts** section like this:
 
@@ -225,7 +232,7 @@ We can also drop `--content-base` from the `start` script since the entry point 
 ...
 "scripts": {
   "build": "TARGET=build webpack",
-  "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback"
+  "start": "TARGET=dev webpack-dev-server --devtool eval-source-map --progress --colors --hot --inline --history-api-fallback"
 },
 ...
 ```

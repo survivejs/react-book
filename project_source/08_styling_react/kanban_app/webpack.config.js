@@ -25,6 +25,7 @@ var common = {
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    devtool: 'source-map',
     module: {
       loaders: [
         {
@@ -57,6 +58,7 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
+    devtool: 'eval-source-map',
     entry: [
       'webpack-dev-server/client?http://0.0.0.0:8080',
       'webpack/hot/dev-server'
