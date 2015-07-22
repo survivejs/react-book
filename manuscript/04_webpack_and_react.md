@@ -138,12 +138,13 @@ If you hit `npm run build` now, you should get some output after a while. Here's
 ```bash
 > TARGET=build webpack
 
-Hash: e528fefc32654263da5f
-Version: webpack 1.9.6
-Time: 2008ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js     650 kB       0  [emitted]  main
-index.html  204 bytes          [emitted]
+Hash: a235591f70fee65ac6c6
+Version: webpack 1.10.1
+Time: 3718ms
+        Asset       Size  Chunks             Chunk Names
+    bundle.js     653 kB       0  [emitted]  main
+bundle.js.map     769 kB       0  [emitted]  main
+   index.html  184 bytes          [emitted]
    [0] multi main 28 bytes {0} [built]
     + 163 hidden modules
 ```
@@ -163,6 +164,7 @@ var webpack = require('webpack');
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    devtool: 'source-map',
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -179,12 +181,13 @@ If you hit `npm run build` now, you should see better results:
 ```bash
 > TARGET=build webpack
 
-Hash: d2df9c8478b9894d8d5e
-Version: webpack 1.9.6
-Time: 5517ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js     172 kB       0  [emitted]  main
-index.html  204 bytes          [emitted]
+Hash: 98a618ef4d32c8627010
+Version: webpack 1.10.1
+Time: 6726ms
+        Asset       Size  Chunks             Chunk Names
+    bundle.js     172 kB       0  [emitted]  main
+bundle.js.map    1.57 MB       0  [emitted]  main
+   index.html  184 bytes          [emitted]
    [0] multi main 28 bytes {0} [built]
     + 163 hidden modules
 ```
@@ -223,17 +226,18 @@ Hit `npm run build` again and you should see improved results:
 ```bash
 > TARGET=build webpack
 
-Hash: 6fc5ea486a0560f13c59
-Version: webpack 1.9.6
-Time: 4709ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js     123 kB       0  [emitted]  main
-index.html  204 bytes          [emitted]
+Hash: aa14e0e6b73e3a30ad04
+Version: webpack 1.10.1
+Time: 6092ms
+        Asset       Size  Chunks             Chunk Names
+    bundle.js     123 kB       0  [emitted]  main
+bundle.js.map    1.48 MB       0  [emitted]  main
+   index.html  184 bytes          [emitted]
    [0] multi main 28 bytes {0} [built]
     + 158 hidden modules
 ```
 
-So we went from 650k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. As we add dependencies to the project the size will grow. Then we will have to apply some other strategies and be smarter about loading. Fortunately we can do all that with webpack when the time comes.
+So we went from 653k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. As we add dependencies to the project the size will grow. Then we will have to apply some other strategies and be smarter about loading. Fortunately we can do all that with webpack when the time comes.
 
 ## Activating Hot Loading for Development
 
