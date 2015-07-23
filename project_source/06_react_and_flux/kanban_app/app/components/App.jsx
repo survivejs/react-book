@@ -13,19 +13,22 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
+
     NoteActions.init(storage.get(noteStorageName));
   }
   render() {
     return (
       <div>
-        <button onClick={() => this.addItem()}>+</button>
+        <button onClick={this.addItem}>+</button>
         <AltContainer
           stores={[NoteStore]}
           inject={ {
             items: () => NoteStore.getState().notes || []
           } }
         >
-          <Notes onEdit={(id, task) => this.itemEdited(id, task)} />
+          <Notes onEdit={this.itemEdited} />
         </AltContainer>
       </div>
     );

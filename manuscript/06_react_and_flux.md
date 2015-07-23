@@ -124,6 +124,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
+
     this.storeChanged = this.storeChanged.bind(this);
     this.state = NoteStore.getState();
   }
@@ -141,8 +144,8 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button onClick={() => this.addItem()}>+</button>
-        <Notes items={notes} onEdit={this.itemEdited.bind(this)} />
+        <button onClick={this.addItem}>+</button>
+        <Notes items={notes} onEdit={this.itemEdited} />
       </div>
     );
   }
@@ -226,6 +229,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
+
     this.storeChanged = this.storeChanged.bind(this);
 
     NoteActions.init(storage.get('notes'));
@@ -295,6 +301,9 @@ const noteStorageName = 'notes';
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
 
     NoteActions.init(storage.get(noteStorageName));
 
@@ -391,6 +400,9 @@ class App extends React.Component {
     notes: Array;
   }) {
     super(props);
+
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
 
     NoteActions.init(storage.get(noteStorageName));
   }
@@ -532,19 +544,22 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
+
     NoteActions.init(storage.get(noteStorageName));
   }
   render() {
     return (
       <div>
-        <button onClick={() => this.addItem()}>+</button>
+        <button onClick={this.addItem}>+</button>
         <AltContainer
           stores={[NoteStore]}
           inject={ {
             items: () => NoteStore.getState().notes || []
           } }
         >
-          <Notes onEdit={(id, task) => this.itemEdited(id, task)} />
+          <Notes onEdit={this.itemEdited} />
         </AltContainer>
       </div>
     );

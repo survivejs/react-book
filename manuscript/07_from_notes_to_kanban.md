@@ -55,6 +55,8 @@ export default class App extends React.Component {
 
 Note that the implementation of `../libs/storage` has been changed to make it easier to operate on it through a more complex hierarchy. We'll need this later when we attach more stores to the system.
 
+T> Given we don't depend on `this` here, we don't need to bind `addLane` explicitly. Therefore I'm skipping it.
+
 **app/libs/storage.js**
 
 ```javascript
@@ -234,6 +236,8 @@ export default class Lane extends React.Component {
 Now we have something that sort of works. You can see there's something seriously wrong, though. If you add new Notes to a Lane, the Note appears to each Lane. Also if you modify a Note, also other Lanes update. In addition created Notes aren't persisted correctly. Just Lane data appears to get saved.
 
 The reason why this happens is quite simple. Currently out `NoteStore` is a singleton. Even though this behavior is often convenient, it's definitely not the right choice for our application. We'll need to convert those singletons into separate instances.
+
+T> The `bind` at `render` could be refactored out but I won't go into that as it would grow the example with little benefit.
 
 ## Going from Note Singletons to Instances
 

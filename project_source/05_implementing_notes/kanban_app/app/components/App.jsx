@@ -5,6 +5,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
+
     this.state = {
       notes: [{
         task: 'Learn Webpack',
@@ -20,8 +23,8 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button onClick={() => this.addItem()}>+</button>
-        <Notes items={notes} onEdit={(i, task) => this.itemEdited(i, task)} />
+        <button onClick={this.addItem}>+</button>
+        <Notes items={notes} onEdit={this.itemEdited} />
       </div>
     );
   }

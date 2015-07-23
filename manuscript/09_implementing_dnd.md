@@ -186,13 +186,20 @@ Now `Note` will trigger the `onMove` callback whenever something is dragged on t
 ...
 
 export default class Notes extends React.Component {
-  ...
+  constructor(props: {
+    items: Array;
+    onEdit: Function;
+  }) {
+    super(props);
+
+    this.onMoveNote = this.onMoveNote.bind(this);
+  }
   render() {
     var notes = this.props.items;
 
     return (
       <ul className='notes'>{notes.map((note, i) =>
-        <Note onMove={() => this.onMoveNote()} className='note'
+        <Note onMove={this.onMoveNote} className='note'
           key={'note-' + i} data={note}>
           <Editable
             value={note.task}
@@ -284,7 +291,12 @@ This can be solved by setting up a custom action for this particular purpose. We
 import NoteDndActions from '../actions/NoteDndActions';
 
 export default class Notes extends React.Component {
-  ...
+  constructor(props: {
+    items: Array;
+    onEdit: Function;
+  }) {
+    super(props);
+  }
   render() {
     var notes = this.props.items;
 

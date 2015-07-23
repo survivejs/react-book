@@ -124,12 +124,17 @@ To implement the button, change `render` method like this:
 ...
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.addItem = this.addItem.bind(this);
+  }
   render() {
     ...
 
     return (
       <div>
-        <button onClick={() => this.addItem()}>+</button>
+        <button onClick={this.addItem}>+</button>
         <Notes items={notes} />
       </div>
     );
@@ -142,7 +147,7 @@ export default class App extends React.Component {
 
 Now when you click the button, you should see something at your browser console.
 
-T> Note that `() => ...` kind of syntax binds method context to parent. If we used `this` at `addItem` instead of being `undefined` it would point to the class itself.
+T> Note that we're binding `addItem` context at constructor. It would be possible to do the same at `render`. Unfortunately that will hurt performance given it would `bind` each time `render` gets triggered. Therefore it makes most sense to deal with bindings at constructor level.
 
 ## Connecting `addItem` with Data Model
 
@@ -212,6 +217,11 @@ export default class Note extends React.Component {
   constructor(props) {
     super(props);
 
+    this.addItem = this.addItem.bind(this);
+    this.finishEdit = this.finishEdit.bind(this);
+    this.checkEnter = this.checkEnter.bind(this);
+    this.edit = this.edit.bind(this);
+
     this.state = {
       edited: false
     };
@@ -225,9 +235,9 @@ export default class Note extends React.Component {
           edited
           ? <input type='text'
             defaultValue={value}
-            onBlur={(e) => this.finishEdit(e)}
-            onKeyPress={(e) => this.checkEnter(e)}/>
-          : <div onClick={() => this.edit()}>{value}</div>
+            onBlur={this.finishEdit}
+            onKeyPress={this.checkEnter}/>
+          : <div onClick={this.edit}>{value}</div>
         }</div>
     );
   }
@@ -265,11 +275,21 @@ In order to make that happen we'll need to define that callback for `App` like t
 ...
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
+
+    this.state = {
+      edited: false
+    };
+  }
   render() {
     ...
     <Notes
       items={notes}
-      onEdit={(i, task) => this.itemEdited(i, task)} />
+      onEdit={this.itemEdited} />
     ...
   }
   itemEdited(i, task) {
@@ -292,23 +312,25 @@ We also need to tweak `Notes` like this:
 ...
 
 export default class Notes extends React.Component {
-render() {
-  var notes = this.props.items;
+  render() {
+    var notes = this.props.items;
 
-  return (
-    <ul className='notes'>{notes.map((note, i) =>
-      <li className='note' key={'note' + i}>
-        <Note
-          value={note.task}
-          onEdit={this.props.onEdit.bind(null, i)} />
-      </li>
-    )}</ul>
-  );
-}
+    return (
+      <ul className='notes'>{notes.map((note, i) =>
+        <li className='note' key={'note' + i}>
+          <Note
+            value={note.task}
+            onEdit={this.props.onEdit.bind(null, i)} />
+        </li>
+      )}</ul>
+    );
+  }
 }
 ```
 
 After these changes you should be able to edit notes.
+
+T> We could listen to `componentWillReceiveProps` hook and build the binds based on that. To keep this example simple I'll skip that.
 
 ## Removing Notes
 
