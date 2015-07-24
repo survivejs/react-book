@@ -1,6 +1,19 @@
 One of the unique aspects of this book is that its development happens mostly in the open. You can actually see as develops. As a result you'll be able to contribute just like for any open source project.
 
-I welcome both PRs (typo fixes and such) and issues. If you have a lot of smaller issues in mind per chapter, I recommend setting up a single issue that contains possible problems in [a task list](https://help.github.com/articles/writing-on-github/#task-lists). If you notice something smaller, an individual issue per problem is fine. Even questions are welcome.
+## PRs
+
+I welcome PRs (typo fixes and such). If you have some bigger changes in mind, I recommend you open an issue first. That way we'll avoid wasting time.
+
+## Issues
+
+There are two basic ways you can provide feedback through issues:
+
+1. Set a single issue that contains possible problems in [a task list](https://help.github.com/articles/writing-on-github/#task-lists)
+2. Set up an individual issue per problem you find
+
+Both work for me. Use what you feel most comfortable with. I can adapt to that. The most important thing is that I get feedback to allow me to push the content further.
+
+## Freeform Feedback
 
 You can also send me freeform feedback through [email](mailto:bebraw@gmail.com) or [Twitter](https://twitter.com/bebraw).
 
