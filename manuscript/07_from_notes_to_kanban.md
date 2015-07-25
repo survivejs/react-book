@@ -195,6 +195,9 @@ export default class Lane extends React.Component {
   }) {
     super(props);
 
+    this.addNote = this.addNote.bind(this);
+    this.noteEdited = this.noteEdited.bind(this);
+
     NoteActions.init();
   }
   render() {
@@ -205,7 +208,7 @@ export default class Lane extends React.Component {
         <div className='lane-header'>
           <div className='lane-name'>{name}</div>
           <div className='lane-add-note'>
-            <button onClick={() => this.addNote()}>+</button>
+            <button onClick={this.addNote}>+</button>
           </div>
         </div>
         <AltContainer
@@ -214,7 +217,7 @@ export default class Lane extends React.Component {
             items: () => NoteStore.getState().notes || []
           } }
         >
-          <Notes onEdit={this.noteEdited.bind(this)} />
+          <Notes onEdit={this.noteEdited} />
         </AltContainer>
       </div>
     );
@@ -288,6 +291,9 @@ export default class Lane extends React.Component {
     const storeName = 'NoteStore-' + this.props.i;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
     this.actions.init(getInitialData(storeName));
+
+    this.addNote = this.addNote.bind(this);
+    this.noteEdited = this.noteEdited.bind(this);
   }
   render() {
     const {i, name, ...props} = this.props;
@@ -332,8 +338,7 @@ import Editable from './Editable';
 
 ...
 
-<Editable className='lane-name' value={name}
-  onEdit={this.nameEdited.bind(null, this.props.i)} />
+<Editable className='lane-name' value={name} onEdit={this.nameEdited} />
 
 ...
 
@@ -367,23 +372,39 @@ This is exactly the same logic as for notes. In fact it is be possible to refact
 **app/components/Lane.jsx**
 
 ```javascript
-...
+export default class Lane extends React.Component {
+  constructor(props: {
+    name: string;
+    i: number;
+  }) {
+    super(props);
 
-<Editable className='lane-name' value={name}
-  onEdit={this.edited.bind(null, LaneActions, 'name', this.props.i)} />
+    ...
 
-...
-
-<Notes onEdit={this.edited.bind(null, this.actions, 'task')} />
-
-...
-
-edited(actions, field, id, value) {
-  if(value) {
-    actions.update({id, [field]: value});
+    this.addNote = this.addNote.bind(this);
+    this.nameEdited = this.edited.bind(this, LaneActions, 'name', props.i);
+    this.taskEdited = this.edited.bind(this, this.actions, 'task');
   }
-  else {
-    actions.remove(id);
+
+  render() {
+    ...
+
+    <Editable className='lane-name' value={name}
+      onEdit={this.nameEdited} />
+
+    ...
+
+    <Notes onEdit={this.taskEdited} />
+
+    ...
+  }
+  edited(actions, field, id, value) {
+    if(value) {
+      actions.update({id, [field]: value});
+    }
+    else {
+      actions.remove(id);
+    }
   }
 }
 ```

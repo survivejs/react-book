@@ -21,6 +21,10 @@ export default class Lane extends React.Component {
     const storeName = 'NoteStore-' + this.props.i;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
     this.actions.init(getInitialData(storeName));
+
+    this.addNote = this.addNote.bind(this);
+    this.nameEdited = this.edited.bind(this, LaneActions, 'name', props.i);
+    this.taskEdited = this.edited.bind(this, this.actions, 'task');
   }
   render() {
     const {i, name, ...props} = this.props;
@@ -28,10 +32,9 @@ export default class Lane extends React.Component {
     return (
       <div {...props}>
         <div className='lane-header'>
-          <Editable className='lane-name' value={name}
-            onEdit={this.edited.bind(this, LaneActions, 'name', this.props.i)} />
+          <Editable className='lane-name' value={name} onEdit={this.nameEdited} />
           <div className='lane-add-note'>
-            <button onClick={() => this.addNote()}>+</button>
+            <button onClick={this.addNote}>+</button>
           </div>
         </div>
         <AltContainer
@@ -40,7 +43,7 @@ export default class Lane extends React.Component {
             items: () => this.store.getState().notes || []
           }}
         >
-          <Notes onEdit={this.edited.bind(this, this.actions, 'task')} />
+          <Notes onEdit={this.taskEdited} />
         </AltContainer>
       </div>
     );
