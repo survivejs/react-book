@@ -241,7 +241,7 @@ T> The `bind` at `render` could be refactored out but I won't go into that as it
 
 ## Going from Note Singletons to Instances
 
-A good first step towards getting rid of our Note singletons is to make our `NoteStore` more generic. We simply need to remove its direct dependency on Alt. Consider the code below:
+A good first step towards getting rid of our Note singletons is to make our `NoteStore` more generic. We simply need to remove its direct dependency on Alt as below:
 
 **app/stores/NoteStore.js**
 
