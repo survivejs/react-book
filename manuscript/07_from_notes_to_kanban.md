@@ -254,9 +254,9 @@ export default class NoteStore {
 }
 ```
 
-**app/actions/NoteActions.js**
-
 `NoteActions` require similar treatment as well. Otherwise we'll end up transmitting the same signal to all of our stores, and we are back to square one.
+
+**app/actions/NoteActions.js**
 
 ```javascript
 export default (alt) => alt.generateActions('init', 'create', 'update', 'remove');
