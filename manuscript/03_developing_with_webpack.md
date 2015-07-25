@@ -14,7 +14,7 @@ In addition we'll need to tweak `package.json` *scripts* section to include it. 
 ...
 "scripts": {
   "build": "webpack",
-  "start": "webpack-dev-server --config webpack.development.js --devtool eval-source-map --progress --colors --hot --inline --history-api-fallback --content-base build"
+  "start": "webpack-dev-server --config webpack.development.js --devtool eval --progress --colors --hot --inline --history-api-fallback --content-base build"
 },
 ...
 ```
@@ -41,7 +41,7 @@ When you run `npm start` from your terminal it will execute the command mapping 
 
 1. `webpack-dev-server` - Starts a web service on `localhost:8080`
 2. `--config webpack.development.js` - Points at custom development configuration we'll set up later
-3. `--devtool eval-source-map` - Creates source urls for your code. Making you able to pinpoint by filename and line number where any errors are thrown
+3. `--devtool eval` - Executes code through `eval` and attached `//@ sourceURL` annotations to it. After this you will see filename and line number where any errors are thrown. Use this for development only!
 4. `--progress` - Will show progress of bundling your application
 5. `--colors` - Colors in the terminal!
 6. `--hot` - Enable hot module loading
@@ -84,7 +84,6 @@ module.exports = {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
   },
-  devtool: 'eval-source-map',
   module: {
     loaders: [
       {
@@ -170,7 +169,7 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    devtool: 'eval-source-map'
+    devtool: 'eval'
   });
 }
 ```
@@ -185,7 +184,7 @@ To make everything work again, we'll need to tweak our `package.json` **scripts*
 ...
 "scripts": {
   "build": "TARGET=build webpack",
-  "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --inline --history-api-fallback --content-base build"
+  "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --content-base build"
 },
 ...
 ```
@@ -232,7 +231,7 @@ We can also drop `--content-base` from the `start` script since the entry point 
 ...
 "scripts": {
   "build": "TARGET=build webpack",
-  "start": "TARGET=dev webpack-dev-server --devtool eval-source-map --progress --colors --hot --inline --history-api-fallback"
+  "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback"
 },
 ...
 ```

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "TARGET=build webpack",
-    "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback"
+    "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback"
   },
   "keywords": [
     "webpack",

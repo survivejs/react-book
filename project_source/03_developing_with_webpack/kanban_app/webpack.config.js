@@ -34,6 +34,6 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    devtool: 'eval-source-map'
+    devtool: 'eval'
   });
 }
