@@ -7,6 +7,10 @@ export default class Editable extends React.Component {
   }) {
     super(props);
 
+    this.finishEdit = this.finishEdit.bind(this);
+    this.checkEnter = this.checkEnter.bind(this);
+    this.edit = this.edit.bind(this);
+
     this.state = {
       edited: false
     };
@@ -18,13 +22,11 @@ export default class Editable extends React.Component {
     return (
       <div {...props}>{
         edited
-        ?
-        <input type='text'
+        ? <input type='text'
           defaultValue={value}
-          onBlur={(e) => this.finishEdit(e)}
-          onKeyPress={(e) => this.checkEnter(e)}/>
-        :
-        <div onClick={() => this.edit()}>{value}</div>
+          onBlur={this.finishEdit}
+          onKeyPress={this.checkEnter}/>
+        : <div onClick={this.edit}>{value}</div>
       }</div>
     );
   }

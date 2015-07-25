@@ -242,7 +242,7 @@ export default class Note extends React.Component {
   }
   edit() {
     this.setState({
-        edited: true
+      edited: true
     });
   }
   checkEnter(e) {
