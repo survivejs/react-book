@@ -217,7 +217,6 @@ export default class Note extends React.Component {
   constructor(props) {
     super(props);
 
-    this.addItem = this.addItem.bind(this);
     this.finishEdit = this.finishEdit.bind(this);
     this.checkEnter = this.checkEnter.bind(this);
     this.edit = this.edit.bind(this);
