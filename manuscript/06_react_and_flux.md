@@ -169,7 +169,7 @@ As you can see, we pushed the logic out of our application. We actually have mor
 
 Note that given we are using Flux now and have concepts of Actions and Stores, we can push logic lower in the hierarchy if we want to; i.e. in case of `Notes` we could trigger the actions we want there. This depends on what sort of coupling we want to create between components.
 
-One alternative would be to factor `Notes` like this:
+One alternative would be to refactor `Notes` like this:
 
 ```javascript
 <Notes

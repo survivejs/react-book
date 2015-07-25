@@ -362,7 +362,7 @@ nameEdited(id, name) {
 }
 ```
 
-This is exactly the same logic as for notes. In fact it is be possible to factor the behavior into a method of its own. This can be done by extracting actions into a parameter. As duplication is the root of all evil, let's change it to this form:
+This is exactly the same logic as for notes. In fact it is be possible to refactor the behavior into a method of its own. This can be done by extracting actions into a parameter. As duplication is the root of all evil, let's change it to this form:
 
 **app/components/Lane.jsx**
 
