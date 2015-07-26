@@ -6,7 +6,9 @@ class LaneStore {
     this.bindActions(LaneActions);
   }
   init(data) {
-    this.setState(data || {lanes: []});
+    this.setState(Array.isArray(data && data.lanes) ? data : {
+      lanes: []
+    });
   }
   create(name) {
     const lanes = this.lanes;
