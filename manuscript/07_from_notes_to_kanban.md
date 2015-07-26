@@ -323,9 +323,45 @@ Now we have something that mostly works. We have separate lanes, you can add new
 
 We can follow the same idea as for `Note` here. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can extract it from `Note` and then reuse at `Lane`.
 
-Given `Note` already contains some of the logic we need, we can generalize the component. Simply rename `Note.jsx` as `Editable.jsx`. Make `Notes.jsx` point at `Editable` instead of `Note`.
+Given `Note` already contains some of the logic we need, we can generalize the component. Rename `Note.jsx` as `Editable.jsx` and change its class name to avoid confusion:
 
-Next we should replace `Lane` name to be rendered through `Editable`:
+**app/components/Editable.jsx**
+
+```javascript
+import React from 'react';
+
+export default class Editable extends React.Component {
+  ...
+}
+```
+
+Make `Notes.jsx` point at `Editable` instead of `Note` like this:
+
+**app/components/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Editable from './Editable';
+
+export default class Notes extends React.Component {
+  ...
+  render() {
+    var notes = this.props.items;
+
+    return (
+      <ul className='notes'>{notes.map((note, i) =>
+        <li className='note' key={'note' + i}>
+          <Editable
+            value={note.task}
+            onEdit={this.props.onEdit.bind(null, i)} />
+        </li>
+      )}</ul>
+    );
+  }
+}
+```
+
+We should replace `Lane` name to be rendered through `Editable`:
 
 **app/components/Lane.jsx**
 
