@@ -241,11 +241,23 @@ export default class Lane extends React.Component {
 
 Now we have something that sort of works. You can see there's something seriously wrong, though. If you add new Notes to a Lane, the Note appears to each Lane. Also if you modify a Note, also other Lanes update. In addition created Notes aren't persisted correctly. Just Lane data appears to get saved.
 
-The reason why this happens is quite simple. Currently out `NoteStore` is a singleton. Even though this behavior is often convenient, it's definitely not the right choice for our application. We'll need to convert those singletons into separate instances.
+The reason why this happens is quite simple. Currently our `NoteStore` is a singleton. Even though this behavior is often convenient, it's not working in our favor. One way to resolve this issue is to convert the singleton to individual instances.
 
 ## Going from Note Singletons to Instances
 
-A good first step towards getting rid of our Note singletons is to make our `NoteStore` more generic. We simply need to remove its direct dependency on Alt as below:
+There are a few changes we need to make in order to convert the current singleton based solution to instances. Most importantly our current `NoteStore` and `NoteActions` have to drop their direct dependency on `alt`. We'll want to be able to manage that ourselves at `Lane`. This way we can create an instance per `Lane` and the problem we encountered will disappear.
+
+Removing direct dependency to `alt` from `NoteActions` can be achieved by wrapping it within a function. After this we can create instances of actions whenever we need them.
+
+**app/actions/NoteActions.js**
+
+```javascript
+export default (alt) => alt.generateActions('init', 'create', 'update', 'remove');
+```
+
+To break `NoteStore`'s dependency on `alt` we'll want to take control of `alt.createStore`. This means we'll need to remove the current invocation from the store. In addition we'll want to glue actions and store together. Depending on a single set of actions like earlier wouldn't work as then the same actions would trigger multiple stores. We'll want this to be one-to-one relation.
+
+We can achieve this by passing actions as a parameter to our store. We can then use Alt's `bindActions` method to connect the store with the actions.
 
 **app/stores/NoteStore.js**
 
@@ -256,14 +268,6 @@ export default class NoteStore {
   }
   ...
 }
-```
-
-`NoteActions` require similar treatment as well. Otherwise we'll end up transmitting the same signal to all of our stores, and we are back to square one.
-
-**app/actions/NoteActions.js**
-
-```javascript
-export default (alt) => alt.generateActions('init', 'create', 'update', 'remove');
 ```
 
 Finally we need to alter `Lane`. It has to be able to maintain a `NoteStore` and associated actions. The code below shows how to wire it up:
