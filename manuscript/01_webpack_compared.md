@@ -1,4 +1,4 @@
-# webpack Compared
+# Webpack Compared
 
 To understand webpack, it will help to look at the history. That will put the tool in context and show you why the approach is powerful. Back in the day we were happy just to concat some scripts together but that won't do anymore. JavaScript libraries can be very large these days and nobody likes to wait for it all to load for the application to show up.
 
