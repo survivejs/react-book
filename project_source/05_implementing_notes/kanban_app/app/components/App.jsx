@@ -9,13 +9,17 @@ export default class App extends React.Component {
     this.itemEdited = this.itemEdited.bind(this);
 
     this.state = {
-      notes: [{
-        task: 'Learn Webpack',
-      }, {
-        task: 'Learn React',
-      }, {
-        task: 'Do laundry'
-      }]
+      notes: [
+        {
+          task: 'Learn Webpack',
+        },
+        {
+          task: 'Learn React',
+        },
+        {
+          task: 'Do laundry'
+        }
+      ]
     };
   }
   render() {

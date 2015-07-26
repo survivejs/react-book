@@ -1,12 +1,28 @@
 # Implementing a Basic Note App
 
-Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude Note List with basic manipulation operations. We will start by doing things the hard way. We will grow our application from scratch and get into some trouble. After that you should understand better why architecture models such as Flux are needed.
+Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application with basic manipulation operations. We will start by doing things the hard way. We will grow our application from scratch and get into some trouble. After that you should understand better why architecture models such as Flux are needed.
 
-## Extending Note
+## Setting Up Initial Data
 
-A good first step would be to extend `Note` interface. We would probably want to render a list of these. Ideally we should be able to perform basic editing operations over the list and create new items as needed. We'll probably also want to mark items as done.
+Often a good way to begin designing application is to start with the data. In this case we can start with a list of notes. Each note can contain some specific task. More attributes can be added later if needed. This gives us the following kind of data model:
 
-This means `App` will have to coordinate the state. Let's start by rendering a list and then expand from there. Here's sample code for an enhanced `render` method:
+```javascript
+const notes = [
+  {
+    task: 'Learn webpack'
+  },
+  {
+    task: 'Learn React'
+  },
+  {
+    task: 'Do laundry'
+  }
+];
+```
+
+The next step is connecting this data model with our `App`. As it will be quite a bit of code I've included whole solution below. We'll improve the solution later on. The current solution is the simplest way to render a list of notes.
+
+We will use a special feature of JSX in form of `{}`. Within these braces we can mix JavaScript with JSX. In this case we will render a bunch of `li` elements. Each contains a `Note`. In order to tell React in which order to render the elements, we'll set `key` property for each. It is important that this is unique or otherwise it won't be able to figure out the correct order in which to render and it will give a warning about this.
 
 **app/components/App.jsx**
 
@@ -20,13 +36,17 @@ export default class App extends React.Component {
     this.renderNote = this.renderNote.bind(this);
   }
   render() {
-    const notes = [{
-      task: 'Learn webpack'
-    }, {
-      task: 'Learn React'
-    }, {
-      task: 'Do laundry'
-    }];
+    const notes = [
+      {
+        task: 'Learn webpack'
+      },
+      {
+        task: 'Learn React'
+      },
+      {
+        task: 'Do laundry'
+      }
+    ];
 
     return (
       <div>
@@ -44,11 +64,13 @@ export default class App extends React.Component {
 }
 ```
 
-We will use a special feature of JSX in form of `{}`. Within these braces we can mix JavaScript with JSX. In this case we will render a bunch of `li` elements. Each contains a `Note`. In order to tell React in which order to render the elements, we'll set `key` property for each. It is important that this is unique or otherwise it won't be able to figure out the correct order.
+If you run the application now, you can see it almost works. There's only one problem. Each `Note` shows the same text. Fortunately this is easy to fix.
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
-If everything went correctly, you should see a list with three `Learn webpack` items on it. That's almost nice. The problem is that we haven't taken `value` property in count at `Note`. We'll need to tweak its implementation like this:
+## Fixing Note
+
+The problem is that we haven't taken `value` prop in count at `Note`. In React terms props are something that's passed to a component from outside. A component that takes only props and doesn't have any state, is known as a pure component. Pure components in particular are easy to test and work with. In the code below I extract the value of prop and render it.
 
 **app/components/Note.jsx**
 
@@ -62,15 +84,35 @@ export default class Note extends React.Component {
 }
 ```
 
-As you can see the property we passed to our component gets mapped to `this.props`. After that it is just a matter of showing it wherever we like.
+If you check out the application now, you should see we're seeing results that are more like it. This is only start, though. Our `App` is getting cramped. It feels like there's a component waiting to be extracted.
 
-We haven't achieved much yet but we're getting there. In order to get somewhere, we'll need to expand and refine our component hierarchy.
+## Extracting Notes
 
-## Refining Component Hierarchy
+If we keep on growing `App` like this we'll end up in trouble soon. When working with React it is important for you to learn to recognize possible components. We can extract `Notes` component from `App`. It will deal with rendering `Notes` and simplify our `App` somewhat. Here's what a tidier version of `App` looks like. Adapt the rendering code like this:
 
-It is nice to keep the implementation of `App` on a high level. Currently there are concerns that might not belong there. We can improve the situation by splitting `Notes` into a component of its own. It will be just a component that takes *items* as an input and renders them as above.
+**app/components/App.jsx**
 
-We'll want to end up a hierarchy such as this: App -> Notes -> Note. Each of these components will map to a file within `components`. Our `Note` is fine as is. `Notes` needs to be extracted out of `App`. Here's a sample implementation:
+```javascript
+import Notes from './Notes';
+
+...
+
+export default class App extends React.Component {
+  render() {
+    const notes = [
+      ...
+    ];
+
+    return (
+      <div>
+        <Notes items={notes} />
+      </div>
+    );
+  }
+}
+```
+
+Next we'll need to define `Notes`. It will accept `items` as a prop and render each just like our `App` did earlier. It's pretty much the same code as earlier but wrapped into a separate component. I attached some classes there so it's easier to style the component later.
 
 **app/components/Notes.jsx**
 
@@ -99,32 +141,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-I attached some classes there so it's easier to style the component later.
-
-Remember to replace the old list with `<Notes items={notes} />` at *App.jsx*:
-
-**app/components/App.jsx**
-
-```javascript
-import Notes from './Notes';
-
-...
-
-export default class App extends React.Component {
-  render() {
-    ...
-
-    return (
-      <div>
-        <Notes items={notes} />
-      </div>
-    );
-  }
-  ...
-}
-```
-
-Not only this change keeps `App` cleaner but it also gives us flexibility. If you wanted to have multiple `Notes` lists, it would be simple now. This is one of the key things to understand about React. You will need to learn to think in terms of components.
+Not only this change keeps `App` cleaner but it also gives us flexibility. If you wanted to have multiple `Notes` lists, it would be simple now.
 
 ## Adding New Items to Notes list
 
@@ -161,7 +178,7 @@ export default class App extends React.Component {
 
 Now when you click the button, you should see something at your browser console.
 
-T> Note that we're binding `addItem` context at constructor. It would be possible to do the same at `render`. Unfortunately that will hurt performance given it would `bind` each time `render` gets triggered. Therefore it makes most sense to deal with bindings at constructor level.
+T> Note that we're binding `addItem` context at constructor. It would be possible to do the same at `render`. Unfortunately that will hurt performance given it would `bind` each time `render` gets triggered. Therefore it makes most sense to deal with bindings at constructor level. This is the convention I'll be using in this book. It is possible we'll see a neater, [property initializer](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) based solution in the future.
 
 ## Connecting `addItem` with Data Model
 
@@ -177,13 +194,17 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      notes: [{
-        task: 'Learn webpack'
-      }, {
-        task: 'Learn React'
-      }, {
-        task: 'Do laundry'
-      }]
+      notes: [
+        {
+          task: 'Learn webpack'
+        },
+        {
+          task: 'Learn React'
+        },
+        {
+          task: 'Do laundry'
+        }
+      ]
     };
   }
   render() {
@@ -285,7 +306,7 @@ We are using [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascrip
 
 T> It can be a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them quickly from other props and keep your code a little tidier.
 
-In order to make that happen we'll need to define that callback for `App` like this:
+In order to make our edit work we'll need to define a callback for `App` like this:
 
 **app/components/App.jsx**
 
@@ -300,7 +321,17 @@ export default class App extends React.Component {
     this.itemEdited = this.itemEdited.bind(this);
 
     this.state = {
-      edited: false
+      notes: [
+        {
+          task: 'Learn Webpack',
+        },
+        {
+          task: 'Learn React',
+        },
+        {
+          task: 'Do laundry'
+        }
+      ]
     };
   }
   render() {
@@ -481,4 +512,4 @@ This can be useful in a team environment as it decreases the amount of friction 
 
 ## Conclusion
 
-The approach we discussed works up to a point. It is a little ugly but it works. In the next chapter we will clean things up as we introduce Flux architecture and port our application to use it.
+You can get quite far just with vanilla React. Unfortunately our little application is already bursting at seams and we have a lot of features to implement. In the next chapter we will clean things up as we introduce Flux architecture and port our application to use it.
