@@ -19,7 +19,7 @@ export default class App extends React.Component {
     };
   }
   render() {
-    var notes = this.state.notes;
+    const notes = this.state.notes;
 
     return (
       <div>
@@ -36,7 +36,7 @@ export default class App extends React.Component {
     });
   }
   itemEdited(i, task) {
-    var notes = this.state.notes;
+    let notes = this.state.notes;
 
     if(task) {
       notes[i].task = task;

@@ -20,7 +20,7 @@ export default class App extends React.Component {
     this.renderNote = this.renderNote.bind(this);
   }
   render() {
-    var notes = [{
+    const notes = [{
       task: 'Learn webpack'
     }, {
       task: 'Learn React'
@@ -85,7 +85,7 @@ export default class Notes extends React.Component {
     this.renderNote = this.renderNote.bind(this);
   }
   render() {
-    var notes = this.props.items;
+    const notes = this.props.items;
 
     return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
   }
@@ -187,7 +187,7 @@ export default class App extends React.Component {
     };
   }
   render() {
-    var notes = this.state.notes;
+    const notes = this.state.notes;
 
     ...
   }
@@ -244,7 +244,7 @@ export default class Note extends React.Component {
   }
   render() {
     const {value, onEdit, ...props} = this.props;
-    var edited = this.state.edited;
+    const edited = this.state.edited;
 
     return <div {...props}>
       {edited ? this.renderEdit() : this.renderValue()}
@@ -311,7 +311,7 @@ export default class App extends React.Component {
     ...
   }
   itemEdited(i, task) {
-    var notes = this.state.notes;
+    let notes = this.state.notes;
 
     notes[i].task = task;
 
@@ -332,7 +332,7 @@ We also need to tweak `Notes` like this:
 export default class Notes extends React.Component {
   ...
   render() {
-    var notes = this.props.items;
+    const notes = this.props.items;
 
     return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
   }
@@ -366,7 +366,7 @@ In case we empty a task, it would make sense to remove it. You can give it a go 
 export default class App extends React.Component {
   ...
   itemEdited(i, task) {
-    var notes = this.state.notes;
+    let notes = this.state.notes;
 
     if(task) {
       notes[i].task = task;

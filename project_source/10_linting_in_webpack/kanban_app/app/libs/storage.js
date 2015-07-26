@@ -15,7 +15,7 @@ export const storage = {
 };
 
 export function getInitialData(storeName) {
-  var data = storage.get(storageName);
+  const data = storage.get(storageName);
 
   return data && data[storeName];
 }

@@ -75,7 +75,7 @@ export const storage = {
 };
 
 export function getInitialData(storeName) {
-  var data = storage.get(storageName);
+  const data = storage.get(storageName);
 
   return data && data[storeName];
 }
@@ -169,7 +169,7 @@ export default class Lanes extends React.Component {
     this.renderLane = this.renderLane.bind(this);
   }
   render() {
-    var lanes = this.props.items;
+    const lanes = this.props.items;
 
     return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
   }

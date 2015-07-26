@@ -295,13 +295,9 @@ This means that instead of something like
 
 ```javascript
 render(props, context) {
-  var notes = this.props.notes;
+  const notes = this.props.notes;
 
-  return (
-    <ul className='notes'>{notes.map((note, i) =>
-      ...
-    )}</ul>
-  );
+  return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
 }
 ```
 
@@ -309,18 +305,14 @@ and accompanying CSS, we'll do something like this:
 
 ```javascript
 render(props, context) {
-  var notes = this.props.notes;
-  var style = {
+  const notes = this.props.notes;
+  const style = {
     margin: '0.5em',
     paddingLeft: 0,
     listStyle: 'none'
   };
 
-  return (
-    <ul style={style}>{notes.map((note, i) =>
-      ...
-    )}</ul>
-  );
+  return <ul style={style}>{notes.map(this.renderNote)}</ul>;
 }
 ```
 
@@ -351,7 +343,7 @@ I will cover some of the available libraries to give you a better idea how they 
 It expands the basic syntax as follows:
 
 ```javascript
-var styles = {
+const styles = {
   button: {
     padding: '1em',
 
@@ -387,9 +379,9 @@ For `style` prop to work, you'll need to annotate your classes using `@Radium` d
 [React Style](https://github.com/js-next/react-style) uses the same syntax as React Native [StyleSheet](https://facebook.github.io/react-native/docs/stylesheet.html#content). It expands the basic definition by introducing additional keys for fragments.
 
 ```javascript
-var StyleSheet = import 'react-style';
+import StyleSheet from 'react-style';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   primary: {
     background: 'green'
   },
@@ -421,8 +413,8 @@ Interestingly there is a [React Style plugin for webpack](https://github.com/js-
 [smart-css](https://github.com/hackhat/smart-css) takes a similar approach except this time we are operating based on classes. To give you a better idea, consider the example below:
 
 ```javascript
-var SmartCSS = require('smart-css');
-var css = new SmartCSS();
+import SmartCSS from 'smart-css';
+const css = new SmartCSS();
 
 css.setClass('.button', {
     padding: '1em'

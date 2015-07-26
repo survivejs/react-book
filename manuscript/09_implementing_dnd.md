@@ -200,7 +200,7 @@ export default class Notes extends React.Component {
     this.onMoveNote = this.onMoveNote.bind(this);
   }
   render() {
-    var notes = this.props.items;
+    const notes = this.props.items;
 
     return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
   }
@@ -306,7 +306,7 @@ export default class Notes extends React.Component {
     this.renderNote = this.renderNote.bind(this);
   }
   render() {
-    var notes = this.props.items;
+    const notes = this.props.items;
 
     return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
   }
@@ -391,7 +391,7 @@ export default class NoteStore {
 }
 
 function findIndex(arr, prop, value) {
-  var o = arr.filter(c => c[prop] === value)[0];
+  const o = arr.filter(c => c[prop] === value)[0];
 
   return o && arr.indexOf(o);
 }

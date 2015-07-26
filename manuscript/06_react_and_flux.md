@@ -140,7 +140,7 @@ export default class App extends React.Component {
     this.setState(state);
   }
   render() {
-    var notes = this.state.notes;
+    const notes = this.state.notes;
 
     return (
       <div>
@@ -420,7 +420,7 @@ class App extends React.Component {
   }
   */
   render() {
-    var notes = this.props.notes;
+    const notes = this.props.notes;
 
     ...
   }

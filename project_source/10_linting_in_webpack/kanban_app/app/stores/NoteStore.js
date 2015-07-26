@@ -67,7 +67,7 @@ export default class NoteStore {
 }
 
 function findIndex(arr, prop, value) {
-  var o = arr.filter(c => c[prop] === value)[0];
+  const o = arr.filter(c => c[prop] === value)[0];
 
   return o && arr.indexOf(o);
 }

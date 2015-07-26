@@ -19,7 +19,7 @@ export default class Editable extends React.Component {
   }
   render() {
     const {value, onEdit, ...props} = this.props;
-    var edited = this.state.edited;
+    const edited = this.state.edited;
 
     return <div {...props}>
       {edited ? this.renderEdit() : this.renderValue()}
