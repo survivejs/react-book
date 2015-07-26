@@ -53,10 +53,14 @@ To expand on the structure above we'll want to convert *app/main.js* into *build
 ```javascript
 var path = require('path');
 
+var ROOT_PATH = path.resolve(__dirname);
+
 module.exports = {
-  entry: path.resolve(__dirname, 'app/main'),
+  entry: [
+    path.resolve(ROOT_PATH, 'app/main'),
+  ],
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
   }
 };
