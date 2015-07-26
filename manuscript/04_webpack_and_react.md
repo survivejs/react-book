@@ -95,6 +95,8 @@ export default class App extends React.Component {
 
 `App` will work as an entry point to our application. Later on it will orchestrate logic etc.
 
+W> If you are used to `React.createClass()`, it is important to note that ES6 based class approach **doesn't** support autobinding behavior. See the end of this chapter for more information.
+
 We also need to define that `Note` component:
 
 **app/components/Note.jsx**
