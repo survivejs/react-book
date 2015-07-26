@@ -174,7 +174,7 @@ export default class Lanes extends React.Component {
     return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
   }
   renderLane(lane, i) {
-    return <Lane className='lane' key={'lane-' + i} i={i} {...lane} />;
+    return <Lane className='lane' key={`lane${i}`} i={i} {...lane} />;
   }
 }
 ```
@@ -293,7 +293,7 @@ export default class Lane extends React.Component {
 
     this.actions = createNoteActions(alt);
 
-    const storeName = 'NoteStore-' + this.props.i;
+    const storeName = `NoteStore-${this.props.i}`;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
     this.actions.init(getInitialData(storeName));
 
@@ -359,7 +359,7 @@ export default class Notes extends React.Component {
   ...
   renderNote(note, i) {
     return (
-      <li className='note' key={'note' + i}>
+      <li className='note' key={`note${i}`}>
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, i)} />

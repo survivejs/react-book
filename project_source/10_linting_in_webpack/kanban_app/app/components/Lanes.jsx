@@ -16,6 +16,6 @@ export default class Lanes extends React.Component {
     return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
   }
   renderLane(lane, i) {
-    return <Lane className='lane' key={'lane-' + i} i={i} {...lane} />;
+    return <Lane className='lane' key={`lane${i}`} i={i} {...lane} />;
   }
 }

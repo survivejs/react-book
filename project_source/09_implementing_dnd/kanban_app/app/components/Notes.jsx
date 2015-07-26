@@ -21,7 +21,7 @@ export default class Notes extends React.Component {
   renderNote(note, i) {
     return (
       <Note onMove={NoteDndActions.move} className='note'
-        key={'note-' + note.id} data={note}>
+        key={`note${note.id}`} data={note}>
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, i)} />

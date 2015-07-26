@@ -36,7 +36,7 @@ export default class App extends React.Component {
   }
   renderNote(note, i) {
     return (
-      <li key={'note' + i}>
+      <li key={`note${i}`}>
         <Note value={note.task} />
       </li>
     );
@@ -91,7 +91,7 @@ export default class Notes extends React.Component {
   }
   renderNote(note, i) {
     return (
-      <li className='note' key={'note' + i}>
+      <li className='note' key={`note${i}`}>
         <Note value={note.task} />
       </li>
     );
@@ -338,7 +338,7 @@ export default class Notes extends React.Component {
   }
   renderNote(note, i) {
     return (
-      <li className='note' key={'note' + i}>
+      <li className='note' key={`note${i}`}>
         <Note
           value={note.task}
           onEdit={this.props.onEdit.bind(null, i)} />
