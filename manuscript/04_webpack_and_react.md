@@ -1,4 +1,4 @@
-# webpack and React
+# Webpack and React
 
 ![React](images/react_header.png)
 
@@ -14,7 +14,7 @@ Even if React isn't the smallest library out there it does manage to solve some 
 
 The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and layout system while providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
 
-webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React easily. Before we get to implement anything serious, it's a good idea to make sure we have a decent development environment. That will make everything so much easier.
+Webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React easily. Before we get to implement anything serious, it's a good idea to make sure we have a decent development environment. That will make everything so much easier.
 
 ## Babel
 
