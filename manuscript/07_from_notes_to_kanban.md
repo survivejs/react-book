@@ -350,17 +350,13 @@ import Editable from './Editable';
 
 export default class Notes extends React.Component {
   ...
-  render() {
-    var notes = this.props.items;
-
+  renderNote(note, i) {
     return (
-      <ul className='notes'>{notes.map((note, i) =>
-        <li className='note' key={'note' + i}>
-          <Editable
-            value={note.task}
-            onEdit={this.props.onEdit.bind(null, i)} />
-        </li>
-      )}</ul>
+      <li className='note' key={'note' + i}>
+        <Editable
+          value={note.task}
+          onEdit={this.props.onEdit.bind(null, i)} />
+      </li>
     );
   }
 }

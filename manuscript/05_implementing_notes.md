@@ -14,6 +14,11 @@ This means `App` will have to coordinate the state. Let's start by rendering a l
 ...
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.renderNote = this.renderNote.bind(this);
+  }
   render() {
     var notes = [{
       task: 'Learn webpack'
@@ -25,12 +30,15 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <ul>{notes.map((note, i) =>
-          <li key={'note' + i}>
-            <Note value={note.task} />
-          </li>
-        )}</ul>
+        <ul>{notes.map(this.renderNote)}</ul>
       </div>
+    );
+  }
+  renderNote(note, i) {
+    return (
+      <li key={'note' + i}>
+        <Note value={note.task} />
+      </li>
     );
   }
 }
@@ -71,15 +79,21 @@ import React from 'react';
 import Note from './Note';
 
 export default class Notes extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.renderNote = this.renderNote.bind(this);
+  }
   render() {
     var notes = this.props.items;
 
+    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
+  }
+  renderNote(note, i) {
     return (
-      <ul className='notes'>{notes.map((note, i) =>
-        <li className='note' key={'note' + i}>
-          <Note value={note.task} />
-        </li>
-      )}</ul>
+      <li className='note' key={'note' + i}>
+        <Note value={note.task} />
+      </li>
     );
   }
 }
@@ -174,6 +188,7 @@ export default class App extends React.Component {
   }
   render() {
     var notes = this.state.notes;
+
     ...
   }
 }
@@ -311,17 +326,19 @@ We also need to tweak `Notes` like this:
 ...
 
 export default class Notes extends React.Component {
+  ...
   render() {
     var notes = this.props.items;
 
+    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
+  }
+  renderNote(note, i) {
     return (
-      <ul className='notes'>{notes.map((note, i) =>
-        <li className='note' key={'note' + i}>
-          <Note
-            value={note.task}
-            onEdit={this.props.onEdit.bind(null, i)} />
-        </li>
-      )}</ul>
+      <li className='note' key={'note' + i}>
+        <Note
+          value={note.task}
+          onEdit={this.props.onEdit.bind(null, i)} />
+      </li>
     );
   }
 }

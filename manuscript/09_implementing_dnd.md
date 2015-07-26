@@ -47,18 +47,22 @@ Earlier we extracted some of the editing functionality from `Note` and ended up 
 
 ```javascript
 ...
-
 import Note from './Note';
 
 ...
 
-<ul className='notes'>{notes.map((note, i) =>
-  <Note className='note' key={'note' + i}>
-    <Editable
-      value={note.task}
-      onEdit={this.props.onEdit.bind(null, i)} />
-  </Note>
-)}</ul>
+export default class Notes extends React.Component {
+  ...
+  renderNote(note, i) {
+    return (
+      <Note className='note' key={'note' + i}>
+        <Editable
+          value={note.task}
+          onEdit={this.props.onEdit.bind(null, i)} />
+      </Note>
+    );
+  }
+}
 ```
 
 **app/components/Note.jsx**
@@ -192,20 +196,22 @@ export default class Notes extends React.Component {
   }) {
     super(props);
 
+    this.renderNote = this.renderNote.bind(this);
     this.onMoveNote = this.onMoveNote.bind(this);
   }
   render() {
     var notes = this.props.items;
 
+    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
+  }
+  renderNote(note, i) {
     return (
-      <ul className='notes'>{notes.map((note, i) =>
-        <Note onMove={this.onMoveNote} className='note'
-          key={'note-' + i} data={note}>
-          <Editable
-            value={note.task}
-            onEdit={this.props.onEdit.bind(null, i)} />
-        </Note>
-      )}</ul>
+      <Note onMove={this.onMoveNote} className='note'
+        key={'note-' + i} data={note}>
+        <Editable
+          value={note.task}
+          onEdit={this.props.onEdit.bind(null, i)} />
+      </Note>
     );
   }
   onMoveNote(source, target) {
@@ -296,19 +302,22 @@ export default class Notes extends React.Component {
     onEdit: Function;
   }) {
     super(props);
+
+    this.renderNote = this.renderNote.bind(this);
   }
   render() {
     var notes = this.props.items;
 
+    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
+  }
+  renderNote(note, i) {
     return (
-      <ul className='notes'>{notes.map((note, i) =>
-        <Note onMove={NoteDndActions.move} className='note'
-          key={'note-' + note.id} data={note}>
-          <Editable
-            value={note.task}
-            onEdit={this.props.onEdit.bind(null, i)} />
-        </Note>
-      )}</ul>
+      <Note onMove={NoteDndActions.move} className='note'
+        key={'note-' + note.id} data={note}>
+        <Editable
+          value={note.task}
+          onEdit={this.props.onEdit.bind(null, i)} />
+      </Note>
     );
   }
 }
