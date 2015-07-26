@@ -304,6 +304,18 @@ if(TARGET === 'dev') {
 
 Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.
 
+## React Component Styles
+
+Besides ES6 classes React allows you to construct components using `React.createClass()`. That was the original way to create components and is still in use. The approaches aren't equivalent by default.
+
+When you are using `React.createClass` it is possible to inject functionality to a component using mixins. This isn't possible in ES6 by default unless you are using a helper such as [react-mixin](https://github.com/brigand/react-mixin). In the next chapter we will go through various alternative approaches that allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
+
+In addition ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's a good practice to bind the context at component constructor. We will use this convention in this book. It leads to some extra code but later on it is likely possible to refactor it out.
+
+The biggest benefit of the class based approach is that it decreases the amount of concepts you have to worry about. Particularly `constructor` helps to keep things simpler than in `React.createClass` based approach where you need to define separate methods to achieve the same result.
+
+In the future property initializers (likely `tick = () => { ... }`) will solve this neatly. In fact the proposed feature is available through Babel's stage 0 but enabling that may lead to other problems later on in case the features change.
+
 ## Conclusion
 
 You should understand how to set up React with webpack now. In the process we saw how to develop webpack configuration and learned a few new concepts. This is the way you work with webpack. You'll find loaders as you require them and integrate them to your project.

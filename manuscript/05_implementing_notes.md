@@ -433,18 +433,6 @@ constructor(props: {
 
 With Flow you can type the most vital parts of your source. You can think it as an executable form of documentation that helps you during development. As with linting it won't replace tests but it will make it easier to work with the source. See [Try Flow](https://tryflow.org/) for more concrete examples.
 
-## React Component Styles
-
-Besides ES6 classes React allows you to construct components using `React.createClass()`. That was the original way to create components and is still in use. The approaches aren't equivalent by default.
-
-When you are using `React.createClass` it is possible to inject functionality to a component using mixins. This isn't possible in ES6 by default unless you are using a helper such as [react-mixin](https://github.com/brigand/react-mixin). In the next chapter we will go through various alternative approaches that allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
-
-In addition ES6 class based components won't bind their methods to `this` context by default. This is the reason you saw declarations such as `(e) => ...` above. As you may know `() => ...` binds the function context by default. It is equivalent to `.bind(this)`. In case you want automatic binding for ES6 classes you can use a solution such as [autobind-decorator](https://github.com/andreypopp/autobind-decorator).
-
-The biggest benefit of the class based approach is that it decreases the amount of concepts you have to worry about. Particularly `constructor` helps to keep things simpler than in `React.createClass` based approach where you need to define separate methods to achieve the same result.
-
-In the future it will be possible to use pure function based component definitions but that is not possible as of yet. This approach will likely get introduced with version 0.14 of React.
-
 ## Understanding React Components
 
 Besides understanding how props and state work it is important to understand the concept of component lifecycle. We already touched it briefly above but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these three concepts throughout your application.
