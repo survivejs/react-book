@@ -126,7 +126,7 @@ Bumping a version is simple too. You'll just need to invoke `npm version <x.y.z>
 
 Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build and it will get tested just in case.
 
-T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node will resolve to the linked version unless local `node_modules` happens to contain a version.
+T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node.js will resolve to the linked version unless local `node_modules` happens to contain a version.
 
 Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
 
@@ -138,11 +138,11 @@ Even though it is simple to publish new versions out there, it is important to r
 
 ## Library Formats
 
-I output my React component in various formats at my boilerplate. I generate a version that's convenient to consume from Node by processing my component code through Babel. That will convert ES6 etc. goodies to a format which is possible to consume from vanilla Node. This allows the user to refer to some specific module within the whole if needed.
+I output my React component in various formats at my boilerplate. I generate a version that's convenient to consume from Node.js by processing my component code through Babel. That will convert ES6 etc. goodies to a format which is possible to consume from vanilla Node.js. This allows the user to refer to some specific module within the whole if needed.
 
 In addition I generate so called *distribution bundles*: `.js` and `.min.js`. In addition there's a sourcemap (`.map`) for both. That is useful for debugging. It is possible to consume these bundles standalone. They come with an [UMD](https://github.com/umdjs/umd) wrapper.
 
-UMD makes it possible to consume them from various environments including global, AMD and CommonJS (Node format). You can refresh your memory with these by checking the Getting Started chapter for examples.
+UMD makes it possible to consume them from various environments including global, AMD and CommonJS (Node.js format). You can refresh your memory with these by checking the Getting Started chapter for examples.
 
 It is surprisingly easy to generate the aforementioned bundles using webpack. In case of my boilerplate the configuration is as follows:
 
