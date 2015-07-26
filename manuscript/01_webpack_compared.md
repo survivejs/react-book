@@ -12,7 +12,7 @@ Historically speaking there have been many build systems. [Make](https://en.wiki
 
 ![Grunt](images/grunt.png)
 
-Grunt went mainstream before Gulp. It was made popular particularly due to its plugin architecture. At the same time this is the Achilles' heel of Grunt. You *don't* want to end up having to maintain a 300 line `Gruntfile`. Grunt scales up to a point. Just in case you are curious what the configuration looks like, here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
+Grunt went mainstream before Gulp. It was made popular particularly due to its plugin architecture. At the same time this is the Achilles' heel of Grunt. You **don't** want to end up having to maintain a 300 line `Gruntfile`. Just in case you are curious what Grunt configuration looks like, here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
 
 ```javascript
 module.exports = function(grunt) {
@@ -102,23 +102,27 @@ T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use 
 
 ![Browserify](images/browserify.png)
 
-Dealing with JavaScript modules has always been a bit of a problem given the language actually doesn't have a concept of module till ES6. Ergo we are stuck with the 90s when it comes to browser environment. Various solutions, including [AMD](http://browserify.org/), have been proposed.
+Dealing with JavaScript modules has always been a bit of a problem given the language actually doesn't have concept of modules till ES6. Ergo we are stuck with the 90s when it comes to browser environment. Various solutions, including [AMD](http://requirejs.org/docs/whyamd.html), have been proposed.
 
 In practice it can be useful just to use CommonJS, the Node.js format, and let tooling deal with the rest. The advantage is that you can often hook into npm and avoid reinventing the wheel.
 
 [Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. In addition there are tons of smaller transformation tools that allow you to move beyond the basic usage (e.g. [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development automatically). This will save some effort and no doubt is a good solution up to a point.
 
-The Browserify ecosystem is composed from a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than webpack and in fact it is a good alternative to it.
+The Browserify ecosystem is composed of a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than webpack and in fact it is a good alternative to it.
 
-## webpack
+## Webpack
 
 ![webpack](images/webpack.png)
 
-You could say webpack takes a more monolithic approach than Browserify. You simply get more out of the box. It is extended using loaders and relies on configuration. webpack expands on the idea of hooking into CommonJS `require`. What if you could just `require` whatever you needed in your code, be it CoffeeScript, Sass, Markdown or something? Well, webpack does just this.
+You could say webpack takes a more monolithic approach than Browserify. You simply get more out of the box. Webpack extends `require` and allows you to customize its behavior using loaders. You can load arbitary content through this mechanism. This applies also to CSS files (`@import`). Webpack also provides plugins for tasks, such as minifying, localization, hot loading and such.
 
-It takes your dependencies, puts them through loaders and outputs browser compatible static assets. All of this is based on configuration. Here is a sample configuration from [the official webpack tutorial](http://webpack.github.io/docs/tutorials/getting-started/):
+All of this is based on configuration. Here is a sample configuration adapted from [the official webpack tutorial](http://webpack.github.io/docs/tutorials/getting-started/):
+
+**webpack.config.js**
 
 ```javascript
+var webpack = require('webpack');
+
 module.exports = {
   entry: './entry.js',
   output: {
@@ -129,16 +133,23 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loader: 'style!css'
+        loaders: ['style', 'css']
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 };
 ```
 
+Given the configuration is written in JavaScript it's quite malleable. There are many different ways to build more complex configuration. I will discuss a couple of ways in the following chapter.
+
+The configuration model may make webpack feel a bit opaque at times. It can be difficult to understand what it's doing especially if you try to do something too complicated too fast. This book will help you to get started and past some common problem points. I compiled [a Webpack cookbook](https://christianalfoni.github.io/react-webpack-cookbook/) with Christian Alfoni that goes into more detail when it comes to specific problems.
+
 ### Why webpack?
 
-Why would you use webpack over tools like Gulp or Grunt? It's not an either-or proposition. webpack deals with the difficult problem of bundling but there's so much more. The reason why I picked up webpack initially was actually its support for Hot Module Replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
+Why would you use webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling but there's so much more. The reason why I picked up webpack initially was actually its support for Hot Module Replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
 
 You might be familiar with tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/) already. These tools make it much faster to iterate as they refresh the browser(s) automatically as you make changes. HMR takes things one step further. Instead of performing a full refresh in React's case it will just patch the component that changed while retaining application state. This sounds simple but it makes a big difference in practice.
 
@@ -148,13 +159,13 @@ With webpack you can easily inject a hash to each bundle name. This allows you t
 
 Even though it would be possible to achieve some of these with other tools such as Gulp or Grunt, it would definitely take a lot more work to pull off. In webpack it's a matter of configuration. Note that you can get HMR to Browserify through [livereactload](https://github.com/milankinen/livereactload) so it's not a feature that's exclusive to webpack.
 
-All of these smaller features add up. You can get surprisingly many things done out of the box. And if you are missing something there are loaders and plugins available that allow you to go further. webpack comes with a significant learning curve but it's a tool worth learning given it saves so much time and effort over longer term.
+All of these smaller features add up. You can get surprisingly many things done out of the box. And if you are missing something there are loaders and plugins available that allow you to go further. Webpack comes with a significant learning curve but it's a tool worth learning given it saves so much time and effort over longer term.
 
 To get a better idea how it compares to some other tools, check out [the official comparison](https://webpack.github.io/docs/comparison.html).
 
 ### Supported Module Formats
 
-webpack allows you to use different module formats, but under the hood they all work the same way. All of them also work straight out of the box.
+Webpack allows you to use different module formats, but under the hood they all work the same way. All of them also work straight out of the box.
 
 **CommonJS**
 
@@ -219,8 +230,10 @@ This approach definitely eliminates some of the clutter but you will still end u
 
 UMD, Universal Module Definition, is a monster of a format that aims to make the aforementioned formats compatible with each other. I will spare your eyes from it. Never write it yourself, leave it to the tools. If that didn't scare you off, check out [the official definitions](https://github.com/umdjs/umd).
 
-webpack can generate UMD wrapper for you (`output.libraryTarget: 'umd'`). This is particularly useful for library authors. We'll get back to this later.
+Webpack can generate UMD wrapper for you (`output.libraryTarget: 'umd'`). This is particularly useful for library authors. We'll get back to this later.
 
 ## Conclusion
 
-In the following chapters we'll build on top of this idea and show how powerful it is. You can, and probably should, use webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling, however, and that's one worry less during development.
+I hope this chapter helped you to understand why webpack is a valuable tool worth learning. It solves a fair share of common web development problems. If you know it well, it will save a great deal of time. In the following chapters we'll examine webpack in more detail and learn to build simple configuration. We'll also get started with our Kanban application.
+
+You can, and probably should, use webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling, however, and that's one worry less during development. Just using `package.json` `scripts` and webpack takes you very far as we will see soon.
