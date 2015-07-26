@@ -444,7 +444,7 @@ class LaneStore {
   }
 }
 
-export default alt.createStore(LaneStore);
+export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 After these changes you should be able to modify lane names and remove lanes. Even persistency should just work without requiring any further tweaking. The implementation could be trimmed and some code could be removed but for now it's nice to have some room to maneuver. Who knows what sort of requirements might come up after all.
