@@ -10,6 +10,8 @@ export default class Note extends React.Component {
     this.finishEdit = this.finishEdit.bind(this);
     this.checkEnter = this.checkEnter.bind(this);
     this.edit = this.edit.bind(this);
+    this.renderEdit = this.renderEdit.bind(this);
+    this.renderValue = this.renderValue.bind(this);
 
     this.state = {
       edited: false
@@ -19,16 +21,18 @@ export default class Note extends React.Component {
     const {value, onEdit, ...props} = this.props;
     var edited = this.state.edited;
 
-    return (
-      <div {...props}>{
-        edited
-        ? <input type='text'
-          defaultValue={value}
-          onBlur={this.finishEdit}
-          onKeyPress={this.checkEnter}/>
-        : <div onClick={this.edit}>{value}</div>
-      }</div>
-    );
+    return <div {...props}>
+      {edited ? this.renderEdit() : this.renderValue()}
+    </div>;
+  }
+  renderEdit() {
+    return <input type='text'
+      defaultValue={this.props.value}
+      onBlur={this.finishEdit}
+      onKeyPress={this.checkEnter}/>;
+  }
+  renderValue() {
+    return <div onClick={this.edit}>{this.props.value}</div>;
   }
   edit() {
     this.setState({
