@@ -299,7 +299,12 @@ export default class Lane extends React.Component {
     return (
       <div {...props}>
       ...
-        <AltContainer stores={[this.store]} ... />
+        <AltContainer
+          stores={[this.store]}
+          inject={ {
+            items: () => this.store.getState().notes || []
+          } }
+        />
       ...
       </div>
     );
