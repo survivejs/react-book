@@ -7,12 +7,15 @@ export default class Lanes extends React.Component {
     items: Array;
   }) {
     super(props);
+
+    this.renderLane = this.renderLane.bind(this);
   }
   render() {
-    return (
-      <div className='lanes'>{this.props.items.map((lane, i) =>
-          <Lane className='lane' key={'lane-' + i} i={i} {...lane} />
-      )}</div>
-    );
+    var lanes = this.props.items;
+
+    return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
+  }
+  renderLane(lane, i) {
+    return <Lane className='lane' key={'lane-' + i} i={i} {...lane} />;
   }
 }
