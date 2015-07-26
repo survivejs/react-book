@@ -266,7 +266,7 @@ export default class NoteStore {
 export default (alt) => alt.generateActions('init', 'create', 'update', 'remove');
 ```
 
-To make it all work together we need to tweak `Lane` to maintain actions and a store.
+Finally we need to alter `Lane`. It has to be able to maintain a `NoteStore` and associated actions. The code below shows how to wire it up:
 
 **app/components/Lane.jsx**
 
