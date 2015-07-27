@@ -1,6 +1,6 @@
 # React and Flux
 
-[Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications. You can get quite far by keeping everything in components but eventually that will become painful. Flux provides one way out of this.
+You can get quite far by keeping everything in components but eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) was designed to help bring clarity to our React applications.
 
 In this chapter we will be using [Alt](http://alt.js.org/), a light Flux implementation. It gets rid of a lot of baggage provided with Flux and allows you to focus on the essential. It was chosen because it's versatile enough and has a strong community behind it. At the time of writing it was the most popular implementation based on npm download statistics.
 
@@ -15,14 +15,6 @@ So far we have all of state within our components. It will become complicated to
 Stores may be modified through **Actions**. In our Notes application we could define a set of basic operations such as `create`, `update` and `remove`. We would then trigger these Actions at our View. This in turn would cause Store to change which in turn would cause our components to update.
 
 As you can see it's a cyclic system. This makes Flux easy to reason about and to visualize. The original architecture contains one extra component, **Dispatcher**, but we will skip it in this case as in practice you can get far by keeping it implicit. It is a part that would sit between Actions and Stores. Dispatchers would allow more fine-grained control over which Stores an Action would trigger.
-
-## Relay - an Alternative?
-
-Flux isn't without its problems. Facebook's [Relay architecture](https://gist.github.com/wincent/598fa75e22bdfa44cf47) aims to solve some of those. Most importantly Relay allows you to push component data requirements to component level. It then composes queries based on this information.
-
-This means Relay would fit particularly well cases where you need to deal with asynchronous data fetching from server. In case you are using Flux this can become quite complicated. Relay uses a specific query language known as **GraphQL** to abstract this. You will need a backend compatible with it. It will likely be possible to build adapters on top of RESTful APIs to provide support for GraphQL.
-
-At least in the time of writing no open source Relay/GraphQL implementation exists. For now it's a good idea to learn Flux as it will greatly simplify React development.
 
 ## Porting Notes Application to Alt
 
