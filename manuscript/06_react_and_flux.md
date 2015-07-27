@@ -2,19 +2,21 @@
 
 You can get quite far by keeping everything in components but eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) was designed to help bring clarity to our React applications.
 
-In this chapter we will be using [Alt](http://alt.js.org/), a light Flux implementation. It gets rid of a lot of baggage provided with Flux and allows you to focus on the essential. It was chosen because it's versatile enough and has a strong community behind it. At the time of writing it was the most popular implementation based on npm download statistics.
-
-There are dozens of other Flux implementations out there. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) is a good starting point if you are interested in alternatives.
-
-T> For debugging purposes you might want to pick up [alt-devtool](https://github.com/goatslacker/alt-devtool), a Chrome plugin. It won't be absolutely necessary but it might come in handy.
-
 ## Introduction to Flux
 
-So far we have all of state within our components. It will become complicated to manage as we grow our application. Flux allows us to push some of it outside into **Stores**. After that we don't need to care *how* the state is derived. It could be fetched from a backend or it could come from *localStorage*. On component **View** level we don't need to care.
+So far we've been operating solely on View components. Flux brings a couple of new concepts: Actions, Dispatchers and Stores. All of this works as a single loop. You can for instance trigger an Action at some view. This in turn will trigger a Dispatcher which decides which Stores to touch. As Stores get changed the Views listening them will receive new data to show.
 
-Stores may be modified through **Actions**. In our Notes application we could define a set of basic operations such as `create`, `update` and `remove`. We would then trigger these Actions at our View. This in turn would cause Store to change which in turn would cause our components to update.
+This cyclic nature of Flux makes it easy to debug. You simply follow the flow. There is always a single direction to follow. Compared to two-way binding based systems this is refreshingly simple.
 
-As you can see it's a cyclic system. This makes Flux easy to reason about and to visualize. The original architecture contains one extra component, **Dispatcher**, but we will skip it in this case as in practice you can get far by keeping it implicit. It is a part that would sit between Actions and Stores. Dispatchers would allow more fine-grained control over which Stores an Action would trigger.
+In Flux we'll be pushing most of our state within Stores. It is possible that View components will still retain some of it, though, so it's not an either-or proposition. The arrangement allows you to push concerns such as API communication, caching, i18n and such outside of your Views. For instance an Action could trigger an API query and then cause Stores to be updated based on the result.
+
+There is a massive amount of Flux implementations available. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
+
+## Alt
+
+In this chapter we'll be using one of the current top dogs, an implementation known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation. You'll deal in terms of Actions and Stores. Alt provides `waitFor` just like Facebook's architecture for synchronizing Stores. There are also special features such as snapshots and bootstrapping. These give you control over application state. You can for instance save it and restore the state later.
+
+T> For debugging purposes you might want to pick up [alt-devtool](https://github.com/goatslacker/alt-devtool), a Chrome plugin. It won't be absolutely necessary but it might come in handy.
 
 ## Porting Notes Application to Alt
 
