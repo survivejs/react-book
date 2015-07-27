@@ -27,8 +27,6 @@
     "eslint-loader": "^0.14.2",
     "eslint-plugin-react": "^2.7.1",
     "extract-text-webpack-plugin": "^0.8.2",
-    "flowcheck": "^0.2.7",
-    "flowcheck-loader": "^1.0.0",
     "html-webpack-plugin": "^1.6.0",
     "node-libs-browser": "^0.5.2",
     "react-hot-loader": "^1.2.8",

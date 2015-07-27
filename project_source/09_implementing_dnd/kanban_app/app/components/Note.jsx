@@ -34,12 +34,6 @@ const noteTarget = {
   isDragging: monitor.isDragging()
 }))
 export default class Note extends React.Component {
-  constructor(props: {
-    data: Object;
-    onMove: Function;
-  }) {
-    super(props);
-  }
   render() {
     const { isDragging, connectDragSource, connectDropTarget,
       onMove, data, ...props } = this.props;

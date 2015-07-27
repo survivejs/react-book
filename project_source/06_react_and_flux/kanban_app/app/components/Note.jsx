@@ -1,10 +1,7 @@
 import React from 'react';
 
 export default class Note extends React.Component {
-  constructor(props: {
-    value: string;
-    onEdit: Function;
-  }) {
+  constructor(props) {
     super(props);
 
     this.finishEdit = this.finishEdit.bind(this);

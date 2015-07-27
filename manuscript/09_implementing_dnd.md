@@ -171,13 +171,8 @@ const noteTarget = {
   }
 };
 
+...
 export default class Note extends React.Component {
-  constructor(props: {
-    data: Object;
-    onMove: Function;
-  }) {
-    super(props);
-  }
   ...
 }
 ```
@@ -190,10 +185,7 @@ Now `Note` will trigger the `onMove` callback whenever something is dragged on t
 ...
 
 export default class Notes extends React.Component {
-  constructor(props: {
-    items: Array;
-    onEdit: Function;
-  }) {
+  constructor(props) {
     super(props);
 
     this.renderNote = this.renderNote.bind(this);
@@ -297,10 +289,7 @@ This can be solved by setting up a custom action for this particular purpose. We
 import NoteDndActions from '../actions/NoteDndActions';
 
 export default class Notes extends React.Component {
-  constructor(props: {
-    items: Array;
-    onEdit: Function;
-  }) {
+  constructor(props) {
     super(props);
 
     this.renderNote = this.renderNote.bind(this);

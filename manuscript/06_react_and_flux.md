@@ -297,11 +297,11 @@ export default class App extends React.Component {
 
 Now we have an application that can restore its state based on `localStorage`. It would be fairly simple to replace the backend with something else. We would just need to implement the storage interface again.
 
-Even though our current solution is a little nasty due to limitations of Alt, we can tidy it up at least a little bit. The problem is that now our solution is coupled with the store. If we add more stores to the system this will lead to duplication very fast. It is a good idea to extract this concern into a concept of its own. We can do this using a decorator.
+## Extracting Decorators
+
+Even though our current solution is a little nasty due to limitations of Alt, we can tidy it up at least a tiny bit. The problem is that now our solution is coupled with the store. If we add more stores to the system this will lead to duplication very fast. It is a good idea to extract this concern into a concept of its own. We can do this using a decorator.
 
 We have a similar problem at `App`. Now it contains plenty of connection logic. This isn't nice. We can perform a similar operation there and extract that to logic to a decorator as well.
-
-## Extracting Higher Order Components
 
 TODO: rewrite
 
@@ -420,9 +420,7 @@ import connect from '../decorators/connect';
 ...
 
 class App extends React.Component {
-  constructor(props: {
-    notes: Array;
-  }) {
+  constructor(props) {
     super(props);
 
     this.addItem = this.addItem.bind(this);
@@ -468,33 +466,6 @@ If you have used languages such as Java or Python before you might be familiar w
 There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. There are a couple of tooling related gotchas we should patch before moving further.
 
 By definition a decorator is simply a function that returns a function. For instance invocation of our `persist` decorator could look like `persist(storage, noteStorageName, () => NoteStore.getState())(App)` without using the decorator syntax (`@persist(storage, ...)`).
-
-### Patching Tools to Work with Decorators
-
-![Flowcheck](images/flowcheck.png)
-
-As we'll be relying on decorators and still like to use Flowcheck, we'll need to tweak configuration a little bit:
-
-**webpack.config.js**
-
-```javascript
-if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel', 'flowcheck', 'babel?stage=1&blacklist=flow'],
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    }
-  });
-}
-```
-
-In effect we're letting Babel process everything except Flow parts before passing the output to Flowcheck. After the check has completed, we'll deal with the rest. This is bit of a hack that will hopefully go away sometime in the future as technology becomes more robust.
 
 ### Adding Decorator Wrappers
 

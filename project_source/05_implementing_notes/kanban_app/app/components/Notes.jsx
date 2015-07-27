@@ -2,10 +2,7 @@ import React from 'react';
 import Note from './Note';
 
 export default class Notes extends React.Component {
-  constructor(props: {
-    items: Array;
-    onEdit: Function;
-  }) {
+  constructor(props) {
     super(props);
 
     this.renderNote = this.renderNote.bind(this);

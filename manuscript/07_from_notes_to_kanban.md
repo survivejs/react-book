@@ -130,11 +130,6 @@ The idea is the same as before with notes. We are also going to need that `Lanes
 import React from 'react';
 
 export default class Lanes extends React.Component {
-  constructor(props: {
-    items: Array;
-  }) {
-    super(props);
-  }
   render() {
     return (
       <div className='lanes'>
@@ -161,9 +156,7 @@ import React from 'react';
 import Lane from './Lane';
 
 export default class Lanes extends React.Component {
-  constructor(props: {
-    items: Array;
-  }) {
+  constructor(props) {
     super(props);
 
     this.renderLane = this.renderLane.bind(this);
@@ -192,10 +185,7 @@ import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class Lane extends React.Component {
-  constructor(props: {
-    name: string;
-    i: number;
-  }) {
+  constructor(props) {
     super(props);
 
     this.addNote = this.addNote.bind(this);
@@ -285,10 +275,7 @@ import createNoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class Lane extends React.Component {
-  constructor(props: {
-    name: string;
-    i: number;
-  }) {
+  constructor(props) {
     super(props);
 
     this.actions = createNoteActions(alt);
@@ -415,10 +402,7 @@ This is exactly the same logic as for notes. In fact it is be possible to refact
 
 ```javascript
 export default class Lane extends React.Component {
-  constructor(props: {
-    name: string;
-    i: number;
-  }) {
+  constructor(props) {
     super(props);
 
     ...

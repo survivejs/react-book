@@ -3,9 +3,7 @@ import React from 'react';
 import Lane from './Lane';
 
 export default class Lanes extends React.Component {
-  constructor(props: {
-    items: Array;
-  }) {
+  constructor(props) {
     super(props);
 
     this.renderLane = this.renderLane.bind(this);
