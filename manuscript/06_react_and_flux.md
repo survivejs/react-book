@@ -10,23 +10,39 @@ This cyclic nature of Flux makes it easy to debug. You simply follow the flow. T
 
 In Flux we'll be pushing most of our state within Stores. It is possible that View components will still retain some of it, though, so it's not an either-or proposition. The arrangement allows you to push concerns such as API communication, caching, i18n and such outside of your Views. For instance an Action could trigger an API query and then cause Stores to be updated based on the result.
 
+Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand minimizing the amount of goal written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
+
 There is a massive amount of Flux implementations available. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
 
 ## Alt
 
-In this chapter we'll be using one of the current top dogs, an implementation known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation. You'll deal in terms of Actions and Stores. Alt provides `waitFor` just like Facebook's architecture for synchronizing Stores. There are also special features such as snapshots and bootstrapping. These give you control over application state. You can for instance save it and restore the state later.
+![Alt](images/alt.png)
 
-T> For debugging purposes you might want to pick up [alt-devtool](https://github.com/goatslacker/alt-devtool), a Chrome plugin. It won't be absolutely necessary but it might come in handy.
+In this chapter we'll be using one of the current top dogs, a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed isomorphic rendering in mind.
+
+In Alt you'll deal in terms of Actions and Stores. Alt provides `waitFor` just like Facebook's architecture for synchronizing Stores. There are also special features such as snapshots and bootstrapping. These give you control over application state. You can for instance save it and restore the state later.
 
 ## Porting Notes Application to Alt
 
-![Alt](images/alt.png)
+To get started hit `npm i alt --save` to add the dependency we need to our project. A good first step is setting up an instance of Alt. This instance will keep the application running. Our Actions and Stores will depend on it. Set it up as follows:
 
-Alt is an implementation of Flux that doesn't get into your way. The implementation supports isomorphic rendering out of the box and supports interesting features such as snapshots. We can take a snapshot of our application and restore its state back to where it was. To get started `npm i alt --save` to add the dependency we need to our project.
+**app/libs/alt.js**
 
-### Defining Actions
+```javascript
+import Alt from 'alt';
+//import chromeDebug from 'alt/utils/chromeDebug';
 
-As discussed earlier, we'll need a set of actions to operate on our data. In terms of Alt it would look like this:
+const alt = new Alt();
+//chromeDebug(alt);
+
+export default alt;
+```
+
+T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After installed you can connect Alt with it by uncommenting the lines below. You can use it to debug the state of your stores, search and travel in time.
+
+### Defining CRUD API for Notes
+
+Next we'll need to define a basic API for operating over Note data. To keep this simple, let's CRUD (CReate, Update, Remove) it. These will be the basic Actions we use to operate our Notes. Alt provides a shorthand known as `generateActions`. We can use it like this:
 
 **app/actions/NoteActions.js**
 
@@ -36,9 +52,31 @@ import alt from '../libs/alt';
 export default alt.generateActions('create', 'update', 'remove');
 ```
 
-### Defining Store
+If we wanted to be verbose, the following would be equivalent:
 
-Next we will need to define a Store that maintains the data based on these actions:
+```javascript
+class NoteActions {
+  create(note) {
+    this.dispatch(note);
+  }
+  update({id, note}) {
+    this.dispatch({id, note});
+  }
+  remove(id) {
+    this.dispatch(id);
+  }
+}
+
+export default alt.createActions(NoteActions);
+```
+
+The verbose form would come in handy if we wanted to do communicate with a backend for instance. We would trigger our queries here and then `dispatch` based on the result. We could even define a Store for dealing with possible errors and related logging. As you can see this is a good extension point for ideas like these.
+
+Having a nice set of Actions doesn't take us far. We'll trigger them from our View. We're missing one crucial bit, though. We are going to need a Store which will contain our Note state. We also need to connect this Store with our View so that the cycle is complete.
+
+### Defining Store for Notes
+
+The main purpose of a Store is to deal with data related concerns. In this case it will maintain the state of Notes and alter it based on operations we apply on it. We will connect it with the actions we defined above using `bindActions` shortcut. It maps each Action to a method by name. We trigger appropriate logic at each method then. Finally we connect the Store with Alt using `alt.createStore`. The implementation below goes deeper into the logic.
 
 **app/stores/NoteStore.js**
 
@@ -78,33 +116,19 @@ class NoteStore {
 export default alt.createStore(NoteStore);
 ```
 
-`bindActions` is a shortcut that allows us to map Action handlers automatically based on name. We need to use a factory in order to pass Actions to Store.
+T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(id, 1)` would work for `remove`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
 
-The Store listens to our actions and then updates its state accordingly. The functions have been adapted based on our earlier implementation of `App`.
-
-T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(id, 1)` would work for `remove`. Even though this works it is recommended that you use `setState` with Alt to keep things clear.
-
-### Maintaining an Instance of Alt
-
-We will also need a module to maintain an instance of Alt. It will deal with coordination of our Actions and Stores.
-
-T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After installed you can connect Alt with it by uncommenting the lines below. You can use it to debug the state of your stores, search and travel in time.
-
-**app/libs/alt.js**
-
-```javascript
-import Alt from 'alt';
-//import chromeDebug from 'alt/utils/chromeDebug';
-
-const alt = new Alt();
-//chromeDebug(alt);
-
-export default alt;
-```
+We have almost integrated Flux to our application. Now we have a set of Actions that provide an API for manipulating Notes data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions.
 
 ### Gluing It All Together
 
-Finally we'll need to tweak our `App` to operate based on `NoteStore` and `NoteActions`:
+Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create('New task')`. This would cause the associated Store to change according to the logic.
+
+Connecting the Store to our View is more interesting. I will show you multiple ways to achieve this so you understand the API in more detail. You'll likely end up using the shortcut discussed last but it's a nice idea to understand what it does internally.
+
+Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. As you might remember from earlier chapters React provides a set of lifecycle hooks. We can connect `NoteStore` with our View using `componentDidMount` and `componentWillUnmount`. Doing it this way makes sure we don't have weird references hanging around if/when components get created and removed.
+
+As doing all of the needed changes piecewise wouldn't be nice I have included whole `App` View below. Take note how we use `NoteActions` and `NoteStore` in particular. We synchronize the app state based on `NoteStore` state. As we alter `NoteStore`, this leads to a cascade that causes our `App` state update through `setState`. This in turn will trigger component `render`.
 
 **app/components/App.jsx**
 
@@ -157,7 +181,7 @@ export default class App extends React.Component {
 }
 ```
 
-As you can see, we pushed the logic out of our application. We actually have more code now than before. On the plus side we managed to tidy up our `App` a little bit.
+As you can see, we pushed the logic out of `App`. We actually have more code now than before but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll see soon.
 
 ## On Component Design
 
