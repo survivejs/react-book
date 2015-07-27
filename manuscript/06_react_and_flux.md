@@ -192,10 +192,10 @@ One alternative would be to refactor `Notes` like this:
 ```javascript
 <Notes
   items={notes}
-  item={(note, i) => <span onClick={...}>{item.task}</span>} />
+  item={(note, i) => <span onClick={...}>{note.task}</span>} />
 ```
 
-Now we give the consumer absolute control over how list items are rendered. This approach is more generic than our `onEdit` property and allows you to customize components significantly more.
+Now we give the consumer absolute control over how list items are rendered. This approach is more generic than our `onEdit` property and allows you to customize components significantly.
 
 More specific components can be developed on top of generic ones. You could have a set of generic components you use from project to project and share as libraries. These would be then wrapped by more specific ones based on need.
 
@@ -205,9 +205,9 @@ Fortunately the effort was not all in vain. Consider the following questions:
 
 1. Let's say we wanted to persist the Notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`.
 2. What if we had multiple components relying on the data? We would just consume `NoteStore` and display it however we want.
-3. What if we had multiple, separate Note lists for different type of tasks? We would set up multiple instances of `NoteStore`. If we wanted to move items between lists, we would already have ready-made Actions for that purpose.
+3. What if we had multiple, separate Note lists for different type of tasks? We could set up another Store for tracking these lists. That Store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
 
-This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code it is easier to reason about. Given we are dealing with unidirectional flow we have something that is simple to debug and test.
+This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code, it is easier to reason about. Given we are dealing with unidirectional flow we have something that is simple to debug and test.
 
 ## Implementing Persistency over `localStorage`
 
