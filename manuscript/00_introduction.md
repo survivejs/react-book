@@ -4,7 +4,7 @@ Back in the day it was enough to understand how Makefiles work. That said even t
 
 They don't aim to replace more general utilities such as [Grunt](http://gruntjs.com/) or [Gulp](http://gulpjs.com/). Rather they complement them. In this book we will focus primarily on webpack, a module bundler. It is simply a tool that takes some input, bundles it and provides you something to serve to your clients. Even though this sounds simple, webpack solves a fundamental problem for web developers.
 
-Previously you had to use numerous separate tools for compiling your assets. webpack does this transparently for you. It is not just about Javascript. You can use it to bundle pretty much anything thanks to its loader based architecture. You can easily consume JSON, images and even fonts. Not only that, we can process these assets through transpilers, Base64 conversion etc. without much trouble.
+Previously you had to use numerous separate tools for compiling your assets. webpack does this transparently for you. It is not just about JavaScript. You can use it to bundle pretty much anything thanks to its loader based architecture. You can easily consume JSON, images and even fonts. Not only that, we can process these assets through transpilers, Base64 conversion etc. without much trouble.
 
 ## How Is This Book Organized?
 
