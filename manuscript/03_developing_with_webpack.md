@@ -142,7 +142,6 @@ var common = {
   }
 };
 
-// we'll extend these later and use merge then
 if(TARGET === 'build') {
   module.exports = merge(common, {
     devtool: 'source-map'
