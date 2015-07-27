@@ -217,7 +217,24 @@ This is what makes Flux a strong architecture when used with React. It isn't har
 
 ## Implementing Persistency over `localStorage`
 
-Given it's not nice to lose your Notes during a refresh, we can tweak our implementation of `NoteStore` to persist the data on change. Most of the work is related to `localStorage`. In order to deal with it, here's a little wrapper:
+Given it's not nice to lose your Notes after a refresh, we can tweak our implementation of `NoteStore` to persist the data on change. One way to achieve this is to use [localStorage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage). It is a well supported feature that allows you to persist data at browser.
+
+It has a sibling known as `sessionStorage`. `sessionStorage` loses its data when browser is closed, `localStorage` doesn't.
+
+They both share [the same API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API) as discussed below:
+
+* `storage.getItem(k)` - Returns stored string
+* `storage.removeItem(k)` - Removes data matching to key
+* `storage.setItem(k, v)` - Stores given value using given key
+* `storage.clear()` - Empties storage contents
+
+Note that it is convenient to operate on the API using your browser developer tools. For instance in Chrome you can see the state of the storages through the *Resources* tab. *Console* tab allows you to perform direct operations on the data. You can even use `storage.key` and `storage.key = 'value'` shorthands for quick modifications.
+
+`localStorage` and `sessionStorage` can use up to 10 MB of data combined. Even though they are well supported there are certain corner cases that may yield interesting failures. These include running out of memory at Internet Explorer (fails silently) and failing altogether at Safari private mode. It is possible to work around these glitches, though.
+
+To keep things simple and manageable we can implement a little wrapper for `storage`. It will wrap all of these complexities. Given the API operates over strings and it is convenient to store objects we'll deal with serialization here using `JSON.parse` and `JSON.stringify`.
+
+In a more serious case it could be a good idea to use a library such as [localStorage](https://github.com/mozilla/localForage) to hide all the complexity for you. You could even integrate it behind this little interface of ours. All we need are just `storage.get(k)` and `storage.set(k, v)` as seen in the implementation below:
 
 **app/libs/storage.js**
 
@@ -236,10 +253,6 @@ export default {
   }
 };
 ```
-
-As `localStorage` deals with strings by default we'll need to serialize and deserialize data. That brings some overhead to the implementation. A smarter implementation would abstract storage and provide some form of caching to avoid `JSON.parse` always.
-
-In addition it would take `localStorage` size limits in count. Most browsers raise an exception if you try to write even though there is no space left. Internet Explorer can fail silently and you will have to treat that case separately by inspecting a property containing remaining space.
 
 Besides this little utility we'll need to adapt our application to use it.
 
