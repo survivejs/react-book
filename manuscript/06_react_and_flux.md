@@ -254,59 +254,42 @@ export default {
 };
 ```
 
-Besides this little utility we'll need to adapt our application to use it.
+Besides this little utility we'll need to adapt our application to use it. As mentioned above stores are a natural place for persistence. We can restore `NoteStore` state at its constructor using the storage API we just set up.
 
-**app/components/App.jsx**
+Loading initial data is easy. We can use `storage.get` for that. Because Alt doesn't allow us to override `setState` yet, we'll need to be a little clever for now. We can export a public method which we can trigger when `NoteStore` state gets changed. Unfortunately this means we need to trigger the logic outside of the store from `App`. The following code shows how to achieve this:
+
+**app/stores/NoteStore.js**
 
 ```javascript
 ...
 import storage from '../libs/storage';
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
+class NoteStore {
+  constructor() {
+    this.bindActions(NoteActions);
 
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
+    this.exportPublicMethods({
+      persist: () => storage.set('notes', this.notes)
+    });
 
-    this.storeChanged = this.storeChanged.bind(this);
-
-    NoteActions.init(storage.get('notes'));
-    this.state = NoteStore.getState();
-  }
-  ...
-  storeChanged(state) {
-    storage.set('notes', state);
-
-    this.setState(NoteStore.getState());
+    const initialData = storage.get('notes');
+    this.notes = Array.isArray(initialData) ? initialData : [];
   }
   ...
 }
 ```
 
-The idea is that when the application is initialized, we'll read `localStorage` and initialize Store state using it. If the Store gets changed, we'll write the changes to `localStorage`. For this to work we'll need to tweak Actions and Store slightly.
+In addition we need to tweak `storeChanged` at `App`. This will go away once Alt allows overriding `setState` or provides some other hook that can be used for the purpose. The problem is that now some of the logic leaks to the View but unfortunately it cannot be avoided yet.
 
-**app/actions/NoteActions.js**
-
-```javascript
-import alt from '../libs/alt';
-
-export default alt.generateActions('init', 'create', 'update', 'remove');
-```
-
-**app/stores/NoteStore.js**
+**app/components/App.jsx**
 
 ```javascript
-class NoteStore {
-  constructor() {
-    this.bindActions(NoteActions);
+export default class App extends React.Component {
+  ...
+  storeChanged(state) {
+    this.setState(state);
 
-    this.notes = [];
-  }
-  init(data) {
-    this.setState(Array.isArray(data && data.notes) ? data : {
-      notes: []
-    });
+    NoteStore.persist();
   }
   ...
 }
@@ -314,9 +297,13 @@ class NoteStore {
 
 Now we have an application that can restore its state based on `localStorage`. It would be fairly simple to replace the backend with something else. We would just need to implement the storage interface again.
 
-In the current solution persistency logic is coupled with `App`. Given it would be nice to reuse it elsewhere, we can extract it to a higher order component. Let's do that next.
+Even though our current solution is a little nasty due to limitations of Alt, we can tidy it up at least a little bit. The problem is that now our solution is coupled with the store. If we add more stores to the system this will lead to duplication very fast. It is a good idea to extract this concern into a concept of its own. We can do this using a decorator.
+
+We have a similar problem at `App`. Now it contains plenty of connection logic. This isn't nice. We can perform a similar operation there and extract that to logic to a decorator as well.
 
 ## Extracting Higher Order Components
+
+TODO: rewrite
 
 There are a couple of places in `App` we would like to clean up. The code is simply getting confusing. We can separate some of that into higher order components (HOCs).
 
