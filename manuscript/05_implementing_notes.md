@@ -2,9 +2,9 @@
 
 Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application with basic manipulation operations. We will start by doing things the hard way. We will grow our application from scratch and get into some trouble. After that you should understand better why architecture models such as Flux are needed.
 
-## Setting Up Initial Data
+## Initial Data Model
 
-Often a good way to begin designing application is to start with the data. In this case we can start with a list of notes. Each note can contain some specific task. More attributes can be added later if needed. This gives us the following kind of data model:
+Often a good way to begin designing application is to start with the data. We could model a list of notes as follows:
 
 ```javascript
 const notes = [
@@ -20,9 +20,15 @@ const notes = [
 ];
 ```
 
+Each note is an object which will contain the data we need. In this case we assign some task (a string) to each. Later on it would be possible to extend this data definition to include things like note color or owner.
+
+## Connecting Data with App
+
 The next step is connecting this data model with our `App`. As it will be quite a bit of code I've included whole solution below. We'll improve the solution later on. The current solution is the simplest way to render a list of notes.
 
-We will use a special feature of JSX in form of `{}`. Within these braces we can mix JavaScript with JSX. In this case we will render a bunch of `li` elements. Each contains a `Note`. In order to tell React in which order to render the elements, we'll set `key` property for each. It is important that this is unique or otherwise it won't be able to figure out the correct order in which to render and it will give a warning about this.
+We will use a special feature of JSX in form of `{}`. Within these braces we can mix JavaScript with JSX. In this case we will render a bunch of `li` elements. Each contains a `Note`.
+
+In order to tell React in which order to render the elements, we'll set `key` property for each. It is important that this is unique or otherwise it won't be able to figure out the correct order in which to render and it will give a warning about this.
 
 **app/components/App.jsx**
 
