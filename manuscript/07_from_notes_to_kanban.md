@@ -34,13 +34,11 @@ class LaneStore {
 
     this.lanes = this.lanes || [];
   }
-  create(name) {
+  create(lane) {
     const lanes = this.lanes;
 
     this.setState({
-      lanes: lanes.concat({
-        name: name
-      })
+      lanes: lanes.concat(lane)
     });
   }
 }
@@ -71,6 +69,7 @@ Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` r
 **app/components/App.jsx**
 
 ```javascript
+import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Lanes from './Lanes';
@@ -78,19 +77,14 @@ import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 
 export default class App extends React.Component {
-  constructor() {
-    super();
-
-    this.addLane = this.addLane.bind(this);
-  }
   render() {
     return (
       <div>
-        <button onClick={this.addLane}>+</button>
+        <button onClick={this.addItem}>+</button>
         <AltContainer
           stores={[LaneStore]}
           inject={ {
-            items: () => LaneStore.getState().lanes
+            items: () => LaneStore.getState().lanes || []
           } }
         >
           <Lanes />
@@ -98,8 +92,8 @@ export default class App extends React.Component {
       </div>
     );
   }
-  addLane() {
-    LaneActions.create('New lane');
+  addItem() {
+    LaneActions.create({id: uuid.v4(), name: 'New lane'});
   }
 }
 ```
@@ -117,11 +111,6 @@ import React from 'react';
 import Lane from './Lane';
 
 export default class Lanes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.renderLane = this.renderLane.bind(this);
-  }
   render() {
     const lanes = this.props.items;
 
@@ -133,13 +122,16 @@ export default class Lanes extends React.Component {
 }
 ```
 
-In addition we are going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work. I'll be using [Object rest syntax](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) available as a Stage 1 feature. It is perfect for a case such as this as it will extract the props we don't need. This way we don't end up polluting the HTML element.
+In addition we are going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
+
+I'll be using [Object rest syntax](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) available as a Stage 1 feature. It is perfect for a case such as this as it will extract the props we don't need. This way we don't end up polluting the HTML element.
 
 The example below has been modeled largely after our earlier implementation of `App`. It introduced Object rest syntax and will render an entire lane including its name and associated notes:
 
 **app/components/Lane.jsx**
 
 ```javascript
+import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Notes from './Notes';
@@ -147,14 +139,8 @@ import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class Lane extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addNote = this.addNote.bind(this);
-    this.noteEdited = this.noteEdited.bind(this);
-  }
   render() {
-    const {name, ...props} = this.props;
+    const {id, name, ...props} = this.props;
 
     return (
       <div {...props}>
@@ -176,14 +162,14 @@ export default class Lane extends React.Component {
     );
   }
   addNote() {
-    NoteActions.create('New note');
+    NoteActions.create({id: uuid.v4(), task: 'New task'});
   }
   noteEdited(id, task) {
     if(task) {
       NoteActions.update({id, task});
     }
     else {
-      NoteActions.remove(id);
+      NoteActions.delete(id);
     }
   }
 }
@@ -195,118 +181,148 @@ The reason why this happens is quite simple. Our `NoteStore` is a singleton. Thi
 
 ## Making Lanes Responsible of Notes
 
-Currently our `Lane` model is very simple. We are just storing an array of objects. Each of the objects knows lane name and that's it. It would be beneficial if `Lanes` knew more about their contents. For instance if each `Lane` knew which `Notes` it contains, we could then pick just those `Notes` from `NoteStore` and render only them per each `Lane`. This means we would like to end up with a data model like this for `LaneStore`:
+Currently our `Lane` model is very simple. We are just storing an array of objects. Each of the objects knows its *id* and *name*. We'll need something more. Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it.
+
+This means we'll need to extend the system to support this. When we `addNote()`, it's not enough to just add it `NoteStore`. We'll need to associate it with the `Lane` in question as well. We are going to need a new action for this. We can call it `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`. This will create the needed association based on the ids. The `Note` filtering logic can be performed when injecting data to `Notes`.
+
+In addition to `attachToLane` we are going to need a way to detach a `Note` from a `Lane`. `Notes` can be deleted after all and we don't want to have dead data hanging around. For this purpose we need to implement `LaneActions.detachFromLane({laneId: <id>, noteId: <id>})`.
+
+The first required change, adding a new action is simple. We will simply add the action to our list of actions.
+
+**app/actions/LaneActions.js**
 
 ```javascript
-[
-  {
-    id: 'de69027c-481b-4f99-b5b4-f2e77bc7fbca',
-    name: 'Todo',
-    notes: ['7be0cf54-66a6-4c80-b79e-53d992e8a0b5', ...]
-  },
-  {
-    id: '2403e089-4b7a-44f8-a33e-0e55bdc16e5d',
-    name: 'Doing',
-    notes: [...]
-  },
-  {
-    id: 'da290779-9953-489b-9139-1874bbbf56a8',
-    name: 'Done',
-    notes: [...]
-  }
-];
+import alt from '../libs/alt';
+
+export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
 ```
 
-This scheme is built on the idea of indexing. The naive way would be to use `Notes` array indices directly. The problem with this approach is that it will get difficult if we start removing `Notes`. We would have to fix `Lane` indices. A better alternative is to generate a unique id per each `Note` and use that instead.
+We also need to implement the feature at store level as follows:
 
-XXXXX
-
-## Going from Note Singletons to Instances
-
-There are a few changes we need to make in order to convert the current singleton based solution to instances. Most importantly our current `NoteStore` and `NoteActions` have to drop their direct dependency on `alt`. We'll want to be able to manage that ourselves at `Lane`. This way we can create an instance per `Lane` and the problem we encountered will disappear.
-
-Removing direct dependency to `alt` from `NoteActions` can be achieved by wrapping it within a function. After this we can create instances of actions whenever we need them.
-
-**app/actions/NoteActions.js**
+**app/stores/LaneStore.js**
 
 ```javascript
-export default (alt) => alt.generateActions('init', 'create', 'update', 'remove');
-```
+import alt from '../libs/alt';
+import LaneActions from '../actions/LaneActions';
+import findIndex from '../libs/find_index';
 
-To break `NoteStore`'s dependency on `alt` we'll want to take control of `alt.createStore`. This means we'll need to remove the current invocation from the store. In addition we'll want to glue actions and store together. Depending on a single set of actions like earlier wouldn't work as then the same actions would trigger multiple stores. We'll want this to be one-to-one relation.
-
-We can achieve this by passing actions as a parameter to our store. We can then use Alt's `bindActions` method to connect the store with the actions.
-
-**app/stores/NoteStore.js**
-
-```javascript
-export default class NoteStore {
-  constructor(actions: Object) {
-    this.bindActions(actions);
-  }
+class LaneStore {
   ...
+  attachToLane({laneId, noteId}) {
+    const lanes = this.lanes;
+    const targetId = findIndex(lanes, 'id', laneId);
+
+    if(!targetId < 0) {
+      return console.warn('Failed to find target lane');
+    }
+
+    const lane = lanes[targetId];
+
+    lane.notes = lane.notes || [];
+
+    if(lane.notes.indexOf(noteId) === -1) {
+      lane.notes.push(noteId);
+
+      this.setState({lanes});
+    }
+    else {
+      console.warn('Already attached note to lane', lanes);
+    }
+  }
+  detachFromLane({laneId, noteId}) {
+    const lanes = this.lanes;
+    const targetId = findIndex(lanes, 'id', laneId);
+
+    if(!targetId < 0) {
+      return console.warn('Failed to find target lane');
+    }
+
+    const lane = lanes[targetId];
+    const notes = lane.notes || [];
+    const removeId = notes.indexOf(noteId);
+
+    if(lane.notes.indexOf(removeId) === -1) {
+      lane.notes = notes.slice(0, removeId).concat(notes.slice(removeId + 1));
+
+      this.setState({lanes});
+    }
+    else {
+      console.warn('Failed to remove note from a lane as it didn\'t exist', lanes);
+    }
+  }
 }
+
+export default alt.createStore(LaneStore);
 ```
 
-Finally we need to alter `Lane`. It has to be able to maintain a `NoteStore` and associated actions. The code below shows how to wire it up:
+It is a lot of code. In order to make it easier to track possible problems it has been written defensively. Hence the extensive logging.
+
+Finally we need to make `Lane` to trigger `attachToLane` and `detachLane`. We also need to display `Notes` associated with a `Lane`.
 
 **app/components/Lane.jsx**
 
 ```javascript
-import AltContainer from 'alt/AltContainer';
-import React from 'react';
-
-import alt from '../libs/alt';
-import {getInitialData} from '../libs/storage';
-import Notes from './Notes';
-import createNoteActions from '../actions/NoteActions';
-import NoteStore from '../stores/NoteStore';
+...
+import LaneActions from '../actions/LaneActions';
 
 export default class Lane extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.actions = createNoteActions(alt);
-
-    const storeName = `NoteStore-${this.props.i}`;
-    this.store = alt.createStore(NoteStore, storeName, this.actions);
-    this.actions.init(getInitialData(storeName));
-
-    this.addNote = this.addNote.bind(this);
-    this.noteEdited = this.noteEdited.bind(this);
-  }
   render() {
-    const {i, name, ...props} = this.props;
+    const {id, name, notes, ...props} = this.props;
 
     return (
       <div {...props}>
-      ...
+        <div className='lane-header'>
+          <div className='lane-name'>{name}</div>
+          <div className='lane-add-note'>
+            <button onClick={this.addNote.bind(null, id)}>+</button>
+          </div>
+        </div>
         <AltContainer
-          stores={[this.store]}
+          stores={[NoteStore]}
           inject={ {
-            items: () => this.store.getState().notes || []
+            items: () => {
+              const allNotes = NoteStore.getState().notes || [];
+
+              if(notes) {
+                return allNotes.filter((note) => {
+                  return notes.indexOf(note.id) >= 0;
+                });
+              }
+
+              return [];
+            }
           } }
-        />
-      ...
+        >
+          <Notes onEdit={this.noteEdited.bind(null, id)} />
+        </AltContainer>
       </div>
     );
   }
-  addNote() {
-    this.actions.create('New note');
+  addNote(laneId) {
+    const noteId = uuid.v4();
+
+    NoteActions.create({id: noteId, task: 'New task'});
+    LaneActions.attachToLane({laneId, noteId});
   }
-  noteEdited(id, note) {
-    if(note) {
-      this.actions.update({id, note});
+  noteEdited(laneId, noteId, task) {
+    if(task) {
+      NoteActions.update({id: noteId, task});
     }
     else {
-      this.actions.remove(id);
+      NoteActions.delete(noteId);
+      LaneActions.detachFromLane({laneId, noteId});
     }
   }
+}
 ```
 
-Now we have something that mostly works. We have separate lanes, you can add new notes to them and modify/remote them. There are still a few bits we're missing. Namely lane name editing and lane removal. Let's get those done next.
+After these massive changes we have set up a system that can maintain relations between `Lanes` and `Notes`. It's not a particularly beautiful solution but the current structure allowed us to retain singleton stores and a flat data structure.
+
+An alternative would have been to model `NoteStores` as individual instances. In some ways that solution is a little cleaner as we don't have to worry about relations so much. We will still need to associate the stores to `LaneStores` through ids. So there's no escape from ids even in this solution. Instances come with bookkeeping of their own, though, and ties `Stores` to components tightly. Some might even say that's a Flux anti-pattern.
 
 ## Implementing Edit/Remove for `Lane`
+
+XXXXX
 
 We can follow the same idea as for `Note` here. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can extract it from `Note` and then reuse at `Lane`.
 

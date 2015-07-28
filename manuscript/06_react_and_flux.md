@@ -130,8 +130,9 @@ We are also going to need a little helper to find array objects. If it finds som
 ```javascript
 export default function findIndex(arr, prop, value) {
   const o = arr.filter(c => c[prop] === value)[0];
+  const ret = o && arr.indexOf(o);
 
-  return o && arr.indexOf(o);
+  return ret >= 0 ? ret : -1;
 }
 ```
 
