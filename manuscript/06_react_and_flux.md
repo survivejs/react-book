@@ -254,54 +254,75 @@ export default {
 };
 ```
 
-Besides this little utility we'll need to adapt our application to use it. As mentioned above stores are a natural place for persistence. We can restore `NoteStore` state at its constructor using the storage API we just set up.
+Besides this little utility we'll need to adapt our application to use it. Alt provides handy functionality just for this purpose. We can persist the entire state of our application using `FinalStore`, bootstrapping and snapshotting. `FinalStore` is store that listens to all existing stores. Every time some store changes, `FinalStore` will know about it. This makes it ideal for persistency.
 
-Loading initial data is easy. We can use `storage.get` for that. Because Alt doesn't allow us to override `setState` yet, we'll need to be a little clever for now. We can export a public method which we can trigger when `NoteStore` state gets changed. Unfortunately this means we need to trigger the logic outside of the store from `App`. The following code shows how to achieve this:
+We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part. `alt.bootstrap` allows us to set state of the all stores. In our case we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere through a WebSocket for instance.
+
+T> An alternative way would be to take a snapshot only when the window gets closed. There's a Window level `beforeunload` hook that could be used. The problem with this approach is that it is brittle. What if something unexpected happens and the hook doesn't get triggered for some reason? You'll lose data.
+
+In order to integrate this idea to our application we will need to implement a little module to manage it, take the possible initial data in count at `NoteStore` and finally trigger the new logic at initialization phase.
+
+*app/libs/persist.js*  does the hard part. It will set up a `FinalStore`, deal with bootstrapping (restore data) and listening the store for snapshotting (save data). The implementation below illustrates this:
+
+**app/libs/persist.js**
+
+```javascript
+import makeFinalStore from 'alt/utils/makeFinalStore';
+
+export default function(alt, storage, storeName) {
+  const finalStore = makeFinalStore(alt);
+
+  alt.bootstrap(storage.get(storeName));
+
+  finalStore.listen(() => {
+    storage.set(storeName, alt.takeSnapshot());
+  });
+};
+```
+
+In order to make our `NoteStore` aware of possibly existing data, we'll need to tweak our constructor to take it in count. The data might not exist already, though, so we'll still need a default.
 
 **app/stores/NoteStore.js**
 
 ```javascript
 ...
-import storage from '../libs/storage';
 
 class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
 
-    this.exportPublicMethods({
-      persist: () => storage.set('notes', this.notes)
-    });
-
-    const initialData = storage.get('notes');
-    this.notes = Array.isArray(initialData) ? initialData : [];
+    this.notes = this.notes || [];
   }
   ...
 }
+
+export default alt.createStore(NoteStore);
 ```
 
-In addition we need to tweak `storeChanged` at `App`. This will go away once Alt allows overriding `setState` or provides some other hook that can be used for the purpose. The problem is that now some of the logic leaks to the View but unfortunately it cannot be avoided yet.
+Finally we need to trigger persistency logic at initialization. We will need to pass relevant data to it (Alt instance, storage, storage name) and off we go.
 
-**app/components/App.jsx**
+**app/main.jsx**
 
 ```javascript
-export default class App extends React.Component {
-  ...
-  storeChanged(state) {
-    this.setState(state);
+...
+import alt from './libs/alt';
+import storage from './libs/storage';
+import persist from './libs/persist';
 
-    NoteStore.persist();
-  }
+main();
+
+function main() {
+  persist(alt, storage, 'app');
+
   ...
 }
 ```
 
-Now we have an application that can restore its state based on `localStorage`. It would be fairly simple to replace the backend with something else. We would just need to implement the storage interface again.
+Now we have an application that can restore its state based on `localStorage`. More interestingly the solution should scale with minimal effort if we add more stores to the system. Integrating a real backend wouldn't be a problem. There are hooks in place for that now. You could for instance pass the initial payload as a part of your HTML (isomorphic rendering), load it up and then persist the data to the backend. You have a great deal of control over how to do this and you can use `localStorage` as a backup if you want.
 
-## Extracting Decorators
+## Extracting Connection Decorator
 
-Even though our current solution is a little nasty due to limitations of Alt, we can tidy it up at least a tiny bit. The problem is that now our solution is coupled with the store. If we add more stores to the system this will lead to duplication very fast. It is a good idea to extract this concern into a concept of its own. We can do this using a decorator.
-
-We have a similar problem at `App`. Now it contains plenty of connection logic. This isn't nice. We can perform a similar operation there and extract that to logic to a decorator as well.
+Even though the application is starting to look a little better now, there's still work to be done. For instance `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage.
 
 TODO: rewrite
 
