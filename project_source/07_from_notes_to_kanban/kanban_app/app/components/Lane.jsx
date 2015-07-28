@@ -2,7 +2,6 @@ import AltContainer from 'alt/AltContainer';
 import React from 'react';
 
 import alt from '../libs/alt';
-import {getInitialData} from '../libs/storage';
 import Editable from './Editable';
 import Notes from './Notes';
 import createNoteActions from '../actions/NoteActions';
@@ -17,7 +16,6 @@ export default class Lane extends React.Component {
 
     const storeName = `NoteStore-${this.props.i}`;
     this.store = alt.createStore(NoteStore, storeName, this.actions);
-    this.actions.init(getInitialData(storeName));
 
     this.addNote = this.addNote.bind(this);
     this.nameEdited = this.edited.bind(this, LaneActions, 'name', props.i);

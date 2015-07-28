@@ -4,11 +4,8 @@ import NoteActions from '../actions/NoteActions';
 class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
-  }
-  init(data) {
-    this.setState(Array.isArray(data && data.notes) ? data : {
-      notes: []
-    });
+
+    this.notes = this.notes || [];
   }
   create(task) {
     const notes = this.notes;
