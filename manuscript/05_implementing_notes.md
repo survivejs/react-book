@@ -7,7 +7,7 @@ Given we have a nice development setup now, we can actually get some work done. 
 Often a good way to begin designing application is to start with the data. We could model a list of notes as follows:
 
 ```javascript
-const notes = [
+[
   {
     task: 'Learn webpack'
   },
