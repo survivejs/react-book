@@ -193,6 +193,47 @@ Now we have something that sort of works. You can see there's something seriousl
 
 The reason why this happens is quite simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem somehow.
 
+## Making Lanes Responsible of Notes
+
+Currently our `Lane` model is very simple. We are just storing an array of objects. Each of the objects knows lane name and that's it. It would be beneficial if `Lanes` knew more about their contents. For instance if each `Lane` knew which `Notes` it contains, we could then pick just those `Notes` from `NoteStore` and render only them per each `Lane`. This means we would like to end up with a data model like this:
+
+```javascript
+[
+  {
+    name: 'Todo',
+    notes: [23, 2, 42, 3]
+  },
+  {
+    name: 'Doing',
+    notes: [11, 6, 9, 13]
+  },
+  {
+    name: 'Done',
+    notes: [10, 1, 8, 7]
+  }
+];
+```
+
+This scheme is built on the idea of indexing. The naive way would be to use `Notes` array indices directly. The problem with this approach is that it will get difficult if we start removing `Notes`. We would have to fix `Lane` indices. A better alternative is to generate a unique id per each `Note` and use that instead.
+
+A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node implementation of it. Invoke `npm i node-uuid --save` at project root to get it installed. If you open up Node cli (`node`) and try the following, you can see what kind of ids it outputs.
+
+```javascript
+> uuid = require('node-uuid')
+{ [Function: v4]
+  v1: [Function: v1],
+  v4: [Circular],
+  parse: [Function: parse],
+  unparse: [Function: unparse],
+  BufferClass: [Function: Array] }
+> uuid.v4()
+'1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
+```
+
+T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
+
+TODO: integrate id to `NoteStore` and show how to deal with the rest
+
 ## Going from Note Singletons to Instances
 
 There are a few changes we need to make in order to convert the current singleton based solution to instances. Most importantly our current `NoteStore` and `NoteActions` have to drop their direct dependency on `alt`. We'll want to be able to manage that ourselves at `Lane`. This way we can create an instance per `Lane` and the problem we encountered will disappear.
