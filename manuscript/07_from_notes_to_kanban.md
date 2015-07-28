@@ -116,8 +116,8 @@ export default class Lanes extends React.Component {
 
     return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
   }
-  renderLane(lane, i) {
-    return <Lane className='lane' key={`lane${i}`} {...lane} />;
+  renderLane(lane) {
+    return <Lane className='lane' key={`lane${lane.id}`} {...lane} />;
   }
 }
 ```

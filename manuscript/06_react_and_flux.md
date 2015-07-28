@@ -235,9 +235,9 @@ As the id scheme changed, `Notes` has to change as well. It has to return the co
 
 export default class Notes extends React.Component {
   ...
-  renderNote(note, i) {
+  renderNote(note) {
     return (
-      <li className='note' key={`note${i}`}>
+      <li className='note' key={`note${note.id}`}>
         <Note
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)} />
