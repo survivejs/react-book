@@ -128,7 +128,7 @@ export default class Lanes extends React.Component {
     return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
   }
   renderLane(lane, i) {
-    return <Lane className='lane' key={`lane${i}`} i={i} {...lane} />;
+    return <Lane className='lane' key={`lane${i}`} {...lane} />;
   }
 }
 ```
@@ -154,7 +154,7 @@ export default class Lane extends React.Component {
     this.noteEdited = this.noteEdited.bind(this);
   }
   render() {
-    const {i, name, ...props} = this.props;
+    const {name, ...props} = this.props;
 
     return (
       <div {...props}>
@@ -195,21 +195,24 @@ The reason why this happens is quite simple. Our `NoteStore` is a singleton. Thi
 
 ## Making Lanes Responsible of Notes
 
-Currently our `Lane` model is very simple. We are just storing an array of objects. Each of the objects knows lane name and that's it. It would be beneficial if `Lanes` knew more about their contents. For instance if each `Lane` knew which `Notes` it contains, we could then pick just those `Notes` from `NoteStore` and render only them per each `Lane`. This means we would like to end up with a data model like this:
+Currently our `Lane` model is very simple. We are just storing an array of objects. Each of the objects knows lane name and that's it. It would be beneficial if `Lanes` knew more about their contents. For instance if each `Lane` knew which `Notes` it contains, we could then pick just those `Notes` from `NoteStore` and render only them per each `Lane`. This means we would like to end up with a data model like this for `LaneStore`:
 
 ```javascript
 [
   {
+    id: 'de69027c-481b-4f99-b5b4-f2e77bc7fbca',
     name: 'Todo',
-    notes: [23, 2, 42, 3]
+    notes: ['7be0cf54-66a6-4c80-b79e-53d992e8a0b5', ...]
   },
   {
+    id: '2403e089-4b7a-44f8-a33e-0e55bdc16e5d',
     name: 'Doing',
-    notes: [11, 6, 9, 13]
+    notes: [...]
   },
   {
+    id: 'da290779-9953-489b-9139-1874bbbf56a8',
     name: 'Done',
-    notes: [10, 1, 8, 7]
+    notes: [...]
   }
 ];
 ```
@@ -232,7 +235,9 @@ A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a 
 
 T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
-TODO: integrate id to `NoteStore` and show how to deal with the rest
+The next step is to integrate this id scheme to our application. We will need to tweak application logic to be id based. Each `Lane` and `Note` will require an id of its own. These ids will be used by our actions. In addition we need to change our stores to work based on the improved data model. This represents a large amount of changes across a large portion of the codebase.
+
+XXXXX: introduce ids earlier so less changes are needed here
 
 ## Going from Note Singletons to Instances
 
