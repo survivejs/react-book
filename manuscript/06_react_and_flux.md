@@ -262,7 +262,7 @@ T> An alternative way would be to take a snapshot only when the window gets clos
 
 In order to integrate this idea to our application we will need to implement a little module to manage it, take the possible initial data in count at `NoteStore` and finally trigger the new logic at initialization phase.
 
-*app/libs/persist.js*  does the hard part. It will set up a `FinalStore`, deal with bootstrapping (restore data) and listening the store for snapshotting (save data). The implementation below illustrates this:
+*app/libs/persist.js*  does the hard part. It will set up a `FinalStore`, deal with bootstrapping (restore data) and listening the store for snapshotting (save data). I have included an escape hatch in form of `debug` flag. If it is set, the data won't get saved to `localStorage`. The reasoning is that now you can set the flag (`localStorage.setItem('debug', 'true')`), hit `localStorage.clear()` and refresh the browser to get a clean slate. The implementation below illustrates these ideas:
 
 **app/libs/persist.js**
 
@@ -275,7 +275,9 @@ export default function(alt, storage, storeName) {
   alt.bootstrap(storage.get(storeName));
 
   finalStore.listen(() => {
-    storage.set(storeName, alt.takeSnapshot());
+    if(!storage.get('debug')) {
+      storage.set(storeName, alt.takeSnapshot());
+    }
   });
 };
 ```
