@@ -20,7 +20,7 @@ There is a massive amount of Flux implementations available. [voronianski/flux-c
 
 In this chapter we'll be using one of the current top dogs, a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed isomorphic rendering in mind.
 
-In Alt you'll deal in terms of Actions and Stores. Alt provides `waitFor` just like Facebook's architecture for synchronizing Stores. There are also special features such as snapshots and bootstrapping. These give you control over application state. You can for instance save it and restore the state later.
+In Alt you'll deal in terms of Actions and Stores. Alt provides `waitFor` just like Facebook's architecture for synchronizing Stores. There are also special features such as snapshots and bootstrapping for saving and restoring application state.
 
 ## Porting Notes Application to Alt
 
@@ -49,22 +49,20 @@ Next we'll need to define a basic API for operating over Note data. To keep this
 ```javascript
 import alt from '../libs/alt';
 
-export default alt.generateActions('create', 'update', 'remove');
+export default alt.generateActions('create', 'update', 'delete');
 ```
-
-T> As `delete` is a reserved word I prefer to use verb `remove` here instead.
 
 If we wanted to be verbose, the following would be equivalent:
 
 ```javascript
 class NoteActions {
-  create(note) {
-    this.dispatch(note);
+  create({id, task}) {
+    this.dispatch({id, task});
   }
-  update({id, note}) {
-    this.dispatch({id, note});
+  update({id, task}) {
+    this.dispatch({id, task});
   }
-  remove(id) {
+  delete(id) {
     this.dispatch(id);
   }
 }
@@ -78,13 +76,16 @@ Having a nice set of Actions doesn't take us far. We'll trigger them from our Vi
 
 ### Defining Store for Notes
 
-The main purpose of a Store is to deal with data related concerns. In this case it will maintain the state of Notes and alter it based on operations we apply on it. We will connect it with the actions we defined above using `bindActions` shortcut. It maps each Action to a method by name. We trigger appropriate logic at each method then. Finally we connect the Store with Alt using `alt.createStore`. The implementation below goes deeper into the logic.
+The main purpose of a Store is to deal with data related concerns. In this case it will maintain the state of Notes and alter it based on operations we apply on it. We will connect it with the actions we defined above using `bindActions` shortcut.
+
+It maps each Action to a method by name. We trigger appropriate logic at each method then. Finally we connect the Store with Alt using `alt.createStore`. The implementation below goes deeper into the logic.
 
 **app/stores/NoteStore.js**
 
 ```javascript
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
+import findIndex from '../libs/find_index';
 
 class NoteStore {
   constructor() {
@@ -92,25 +93,27 @@ class NoteStore {
 
     this.notes = [];
   }
-  create(task) {
+  create(note) {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.concat({task})
+      notes: notes.concat(note)
     });
   }
-  update({id, task}) {
+  update(note) {
     const notes = this.notes;
+    const targetId = findIndex(notes, 'id', note.id);
 
-    notes[id].task = task;
+    notes[targetId].task = note.task;
 
     this.setState({notes});
   }
-  remove(id) {
+  delete(id) {
     const notes = this.notes;
+    const targetId = findIndex(notes, 'id', id);
 
     this.setState({
-      notes: notes.slice(0, id).concat(notes.slice(id + 1))
+      notes: notes.slice(0, targetId).concat(notes.slice(targetId + 1))
     });
   }
 }
@@ -118,13 +121,49 @@ class NoteStore {
 export default alt.createStore(NoteStore);
 ```
 
-T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(id, 1)` would work for `remove`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
+T> The current implementation is naive in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this.
 
-We have almost integrated Flux to our application. Now we have a set of Actions that provide an API for manipulating Notes data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions.
+We are also going to need a little helper to find array objects. If it finds something, it will return the index of the first match. This keeps our manipulations simple.
+
+**libs/find_index.js**
+
+```javascript
+export default function findIndex(arr, prop, value) {
+  const o = arr.filter(c => c[prop] === value)[0];
+
+  return o && arr.indexOf(o);
+}
+```
+
+T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
+
+We have almost integrated Flux to our application. Now we have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions. Before that it's a good idea to discuss the concept of ids in more detail.
+
+### On Ids
+
+You probably noticed those ids at the verbose action definition. Ids will become valuable as we grow the project. A naive way to deal with them is to rely on array indexing. That becomes troublesome quite soon, though. For instance if you are referring to data based on array indices and the data changes, each reference has to change too. That is somewhat undesirable.
+
+Instead it can be valuable to use a proper indexing scheme here. Normally this is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node implementation of it. Invoke `npm i node-uuid --save` at project root to get it installed. If you open up Node cli (`node`) and try the following, you can see what kind of ids it outputs.
+
+```javascript
+> uuid = require('node-uuid')
+{ [Function: v4]
+  v1: [Function: v1],
+  v4: [Circular],
+  parse: [Function: parse],
+  unparse: [Function: unparse],
+  BufferClass: [Function: Array] }
+> uuid.v4()
+'1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
+```
+
+`uuid.v4()` will help us to generate the ids we need for the purposes of this project.
+
+T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
 ### Gluing It All Together
 
-Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create('New task')`. This would cause the associated Store to change according to the logic.
+Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create({id: id, task: 'New task'})`. This would cause the associated Store to change according to the logic.
 
 Connecting the Store to our View is more interesting. I will show you multiple ways to achieve this so you understand the API in more detail. You'll likely end up using the shortcut discussed last but it's a nice idea to understand what it does internally.
 
@@ -132,9 +171,12 @@ Our `NoteStore` provides two methods in particular that are going to be useful. 
 
 As doing all of the needed changes piecewise wouldn't be nice I have included whole `App` View below. Take note how we use `NoteActions` and `NoteStore` in particular. We synchronize the app state based on `NoteStore` state. As we alter `NoteStore`, this leads to a cascade that causes our `App` state update through `setState`. This in turn will trigger component `render`.
 
+I have included a complete version of `App` below as this is going to require multiple changes as described above.
+
 **app/components/App.jsx**
 
 ```javascript
+import uuid from 'node-uuid';
 import React from 'react';
 import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
@@ -170,15 +212,36 @@ export default class App extends React.Component {
     );
   }
   addItem() {
-    NoteActions.create('New task');
+    NoteActions.create({id: uuid.v4(), task: 'New task'});
   }
   itemEdited(id, task) {
     if(task) {
       NoteActions.update({id, task});
     }
     else {
-      NoteActions.remove(id);
+      NoteActions.delete(id);
     }
+  }
+}
+```
+
+As the id scheme changed, `Notes` has to change as well. It has to return the correct id for its `onEdit` hook.
+
+**app/components/Notes.jsx**
+
+```javascript
+...
+
+export default class Notes extends React.Component {
+  ...
+  renderNote(note, i) {
+    return (
+      <li className='note' key={`note${i}`}>
+        <Note
+          value={note.task}
+          onEdit={this.props.onEdit.bind(null, note.id)} />
+      </li>
+    );
   }
 }
 ```
@@ -187,7 +250,9 @@ As you can see, we pushed the logic out of `App`. We actually have more code now
 
 ### Dispatching in Alt
 
-Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`. You can use the same mechanism on Store level. In that case you would trigger `this.dispatcher.register(...)` at constructor. These mechanisms allow you to implement effective logging to your system.
+Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`.
+
+You can use the same mechanism on Store level. In that case you would trigger `this.dispatcher.register(...)` at constructor. These mechanisms allow you to implement effective logging to your system.
 
 ## On Component Design
 
@@ -211,7 +276,7 @@ I have used this kind of thinking at a table implementation of mine known as [re
 
 Even though integrating Alt took a lot of effort, it was not all in vain. Consider the following questions:
 
-1. Let's say we wanted to persist the Notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`.
+1. Let's say we wanted to persist the Notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
 2. What if we had multiple components relying on the data? We would just consume `NoteStore` and display it however we want.
 3. What if we had multiple, separate Note lists for different type of tasks? We could set up another Store for tracking these lists. That Store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
 
@@ -395,8 +460,8 @@ export default class App extends React.Component {
   componentWillUnmount() {
     NoteStore.unlisten(this.storeChanged);
   }
-  storeChanged() {
-    this.setState(NoteStore.getState());
+  storeChanged(state) {
+    this.setState(state);
   }
   */
   render() {
@@ -421,6 +486,7 @@ Even though our `@connect` is kind of cool, we can use something special Alt pro
 **app/components/App.jsx**
 
 ```javascript
+import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Notes from './Notes';

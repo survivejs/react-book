@@ -219,25 +219,7 @@ Currently our `Lane` model is very simple. We are just storing an array of objec
 
 This scheme is built on the idea of indexing. The naive way would be to use `Notes` array indices directly. The problem with this approach is that it will get difficult if we start removing `Notes`. We would have to fix `Lane` indices. A better alternative is to generate a unique id per each `Note` and use that instead.
 
-A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node implementation of it. Invoke `npm i node-uuid --save` at project root to get it installed. If you open up Node cli (`node`) and try the following, you can see what kind of ids it outputs.
-
-```javascript
-> uuid = require('node-uuid')
-{ [Function: v4]
-  v1: [Function: v1],
-  v4: [Circular],
-  parse: [Function: parse],
-  unparse: [Function: unparse],
-  BufferClass: [Function: Array] }
-> uuid.v4()
-'1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
-```
-
-T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
-
-The next step is to integrate this id scheme to our application. We will need to tweak application logic to be id based. Each `Lane` and `Note` will require an id of its own. These ids will be used by our actions. In addition we need to change our stores to work based on the improved data model. This represents a large amount of changes across a large portion of the codebase.
-
-XXXXX: introduce ids earlier so less changes are needed here
+XXXXX
 
 ## Going from Note Singletons to Instances
 
