@@ -6,9 +6,9 @@ import App from './components/App';
 main();
 
 function main() {
-    const app = document.createElement('div');
+  const app = document.createElement('div');
 
-    document.body.appendChild(app);
+  document.body.appendChild(app);
 
-    React.render(<App />, app);
+  React.render(<App />, app);
 }
