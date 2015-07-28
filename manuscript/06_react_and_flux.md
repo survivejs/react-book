@@ -439,7 +439,7 @@ export default class App extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={ {
-            items: () => NoteStore.getState().notes || []
+            items: () => NoteStore.getState().notes
           } }
         >
           <Notes onEdit={this.itemEdited} />

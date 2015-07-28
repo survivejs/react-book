@@ -4,92 +4,23 @@
 
 So far we have managed to set up a nice little development environment and develop an application for keeping track of notes in `localStorage`. We still have work to do in order to turn this into a real Kanban as pictured above.
 
-Most importantly our system is missing the concept of Lane. A Lane is something that should be able to contain multiple Notes within itself. In the current system that is implicit. We'll need to extract that into a component of its own.
+Most importantly our system is missing the concept of Lane. A Lane is something that should be able to contain multiple `Notes` within itself. In the current system that is implicit. We'll need to extract that into a component of its own.
 
 ## Extracting `Lanes`
 
-As earlier we can use the same idea of two components here. There will be a component for higher level (i.e. `Lanes`) and for lower level (i.e. `Lane`). The higher level component will deal with aspects such as persistency and lane ordering. An individual `Lane` will just render its contents (i.e. name and `Notes`) and provide basic manipulation operations as needed.
+As earlier we can use the same idea of two components here. There will be a component for higher level (i.e. `Lanes`) and for lower level (i.e. `Lane`). The higher level component will deal with lane ordering. An individual `Lane` will just render its contents (i.e. name and `Notes`) and provide basic manipulation operations as needed.
 
-As a first step we will need to make some room for `Lanes` at our `App` level. Consider the example below:
-
-**app/components/App.jsx**
-
-```javascript
-import AltContainer from 'alt/AltContainer';
-import React from 'react';
-
-import alt from '../libs/alt';
-import Lanes from './Lanes';
-import LaneActions from '../actions/LaneActions';
-import LaneStore from '../stores/LaneStore';
-import persist from '../decorators/persist';
-import {storage, storageName, getInitialData} from '../libs/storage';
-
-@persist(storage, storageName, () => JSON.parse(alt.takeSnapshot()))
-export default class App extends React.Component {
-  constructor() {
-    super();
-
-    LaneActions.init(getInitialData('LaneStore'));
-  }
-  render() {
-    return (
-      <div>
-        <button onClick={this.addLane}>+</button>
-        <AltContainer
-          stores={[LaneStore]}
-          inject={ {
-            items: () => LaneStore.getState().lanes || []
-          } }
-        >
-          <Lanes />
-        </AltContainer>
-      </div>
-    );
-  }
-  addLane() {
-    LaneActions.create('New lane');
-  }
-}
-```
-
-Note that the implementation of `../libs/storage` has been changed to make it easier to operate on it through a more complex hierarchy. We'll need this later when we attach more stores to the system.
-
-**app/libs/storage.js**
-
-```javascript
-export const storageName = 'kanban_storage';
-
-export const storage = {
-  get: function(k) {
-    try {
-      return JSON.parse(localStorage.getItem(k));
-    }
-    catch(e) {
-      return null;
-    }
-  },
-  set: function(k, v) {
-    localStorage.setItem(k, JSON.stringify(v));
-  }
-};
-
-export function getInitialData(storeName) {
-  const data = storage.get(storageName);
-
-  return data && data[storeName];
-}
-```
-
-Just to get the code to compile here are the initial implementations for some new actions and a store.
+Just as with Notes we are going to need a set of actions. For now it is enough if we can just create new lanes so we can create a corresponding action for that as below:
 
 **app/actions/LaneActions.js**
 
 ```javascript
 import alt from '../libs/alt';
 
-export default alt.generateActions('init', 'create');
+export default alt.generateActions('create');
 ```
+
+In addition we are going to need a `LaneStore` and a method matching to `create`. The idea is pretty much the same as for `NoteStore` earlier. `create` will concatenate a new lane to the list of lanes. After that the change will propagate to the listeners (i.e. `FinalStore` and components).
 
 **app/stores/LaneStore.js**
 
@@ -100,11 +31,8 @@ import LaneActions from '../actions/LaneActions';
 class LaneStore {
   constructor() {
     this.bindActions(LaneActions);
-  }
-  init(data) {
-    this.setState(Array.isArray(data && data.lanes) ? data : {
-      lanes: []
-    });
+
+    this.lanes = this.lanes || [];
   }
   create(name) {
     const lanes = this.lanes;
@@ -117,12 +45,10 @@ class LaneStore {
   }
 }
 
-export default alt.createStore(LaneStore, 'LaneStore');
+export default alt.createStore(LaneStore);
 ```
 
-The second parameter in `createStore` is a string that is used as a unique identifier for serializing/deserializing your store. The name of the store comes from the class name but on production due to heavy minification it is a good idea to provide your own name to avoid collisions.
-
-The idea is the same as before with notes. We are also going to need that `Lanes` container.
+We are also going to need a stub for `Lanes`. We will expand this later. Now we just want something simple to show up.
 
 **app/components/Lanes.jsx**
 
@@ -140,19 +66,54 @@ export default class Lanes extends React.Component {
 }
 ```
 
-The current implementation doesn't do much. We still need to model `Lane` and attach `Notes` to that.
+Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions and store needed. Consider the example below:
+
+**app/components/App.jsx**
+
+```javascript
+import AltContainer from 'alt/AltContainer';
+import React from 'react';
+import Lanes from './Lanes';
+import LaneActions from '../actions/LaneActions';
+import LaneStore from '../stores/LaneStore';
+
+export default class App extends React.Component {
+  constructor() {
+    super();
+
+    this.addLane = this.addLane.bind(this);
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={this.addLane}>+</button>
+        <AltContainer
+          stores={[LaneStore]}
+          inject={ {
+            items: () => LaneStore.getState().lanes
+          } }
+        >
+          <Lanes />
+        </AltContainer>
+      </div>
+    );
+  }
+  addLane() {
+    LaneActions.create('New lane');
+  }
+}
+```
+
+The current implementation doesn't do much. It just shows a plus button and *lanes should go here* text. We still need to model `Lane` and attach `Notes` to that to make this work.
 
 ## Modeling `Lane`
 
-To start with a `Lane` is pretty much what our `App` was earlier. This time around we'll want to render a header that contains name and a control for adding new notes within it.
-
-First of all let's extend the `render` method of `Lanes` to make some room for individual lanes:
+Each `Lane` will be able to render associated `Notes` just like our `App` did earlier. `Lanes` container in turn will render each `Lane` separately. It is analogous to `Notes` in this manner. The example below illustrates how to set up `Lanes`.
 
 **app/components/Lanes.jsx**
 
 ```javascript
 import React from 'react';
-
 import Lane from './Lane';
 
 export default class Lanes extends React.Component {
@@ -172,14 +133,15 @@ export default class Lanes extends React.Component {
 }
 ```
 
-Next we can model `Lane` based on our earlier work with `App`.
+In addition we are going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work. I'll be using [Object rest syntax](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) available as a Stage 1 feature. It is perfect for a case such as this as it will extract the props we don't need. This way we don't end up polluting the HTML element.
+
+The example below has been modeled largely after our earlier implementation of `App`. It introduced Object rest syntax and will render an entire lane including its name and associated notes:
 
 **app/components/Lane.jsx**
 
 ```javascript
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
-
 import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
@@ -190,8 +152,6 @@ export default class Lane extends React.Component {
 
     this.addNote = this.addNote.bind(this);
     this.noteEdited = this.noteEdited.bind(this);
-
-    NoteActions.init();
   }
   render() {
     const {i, name, ...props} = this.props;
@@ -229,9 +189,9 @@ export default class Lane extends React.Component {
 }
 ```
 
-Now we have something that sort of works. You can see there's something seriously wrong, though. If you add new Notes to a Lane, the Note appears to each Lane. Also if you modify a Note, also other Lanes update. In addition created Notes aren't persisted correctly. Just Lane data appears to get saved.
+Now we have something that sort of works. You can see there's something seriously wrong, though. If you add new Notes to a Lane, the Note appears to each Lane. Also if you modify a Note, also other Lanes update.
 
-The reason why this happens is quite simple. Currently our `NoteStore` is a singleton. Even though this behavior is often convenient, it's not working in our favor. One way to resolve this issue is to convert the singleton to individual instances.
+The reason why this happens is quite simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem somehow.
 
 ## Going from Note Singletons to Instances
 
