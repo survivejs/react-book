@@ -322,94 +322,24 @@ function main() {
 
 Now we have an application that can restore its state based on `localStorage`. More interestingly the solution should scale with minimal effort if we add more stores to the system. Integrating a real backend wouldn't be a problem. There are hooks in place for that now. You could for instance pass the initial payload as a part of your HTML (isomorphic rendering), load it up and then persist the data to the backend. You have a great deal of control over how to do this and you can use `localStorage` as a backup if you want.
 
+W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
+
 ## Extracting Connection Decorator
 
 Even though the application is starting to look a little better now, there's still work to be done. For instance `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage.
 
-TODO: rewrite
+If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. They just provide a nicer syntax for HOCs essentially.
 
-There are a couple of places in `App` we would like to clean up. The code is simply getting confusing. We can separate some of that into higher order components (HOCs).
+There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. By definition a decorator is simply a function that returns a function. For instance invocation of our `connect` decorator could look like `connect(NoteStore)(App)` without using the decorator syntax (`@connect(NoteStore)`).
 
-A higher order component is a React component which can be used to wrap another component and apply some behavior to it. It is easier to understand how they work through a couple of examples.
-
-### Pushing Persistency to a HOC
-
-Persistency can be pushed to a HOC like this:
-
-**app/components/App.jsx**
-
-```javascript
-...
-import persist from '../decorators/persist';
-import storage from '../libs/storage';
-
-const noteStorageName = 'notes';
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
-
-    NoteActions.init(storage.get(noteStorageName));
-
-    this.state = NoteStore.getState();
-  }
-  ...
-  storeChanged() {
-    this.setState(NoteStore.getState());
-  }
-  ...
-}
-
-export default persist(App, storage, noteStorageName, () => NoteStore.getState());
-```
-
-**app/decorators/persist.js**
-
-```javascript
-import React from 'react';
-
-export default (Component, storage, storageName, getData) => {
-  return class Persist extends React.Component {
-    constructor(props) {
-      super(props);
-
-      window.addEventListener('beforeunload', function() {
-        // escape hatch for debugging
-        if(!storage.get('debug')) {
-          storage.set(storageName, getData());
-        }
-      }, false);
-    }
-    render() {
-      return <Component {...this.props} {...this.state} />;
-    }
-  };
-};
-```
-
-As you can see it is a component that triggers the decorator and renders the component we pass to it. We have more code than earlier but we have factored it better. If you want to persist some other component, it is simple now.
-
-Given it can be useful to be able to disable the behavior temporarily, I built an escape hatch. In case you hit `localStorage.setItem('debug', true)` at browser console, the behavior gets disabled. Set it back to `false` in order to enable it again. If you want to clear whole `localStorage` for some reason, you can just hit `localStorage.clear()`.
-
-T> The implementation of `persist` could be pushed further using `alt.takeSnapshot` and `alt.bootstrap` functions. That would allow us to implement a generic version for the whole application should we want to.
-
-W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
-
-W> Another to keep in mind is that `beforeunload` doesn't get triggered in case something catastrophic happens (e.g. browser crashes). Therefore it could be justified to trigger `storage.set` on each change.
-
-### Pushing Connection to a HOC
-
-We can implement a decorator for connecting a component to a Store as well. Here's an example:
+TODO
 
 **app/decorators/connect.js**
 
 ```javascript
 import React from 'react';
 
-export default (Component, store) => {
+const connect = (Component, store) => {
   return class Connect extends React.Component {
     constructor(props) {
       super(props);
@@ -430,6 +360,10 @@ export default (Component, store) => {
     }
   };
 };
+
+export default (store) => {
+  return (target) => connect(target, store);
+};
 ```
 
 You can connect it with `App` like this:
@@ -442,14 +376,13 @@ import connect from '../decorators/connect';
 
 ...
 
-class App extends React.Component {
+@connect(NoteStore)
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.addItem = this.addItem.bind(this);
     this.itemEdited = this.itemEdited.bind(this);
-
-    NoteActions.init(storage.get(noteStorageName));
   }
   /*
   These lines can be eliminated now!
@@ -471,70 +404,9 @@ class App extends React.Component {
   }
   ...
 }
-
-export default persist(
-  connect(App, NoteStore),
-  storage,
-  noteStorageName,
-  () => NoteStore.getState()
-);
 ```
 
 Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects. We can take the approach further by converting our HOCs into decorators.
-
-## Converting HOCs to Decorators
-
-If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. They just provide a nicer syntax for HOCs essentially.
-
-There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. There are a couple of tooling related gotchas we should patch before moving further.
-
-By definition a decorator is simply a function that returns a function. For instance invocation of our `persist` decorator could look like `persist(storage, noteStorageName, () => NoteStore.getState())(App)` without using the decorator syntax (`@persist(storage, ...)`).
-
-### Adding Decorator Wrappers
-
-In order to port our HOCs to be able to use decorator syntax, we'll need to tweak our current implementation a little bit.
-
-**app/decorators/connect.js**
-
-```javascript
-import React from 'react';
-
-const connect = (Component, store) => {
-  ...
-}
-
-export default (store) => {
-  return (target) => connect(target, store);
-};
-```
-
-**app/decorators/persist.js**
-
-```javascript
-import React from 'react';
-
-const persist = (Component, storage, storageName, getData) => {
-  ...
-}
-
-export default (storage, storageName, getData) => {
-  return (target) => persist(target, storage, storageName, getData);
-};
-```
-
-As you can see the HOCs have been wrapped within functions that return functions. That's how decorators work by definition.
-
-**app/components/App.jsx**
-
-```javascript
-...
-
-@persist(storage, noteStorageName, () => NoteStore.getState())
-@connect(NoteStore)
-export default class App extends React.Component {
-  ...
-}
-```
 
 Note how much neater our `App` is now. You can clearly see that we want to persist this component and connect it to a certain store.
 
@@ -552,20 +424,13 @@ import React from 'react';
 import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
-import persist from '../decorators/persist';
-import storage from '../libs/storage';
 
-const noteStorageName = 'notes';
-
-@persist(storage, noteStorageName, () => NoteStore.getState())
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.addItem = this.addItem.bind(this);
     this.itemEdited = this.itemEdited.bind(this);
-
-    NoteActions.init(storage.get(noteStorageName));
   }
   render() {
     return (
