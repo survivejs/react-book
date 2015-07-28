@@ -328,11 +328,11 @@ W> Our `persist` implementation isn't without its flaws. It is easy to end up in
 
 Even though the application is starting to look a little better now, there's still work to be done. For instance `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage.
 
-If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. They just provide a nicer syntax for HOCs essentially.
+If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. In short they provide us a way to annotate and push logic elsewhere while keeping our components simple to read.
 
 There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. By definition a decorator is simply a function that returns a function. For instance invocation of our `connect` decorator could look like `connect(NoteStore)(App)` without using the decorator syntax (`@connect(NoteStore)`).
 
-TODO
+`@connect` will wrap our component in another component that in turn will deal with the connection logic (`listen/unlisten/setState`). It will maintain the store state internally and then pass it to the child component we are wrapping. During this process it will pass the state through props. The implementation below illustrates the idea:
 
 **app/decorators/connect.js**
 
@@ -406,15 +406,15 @@ export default class App extends React.Component {
 }
 ```
 
-Now the implementation of our `App` is quite clean. We have managed to separate various concerns into separate aspects. We can take the approach further by converting our HOCs into decorators.
+Note how much code this simple decorator removes from our `App`. If we wanted to add more stores to the system and connect them to components, it would be trivial now. Even better we could connect multiple stores to a single component easily.
 
-Note how much neater our `App` is now. You can clearly see that we want to persist this component and connect it to a certain store.
+We can build new decorators for various functionalities, such as undo, in this manner. Every time we feel like logic is starting to creep into our components, it can be a good idea to stop for a while and see if a decorator could be extracted.
 
-We can build new decorators for various functionalities, such as undo, in this manner. By slicing our logic into higher order components we get an application that is easier to develop. Best of all decorators such as the one we implemented can be easily reused in some other project.
+Decorators provide a nice way to slice logic out of our components while increasing maintainability of our projects. Even better well designed decorators can be usable across projects.
 
 ## Using `AltContainer` Instead of a Decorator
 
-Even though our `@connect` is kind of cool, we can use something special Alt provides just for this purpose. It provides `AltContainer` that does the same thing and a bit more. Consider the example below:
+Even though our `@connect` is kind of cool, we can use something special Alt provides just for this purpose. It provides `AltContainer` wrapper that does the same thing and a bit more. This means we can get rid of our custom decorator and replace it with something more official.
 
 **app/components/App.jsx**
 
@@ -455,4 +455,4 @@ As you can see an `AltContainer` provides us even more control. It can connect m
 
 ## Conclusion
 
-In this chapter you saw how to port our simple application to use Flux architecture. Initially it might seem like a lot of extra code. Flux isn't about minimizing the amount of code written. It is about making it understandable. Now that we have a clear separation between Actions, Stores and Views, it is much easier to navigate around and see what triggers what behavior.
+In this chapter you saw how to port our simple application to use Flux architecture. In the process we learned about basic concepts of Flux. We also learned to extract logic into decorators. Now we are ready to start adding more functionality to our application with less frustration.
