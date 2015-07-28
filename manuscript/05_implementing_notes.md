@@ -9,18 +9,43 @@ Often a good way to begin designing application is to start with the data. We co
 ```javascript
 [
   {
+    id: '4a068c42-75b2-4ae2-bd0d-284b4abbb8f0',
     task: 'Learn webpack'
   },
   {
+    id: '4e81fc6e-bfb6-419b-93e5-0242fb6f3f6a',
     task: 'Learn React'
   },
   {
+    id: '11bbffc8-5891-4b45-b9ea-5c99aadf870f',
     task: 'Do laundry'
   }
 ];
 ```
 
-Each note is an object which will contain the data we need. In this case we assign some task (a string) to each. Later on it would be possible to extend this data definition to include things like note color or owner.
+Each note is an object which will contain the data we need including `id` and `task` we want to perform. Later on it is possible to extend this data definition to include things like note color or owner.
+
+## On Ids
+
+You probably noticed those ids at the definition above. Ids will become valuable as we grow the project. A naive way to deal with them is to rely on array indexing. That becomes troublesome quite soon, though. For instance if you are referring to data based on array indices and the data changes, each reference has to change too. That is somewhat undesirable.
+
+Instead it can be valuable to use a proper indexing scheme here. Normally this is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node implementation of it. Invoke `npm i node-uuid --save` at project root to get it installed. If you open up Node cli (`node`) and try the following, you can see what kind of ids it outputs.
+
+```javascript
+> uuid = require('node-uuid')
+{ [Function: v4]
+  v1: [Function: v1],
+  v4: [Circular],
+  parse: [Function: parse],
+  unparse: [Function: unparse],
+  BufferClass: [Function: Array] }
+> uuid.v4()
+'1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
+```
+
+`uuid.v4()` will help us to generate the ids we need for the purposes of this project.
+
+T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
 ## Connecting Data with App
 
@@ -33,6 +58,7 @@ In order to tell React in which order to render the elements, we'll set `key` pr
 **app/components/App.jsx**
 
 ```javascript
+import uuid from 'node-uuid';
 ...
 
 export default class App extends React.Component {
@@ -44,12 +70,15 @@ export default class App extends React.Component {
   render() {
     const notes = [
       {
+        id: uuid.v4(),
         task: 'Learn webpack'
       },
       {
+        id: uuid.v4(),
         task: 'Learn React'
       },
       {
+        id: uuid.v4(),
         task: 'Do laundry'
       }
     ];
@@ -60,9 +89,9 @@ export default class App extends React.Component {
       </div>
     );
   }
-  renderNote(note, i) {
+  renderNote(note) {
     return (
-      <li key={`note${i}`}>
+      <li key={`note${note.id}`}>
         <Note value={note.task} />
       </li>
     );
@@ -73,6 +102,8 @@ export default class App extends React.Component {
 If you run the application now, you can see it almost works. There's only one problem. Each `Note` shows the same text. Fortunately this is easy to fix.
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
+
+T> Setting keys let's React understand where each element belongs when it's performing diffing over virtual DOM. It's a good idea to derive it based on a unique id as above. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) at React documentation for more information.
 
 ## Fixing Note
 
@@ -137,9 +168,9 @@ export default class Notes extends React.Component {
 
     return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
   }
-  renderNote(note, i) {
+  renderNote(note) {
     return (
-      <li className='note' key={`note${i}`}>
+      <li className='note' key={`note${note.id}`}>
         <Note value={note.task} />
       </li>
     );
@@ -202,12 +233,15 @@ export default class App extends React.Component {
     this.state = {
       notes: [
         {
+          id: uuid.v4(),
           task: 'Learn webpack'
         },
         {
+          id: uuid.v4(),
           task: 'Learn React'
         },
         {
+          id: uuid.v4(),
           task: 'Do laundry'
         }
       ]
@@ -329,12 +363,15 @@ export default class App extends React.Component {
     this.state = {
       notes: [
         {
+          id: uuid.v4(),
           task: 'Learn Webpack',
         },
         {
+          id: uuid.v4(),
           task: 'Learn React',
         },
         {
+          id: uuid.v4(),
           task: 'Do laundry'
         }
       ]
@@ -375,7 +412,7 @@ export default class Notes extends React.Component {
   }
   renderNote(note, i) {
     return (
-      <li className='note' key={`note${i}`}>
+      <li className='note' key={`note${note.id}`}>
         <Note
           value={note.task}
           onEdit={this.props.onEdit.bind(null, i)} />

@@ -140,28 +140,6 @@ T> It would be possible to operate directly on data. E.g. a oneliner such as `th
 
 We have almost integrated Flux to our application. Now we have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions. Before that it's a good idea to discuss the concept of ids in more detail.
 
-### On Ids
-
-You probably noticed those ids at the verbose action definition. Ids will become valuable as we grow the project. A naive way to deal with them is to rely on array indexing. That becomes troublesome quite soon, though. For instance if you are referring to data based on array indices and the data changes, each reference has to change too. That is somewhat undesirable.
-
-Instead it can be valuable to use a proper indexing scheme here. Normally this is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node implementation of it. Invoke `npm i node-uuid --save` at project root to get it installed. If you open up Node cli (`node`) and try the following, you can see what kind of ids it outputs.
-
-```javascript
-> uuid = require('node-uuid')
-{ [Function: v4]
-  v1: [Function: v1],
-  v4: [Circular],
-  parse: [Function: parse],
-  unparse: [Function: unparse],
-  BufferClass: [Function: Array] }
-> uuid.v4()
-'1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
-```
-
-`uuid.v4()` will help us to generate the ids we need for the purposes of this project.
-
-T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
-
 ### Gluing It All Together
 
 Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create({id: id, task: 'New task'})`. This would cause the associated Store to change according to the logic.
