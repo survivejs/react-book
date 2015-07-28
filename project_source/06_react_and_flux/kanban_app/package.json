@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "alt": "^0.17.1",
+    "node-uuid": "^1.4.3",
     "react": "^0.13.3"
   }
 }
