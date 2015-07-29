@@ -317,6 +317,6 @@ If you try out the application now, you can actually drag notes around and it sh
 
 In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids and finally you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
 
-I encourage you to expand the application. It is possible this chapter will grow to discuss more scenarios. The current implementation should work just as a starting point for something greater. I hope you learned something during this process.
+I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending DnD implementation you can try adding more data to the system.
 
-The next chapters go into advanced topic we have so far glanced over. They are more theoretical in nature and should give you further ideas to integrate into your development workflow.
+The next chapters go into advanced topics we have so far glanced over. They are more theoretical in nature and should give you further ideas to integrate into your development workflow.
