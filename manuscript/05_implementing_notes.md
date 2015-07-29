@@ -469,8 +469,6 @@ export default class App extends React.Component {
 }
 ```
 
-An alternative way would have been to render some sort of button for removing an item. When pressed it would have triggered similar logic. If you feel like it, give it a go. Just have something like `<button onClick={(i) => this.removeItem(i)}>-</button>` there, delete based on index and update state.
-
 T> We just introduced some interesting behavior to our system. Note that as we track edit state on `Note` level, this means if you remove an item before the edited `Note`, the same old element remains edited. If we want to edit specific data, our data model should change to take this in count. Can you see how?
 
 ## Understanding React Components
