@@ -282,11 +282,10 @@ export default class Lane extends React.Component {
           inject={ {
             items: () => {
               const allNotes = NoteStore.getState().notes || [];
+              const allNotesIds = allNotes.map((note) => note.id);
 
               if(notes) {
-                return allNotes.filter((note) => {
-                  return notes.indexOf(note.id) >= 0;
-                });
+                return notes.map((note) => allNotes[allNotesIds.indexOf(note)]);
               }
 
               return [];
