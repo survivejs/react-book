@@ -199,24 +199,6 @@ Even though you can get far without ever using Flux dispatcher, it can be useful
 
 You can use the same mechanism on Store level. In that case you would trigger `this.dispatcher.register(...)` at constructor. These mechanisms allow you to implement effective logging to your system.
 
-## On Component Design
-
-Note that given we are using Flux now and have concepts of Actions and Stores, we can push logic lower in the hierarchy if we want to; i.e. in case of `Notes` we could trigger the actions we want there. This depends on what sort of coupling we want to create between components.
-
-One alternative would be to refactor `Notes` like this:
-
-```javascript
-<Notes
-  items={notes}
-  item={(note, i) => <span onClick={...}>{note.task}</span>} />
-```
-
-Now we give the consumer absolute control over how list items are rendered. This approach is more generic than our `onEdit` property and allows you to customize components significantly.
-
-More specific components can be developed on top of generic ones. You could have a set of generic components you use from project to project and share as libraries. These would be then wrapped by more specific ones based on need.
-
-I have used this kind of thinking at a table implementation of mine known as [reactabular](https://github.com/bebraw/reactabular). I've tried to keep the component generic enough to allow people to implement the functionality they want on top of it. It can be hard to find the right level of abstraction but on the plus side there's less need for maintenance as you don't have to integrate a lot of functionality on library level.
-
 ## What's the Point?
 
 Even though integrating Alt took a lot of effort, it was not all in vain. Consider the following questions:
