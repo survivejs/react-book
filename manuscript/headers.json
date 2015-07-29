@@ -54,25 +54,18 @@
         "demo": "07_from_notes_to_kanban"
     },
     {
-        "author": "Andrea Williams",
-        "source": "https://www.flickr.com/photos/82405581@N00/3173065446",
-        "license": "CC BY-NC-ND",
-        "image": "taxi.jpg",
-        "demo": "08_styling_react"
-    },
-    {
         "author": "Emma Story",
         "source": "https://www.flickr.com/photos/15146367@N00/4083260446",
         "license": "CC BY-NC",
         "image": "dnd.jpg",
-        "demo": "09_implementing_dnd"
+        "demo": "08_implementing_dnd"
     },
     {
         "author": "Eva the Weaver",
         "source": "https://www.flickr.com/photos/16324044@N00/10833734686",
         "license": "CC BY-NC-SA",
         "image": "lint.jpg",
-        "demo": "10_linting_in_webpack"
+        "demo": "09_linting_in_webpack"
     },
     {
         "author": "Acid Pix",
@@ -85,6 +78,12 @@
         "source": "https://www.flickr.com/photos/19219926@N04/3707001321",
         "license": "CC BY-NC-SA",
         "image": "library.jpg"
+    },
+    {
+        "author": "Andrea Williams",
+        "source": "https://www.flickr.com/photos/82405581@N00/3173065446",
+        "license": "CC BY-NC-ND",
+        "image": "taxi.jpg"
     },
     {
         "author": "Edvard Munch",
