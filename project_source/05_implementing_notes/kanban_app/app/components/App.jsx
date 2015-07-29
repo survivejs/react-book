@@ -14,7 +14,7 @@ export default class App extends React.Component {
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn Webpack',
+          task: 'Learn webpack',
         },
         {
           id: uuid.v4(),
