@@ -1,10 +1,12 @@
 # Implementing Drag and Drop
 
-Our Kanban application is almost usable now. It doesn't look that bad and there's some basic functionality in place. In this chapter I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter you should be able to sort notes within a lane, drag them from a lane to another and sort lanes.
+Our Kanban application is almost usable now. It doesn't look that bad and there's some basic functionality in place. In this chapter I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter you should be able to sort notes within a lane and drag them from a lane to another.
 
 ## Setting Up React DnD
 
-Before going further hit `npm i react-dnd --save` to add React DnD to the project. Next we'll need to patch our application to use it.
+Before going further hit `npm i react-dnd --save` to add React DnD to the project. Next we'll need to patch our application to use it. React DnD supports the idea of backends. This means it is possible to adapt it to work on different platforms. Even a testing backend is feasible. As of writing it supports only HTML5 Drag and Drop API based backend. As a result the application won't work on touch yet.
+
+To get started we'll need to hook up React DnD's HTML5Backend with our `App`. After this has been done we can start worrying about actual functionality.
 
 **app/components/App.jsx**
 
@@ -16,26 +18,12 @@ import HTML5Backend from 'react-dnd/modules/backends/HTML5';
 ...
 
 @DragDropContext(HTML5Backend)
-@persist(storage, storageName, () => JSON.parse(alt.takeSnapshot()))
 export default class App extends React.Component {
-...
-}
-```
-
-This will tell our application that it's going to have some DnD goodies in it. We'll use `HTML5Backend`. In the future there might be other backends to support specific targets (i.e. touch and such).
-
-In order to silence that `new-cap` error ESlint gives, switch it off as follows. We won't be needing that.
-
-**.eslintrc**
-
-```json
-"rules": {
-  "new-cap": 0,
   ...
 }
 ```
 
-The application looks exactly the same as before. We are now ready to add some sweet functionality to it, though.
+After this change the application should look exactly the same as before. We are now ready to add some sweet functionality to it.
 
 ## Preparing Notes to Be Sorted
 
@@ -43,27 +31,7 @@ Next we will need to tell React DnD what can be dragged and where. Since we want
 
 Earlier we extracted some of the editing functionality from `Note` and ended up dropping it. Since we need to decorate the component and don't want to end up with a mess, it seems like we'll want to add that concept back if only for decoration purposes.
 
-**app/components/Notes.jsx**
-
-```javascript
-...
-import Note from './Note';
-
-...
-
-export default class Notes extends React.Component {
-  ...
-  renderNote(note, i) {
-    return (
-      <Note className='note' key={`note${i}`}>
-        <Editable
-          value={note.task}
-          onEdit={this.props.onEdit.bind(null, i)} />
-      </Note>
-    );
-  }
-}
-```
+We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic at `Note` without having to duplicate any logic related to `Editable`. The magic lies in a single property known as `children` as seen in the implementation below. React will render possible child components at `{this.props.children}`slot.
 
 **app/components/Note.jsx**
 
@@ -79,7 +47,29 @@ export default class Note extends React.Component {
 }
 ```
 
-Now we have a little `Note` wrapper which we can decorate. The design could have been different. `Note` could contain `Editable` itself but then we would have to maintain a constructor since we need to pass the data there. Now `Note` is more about encapsulating DnD logic and showing whatever we pass to it. Next we need to connect that logic to it.
+We also need to tweak `Notes` to use our wrapper component. We will simply wrap `Editable` using `Note` and we are good to go. We will pass `note` data to the wrapper as we'll need that later when dealing with logic.
+
+**app/components/Notes.jsx**
+
+```javascript
+...
+import Note from './Note';
+
+export default class Notes extends React.Component {
+  ...
+  renderNote(note) {
+    return (
+      <Note className='note' data={note} key={`note${note.id}`}>
+        <Editable
+          value={note.task}
+          onEdit={this.props.onEdit.bind(null, note.id)} />
+      </Note>
+    );
+  }
+}
+```
+
+After this change the application should look exactly same as before. We have achieved nothing yet. Fortunately we can start adding functionality now that we have foundation in place.
 
 ## Allowing Notes to Be Dragged
 
@@ -93,13 +83,15 @@ export default {
 };
 ```
 
-We'll expand this later as we add new types to the system but this is enough for now. Next we need to tell our `Note` that it's possible to drag and drop it.
+We'll expand this definition later as we add new types to the system. Next we need to tell our `Note` that it's possible to drag and drop it.
+
+We will be relying on `DragSource` and `DropTarget` decorators. In our case `Note` is both. After all we'll want to be able to sort them. Both decorators give us access to `Note` props. In addition we can access the source `Note` through `monitor.getItem()` at `noteTarget` while `props` map to target.
 
 **app/components/Note.jsx**
 
 ```javascript
+...
 import { DragSource, DropTarget } from 'react-dnd';
-
 import ItemTypes from './ItemTypes';
 
 const noteSource = {
@@ -111,8 +103,10 @@ const noteSource = {
 };
 
 const noteTarget = {
-  hover(props, monitor) {
-    console.log('dragging note', props, monitor);
+  hover(targetProps, monitor) {
+    const sourceProps = monitor.getItem();
+
+    console.log('dragging note', sourceProps, targetProps);
   }
 };
 
@@ -135,13 +129,19 @@ export default class Note extends React.Component {
 }
 ```
 
-If you drag a `Note` now, you should see some debug prints at console. We still need to figure out logic. Both `noteSource` and `noteTarget` give us access to `Note` props. In addition at `noteTarget` we can access the source `Note` through `monitor.getItem()` while `props` map to target. For DnD operations to make sense we'll to be able to tell individual notes apart. We'll need to model the concept of identity before we can move further.
+If you drag a `Note` now, you should see some debug prints at console. We are still missing some vital logic to make this all work.
 
-W> Note that React DnD isn't hot loading compatible so you may need to refresh browser manually while testing these changes.
+W> Note that React DnD doesn't support hot loading perfectly so you may need to refresh browser to see prints you expect!
 
 ## Developing `onMove` API for Notes
 
-In order to make `Note` operate based on id, we'll need to tweak it a little.
+In order to make `Note` operate based on id, we'll need to do a few things:
+
+* Capture `Note` data on `beginDrag`
+* Capture target `Note` data on `hover`
+* Trigger a callback on `hover` so that we can deal with the logic on higher level
+
+You can see how this translates to code below.
 
 **app/components/Note.jsx**
 
@@ -157,27 +157,21 @@ const noteSource = {
 };
 
 const noteTarget = {
-  hover(props, monitor) {
-    const targetData = props.data || {};
+  hover(targetProps, monitor) {
+    const targetData = targetProps.data || {};
     const sourceProps = monitor.getItem();
     const sourceData = sourceProps.data || {};
 
     if(sourceData.id !== targetData.id) {
-      props.onMove({
-        source: sourceProps.data,
-        target: props.data
-      });
+      targetProps.onMove({sourceData, targetData});
     }
   }
 };
 
 ...
-export default class Note extends React.Component {
-  ...
-}
 ```
 
-Now `Note` will trigger the `onMove` callback whenever something is dragged on top of a `Note`. Next we need to make `Notes` aware of that.
+If you run the application now, you'll likely get a bunch of `onMove` related errors. We should make `Notes` aware of that.
 
 **app/components/Notes.jsx**
 
@@ -185,96 +179,28 @@ Now `Note` will trigger the `onMove` callback whenever something is dragged on t
 ...
 
 export default class Notes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.renderNote = this.renderNote.bind(this);
-    this.onMoveNote = this.onMoveNote.bind(this);
-  }
-  render() {
-    const notes = this.props.items;
-
-    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
-  }
+  ...
   renderNote(note, i) {
     return (
-      <Note onMove={this.onMoveNote} className='note'
-        key={`note${i}`} data={note}>
+      <Note className='note' onMove={this.onMoveNote}
+        data={note} key={`note${note.id}`}>
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, i)} />
       </Note>
     );
   }
-  onMoveNote(source, target) {
-    console.log('source', source, 'target', target);
+  onMoveNote({sourceData, targetData}) {
+    console.log('source', sourceData, 'target', targetData);
   }
 }
 ```
 
-If you drag a `Note` around now, you should see prints like `source [Object] target [Object]` at console. It doesn't take long to see we have a little flaw in our system. The way we are deriving `Note` ids doesn't scale to this purpose as they aren't unique enough. They are unique per lane but not globally. This will be an issue when moving notes between lanes. Normally dealing with ids would be the backend's problem but since we don't have a backend we can generate some ourselves.
-
-## Generating Unique Ids for Notes
-
-One of the simplest ways to generate unique ids is simply to use an UUID generator. Hit `npm i node-uuid --save` to add one to our project. There are more possible approaches listed at [a Stackoverflow question about the topic](https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript) but this will do fine for our purposes.
-
-Next we'll need to tweak our `Notes` to contain these ids. This is logic that should go to `NoteStore` as follows.
-
-**app/stores/NoteStore.js**
-
-```javascript
-...
-import uuid from 'node-uuid';
-
-export default class NoteStore {
-  ...
-  create(task) {
-    const notes = this.notes;
-
-    this.setState({
-      notes: notes.concat({task, id: uuid.v4()})
-    });
-  }
-  ...
-}
-```
-
-Now newly created `Notes` should contain unique ids. Possible older data won't. We could simply nuke our `localStorage` by doing something like `localStorage.clear()` and `localStorage.debug = true` at console, then refreshing the page and setting `debug` flag back to false. That's not a solution that works well in production environment. Instead we can perform a little migration trick.
-
-**app/stores/NoteStore.js**
-
-```javascript
-...
-
-export default class NoteStore {
-  ...
-  init(data) {
-    this.setState(Array.isArray(data && data.notes) ? migrate(data) : {
-      notes: []
-    });
-  }
-  ...
-}
-
-function migrate(data) {
-  // patch data with ids in case they are missing
-  if(data) {
-    data.notes = data.notes.map((note) => {
-      if(!note.id) {
-        note.id = uuid.v4();
-      }
-
-      return note;
-    });
-  }
-
-  return data;
-}
-```
-
-Now in case some of the notes is missing an id, we will generate one for them. The approach could be improved. You could for instance attach version information to store data. Then you would check against version and perform only migrations that are needed to bring it to current. You can get inspiration from various backend libraries.
+If you drag a `Note` around now, you should see prints like `source [Object] target [Object]` at console. We are getting close. We still need to figure out what to do with this data, though.
 
 ## Implementing Note Drag and Drop Logic
+
+XXXXX
 
 The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
