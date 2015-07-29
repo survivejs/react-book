@@ -200,71 +200,65 @@ If you drag a `Note` around now, you should see prints like `source [Object] tar
 
 ## Implementing Note Drag and Drop Logic
 
-XXXXX
-
 The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
-In our case we'll get some extra complexity due to lane to lane dragging. Note that when we move a `Note` we know its original position and the intended target position. While dragging around, however, we'll want to make sure the store data gets updated as well. The problem is how to communicate this to our `NoteStores` so that they know to update their state?
+In our case we'll get some extra complexity due to lane to lane dragging. Note that when we move a `Note` we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`.
 
-This can be solved by setting up a custom action for this particular purpose. We'll model `move` method there and make `NoteStores` react to that. After that it's up to each `NoteStore` to deal with it. In order to achieve this we'll need to do some wiring.
+**app/actions/LaneActions.jsx**
+
+```javascript
+import alt from '../libs/alt';
+
+export default alt.generateActions(
+  'create', 'update', 'delete',
+  'attachToLane', 'detachFromLane',
+  'move'
+);
+```
+
+We also need to trigger it when moving. We should connect this action with `onMove` hook we just defined.
 
 **app/components/Notes.jsx**
 
 ```javascript
 ...
-import NoteDndActions from '../actions/NoteDndActions';
+import LaneActions from '../actions/LaneActions';
 
 export default class Notes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.renderNote = this.renderNote.bind(this);
-  }
-  render() {
-    const notes = this.props.items;
-
-    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
-  }
-  renderNote(note, i) {
+  ...
+  renderNote(note) {
     return (
-      <Note onMove={NoteDndActions.move} className='note'
-        key={`note${note.id}`} data={note}>
+      <Note className='note' onMove={LaneActions.move}
+        data={note} key={`note${note.id}`}>
         <Editable
           value={note.task}
-          onEdit={this.props.onEdit.bind(null, i)} />
+          onEdit={this.props.onEdit.bind(null, note.id)} />
       </Note>
     );
   }
 }
 ```
 
-**app/actions/NoteDndActions.jsx**
+We should also define a stub at `LaneStore` to see that we wired it up correctly.
 
-```javascript
-import alt from '../libs/alt';
-
-export default alt.generateActions('move');
-```
-
-**app/stores/NoteStore.jsx**
+**app/stores/LaneStore.jsx**
 
 ```javascript
 ...
 
-import NoteDndActions from '../actions/NoteDndActions';
-
-export default class NoteStore {
-  constructor(actions: Object) {
-    this.bindActions(actions);
-    this.bindActions(NoteDndActions);
-  }
-  move({source, target}) {
-    console.log('source', source, 'target', target);
+class LaneStore {
+  ...
+  move({sourceData, targetData}) {
+    console.log('source', sourceData, 'target', targetData);
   }
 }
+
+export default alt.createStore(LaneStore);
 ```
 
-If you drag and drop a `Note` now, you should see each `NoteStore` trigger. Next we'll need to add some logic to make this work.
+You should see the same prints as earlier. Next we'll need to add some logic to make this work.
+
+XXXXX
 
 **app/stores/NoteStore.jsx**
 
