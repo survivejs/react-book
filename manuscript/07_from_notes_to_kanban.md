@@ -332,11 +332,9 @@ Sometimes there's no clear cut way way to deal with data modeling. It is even po
 
 ## Implementing Edit/Remove for `Lane`
 
-XXXXX
+Now that we have some basic data structures in place we can start extending the application. We are still missing some basic functionality such as editing lane names and removing them. We can follow the same idea as for `Note` here. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can save some work by extracting the logic from `Note` and then reusing it at `Lane`.
 
-We can follow the same idea as for `Note` here. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can extract it from `Note` and then reuse at `Lane`.
-
-Given `Note` already contains some of the logic we need, we can generalize the component. Rename `Note.jsx` as `Editable.jsx` and change its class name to avoid confusion:
+As a first step we should rename `Note.jsx` as `Editable.jsx` and tweak the class name to reflect this change to avoid confusion:
 
 **app/components/Editable.jsx**
 
@@ -348,7 +346,7 @@ export default class Editable extends React.Component {
 }
 ```
 
-Make `Notes.jsx` point at `Editable` instead of `Note` like this:
+Next we need to make `Notes.jsx` point at this component. We'll need to alter the import and component name at `render()`.
 
 **app/components/Notes.jsx**
 
@@ -360,110 +358,60 @@ export default class Notes extends React.Component {
   ...
   renderNote(note, i) {
     return (
-      <li className='note' key={`note${i}`}>
+      <li className='note' key={`note${note.id}`}>
         <Editable
           value={note.task}
-          onEdit={this.props.onEdit.bind(null, i)} />
+          onEdit={this.props.onEdit.bind(null, note.id)} />
       </li>
     );
   }
 }
 ```
 
-We should replace `Lane` name to be rendered through `Editable`:
+Next we can use this generalized component to allow `Lane` name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
 
 **app/components/Lane.jsx**
 
 ```javascript
 ...
-
 import Editable from './Editable';
 
-...
-
-<Editable className='lane-name' value={name} onEdit={this.nameEdited} />
-
-...
-
-nameEdited(id, name) {
-  console.log('edited lane name', id, name);
-}
-```
-
-If you try to edit a lane name now, you should see a console print. We still need some logic (i.e. actions and store tweaks) to make this work. A good starting point is to sketch out the component level logic:
-
-**app/components/Lane.jsx**
-
-```javascript
-...
-import LaneActions from '../actions/LaneActions';
-
-...
-
-nameEdited(id, name) {
-  if(name) {
-    LaneActions.update({id, name});
-  }
-  else {
-    LaneActions.remove(id);
-  }
-}
-```
-
-This is exactly the same logic as for notes. In fact it is be possible to refactor the behavior into a method of its own. This can be done by extracting actions into a parameter. As duplication is the root of all evil, let's change it to this form:
-
-**app/components/Lane.jsx**
-
-```javascript
 export default class Lane extends React.Component {
-  constructor(props) {
-    super(props);
-
-    ...
-
-    this.addNote = this.addNote.bind(this);
-    this.nameEdited = this.edited.bind(this, LaneActions, 'name', props.i);
-    this.taskEdited = this.edited.bind(this, this.actions, 'task');
-  }
-
   render() {
-    ...
+    const {id, name, notes, ...props} = this.props;
 
-    <Editable className='lane-name' value={name}
-      onEdit={this.nameEdited} />
-
-    ...
-
-    <Notes onEdit={this.taskEdited} />
-
-    ...
+    return (
+      <div {...props}>
+        <div className='lane-header'>
+          <Editable className='lane-name' value={name}
+            onEdit={this.nameEdited.bind(null, id)} />
+          ...
+        </div>
+        ...
+      </div>
+    )
   }
-  edited(actions, field, id, value) {
-    if(value) {
-      actions.update({id, [field]: value});
-    }
-    else {
-      actions.remove(id);
-    }
+  ...
+  nameEdited(id, name) {
+    console.log('edited lane name', id, name);
   }
 }
 ```
 
-Now our editing logic is in a single place. We could have done this modification later but this felt like a good place to do that. Sometimes it can be justified to get rid of duplicates and push them to methods, components or decorators. We are still missing some of the logic to make `Lane` edit/remove work, though. To achieve that we need to extend `Lane` actions and store.
+If you try to edit a lane name now, you should see a print at console. Next we will need to define some logic to make this work. To follow the same idea as with `Note`, we can model the remaining CRUD actions here. We'll need to set up `update` and `delete` actions in particular.
 
 **app/actions/LaneActions.js**
 
 ```javascript
 import alt from '../libs/alt';
 
-export default alt.generateActions('init', 'create', 'update', 'remove');
+export default alt.generateActions(
+  'create', 'update', 'delete',
+  'attachToLane', 'detachFromLane'
+);
 ```
 
-It's the same idea as for `NoteActions` apart from the way we instantiate the stores. It would be possible to extract the instantiation logic from here as well. That could be a good idea especially if you want to have multiple boards in your application.
-
-One radical option would be to use the same base class for both `LaneActions` and `NoteActions` but that feels like a premature optimization as it is difficult to say how these APIs might evolve. Some amount of duplication can be acceptable.
-
-We still need those `LaneStore` methods. Not surprisingly it's going to be very similar to the `NoteStore` implementation. Again, a possible place to clean up later.
+We are also going to need `LaneStore` level implementations for these. They can be modeled based what we have seen on `NoteStore` earlier.
 
 **app/stores/LaneStore.js**
 
@@ -472,27 +420,51 @@ We still need those `LaneStore` methods. Not surprisingly it's going to be very 
 
 class LaneStore {
   ...
-  update({id, name}) {
+  update(lane) {
     const lanes = this.lanes;
+    const targetId = findIndex(lanes, 'id', lane.id);
 
-    lanes[id].name = name;
+    lanes[targetId].name = lane.name;
 
     this.setState({lanes});
   }
-  remove(id) {
+  delete(id) {
     const lanes = this.lanes;
+    const targetId = findIndex(lanes, 'id', id);
 
     this.setState({
-      lanes: lanes.slice(0, id).concat(lanes.slice(id + 1))
+      lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
     });
+  }
   }
 }
 
-export default alt.createStore(LaneStore, 'LaneStore');
+export default alt.createStore(LaneStore);
 ```
 
-After these changes you should be able to modify lane names and remove lanes. Even persistency should just work without requiring any further tweaking. The implementation could be trimmed and some code could be removed but for now it's nice to have some room to maneuver. Who knows what sort of requirements might come up after all.
+Now that we have resolved actions and store, we need to adjust our component to take these changes in count. Not surprisingly the logic is going to resemble `Note` editing a lot.
+
+**app/components/Lane.jsx**
+
+```javascript
+...
+export default class Lane extends React.Component {
+  ...
+  nameEdited(id, name) {
+    if(name) {
+      LaneActions.update({id, name});
+    }
+    else {
+      LaneActions.delete(id);
+    }
+  }
+}
+```
+
+Try modifying a lane name now. Modifications should get saved now the same way as they do for notes. Deleting lanes should be possible as well.
+
+It probably would be possible to refactor the current implementation somewhat. You could for instance start by standardizing CRUD operations. That would likely decrease the amount of code while adding some rigidity to it. As this is a small project there's probably no need to over-engineer things so we can leave it as is. Of course you can try to push the implementation further to find better ways to compose the functionality.
 
 ## Conclusion
 
-In this chapter we managed to generalize our application somehow. We actually have something you can sort of use! It's not pretty and the user experience is quite horrible. Still, it's better than before. Before focusing on advanced functionality let's try to make the application look a little better and study some styling approaches.
+In this chapter we took our feeble notes application closer to a full Kanban board. It still doesn't look that great and it isn't possible to move individual notes around. We'll fix these issues shortly.
