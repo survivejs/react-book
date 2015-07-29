@@ -1,59 +1,66 @@
+import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
-
-import alt from '../libs/alt';
-import {getInitialData} from '../libs/storage';
-import Editable from './Editable';
 import Notes from './Notes';
-import createNoteActions from '../actions/NoteActions';
+import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 import LaneActions from '../actions/LaneActions';
+import Editable from './Editable';
 
 export default class Lane extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.actions = createNoteActions(alt);
-
-    const storeName = `NoteStore-${this.props.i}`;
-    this.store = alt.createStore(NoteStore, storeName, this.actions);
-    this.actions.init(getInitialData(storeName));
-
-    this.addNote = this.addNote.bind(this);
-    this.nameEdited = this.edited.bind(this, LaneActions, 'name', props.i);
-    this.taskEdited = this.edited.bind(this, this.actions, 'task');
-  }
   render() {
-    const {i, name, ...props} = this.props;
+    const {id, name, notes, ...props} = this.props;
 
     return (
       <div {...props}>
         <div className='lane-header'>
-          <Editable className='lane-name' value={name} onEdit={this.nameEdited} />
+          <Editable className='lane-name' value={name}
+            onEdit={this.nameEdited.bind(null, id)} />
           <div className='lane-add-note'>
-            <button onClick={this.addNote}>+</button>
+            <button onClick={this.addNote.bind(null, id)}>+</button>
           </div>
         </div>
         <AltContainer
-          stores={[this.store]}
+          stores={[NoteStore]}
           inject={ {
-            items: () => this.store.getState().notes || []
+            items: () => {
+              const allNotes = NoteStore.getState().notes || [];
+              const allNotesIds = allNotes.map((note) => note.id);
+
+              if(notes) {
+                return notes.map((note) => allNotes[allNotesIds.indexOf(note)]);
+              }
+
+              return [];
+            }
           } }
         >
-          <Notes onEdit={this.taskEdited} />
+          <Notes onEdit={this.noteEdited.bind(null, id)} />
         </AltContainer>
       </div>
     );
   }
-  addNote() {
-    this.actions.create('New note');
+  addNote(laneId) {
+    const noteId = uuid.v4();
+
+    NoteActions.create({id: noteId, task: 'New task'});
+    LaneActions.attachToLane({laneId, noteId});
   }
-  edited(actions, field, id, value) {
-    if(value) {
-      actions.update({id, [field]: value});
+  noteEdited(laneId, noteId, task) {
+    if(task) {
+      NoteActions.update({id: noteId, task});
     }
     else {
-      actions.remove(id);
+      NoteActions.delete(noteId);
+      LaneActions.detachFromLane({laneId, noteId});
+    }
+  }
+  nameEdited(id, name) {
+    if(name) {
+      LaneActions.update({id, name});
+    }
+    else {
+      LaneActions.delete(id);
     }
   }
 }
