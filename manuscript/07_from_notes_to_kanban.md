@@ -285,7 +285,9 @@ export default class Lane extends React.Component {
               const allNotesIds = allNotes.map((note) => note.id);
 
               if(notes) {
-                return notes.map((note) => allNotes[allNotesIds.indexOf(note)]);
+                return notes.map((note) => {
+                  return allNotes[allNotesIds.indexOf(note)];
+                });
               }
 
               return [];
