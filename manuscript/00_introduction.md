@@ -31,8 +31,12 @@ As no book is perfect you will likely come by issues and might have some questio
 * Twitter - @survivejs or poke me directly using @bebraw
 * Email - bebraw@gmail.com
 
-In addition I have tried to cover some common issues at the `Troubleshooting` chapter. That will be expanded as problems are revealed.
+In addition I have tried to cover some common issues at the `Troubleshooting` chapter. That will be expanded as common problems are revealed.
 
 ## Acknowledgments
 
-This book wouldn't have been possible without support from the following individuals. Thanks you in no particular order Christian Alfoni, Vitaliy Kotov, @af7, Dan Abramov, @dnmd, James Cavanaugh, Josh Perez, Nicholas C. Zakas, Ilya Volodin, Jan Nicklas, Daniel de la Cruz, Robert Smith, Andreas Eldh, Brandon Tilley, Braden Evans, Daniele Zannotti, Partick Forringer, Rafael Xavier de Souza, Dennis Bunskoek, Ross Mackay, Jimmy Jia, Michael Bodnarchuk, Ronald Borman, Guy Ellis, Mark Penner, Cory House, Sander Wapstra, Nick Ostrovsky, Oleg Chiruhin, Matt Brookes, Devin Pastoor, Yoni Weisbrod, Jesús Rodríguez Rodríguez, Guyon Moree, Wilson Mock, Herryanto Siatono, Héctor Cascos, Erick Bazán, Fabio Bedini, Gunnari Auvinen and Aaron McLeod. If I'm missing your name, I probably forgot to add it.
+Big thanks to [Christian Alfoni](http://www.christianalfoni.com/) for starting [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) with me. That work eventually lead to this book.
+
+The book wouldn't be half as good as it is without patient editing and feedback by my editor [Jesús Rodríguez Rodríguez](https://github.com/Foxandxss). Thank you.
+
+Numerous individuals have provided support and feedback along the way. Thank you in no particular order Christian Alfoni, Vitaliy Kotov, @af7, Dan Abramov, @dnmd, James Cavanaugh, Josh Perez, Nicholas C. Zakas, Ilya Volodin, Jan Nicklas, Daniel de la Cruz, Robert Smith, Andreas Eldh, Brandon Tilley, Braden Evans, Daniele Zannotti, Partick Forringer, Rafael Xavier de Souza, Dennis Bunskoek, Ross Mackay, Jimmy Jia, Michael Bodnarchuk, Ronald Borman, Guy Ellis, Mark Penner, Cory House, Sander Wapstra, Nick Ostrovsky, Oleg Chiruhin, Matt Brookes, Devin Pastoor, Yoni Weisbrod, Jesús Rodríguez Rodríguez, Guyon Moree, Wilson Mock, Herryanto Siatono, Héctor Cascos, Erick Bazán, Fabio Bedini, Gunnari Auvinen and Aaron McLeod. If I'm missing your name, I probably forgot to add it.
