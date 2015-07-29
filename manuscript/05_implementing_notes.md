@@ -257,6 +257,7 @@ export default class App extends React.Component {
   addItem() {
     this.setState({
       notes: this.state.notes.concat([{
+        id: uuid.v4(),
         task: 'New task'
       }])
     });
