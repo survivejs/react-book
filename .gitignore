@@ -1,6 +1,7 @@
 .DS_Store
 _book/
 build/
+project_source/kanban_app/*/build/
 project_source/builds/
 node_modules/
 book.pdf
