@@ -182,11 +182,6 @@ To implement the button, change `render` method like this:
 ...
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addItem = this.addItem.bind(this);
-  }
   render() {
     ...
 
@@ -204,8 +199,6 @@ export default class App extends React.Component {
 ```
 
 Now when you click the button, you should see something at your browser console.
-
-T> Note that we're binding `addItem` context at constructor. It would be possible to do the same at `render`. Unfortunately that will hurt performance given it would `bind` each time `render` gets triggered. Therefore it makes most sense to deal with bindings at constructor level. This is the convention I'll be using in this book. It is possible we'll see a neater, [property initializer](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) based solution in the future.
 
 ## Connecting `addItem` with Data Model
 
@@ -253,6 +246,11 @@ Now our `render` method points at `state`. As a result we can implement `addItem
 ...
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.addItem = this.addItem.bind(this);
+  }
   ...
   addItem() {
     this.setState({
@@ -266,6 +264,8 @@ export default class App extends React.Component {
 ```
 
 If you hit the button now, you should see new items. It might not be pretty yet but it works.
+
+T> Note that we're binding `addItem` context at constructor. It would be possible to do the same at `render`. Unfortunately that will hurt performance given it would `bind` each time `render` gets triggered. Therefore it makes most sense to deal with bindings at constructor level. This is the convention I'll be using in this book. It is possible we'll see a neater, [property initializer](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) based solution in the future.
 
 ## Editing Notes
 
