@@ -62,11 +62,6 @@ import uuid from 'node-uuid';
 ...
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.renderNote = this.renderNote.bind(this);
-  }
   render() {
     const notes = [
       {
@@ -158,11 +153,6 @@ import React from 'react';
 import Note from './Note';
 
 export default class Notes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.renderNote = this.renderNote.bind(this);
-  }
   render() {
     const notes = this.props.items;
 
@@ -404,7 +394,11 @@ We also need to tweak `Notes` like this:
 ...
 
 export default class Notes extends React.Component {
-  ...
+  constructor(props) {
+    super(props);
+
+    this.renderNote = this.renderNote.bind(this);
+  }
   render() {
     const notes = this.props.items;
 
