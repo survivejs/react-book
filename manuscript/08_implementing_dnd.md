@@ -198,7 +198,7 @@ export default class Notes extends React.Component {
 
 If you drag a `Note` around now, you should see prints like `source [Object] target [Object]` at console. We are getting close. We still need to figure out what to do with this data, though.
 
-## Implementing Note Drag and Drop Logic
+## Adding Action and Store Method for Moving
 
 The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
@@ -256,7 +256,17 @@ class LaneStore {
 export default alt.createStore(LaneStore);
 ```
 
-You should see the same prints as earlier. Next we'll need to add some logic to make this work.
+You should see the same prints as earlier. Next we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about. Moving within a lane itself and moving from lane to another.
+
+## Implementing Note Drag and Drop Logic
+
+Moving within a lane itself is more complicated because given you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations in count. Therefore I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
+
+It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note and then we `splice` it to the target lane. Again, `update` could work here but I didn't see much point in that given `splice` is nice and simple.
+
+Note that these operations will mutate our `lanes` structure. At least we have the mutation contained now and it won't leak out of the store. It is possible to implement the same algorithm without mutation.
+
+The code below illustrates mutation based solution.
 
 **app/stores/LaneStore.jsx**
 
@@ -267,65 +277,46 @@ import update from 'react/lib/update';
 export default class LaneStore {
   ...
   move({sourceData, targetData}) {
+    const lanes = this.lanes;
+    const sourceId = sourceData.id;
+    const targetId = targetData.id;
+    const sourceLane = lanes.filter((lane) => {
+      return lane.notes.indexOf(sourceId) >= 0;
+    })[0];
+    const targetLane = lanes.filter((lane) => {
+      return lane.notes.indexOf(targetId) >= 0;
+    })[0];
+    const sourceNoteId = sourceLane.notes.indexOf(sourceId);
+    const targetNoteId = targetLane.notes.indexOf(targetId);
 
+    if(sourceLane === targetLane) {
+      // move at once to avoid complications
+      sourceLane.notes = update(sourceLane.notes, {
+        $splice: [
+          [sourceNoteId, 1],
+          [targetNoteId, 0, sourceId]
+        ]
+      });
+    }
+    else {
+      // get rid of the source
+      sourceLane.notes.splice(sourceNoteId, 1);
+
+      // and move it to target
+      targetLane.notes.splice(targetNoteId, 0, sourceId);
+    }
+
+    this.setState({lanes});
   }
 }
 ```
 
-```javascript
-...
-import update from 'react/lib/update';
-
-...
-
-export default class NoteStore {
-  move({source, target}) {
-    const notes = this.notes;
-    const sourceIndex = findIndex(notes, 'id', source.id);
-    const targetIndex = findIndex(notes, 'id', target.id);
-
-    if(sourceIndex >= 0 && targetIndex >= 0) {
-      this.setState({
-        notes: update(notes, {
-          $splice: [
-            [sourceIndex, 1],
-            [targetIndex, 0, source]
-          ]
-        })
-      });
-    }
-    else if(targetIndex >= 0) {
-      this.setState({
-        notes: update(notes, {
-          $splice: [
-            [targetIndex, 0, source]
-          ]
-        })
-      });
-    }
-    else if(sourceIndex >= 0) {
-      this.remove(sourceIndex);
-    }
-  }
-}
-
-function findIndex(arr, prop, value) {
-  const o = arr.filter(c => c[prop] === value)[0];
-
-  return o && arr.indexOf(o);
-}
-```
-
-There is actually quite a bit going on here. I modeled the solution based on React DnD draggable example and then expanded on it. Primarily there are three cases to worry about. In the first case we're dragging within the lane itself. We can use `$splice` there from [React immutability helpers](https://facebook.github.io/react/docs/update.html).
-
-In this case we splice an item out of source index and move source to target as you might expect. In the second case we are dragging into a new lane so it's enough just to add to target position. The final case gets rid of possible data remaining at a previous lane.
-
-T> This probably isn't the most effective solution as we'll be performing the check for each lane. But given we'll have likely only a couple of lanes in our system it seems like an acceptable compromise. A more optimized solution would operate using minimal amount of lanes (maximum of two) per operation but that would get more complex to handle.
+If you try out the application now, you can actually drag notes around and it should behave as you expect. You cannot, however, drag notes to an empty lane. I'll leave that as an exercise to the reader for now.
 
 ## Conclusion
 
-In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids and finally you'll add some logic to make it all work together.
+In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids and finally you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
 
-The solution presented here isn't the only possible one. In our case we have some complexity at store level as we decided to model a store per `Notes`. An alternative solution for that would have been simply to have a single store for all notes and deal with the complexity there.
+I encourage you to expand the application. It is possible this chapter will grow to discuss more scenarios. The current implementation should work just as a starting point for something greater. I hope you learned something during this process.
 
-In that case it wouldn't be necessary to set up a shared `move` action. Instead you could deal with the move logic in a single method. On the other hand some other operations might become more complex to implement as you need to deal with collections yourself. Now they are implicit in the structure.
+The next chapters go into advanced topic we have so far glanced over. They are more theoretical in nature and should give you further ideas to integrate into your development workflow.
