@@ -342,6 +342,7 @@ In order to make our edit work we'll need to define a callback for `App` like th
 
 ```javascript
 ...
+import findIndex from '../libs/find_index';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -374,14 +375,17 @@ export default class App extends React.Component {
       onEdit={this.itemEdited} />
     ...
   }
-  itemEdited(i, task) {
+  itemEdited(noteId, task) {
     let notes = this.state.notes;
+    const noteIndex = findIndex(notes, 'id', noteId);
 
-    notes[i].task = task;
+    if(noteIndex < 0) {
+      return console.warn('Failed to find note', notes, noteId);
+    }
 
-    this.setState({
-      notes: notes
-    });
+    notes[noteIndex].task = task;
+
+    this.setState({notes});
   }
 }
 ```
@@ -404,21 +408,32 @@ export default class Notes extends React.Component {
 
     return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
   }
-  renderNote(note, i) {
+  renderNote(note) {
     return (
       <li className='note' key={`note${note.id}`}>
         <Note
           value={note.task}
-          onEdit={this.props.onEdit.bind(null, i)} />
+          onEdit={this.props.onEdit.bind(null, note.id)} />
       </li>
     );
   }
 }
 ```
 
-After these changes you should be able to edit notes.
+We are also going to need a little helper to find array objects. If it finds something, it will return the index of the first match. This keeps our manipulations simple.
 
-T> We could listen to `componentWillReceiveProps` hook and build the binds based on that. To keep this example simple I'll skip that.
+**libs/find_index.js**
+
+```javascript
+export default function findIndex(arr, prop, value) {
+  const o = arr.filter(c => c[prop] === value)[0];
+  const ret = o && arr.indexOf(o);
+
+  return ret >= 0 ? ret : -1;
+}
+```
+
+After these changes you should be able to edit notes.
 
 ## Removing Notes
 
@@ -433,19 +448,22 @@ In case we empty a task, it would make sense to remove it. You can give it a go 
 
 export default class App extends React.Component {
   ...
-  itemEdited(i, task) {
+  itemEdited(noteId, task) {
     let notes = this.state.notes;
+    const noteIndex = findIndex(notes, 'id', noteId);
+
+    if(noteIndex < 0) {
+      return console.warn('Failed to find note', notes, noteId);
+    }
 
     if(task) {
-      notes[i].task = task;
+      notes[noteIndex].task = task;
     }
     else {
-      notes = notes.slice(0, i).concat(notes.slice(i + 1));
+      notes = notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1));
     }
 
-    this.setState({
-      notes: notes
-    });
+    this.setState({notes});
   }
 }
 ```

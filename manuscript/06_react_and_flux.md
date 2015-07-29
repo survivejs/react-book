@@ -123,19 +123,6 @@ export default alt.createStore(NoteStore);
 
 T> The current implementation is naive in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this.
 
-We are also going to need a little helper to find array objects. If it finds something, it will return the index of the first match. This keeps our manipulations simple.
-
-**libs/find_index.js**
-
-```javascript
-export default function findIndex(arr, prop, value) {
-  const o = arr.filter(c => c[prop] === value)[0];
-  const ret = o && arr.indexOf(o);
-
-  return ret >= 0 ? ret : -1;
-}
-```
-
 T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
 
 We have almost integrated Flux to our application. Now we have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions. Before that it's a good idea to discuss the concept of ids in more detail.
