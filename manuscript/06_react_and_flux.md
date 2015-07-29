@@ -191,27 +191,6 @@ export default class App extends React.Component {
 }
 ```
 
-As the id scheme changed, `Notes` has to change as well. It has to return the correct id for its `onEdit` hook.
-
-**app/components/Notes.jsx**
-
-```javascript
-...
-
-export default class Notes extends React.Component {
-  ...
-  renderNote(note) {
-    return (
-      <li className='note' key={`note${note.id}`}>
-        <Note
-          value={note.task}
-          onEdit={this.props.onEdit.bind(null, note.id)} />
-      </li>
-    );
-  }
-}
-```
-
 As you can see, we pushed the logic out of `App`. We actually have more code now than before but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll see soon.
 
 ### Dispatching in Alt
