@@ -37,6 +37,8 @@ class LaneStore {
   create(lane) {
     const lanes = this.lanes;
 
+    lane.notes = lane.notes || [];
+
     this.setState({
       lanes: lanes.concat(lane)
     });
@@ -218,8 +220,6 @@ class LaneStore {
 
     const lane = lanes[targetId];
 
-    lane.notes = lane.notes || [];
-
     if(lane.notes.indexOf(noteId) === -1) {
       lane.notes.push(noteId);
 
@@ -238,7 +238,7 @@ class LaneStore {
     }
 
     const lane = lanes[targetId];
-    const notes = lane.notes || [];
+    const notes = lane.notes;
     const removeId = notes.indexOf(noteId);
 
     if(lane.notes.indexOf(removeId) === -1) {
