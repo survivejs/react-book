@@ -318,7 +318,17 @@ export default class Lane extends React.Component {
 
 After these massive changes we have set up a system that can maintain relations between `Lanes` and `Notes`. It's not a particularly beautiful solution but the current structure allowed us to retain singleton stores and a flat data structure.
 
-An alternative would have been to model `NoteStores` as individual instances. In some ways that solution is a little cleaner as we don't have to worry about relations so much. We will still need to associate the stores to `LaneStores` through ids. So there's no escape from ids even in this solution. Instances come with bookkeeping of their own, though, and ties `Stores` to components tightly. Some might even say that's a Flux anti-pattern.
+### Alternative Designs
+
+There are a couple of alternatives to the current design. The data structure it uses is convenient especially for lane related operations (e.g. moving notes) as `Lanes` know which `Notes` they contain. This will be important as we implement drag and drop. Incidentally the current structure would work nicely with a backend. The current structures would map neatly to a RESTful API. We would have resources for both `Lanes` and `Notes`. Each action would then operate through these directly using standard CRUD interface.
+
+That said the current solution isn't ideal. There's a fair amount of complexity. Especially having to track relations is a little painful. One way to deal with this problem would be to drop `notes` array from `Lane` level and inverse the relation. This means a `Note` would have to know into which `Lane` it belongs. It would also have to know its position. In our current solution position is given by the location in `notes` array.
+
+This change would push our problems elsewhere. We would still have to resolve which `Notes` belong to a `Lane`. In addition we would have to resolve their order. Ordering operations would become harder to pull off and integrating with a backend would become more challenging due to the mapping. On the plus side by pushing references to `Note` level we could drop those `attach` and `detach` bits from `LaneStore` and simplify reference handling somewhat.
+
+We could also consider modeling `NoteStores` as individual instances so that each `Lane` would be associated with a `NoteStore` of its own. Again, the problem with relations would disappear. We would still have to manage these stores, though. This would tie `NoteStores` to components tightly and it goes against the basic principles of Flux. It is considered a Flux anti-pattern.
+
+Sometimes there's no clear cut way way to deal with data modeling. It is even possible Flux isn't the right architecture for this application. Flux works very well with flat structures. Once you get dynamic nesting like in this case, it might start to get a little complicated. It is possible better solutions appear as people get more experienced with it. The solution I'm presenting here is just one possibility amongst many.
 
 ## Implementing Edit/Remove for `Lane`
 
