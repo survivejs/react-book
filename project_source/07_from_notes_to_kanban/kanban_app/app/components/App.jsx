@@ -1,3 +1,4 @@
+import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Lanes from './Lanes';
@@ -5,13 +6,12 @@ import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 
 export default class App extends React.Component {
-  constructor() {
-    super();
-  }
   render() {
+    const notes = this.props.notes;
+
     return (
       <div>
-        <button onClick={this.addLane}>+</button>
+        <button onClick={this.addItem}>+</button>
         <AltContainer
           stores={[LaneStore]}
           inject={ {
@@ -23,7 +23,7 @@ export default class App extends React.Component {
       </div>
     );
   }
-  addLane() {
-    LaneActions.create('New lane');
+  addItem() {
+    LaneActions.create({id: uuid.v4(), name: 'New lane'});
   }
 }
