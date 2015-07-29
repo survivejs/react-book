@@ -1,6 +1,5 @@
 import React from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-
 import ItemTypes from './ItemTypes';
 
 const noteSource = {
@@ -12,16 +11,13 @@ const noteSource = {
 };
 
 const noteTarget = {
-  hover(props, monitor) {
-    const targetData = props.data || {};
+  hover(targetProps, monitor) {
+    const targetData = targetProps.data || {};
     const sourceProps = monitor.getItem();
     const sourceData = sourceProps.data || {};
 
     if(sourceData.id !== targetData.id) {
-      props.onMove({
-        source: sourceProps.data,
-        target: props.data
-      });
+      targetProps.onMove({sourceData, targetData});
     }
   }
 };

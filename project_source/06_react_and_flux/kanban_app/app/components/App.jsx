@@ -13,8 +13,6 @@ export default class App extends React.Component {
     this.itemEdited = this.itemEdited.bind(this);
   }
   render() {
-    const notes = this.props.notes;
-
     return (
       <div>
         <button onClick={this.addItem}>+</button>

@@ -10,8 +10,6 @@ import HTML5Backend from 'react-dnd/modules/backends/HTML5';
 @DragDropContext(HTML5Backend)
 export default class App extends React.Component {
   render() {
-    const notes = this.props.notes;
-
     return (
       <div>
         <button onClick={this.addItem}>+</button>

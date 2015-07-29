@@ -291,7 +291,7 @@ export default function(alt, storage, storeName) {
       storage.set(storeName, alt.takeSnapshot());
     }
   });
-};
+}
 ```
 
 In order to make our `NoteStore` aware of possibly existing data, we'll need to tweak our constructor to take it in count. The data might not exist already, though, so we'll still need a default.

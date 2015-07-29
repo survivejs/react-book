@@ -7,8 +7,6 @@ import LaneStore from '../stores/LaneStore';
 
 export default class App extends React.Component {
   render() {
-    const notes = this.props.notes;
-
     return (
       <div>
         <button onClick={this.addItem}>+</button>

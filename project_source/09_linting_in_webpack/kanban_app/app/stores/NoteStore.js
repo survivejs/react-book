@@ -1,88 +1,36 @@
-import update from 'react/lib/update';
-import uuid from 'node-uuid';
+import alt from '../libs/alt';
+import NoteActions from '../actions/NoteActions';
+import findIndex from '../libs/find_index';
 
-import NoteDndActions from '../actions/NoteDndActions';
+class NoteStore {
+  constructor() {
+    this.bindActions(NoteActions);
 
-export default class NoteStore {
-  constructor(actions: Object) {
-    this.bindActions(actions);
-    this.bindActions(NoteDndActions);
+    this.notes = this.notes || [];
   }
-  init(data) {
-    this.setState(Array.isArray(data && data.notes) ? migrate(data) : {
-      notes: []
-    });
-  }
-  create(task) {
+  create(note) {
     const notes = this.notes;
 
     this.setState({
-      notes: notes.concat({task, id: uuid.v4()})
+      notes: notes.concat(note)
     });
   }
-  move({source, target}) {
+  update(note) {
     const notes = this.notes;
-    const sourceIndex = findIndex(notes, 'id', source.id);
-    const targetIndex = findIndex(notes, 'id', target.id);
+    const targetId = findIndex(notes, 'id', note.id);
 
-    if(sourceIndex >= 0 && targetIndex >= 0) {
-      this.setState({
-        notes: update(notes, {
-          $splice: [
-            [sourceIndex, 1],
-            [targetIndex, 0, source]
-          ]
-        })
-      });
-    }
-    else if(targetIndex >= 0) {
-      this.setState({
-        notes: update(notes, {
-          $splice: [
-            [targetIndex, 0, source]
-          ]
-        })
-      });
-    }
-    else if(sourceIndex >= 0) {
-      this.remove(sourceIndex);
-    }
+    notes[targetId].task = note.task;
+
+    this.setState({notes});
   }
-  update({id, task}) {
+  delete(id) {
     const notes = this.notes;
-
-    notes[id].task = task;
+    const targetId = findIndex(notes, 'id', id);
 
     this.setState({
-      notes: notes
-    });
-  }
-  remove(id) {
-    const notes = this.notes;
-
-    this.setState({
-      notes: notes.slice(0, id).concat(notes.slice(id + 1))
+      notes: notes.slice(0, targetId).concat(notes.slice(targetId + 1))
     });
   }
 }
 
-function findIndex(arr, prop, value) {
-  const o = arr.filter(c => c[prop] === value)[0];
-
-  return o && arr.indexOf(o);
-}
-
-function migrate(data) {
-  // patch data with ids in case they are missing
-  if(data) {
-    data.notes = data.notes.map((note) => {
-      if(!note.id) {
-        note.id = uuid.v4();
-      }
-
-      return note;
-    });
-  }
-
-  return data;
-}
+export default alt.createStore(NoteStore);

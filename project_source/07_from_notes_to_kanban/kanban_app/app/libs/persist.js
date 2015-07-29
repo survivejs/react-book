@@ -10,4 +10,4 @@ export default function(alt, storage, storeName) {
       storage.set(storeName, alt.takeSnapshot());
     }
   });
-};
+}
