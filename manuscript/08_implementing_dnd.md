@@ -258,9 +258,19 @@ export default alt.createStore(LaneStore);
 
 You should see the same prints as earlier. Next we'll need to add some logic to make this work.
 
-XXXXX
+**app/stores/LaneStore.jsx**
 
-**app/stores/NoteStore.jsx**
+```javascript
+...
+import update from 'react/lib/update';
+
+export default class LaneStore {
+  ...
+  move({sourceData, targetData}) {
+
+  }
+}
+```
 
 ```javascript
 ...
