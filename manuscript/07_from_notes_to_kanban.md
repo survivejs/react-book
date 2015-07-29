@@ -570,7 +570,7 @@ I go into further detail about the topic at the appendix where I discuss various
 
 The current webpack setup simply inlines the CSS as a part of our JavaScript bundle. Although this can be performant (one less request), easy to set up and compiles fast, it may not be ideal always. You can end up with an undesired flash of unstyled content (FOUC).
 
-Given CSS is inline we cannot leverage caching effectively. If the JavaScript portion changes, all CSS will get reloaded. As our CSS is injected through JavaScript, there is additional overhead. If the user isn't running JavaScript, no styling will be applied to the markup at all.
+Given CSS is inline we cannot leverage caching effectively. If the JavaScript portion changes, all CSS will get reloaded. As our CSS is injected through JavaScript, there is additional overhead.
 
 There is a plugin that allows us to work around these problems. [extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin) generates a separate bundle for CSS. It comes with some overhead during compilation phase and won't work with Hot Module Replacement (HMR) by design.
 
