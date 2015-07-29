@@ -6,9 +6,9 @@
 05_implementing_notes.md
 06_react_and_flux.md
 07_from_notes_to_kanban.md
-08_styling_react.md
-09_implementing_dnd.md
-10_linting_in_webpack.md
-11_deploying_applications.md
-12_authoring_libraries.md
+08_implementing_dnd.md
+09_linting_in_webpack.md
+10_deploying_applications.md
+11_authoring_libraries.md
+12_styling_react.md
 13_troubleshooting.md

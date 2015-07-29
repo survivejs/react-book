@@ -2,7 +2,7 @@
 
 Traditionally web pages have been split up in markup (e.g. HTML), styling (e.g. CSS) and logic (e.g. JavaScript). Even though this sounds simple in practice there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
 
-I will show you how to style our application the traditional way and then discuss some more advanced alternatives you might want to consider. With React things are still in bit of a flux and we're still figuring out the best ways to deal with styling. Some patterns have begun to emerge, however. Perhaps some of the ideas will stick.
+With React styling is still in bit of a flux and we're still figuring out the best ways to deal with it. Some patterns have begun to emerge, however. Perhaps some of the ideas will stick. It is hard to give any specific recommendations as it is dependent on the case and the way you like to work.
 
 ## Old School Styling
 
@@ -33,168 +33,9 @@ To recap first [css-loader](https://www.npmjs.com/package/css-loader) goes throu
 
 `file-loader` generates files while `url-loader` can create inline data urls for small resources. This can be useful for optimizing application loading as you avoid unnecessary requests while providing a slightly bigger payload. Small improvements such as this can yield large benefits especially if you are depending on a large amount of small resources within your style definitions.
 
-### Basic Style for Kanban
-
-To give our application slightly nicer outlook, we can try some old school CSS tricks:
-
-**app/stylesheets/main.css**
-
-```css
-body {
-  background: cornsilk;
-
-  font-family: sans-serif;
-}
-```
-
-First we make sure the font we are using doesn't have serifs. It's not a big tweak to make but improves things already.
-
-**app/stylesheets/lane.css**
-
-```css
-.lane {
-  margin: 1em;
-
-  border: 1px solid #ccc;
-  border-radius: 0.5em;
-
-  min-width: 10em;
-
-  display: inline-block;
-  vertical-align: top;
-
-  background-color: #efefef;
-}
-
-.lane-header {
-  padding: 1em;
-
-  border-top-left-radius: 0.5em;
-  border-top-right-radius: 0.5em;
-
-  overflow: auto;
-
-  color: #efefef;
-  background-color: #333;
-}
-
-.lane-name {
-  float: left;
-}
-
-.lane-add-note {
-  float: right;
-}
-```
-
-Next we orient our lanes in a row by utilizing `display: inline-block` property. We also make sure alignment, margin and padding work. There is also subtle rounding to give the lanes a less blockish look.
-
-**app/stylesheets/note.css**
-
-```css
-.notes {
-  margin: 0.5em;
-
-  padding-left: 0;
-
-  list-style: none;
-}
-
-.note {
-  margin-bottom: 0.25em;
-
-  padding: 0.5em;
-
-  border: 1px solid #ddd;
-
-  background-color: #fdfdfd;
-}
-```
-
-For notes it's enough just to replace some of that default list styling. We also make notes visually separate from the lanes by applying color and shape.
-
-**app/main.jsx**
-
-```javascript
-import './stylesheets/main.css';
-import './stylesheets/lane.css';
-import './stylesheets/note.css';
-
-...
-```
-
-Finally we make sure our application takes the new declarations into account. You could argue that each component could deal with the import by itself but this is one way to go. It makes testing components easier as you don't have to worry about the import in other environments.
-
-If we use lazy loading for our components, it makes sense to move `require` on component level. The lazy loading machinery will then be able to benefit from that. As a result the initial CSS your user has to load will be smaller.
-
-## Generating a Separate Bundle for CSS
-
-The current approach works well for simple cases. It simply inlines the CSS as a part of our JavaScript bundle. Although this can be performant (one less request), easy to set up and compiles fast, it may not be ideal always.
-
-We cannot for instance leverage caching for our CSS. If only JavaScript portion changes all CSS will be loaded still. As our CSS is injected through JavaScript, there is additional overhead. If the user isn't running JavaScript, no styling will be applied to the markup at all.
-
-There is a plugin that allows us to work around these problems. [extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin) generates a separate bundle for CSS. It comes with some overhead during compilation phase and won't work with Hot Module Replacement (HMR). It also takes some additional setup.
-
-Hit `npm i extract-text-webpack-plugin --save-dev` and tweak configuration like this:
-
-**webpack.config.js**
-
-```javascript
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-...
-
-var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main')],
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  output: {
-    path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js'
-  },
-  ...
-};
-
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      loaders: [
-        {
-          test: /\.css$/,
-          loader: ExtractTextPlugin.extract('style', 'css')
-        },
-        ...
-      ]
-    },
-    plugins: [
-      new ExtractTextPlugin('styles.css'),
-      ...
-    ]
-  });
-}
-
-if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      loaders: [
-        {
-          test: /\.css$/,
-          loaders: ['style', 'css']
-        },
-        ...
-      ]
-    }
-  });
-}
-```
-
-Using this set up we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
-
 ## CSS Methodologies
 
-This old school approach is simple and probably enough for our application. What happens when the application starts to grow and new concepts get added, though? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
+What happens when your application starts to grow and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
 
 We could battle this problem by making the selectors more specific, using some naming rules and so on but where to draw the line? There are various alternative methodologies you can consider.
 
