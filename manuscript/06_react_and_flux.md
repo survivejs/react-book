@@ -121,7 +121,9 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
+Note that in this case `this.notes` refers to the internal state of the store. Whenever we hit `setState`, we modify it and pass the to possible listeners in the process. This is how we can pass the state back to View components completing the cycle.
+
+T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
 
 Note that assigning an id (`NoteStore` in this case) to a store isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible id collisions. These ids become important when we persist the data.
 
