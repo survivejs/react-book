@@ -31,7 +31,9 @@ As no book is perfect you will likely come by issues and might have some questio
 * Twitter - @survivejs or poke me directly using @bebraw
 * Email - bebraw@gmail.com
 
-In addition I have tried to cover some common issues at the `Troubleshooting` chapter. That will be expanded as common problems are revealed.
+In case you post questions to Stack Overflow, please tag them using `survivejs` so I will get notified of them.
+
+I have tried to cover some common issues at the `Troubleshooting` chapter. That will be expanded as common problems are revealed.
 
 ## Acknowledgments
 
