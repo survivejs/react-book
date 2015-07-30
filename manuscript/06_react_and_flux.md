@@ -133,13 +133,13 @@ T> The current implementation is naive in that it doesn't validate parameters in
 
 ### Gluing It All Together
 
-Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create({id: id, task: 'New task'})`. This would cause the associated Store to change according to the logic.
+Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create({id: id, task: 'New task'})`. This would cause the associated Store to change according to the logic. Because Store changes so do all the components listening to it.
 
-Connecting the Store to our View is more interesting. I will show you multiple ways to achieve this so you understand the API in more detail. You'll likely end up using the shortcut discussed last but it's a nice idea to understand what it does internally.
+There are multiple ways to connect the Store to our View. Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. They will allow us to keep track of the state and synchronize it with out components.
 
-Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. As you might remember from earlier chapters React provides a set of lifecycle hooks. We can connect `NoteStore` with our View using `componentDidMount` and `componentWillUnmount`. Doing it this way makes sure we don't have weird references hanging around if/when components get created and removed.
+As you might remember from earlier chapters React provides a set of lifecycle hooks. We can connect `NoteStore` with our View using `listen/unlisten` at `componentDidMount` and `componentWillUnmount`. Doing it this way makes sure we don't have weird references hanging around if/when components get created and removed.
 
-As doing all of the needed changes piecewise wouldn't be nice I have included whole `App` View below. Take note how we use `NoteActions` and `NoteStore` in particular. We synchronize the app state based on `NoteStore` state. As we alter `NoteStore`, this leads to a cascade that causes our `App` state update through `setState`. This in turn will trigger component `render`.
+Performing all of the needed changes piecewise wouldn't be nice I have included whole `App` View below. Take note how we use `NoteActions` and `NoteStore` in particular. As we alter `NoteStore`, this leads to a cascade that causes our `App` state update through `setState`. This in turn will trigger component `render`.
 
 I have included a complete version of `App` below as this is going to require multiple changes as described above.
 
