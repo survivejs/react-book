@@ -408,7 +408,11 @@ Decorators provide a nice way to slice logic out of our components while increas
 
 ## Using `AltContainer` Instead of a Decorator
 
-Even though our `@connect` is kind of cool, we can use something special Alt provides just for this purpose. It provides `AltContainer` wrapper that does the same thing and a bit more. This means we can get rid of our custom decorator and replace it with something more official.
+Even though our `@connect` is kind of cool, we can use something special Alt provides just for this purpose. It provides [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper that does the same thing and a bit more. It provides a greater degree of customizability than our own solution and it's officially supported by Alt protecting us from possible API changes.
+
+You will see the wrapper pattern later again in this book and you will learn to implement it yourself. It is a powerful pattern and you see it quite often in React code. In this case it will allow us to set up arbitrary connections to multiple stores while having control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
+
+The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use `AltContainer`. After these changes we are good to go.
 
 **app/components/App.jsx**
 
@@ -446,7 +450,7 @@ export default class App extends React.Component {
 }
 ```
 
-As you can see an `AltContainer` provides us even more control. It can connect multiple stores at once. We also have control over how their contents are mapped to the props of the components the wrapper contains.
+Integrating `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could consider pushing it into component of your own. That facade would hide Alt effectively and allow you to replace it with something else later on. React allows patterns such as this easily. An alternative would have been to develop `@connect` further but to keep things simple I'll be relying on `AltContainer` from now on.
 
 ## Conclusion
 
