@@ -1,4 +1,4 @@
-# Part 3 - Advanced Techniques
+-# Part 3 - Advanced Techniques
 
 There are a variety of advanced webpack and React techniques that it is good to be aware of. Linting can improve the quality of your code as it allows you to spot potential issues earlier. We will also discuss various ways you can use webpack to bundle your application.
 

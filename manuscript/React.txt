@@ -1,4 +1,4 @@
-# Part 2 - React
+-# Part 2 - React
 
 React, even though a young library, has made a significant impact on the frontend development community. It introduced concepts such as virtual DOM and made the community understand the power of components. Its component oriented design approach works well for web and other domains. React isn't limited to the web after all. You can use it to develop mobile and terminal user interfaces even.
 
