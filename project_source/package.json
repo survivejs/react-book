@@ -10,6 +10,7 @@
   "author": "Juho Vepsalainen",
   "license": "",
   "devDependencies": {
+    "babel-eslint": "^4.0.5",
     "eslint": "^0.24.1",
     "eslint-plugin-react": "^3.1.0"
   }
