@@ -110,12 +110,12 @@ const noteTarget = {
   }
 };
 
-@DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
-  connectDropTarget: connect.dropTarget()
-}))
 @DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
+}))
+@DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+  connectDropTarget: connect.dropTarget()
 }))
 export default class Note extends React.Component {
   render() {
@@ -311,7 +311,130 @@ export default class LaneStore {
 }
 ```
 
-If you try out the application now, you can actually drag notes around and it should behave as you expect. You cannot, however, drag notes to an empty lane. I'll leave that as an exercise to the reader for now.
+If you try out the application now, you can actually drag notes around and it should behave as you expect. You cannot, however, drag notes to an empty lane.
+
+## Dragging Notes to an Empty Lanes
+
+In order to drag notes to an empty lane we should allow lanes to receive notes. Just as above we can set up `DropTarget` based logic for this. First we need to capture the drag on `Lane`. It's the same idea as earlier.
+
+**app/components/Lane.jsx**
+
+```javascript
+...
+import { DropTarget } from 'react-dnd';
+import ItemTypes from './ItemTypes';
+
+const noteTarget = {
+  hover(targetProps, monitor) {
+    const targetData = targetProps.data || {};
+    const sourceProps = monitor.getItem();
+    const sourceData = sourceProps.data || {};
+
+    console.log('source', sourceProps, 'target', targetProps);
+  }
+};
+
+@DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+  connectDropTarget: connect.dropTarget()
+}))
+export default class Lane extends React.Component {
+  render() {
+    const { isDragging, connectDropTarget,
+      id, name, notes, ...props } = this.props;
+
+    return connectDropTarget(
+      ...
+    );
+  }
+}
+```
+
+If you drag a note to a lane now, you should see prints at your console. The question is what to do with this data? Before actually moving the note to a lane we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
+
+This is a simple check to make. Given we know the target lane at our `noteTarget` `hover` handler, we can check its `notes` array as below:
+
+**app/components/Lane.jsx**
+
+```javascript
+const noteTarget = {
+  hover(targetProps, monitor) {
+    const sourceProps = monitor.getItem();
+    const sourceData = sourceProps.data || {};
+
+    if(!targetProps.notes.length) {
+      console.log('source', sourceProps, 'target', targetProps);
+    }
+  }
+};
+```
+
+If you refresh your browser and drag around now, the print should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
+
+Next we'll need to trigger logic that can perform the move operation. We have some actions we can apply for this purpose. Remember those attach/detach actions we implemented earlier? To remind you of their signatures they look like this:
+
+* `LaneStore.attachToLane({laneId, noteId})`
+* `LaneStore.detachFromLane({laneId, noteId})`
+
+By the looks of it we have enough data to perform `attachToLane`. `detachFromLane` is more problematic as we would need to know where to detach the note from. There are a couple of ways to solve this problem. We could pass lane id to `Note` through the hierarchy. This doesn't feel particularly nice, though.
+
+Instead it feels more reasonable to solve this on store level. We can have the nasty logic there. Given a note can belong to only a single lane in our system we can enforce this rule at `attachToLane`. We simply remove the note before attaching it should it exist somewhere within the system.
+
+The `noteTarget` part of this is simple. We need to trigger `LaneActions.attachToLane` using the ids we know based on the data we have available.
+
+**app/components/Lane.jsx**
+
+```javascript
+const noteTarget = {
+  hover(targetProps, monitor) {
+    const sourceProps = monitor.getItem();
+    const sourceData = sourceProps.data || {};
+
+    if(!targetProps.notes.length) {
+      LaneActions.attachToLane({
+        laneId: targetProps.id,
+        noteId: sourceData.id
+      });
+    }
+  }
+};
+```
+
+The store part is more complicated. I've separated the search and destroy part to a method of its own. Given we use search elsewhere it might be beneficial to refactor that to method as well. The code also relies on mutation which isn't particularly nice.
+
+**app/stores/LaneStore.jsx**
+
+```javascript
+...
+
+class LaneStore {
+  ...
+  attachToLane({laneId, noteId}) {
+    const lanes = this.lanes;
+    const targetId = findIndex(lanes, 'id', laneId);
+
+    this.removeNote(noteId);
+
+    ...
+  }
+  removeNote(noteId) {
+    const lanes = this.lanes;
+    const removeLane = lanes.filter((lane) => {
+      return lane.notes.indexOf(noteId) >= 0;
+    })[0];
+
+    if(!removeLane) {
+      return;
+    }
+
+    const removeNoteId = removeLane.notes.indexOf(noteId);
+
+    removeLane.notes = removeLane.notes.slice(0, removeNoteId).
+      concat(removeLane.notes.slice(removeNoteId + 1));
+  }
+}
+```
+
+After these changes we have a Kanban table that is actually useful! We can create new lanes and notes, edit and remove them. In addition we can move notes around. Mission accomplished!
 
 ## Conclusion
 

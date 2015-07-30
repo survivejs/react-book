@@ -38,6 +38,8 @@ class LaneStore {
     const lanes = this.lanes;
     const targetId = findIndex(lanes, 'id', laneId);
 
+    this.removeNote(noteId);
+
     if(targetId < 0) {
       return console.warn('Failed to find target lane');
     }
@@ -52,6 +54,21 @@ class LaneStore {
     else {
       console.warn('Already attached note to lane', lanes);
     }
+  }
+  removeNote(noteId) {
+    const lanes = this.lanes;
+    const removeLane = lanes.filter((lane) => {
+      return lane.notes.indexOf(noteId) >= 0;
+    })[0];
+
+    if(!removeLane) {
+      return;
+    }
+
+    const removeNoteId = removeLane.notes.indexOf(noteId);
+
+    removeLane.notes = removeLane.notes.slice(0, removeNoteId).
+      concat(removeLane.notes.slice(removeNoteId + 1));
   }
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes;
