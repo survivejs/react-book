@@ -12,7 +12,7 @@ Besides linting for issues it can be useful to manage code style on some level. 
 
 In this chapter I'll go through these tools briefly. We'll integrate just ESLint into our project. Of course if you want, you can give the other tools a go. Just don't be surprised that they aren't included in the demonstration code.
 
-## webpack and JSHint
+## Webpack and JSHint
 
 Interestingly no JSLint loader seems to exist for webpack yet. Fortunately there's one for JSHint. On a legacy project setting it up with webpack is easy. We won't be using it for our application but it's a good thing to know. At least you'll see some familiar patterns.
 
