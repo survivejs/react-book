@@ -103,7 +103,6 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
     "react"
   ],
   "ecmaFeatures": {
-    "jsx": true,
     "modules": true
   },
   "rules": {

@@ -8,7 +8,6 @@
     "react"
   ],
   "ecmaFeatures": {
-    "jsx": true,
     "modules": true
   },
   "rules": {
