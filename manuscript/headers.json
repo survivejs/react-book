@@ -12,53 +12,53 @@
         "image": "apples_oranges.jpg"
     },
     {
-        "author": "Mugu Marculescu",
-        "source": "https://www.flickr.com/photos/48282484@N00/135720337",
-        "license": "CC BY-NC-SA",
-        "image": "training.jpg",
-        "demo": "02_getting_started"
-    },
-    {
         "author": "Fumi Yamazaki",
         "source": "https://www.flickr.com/photos/35237097961@N01/3561706030",
         "license": "CC BY-NC-SA",
         "image": "oscillo.jpg",
-        "demo": "03_developing_with_webpack"
+        "demo": "02_developing_with_webpack"
     },
     {
         "author": "Jairus Khan",
         "source": "https://www.flickr.com/photos/10282509@N00/4674249352",
         "license": "CC BY-NC-SA",
         "image": "mainframe.jpg",
-        "demo": "04_webpack_and_react"
+        "demo": "03_webpack_and_react"
     },
     {
         "author": "Angela",
         "source": "https://www.flickr.com/photos/73635318@N00/2663422833",
         "license": "CC BY-NC-SA",
         "image": "notes.jpg",
-        "demo": "05_implementing_notes"
+        "demo": "04_implementing_notes"
     },
     {
         "author": "jeremyg3030",
         "source": "https://www.flickr.com/photos/126433814@N04/16298563416",
         "license": "CC BY",
         "image": "delorean.jpg",
-        "demo": "06_react_and_flux"
+        "demo": "05_react_and_flux"
     },
     {
         "author": "Radek Orszewski",
         "source": "https://www.flickr.com/photos/61745819@N00/10588140955",
         "license": "CC BY-NC-ND",
         "image": "kanban_photo.jpg",
-        "demo": "07_from_notes_to_kanban"
+        "demo": "06_from_notes_to_kanban"
     },
     {
         "author": "Emma Story",
         "source": "https://www.flickr.com/photos/15146367@N00/4083260446",
         "license": "CC BY-NC",
         "image": "dnd.jpg",
-        "demo": "08_implementing_dnd"
+        "demo": "07_implementing_dnd"
+    },
+    {
+        "author": "Mugu Marculescu",
+        "source": "https://www.flickr.com/photos/48282484@N00/135720337",
+        "license": "CC BY-NC-SA",
+        "image": "training.jpg",
+        "demo": "08_building_kanban"
     },
     {
         "author": "Eva the Weaver",
