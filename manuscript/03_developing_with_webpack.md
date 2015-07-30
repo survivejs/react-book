@@ -229,6 +229,12 @@ This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://git
 
 In fact webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon webpack and React and hides a lot of the complexity of webpack from the user. webpack is a good fit for tools like this as it solves so many difficult problems well.
 
+## Linting the Project
+
+I discuss linting in detail at *Linting in webpack* chapter. Given setting up a linter is the most beneficial at the beginning of a project, not at the end, it may be worth your while to check out the chapter and expand the project configuration as you see fit.
+
+Alternatively you can just skip it and carry on. The example project doesn't have linting set up but apart from that the code should be the same.
+
 ## Conclusion
 
 Now we have a nice degree of separation between production and development builds. Initially webpack tends to take some configuration work but after that working with it becomes faster as you start to think in terms of loaders and plugins and how those fit into your workflow. Webpack deals with the heavy lifting while you get to focus on development.
