@@ -1,26 +1,41 @@
 # Introduction
 
-Back in the day it was enough to understand how Makefiles work. That said even today Make is a viable tool. During the past few years we have seen many new tools come and go especially in the realm of frontend development. First Grunt became popular. Shortly after that Gulp gained momentum. These tools help a lot but they still don't solve some fundamental issues. That is where solutions such as [Browserify](http://browserify.org/) and [webpack](https://webpack.github.io/) come in.
+Frontend development moves forward fast. The main purpose of this book is to help you to get up to speed with two emerging tools: [webpack](https://webpack.github.io/) and [React](https://facebook.github.io/react/). Combined these tools allow you to build all sorts of web applications swiftly. Knowledge of webpack is useful beyond React. And understanding React will provide you insight that allows you to see alternatives in a different light.
 
-They don't aim to replace more general utilities such as [Grunt](http://gruntjs.com/) or [Gulp](http://gulpjs.com/). Rather they complement them. In this book we will focus primarily on webpack, a module bundler. It is simply a tool that takes some input, bundles it and provides you something to serve to your clients. Even though this sounds simple, webpack solves a fundamental problem for web developers.
+Webpack solves the fundamental problem of web development, namely bundling. It takes in a variety of assets and provides you something you can serve to your client. Even though this sounds simple it is in fact a difficult problem. Webpack manages it through configuration. This makes it daunting to approach but powerful to use. This book helps you to get through that learning curve.
 
-Previously you had to use numerous separate tools for compiling your assets. webpack does this transparently for you. It is not just about JavaScript. You can use it to bundle pretty much anything thanks to its loader based architecture. You can easily consume JSON, images and even fonts. Not only that, we can process these assets through transpilers, Base64 conversion etc. without much trouble.
+Facebook's React is a component based view abstraction. It is not limited to web. In fact you can build mobile applications using it. React forces you to think your application in terms of components. It won't be enough, though, and you will need to complement it with some other libraries on more complex cases. Compared to framework based approach this is refreshing.
 
 ## How Is This Book Organized?
 
-We will start from zero and develop a little Kanban application for tracking projects. During the process you will learn a lot about webpack and a bit of [React](https://facebook.github.io/react/). Facebook's React has changed the way we think about frontend development. As it happens webpack is a very good fit with React. We will also discuss webpack on the backend and access some nifty language features that might not be otherwise available for us.
+The idea of the book is to guide you through a small example project and then discuss more theoretical aspects of web development. The project in question will be a small [Kanban](https://en.wikipedia.org/wiki/Kanban) application. We will start by building a webpack based configuration. After that we will develop a small clone of a famous [Todo application](http://todomvc.com/). We will generalize from there and implement [Flux architecture](http://alt.js.org/) within our application. Finally we will apply some [DnD magic](https://gaearon.github.io/react-dnd/) so that you can begin dragging things around.
+
+Theoretical parts of the book will focus more on the tooling. Through those you will learn to:
+
+* lint your code effectively using [ESLint](http://eslint.org/) and some other tools
+* develop a build configuration for deployment
+* author libraries at [npm](https://www.npmjs.com/)
+* style React in various emerging ways
+
+## What is Kanban?
+
+![Kanban by Dennis Hamilton (CC BY)](images/kanban_intro.jpg)
+
+Kanban, originally developed at Toyota, allows you to track the status of tasks. It can be modeled in terms of `Lanes` and `Notes`. `Notes` move through `Lanes` representing stages from left to right as they become completed. `Notes` themselves can contain information about the task itself, priority and so on.
+
+The simplest way to build a Kanban is to get a bunch of post-it notes and find a wall. `Lanes` could consist of the following stages: Todo, Doing, Done. All `Notes` would go to Todo initially. As you begin working on them you would move them to Doing and finally to Done when completed. This is the simplest way to get started.
+
+As the system gets more sophisticated you could start applying concepts such as WIP limit. This would mean you would restrict the amount of maximum work at Doing. The effect of this is that you would be forced to focus on getting that particular task done. That is one of the good consequences of using Kanban. Moving those notes around is satisfying. As a bonus you get visibility and know what is yet to be done.
+
+A good idea to see Kanban in action at the web is to check out [Trello](https://trello.com/). Sprintly has open sourced their [React implementation of Kanban](https://github.com/sprintly/sprintly-kanban). Ours won't be as sophisticated but it will be enough to get started.
 
 ## Who Is This Book For?
 
-It is expected that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm. If you know something about webpack or React, that's great. That said, you should be able to deepen your understanding of the tool by reading this book and going through the project.
-
-Once you understand the power of Tobias Koppers' tool, it will help you to reach the next level of productivity as a web developer. You will be able to implement and optimize your web application in ways that were hard previously. And what's better, you will be able to develop more effectively. Thank you Tobias, and other contributors of webpack, for easing our lives as developers!
+I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm. If you know something about webpack or React, that's great. That said, you should be able to deepen your understanding of these tools by reading this book and going through the project.
 
 ## Additional Material
 
-The book content and source is available at [GitHub](https://github.com/survivejs/webpack_react). Even though it is recommended you will work through the material and experiment as you go, you can also just pick a starting point from there and then work on it instead. This is useful especially if you master basics already. Or in case you want to skip the React part.
-
-In case you want infrequent updates about the book, I recommend following [@survivejs](https://twitter.com/survivejs) at Twitter.
+The book content and source are available at [GitHub](https://github.com/survivejs/webpack_react). Even though it is recommended you will work through the material and experiment as you go, you can also just pick a starting point from there and then work on it instead. This is useful especially if you master basics already. Or in case you want to skip the React part.
 
 ## Getting Support
 
