@@ -155,7 +155,7 @@ if(TARGET === 'dev') {
 }
 ```
 
-The common configuration has been separated to a section of its own. We use a different `devtool` depending on the branch. Those `devtool` bits in the configuration define how webpack deals with sourcemaps. Setting this up gives you better debug information in browser. There are a variety of options as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). The current ones are good starting points.
+The common configuration has been separated to a section of its own. We use a different `devtool` depending on the target. Those `devtool` bits in the configuration define how webpack deals with sourcemaps. Setting this up gives you better debug information in browser. There are a variety of options as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). The current ones are good starting points.
 
 To make everything work again, we'll need to tweak our `package.json` **scripts** section like this:
 
