@@ -102,12 +102,9 @@ Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-e
   "plugins": [
     "react"
   ],
-  "ecmaFeatures": {
-    "modules": true
-  },
   "rules": {
     "new-cap": 0,
-    "strict": [2, "global"],
+    "strict": 0,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "eol-last": 0,
