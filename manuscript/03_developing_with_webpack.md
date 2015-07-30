@@ -103,7 +103,7 @@ require('./stylesheets/main.css');
 ...
 ```
 
-Hit `npm start` now and point your browser to *localhost:8080* provided you are using the default port.
+Hit `npm start` now and point your browser to **localhost:8080** provided you are using the default port.
 
 To see the magic in action, you should open up *main.css* and change the background color to something nice like `lime` (`background: lime`). Develop styles as needed. Experiment.
 
