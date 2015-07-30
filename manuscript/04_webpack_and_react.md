@@ -6,6 +6,8 @@ Facebook's [React](https://facebook.github.io/react/) is one of those projects t
 
 Webpack provides a good starting point for serious React development. React itself "solves" just the view portion of web development. It will take some getting used to but conceptually it is quite simple once you get your mind around it. Some practices, such as styling, are still under debate as we will see in later chapters.
 
+T> Common editors (Sublime Text, vim, emacs, Atom etc.) have good support for React. Even IDEs such as [WebStorm](https://www.jetbrains.com/webstorm/) support it up to an extent. [Nuclide](http://nuclide.io/), an Atom based IDE, has been developed React in mind. Tooling might not support the newest language features always but overall the situation is good.
+
 ## What is React?
 
 React isn't a framework like Angular.js or Ember. Instead it's just a library focusing on the view layer. It introduced a concept known as virtual DOM to web developers. This means that instead of manipulating DOM directly just like all the libraries and frameworks before it, React maintains a DOM of its own. As changes are made to virtual DOM, React will batch the changes to actual DOM as it sees best.
