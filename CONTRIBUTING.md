@@ -13,6 +13,10 @@ There are two basic ways you can provide feedback through issues:
 
 Both work for me. Use what you feel most comfortable with. I can adapt to that. The most important thing is that I get feedback to allow me to push the content further.
 
+## Issue Format
+
+It will help a lot if you can prefix your feedback with the chapter name in question. I.e. `getting started - <script> tag had incorrect path` is clear and easy for me to resolve.
+
 ## Freeform Feedback
 
 You can also send me freeform feedback through [email](mailto:bebraw@gmail.com) or [Twitter](https://twitter.com/bebraw).
