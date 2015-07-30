@@ -118,14 +118,16 @@ class NoteStore {
   }
 }
 
-export default alt.createStore(NoteStore);
+export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-T> The current implementation is naive in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this.
+It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
 
-T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
+Note that assigning an id (`NoteStore` in this case) to a store isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible id collisions. These ids become important when we persist the data.
 
 We have almost integrated Flux to our application. Now we have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions. Before that it's a good idea to discuss the concept of ids in more detail.
+
+T> The current implementation is naive in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this.
 
 ### Gluing It All Together
 
@@ -292,7 +294,7 @@ class NoteStore {
   ...
 }
 
-export default alt.createStore(NoteStore);
+export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
 Finally we need to trigger persistency logic at initialization. We will need to pass relevant data to it (Alt instance, storage, storage name) and off we go.

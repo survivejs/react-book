@@ -45,7 +45,7 @@ class LaneStore {
   }
 }
 
-export default alt.createStore(LaneStore);
+export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 We are also going to need a stub for `Lanes`. We will expand this later. Now we just want something simple to show up.
@@ -252,7 +252,7 @@ class LaneStore {
   }
 }
 
-export default alt.createStore(LaneStore);
+export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 It is a lot of code. In order to make it easier to track possible problems it has been written defensively. Hence the extensive logging.
@@ -440,7 +440,7 @@ class LaneStore {
   }
 }
 
-export default alt.createStore(LaneStore);
+export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 Now that we have resolved actions and store, we need to adjust our component to take these changes in count. Not surprisingly the logic is going to resemble `Note` editing a lot.

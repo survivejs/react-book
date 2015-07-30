@@ -253,7 +253,7 @@ class LaneStore {
   }
 }
 
-export default alt.createStore(LaneStore);
+export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 You should see the same prints as earlier. Next we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about. Moving within a lane itself and moving from lane to another.

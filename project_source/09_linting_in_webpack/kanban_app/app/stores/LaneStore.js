@@ -34,7 +34,6 @@ class LaneStore {
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
     });
   }
-  // XXXXX: port check to earlier
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes;
     const targetId = findIndex(lanes, 'id', laneId);
@@ -109,4 +108,4 @@ class LaneStore {
   }
 }
 
-export default alt.createStore(LaneStore);
+export default alt.createStore(LaneStore, 'LaneStore');
