@@ -1,11 +1,16 @@
 {
   "name": "project_source",
+  "private": true,
   "version": "0.0.0",
   "description": "Project source quality tools",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint . --ext .js --ext .jsx"
   },
   "author": "Juho Vepsalainen",
-  "license": "ISC"
+  "license": "",
+  "devDependencies": {
+    "eslint": "^0.24.1",
+    "eslint-plugin-react": "^3.1.0"
+  }
 }

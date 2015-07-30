@@ -14,11 +14,11 @@ export default class App extends React.Component {
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn webpack',
+          task: 'Learn webpack'
         },
         {
           id: uuid.v4(),
-          task: 'Learn React',
+          task: 'Learn React'
         },
         {
           id: uuid.v4(),

@@ -21,7 +21,7 @@ var common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Kanban app',
+      title: 'Kanban app'
     })
   ]
 };
