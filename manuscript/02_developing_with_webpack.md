@@ -135,7 +135,7 @@ Hit `npm i webpack-dev-server --save-dev` at project root to get the server inst
 
 Hit `npm start` and surf to **localhost:8080**. You should see something familiar there. Try modifying `app/component.js` while the server is running and see what happens. Quite neat, huh?
 
-T> If you want to use some other port than 8080, you can pass `--port` parameter (e.g. `--port 4000`) to *webpack-dev-server*.
+T> If you want to use some other port than `8080`, you can pass `--port` parameter (e.g. `--port 4000`) to *webpack-dev-server*.
 
 When you run `npm start` from your terminal it will execute the command mapping to `start` script of the `scripts` section. This is what it does:
 
@@ -164,9 +164,7 @@ var path = require('path');
 var ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
-  entry: [
-    path.resolve(ROOT_PATH, 'app/main')
-  ],
+  entry: path.resolve(ROOT_PATH, 'app/main'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
