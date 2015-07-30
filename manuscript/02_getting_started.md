@@ -125,7 +125,7 @@ In order to actually use our bundle, we'll need to define the last missing bit, 
     <meta charset="UTF-8"/>
   </head>
   <body>
-    <script src="build/bundle.js"></script>
+    <script src="bundle.js"></script>
   </body>
 </html>
 ```
