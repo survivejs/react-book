@@ -35,6 +35,16 @@ In case you post questions to Stack Overflow, please tag them using `survivejs` 
 
 I have tried to cover some common issues at the `Troubleshooting` chapter. That will be expanded as common problems are revealed.
 
+## Announcements
+
+I announce SurviveJS related news through a couple of channels:
+
+* [Mailing list](http://eepurl.com/bth1v5)
+* [Twitter](https://twitter.com/survivejs)
+* [Blog RSS](http://survivejs.com/atom.xml)
+
+Feel free to subscribe.
+
 ## Acknowledgments
 
 Big thanks to [Christian Alfoni](http://www.christianalfoni.com/) for starting [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) with me. That work eventually lead to this book.
