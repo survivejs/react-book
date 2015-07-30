@@ -48,7 +48,7 @@ As no book is perfect you will likely come by issues and might have some questio
 
 In case you post questions to Stack Overflow, please tag them using `survivejs` so I will get notified of them.
 
-I have tried to cover some common issues at the `Troubleshooting` chapter. That will be expanded as common problems are revealed.
+I have tried to cover some common issues at the `Troubleshooting` appendix. That will be expanded as common problems are revealed.
 
 ## Announcements
 
