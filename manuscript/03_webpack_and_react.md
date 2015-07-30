@@ -51,8 +51,10 @@ Here's the relevant configuration we need to make Babel work:
 **webpack.config.js**
 
 ```javascript
-var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main')],
+...
+
+module.exports = {
+  entry: path.resolve(ROOT_PATH, 'app/main'),
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
@@ -61,7 +63,7 @@ var common = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: 'babel?stage=1',
+        loaders: ['babel?stage=1'],
         include: path.resolve(ROOT_PATH, 'app')
       },
       ...
@@ -113,7 +115,7 @@ In addition we'll need to adjust our `main.js` to render the component correctly
 **app/main.jsx**
 
 ```javascript
-import './stylesheets/main.css';
+import './main.css';
 
 import React from 'react';
 import App from './components/App';
@@ -135,189 +137,34 @@ If I want something mutable, I'll use `let` instead. `let` is scoped to the code
 
 W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own. That way everyone, including React, will stay happy.
 
-If you hit `npm run build` now, you should get some output after a while. Here's a sample:
-
-```bash
-> TARGET=build webpack
-
-Hash: a235591f70fee65ac6c6
-Version: webpack 1.10.1
-Time: 3718ms
-        Asset       Size  Chunks             Chunk Names
-    bundle.js     653 kB       0  [emitted]  main
-bundle.js.map     769 kB       0  [emitted]  main
-   index.html  184 bytes          [emitted]
-   [0] multi main 28 bytes {0} [built]
-    + 163 hidden modules
-```
-
-As you can see, the output is quite chunky! Fortunately there are a few tricks we can do about that.
-
-## Optimizing Build Size
-
-There are two simple things we can perform to make our build slimmer. We can apply some minification to it. We can also tell React to optimize itself. Doing both will result in significant size savings. Provided we apply gzip compression on the content when serving it, further gains may be made.
-
-### Minification
-
-Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Fortunately we don't have to care about exact technical details.
-
-At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your webpack configuration:
-
-**webpack.config.js**
-
-```javascript
-var webpack = require('webpack');
-
-...
-
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    devtool: 'source-map',
-    plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false
-        }
-      })
-    ]
-  });
-}
-```
-
-If you hit `npm run build` now, you should see better results:
-
-```bash
-> TARGET=build webpack
-
-Hash: 98a618ef4d32c8627010
-Version: webpack 1.10.1
-Time: 6726ms
-        Asset       Size  Chunks             Chunk Names
-    bundle.js     172 kB       0  [emitted]  main
-bundle.js.map    1.57 MB       0  [emitted]  main
-   index.html  184 bytes          [emitted]
-   [0] multi main 28 bytes {0} [built]
-    + 163 hidden modules
-```
-
-Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
-
-T> It is possible to push minification further by enabling variable name mangling. It comes with some extra complexity to worry about but may be worth it when you are pushing for minimal size. See [the official documentation](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) for details.
-
-### `process.env.NODE_ENV`
-
-We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get in an optimized manner. This will disable some checks (i.e. property type checks) but it will give you a smaller build and improved performance.
-
-In webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
-
-**webpack.config.js**
-
-```javascript
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    ...
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          // This has effect on the react lib size
-          'NODE_ENV': JSON.stringify('production')
-        }
-      }),
-      ...
-    ]
-  });
-}
-```
-
-This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from build completely. You can attach debugging specific utilities and such to your code easily this way. For instance you could build a powerful logging system just for development. Here's a small example of what that could look like:
-
-```javascript
-if(process.env.NODE_ENV !== 'production') {
-  console.log('developing like an ace');
-}
-```
-
-T> That `JSON.stringify` is needed as webpack will perform string replace "as is". In this case we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the "'s.
-
-Hit `npm run build` again and you should see improved results:
-
-```bash
-> TARGET=build webpack
-
-Hash: aa14e0e6b73e3a30ad04
-Version: webpack 1.10.1
-Time: 6092ms
-        Asset       Size  Chunks             Chunk Names
-    bundle.js     123 kB       0  [emitted]  main
-bundle.js.map    1.48 MB       0  [emitted]  main
-   index.html  184 bytes          [emitted]
-   [0] multi main 28 bytes {0} [built]
-    + 158 hidden modules
-```
-
-So we went from 653k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. As we add dependencies to the project the size will grow. Then we will have to apply some other strategies and be smarter about loading. Fortunately we can do all that with webpack when the time comes.
+If you hit `npm start` now, you should see something familiar at **localhost:8080**.
 
 ## Activating Hot Loading for Development
 
-If you hit `npm start`, hit **localhost:8080** and try to modify our component (make it output `Learn React` or something), you'll see it actually works. After a flash. That's a little unfortunate especially if our application is more complex and has state. It is annoying to manipulate the user interface back to the state in which it was in order to test something.
+Note that every time you perform a modification, the browser updates with a flash. That's unfortunate because this means our application loses state. It doesn't matter yet but as we keep on expanding the application this will become painful. It is annoying to manipulate the user interface back to the state in which it was in order to test something.
 
 We can work around this problem using hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/). It will swap React components one by one as they change without forcing a full refresh. There will be times when that will be necessary but it will help a lot. Once you get used to hot loading, it is hard to live without.
 
-To enable hot loading for React, you should perform `npm i react-hot-loader --save-dev`. Besides this we'll need to split our JSX configuration. Our old configuration is good enough for production build. We'll need to enable hot loading for development explicitly. I've split this up in the configuration below so you can see how this works.
+To enable hot loading for React, you should first install the package using `npm i react-hot-loader --save-dev`. We also need to make our configuration aware of it so it can inject hooks webpack requires for the system to work.
 
 **webpack.config.js**
 
 ```javascript
-var common = {
+...
+
+module.exports = {
   ...
   module: {
     loaders: [
       {
-        test: /\.css$/,
-        loaders: ['style', 'css']
-      }
-    ]
-  },
-  ...
-};
-
-...
-
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loader: 'babel?stage=1',
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    },
-    plugins: [
+        test: /\.jsx?$/,
+        loaders: ['react-hot', 'babel?stage=1'],
+        include: path.resolve(ROOT_PATH, 'app')
+      },
       ...
     ]
-  });
-}
-
-if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    ...
-    entry: [
-      'webpack/hot/dev-server'
-    ],
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel?stage=1'],
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    }
-  });
-}
+  }
+};
 ```
 
 Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.
@@ -336,6 +183,4 @@ In the future property initializers (likely `tick = () => { ... }`) will solve t
 
 ## Conclusion
 
-You should understand how to set up React with webpack now. In the process we saw how to develop webpack configuration and learned a few new concepts. This is the way you work with webpack. You'll find loaders as you require them and integrate them to your project.
-
-Now that we have a good development environment, we can focus on React development. In the next chapter you will see how to implement a little Note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
+You should understand how to set up React with webpack now. Especially hot loading is one of those features that sets webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter you will see how to implement a little Note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.

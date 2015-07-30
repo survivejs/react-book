@@ -136,6 +136,128 @@ If you hit `npm run build` now, you should get output that's roughly equal to wh
 
 T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
 
+first build...
+
+```bash
+> TARGET=build webpack
+
+Hash: a235591f70fee65ac6c6
+Version: webpack 1.10.1
+Time: 3718ms
+        Asset       Size  Chunks             Chunk Names
+    bundle.js     653 kB       0  [emitted]  main
+bundle.js.map     769 kB       0  [emitted]  main
+   index.html  184 bytes          [emitted]
+   [0] multi main 28 bytes {0} [built]
+    + 163 hidden modules
+```
+
+As you can see, the output is quite chunky! Fortunately there are a few tricks we can do about that.
+
+## Optimizing Build Size
+
+There are two simple things we can perform to make our build slimmer. We can apply some minification to it. We can also tell React to optimize itself. Doing both will result in significant size savings. Provided we apply gzip compression on the content when serving it, further gains may be made.
+
+### Minification
+
+Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Fortunately we don't have to care about exact technical details.
+
+At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your webpack configuration:
+
+**webpack.config.js**
+
+```javascript
+var webpack = require('webpack');
+
+...
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    devtool: 'source-map',
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      })
+    ]
+  });
+}
+```
+
+If you hit `npm run build` now, you should see better results:
+
+```bash
+> TARGET=build webpack
+
+Hash: 98a618ef4d32c8627010
+Version: webpack 1.10.1
+Time: 6726ms
+        Asset       Size  Chunks             Chunk Names
+    bundle.js     172 kB       0  [emitted]  main
+bundle.js.map    1.57 MB       0  [emitted]  main
+   index.html  184 bytes          [emitted]
+   [0] multi main 28 bytes {0} [built]
+    + 163 hidden modules
+```
+
+Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
+
+T> It is possible to push minification further by enabling variable name mangling. It comes with some extra complexity to worry about but may be worth it when you are pushing for minimal size. See [the official documentation](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) for details.
+
+### `process.env.NODE_ENV`
+
+We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get in an optimized manner. This will disable some checks (i.e. property type checks) but it will give you a smaller build and improved performance.
+
+In webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
+
+**webpack.config.js**
+
+```javascript
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    ...
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          // This has effect on the react lib size
+          'NODE_ENV': JSON.stringify('production')
+        }
+      }),
+      ...
+    ]
+  });
+}
+```
+
+This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from build completely. You can attach debugging specific utilities and such to your code easily this way. For instance you could build a powerful logging system just for development. Here's a small example of what that could look like:
+
+```javascript
+if(process.env.NODE_ENV !== 'production') {
+  console.log('developing like an ace');
+}
+```
+
+T> That `JSON.stringify` is needed as webpack will perform string replace "as is". In this case we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the "'s.
+
+Hit `npm run build` again and you should see improved results:
+
+```bash
+> TARGET=build webpack
+
+Hash: aa14e0e6b73e3a30ad04
+Version: webpack 1.10.1
+Time: 6092ms
+        Asset       Size  Chunks             Chunk Names
+    bundle.js     123 kB       0  [emitted]  main
+bundle.js.map    1.48 MB       0  [emitted]  main
+   index.html  184 bytes          [emitted]
+   [0] multi main 28 bytes {0} [built]
+    + 158 hidden modules
+```
+
+So we went from 653k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. As we add dependencies to the project the size will grow. Then we will have to apply some other strategies and be smarter about loading. Fortunately we can do all that with webpack when the time comes.
+
 ## Other Configuration Approaches
 
 There is no single clear convention on how to deal with webpack configuration. Given webpack expects an object structure the way you generate it doesn't matter that much. The way you saw above is the one I find the most convenient as it allows you to share configuration easily while understanding what's going on.
