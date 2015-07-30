@@ -1,4 +1,6 @@
+Frontmatter.txt
 00_introduction.md
+Mainmatter.txt
 01_webpack_compared.md
 02_getting_started.md
 03_developing_with_webpack.md
@@ -7,6 +9,7 @@
 06_react_and_flux.md
 07_from_notes_to_kanban.md
 08_implementing_dnd.md
+Backmatter.txt
 09_linting_in_webpack.md
 10_deploying_applications.md
 11_authoring_libraries.md
