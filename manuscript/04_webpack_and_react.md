@@ -12,6 +12,8 @@ T> Common editors (Sublime Text, vim, emacs, Atom etc.) have good support for Re
 
 React isn't a framework like Angular.js or Ember. Instead it's just a library focusing on the view layer. It introduced a concept known as virtual DOM to web developers. This means that instead of manipulating DOM directly just like all the libraries and frameworks before it, React maintains a DOM of its own. As changes are made to virtual DOM, React will batch the changes to actual DOM as it sees best.
 
+React provides a JavaScript API for generating this virtual DOM. Commonly React developers like to use format known as JSX. It looks a bit like HTML while using attribute names borrowed from JavaScript. We'll be using JSX in this format but it's not the only way to use React.
+
 This has meant that the developers of React have decoupled themselves from the limitations of DOM. As a result React is highly performant. This comes with a cost. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire but it's still something.
 
 T> The interesting side benefit of this approach is that React doesn't depend on DOM. In fact React can use other targets, such as mobile or canvas. DOM just happens to be the most relevant one for web developers.
