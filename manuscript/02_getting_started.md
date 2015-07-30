@@ -98,16 +98,16 @@ app.appendChild(component());
 Now run `node_modules/.bin/webpack` in your terminal. If everything went fine, you should see something similar at your terminal as below:
 
 ```bash
-> webpack_demo@1.0.0 build /Users/something/projects/webpack_demo
 > webpack
 
-Hash: e02f97146a15a8a5c3a9
-Version: webpack 1.8.4
+Hash: 2a36a5a7ba1051f54af3
+Version: webpack 1.10.5
 Time: 44ms
     Asset     Size  Chunks             Chunk Names
-bundle.js  1.74 kB       0  [emitted]  main
-   [0] ./app/main.js 115 bytes {0} [built]
-   [1] ./app/component.js 134 bytes {0} [built]
+bundle.js  1.87 kB       0  [emitted]  main
+   [0] multi main 28 bytes {0} [built]
+   [1] ./app/main.js 144 bytes {0} [built]
+   [2] ./app/component.js 136 bytes {0} [built]
 ```
 
 Congratulations! You have just created your first webpack bundle.
