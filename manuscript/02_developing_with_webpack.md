@@ -203,7 +203,7 @@ In addition we'll need to make webpack aware of this file:
 
 **app/main.js**
 
-```
+```javascript
 require('./main.css');
 
 ...
