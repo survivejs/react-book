@@ -1,5 +1,21 @@
 # Building Kanban
 
+Now that we have a nice Kanban application up and running we can worry about showing it the public. If you hit `node_modules/.bin/webpack` at the project root, you can get a standalone bundle like this:
+
+```bash
+kanban_app $ node_modules/.bin/webpack
+Hash: 763d2bcd3890bd3c3b33
+Version: webpack 1.10.1
+Time: 3997ms
+    Asset    Size  Chunks             Chunk Names
+bundle.js  1.1 MB       0  [emitted]  main
+    + 322 hidden modules
+```
+
+The problem is that 1.1 MB is a lot! In addition our build contains bits and pieces we don't want it to contain.
+
+The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down.
+
 XXXXX
 
 We simply just point at the bundle via *script* `src`, nothing more than that. You can now serve the file through a web server or load it directly through a browser. You should see something familiar there. One easy way to achieve this is to install `serve` (`npm i serve -g`) and hit `serve` within the `build` directory.
