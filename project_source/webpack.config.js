@@ -13,8 +13,8 @@ module.exports = function(o) {
     console.warn('missing output path');
   }
 
-  var pkg = require(path.resolve(o.inputPath, 'package.json'));
-  var deps = pkg.dependencies || {};
+  //var pkg = require(path.resolve(o.inputPath, 'package.json'));
+  //var deps = pkg.dependencies || {};
 
   return {
     entry: {
