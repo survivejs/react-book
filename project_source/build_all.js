@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 var fs = require('fs');
 var path = require('path');
-var mkdirp = require('mkdirp');
+
+var async = require('async');
+var webpack = require('webpack');
+
+var config = require('./webpack.config');
 
 main();
 
@@ -15,12 +19,21 @@ function main() {
     return parseInt(file.split('_')[0], 10);
   }).map(function(file) {
     return {
-      input: path.join(__dirname, file, '/kanban_app'),
-      output: path.join(__dirname, 'builds', file)
+      chapter: file,
+      inputPath: path.join(__dirname, file, '/kanban_app'),
+      outputPath: path.join(__dirname, 'builds', file)
     };
   });
 
-  console.log(io);
+  console.log('starting to build');
 
-  // TODO: build each directory through webpack now
+  async.eachLimit(io, 4, function(d, cb) {
+    console.log('building ' + d.chapter);
+
+    webpack(config(d), cb);
+  }, function(err) {
+    if(err) {
+      return console.error(err);
+    }
+  });
 }

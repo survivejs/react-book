@@ -4,33 +4,43 @@ var webpack = require('webpack');
 var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var pkg = require('./package.json');
+module.exports = function(o) {
+  if(!o.inputPath) {
+    console.warn('missing input path');
+  }
 
-module.exports = function(inputPath, outputPath) {
+  if(!o.outputPath) {
+    console.warn('missing output path');
+  }
+
+  var pkg = require(path.resolve(o.inputPath, 'package.json'));
+  var deps = pkg.dependencies || {};
+
   return {
     entry: {
-      app: path.resolve(inputPath, 'app/main'),
-      vendor: Object.keys(pkg.dependencies)
+      app: path.resolve(o.inputPath, 'app/main'),
+      vendor: Object.keys(deps)
     },
     resolve: {
-      extensions: ['', '.js', '.jsx']
+      extensions: ['', '.js', '.jsx'],
+      root: o.inputPath
     },
     output: {
-      path: path.resolve(outputPath, 'build'),
+      path: o.outputPath,
       filename: 'app.[chunkhash].js'
     },
-    devtool: 'source-map',
+    //devtool: 'source-map', // big!!! skipping
     module: {
       loaders: [
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
-          include: path.resolve(inputPath, 'app')
+          include: path.resolve(o.inputPath, 'app')
         },
         {
           test: /\.jsx?$/,
           loaders: ['babel?stage=1'],
-          include: path.resolve(inputPath, 'app')
+          include: path.resolve(o.inputPath, 'app')
         }
       ]
     },
