@@ -64,8 +64,7 @@
         "author": "Eva the Weaver",
         "source": "https://www.flickr.com/photos/16324044@N00/10833734686",
         "license": "CC BY-NC-SA",
-        "image": "lint.jpg",
-        "demo": "09_linting_in_webpack"
+        "image": "lint.jpg"
     },
     {
         "author": "Acid Pix",
