@@ -12,17 +12,19 @@ Facebook's [React](https://facebook.github.io/react/) is one of those projects t
 
 React isn't a framework like Angular.js or Ember. Instead it's just a library focusing on the view layer. It introduced a concept known as virtual DOM to web developers. This means that instead of manipulating DOM directly just like all the libraries and frameworks before it, React maintains a DOM of its own. As changes are made to virtual DOM, React will batch the changes to actual DOM as it sees best.
 
-React provides a JavaScript API for generating this virtual DOM. Commonly React developers like to use format known as JSX. It looks a bit like HTML while using attribute names borrowed from JavaScript. We'll be using JSX in this format but it's not the only way to use React.
+### JSX and Virtual DOM
 
-This has meant that the developers of React have decoupled themselves from the limitations of DOM. As a result React is highly performant. This comes with a cost. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire but it's still something.
+React provides a [high level API](https://facebook.github.io/react/docs/top-level-api.html) for generating this virtual DOM. As generating complex structures using the API becomes cumbersome fast, people usually generate it. JSX is one popular format. It resembles HTML while borrowing attribute names from JavaScript (i.e. `class` (HTML) vs. `className` (JSX)). We'll be using JSX in this project but it's not the only way to use React.
+
+Because of virtual DOM the developers of React have decoupled themselves from the limitations of DOM. As a result React is highly performant. This comes with a cost, though. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire but it's still something.
 
 T> The interesting side benefit of this approach is that React doesn't depend on DOM. In fact React can use other targets, such as mobile or canvas. DOM just happens to be the most relevant one for web developers.
 
-Even if React isn't the smallest library out there it does manage to solve serious problems. It is a pleasure to develop with thanks to its relative simplicity and powerful API. You will need to complement with a set of tools but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
+### Better with Friends
+
+Even if React isn't the smallest library out there it does manage to solve fundamental problems. It is a pleasure to develop with thanks to its relative simplicity and powerful API. You will need to complement with a set of tools but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
 
 The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and layout system while providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
-
-Webpack and React work well together. By now we understand how to set up a simple project. We can extend it to work with React easily. Before we get to implement anything serious, it's a good idea to make sure we have a decent development environment. That will make everything so much easier.
 
 ## Babel
 
