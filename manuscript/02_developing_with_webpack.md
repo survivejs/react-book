@@ -120,7 +120,7 @@ Hit `npm i webpack-dev-server --save-dev` at project root to get the server inst
 ```json
 ...
 "scripts": {
-  "start": "webpack-dev-server --devtool eval --progress --colors --hot --inline --history-api-fallback"
+  "start": "webpack-dev-server --progress --colors --hot --inline --history-api-fallback"
 },
 ...
 ```
@@ -132,12 +132,11 @@ T> If you want to use some other port than `8080`, you can pass `--port` paramet
 When you run `npm start` from your terminal it will execute the command mapping to `start` script of the `scripts` section. This is what it does:
 
 1. `webpack-dev-server` - Starts a web service on `localhost:8080`
-2. `--devtool eval` - Executes code through `eval` and attached `//@ sourceURL` annotations to it. After this you will see filename and line number where any errors are thrown. Use this for development only!
-3. `--progress` - Will show progress of bundling your application
-4. `--colors` - Colors in the terminal!
-5. `--hot` - Enable hot module loading
-6. `--inline` - Embeds the webpack-dev-server runtime into the bundle
-7. `--history-api-fallback` - Allows HTML5 History API routes to work
+2. `--progress` - Will show progress of bundling your application
+3. `--colors` - Colors in the terminal!
+4. `--hot` - Enable hot module loading
+5. `--inline` - Embeds the webpack-dev-server runtime into the bundle
+6. `--history-api-fallback` - Allows HTML5 History API routes to work
 
 Alternatively we can run the application from **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
 
@@ -228,7 +227,7 @@ For this setup to work we need to pass `TARGET` through `package.json`. You coul
 {
   ...
   "scripts": {
-    "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --content-base build"
+    "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback"
   },
   ...
 }
