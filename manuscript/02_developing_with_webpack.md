@@ -240,7 +240,7 @@ After this change we can access `TARGET` at `webpack.config.js` through `process
 
 T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start` or `npm run build`).
 
-W> `TARGET=build` type of declarations won't work on Windows! You should instead use `SET TARGET=build&& webpack` and `SET TARGET=dev&& webpack-dev-server...` there. It is important it's `build&&` as `build &&` will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
+W> `TARGET=dev` type of declarations won't work on Windows! You should instead use `SET TARGET=dev&& webpack` and `SET TARGET=dev&& webpack-dev-server...` there. It is important it's `dev&&` as `build &&` will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
 
 ### Setting Up Configuration Target for `npm start`
 
