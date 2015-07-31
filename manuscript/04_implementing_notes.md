@@ -1,4 +1,4 @@
-# Implementing a Basic Note App
+# Implementing a Basic Note Application
 
 Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application with basic manipulation operations. We will start by doing things the hard way. We will grow our application from scratch and get into some trouble. After that you should understand better why architecture models such as Flux are needed.
 
@@ -29,7 +29,9 @@ Each note is an object which will contain the data we need including `id` and `t
 
 You probably noticed those ids at the definition above. Ids will become valuable as we grow the project. A naive way to deal with them is to rely on array indexing. That becomes troublesome quite soon, though. For instance if you are referring to data based on array indices and the data changes, each reference has to change too. That is somewhat undesirable.
 
-Instead it can be valuable to use a proper indexing scheme here. Normally this is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node.js implementation of it. Invoke `npm i node-uuid --save` at project root to get it installed. If you open up Node.js cli (`node`) and try the following, you can see what kind of ids it outputs.
+Instead it can be valuable to use a proper indexing scheme here. Normally this is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node.js implementation of it.
+
+Invoke `npm i node-uuid --save` at project root to get it installed. If you open up Node.js cli (`node`) and try the following, you can see what kind of ids it outputs.
 
 ```javascript
 > uuid = require('node-uuid')
@@ -47,7 +49,7 @@ Instead it can be valuable to use a proper indexing scheme here. Normally this i
 
 T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
-## Connecting Data with App
+## Connecting Data with `App`
 
 The next step is connecting this data model with our `App`. As it will be quite a bit of code I've included whole solution below. We'll improve the solution later on. The current solution is the simplest way to render a list of notes.
 
@@ -120,31 +122,9 @@ If you check out the application now, you should see we're seeing results that a
 
 ## Extracting Notes
 
-If we keep on growing `App` like this we'll end up in trouble soon. When working with React it is important for you to learn to recognize possible components. We can extract `Notes` component from `App`. It will deal with rendering `Notes` and simplify our `App` somewhat. Here's what a tidier version of `App` looks like. Adapt the rendering code like this:
+If we keep on growing `App` like this we'll end up in trouble soon. When working with React it is important for you to learn to recognize possible components. We can extract `Notes` component from `App`. It will deal with rendering `Notes` and simplify our `App` somewhat.
 
-**app/components/App.jsx**
-
-```javascript
-import Notes from './Notes';
-
-...
-
-export default class App extends React.Component {
-  render() {
-    const notes = [
-      ...
-    ];
-
-    return (
-      <div>
-        <Notes items={notes} />
-      </div>
-    );
-  }
-}
-```
-
-Next we'll need to define `Notes`. It will accept `items` as a prop and render each just like our `App` did earlier. It's pretty much the same code as earlier but wrapped into a separate component. I attached some classes there so it's easier to style the component later.
+As a first step we should extract the logic from `App`. It will accept `items` as a prop and render each just like our `App` did earlier. I attached some classes there so it's easier to style the component later.
 
 **app/components/Notes.jsx**
 
@@ -163,6 +143,29 @@ export default class Notes extends React.Component {
       <li className='note' key={`note${note.id}`}>
         <Note value={note.task} />
       </li>
+    );
+  }
+}
+```
+
+Next we need to hook up `App` to render through `Notes`.
+
+**app/components/App.jsx**
+
+```javascript
+...
+import Notes from './Notes';
+
+export default class App extends React.Component {
+  render() {
+    const notes = [
+      ...
+    ];
+
+    return (
+      <div>
+        <Notes items={notes} />
+      </div>
     );
   }
 }
@@ -249,6 +252,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    ...
+
     this.addItem = this.addItem.bind(this);
   }
   ...
@@ -280,6 +285,8 @@ We can achieve these goals using a callback and a ternary expression. Here's a s
 **app/components/Note.jsx**
 
 ```javascript
+import React from 'react';
+
 export default class Note extends React.Component {
   constructor(props) {
     super(props);
@@ -331,6 +338,8 @@ export default class Note extends React.Component {
 }
 ```
 
+If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at console. We'll fix this shortly.
+
 `Note` keeps track of *edited* state. We will manipulate that to change the way it is rendered. If we hit **edit**, we'll trigger edit mode. Once input receives either *blur* event or Enter key, we'll finish editing and reset the value. When finishing we also trigger a callback so the app knows to react.
 
 We are using [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread) here to keep our props generic. In other words that `<div {...props}>` sets props as element attributes. This gives an additional extension point with little effort. You could for instance attach custom event handlers there or set some standard HTML attributes (e.g. `<Note title='Demo title' value={note.task} />`). I extract `value` and `onEdit` out of `props` as I **don't** want to set these at `div`.
@@ -349,33 +358,17 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    ...
+
     this.addItem = this.addItem.bind(this);
     this.itemEdited = this.itemEdited.bind(this);
-
-    this.state = {
-      notes: [
-        {
-          id: uuid.v4(),
-          task: 'Learn Webpack'
-        },
-        {
-          id: uuid.v4(),
-          task: 'Learn React'
-        },
-        {
-          id: uuid.v4(),
-          task: 'Do laundry'
-        }
-      ]
-    };
   }
   render() {
     ...
-    <Notes
-      items={notes}
-      onEdit={this.itemEdited} />
+    <Notes items={notes} onEdit={this.itemEdited} />
     ...
   }
+  ...
   itemEdited(noteId, task) {
     let notes = this.state.notes;
     const noteIndex = findIndex(notes, 'id', noteId);
@@ -391,7 +384,20 @@ export default class App extends React.Component {
 }
 ```
 
-We also need to tweak `Notes` like this:
+We are going to need a little helper to find array objects. If it finds something, it will return the index of the first match. This keeps our manipulations simple.
+
+**libs/find_index.js**
+
+```javascript
+export default function findIndex(arr, prop, value) {
+  const o = arr.filter(c => c[prop] === value)[0];
+  const ret = o && arr.indexOf(o);
+
+  return ret >= 0 ? ret : -1;
+}
+```
+
+We also need to tweak `Notes` in order to bind the callback and pass the id of the edited `Note` to the parent:
 
 **app/components/Notes.jsx**
 
@@ -418,19 +424,6 @@ export default class Notes extends React.Component {
       </li>
     );
   }
-}
-```
-
-We are also going to need a little helper to find array objects. If it finds something, it will return the index of the first match. This keeps our manipulations simple.
-
-**libs/find_index.js**
-
-```javascript
-export default function findIndex(arr, prop, value) {
-  const o = arr.filter(c => c[prop] === value)[0];
-  const ret = o && arr.indexOf(o);
-
-  return ret >= 0 ? ret : -1;
 }
 ```
 
@@ -469,7 +462,9 @@ export default class App extends React.Component {
 }
 ```
 
-T> We just introduced some interesting behavior to our system. Note that as we track edit state on `Note` level, this means if you remove an item before the edited `Note`, the same old element remains edited. If we want to edit specific data, our data model should change to take this in count. Can you see how?
+If you empty an input now, the new logic should trigger and get rid of the `Note` in question.
+
+T> We just introduced some interesting behavior to our system. As we track edit state on `Note` level, this means if you remove an item before the edited `Note`, the same old element remains edited. If we want to edit specific data, our data model should change to take this in count. Can you see how?
 
 ## Understanding React Components
 

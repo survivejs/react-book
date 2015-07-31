@@ -1,14 +1,12 @@
 import uuid from 'node-uuid';
 import React from 'react';
+import Note from './Note';
 import Notes from './Notes';
 import findIndex from '../libs/find_index';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
 
     this.state = {
       notes: [
@@ -26,6 +24,9 @@ export default class App extends React.Component {
         }
       ]
     };
+
+    this.addItem = this.addItem.bind(this);
+    this.itemEdited = this.itemEdited.bind(this);
   }
   render() {
     const notes = this.state.notes;
