@@ -32,9 +32,9 @@ The approach used by React allowed Facebook to develop React Native on top of th
 
 [Babel](https://babeljs.io/) is one of those projects that has made a big impact on the community. It allows us to use features from the future of JavaScript. It will transform your futuristic code to a format browsers understand. You can even use it to develop your own language features. Babel's built-in JSX support will come in handy here.
 
-In addition to the standardized ES6 features Babel provides support for certain [experimental features](https://babeljs.io/docs/usage/experimental/) from ES7. Some of these might make it to the core language while some might be dropped altogether. The language proposals have been categorized within stages. Stage 0 is a strawman, stage 1 a proposal, stage 2 draft and so on.
+In addition to the standardized ES6 features Babel provides support for certain [experimental features](https://babeljs.io/docs/usage/experimental/) from ES7. Some of these might make it to the core language while some might be dropped altogether. The language proposals have been categorized within stages. **Stage 0** is a strawman, **stage 1** a proposal, **stage 2** draft and so on.
 
-I would be especially careful with stage 0 as if a stage 0 feature you are depending upon goes away you'll have to rewrite some of your code. But in smaller projects that may be worth the risk. Babel has stage 2 and higher features enabled by default. In our project we'll enable stage 1 to use decorators and property spreading as they will make our code a little tidier. You can find more information at [Babel documentation](https://babeljs.io/docs/usage/experimental/).
+I would be especially careful with **stage 0** as if a **stage 0** feature you are depending upon goes away you'll have to rewrite some of your code. But in smaller projects that may be worth the risk. Babel has **stage 2** and higher features enabled by default. In our project we'll enable **stage 1** to use decorators and property spreading as they will make our code a little tidier. You can find more information at [Babel documentation](https://babeljs.io/docs/usage/experimental/).
 
 T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of code it generates.
 
@@ -42,7 +42,7 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 
 In order to set up Babel for our project we can use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-core babel-loader --save-dev`. `babel-core` is a peer dependency of `babel-loader` so that needs to be installed explicitly to make the project work with npm 3.
 
-In addition we need to add loader declaration to the *loaders* section of configuration. It will tell webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression. In addition we pass `stage` argument for Babel so it knows we want to enable stage 1 features.
+In addition we need to add loader declaration to the *loaders* section of configuration. It will tell webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression. In addition we pass `stage` argument for Babel so it knows we want to enable **stage 1** features.
 
 To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternatively would be to set up an `exclude` rule against `node_modules` explicitly but I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
@@ -196,7 +196,7 @@ In addition ES6 class based components won't bind their methods to `this` contex
 
 The biggest benefit of the class based approach is that it decreases the amount of concepts you have to worry about. Particularly `constructor` helps to keep things simpler than in `React.createClass` based approach where you need to define separate methods to achieve the same result.
 
-In the future property initializers (likely `tick = () => { ... }`) will solve this neatly. In fact the proposed feature is available through Babel's stage 0 but enabling that may lead to other problems later on in case the features change.
+In the future property initializers (likely `tick = () => { ... }`) will solve this neatly. In fact the proposed feature is available through Babel's **stage 0** but enabling that may lead to other problems later on in case the features change.
 
 ## Conclusion
 

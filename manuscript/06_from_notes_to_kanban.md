@@ -126,7 +126,7 @@ export default class Lanes extends React.Component {
 
 In addition we are going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
 
-I'll be using [Object rest syntax](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) available as a Stage 1 feature. It is perfect for a case such as this as it will extract the props we don't need. This way we don't end up polluting the HTML element.
+I'll be using [Object rest syntax](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) available as a **Stage 1** feature. It is perfect for a case such as this as it will extract the props we don't need. This way we don't end up polluting the HTML element.
 
 The example below has been modeled largely after our earlier implementation of `App`. It introduced Object rest syntax and will render an entire lane including its name and associated notes:
 
