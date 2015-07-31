@@ -292,7 +292,6 @@ if(TARGET === 'dev') {
 
 If you run the build now in either way, webpack will generate a separate file with sourcemaps. The browser will be able to pick it up through naming convention. The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
 
-
 Configuration could contain more sections such as these based on your needs. In this project these two will be enough for our purposes. We'll develop a nice development configuration first and once we a nice application running we'll focus on getting a production build done.
 
 ## Linting the Project
