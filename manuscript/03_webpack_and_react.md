@@ -1,14 +1,14 @@
 # Webpack and React
 
-![React](images/react_header.png)
-
-Facebook's [React](https://facebook.github.io/react/) is one of those projects that has changed the way we think about frontend development. Thanks to [React Native](https://facebook.github.io/react-native/) the approach isn't limited just to web. Although simple to learn, React provides plenty of power.
-
-Webpack provides a good starting point for serious React development. React itself "solves" just the view portion of web development. It will take some getting used to but conceptually it is quite simple once you get your mind around it. Some practices, such as styling, are still under debate as we will see in later chapters.
+Combined with webpack React becomes a joy to work with. Even though you can use React with other build tools, webpack is a good fit and quite straightforward to set up. In this chapter we'll expand our configuration so that we have a good starting point for developing our application further.
 
 T> Common editors (Sublime Text, vim, emacs, Atom etc.) have good support for React. Even IDEs such as [WebStorm](https://www.jetbrains.com/webstorm/) support it up to an extent. [Nuclide](http://nuclide.io/), an Atom based IDE, has been developed with React in mind. Tooling might not support the newest language features always but overall the situation is good.
 
 ## What is React?
+
+![React](images/react_header.png)
+
+Facebook's [React](https://facebook.github.io/react/) is one of those projects that has changed the way we think about frontend development. Also, thanks to [React Native](https://facebook.github.io/react-native/) the approach isn't limited just to web. Although simple to learn, React provides plenty of power.
 
 React isn't a framework like Angular.js or Ember. Instead it's just a library focusing on the view layer. It introduced a concept known as virtual DOM to web developers. This means that instead of manipulating DOM directly just like all the libraries and frameworks before it, React maintains a DOM of its own. As changes are made to virtual DOM, React will batch the changes to actual DOM as it sees best.
 
