@@ -6,19 +6,17 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var pkg = require('./package.json');
 
-var ROOT_PATH = path.resolve(__dirname);
-
-module.exports = function() {
+module.exports = function(inputPath, outputPath) {
   return {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app/main'),
+      app: path.resolve(inputPath, 'app/main'),
       vendor: Object.keys(pkg.dependencies)
     },
     resolve: {
       extensions: ['', '.js', '.jsx']
     },
     output: {
-      path: path.resolve(ROOT_PATH, 'build'),
+      path: path.resolve(outputPath, 'build'),
       filename: 'app.[chunkhash].js'
     },
     devtool: 'source-map',
@@ -27,12 +25,12 @@ module.exports = function() {
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
-          include: path.resolve(ROOT_PATH, 'app')
+          include: path.resolve(inputPath, 'app')
         },
         {
           test: /\.jsx?$/,
           loaders: ['babel?stage=1'],
-          include: path.resolve(ROOT_PATH, 'app')
+          include: path.resolve(inputPath, 'app')
         }
       ]
     },
