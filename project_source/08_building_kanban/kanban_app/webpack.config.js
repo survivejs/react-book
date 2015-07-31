@@ -11,7 +11,7 @@ var ROOT_PATH = path.resolve(__dirname);
 var common = {
   entry: path.resolve(ROOT_PATH, 'app/main'),
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx']
   },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
