@@ -19,7 +19,7 @@ module.exports = function(o) {
   return {
     entry: {
       app: path.resolve(o.inputPath, 'app/main'),
-      vendor: Object.keys(deps)
+      //vendor: Object.keys(deps)
     },
     resolve: {
       extensions: ['', '.js', '.jsx'],
@@ -50,10 +50,11 @@ module.exports = function(o) {
       }),
       new ExtractTextPlugin('styles.css'),
       new Clean(['build']),
-      new webpack.optimize.CommonsChunkPlugin(
+      // XXXXX: gives Uncaught Error: Cannot find module "alt"
+      /*new webpack.optimize.CommonsChunkPlugin(
         'vendor',
         'vendor.[chunkhash].js'
-      ),
+      ),*/
       new webpack.DefinePlugin({
         'process.env': {
           // This affects react lib size
