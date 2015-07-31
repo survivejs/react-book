@@ -369,11 +369,20 @@ In webpack terms we will expand `entry` configuration and then use `CommonsChunk
 **webpack.config.js**
 
 ```javascript
+...
+
+var pkg = require('./package.json');
+
+var TARGET = process.env.TARGET;
+var ROOT_PATH = path.resolve(__dirname);
+
+...
+
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
       app: path.resolve(ROOT_PATH, 'app/main'),
-      vendor: ['alt', 'node-uuid', 'react', 'react-dnd']
+      vendor: Object.keys(pkg.dependencies)
     },
     output: {
       path: path.resolve(ROOT_PATH, 'build'),

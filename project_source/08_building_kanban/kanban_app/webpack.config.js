@@ -5,6 +5,8 @@ var webpack = require('webpack');
 var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var pkg = require('./package.json');
+
 var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
@@ -28,7 +30,7 @@ if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
       app: path.resolve(ROOT_PATH, 'app/main'),
-      vendor: ['alt', 'node-uuid', 'react', 'react-dnd']
+      vendor: Object.keys(pkg.dependencies)
     },
     output: {
       path: path.resolve(ROOT_PATH, 'build'),
