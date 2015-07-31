@@ -16,32 +16,6 @@ The problem is that 1.1 MB is a lot! In addition our build contains bits and pie
 
 The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We will also improve debuggability for production usage.
 
-## Setting Up Sourcemaps
-
-In order to improve debuggability of the application we can set up sourcemaps. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
-
-**webpack.config.js**
-
-```javascript
-...
-
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    devtool: 'source-map',
-    ...
-  });
-}
-
-if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    devtool: 'eval',
-    ...
-  });
-}
-```
-
-If you run the build now in either way, webpack will generate a separate file with sourcemaps. The browser will be able to pick it up through naming convention. The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
-
 ## Setting Up `html-webpack-plugin`
 
 In our current solution both build and development rely on the same `index.html`. This is not an ideal situation. We might want to customize the production version, use hashed filenames for caching and so on. `html-webpack-plugin` was developed these goals in mind. It can generate `index.html` and the needed references within without us having to tweak them manually.

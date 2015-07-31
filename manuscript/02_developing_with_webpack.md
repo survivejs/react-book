@@ -252,6 +252,8 @@ W> `TARGET=build` type of declarations won't work on Windows! You should instead
 
 As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit `npm i webpack-merge --save-dev` to add it to the project. Add `merge` stub as below. We'll expand these in the coming chapters.
 
+In order to improve debuggability of the application we can set up sourcemaps while at it. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
+
 **webpack.config.js**
 
 ```javascript
@@ -279,13 +281,20 @@ var common = {
 };
 
 if(TARGET === 'build') {
-  module.exports = merge(common, {});
+  module.exports = merge(common, {
+    devtool: 'source-map'
+  });
 }
 
 if(TARGET === 'dev') {
-  module.exports = merge(common, {});
+  module.exports = merge(common, {
+    devtool: 'eval'
+  });
 }
 ```
+
+If you run the build now in either way, webpack will generate a separate file with sourcemaps. The browser will be able to pick it up through naming convention. The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
+
 
 Configuration could contain more sections such as these based on your needs. In this project these two will be enough for our purposes. We'll develop a nice development configuration first and once we a nice application running we'll focus on getting a production build done.
 

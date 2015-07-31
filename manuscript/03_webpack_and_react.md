@@ -167,6 +167,7 @@ var common = {
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    devtool: 'source-map',
     module: {
       loaders: [
         {
@@ -181,6 +182,7 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
+    devtool: 'eval',
     module: {
       loaders: [
         {
