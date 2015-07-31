@@ -61,18 +61,22 @@ var common = {
     extensions: ['', '.js', '.jsx']
   },
   ...
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel?stage=1'],
-        include: path.resolve(ROOT_PATH, 'app')
-      },
-      ...
-    ]
-  },
-  ...
 };
+
+if(TARGET === 'dev') {
+  module.exports = merge(common, {
+    devtool: 'eval',
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['babel?stage=1'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
+  });
+}
 ```
 
 T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint and many other tools discussed later.
@@ -159,20 +163,6 @@ To enable hot loading for React, you should first install the package using `npm
 
 ```javascript
 ...
-
-var common = {
-  ...
-  module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-        include: path.resolve(ROOT_PATH, 'app')
-      }
-    ]
-  },
-  ...
-};
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
