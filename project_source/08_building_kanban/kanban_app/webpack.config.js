@@ -1,8 +1,10 @@
 var path = require('path');
+var merge = require('webpack-merge');
 
+var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
-module.exports = {
+var common = {
   entry: path.resolve(ROOT_PATH, 'app/main'),
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -25,3 +27,15 @@ module.exports = {
     ]
   }
 };
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    devtool: 'source-map'
+  });
+}
+
+if(TARGET === 'dev') {
+  module.exports = merge(common, {
+    devtool: 'eval'
+  });
+}

@@ -68,11 +68,9 @@ After this change we can access `TARGET` at `webpack.config.js` through `process
 
 W> `TARGET=build` type of declarations won't work on Windows! You should instead use `SET TARGET=build&& webpack` and `SET TARGET=dev&& webpack-dev-server...` there. It is important it's `build&&` as `build &&` will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
 
-### Setting Up Build Configuration
+## Setting Up Configuration Targets
 
-As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit `npm i webpack-merge --save-dev` to add it to the project.
-
-XXXXX
+As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit `npm i webpack-merge --save-dev` to add it to the project. To get started we can add `merge` stubs to our configuration.
 
 **webpack.config.js**
 
@@ -84,7 +82,10 @@ var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main')],
+  entry: path.resolve(ROOT_PATH, 'app/main'),
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -92,12 +93,35 @@ var common = {
   module: {
     loaders: [
       {
+        test: /\.jsx?$/,
+        loaders: ['react-hot', 'babel?stage=1'],
+        include: path.resolve(ROOT_PATH, 'app')
+      },
+      {
         test: /\.css$/,
         loaders: ['style', 'css']
       }
     ]
   }
 };
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {});
+}
+
+if(TARGET === 'dev') {
+  module.exports = merge(common, {});
+}
+```
+
+## Setting Up Sourcemaps
+
+A good first step towards improving our configuration is to set up sourcemaps. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
+
+**webpack.config.js**
+
+```javascript
+...
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
@@ -112,17 +136,11 @@ if(TARGET === 'dev') {
 }
 ```
 
-The common configuration has been separated to a section of its own. We use a different `devtool` depending on the target. Those `devtool` bits in the configuration define how webpack deals with sourcemaps. Setting this up gives you better debug information in browser. There are a variety of options as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). The current ones are good starting points.
+If you run the build now in either way, webpack will generate a separate file with sourcemaps. The browser will be able to pick it up through naming convention. The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
 
+## Setting Up `html-webpack-plugin`
 
-
-
-
-You can also eliminate those old configuration files at the project root while at it.
-
-If everything went fine, the old commands should work still. Now we have something a little tidier together that's possible to grow even further with minimal work.
-
-## `html-webpack-plugin`
+XXXX
 
 In our current solution both build and development rely on the same `index.html`. That will cause problems as the project expands. Instead it's preferable to use `html-webpack-plugin` for this purpose. It can generate all the references we need without us having to tweak them manually.
 
