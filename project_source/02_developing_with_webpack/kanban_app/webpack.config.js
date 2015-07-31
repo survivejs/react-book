@@ -12,7 +12,8 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css']
+        loaders: ['style', 'css'],
+        include: path.resolve(ROOT_PATH, 'app')
       }
     ]
   }

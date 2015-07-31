@@ -166,6 +166,8 @@ var common = {
 ...
 ```
 
+T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
+
 We can also drop `--content-base` from the `start` script since the entry point will get generated dynamically and hence won't be needed.
 
 **package.json**
@@ -179,35 +181,30 @@ We can also drop `--content-base` from the `start` script since the entry point 
 ...
 ```
 
-If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. This time, though, `index.html` gets generated for us dynamically. Development server works as expected as well.
-
-T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
-
-## Optimizing Build Size
-
-XXXXX
+If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. This time, though, `index.html` gets generated for us dynamically. Development server works as expected as well. You should see output similar to this:
 
 ```bash
 > TARGET=build webpack
 
-Hash: a235591f70fee65ac6c6
+Hash: cd21f223815e9653a9c0
 Version: webpack 1.10.1
-Time: 3718ms
+Time: 5079ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js     653 kB       0  [emitted]  main
-bundle.js.map     769 kB       0  [emitted]  main
+    bundle.js    1.11 MB       0  [emitted]  main
+bundle.js.map    1.27 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-   [0] multi main 28 bytes {0} [built]
-    + 163 hidden modules
+    + 322 hidden modules
 ```
 
-As you can see, the output is quite chunky! Fortunately there are a few tricks we can do about that.
+Our build is chunky still. We should do something about that.
 
-There are two simple things we can perform to make our build slimmer. We can apply some minification to it. We can also tell React to optimize itself. Doing both will result in significant size savings. Provided we apply gzip compression on the content when serving it, further gains may be made.
+## Optimizing Build Size
+
+There are a couple of basic things we can do to slim down our build. We can apply some minification to it. We can also tell React to optimize itself. Doing both will result in significant size savings. Provided we apply gzip compression on the content when serving it, further gains may be made.
 
 ### Minification
 
-Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Fortunately we don't have to care about exact technical details.
+Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
 At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your webpack configuration:
 
