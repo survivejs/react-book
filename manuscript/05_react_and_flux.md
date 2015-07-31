@@ -10,7 +10,7 @@ This cyclic nature of Flux makes it easy to debug. You simply follow the flow. T
 
 In Flux we'll be pushing most of our state within Stores. It is possible that View components will still retain some of it, though, so it's not an either-or proposition. The arrangement allows you to push concerns such as API communication, caching, i18n and such outside of your Views. For instance an Action could trigger an API query and then cause Stores to be updated based on the result.
 
-Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand minimizing the amount of goal written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
+Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
 
 There is a massive amount of Flux implementations available. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
 
