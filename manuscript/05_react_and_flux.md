@@ -156,9 +156,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
-
     this.storeChanged = this.storeChanged.bind(this);
     this.state = NoteStore.getState();
   }
@@ -320,7 +317,9 @@ function main() {
 }
 ```
 
-Now we have an application that can restore its state based on `localStorage`. More interestingly the solution should scale with minimal effort if we add more stores to the system. Integrating a real backend wouldn't be a problem. There are hooks in place for that now. You could for instance pass the initial payload as a part of your HTML (isomorphic rendering), load it up and then persist the data to the backend. You have a great deal of control over how to do this and you can use `localStorage` as a backup if you want.
+If you try refreshing the browser now, the application should retain its state. More interestingly the solution should scale with minimal effort if we add more stores to the system. Integrating a real backend wouldn't be a problem. There are hooks in place for that now.
+
+You could for instance pass the initial payload as a part of your HTML (isomorphic rendering), load it up and then persist the data to the backend. You have a great deal of control over how to do this and you can use `localStorage` as a backup if you want.
 
 W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
 
@@ -378,25 +377,6 @@ import connect from '../decorators/connect';
 
 @connect(NoteStore)
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
-  }
-  /*
-  These lines can be eliminated now!
-
-  componentDidMount() {
-    NoteStore.listen(this.storeChanged);
-  }
-  componentWillUnmount() {
-    NoteStore.unlisten(this.storeChanged);
-  }
-  storeChanged(state) {
-    this.setState(state);
-  }
-  */
   render() {
     const notes = this.props.notes;
 
@@ -431,12 +411,6 @@ import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
-  }
   render() {
     return (
       <div>

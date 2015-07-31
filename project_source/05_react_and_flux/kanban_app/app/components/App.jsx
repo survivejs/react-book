@@ -6,12 +6,6 @@ import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
-  }
   render() {
     return (
       <div>
