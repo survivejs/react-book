@@ -53,7 +53,7 @@ Here's the relevant configuration we need to make Babel work:
 ```javascript
 ...
 
-module.exports = {
+var common = {
   entry: path.resolve(ROOT_PATH, 'app/main'),
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -152,19 +152,46 @@ To enable hot loading for React, you should first install the package using `npm
 ```javascript
 ...
 
-module.exports = {
+var common = {
   ...
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel?stage=1'],
+        test: /\.css$/,
+        loaders: ['style', 'css'],
         include: path.resolve(ROOT_PATH, 'app')
-      },
-      ...
+      }
     ]
   }
 };
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['babel?stage=1'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
+  });
+}
+
+if(TARGET === 'dev') {
+  module.exports = merge(common, {
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel?stage=1'],
+          include: path.resolve(ROOT_PATH, 'app')
+        },
+      ]
+    }
+  });
+}
 ```
 
 Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.

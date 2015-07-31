@@ -213,15 +213,87 @@ Hit `npm start` now and point your browser to **localhost:8080** provided you ar
 
 To see the magic in action, you should open up *main.css* and change the background color to something nice like `lime` (`background: lime`). Develop styles as needed to make it look a little nicer.
 
+## Making the Configuration Extensible
+
+In order to make room for later production configuration we can prepare our current one for it. There are multiple ways to approach the problem. Some people prefer to write a separate configuration file per target. In order to share configuration they write a factory function. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
+
+This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a webpack based library that wraps common scenarios within an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
+
+T> Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon webpack and React and hides a lot of the complexity of webpack from the user. webpack is a good fit for tools like this as it solves so many difficult problems well.
+
+I have settled with a single configuration file based approach. The idea is that there's a smart `merge` function that overrides objects and concatenates arrays. This works well with webpack configuration given that's what you want to do most of the time. In this approach the configuration block to use is determined based on an environment variable.
+
+The biggest advantage of this approach is that it allows you to see all relevant configuration at one glance. The problem is that for now there's no nice way to set environment variables through `package.json` in a cross-platform way. It is possible this problem will go away with webpack 2 as it make it possible to pass the context data through the command itself.
+
+### Passing Build Target to Configuration
+
+For this setup to work we need to pass `TARGET` through `package.json`. You could use standard `NODE_ENV` here but it's up to you. I don't like to mix these up. Here's what `package.json` should look like after setting build targets.
+
+**package.json**
+
+```json
+{
+  ...
+  "scripts": {
+    "build": "TARGET=build webpack",
+    "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --content-base build"
+  },
+  ...
+}
+```
+
+After this change we can access `TARGET` at `webpack.config.js` through `process.env.TARGET`. This will give us branching we need.
+
+T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start` or `npm run build`).
+
+W> `TARGET=build` type of declarations won't work on Windows! You should instead use `SET TARGET=build&& webpack` and `SET TARGET=dev&& webpack-dev-server...` there. It is important it's `build&&` as `build &&` will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
+
+### Setting Up Configuration Targets
+
+As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit `npm i webpack-merge --save-dev` to add it to the project. Add `merge` stub as below. We'll expand these in the coming chapters.
+
+**webpack.config.js**
+
+```javascript
+var path = require('path');
+var merge = require('webpack-merge');
+
+var TARGET = process.env.TARGET;
+var ROOT_PATH = path.resolve(__dirname);
+
+var common = {
+  entry: path.resolve(ROOT_PATH, 'app/main'),
+  output: {
+    path: path.resolve(ROOT_PATH, 'build'),
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css'],
+        include: path.resolve(ROOT_PATH, 'app')
+      }
+    ]
+  }
+};
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {});
+}
+
+if(TARGET === 'dev') {
+  module.exports = merge(common, {});
+}
+```
+
+Configuration could contain more sections such as these based on your needs. In this project these two will be enough for our purposes. We'll develop a nice development configuration first and once we a nice application running we'll focus on getting a production build done.
+
 ## Linting the Project
 
 I discuss linting in detail at *Linting in webpack* chapter. Given setting up a linter is the most beneficial at the beginning of a project, not at the end, it may be worth your while to check out the chapter and expand the project configuration as you see fit.
 
 Alternatively you can just skip it and carry on. The example project doesn't have linting set up but apart from that the code should be the same.
-
-## Building the Project
-
-Even though the project builds currently, it's not a very sophisticated build. I discuss building in more detail after we have developed the Kanban application.
 
 ## Conclusion
 
