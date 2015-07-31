@@ -15,7 +15,7 @@ bundle.js.map    1.27 MB       0  [emitted]  main
     + 322 hidden modules
 ```
 
-The problem is that 1.1 MB is a lot! In addition our build contains bits and pieces we don't want it to contain.
+The problem is that 1.08 MB is a lot! In addition our build contains bits and pieces we don't want it to contain.
 
 The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
 
