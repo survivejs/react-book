@@ -18,7 +18,7 @@ module.exports = function(o) {
 
   return {
     entry: {
-      app: path.resolve(o.inputPath, 'app/main'),
+      app: path.resolve(o.inputPath, 'app/main')
       //vendor: Object.keys(deps)
     },
     resolve: {
