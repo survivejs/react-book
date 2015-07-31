@@ -22,7 +22,7 @@ T> The interesting side benefit of this approach is that React doesn't depend on
 
 ### Better with Friends
 
-Even if React isn't the smallest library out there it does manage to solve fundamental problems. It is a pleasure to develop with thanks to its relative simplicity and powerful API. You will need to complement with a set of tools but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
+Even if React isn't the smallest library out there it does manage to solve fundamental problems. It is a pleasure to develop with thanks to its relative simplicity and powerful API. You will need to complement it with a set of tools but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
 
 The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and layout system while providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
 
