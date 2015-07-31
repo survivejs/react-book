@@ -145,6 +145,8 @@ W> Avoid rendering directly to `document.body`. This can cause strange problems 
 
 If you hit `npm start` now, you should see something familiar at **localhost:8080**.
 
+Before moving on this is a good chance to get rid of the old `component.js` file that might be hanging around at `app` root.
+
 ## Activating Hot Loading for Development
 
 Note that every time you perform a modification, the browser updates with a flash. That's unfortunate because this means our application loses state. It doesn't matter yet but as we keep on expanding the application this will become painful. It is annoying to manipulate the user interface back to the state in which it was in order to test something.
