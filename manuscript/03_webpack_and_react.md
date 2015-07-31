@@ -14,7 +14,27 @@ React isn't a framework like Angular.js or Ember. Instead it's just a library fo
 
 ### JSX and Virtual DOM
 
-React provides a [high level API](https://facebook.github.io/react/docs/top-level-api.html) for generating this virtual DOM. As generating complex structures using the API becomes cumbersome fast, people usually generate it. JSX is one popular format. It resembles HTML while borrowing attribute names from JavaScript (i.e. `class` (HTML) vs. `className` (JSX)). We'll be using JSX in this project but it's not the only way to use React.
+React provides a [high level API](https://facebook.github.io/react/docs/top-level-api.html) for generating this virtual DOM. As generating complex structures using the API becomes cumbersome fast, people usually don't write it by hand. Instead they use some intermediate format that is converted into it. [JSX](https://facebook.github.io/jsx/) is one popular format.
+
+JSX is a JavaScript superset that allows you to mix  XMLish syntax with JavaScript as shown in the example below:
+
+```javascript
+function render() {
+  const names = ['John', 'Jill', 'Jack'];
+
+  return (
+    <h2>Names</h2>
+
+    <ul className='names'>{
+      names.map((name) =>
+        <li className='name'>{name}</li>
+      )
+    }</ul>
+  );
+}
+```
+
+If you haven't seen JSX before it will likely look strange. We are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, the DOM equivalent. Even though JSX will feel a little weird to use at first it will become a second nature over time.
 
 Because of virtual DOM the developers of React have decoupled themselves from the limitations of DOM. As a result React is highly performant. This comes with a cost, though. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire but it's still something.
 
