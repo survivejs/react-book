@@ -27,12 +27,6 @@ var common = {
   ]
 };
 
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    devtool: 'source-map'
-  });
-}
-
 if(TARGET === 'dev') {
   module.exports = merge(common, {
     devtool: 'eval'

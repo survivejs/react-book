@@ -222,7 +222,7 @@ The biggest advantage of this approach is that it allows you to see all relevant
 
 ### Passing Build Target to Configuration
 
-For this setup to work we need to pass `TARGET` through `package.json`. You could use standard `NODE_ENV` here but it's up to you. I don't like to mix these up. Here's what `package.json` should look like after setting build targets.
+For this setup to work we need to pass `TARGET` through `package.json`. You could use standard `NODE_ENV` here but it's up to you. I don't like to mix these up. Here's what `package.json` should look like after attaching build target to environment.
 
 **package.json**
 
@@ -230,7 +230,6 @@ For this setup to work we need to pass `TARGET` through `package.json`. You coul
 {
   ...
   "scripts": {
-    "build": "TARGET=build webpack",
     "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --content-base build"
   },
   ...
@@ -243,7 +242,7 @@ T> Note that scripts such as `start` or `test` are special cases. You can run th
 
 W> `TARGET=build` type of declarations won't work on Windows! You should instead use `SET TARGET=build&& webpack` and `SET TARGET=dev&& webpack-dev-server...` there. It is important it's `build&&` as `build &&` will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
 
-### Setting Up Configuration Targets
+### Setting Up Configuration Target for `npm start`
 
 As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit `npm i webpack-merge --save-dev` to add it to the project. Add `merge` stub as below. We'll expand these in the coming chapters.
 
@@ -277,12 +276,6 @@ var common = {
   ...
 };
 
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    devtool: 'source-map'
-  });
-}
-
 if(TARGET === 'dev') {
   module.exports = merge(common, {
     devtool: 'eval'
@@ -290,9 +283,9 @@ if(TARGET === 'dev') {
 }
 ```
 
-If you run the build now in either way, webpack will generate a separate file with sourcemaps. The browser will be able to pick it up through naming convention. The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
+If you run the development build now using `npm start`, webpack will generate sourcemaps. The browser will be able to pick it up through naming convention. The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
 
-Configuration could contain more sections such as these based on your needs. In this project these two will be enough for our purposes. We'll develop a nice development configuration first and once we a nice application running we'll focus on getting a production build done.
+Configuration could contain more sections such as these based on your needs. Later on we'll develop another section to generate a production build.
 
 ## Linting the Project
 

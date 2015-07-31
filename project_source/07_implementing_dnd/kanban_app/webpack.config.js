@@ -30,21 +30,6 @@ var common = {
   ]
 };
 
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    devtool: 'source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['babel?stage=1'],
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    }
-  });
-}
-
 if(TARGET === 'dev') {
   module.exports = merge(common, {
     devtool: 'eval',

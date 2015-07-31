@@ -1,13 +1,69 @@
 # Building Kanban
 
-Now that we have a nice Kanban application up and running we can worry about showing it the public. If you hit `npm run build` at the project root, you can get a standalone bundle like this:
+Now that we have a nice Kanban application up and running we can worry about showing it the public. If you hit `TARGET=dev node_modules/.bin/webpack` at the project root, you can get a standalone bundle like this:
+
+```bash
+Hash: df2d3b2f428017d5412d
+Version: webpack 1.10.1
+Time: 4428ms
+     Asset       Size  Chunks             Chunk Names
+ bundle.js    1.18 MB       0  [emitted]  main
+index.html  184 bytes          [emitted]
+    + 322 hidden modules
+```
+
+The problem is that 1.18 MB is a lot! In addition our build contains bits and pieces we don't want it to contain.
+
+The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
+
+## Setting Up Build Target
+
+Since hitting `TARGET=dev node_modules/.bin/webpack` gets boring after a while we can set up a shortcut for that. Ideally we could just hit `npm run build` and that's it. The following snippet shows how to set this up.
+
+**package.json**
+
+```json
+{
+  ...
+  "scripts": {
+    "build": "TARGET=build webpack",
+    ...
+  },
+  ...
+}
+```
+
+We'll also need some build specific configuration to make webpack pick up our JSX. We can set up sourcemaps while at it. I'll be using `source-map` option here as that's a good pick for production.
+
+**webpack.config.js**
+
+```javascript
+...
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    devtool: 'source-map',
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['babel?stage=1'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
+  });
+}
+```
+
+After these changes `npm run build` should yield the following:
 
 ```bash
 > TARGET=build webpack
 
-Hash: 2296feca08a2b24b015b
+Hash: b29c96842ae323c096e7
 Version: webpack 1.10.1
-Time: 4943ms
+Time: 5040ms
         Asset       Size  Chunks             Chunk Names
     bundle.js    1.08 MB       0  [emitted]  main
 bundle.js.map    1.27 MB       0  [emitted]  main
@@ -15,9 +71,7 @@ bundle.js.map    1.27 MB       0  [emitted]  main
     + 322 hidden modules
 ```
 
-The problem is that 1.08 MB is a lot! In addition our build contains bits and pieces we don't want it to contain.
-
-The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
+We actually shaved a little out of our bundle. We still have a long way to go, though.
 
 ## Optimizing Build Size
 
@@ -119,7 +173,7 @@ bundle.js.map     2.5 MB       0  [emitted]  main
     + 316 hidden modules
 ```
 
-So we went from 1.08 MB to 320 kB and finally to 261 kB. The final build is a little faster than the previous one. As that 261k can be served gzipped, it is quite reasonable. gzipping will drop around another 40% is well supported by browsers.
+So we went from 1.18 MB to 1.08 MB to 320 kB and finally to 261 kB. The final build is a little faster than the previous one. As that 261k can be served gzipped, it is quite reasonable. gzipping will drop around another 40% is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
@@ -152,6 +206,9 @@ if(TARGET === 'build') {
       filename: 'app.[chunkhash].js'
     },
     devtool: 'source-map',
+    module: {
+      ...
+    }
     plugins: [
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
@@ -195,6 +252,7 @@ Our current setup doesn't clean `build` directory between builds. As this is ann
 ...
 var Clean = require('clean-webpack-plugin');
 
+...
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
@@ -207,7 +265,7 @@ if(TARGET === 'build') {
 }
 ```
 
-After this change our `build` directory should remain nice and tidy.
+After this change our `build` directory should remain nice and tidy while building.
 
 T> An alternatively would be to use your terminal fu (`rm -rf build/`) and set that up at the `scripts` of `package.json`.
 
@@ -224,6 +282,8 @@ It will take some configuration to make it work. Hit `npm i extract-text-webpack
 ```javascript
 ...
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+var pkg = require('./package.json');
 
 var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
@@ -244,6 +304,22 @@ var common = {
   ]
 };
 
+if(TARGET === 'dev') {
+  module.exports = merge(common, {
+    ...
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+          include: path.resolve(ROOT_PATH, 'app')
+        },
+        ...
+      ]
+    }
+  });
+}
+
 if(TARGET === 'build') {
   module.exports = merge(common, {
     ...
@@ -262,22 +338,6 @@ if(TARGET === 'build') {
       new ExtractTextPlugin('styles.css'),
       ...
     ]
-  });
-}
-
-if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      loaders: [
-        {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
-          include: path.resolve(ROOT_PATH, 'app')
-        },
-        ...
-      ]
-    }
   });
 }
 ```
