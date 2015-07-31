@@ -1,4 +1,4 @@
-import './stylesheets/main.css';
+import './main.css';
 
 import React from 'react';
 import App from './components/App';
@@ -10,7 +10,6 @@ main();
 
 function main() {
   persist(alt, storage, 'app');
-
   const app = document.createElement('div');
 
   document.body.appendChild(app);

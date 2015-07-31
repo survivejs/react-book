@@ -82,7 +82,7 @@ class LaneStore {
     const notes = lane.notes;
     const removeId = notes.indexOf(noteId);
 
-    if(notes.indexOf(removeId) === -1) {
+    if(lane.notes.indexOf(removeId) === -1) {
       lane.notes = notes.slice(0, removeId).concat(notes.slice(removeId + 1));
 
       this.setState({lanes});

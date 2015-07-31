@@ -180,13 +180,13 @@ If you run the application now, you'll likely get a bunch of `onMove` related er
 
 export default class Notes extends React.Component {
   ...
-  renderNote(note, i) {
+  renderNote(note) {
     return (
       <Note className='note' onMove={this.onMoveNote}
         data={note} key={`note${note.id}`}>
         <Editable
           value={note.task}
-          onEdit={this.props.onEdit.bind(null, i)} />
+          onEdit={this.props.onEdit.bind(null, note.id)} />
       </Note>
     );
   }
@@ -431,6 +431,7 @@ class LaneStore {
     removeLane.notes = removeLane.notes.slice(0, removeNoteId).
       concat(removeLane.notes.slice(removeNoteId + 1));
   }
+  ...
 }
 ```
 

@@ -37,7 +37,7 @@ class LaneStore {
     const lanes = this.lanes;
     const targetId = findIndex(lanes, 'id', laneId);
 
-    if(!targetId < 0) {
+    if(targetId < 0) {
       return console.warn('Failed to find target lane');
     }
 
@@ -56,7 +56,7 @@ class LaneStore {
     const lanes = this.lanes;
     const targetId = findIndex(lanes, 'id', laneId);
 
-    if(!targetId < 0) {
+    if(targetId < 0) {
       return console.warn('Failed to find target lane');
     }
 
