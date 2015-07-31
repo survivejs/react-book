@@ -288,8 +288,6 @@ Configuration could contain more sections such as these based on your needs. Lat
 
 I discuss linting in detail at *Linting in webpack* chapter. Given setting up a linter is the most beneficial at the beginning of a project, not at the end, it may be worth your while to check out the chapter and expand the project configuration as you see fit.
 
-Alternatively you can just skip it and carry on. The example project doesn't have linting set up but apart from that the code should be the same.
-
 ## Conclusion
 
 In this chapter you learned to build an effective development configuration using webpack. Webpack deals with the heavy lifting for you now. The current setup can be expanded easily to support more scenarios. Next we can see how to expand it to work with React well.
