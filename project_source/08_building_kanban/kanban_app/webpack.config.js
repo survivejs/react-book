@@ -2,6 +2,7 @@ var path = require('path');
 var merge = require('webpack-merge');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
@@ -20,11 +21,6 @@ var common = {
       {
         test: /\.jsx?$/,
         loaders: ['react-hot', 'babel?stage=1'],
-        include: path.resolve(ROOT_PATH, 'app')
-      },
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
         include: path.resolve(ROOT_PATH, 'app')
       }
     ]
@@ -47,7 +43,17 @@ if(TARGET === 'build') {
       filename: 'app.[chunkhash].js'
     },
     devtool: 'source-map',
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract('style', 'css'),
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    },
     plugins: [
+      new ExtractTextPlugin('styles.css'),
       new webpack.DefinePlugin({
         'process.env': {
           // This affects react lib size
@@ -69,6 +75,15 @@ if(TARGET === 'build') {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    devtool: 'eval'
+    devtool: 'eval',
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
   });
 }

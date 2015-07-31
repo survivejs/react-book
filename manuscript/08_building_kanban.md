@@ -359,23 +359,9 @@ T> If you want to clean up your `build` directory before building, consider usin
 
 ## Separating CSS
 
-## Other Configuration Approaches
+Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development it doesn't sound ideal. The current solution doesn't allow us to cache CSS and in some cases we might suffer from flash of unstyled content (FOUC).
 
-There is no single clear convention on how to deal with webpack configuration. Given webpack expects an object structure the way you generate it doesn't matter that much. The way you saw above is the one I find the most convenient as it allows you to share configuration easily while understanding what's going on.
-
-Some people prefer to write a separate configuration file per target. In order to share configuration they write a factory function. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
-
-This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a webpack based library that wraps common scenarios within an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
-
-In fact webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon webpack and React and hides a lot of the complexity of webpack from the user. webpack is a good fit for tools like this as it solves so many difficult problems well.
-
-## Generating a Separate Bundle for CSS
-
-The current webpack setup simply inlines the CSS as a part of our JavaScript bundle. Although this can be performant (one less request), easy to set up and compiles fast, it may not be ideal always. You can end up with an undesired flash of unstyled content (FOUC).
-
-Given CSS is inline we cannot leverage caching effectively. If the JavaScript portion changes, all CSS will get reloaded. As our CSS is injected through JavaScript, there is additional overhead.
-
-There is a plugin that allows us to work around these problems. [extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin) generates a separate bundle for CSS. It comes with some overhead during compilation phase and won't work with Hot Module Replacement (HMR) by design.
+As it happens webpack provides means to generate a separate CSS bundle. We can achieve this using `ExtractTextPlugin`. It comes with some overhead during complication phase and won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production usage that won't be a problem.
 
 It will take some configuration to make it work. Hit `npm i extract-text-webpack-plugin --save-dev` to get started. Next we need to get rid of our current css related declaration at `common` configuration and split it up between `build` and `dev` configuration sections as below.
 
@@ -389,30 +375,29 @@ var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main')],
-  resolve: {
-    extensions: ['', '.js', '.jsx']
+  ...
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['react-hot', 'babel?stage=1'],
+        include: path.resolve(ROOT_PATH, 'app')
+      }
+    ]
   },
-  output: {
-    path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js'
-  },
-  // remove css related declaration from here!!!
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
+  ...
 };
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    ...
     devtool: 'source-map',
     module: {
       loaders: [
         {
           test: /\.css$/,
-          loader: ExtractTextPlugin.extract('style', 'css')
+          loader: ExtractTextPlugin.extract('style', 'css'),
+          include: path.resolve(ROOT_PATH, 'app')
         },
         ...
       ]
@@ -431,7 +416,8 @@ if(TARGET === 'dev') {
       loaders: [
         {
           test: /\.css$/,
-          loaders: ['style', 'css']
+          loaders: ['style', 'css'],
+          include: path.resolve(ROOT_PATH, 'app')
         },
         ...
       ]
@@ -441,6 +427,18 @@ if(TARGET === 'dev') {
 ```
 
 Using this setup we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
+
+TODO: console output
+
+## Other Configuration Approaches
+
+There is no single clear convention on how to deal with webpack configuration. Given webpack expects an object structure the way you generate it doesn't matter that much. The way you saw above is the one I find the most convenient as it allows you to share configuration easily while understanding what's going on.
+
+Some people prefer to write a separate configuration file per target. In order to share configuration they write a factory function. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
+
+This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a webpack based library that wraps common scenarios within an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
+
+In fact webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon webpack and React and hides a lot of the complexity of webpack from the user. webpack is a good fit for tools like this as it solves so many difficult problems well.
 
 ## Conclusion
 
