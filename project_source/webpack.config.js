@@ -49,7 +49,7 @@ module.exports = function(o) {
         title: 'Kanban app'
       }),
       new ExtractTextPlugin('styles.css'),
-      new Clean(['build']),
+      new Clean(['.'], o.outputPath),
       // XXXXX: gives Uncaught Error: Cannot find module "alt"
       /*new webpack.optimize.CommonsChunkPlugin(
         'vendor',
