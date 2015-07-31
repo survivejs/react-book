@@ -56,7 +56,7 @@ Here's the relevant configuration we need to make Babel work:
 var common = {
   entry: path.resolve(ROOT_PATH, 'app/main'),
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx']
   },
   ...
   module: {
