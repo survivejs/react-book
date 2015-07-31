@@ -39,15 +39,40 @@ The potential problem with this approach is that it can tie you to a Unix enviro
 
 T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start` or `npm run build`).
 
-## Sharing Common Configuration
+## Setting Up Build Configuration
+
+We are still stuck with a big bundle even though we can generate it easily now. We will need to configure webpack in a smarter way. The idea is that we will separate configuration based on need. Given webpack configuration is just JavaScript there are multiple ways to achieve this. You could for instance split it to multiple files. Sharing common configuration is always a problem, though.
+
+I have settled with a single configuration file based approach. The idea is that there's a smart `merge` function that overrides objects and concatenates arrays. This works well with webpack configuration given that's what you want to do most of the time. In this approach the configuration block to use is determined based on an environment variable.
+
+The biggest advantage of this approach is that it allows you to see all relevant configuration at one glance. The problem is that for now there's no nice way to set environment variables through `package.json` in a cross-platform way. It is possible this problem will go away with webpack 2 as it make it possible to pass the context data through the command itself.
+
+### Passing Build Target to Configuration
+
+For this setup to work we need to pass `TARGET` through `package.json`. You could use standard `NODE_ENV` here but it's up to you. I don't like to mix these up. Here's what `package.json` should look like after setting build targets.
+
+**package.json**
+
+```json
+{
+  ...
+  "scripts": {
+    "build": "TARGET=build webpack",
+    "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --content-base build"
+  },
+  ...
+}
+```
+
+After this change we can access `TARGET` at `webpack.config.js` through `process.env.TARGET`. This will give us branching we need.
+
+W> `TARGET=build` type of declarations won't work on Windows! You should instead use `SET TARGET=build&& webpack` and `SET TARGET=dev&& webpack-dev-server...` there. It is important it's `build&&` as `build &&` will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
+
+### Setting Up Build Configuration
+
+As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit `npm i webpack-merge --save-dev` to add it to the project.
 
 XXXXX
-
-If we don't structure our configuration in a smart way, it will become easy to make mistakes. We'll want to avoid unnecessary duplication. Given webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure webpack expects, we should be fine.
-
-One way to do this is to keep all configuration in `webpack.config.js` and control what it returns using an environment variable. The advantage of this approach is that you can see all the bits and pieces and how they relate to each other from single place. We can adapt this approach to our project quite easily.
-
-In order to make it easier to deal with this arrangement I've developed a little custom merge utility known as `webpack-merge`. Install it using `npm i webpack-merge --save-dev` to your project. Compared to `merge` you might be used to this variant that concatenates arrays instead of replacing them. This is particularly useful with loader configuration. Set up **webpack.config.js** as below:
 
 **webpack.config.js**
 
@@ -89,18 +114,9 @@ if(TARGET === 'dev') {
 
 The common configuration has been separated to a section of its own. We use a different `devtool` depending on the target. Those `devtool` bits in the configuration define how webpack deals with sourcemaps. Setting this up gives you better debug information in browser. There are a variety of options as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). The current ones are good starting points.
 
-To make everything work again, we'll need to tweak our `package.json` **scripts** section like this:
 
-```json
-...
-"scripts": {
-  "build": "TARGET=build webpack",
-  "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --content-base build"
-},
-...
-```
 
-W> In `"scripts"`, `TARGET=build` type of declarations won't work on Windows! You should instead use `SET TARGET=build&& webpack` and `SET TARGET=dev&& webpack-dev-server...` there. It is important it's `build&&` as `build &&` will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
+
 
 You can also eliminate those old configuration files at the project root while at it.
 
