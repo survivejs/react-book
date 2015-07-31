@@ -300,11 +300,64 @@ bundle.js.map    2.52 MB       0  [emitted]  main
 
 So we went from 1.1 MB to 321 kB and finally to 261 kB. The final build is a little faster than the previous one. As that 261k can be served gzipped, it is quite reasonable.
 
-We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames so the client knows to fetch updated resources if we update either.
+We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
 ### Splitting `app` and `vendor` Bundles
 
-XXXXX
+The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might for instance make most of our changes to the small `app` bundle. In this case the client would have to fetch only it provided `vendor` bundle has been loaded already. This scheme won't load as fast as a single bundle initially due to the extra request but caching more than makes up for this disadvantage.
+
+In webpack terms we will expand `entry` configuration and then use `CommonsChunkPlugin` to extract the vendor bundle. The configuration below shows how this will work out in our case.
+
+**webpack.config.js**
+
+```javascript
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    entry: {
+      app: path.resolve(ROOT_PATH, 'app/main'),
+      vendor: ['alt', 'node-uuid', 'react', 'react-dnd']
+    },
+    output: {
+      path: path.resolve(ROOT_PATH, 'build'),
+      filename: 'app.[chunkhash].js'
+    },
+    devtool: 'source-map',
+    plugins: [
+      ...
+      new webpack.optimize.CommonsChunkPlugin(
+        'vendor',
+        'vendor.[chunkhash].js'
+      )
+    ]
+  });
+}
+```
+
+If you run `npm run build` now, you should see output like this:
+
+```bash
+> TARGET=build webpack
+
+Hash: f2089aa8505c9dacbe25
+Version: webpack 1.10.1
+Time: 12123ms
+                              Asset       Size  Chunks             Chunk Names
+        app.97601e45466ddcb92ae7.js    54.3 kB       0  [emitted]  app
+    vendors.5d135441c26c742c566e.js     208 kB       1  [emitted]  vendor
+    app.97601e45466ddcb92ae7.js.map     408 kB       0  [emitted]  app
+vendors.5d135441c26c742c566e.js.map    2.12 MB       1  [emitted]  vendor
+                         index.html  267 bytes          [emitted]
+   [0] multi vendors 64 bytes {1} [built]
+    + 316 hidden modules
+```
+
+Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 54 kB. Not bad.
+
+One more way to push the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
+
+T> If you want to clean up your `build` directory before building, consider using a plugin such as [clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin). Alternatively you can use your terminal fu (`rm -rf build/`) to achieve this.
+
+## Separating CSS
 
 ## Other Configuration Approaches
 

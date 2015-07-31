@@ -38,6 +38,14 @@ var common = {
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    entry: {
+      app: path.resolve(ROOT_PATH, 'app/main'),
+      vendor: ['alt', 'node-uuid', 'react', 'react-dnd']
+    },
+    output: {
+      path: path.resolve(ROOT_PATH, 'build'),
+      filename: 'app.[chunkhash].js'
+    },
     devtool: 'source-map',
     plugins: [
       new webpack.DefinePlugin({
@@ -50,7 +58,11 @@ if(TARGET === 'build') {
         compress: {
           warnings: false
         }
-      })
+      }),
+      new webpack.optimize.CommonsChunkPlugin(
+        'vendor',
+        'vendor.[chunkhash].js'
+      )
     ]
   });
 }
