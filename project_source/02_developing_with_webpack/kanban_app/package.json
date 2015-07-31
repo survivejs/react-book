@@ -1,0 +1,24 @@
+{
+  "name": "kanban_app",
+  "version": "0.0.0",
+  "description": "Webpack demo app",
+  "main": "index.js",
+  "scripts": {
+    "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --inline --history-api-fallback --content-base build"
+  },
+  "keywords": [
+    "webpack",
+    "demo"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^0.15.5",
+    "html-webpack-plugin": "^1.6.0",
+    "node-libs-browser": "^0.5.2",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1",
+    "webpack-merge": "^0.1.2"
+  }
+}
