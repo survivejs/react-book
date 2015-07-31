@@ -77,7 +77,7 @@ var common = {
 
 T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint and many other tools discussed later.
 
-## Installing React
+## Developing First React View
 
 Hit `npm i react --save` at the project root to add React to our project. As a next step we can start developing our Kanban application. First we should define `App`. This will be the core of our application. It represents the high level view of it and works as an entry point. Later on it will orchestrate it all.
 
@@ -96,6 +96,8 @@ export default class App extends React.Component {
 
 W> If you are used to `React.createClass()`, it is important to note that ES6 based class approach **doesn't** support autobinding behavior. Apart from that you may find ES6 classes neater. See the end of this chapter for more information.
 
+### Setting Up `Note`
+
 We also need to define `Note` component. In this case we will just want to show some text like `Learn webpack`. `Hello world` would work if you are into clichés.
 
 **app/components/Note.jsx**
@@ -111,6 +113,8 @@ export default class Note extends React.Component {
 ```
 
 T> Note that we're using *jsx* extension here to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary but it is a good convention to have.
+
+### Rendering Through `main.jsx`
 
 In addition we'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where to render and then it renders our application through React.
 
