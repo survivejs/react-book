@@ -40,7 +40,7 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 
 In order to set up Babel for our project we can use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-core babel-loader --save-dev`. `babel-core` is a peer dependency of `babel-loader` so that needs to be installed explicitly to make the project work with npm 3.
 
-In addition add the following loader declaration to the *loaders* section of your configuration. It will tell webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression. In addition we pass `stage` argument for Babel so it knows we want to enable stage 1 features.
+In addition we need to add loader declaration to the *loaders* section of configuration. It will tell webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression. In addition we pass `stage` argument for Babel so it knows we want to enable stage 1 features.
 
 To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternatively would be to set up an `exclude` rule against `node_modules` explicitly but I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
