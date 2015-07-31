@@ -234,15 +234,14 @@ If you hit `npm run build` now, you should see better results:
 ```bash
 > TARGET=build webpack
 
-Hash: 98a618ef4d32c8627010
+Hash: 5789fb7b20bb4602931c
 Version: webpack 1.10.1
-Time: 6726ms
+Time: 11977ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js     172 kB       0  [emitted]  main
-bundle.js.map    1.57 MB       0  [emitted]  main
+    bundle.js     321 kB       0  [emitted]  main
+bundle.js.map    2.65 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-   [0] multi main 28 bytes {0} [built]
-    + 163 hidden modules
+    + 322 hidden modules
 ```
 
 Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
@@ -251,7 +250,7 @@ T> It is possible to push minification further by enabling variable name manglin
 
 ### `process.env.NODE_ENV`
 
-We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get in an optimized manner. This will disable some checks (i.e. property type checks) but it will give you a smaller build and improved performance.
+We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get built in an optimized manner. This will disable some checks (i.e. property type checks) but it will give you a smaller build and improved performance.
 
 In webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
 
@@ -264,7 +263,7 @@ if(TARGET === 'build') {
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          // This has effect on the react lib size
+          // This affects react lib size
           'NODE_ENV': JSON.stringify('production')
         }
       }),
@@ -289,18 +288,23 @@ Hit `npm run build` again and you should see improved results:
 ```bash
 > TARGET=build webpack
 
-Hash: aa14e0e6b73e3a30ad04
+Hash: 6b8ddb416a872aa442f1
 Version: webpack 1.10.1
-Time: 6092ms
+Time: 11299ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js     123 kB       0  [emitted]  main
-bundle.js.map    1.48 MB       0  [emitted]  main
+    bundle.js     261 kB       0  [emitted]  main
+bundle.js.map    2.52 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-   [0] multi main 28 bytes {0} [built]
-    + 158 hidden modules
+    + 316 hidden modules
 ```
 
-So we went from 653k to 172k and finally to 123k. The final build is a little faster than the previous one. As that 123k can be served gzipped, it is very reasonable. As we add dependencies to the project the size will grow. Then we will have to apply some other strategies and be smarter about loading. Fortunately we can do all that with webpack when the time comes.
+So we went from 1.1 MB to 321 kB and finally to 261 kB. The final build is a little faster than the previous one. As that 261k can be served gzipped, it is quite reasonable.
+
+We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames so the client knows to fetch updated resources if we update either.
+
+### Splitting `app` and `vendor` Bundles
+
+XXXXX
 
 ## Other Configuration Approaches
 

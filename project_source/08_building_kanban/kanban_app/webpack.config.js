@@ -1,6 +1,7 @@
 var path = require('path');
 var merge = require('webpack-merge');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 
 var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
@@ -37,7 +38,20 @@ var common = {
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    devtool: 'source-map'
+    devtool: 'source-map',
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          // This affects react lib size
+          'NODE_ENV': JSON.stringify('production')
+        }
+      }),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      })
+    ]
   });
 }
 
