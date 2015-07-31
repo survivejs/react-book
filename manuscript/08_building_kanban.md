@@ -538,6 +538,4 @@ This means we have separate app and vendor bundles. In addition styles have been
 
 ## Conclusion
 
-Getting a simple build like this done isn't very complex. In the end you'll end up with a little bit of configuration. Webpack deals with the nasty details for you after that. We are close to unleashing the power of webpack here as you will soon see.
-
-Hitting `npm run build` all the time and refreshing browser during development doesn't sound that efficient. In the next chapter we'll solve this issue and get more serious configuration done.
+Our Kanban application is now ready to be served. We went from a chunky build to a slim one. Even better the production version can benefit from caching and it is able to invalidate it. When it comes to webpack this is just a small part of what you can do with it. I discuss more approaches at **Deploying applications** chapter.
