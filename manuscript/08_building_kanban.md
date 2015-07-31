@@ -148,23 +148,25 @@ if(TARGET === 'build') {
 }
 
 if(TARGET === 'dev') {
-module.exports = merge(common, {
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel?stage=1'],
-        include: path.resolve(ROOT_PATH, 'app')
-      }
-    ]
-  }
-});
+  module.exports = merge(common, {
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel?stage=1'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
+  });
 }
 ```
 
+Now production build won't contain any hot loading related code. Even though verbose, this is a good step to take.
+
 ## Setting Up Sourcemaps
 
-A good first step towards improving our configuration is to set up sourcemaps. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
+In order to improve debuggability of the application we can set up sourcemaps. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
 
 **webpack.config.js**
 
@@ -173,13 +175,15 @@ A good first step towards improving our configuration is to set up sourcemaps. T
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    devtool: 'source-map'
+    devtool: 'source-map',
+    ...
   });
 }
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    devtool: 'eval'
+    devtool: 'eval',
+    ...
   });
 }
 ```
@@ -234,11 +238,11 @@ If you hit `npm run build` now, you should get output that's roughly equal to wh
 ```bash
 > TARGET=build webpack
 
-Hash: cd21f223815e9653a9c0
+Hash: 07d808a1da8068d5ff50
 Version: webpack 1.10.1
-Time: 5079ms
+Time: 5086ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js    1.11 MB       0  [emitted]  main
+    bundle.js    1.08 MB       0  [emitted]  main
 bundle.js.map    1.27 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
     + 322 hidden modules
@@ -265,7 +269,7 @@ var webpack = require('webpack');
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    devtool: 'source-map',
+    ...
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -282,12 +286,12 @@ If you hit `npm run build` now, you should see better results:
 ```bash
 > TARGET=build webpack
 
-Hash: 5789fb7b20bb4602931c
+Hash: 8cee85087249dc0588b0
 Version: webpack 1.10.1
-Time: 11977ms
+Time: 11729ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js     321 kB       0  [emitted]  main
-bundle.js.map    2.65 MB       0  [emitted]  main
+    bundle.js     320 kB       0  [emitted]  main
+bundle.js.map    2.63 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
     + 322 hidden modules
 ```
@@ -336,17 +340,17 @@ Hit `npm run build` again and you should see improved results:
 ```bash
 > TARGET=build webpack
 
-Hash: 6b8ddb416a872aa442f1
+Hash: 91e74e2912c5d1643d5d
 Version: webpack 1.10.1
-Time: 11299ms
+Time: 11593ms
         Asset       Size  Chunks             Chunk Names
     bundle.js     261 kB       0  [emitted]  main
-bundle.js.map    2.52 MB       0  [emitted]  main
+bundle.js.map     2.5 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
     + 316 hidden modules
 ```
 
-So we went from 1.1 MB to 321 kB and finally to 261 kB. The final build is a little faster than the previous one. As that 261k can be served gzipped, it is quite reasonable.
+So we went from 1.08 MB to 320 kB and finally to 261 kB. The final build is a little faster than the previous one. As that 261k can be served gzipped, it is quite reasonable. gzipping will drop around another 40% is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
@@ -371,11 +375,11 @@ if(TARGET === 'build') {
     },
     devtool: 'source-map',
     plugins: [
-      ...
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
         'vendor.[chunkhash].js'
-      )
+      ),
+      ...
     ]
   });
 }
@@ -386,16 +390,16 @@ If you run `npm run build` now, you should see output like this:
 ```bash
 > TARGET=build webpack
 
-Hash: f2089aa8505c9dacbe25
+Hash: 3822f63a6706739444d2
 Version: webpack 1.10.1
-Time: 12123ms
-                              Asset       Size  Chunks             Chunk Names
-        app.97601e45466ddcb92ae7.js    54.3 kB       0  [emitted]  app
-    vendors.5d135441c26c742c566e.js     208 kB       1  [emitted]  vendor
-    app.97601e45466ddcb92ae7.js.map     408 kB       0  [emitted]  app
-vendors.5d135441c26c742c566e.js.map    2.12 MB       1  [emitted]  vendor
-                         index.html  267 bytes          [emitted]
-   [0] multi vendors 64 bytes {1} [built]
+Time: 11715ms
+                             Asset       Size  Chunks             Chunk Names
+       app.7779066c5f00c5fd488c.js    53.9 kB       0  [emitted]  app
+    vendor.a953e98e7c480f870363.js     208 kB       1  [emitted]  vendor
+   app.7779066c5f00c5fd488c.js.map     385 kB       0  [emitted]  app
+vendor.a953e98e7c480f870363.js.map    2.12 MB       1  [emitted]  vendor
+                        index.html  266 bytes          [emitted]
+   [0] multi vendor 64 bytes {1} [built]
     + 316 hidden modules
 ```
 
@@ -403,7 +407,31 @@ Note how small `app` bundle is in comparison. If we update the application now a
 
 One more way to push the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
 
-T> If you want to clean up your `build` directory before building, consider using a plugin such as [clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin). Alternatively you can use your terminal fu (`rm -rf build/`) to achieve this.
+## Cleaning Build
+
+Our current setup doesn't clean `build` directory between builds. As this is annoying especially when hashes are used, we can set up a plugin to clean the directory for us. Invoke `npm i clean-webpack-plugin --save-dev` to add a suitable plugin to our project. Integrating this is simple. Change the build configuration as below.
+
+**webpack.config.js**
+
+```javascript
+...
+var Clean = require('clean-webpack-plugin');
+
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    ...
+    plugins: [
+      new Clean(['build']),
+      ...
+    ]
+  });
+}
+```
+
+After this change our `build` directory should remain nice and tidy.
+
+T> An alternatively would be to use your terminal fu (`rm -rf build/`) and set that up at the `scripts` of `package.json`.
 
 ## Separating CSS
 
@@ -423,17 +451,19 @@ var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  ...
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel?stage=1'],
-        include: path.resolve(ROOT_PATH, 'app')
-      }
-    ]
+  entry: path.resolve(ROOT_PATH, 'app/main'),
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
   },
-  ...
+  output: {
+    path: path.resolve(ROOT_PATH, 'build'),
+    filename: 'bundle.js'
+  },
+  plugins: [
+    new HtmlwebpackPlugin({
+      title: 'Kanban app'
+    })
+  ]
 };
 
 if(TARGET === 'build') {
@@ -476,7 +506,29 @@ if(TARGET === 'dev') {
 
 Using this setup we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
 
-TODO: console output
+After running `npm run build` you should see the following output:
+
+```bash
+> TARGET=build webpack
+
+Hash: 5ac4141a6a1a107c9fd2
+Version: webpack 1.10.1
+Time: 11538ms
+                             Asset       Size  Chunks             Chunk Names
+       app.49e4dc76e551e4333cb3.js    50.1 kB       0  [emitted]  app
+    vendor.a953e98e7c480f870363.js     208 kB       1  [emitted]  vendor
+                        styles.css  557 bytes       0  [emitted]  app
+   app.49e4dc76e551e4333cb3.js.map     358 kB       0  [emitted]  app
+                    styles.css.map   87 bytes       0  [emitted]  app
+vendor.a953e98e7c480f870363.js.map    2.12 MB       1  [emitted]  vendor
+                        index.html  317 bytes          [emitted]
+   [0] multi vendor 64 bytes {1} [built]
+    + 316 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+```
+
+This means we have separate app and vendor bundles. In addition styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*. Not bad.
 
 ## Other Configuration Approaches
 
