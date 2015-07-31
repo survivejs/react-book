@@ -153,7 +153,8 @@ Next we need to hook up `App` to render through `Notes`.
 **app/components/App.jsx**
 
 ```javascript
-...
+import uuid from 'node-uuid';
+import React from 'react';
 import Notes from './Notes';
 
 export default class App extends React.Component {

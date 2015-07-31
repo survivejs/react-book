@@ -1,6 +1,5 @@
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note';
 import Notes from './Notes';
 import findIndex from '../libs/find_index';
 
