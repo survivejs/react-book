@@ -140,9 +140,7 @@ If you run the build now in either way, webpack will generate a separate file wi
 
 ## Setting Up `html-webpack-plugin`
 
-XXXX
-
-In our current solution both build and development rely on the same `index.html`. That will cause problems as the project expands. Instead it's preferable to use `html-webpack-plugin` for this purpose. It can generate all the references we need without us having to tweak them manually.
+In our current solution both build and development rely on the same `index.html`. This is not an ideal situation. We might want to customize the production version, use hashed filenames for caching and so on. `html-webpack-plugin` was developed these goals in mind. It can generate `index.html` and the needed references within without us having to tweak them manually.
 
 As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build/index.html`. We'll generate that dynamically next with some configuration.
 
@@ -150,8 +148,8 @@ As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build/in
 
 ```javascript
 var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
 var merge = require('webpack-merge');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
 
 var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
@@ -168,7 +166,7 @@ var common = {
 ...
 ```
 
-We can also drop `--content-base` from the `start` script since the entry point will get generated dynamically.
+We can also drop `--content-base` from the `start` script since the entry point will get generated dynamically and hence won't be needed.
 
 **package.json**
 
@@ -181,11 +179,13 @@ We can also drop `--content-base` from the `start` script since the entry point 
 ...
 ```
 
-If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. We still need to make our development server work to get back where we started.
+If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. This time, though, `index.html` gets generated for us dynamically. Development server works as expected as well.
 
 T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
 
-first build...
+## Optimizing Build Size
+
+XXXXX
 
 ```bash
 > TARGET=build webpack
@@ -202,8 +202,6 @@ bundle.js.map     769 kB       0  [emitted]  main
 ```
 
 As you can see, the output is quite chunky! Fortunately there are a few tricks we can do about that.
-
-## Optimizing Build Size
 
 There are two simple things we can perform to make our build slimmer. We can apply some minification to it. We can also tell React to optimize itself. Doing both will result in significant size savings. Provided we apply gzip compression on the content when serving it, further gains may be made.
 
