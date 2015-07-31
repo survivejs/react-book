@@ -114,6 +114,54 @@ if(TARGET === 'dev') {
 }
 ```
 
+## Separating JSX Configuration
+
+In our current configuration both `build` and `dev` targets use hot loading. Given we don't need that for production usage, we might as well remove that from there. Expand configuration as follows.
+
+**webpack.config.js**
+
+```javascript
+var common = {
+  ...
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css']
+      }
+    ]
+  }
+};
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['babel?stage=1'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    }
+  });
+}
+
+if(TARGET === 'dev') {
+module.exports = merge(common, {
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['react-hot', 'babel?stage=1'],
+        include: path.resolve(ROOT_PATH, 'app')
+      }
+    ]
+  }
+});
+}
+```
+
 ## Setting Up Sourcemaps
 
 A good first step towards improving our configuration is to set up sourcemaps. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:

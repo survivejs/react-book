@@ -16,15 +16,6 @@ var common = {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
   },
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel?stage=1'],
-        include: path.resolve(ROOT_PATH, 'app')
-      }
-    ]
-  },
   plugins: [
     new HtmlwebpackPlugin({
       title: 'Kanban app'
@@ -45,6 +36,11 @@ if(TARGET === 'build') {
     devtool: 'source-map',
     module: {
       loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['babel?stage=1'],
+          include: path.resolve(ROOT_PATH, 'app')
+        },
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
@@ -78,6 +74,11 @@ if(TARGET === 'dev') {
     devtool: 'eval',
     module: {
       loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel?stage=1'],
+          include: path.resolve(ROOT_PATH, 'app')
+        },
         {
           test: /\.css$/,
           loaders: ['style', 'css'],
