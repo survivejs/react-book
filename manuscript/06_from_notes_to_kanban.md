@@ -437,7 +437,10 @@ class LaneStore {
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
     });
   }
+  attachToLane({laneId, noteId}) {
+    ...
   }
+  ...
 }
 
 export default alt.createStore(LaneStore, 'LaneStore');
@@ -470,7 +473,7 @@ It probably would be possible to refactor the current implementation somewhat. Y
 
 Currently our Kanban board is an eyesore. Fortunately we can do a little something to make it look much nicer. As a first step we can get rid of serifs.
 
-**app/stylesheets/main.css**
+**app/main.css**
 
 ```css
 body {
@@ -482,7 +485,7 @@ body {
 
 A little better already! Next we could apply some basic styling to lanes. Getting alignment right would go a long way. We can utilize `display: inline-block` here and apply some subtle rounding to make things less blocky.
 
-**app/stylesheets/main.css**
+**app/main.css**
 
 ```css
 ...
@@ -504,7 +507,7 @@ A little better already! Next we could apply some basic styling to lanes. Gettin
 
 The lane headers could use some work.
 
-**app/stylesheets/main.css**
+**app/main.css**
 
 ```css
 ...
@@ -536,7 +539,7 @@ Lanes are starting to look quite acceptable now. At least we aren't completely s
 
 For notes it's enough just to replace some of that default list styling. We can also make notes visually separate from the lanes by applying color and shape.
 
-**app/stylesheets/main.css**
+**app/main.css**
 
 ```css
 ...
@@ -565,79 +568,6 @@ As this is a small project we can leave the CSS in a single file like this. It i
 Besides keeping things nice and tidy webpack's lazy loading machinery can pick this up. As a result the initial CSS your user has to load will be smaller.
 
 I go into further detail about the topic at the appendix where I discuss various styling approaches for React.
-
-## Generating a Separate Bundle for CSS
-
-The current webpack setup simply inlines the CSS as a part of our JavaScript bundle. Although this can be performant (one less request), easy to set up and compiles fast, it may not be ideal always. You can end up with an undesired flash of unstyled content (FOUC).
-
-Given CSS is inline we cannot leverage caching effectively. If the JavaScript portion changes, all CSS will get reloaded. As our CSS is injected through JavaScript, there is additional overhead.
-
-There is a plugin that allows us to work around these problems. [extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin) generates a separate bundle for CSS. It comes with some overhead during compilation phase and won't work with Hot Module Replacement (HMR) by design.
-
-It will take some configuration to make it work. Hit `npm i extract-text-webpack-plugin --save-dev` to get started. Next we need to get rid of our current css related declaration at `common` configuration and split it up between `build` and `dev` configuration sections as below.
-
-**webpack.config.js**
-
-```javascript
-...
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-var TARGET = process.env.TARGET;
-var ROOT_PATH = path.resolve(__dirname);
-
-var common = {
-  entry: [path.resolve(ROOT_PATH, 'app/main')],
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  output: {
-    path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js'
-  },
-  // remove css related declaration from here!!!
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
-};
-
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    devtool: 'source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.css$/,
-          loader: ExtractTextPlugin.extract('style', 'css')
-        },
-        ...
-      ]
-    },
-    plugins: [
-      new ExtractTextPlugin('styles.css'),
-      ...
-    ]
-  });
-}
-
-if(TARGET === 'dev') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      loaders: [
-        {
-          test: /\.css$/,
-          loaders: ['style', 'css']
-        },
-        ...
-      ]
-    }
-  });
-}
-```
-
-Using this setup we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
 
 ## Conclusion
 
