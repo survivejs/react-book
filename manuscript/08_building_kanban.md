@@ -3,70 +3,11 @@
 Now that we have a nice Kanban application up and running we can worry about showing it the public. If you hit `npm run build` at the project root, you can get a standalone bundle like this:
 
 ```bash
-kanban_app $ node_modules/.bin/webpack
-Hash: 763d2bcd3890bd3c3b33
-Version: webpack 1.10.1
-Time: 3997ms
-    Asset    Size  Chunks             Chunk Names
-bundle.js  1.1 MB       0  [emitted]  main
-    + 322 hidden modules
-```
-
-The problem is that 1.1 MB is a lot! In addition our build contains bits and pieces we don't want it to contain.
-
-The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We will also improve debuggability for production usage.
-
-## Setting Up `html-webpack-plugin`
-
-In our current solution both build and development rely on the same `index.html`. This is not an ideal situation. We might want to customize the production version, use hashed filenames for caching and so on. `html-webpack-plugin` was developed these goals in mind. It can generate `index.html` and the needed references within without us having to tweak them manually.
-
-As a first step hit `npm i html-webpack-plugin --save-dev`. Get rid of `build/index.html`. We'll generate that dynamically next with some configuration.
-
-**webpack.config.js**
-
-```javascript
-var path = require('path');
-var merge = require('webpack-merge');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-
-var TARGET = process.env.TARGET;
-var ROOT_PATH = path.resolve(__dirname);
-
-var common = {
-  ...
-  plugins: [
-    new HtmlwebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
-};
-
-...
-```
-
-T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
-
-We can also drop `--content-base` from the `start` script since the entry point will get generated dynamically and hence won't be needed.
-
-**package.json**
-
-```json
-...
-"scripts": {
-  "build": "TARGET=build webpack",
-  "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback"
-},
-...
-```
-
-If you hit `npm run build` now, you should get output that's roughly equal to what we had earlier. This time, though, `index.html` gets generated for us dynamically. Development server works as expected as well. You should see output similar to this:
-
-```bash
 > TARGET=build webpack
 
-Hash: 07d808a1da8068d5ff50
+Hash: 2296feca08a2b24b015b
 Version: webpack 1.10.1
-Time: 5086ms
+Time: 4943ms
         Asset       Size  Chunks             Chunk Names
     bundle.js    1.08 MB       0  [emitted]  main
 bundle.js.map    1.27 MB       0  [emitted]  main
@@ -74,7 +15,9 @@ bundle.js.map    1.27 MB       0  [emitted]  main
     + 322 hidden modules
 ```
 
-Our build is chunky still. We should do something about that.
+The problem is that 1.1 MB is a lot! In addition our build contains bits and pieces we don't want it to contain.
+
+The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
 
 ## Optimizing Build Size
 

@@ -162,7 +162,8 @@ var common = {
         include: path.resolve(ROOT_PATH, 'app')
       }
     ]
-  }
+  },
+  ...
 };
 
 if(TARGET === 'build') {

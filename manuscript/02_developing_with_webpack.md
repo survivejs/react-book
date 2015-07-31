@@ -36,8 +36,8 @@ As projects with just `package.json` are very boring, we should set up something
 - /app
   - main.js
   - component.js
-- /build
-  - bundle.js (automatically generated, no need to create this)
+- /build (automatically generated, no need to create this)
+  - bundle.js
   - index.html
 - package.json
 - webpack.config.js
@@ -73,32 +73,19 @@ document.body.appendChild(app);
 app.appendChild(component());
 ```
 
-In addition we need `index.html` that points to the bundle that webpack will generate.
-
-**build/index.html**
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8"/>
-  </head>
-  <body>
-    <script src="bundle.js"></script>
-  </body>
-</html>
-```
-
 ## Setting Up webpack Configuration
 
 We'll need to tell webpack how to deal with the assets we just set up. For this purpose we'll build `webpack.config.js`. Webpack and its development server will be able to discover this file automatically through convention.
 
-In order to map our application to *build/bundle.js* we are going to need configuration like this:
+To keep things nice and simple, we'll be generating an entry point to our application using `html-webpack-plugin`. It will generate links to possible assets automatically and keep our life simple. Hit `npm i html-webpack-plugin --save-dev` to install it to the project.
+
+In order to map our application to *build/bundle.js* and generate *build/index.html* we are going to need configuration like this:
 
 **webpack.config.js**
 
 ```javascript
 var path = require('path');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
 
 var ROOT_PATH = path.resolve(__dirname);
 
@@ -109,13 +96,20 @@ module.exports = {
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
-  }
+  },
+  plugins: [
+    new HtmlwebpackPlugin({
+      title: 'Kanban app'
+    })
+  ]
 };
 ```
 
 We use `path.resolve` here as it is preferred to use absolute paths with webpack. If you move your configuration below some directory, you'll need to take this into account. Alternatively you could use `path.join(__dirname, 'app', 'main')` and such but I like to use `path.resolve` for these.
 
 If you hit `node_modules/.bin/webpack` now you can get a webpack build done. But we are not interested in builds. We want a proper development server to develop against.
+
+T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
 
 ## Setting Up `webpack-dev-server`
 
@@ -128,7 +122,7 @@ Hit `npm i webpack-dev-server --save-dev` at project root to get the server inst
 ```json
 ...
 "scripts": {
-  "start": "webpack-dev-server --devtool eval --progress --colors --hot --inline --history-api-fallback --content-base build"
+  "start": "webpack-dev-server --devtool eval --progress --colors --hot --inline --history-api-fallback"
 },
 ...
 ```
@@ -146,7 +140,6 @@ When you run `npm start` from your terminal it will execute the command mapping 
 5. `--hot` - Enable hot module loading
 6. `--inline` - Embeds the webpack-dev-server runtime into the bundle
 7. `--history-api-fallback` - Allows HTML5 History API routes to work
-8. `--content-base build` - Points to `build` so we can reuse `index.html` from there. We'll eliminate this later in this chapter
 
 Alternatively we can run the application from **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
 
@@ -160,6 +153,7 @@ In order to load CSS to project, we'll need to use a couple of loaders. To get s
 
 ```javascript
 var path = require('path');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
 
 var ROOT_PATH = path.resolve(__dirname);
 
@@ -177,7 +171,8 @@ module.exports = {
         include: path.resolve(ROOT_PATH, 'app')
       }
     ]
-  }
+  },
+  ...
 };
 ```
 
@@ -258,6 +253,7 @@ In order to improve debuggability of the application we can set up sourcemaps wh
 
 ```javascript
 var path = require('path');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
 var merge = require('webpack-merge');
 
 var TARGET = process.env.TARGET;
@@ -278,6 +274,7 @@ var common = {
       }
     ]
   }
+  ...
 };
 
 if(TARGET === 'build') {
