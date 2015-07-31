@@ -16,33 +16,32 @@ The problem is that 1.1 MB is a lot! In addition our build contains bits and pie
 
 The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down.
 
-XXXXX
-
-We simply just point at the bundle via *script* `src`, nothing more than that. You can now serve the file through a web server or load it directly through a browser. You should see something familiar there. One easy way to achieve this is to install `serve` (`npm i serve -g`) and hit `serve` within the `build` directory.
-
-T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start` or `npm run build`).
-
 ## Setting Up `package.json` *scripts*
 
-It can be useful to be able to run *build* and such commands through `npm`. That way you don't have to remember difficult incantations. This can be achieved easily by setting up a `scripts` section to `package.json`.
+As hitting `node_modules/.bin/webpack` is tedious, we can do something much better. We can push it behind `npm run build` with some configuration at the `scripts` section.
 
-In this case we can move the build step behind `npm run build` by adding the following section at `package.json`:
+**package.json**
 
 ```json
-"scripts": {
-  "build": "webpack"
+{
+  ...
+  "scripts": {
+    "build": "webpack",
+    ...
+  }
+  ...
 }
 ```
 
-You can either replace the current `scripts` section with the above or just add that `build` line there. To start a build, you can hit `npm run build` now.
-
-T> npm will add webpack to `PATH` temporarily. This way we don't have to do that difficult `node_modules/.bin/webpack` thing here.
-
-Later on this approach will become more powerful as project complexity grows. You can hide the complexity within `scripts` while keeping the interface simple.
+This works because npm will add webpack to `PATH` temporarily.  Now `npm run build` should work. You can set up little tasks like this for other purposes like linting or testing.
 
 The potential problem with this approach is that it can tie you to a Unix environment in case you use environment specific commands. If so, you may want to consider using something environment agnostic, such as [gulp-webpack](https://www.npmjs.com/package/gulp-webpack).
 
+T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start` or `npm run build`).
+
 ## Sharing Common Configuration
+
+XXXXX
 
 If we don't structure our configuration in a smart way, it will become easy to make mistakes. We'll want to avoid unnecessary duplication. Given webpack configuration is just JavaScript, there are many ways to approach the problem. As long as we generate the structure webpack expects, we should be fine.
 
