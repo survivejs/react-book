@@ -387,7 +387,7 @@ export default class App extends React.Component {
 
 We are going to need a little helper to find array objects. If it finds something, it will return the index of the first match. This keeps our manipulations simple.
 
-**libs/find_index.js**
+**app/libs/find_index.js**
 
 ```javascript
 export default function findIndex(arr, prop, value) {
