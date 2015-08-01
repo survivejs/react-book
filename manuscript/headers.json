@@ -6,6 +6,12 @@
         "image": "journey.jpg"
     },
     {
+        "author": "James Jordan",
+        "source": "https://www.flickr.com/photos/69826987@N00/1501451576",
+        "license": "CC BY-ND",
+        "image": "journey.jpg"
+    },
+    {
         "author": "Philip Brown",
         "source": "https://www.flickr.com/photos/67478016@N00/379064899",
         "license": "CC BY-NC-ND",
@@ -24,6 +30,12 @@
         "license": "CC BY-NC-SA",
         "image": "mainframe.jpg",
         "demo": "03_webpack_and_react"
+    },
+    {
+        "author": "Jairus Khan",
+        "source": "https://www.flickr.com/photos/10282509@N00/4674249352",
+        "license": "CC BY-NC-SA",
+        "image": "mainframe.jpg"
     },
     {
         "author": "Angela",
@@ -59,6 +71,12 @@
         "license": "CC BY-NC-SA",
         "image": "training.jpg",
         "demo": "08_building_kanban"
+    },
+    {
+        "author": "Mugu Marculescu",
+        "source": "https://www.flickr.com/photos/48282484@N00/135720337",
+        "license": "CC BY-NC-SA",
+        "image": "training.jpg"
     },
     {
         "author": "Eva the Weaver",
