@@ -70,7 +70,7 @@ class NoteActions {
 export default alt.createActions(NoteActions);
 ```
 
-The verbose form would come in handy if we wanted to do communicate with a backend for instance. We would trigger our queries here and then `dispatch` based on the result. We could even define a Store for dealing with possible errors and related logging. As you can see this is a good extension point for ideas like these.
+The verbose form would come in handy if we wanted to communicate with a backend for instance. We would trigger our queries here and then `dispatch` based on the result. We could even define a Store for dealing with possible errors and related logging. As you can see this is a good extension point for ideas like these.
 
 Having a nice set of Actions doesn't take us far. We'll trigger them from our View. We're missing one crucial bit, though. We are going to need a Store which will contain our Note state. We also need to connect this Store with our View so that the cycle is complete.
 
