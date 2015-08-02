@@ -244,7 +244,11 @@ One more way to push the build further would be to load popular dependencies, su
 
 ## Cleaning Build
 
-Our current setup doesn't clean `build` directory between builds. As this is annoying especially when hashes are used, we can set up a plugin to clean the directory for us. Invoke `npm i clean-webpack-plugin --save-dev` to add a suitable plugin to our project. Integrating this is simple. Change the build configuration as below.
+Our current setup doesn't clean `build` directory between builds. As this is annoying especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
+
+> npm i clean-webpack-plugin --save-dev`
+
+to install the plugin. Change the build configuration as below to integrate it.
 
 **webpack.config.js**
 
@@ -267,6 +271,8 @@ if(TARGET === 'build') {
 
 After this change our `build` directory should remain nice and tidy while building.
 
+Note that you can provide `context` parameter to `Clean`. That allows you to execute the process in some other directory. Example `new Clean(['build'], '<context path>')`.
+
 T> An alternatively would be to use your terminal fu (`rm -rf build/`) and set that up at the `scripts` of `package.json`.
 
 ## Separating CSS
@@ -275,7 +281,11 @@ Even though we have a nice build set up now, where did all the CSS go? As per ou
 
 As it happens webpack provides means to generate a separate CSS bundle. We can achieve this using `ExtractTextPlugin`. It comes with some overhead during complication phase and won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production usage that won't be a problem.
 
-It will take some configuration to make it work. Hit `npm i extract-text-webpack-plugin --save-dev` to get started. Next we need to get rid of our current css related declaration at `common` configuration and split it up between `build` and `dev` configuration sections as below.
+It will take some configuration to make it work. Hit
+
+> npm i extract-text-webpack-plugin --save-dev
+
+to get started. Next we need to get rid of our current css related declaration at `common` configuration and split it up between `build` and `dev` configuration sections as below.
 
 **webpack.config.js**
 

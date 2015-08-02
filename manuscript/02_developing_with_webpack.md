@@ -19,7 +19,9 @@ As a result you should have `package.json`. If you are into version control, as 
 
 ## Installing webpack
 
-Next you should get webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain webpack's version per project. Hit `npm i webpack node-libs-browser --save-dev`.
+Next you should get webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain webpack's version per project. Hit
+
+> npm i webpack node-libs-browser --save-dev
 
 T> `node-libs-browser` is installed as it is a peer dependency of webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
 
@@ -77,7 +79,11 @@ app.appendChild(component());
 
 We'll need to tell webpack how to deal with the assets we just set up. For this purpose we'll build `webpack.config.js`. Webpack and its development server will be able to discover this file automatically through convention.
 
-To keep things nice and simple, we'll be generating an entry point to our application using `html-webpack-plugin`. It will generate links to possible assets automatically and keep our life simple. Hit `npm i html-webpack-plugin --save-dev` to install it to the project.
+To keep things nice and simple, we'll be generating an entry point to our application using `html-webpack-plugin`. It will generate links to possible assets automatically and keep our life simple. Hit
+
+> npm i html-webpack-plugin --save-dev
+
+to install it to the project.
 
 In order to map our application to *build/bundle.js* and generate *build/index.html* we are going to need configuration like this:
 
@@ -113,7 +119,11 @@ T> Note that you can pass a custom template to `html-webpack-plugin`. In our cas
 
 Now that we have basic building blocks together we can set up a development server. `webpack-dev-server` is a development server designed particularly development in mind. It will deal with refreshing browser as you develop. This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage webpack has over these tools is Hot Module Reloading (HMR) which we'll discuss when we go through React.
 
-Hit `npm i webpack-dev-server --save-dev` at project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at `package.json`. In this case the following configuration is enough:
+Hit
+
+> npm i webpack-dev-server --save-dev
+
+at project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at `package.json`. In this case the following configuration is enough:
 
 **package.json**
 
@@ -144,7 +154,11 @@ Alternatively we can run the application from **localhost:8080/webpack-dev-serve
 
 We can easily extend the approach to work with CSS. webpack allows us to modify CSS without forcing a full refresh. Let's see how to achieve that next.
 
-In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke `npm i css-loader style-loader --save-dev`. Now that we have the loaders we need, we'll need to make sure webpack is aware of them. Configure as follows.
+In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke
+
+> npm i css-loader style-loader --save-dev
+
+Now that we have the loaders we need, we'll need to make sure webpack is aware of them. Configure as follows.
 
 **webpack.config.js**
 
@@ -241,7 +255,11 @@ W> `TARGET=dev` type of declarations won't work on Windows! You should instead u
 
 ### Setting Up Configuration Target for `npm start`
 
-As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit `npm i webpack-merge --save-dev` to add it to the project. Add `merge` stub as below. We'll expand these in the coming chapters.
+As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit
+
+> npm i webpack-merge --save-dev
+
+to add it to the project. Add `merge` stub as below. We'll expand these in the coming chapters.
 
 In order to improve debuggability of the application we can set up sourcemaps while at it. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
 

@@ -68,7 +68,11 @@ Besides setting it up with webpack it can be highly beneficial to look into an i
 
 ### Connecting ESlint with `package.json`
 
-In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. To get it installed, invoke `npm i babel-eslint eslint eslint-plugin-react --save-dev`. That will add ESLint and the plugin we want to use as our project development dependency. Next we'll need to do some configuration to make linting work in our project.
+In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. First we'll need to hit
+
+> npm i babel-eslint eslint eslint-plugin-react --save-dev
+
+This will add ESLint and the plugin we want to use as our project development dependency. Next we'll need to do some configuration to make linting work in our project.
 
 **package.json**
 
@@ -152,7 +156,9 @@ The potential problem with this approach is that in case you invoke `lint` throu
 
 ### Connecting ESLint with webpack
 
-We can make webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step hit `npm i eslint-loader --save-dev` to add it to the project.
+We can make webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step hit
+
+> npm i eslint-loader --save-dev
 
 Next we need to tweak our development configuration to include it. Add the following section to it:
 
@@ -283,7 +289,9 @@ If you just want some starting point quickly, you can pick one of [eslint-config
 
 ## Linting CSS
 
-[csslint](https://www.npmjs.com/package/csslint) allows us to lint CSS. [csslint-loader](https://www.npmjs.com/package/csslint-loader) makes it possible to integrate it into our project. To get started hit `npm i csslint csslint-loader --save-dev`.
+[csslint](https://www.npmjs.com/package/csslint) allows us to lint CSS. [csslint-loader](https://www.npmjs.com/package/csslint-loader) makes it possible to integrate it into our project. To get started hit
+
+> npm i csslint csslint-loader --save-dev
 
 Next we'll need to integrate it with our configuration:
 

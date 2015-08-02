@@ -4,7 +4,11 @@ Our Kanban application is almost usable now. It doesn't look that bad and there'
 
 ## Setting Up React DnD
 
-Before going further hit `npm i react-dnd --save` to add React DnD to the project. Next we'll need to patch our application to use it. React DnD supports the idea of backends. This means it is possible to adapt it to work on different platforms. Even a testing backend is feasible. As of writing it supports only HTML5 Drag and Drop API based backend. As a result the application won't work on touch yet.
+Before going further hit
+
+> npm i react-dnd --save`
+
+to add React DnD to the project. Next we'll need to patch our application to use it. React DnD supports the idea of backends. This means it is possible to adapt it to work on different platforms. Even a testing backend is feasible. As of writing it supports only HTML5 Drag and Drop API based backend. As a result the application won't work on touch yet.
 
 To get started we'll need to hook up React DnD's HTML5Backend with our `App`. After this has been done we can start worrying about actual functionality.
 

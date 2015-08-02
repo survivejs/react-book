@@ -31,7 +31,11 @@ You probably noticed those ids at the definition above. Ids will become valuable
 
 Instead it can be valuable to use a proper indexing scheme here. Normally this is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node.js implementation of it.
 
-Invoke `npm i node-uuid --save` at project root to get it installed. If you open up Node.js cli (`node`) and try the following, you can see what kind of ids it outputs.
+Invoke
+
+> npm i node-uuid --save
+
+at the project root to get it installed. If you open up Node.js cli (`node`) and try the following, you can see what kind of ids it outputs.
 
 ```javascript
 > uuid = require('node-uuid')

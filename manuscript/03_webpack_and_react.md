@@ -60,7 +60,9 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 
 ### Configuring babel-loader
 
-In order to set up Babel for our project we can use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it using `npm i babel-core babel-loader --save-dev`.
+In order to set up Babel for our project we can use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it with
+
+> npm i babel-core babel-loader --save-dev
 
 In addition we need to add loader declaration to the *loaders* section of configuration. It will tell webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression. In addition we pass `stage` argument for Babel so it knows we want to enable **stage 1** features.
 
@@ -103,7 +105,11 @@ T> Another way to deal with Babel configuration would be to define a [.babelrc](
 
 ## Developing First React View
 
-It is time to add a first application level dependency to our project. Hit `npm i react --save` to get React installed. This will save React to `dependencies` section of `package.json`. Later on we'll be using this information to generate a vendor build for the production version. I find it to be a good practice to separate application and development level dependencies this way.
+It is time to add a first application level dependency to our project. Hit
+
+> npm i react --save
+
+to get React installed. This will save React to `dependencies` section of `package.json`. Later on we'll be using this information to generate a vendor build for the production version. I find it to be a good practice to separate application and development level dependencies this way.
 
 Now that we got that out of the way we can start to develop our Kanban application. First we should define `App`. This will be the core of our application. It represents the high level view of it and works as an entry point. Later on it will orchestrate it all.
 
@@ -179,7 +185,11 @@ Note that every time you perform a modification, the browser updates with a flas
 
 We can work around this problem using hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/). It will swap React components one by one as they change without forcing a full refresh. There will be times when that will be necessary but it will help a lot. Once you get used to hot loading, it is hard to live without.
 
-To enable hot loading for React, you should first install the package using `npm i react-hot-loader --save-dev`. We also need to make our configuration aware of it so it can inject hooks webpack requires for the system to work.
+To enable hot loading for React, you should first install the package using
+
+> npm i react-hot-loader --save-dev
+
+We also need to make our configuration aware of it so it can inject hooks webpack requires for the system to work.
 
 **webpack.config.js**
 

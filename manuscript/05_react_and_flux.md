@@ -24,7 +24,11 @@ In Alt you'll deal in terms of Actions and Stores. Alt provides `waitFor` just l
 
 ## Porting Notes Application to Alt
 
-To get started hit `npm i alt --save` to add the dependency we need to our project. A good first step is setting up an instance of Alt. This instance will keep the application running. Our Actions and Stores will depend on it. Set it up as follows:
+To get started hit
+
+> npm i alt --save
+
+to add the dependency we need to our project. A good first step is setting up an instance of Alt. This instance will keep the application running. Our Actions and Stores will depend on it. Set it up as follows:
 
 **app/libs/alt.js**
 
