@@ -23,7 +23,7 @@ Next you should get webpack installed. We'll do a local install and save it as a
 
 T> `node-libs-browser` is installed as it is a peer dependency of webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
 
-This is a good change to try to run webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version print, link to cli guide and a long list of options. We won't be using most of those but it's good to know that this tool is packed with functionality if nothing else.
+This is a good chance to try to run webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version print, link to cli guide and a long list of options. We won't be using most of those but it's good to know that this tool is packed with functionality if nothing else.
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
 
