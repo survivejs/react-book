@@ -14,7 +14,7 @@ If you load a lot of images in your CSS it is possible to automatically inline t
 
 ## Installing the url-loader
 
-`npm install url-loader --save-dev` will install the loader that can convert resolved paths as Base64 strings. As mentioned in other sections of this cookbook webpack will resolve "url()" statements in your CSS as any other require or import statements. This means that if we test on image file extensions for this loader we can run them through it.
+`npm i url-loader --save-dev` will install the loader that can convert resolved paths as Base64 strings. As mentioned in other sections of this cookbook webpack will resolve "url()" statements in your CSS as any other require or import statements. This means that if we test on image file extensions for this loader we can run them through it.
 
 ```javascript
 var path = require('path');
@@ -181,7 +181,7 @@ If you want to use compiled CSS, there are two loaders available for you. The **
 
 ## Installing and configuring the loader
 
-`npm install less-loader` or `npm install sass-loader`.
+`npm i less-loader` or `npm i sass-loader`.
 
 **webpack.config.js**
 
