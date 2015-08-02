@@ -26,7 +26,6 @@ Isomorphism | How to go isomorphic with the app. Discuss benefits and possible g
 Performance | Performance strategies for webpack and React | 0% | |
 Testing | Testing approaches/tools for webpack and React | 0% | |
 Internationalization etc. | i18n/l10n/a11y | 0% | Gathering ideas
-Asset Management | How to deal with various assets | 10% | This might go away (integrated to others)
 Debugging webpack | Various debugging strategies for webpack | 0% | Need to go through various strategies and develop tooling
 Data trees (baobab) | How to port the application to Baobab | 0% | I had some material on this initially but went with Alt instead as it felt simpler and more fitting for the book
 
