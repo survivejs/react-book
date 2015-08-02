@@ -271,7 +271,23 @@ export default class App extends React.Component {
 
 If you hit the button now, you should see new items. It might not be pretty yet but it works.
 
-T> Note that we're binding `addItem` context at constructor. It would be possible to do the same at `render`. Unfortunately that will hurt performance given it would `bind` each time `render` gets triggered. Therefore it makes most sense to deal with bindings at constructor level. This is the convention I'll be using in this book. It is possible we'll see a neater, [property initializer](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) based solution in the future.
+### How Does `bind` Work?
+
+We are using `bind` with `addItem` because we want to apply the right context to it. It will be `undefined` by default. As a result `this.setState` would fail. Through `this.addItem.bind(this)` we make sure it is bound to the current instance.
+
+`bind` is useful beyond this usage. You can consider it the equivalent of inheritance but for functions. To give you a trivial example see below:
+
+```javascript
+function add(a, b) {
+  return a + b;
+}
+
+const addTwo = add.bind(null, 2);
+
+console.log(addTwo(6)); // 8
+```
+
+We are using `bind` at `constructor` to get a small performance benefit. If we applied it on `render`, it would have to be applied per `render`. I'll be using this convention unless it would additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with neat syntax.
 
 ## Editing Notes
 
