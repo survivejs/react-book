@@ -378,7 +378,7 @@ T> It is a good idea to name your callbacks using `on` prefix. This will allow y
 
 ### Adding `onEdit` Stub
 
-Given we are currently dealing with logic at `App`, we can deal with `onEdit` there as well. A good first step towards that is to create a stub for it. As `onEdit` is defined on `Note` level we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
+Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. A good first step towards that is to create a stub for it. As `onEdit` is defined on `Note` level we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
 
 **app/components/App.jsx**
 
