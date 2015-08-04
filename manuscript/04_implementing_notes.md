@@ -293,21 +293,9 @@ If you hit the button a few times now, you should see new items. It might not be
 
 In addition to `this.setState` we had to set up a binding. Without it `this` of `addItem()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.
 
-### What's the Point of `bind`?
+Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would take additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
 
-Besides setting context `bind` can be useful for partial application. You can consider it the equivalent of inheritance but for functions. To give you a trivial example see below:
-
-```javascript
-function add(a, b) {
-  return a + b;
-}
-
-const addTwo = add.bind(null, 2);
-
-console.log(addTwo(6)); // 8
-```
-
-Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
+T> Besides allowing you to set context [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) makes it possible to fix parameters to certain values. You will see an example of this shortly.
 
 ## Editing Notes
 
