@@ -396,11 +396,33 @@ We can build new decorators for various functionalities, such as undo, in this m
 
 Decorators provide a nice way to slice logic out of our components while increasing maintainability of our projects. Even better well designed decorators can be usable across projects.
 
+Alt provides a similar decorator known as `@connectToStores`. It relies on static methods. This a ES6 feature and you might be familiar with it from other languages. Rather than normal methods that are bound to a specific instance these are bound on class level. This means you can call them through the class itself (i.e. `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
+
+```javascript
+...
+import connectToStores from 'alt/utils/connectToStores';
+
+@connectToStores
+export default class App extends React.Component {
+  static getStores(props) {
+    return [NoteStore];
+  }
+  static getPropsFromStores(props) {
+    return NoteStore.getState();
+  }
+  ...
+}
+```
+
+This more verbose approach is roughly equivalent to our implementation. It actually does more as it allows you to connect to multiple stores at once. It also provides more control over the way you can shape store state to props.
+
+In order to get familiar with more approaches we'll be using `AltContainer` in this project instead. That said using the decorator is completely acceptable as well and it comes down to your personal preferences.
+
 ## Using `AltContainer` Instead of a Decorator
 
-Even though our `@connect` is kind of cool, we can use something special Alt provides just for this purpose. It provides [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper that does the same thing and a bit more. It provides a greater degree of customizability than our own solution and it's officially supported by Alt protecting us from possible API changes.
+[AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper that does the same thing and a bit more. It provides a greater degree of customizability than our own solution and it's officially supported by Alt protecting us from possible API changes.
 
-You will see the wrapper pattern later again in this book and you will learn to implement it yourself. It is a powerful pattern and you see it quite often in React code. In this case it will allow us to set up arbitrary connections to multiple stores while having control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
+You will see the wrapper pattern later again in this book and you will learn to implement it yourself. In this case the pattern it will allow us to set up arbitrary connections to multiple stores while having control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
 
 The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use `AltContainer`. After these changes we are good to go.
 
@@ -434,7 +456,7 @@ export default class App extends React.Component {
 }
 ```
 
-Integrating `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could consider pushing it into component of your own. That facade would hide Alt effectively and allow you to replace it with something else later on. React allows patterns such as this easily. An alternative would have been to develop `@connect` further but to keep things simple I'll be relying on `AltContainer` from now on.
+Integrating `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could consider pushing it into component of your own. That facade would hide Alt effectively and allow you to replace it with something else later on.
 
 ## Conclusion
 
