@@ -107,7 +107,7 @@ T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
 ## Fixing Note
 
-The problem is that we haven't taken `task` prop in count at `Note`. In React terms props is a data structure that's passed to a component from outside. It is up to the component how it uses this data. In the code below I extract the value of a prop and render it.
+The problem is that we haven't taken `task` prop in count at `Note`. In React terms *props* is a data structure that's passed to a component from outside. It is up to the component how it uses this data. In the code below I extract the value of a prop and render it.
 
 **app/components/Note.jsx**
 
