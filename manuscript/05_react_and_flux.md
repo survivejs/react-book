@@ -8,15 +8,29 @@ Flux will allow us to separate data and application state from our Views. This a
 
 ![Flux dataflow](images/flux.png)
 
-So far we've been operating solely on View components. Flux brings a couple of new concepts: Actions, Dispatchers and Stores. All of this works as a single loop. You can for instance trigger an Action at some view. This in turn will trigger a Dispatcher which decides which Stores to touch. As Stores get changed the Views listening them will receive new data to show.
+So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher and Stores. Flux implements a unidirectional flow in contrast to popular frameworks such as Angular. Even though two-direction bindings can be convenient and some things are easier to implement using them, the Flux way of doing things comes with its benefits.
 
-This cyclic nature of Flux makes it easy to debug. You simply follow the flow. There is always a single direction to follow. Compared to two-way binding based systems this is refreshingly simple.
+### Dataflow in Flux
 
-In Flux we'll be pushing most of our state within Stores. It is possible that View components will still retain some of it, though, so it's not an either-or proposition. The arrangement allows you to push concerns such as API communication, caching, i18n and such outside of your Views. For instance an Action could trigger an API query and then cause Stores to be updated based on the result.
+Using Flux we'll model data related aspects at Stores. Views may still retain some state but in practice a lot of it will go to Stores. Besides application data they can maintain application state as well (i.e. is something loading). You then consume this data at your View components. Views can trigger Actions that cause Store to change somehow.
+
+You could for instance have an action for creating a new Note. Pressing a button at your View could trigger it. Based on this Dispatcher will trigger relevant Stores. They in turn will update their state somehow (i.e. create a Note) and pass their state forward. As a result Views will know to render themselves with the new data.
+
+### Advantages of Flux
+
+Even though this sounds a little complicated, the arrangement gives our application flexibility. We can for instance implement API communication, caching and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
 
 Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
 
-There is a massive amount of Flux implementations available. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
+### Relay?
+
+Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) can be considered an improvement over Flux. It improves especially on data fetching department and allows you to push data requirements to View level. As it still completely new technology we don't be discussing it yet.
+
+### Which Flux Implementation to Use?
+
+The library situation keeps on changing constantly as there is no single right way to interpret the architecture. You will find implementations fitting for different tastes. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
+
+When choosing a library it comes down to your own personal preferences. You will have to consider factors such as API, features, documentation and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture you are able to make choices that serve you better.
 
 ## Alt
 
