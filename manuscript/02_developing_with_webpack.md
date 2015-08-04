@@ -29,7 +29,9 @@ This is a good opportunity to try to run webpack for the first time. Hit `node_m
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
 
-T> We are using `--save-dev` here instead of `--save` as we want to use webpack as a development dependency. Use `--save-dev` for parts you need to generate your distribution version. Otherwise `--save` is a good choice. This will give us more semantic `package.json` and makes our lives easier as we need to get back to the project later.
+We will be using `--save` and `--save-dev` to get a separation between application and development dependencies. The separation keeps project dependencies more understandable. In addition this will come in handy when we generate a vendor bundle later on.
+
+T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save` and `-D` to `--save-dev`. So if you want to optimize for characters written, consider using these.
 
 ## Directory Structure
 
