@@ -129,7 +129,7 @@ If we keep on growing `App` like this we'll end up in trouble soon. Currently `A
 
 T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At high level you will just worry about layout and connecting data. As you go lower in architecture you start to see more concrete structures.
 
-A good first step towards a neater `App` is to define `Notes`. It will rely on rendering logic we already set up. We are just moving it to a component of its own. Specifically we'll want to perform `<Notes items={notes} />` at `render()` method of `App`. That's just nice.
+A good first step towards a neater `App` is to define `Notes`. It will rely on the rendering logic we already set up. We are just moving it to a component of its own. Specifically we'll want to perform `<Notes items={notes} />` at `render()` method of `App`. That's just nice.
 
 You probably have the skills to implement `Notes` by now. Extract the logic from `App` and push it to a component of its own. Remember to look attach `this.props.items` to the rendering logic so that our interface works as expected. I've included complete implementation below for reference.
 
@@ -157,7 +157,7 @@ export default class Notes extends React.Component {
 
 It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I've discussed them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case we'll just focus on keeping it simple.
 
-We also need to replace old `App` logic to use our new component. You should remove the old rendering logic, import `Note` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness.
+We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Note` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness.
 
 **app/components/App.jsx**
 
