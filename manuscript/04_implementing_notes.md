@@ -189,7 +189,7 @@ Even though we improved `render()` somewhat and reduced the amount of markup the
 
 As seen earlier React components can accept props. In addition they may have the state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case pushing `notes` to the state makes sense given we'll want to tweak them through user interface.
 
-In ES6 class syntax the initial state can be defined at constructor. We'll assign the state we want to `this.state`. After that we can refer to it using that. The example below illustrates how to convert our notes into the state.
+In ES6's class syntax the initial state can be defined at the constructor. We'll assign the state we want to `this.state`. After that we can refer to it using that. The example below illustrates how to convert our notes into the state.
 
 **app/components/App.jsx**
 
@@ -231,7 +231,7 @@ T> Your browser may need a hard refresh now as the system cannot pick a change l
 
 ## Adding New Items to Notes list
 
-Adding new items to the notes list is a good starting point. To get started we could render a button element and attach a dummy `onClick` handler to it. We will grow actual logic to that.
+Adding new items to the notes list is a good starting point. To get started we could render a button element and attach a dummy `onClick` handler to it. We will grow the actual logic into that.
 
 **app/components/App.jsx**
 
@@ -256,11 +256,11 @@ export default class App extends React.Component {
 }
 ```
 
-If you click the plus button now, you should see something at your browser console. The next step it connect this stub with our data model.
+If you click the plus button now, you should see something at your browser console. The next step is to connect this stub with our data model.
 
 ### Connecting `addItem` with Data Model
 
-React provides one simple way to modify state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` end triggers `render()` eventually. It accepts data and optional callback that is triggered after the process has completed.
+React provides one simple way to modify state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and optional callback that is triggered after the process has completed.
 
 It is best to think of state as immutable and modify it always through `setState`. In our cases adding new notes can be done through a `concat` operation as below.
 
@@ -289,7 +289,7 @@ export default class App extends React.Component {
 }
 ```
 
-If you hit the button a few now, you should see new items. It might not be pretty yet but it works.
+If you hit the button a few times now, you should see new items. It might not be pretty yet but it works.
 
 In addition to `this.setState` we had to set up a binding. Without it `this` of `addItem()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.
 
@@ -311,7 +311,7 @@ Using `bind` at `constructor` gives us a small performance benefit as opposed to
 
 ## Editing Notes
 
-Our Notes list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect click on a `Note` and then show an input containing its state. Then when editing has been confirmed we can turn it back to normal.
+Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect click on a `Note` and then show an input containing its state. Then when editing has been confirmed we can turn it back to normal.
 
 This means we'll need to extend `Note` somehow and communicate possible changes to `App` so that it knows to update the data model. In addition `Note` needs to keep track of its edit state and show the correct element (div or input) based on that.
 
@@ -374,7 +374,7 @@ export default class Note extends React.Component {
 }
 ```
 
-If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at console. We'll fix this shortly.
+If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at the console. We'll fix this shortly.
 
 There are a couple of places in the code which I'll want to explain in further detail:
 
@@ -451,7 +451,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-If you edit a `Note` now, you should see a print at console.
+If you edit a `Note` now, you should see a print at the console.
 
 We are missing one final bit, actual logic. The idea is quite simple. Our state consists of `Notes` each of which has an id (string) and a task (string) attached to it. Our callback receives both of these data. Therefore in order to edit a `Note` it should find the `Note` to edit and patch its task using the new data.
 
