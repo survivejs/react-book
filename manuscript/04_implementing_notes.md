@@ -447,7 +447,7 @@ We are missing one final bit, the actual logic. Our state consists of `Notes` ea
 
 ### Understanding `findIndex`
 
-We'll be ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result. You can see how it behaves through Node.js cli. Here's a sample session:
+We'll be using a ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result. You can see how it behaves through Node.js cli. Here's a sample session:
 
 ```javascript
 > findIndex = require('find-index')
