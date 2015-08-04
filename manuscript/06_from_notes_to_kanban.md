@@ -20,7 +20,7 @@ import alt from '../libs/alt';
 export default alt.generateActions('create');
 ```
 
-In addition we are going to need a `LaneStore` and a method matching to `create`. The idea is pretty much the same as for `NoteStore` earlier. `create` will concatenate a new lane to the list of lanes. After that the change will propagate to the listeners (i.e. `FinalStore` and components).
+In addition, we are going to need a `LaneStore` and a method matching to `create`. The idea is pretty much the same as for `NoteStore` earlier. `create` will concatenate a new lane to the list of lanes. After that the change will propagate to the listeners (i.e. `FinalStore` and components).
 
 Due to Alt bootstrapping we will need to check against `this.lanes` when we are loading data initially. If there's data already, we might as well use that. This is the same idea as we saw for `NoteStore` earlier.
 
@@ -126,7 +126,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-In addition we are going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
+We are also going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
 
 I'll be using [Object rest syntax](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) available as a **Stage 1** feature. It is perfect for a case such as this as it will extract the props we don't need. This way we don't end up polluting the HTML element.
 
@@ -189,7 +189,7 @@ Currently our `Lane` model is very simple. We are just storing an array of objec
 
 This means we'll need to extend the system to support this. When we `addNote()`, it's not enough to just add it `NoteStore`. We'll need to associate it with the `Lane` in question as well. We are going to need a new action for this. We can call it `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`. This will create the needed association based on the ids. The `Note` filtering logic can be performed when injecting data to `Notes`.
 
-In addition to `attachToLane` we are going to need a way to detach a `Note` from a `Lane`. `Notes` can be deleted after all and we don't want to have dead data hanging around. For this purpose we need to implement `LaneActions.detachFromLane({laneId: <id>, noteId: <id>})`.
+In addition, to `attachToLane` we are going to need a way to detach a `Note` from a `Lane`. `Notes` can be deleted after all and we don't want to have dead data hanging around. For this purpose we need to implement `LaneActions.detachFromLane({laneId: <id>, noteId: <id>})`.
 
 The first required change, adding a new action is simple. We will simply add the action to our list of actions.
 
@@ -327,7 +327,7 @@ There are a couple of alternatives to the current design. The data structure it 
 
 That said the current solution isn't ideal. There's a fair amount of complexity. Especially having to track relations is a little painful. One way to deal with this problem would be to drop `notes` array from `Lane` level and inverse the relation. This means a `Note` would have to know into which `Lane` it belongs. It would also have to know its position. In our current solution position is given by the location in `notes` array.
 
-This change would push our problems elsewhere. We would still have to resolve which `Notes` belong to a `Lane`. In addition we would have to resolve their order. Ordering operations would become harder to pull off and integrating with a backend would become more challenging due to the mapping. On the plus side by pushing references to `Note` level we could drop those `attach` and `detach` bits from `LaneStore` and simplify reference handling somewhat.
+This change would push our problems elsewhere. We would still have to resolve which `Notes` belong to a `Lane`. In addition, we would have to resolve their order. Ordering operations would become harder to pull off and integrating with a backend would become more challenging due to the mapping. On the plus side by pushing references to `Note` level we could drop those `attach` and `detach` bits from `LaneStore` and simplify reference handling somewhat.
 
 We could also consider modeling `NoteStores` as individual instances so that each `Lane` would be associated with a `NoteStore` of its own. Again, the problem with relations would disappear. We would still have to manage these stores, though. This would tie `NoteStores` to components tightly and it goes against the basic principles of Flux. It is considered a Flux anti-pattern.
 

@@ -120,7 +120,7 @@ Check out the loader for more advanced usage.
 
 Compared to vanilla CSS preprocessors bring a lot to the table. They deal with certain annoyances (e.g. autoprefixing) and provide useful features. Particularly cssnext and postcss seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
 
-In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing rounded corners of our lanes would look good even in legacy browsers. In addition we could parametrize styling thanks to variables.
+In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing rounded corners of our lanes would look good even in legacy browsers. In addition, we could parametrize styling thanks to variables.
 
 ## React Based Approaches
 

@@ -12,7 +12,7 @@ index.html  184 bytes          [emitted]
     + 322 hidden modules
 ```
 
-The problem is that 1.18 MB is a lot! In addition our build contains bits and pieces we don't want it to contain.
+The problem is that 1.18 MB is a lot! In addition, our build contains bits and pieces we don't want it to contain.
 
 The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
 
@@ -376,7 +376,7 @@ Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
 
-This means we have separate app and vendor bundles. In addition styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*. Not bad.
+This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*. Not bad.
 
 ## Conclusion
 

@@ -187,7 +187,7 @@ Even though we improved `render()` somewhat and reduced the amount of markup the
 
 ## Pushing `notes` to the `App` `state`
 
-As seen earlier React components can accept props. In addition they may have the state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case pushing `notes` to the state makes sense given we'll want to tweak them through user interface.
+As seen earlier React components can accept props. In addition, they may have the state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case pushing `notes` to the state makes sense given we'll want to tweak them through user interface.
 
 In ES6's class syntax the initial state can be defined at the constructor. We'll assign the state we want to `this.state`. After that we can refer to it using that. The example below illustrates how to convert our notes into the state.
 
@@ -291,7 +291,7 @@ export default class App extends React.Component {
 
 If you hit the button a few times now, you should see new items. It might not be pretty yet but it works.
 
-In addition to `this.setState` we had to set up a binding. Without it `this` of `addItem()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.
+In addition, to `this.setState` we had to set up a binding. Without it `this` of `addItem()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.
 
 Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would take additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
 
@@ -299,9 +299,9 @@ T> Besides allowing you to set context [bind](https://developer.mozilla.org/en-U
 
 ## Editing Notes
 
-Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect click on a `Note` and then show an input containing its state. Then when editing has been confirmed we can turn it back to normal.
+Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect click on a `Note` and then show an input containing its state. Then when the editing has been confirmed we can turn it back to normal.
 
-This means we'll need to extend `Note` somehow and communicate possible changes to `App` so that it knows to update the data model. In addition `Note` needs to keep track of its edit state and show the correct element (div or input) based on that.
+This means we'll need to extend `Note` somehow and communicate possible changes to `App` so that it knows to update the data model. In addition, `Note` needs to keep track of its edit state and show the correct element (div or input) based on that.
 
 We can achieve these goals using a callback and a ternary expression. Here's a sample implementation of the idea:
 
@@ -558,7 +558,7 @@ Some libraries such as `react-dnd` rely on static methods to provide transition 
 
 Both component types support `render()`. As seen above this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything return either `null` or `false`.
 
-In addition React provides the following lifecycle hooks:
+In addition, React provides the following lifecycle hooks:
 
 * `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
 * `componentDidMount()` gets triggered after initial rendering. You have access to DOM here. You could use this hook to wrap a jQuery plugin within a component for instance.

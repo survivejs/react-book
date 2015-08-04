@@ -25,7 +25,7 @@ In bigger projects you may find the following:
 * `.eslintrc` - Linting rules. You can use `.jshintrc` etc. based on your preferences.
 * `webpack.config.js` - If you are using a simple setup, you might as well have the configuration at project root.
 
-In addition you'll likely have various directories for source, tests, demos, documentation and so on.
+In addition, you'll likely have various directories for source, tests, demos, documentation and so on.
 
 ## Understanding `package.json`
 
@@ -140,7 +140,7 @@ Even though it is simple to publish new versions out there, it is important to r
 
 I output my React component in various formats at my boilerplate. I generate a version that's convenient to consume from Node.js by processing my component code through Babel. That will convert ES6 etc. goodies to a format which is possible to consume from vanilla Node.js. This allows the user to refer to some specific module within the whole if needed.
 
-In addition I generate so called *distribution bundles*: `.js` and `.min.js`. In addition there's a sourcemap (`.map`) for both. That is useful for debugging. It is possible to consume these bundles standalone. They come with an [UMD](https://github.com/umdjs/umd) wrapper.
+In addition, I generate so called *distribution bundles*: `.js` and `.min.js`. There's a sourcemap (`.map`) for both. That is useful for debugging. It is possible to consume these bundles standalone. They come with an [UMD](https://github.com/umdjs/umd) wrapper.
 
 UMD makes it possible to consume them from various environments including global, AMD and CommonJS (Node.js format). You can refresh your memory with these by checking the Getting Started chapter for examples.
 
@@ -194,7 +194,7 @@ exports.distMin = mergeDist({
 
 T> The example uses the same `merge` utility we defined earlier on. You should check [the boilerplate](https://github.com/bebraw/react-component-boilerplate) itself for exact configuration.
 
-Most of the magic happens thanks to `devtool` and `output` declarations. In addition I have set up `externals` as I want to avoid bundling React into my library. Instead if will be loaded as an external dependency using the naming defined in the mapping.
+Most of the magic happens thanks to `devtool` and `output` declarations. In addition, I have set up `externals` as I want to avoid bundling React into my library. Instead if will be loaded as an external dependency using the naming defined in the mapping.
 
 ## npm Lifecycle Hooks
 
@@ -246,7 +246,7 @@ There are a few ways to approach dependency updates:
 
 It is important to remember that your dependencies may introduce backwards incompatible changes. Therefore it can be useful to remember how SemVer works and study dependency release notes, if they exist, carefully. You should at least walk through version history to see what changes have been made and how they might affect you.
 
-As keeping track of important changes can be a chore, there are a few services that can help you with that: [David](https://david-dm.org/), [versioneye](https://www.versioneye.com/), [Gemnasium](https://gemnasium.com). These services provide badges you can integrate into your project `README.md`. In addition they may email you about important changes and even point out possible security issues that have been fixed.
+As keeping track of important changes can be a chore, there are a few services that can help you with that: [David](https://david-dm.org/), [versioneye](https://www.versioneye.com/), [Gemnasium](https://gemnasium.com). These services provide badges you can integrate into your project `README.md`. In addition, they may email you about important changes and even point out possible security issues that have been fixed.
 
 For testing your projects you can consider solutions such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). Many others exist. The advantage of these is that they allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems for your package consumers.
 

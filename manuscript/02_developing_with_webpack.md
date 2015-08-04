@@ -29,7 +29,7 @@ This is a good opportunity to try to run webpack for the first time. Hit `node_m
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
 
-We will be using `--save` and `--save-dev` to get a separation between application and development dependencies. The separation keeps project dependencies more understandable. In addition this will come in handy when we generate a vendor bundle later on.
+We will be using `--save` and `--save-dev` to get a separation between application and development dependencies. The separation keeps project dependencies more understandable. This will come in handy when we generate a vendor bundle later on.
 
 T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save` and `-D` to `--save-dev`. So if you want to optimize for characters written, consider using these.
 
@@ -207,7 +207,7 @@ body {
 }
 ```
 
-In addition we'll need to make webpack aware of this file:
+In addition, we'll need to make webpack aware of this file:
 
 **app/main.js**
 

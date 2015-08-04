@@ -64,7 +64,7 @@ In order to set up Babel for our project we can use [babel-loader](https://www.n
 
 > npm i babel-core babel-loader --save-dev
 
-In addition we need to add loader declaration to the *loaders* section of configuration. It will tell webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression. In addition we pass `stage` argument for Babel so it knows we want to enable **stage 1** features.
+In addition, we need to add loader declaration to the *loaders* section of configuration. It will tell webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression. We pass `stage` argument for Babel so it knows we want to enable **stage 1** features.
 
 To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternatively would be to set up an `exclude` rule against `node_modules` explicitly but I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
@@ -148,7 +148,7 @@ T> Note that we're using *jsx* extension here to tell modules using JSX syntax a
 
 ### Rendering Through `main.jsx`
 
-In addition we'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where to render and then it renders our application through React.
+We'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where to render and then it renders our application through React.
 
 **app/main.jsx**
 
@@ -220,7 +220,7 @@ Besides ES6 classes React allows you to construct components using `React.create
 
 When you are using `React.createClass` it is possible to inject functionality to a component using mixins. This isn't possible in ES6 by default unless you are using a helper such as [react-mixin](https://github.com/brigand/react-mixin). In later chapters we will go through various alternative approaches that allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
 
-In addition ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's a good practice to bind the context at component constructor. We will use this convention in this book. It leads to some extra code but later on it is likely possible to refactor it out.
+In addition, ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's a good practice to bind the context at component constructor. We will use this convention in this book. It leads to some extra code but later on it is likely possible to refactor it out.
 
 The biggest benefit of the class based approach is that it decreases the amount of concepts you have to worry about. Particularly `constructor` helps to keep things simpler than in `React.createClass` based approach where you need to define separate methods to achieve the same result.
 

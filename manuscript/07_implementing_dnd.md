@@ -31,7 +31,7 @@ After this change the application should look exactly the same as before. We are
 
 ## Preparing Notes to Be Sorted
 
-Next we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll want to annotate them accordingly. In addition we'll need some logic to tell what happens during this process.
+Next we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll want to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
 
 Earlier we extracted some of the editing functionality from `Note` and ended up dropping it. Since we need to decorate the component and don't want to end up with a mess, it seems like we'll want to add that concept back if only for decoration purposes.
 
@@ -89,7 +89,7 @@ export default {
 
 We'll expand this definition later as we add new types to the system. Next we need to tell our `Note` that it's possible to drag and drop it.
 
-We will be relying on `DragSource` and `DropTarget` decorators. In our case `Note` is both. After all we'll want to be able to sort them. Both decorators give us access to `Note` props. In addition we can access the source `Note` through `monitor.getItem()` at `noteTarget` while `props` map to target.
+We will be relying on `DragSource` and `DropTarget` decorators. In our case `Note` is both. After all we'll want to be able to sort them. Both decorators give us access to `Note` props. In addition, we can access the source `Note` through `monitor.getItem()` at `noteTarget` while `props` map to target.
 
 **app/components/Note.jsx**
 
@@ -439,7 +439,7 @@ class LaneStore {
 }
 ```
 
-After these changes we have a Kanban table that is actually useful! We can create new lanes and notes, edit and remove them. In addition we can move notes around. Mission accomplished!
+After these changes we have a Kanban table that is actually useful! We can create new lanes and notes, edit and remove them. In addition, we can move notes around. Mission accomplished!
 
 ## Conclusion
 

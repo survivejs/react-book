@@ -16,7 +16,7 @@ In this chapter I'll go through these tools briefly. We'll integrate just ESLint
 
 Interestingly no JSLint loader seems to exist for webpack yet. Fortunately there's one for JSHint. On a legacy project setting it up with webpack is easy. We won't be using it for our application but it's a good thing to know. At least you'll see some familiar patterns.
 
-You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition you will need a little bit of configuration.
+You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition, you will need a little bit of configuration.
 
 ```javascript
 module: {
@@ -92,7 +92,7 @@ This will trigger ESLint against all JS and JSX files of our project. That's def
 build/
 ```
 
-Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. You'll find more information about the rules at [the official rule documentation](http://eslint.org/docs/rules/).
+Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. You'll find more information about the rules at [the official rule documentation](http://eslint.org/docs/rules/).
 
 **.eslintrc**
 
@@ -361,7 +361,7 @@ I decided to use a set of rules from Twitter Bootstrap. These seem like a good s
 
 If you hit `npm run lint-css` now, you should see some output, hopefully without errors. That `--quiet` flag is there to keep the tool silent unless there are errors.
 
-Thanks to the webpack configuration we did, you should get output during `npm start` process as well. In addition you should consider setting up csslint with your editor. That way you get more integrated development experience.
+Thanks to the webpack configuration we did, you should get output during `npm start` process as well. In addition, you should consider setting up csslint with your editor. That way you get more integrated development experience.
 
 ## Checking JavaScript Style with JSCS
 

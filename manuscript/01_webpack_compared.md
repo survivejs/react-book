@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 };
 ```
 
-In this sample we define two basic tasks related to `jshint`, a linting tool that helps you spot possible problem spots at your source. We have a standalone task for running the tool against our source. In addition we have a watcher based task. If we run it, we'll get warnings interactively at our terminal as we edit.
+In this sample we define two basic tasks related to `jshint`, a linting tool that helps you spot possible problem spots at your source. We have a standalone task for running the tool against our source. In addition, we have a watcher based task. If we run it, we'll get warnings interactively at our terminal as we edit.
 
 In practice you would have a lot of small tasks such as these for various purposes such as building the project. The example shows well how these tasks are constructed. An important part of the power of Grunt is that it hides a lot of the wiring from you. Taken too far this can get problematic though as you don't understand well enough what's going on under the hood.
 
@@ -106,7 +106,7 @@ Dealing with JavaScript modules has always been a bit of a problem given the lan
 
 In practice it can be useful just to use CommonJS, the Node.js format, and let tooling deal with the rest. The advantage is that you can often hook into npm and avoid reinventing the wheel.
 
-[Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. In addition there are tons of smaller transformation tools that allow you to move beyond the basic usage (e.g. [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development automatically). This will save some effort and no doubt is a good solution up to a point.
+[Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. In addition, there are tons of smaller transformation tools that allow you to move beyond the basic usage (e.g. [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development automatically). This will save some effort and no doubt is a good solution up to a point.
 
 The Browserify ecosystem is composed of a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than webpack and in fact it is a good alternative to it.
 
