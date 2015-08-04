@@ -374,7 +374,7 @@ There are a couple of places in the code which I'll want to explain in further d
 
 The remainder of the code deals with events. If we click the component while it is in its initial state, we will enter edit mode. If we confirm the editing by hitting return or trigger `onBlur`, we trigger `onEdit` callback and go back to the default state.
 
-T> It can be a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them quickly from other props and keep your code a little tidier.
+T> It is a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them quickly from other props and keep your code a little tidier.
 
 ### Adding `onEdit` Stub
 
