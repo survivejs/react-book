@@ -98,7 +98,7 @@ export default class App extends React.Component {
 
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
 
-* `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax with JSX. In this case our function returns a list of `li` elements for React to render as a result of our `map`.
+* `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. In this case our function returns a list of `li` elements for React to render as a result of our `map`.
 * ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use `key` property. It is important that this is unique or otherwise it won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
 If you run the application now, you can see it almost works. There's a small glitch but we'll fix it next.
