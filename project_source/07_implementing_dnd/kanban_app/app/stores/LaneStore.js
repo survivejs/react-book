@@ -1,6 +1,6 @@
+import findIndex from 'find-index';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
-import findIndex from '../libs/find_index';
 import update from 'react/lib/update';
 
 class LaneStore {
@@ -20,7 +20,7 @@ class LaneStore {
   }
   update(lane) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, 'id', lane.id);
+    const targetId = findIndex(lanes, (o) => o.id === lane.id);
 
     lanes[targetId].name = lane.name;
 
@@ -28,7 +28,7 @@ class LaneStore {
   }
   delete(id) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, 'id', id);
+    const targetId = findIndex(lanes, (o) => o.id === id);
 
     this.setState({
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
@@ -36,7 +36,7 @@ class LaneStore {
   }
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, 'id', laneId);
+    const targetId = findIndex(lanes, (o) => o.id === laneId);
 
     this.removeNote(noteId);
 
@@ -72,7 +72,7 @@ class LaneStore {
   }
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, 'id', laneId);
+    const targetId = findIndex(lanes, (o) => o.id === laneId);
 
     if(targetId < 0) {
       return console.warn('Failed to find target lane');

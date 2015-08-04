@@ -365,13 +365,30 @@ We are using [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascrip
 
 T> It can be a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them quickly from other props and keep your code a little tidier.
 
+We'll be ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result. You can see how it behaves through Node.js cli. Here's a sample session:
+
+```javascript
+> findIndex = require('find-index')
+[Function: findIndex]
+> a = [12, 412, 30]
+[ 12, 412, 30 ]
+> findIndex(a, function(v) {return v === 12;})
+0
+> findIndex(a, function(v) {return v === 121;})
+-1
+```
+
+Before proceeding further get it installed using
+
+> npm i find-index --save
+
 In order to make our edit work we'll need to define a callback for `App` like this:
 
 **app/components/App.jsx**
 
 ```javascript
+import findIndex from 'find-index';
 ...
-import findIndex from '../libs/find_index';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -390,7 +407,7 @@ export default class App extends React.Component {
   ...
   itemEdited(noteId, task) {
     let notes = this.state.notes;
-    const noteIndex = findIndex(notes, 'id', noteId);
+    const noteIndex = findIndex(notes, (o) => o.id === noteId);
 
     if(noteIndex < 0) {
       return console.warn('Failed to find note', notes, noteId);
@@ -400,19 +417,6 @@ export default class App extends React.Component {
 
     this.setState({notes});
   }
-}
-```
-
-We are going to need a little helper to find array objects. If it finds something, it will return the index of the first match. This keeps our manipulations simple.
-
-**app/libs/find_index.js**
-
-```javascript
-export default function findIndex(arr, prop, value) {
-  const o = arr.filter(c => c[prop] === value)[0];
-  const ret = o && arr.indexOf(o);
-
-  return ret >= 0 ? ret : -1;
 }
 ```
 
@@ -463,7 +467,8 @@ export default class App extends React.Component {
   ...
   itemEdited(noteId, task) {
     let notes = this.state.notes;
-    const noteIndex = findIndex(notes, 'id', noteId);
+    const noteIndex = findIndex(notes, (o) => o.id === noteId);
+
 
     if(noteIndex < 0) {
       return console.warn('Failed to find note', notes, noteId);
