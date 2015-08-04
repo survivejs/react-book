@@ -49,9 +49,7 @@ at the project root to get it installed. If you open up Node.js cli (`node`) and
 '1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
 ```
 
-`uuid.v4()` will help us to generate the ids we need for the purposes of this project.
-
-T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
+`uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
 ## Connecting Data with `App`
 
