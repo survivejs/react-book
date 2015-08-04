@@ -183,13 +183,13 @@ export default class App extends React.Component {
 
 Logically we have exactly the same `App` as earlier. There's one great difference, however. Our application is more flexible. You could render multiple `Notes` with data of their own easily.
 
-Even though we improved `render()` somewhat and reduced the amount of markup there, it's still not particularly neat. We can push the data to state. Besides making the code neater this will allow us to implement logic related to it.
+Even though we improved `render()` somewhat and reduced the amount of markup there, it's still not particularly neat. We can push the data to the `App`'s state. Besides making the code neater this will allow us to implement logic related to it.
 
-## Pushing `notes` to `state`
+## Pushing `notes` to the `App` `state`
 
-As seen earlier React components can accept props. In addition they may have state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. State, however, is mutable and you are free to alter it. In our case pushing `notes` to state makes sense given we'll want to tweak them through user interface.
+As seen earlier React components can accept props. In addition they may have the state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case pushing `notes` to the state makes sense given we'll want to tweak them through user interface.
 
-In ES6 class syntax initial state can be defined at constructor. We'll assign the state we want to `this.state`. After that we can refer to it using that. The example below illustrates how to convert our notes into state.
+In ES6 class syntax the initial state can be defined at constructor. We'll assign the state we want to `this.state`. After that we can refer to it using that. The example below illustrates how to convert our notes into the state.
 
 **app/components/App.jsx**
 
