@@ -18,16 +18,18 @@ export default class Note extends React.Component {
     const {task, onEdit, ...props} = this.props;
     const edited = this.state.edited;
 
-    return <div {...props}>
-      {edited ? this.renderEdit() : this.renderTask()}
-    </div>;
+    return (
+      <div {...props}>
+        {edited ? this.renderEdit() : this.renderTask()}
+      </div>
+    );
   }
   renderEdit() {
     return <input type='text'
       autoFocus={true}
       defaultValue={this.props.task}
       onBlur={this.finishEdit}
-      onKeyPress={this.checkEnter}/>;
+      onKeyPress={this.checkEnter} />;
   }
   renderTask() {
     return <div onClick={this.edit}>{this.props.task}</div>;

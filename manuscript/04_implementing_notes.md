@@ -328,16 +328,18 @@ export default class Note extends React.Component {
     const {task, onEdit, ...props} = this.props;
     const edited = this.state.edited;
 
-    return <div {...props}>
-      {edited ? this.renderEdit() : this.renderTask()}
-    </div>;
+    return (
+      <div {...props}>
+        {edited ? this.renderEdit() : this.renderTask()}
+      </div>
+    );
   }
   renderEdit() {
     return <input type='text'
       autoFocus={true}
       defaultValue={this.props.task}
       onBlur={this.finishEdit}
-      onKeyPress={this.checkEnter}/>;
+      onKeyPress={this.checkEnter} />;
   }
   renderTask() {
     return <div onClick={this.edit}>{this.props.task}</div>;
@@ -366,7 +368,7 @@ If you try to edit a `Note` now, you will see an error (`this.props.onEdit is no
 
 There are a couple of places in the code which I'll want to explain in further detail:
 
-* `const {task, onEdit, ...props} = this.props;` - `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). I use it here extract props I don't want to end up as element attributes.
+* `const {task, onEdit, ...props} = this.props;` - `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). I use it here to extract the props I don't want to end up as element attributes.
 * `return <div {...props}>` - Rest spread is used here again. This time we extract the remaining props. This gives us an extension point with little effort. Now you can set for example `className` outside of the component itself.
 * `{edited ? this.renderEdit() : this.renderTask()}` - The ternary expression (`a ? b : c`) allows us to choose how to render the element. We alter rendering based on the component state.
 

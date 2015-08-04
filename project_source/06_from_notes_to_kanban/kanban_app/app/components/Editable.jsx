@@ -18,16 +18,18 @@ export default class Editable extends React.Component {
     const {value, onEdit, ...props} = this.props;
     const edited = this.state.edited;
 
-    return <div {...props}>
-      {edited ? this.renderEdit() : this.renderValue()}
-    </div>;
+    return (
+      <div {...props}>
+        {edited ? this.renderEdit() : this.renderValue()}
+      </div>
+    );
   }
   renderEdit() {
     return <input type='text'
       autoFocus={true}
       defaultValue={this.props.value}
       onBlur={this.finishEdit}
-      onKeyPress={this.checkEnter}/>;
+      onKeyPress={this.checkEnter} />;
   }
   renderValue() {
     return <div onClick={this.edit}>{this.props.value}</div>;
