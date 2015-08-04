@@ -260,9 +260,9 @@ If you click the plus button now, you should see something at your browser conso
 
 ### Connecting `addItem` with Data Model
 
-React provides one simple way to modify state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and optional callback that is triggered after the process has completed.
+React provides one simple way to modify state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and an optional callback that is triggered after the process has completed.
 
-It is best to think of state as immutable and modify it always through `setState`. In our cases adding new notes can be done through a `concat` operation as below.
+It is best to think of state as immutable and modify it always through `setState`. In our cases adding new note can be done through a `concat` operation as below.
 
 **app/components/App.jsx**
 
