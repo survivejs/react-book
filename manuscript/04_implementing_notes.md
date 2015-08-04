@@ -225,7 +225,7 @@ export default class App extends React.Component {
 }
 ```
 
-After this change our `render()` method slimmed down considerably. Our application works the same way as before. Now, however, we can begin to modify the state.
+After this change our application works the same way as before. We have gained something in return, though. We can begin to modify the state.
 
 T> Your browser may need a hard refresh now as the system cannot pick a change like this.
 
