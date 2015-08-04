@@ -8,28 +8,28 @@ export default class Note extends React.Component {
     this.checkEnter = this.checkEnter.bind(this);
     this.edit = this.edit.bind(this);
     this.renderEdit = this.renderEdit.bind(this);
-    this.renderValue = this.renderValue.bind(this);
+    this.renderTask = this.renderTask.bind(this);
 
     this.state = {
       edited: false
     };
   }
   render() {
-    const {value, onEdit, ...props} = this.props;
+    const {task, onEdit, ...props} = this.props;
     const edited = this.state.edited;
 
     return <div {...props}>
-      {edited ? this.renderEdit() : this.renderValue()}
+      {edited ? this.renderEdit() : this.renderTask()}
     </div>;
   }
   renderEdit() {
     return <input type='text'
-      defaultValue={this.props.value}
+      defaultValue={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter}/>;
   }
-  renderValue() {
-    return <div onClick={this.edit}>{this.props.value}</div>;
+  renderTask() {
+    return <div onClick={this.edit}>{this.props.task}</div>;
   }
   edit() {
     this.setState({

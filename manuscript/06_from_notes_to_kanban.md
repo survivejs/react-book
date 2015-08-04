@@ -337,7 +337,7 @@ Sometimes there's no clear cut way way to deal with data modeling. It is even po
 
 Now that we have some basic data structures in place we can start extending the application. We are still missing some basic functionality such as editing lane names and removing them. We can follow the same idea as for `Note` here. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can save some work by extracting the logic from `Note` and then reusing it at `Lane`.
 
-As a first step we should rename `Note.jsx` as `Editable.jsx` and tweak the class name to reflect this change to avoid confusion:
+As a first step we should rename `Note.jsx` as `Editable.jsx` and tweak as to avoid confusion and to push abstraction level up:
 
 **app/components/Editable.jsx**
 
@@ -345,6 +345,33 @@ As a first step we should rename `Note.jsx` as `Editable.jsx` and tweak the clas
 import React from 'react';
 
 export default class Editable extends React.Component {
+  constructor(props) {
+    ...
+
+    // this.renderTask = this.renderTask.bind(this);
+    this.renderValue = this.renderValue.bind(this);
+
+    this.state = {
+      edited: false
+    };
+  }
+  render() {
+    const {value, onEdit, ...props} = this.props;
+    const edited = this.state.edited;
+
+    return <div {...props}>
+      {edited ? this.renderEdit() : this.renderValue()}
+    </div>;
+  }
+  renderEdit() {
+    return <input type='text'
+      defaultValue={this.props.value}
+      onBlur={this.finishEdit}
+      onKeyPress={this.checkEnter}/>;
+  }
+  renderValue() { // drop renderTask
+    return <div onClick={this.edit}>{this.props.value}</div>;
+  }
   ...
 }
 ```

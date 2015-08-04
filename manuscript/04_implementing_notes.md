@@ -1,6 +1,6 @@
 # Implementing a Basic Note Application
 
-Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application with basic manipulation operations. We will start by doing things the hard way. We will grow our application from scratch and get into some trouble. After that you should understand better why architecture models such as Flux are needed.
+Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application with basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures such as Flux are needed.
 
 ## Initial Data Model
 
@@ -27,15 +27,15 @@ Each note is an object which will contain the data we need including `id` and `t
 
 ## On Ids
 
-You probably noticed those ids at the definition above. Ids will become valuable as we grow the project. A naive way to deal with them is to rely on array indexing. That becomes troublesome quite soon, though. For instance if you are referring to data based on array indices and the data changes, each reference has to change too. That is somewhat undesirable.
+We could have skipped ids in our definition. This would become problematic as we grow our application, though. For instance if you are referring to data based on array indices and the data changes, each reference has to change too. We can avoid that easily.
 
-Instead it can be valuable to use a proper indexing scheme here. Normally this is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) describes a good way to do this. We'll be using Node.js implementation of it.
-
-Invoke
+Normally the problem is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) allows us to generate unique ids. We'll be using Node.js implementation known as *node-uuid*. Invoke
 
 > npm i node-uuid --save
 
-at the project root to get it installed. If you open up Node.js cli (`node`) and try the following, you can see what kind of ids it outputs.
+at the project root to get it installed.
+
+If you open up Node.js cli (`node`) and try the following, you can see what kind of ids it outputs.
 
 ```javascript
 > uuid = require('node-uuid')
@@ -51,13 +51,11 @@ at the project root to get it installed. If you open up Node.js cli (`node`) and
 
 `uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
+T> You can exit Node.js cli by hitting **CTRL-C** twice.
+
 ## Connecting Data with `App`
 
-The next step is connecting this data model with our `App`. As it will be quite a bit of code I've included whole solution below. We'll improve the solution later on. The current solution is the simplest way to render a list of notes.
-
-We will use a special feature of JSX in form of `{}`. Within these braces we can mix JavaScript with JSX. In this case we will render a bunch of `li` elements. Each contains a `Note`.
-
-In order to tell React in which order to render the elements, we'll set `key` property for each. It is important that this is unique or otherwise it won't be able to figure out the correct order in which to render and it will give a warning about this.
+Next we need to connect our data model with `App`. The simplest way to achieve that is to push the data directly to `render()` for now. This won't be efficient but it will allow us to get started. The implementation below shows how this works out in React terms.
 
 **app/components/App.jsx**
 
@@ -91,22 +89,25 @@ export default class App extends React.Component {
   renderNote(note) {
     return (
       <li key={`note${note.id}`}>
-        <Note value={note.task} />
+        <Note task={note.task} />
       </li>
     );
   }
 }
 ```
 
-If you run the application now, you can see it almost works. There's only one problem. Each `Note` shows the same text. Fortunately this is easy to fix.
+We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
+
+* `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax with JSX. In this case our function returns a list of `li` elements for React to render as a result of our `map`.
+* ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use `key` property. It is important that this is unique or otherwise it won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
+
+If you run the application now, you can see it almost works. There's a small glitch but we'll fix it next.
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
-T> Setting keys let's React understand where each element belongs when it's performing diffing over virtual DOM. It's a good idea to derive it based on a unique id as above. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) at React documentation for more information.
-
 ## Fixing Note
 
-The problem is that we haven't taken `value` prop in count at `Note`. In React terms props are something that's passed to a component from outside. A component that takes only props and doesn't have any state, is known as a pure component. Pure components in particular are easy to test and work with. In the code below I extract the value of prop and render it.
+The problem is that we haven't taken `task` prop in count at `Note`. In React terms props is a data structure that's passed to a component from outside. It is up to the component how it uses this data. In the code below I extract the value of a prop and render it.
 
 **app/components/Note.jsx**
 
@@ -115,18 +116,22 @@ import React from 'react';
 
 export default class Note extends React.Component {
   render() {
-    return <div>{this.props.value}</div>;
+    return <div>{this.props.task}</div>;
   }
 }
 ```
 
 If you check out the application now, you should see we're seeing results that are more like it. This is only start, though. Our `App` is getting cramped. It feels like there's a component waiting to be extracted.
 
-## Extracting Notes
+## Extracting `Notes`
 
-If we keep on growing `App` like this we'll end up in trouble soon. When working with React it is important for you to learn to recognize possible components. We can extract `Notes` component from `App`. It will deal with rendering `Notes` and simplify our `App` somewhat.
+If we keep on growing `App` like this we'll end up in trouble soon. Currently `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to be extracted out.
 
-As a first step we should extract the logic from `App`. It will accept `items` as a prop and render each just like our `App` did earlier. I attached some classes there so it's easier to style the component later.
+T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At high level you will just worry about layout and connecting data. As you go lower in architecture you start to see more concrete structures.
+
+A good first step towards a neater `App` is to define `Notes`. It will rely on rendering logic we already set up. We are just moving it to a component of its own. Specifically we'll want to perform `<Notes items={notes} />` at `render()` method of `App`. That's just nice.
+
+You probably have the skills to implement `Notes` by now. Extract the logic from `App` and push it to a component of its own. Remember to look attach `this.props.items` to the rendering logic so that our interface works as expected. I've included complete implementation below for reference.
 
 **app/components/Notes.jsx**
 
@@ -143,14 +148,16 @@ export default class Notes extends React.Component {
   renderNote(note) {
     return (
       <li className='note' key={`note${note.id}`}>
-        <Note value={note.task} />
+        <Note task={note.task} />
       </li>
     );
   }
 }
 ```
 
-Next we need to hook up `App` to render through `Notes`.
+It can be a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I've discussed them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case we'll just focus on keeping it simple.
+
+We also need to replace old `App` logic to use our new component. You should remove the old rendering logic, import `Note` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness.
 
 **app/components/App.jsx**
 
@@ -174,41 +181,15 @@ export default class App extends React.Component {
 }
 ```
 
-Not only this change keeps `App` cleaner but it also gives us flexibility. If you wanted to have multiple `Notes` lists, it would be simple now.
+Logically we have exactly the same `App` as earlier. There's one great difference, however. Our application is more flexible. You could render multiple `Notes` with data of their own easily.
 
-## Adding New Items to Notes list
+Even though we improved `render()` somewhat and reduced the amount of markup there, it's still not particularly neat. We can push the data to state. Besides making the code neater this will allow us to implement logic related to it.
 
-It would be useful if we could add new items to our Notes list. Let's just do a plus button that adds a new dummy item to our list.
+## Pushing `notes` to `state`
 
-To implement the button, change `render` method like this:
+As seen earlier React components can accept props. In addition they may have state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. State, however, is mutable and you are free to alter it. In our case pushing `notes` to state makes sense given we'll want to tweak them through user interface.
 
-**app/components/App.jsx**
-
-```javascript
-...
-
-export default class App extends React.Component {
-  render() {
-    ...
-
-    return (
-      <div>
-        <button onClick={this.addItem}>+</button>
-        <Notes items={notes} />
-      </div>
-    );
-  }
-  addItem() {
-    console.log('add item');
-  }
-}
-```
-
-Now when you click the button, you should see something at your browser console.
-
-## Connecting `addItem` with Data Model
-
-Next we will need to connect this with our data model somehow. It is problematic that data is stored within our `render` method. React provides a concept known as state for this purpose. We can move our data there like this:
+In ES6 class syntax initial state can be defined at constructor. We'll assign the state we want to `this.state`. After that we can refer to it using that. The example below illustrates how to convert our notes into state.
 
 **app/components/App.jsx**
 
@@ -244,7 +225,44 @@ export default class App extends React.Component {
 }
 ```
 
-Now our `render` method points at `state`. As a result we can implement `addItem` that actually does something useful:
+After this change our `render()` method slimmed down considerably. Our application works the same way as before. Now, however, we can begin to modify the state.
+
+T> Your browser may need a hard refresh now as the system cannot pick a change like this.
+
+## Adding New Items to Notes list
+
+Adding new items to the notes list is a good starting point. To get started we could render a button element and attach a dummy `onClick` handler to it. We will grow actual logic to that.
+
+**app/components/App.jsx**
+
+```javascript
+...
+
+export default class App extends React.Component {
+  ...
+  render() {
+    const notes = this.state.notes;
+
+    return (
+      <div>
+        <button onClick={this.addItem}>+</button>
+        <Notes items={notes} />
+      </div>
+    );
+  }
+  addItem() {
+    console.log('add item');
+  }
+}
+```
+
+If you click the plus button now, you should see something at your browser console. The next step it connect this stub with our data model.
+
+### Connecting `addItem` with Data Model
+
+React provides one simple way to modify state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` end triggers `render()` eventually. It accepts data and optional callback that is triggered after the process has completed.
+
+It is best to think of state as immutable and modify it always through `setState`. In our cases adding new notes can be done through a `concat` operation as below.
 
 **app/components/App.jsx**
 
@@ -271,13 +289,13 @@ export default class App extends React.Component {
 }
 ```
 
-If you hit the button now, you should see new items. It might not be pretty yet but it works.
+If you hit the button a few now, you should see new items. It might not be pretty yet but it works.
 
-### How Does `bind` Work?
+In addition to `this.setState` we had to set up a binding. Without it `this` of `addItem()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.
 
-We are using `bind` with `addItem` because we want to apply the right context to it. It will be `undefined` by default. As a result `this.setState` would fail. Through `this.addItem.bind(this)` we make sure it is bound to the current instance.
+### What's the Point of `bind`?
 
-`bind` is useful beyond this usage. You can consider it the equivalent of inheritance but for functions. To give you a trivial example see below:
+Besides setting context `bind` can be useful for partial application. You can consider it the equivalent of inheritance but for functions. To give you a trivial example see below:
 
 ```javascript
 function add(a, b) {
@@ -289,13 +307,11 @@ const addTwo = add.bind(null, 2);
 console.log(addTwo(6)); // 8
 ```
 
-We are using `bind` at `constructor` to get a small performance benefit. If we applied it on `render`, it would have to be applied per `render`. I'll be using this convention unless it would additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with neat syntax.
+Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
 
 ## Editing Notes
 
-Our Notes list is almost useful now. It is a little unfortunate that even though we can add new items to the list, we cannot modify them. It is time to implement edit.
-
-A natural way to do this would be to allow the user to click an item. When an item is clicked, it would be replaced with an input control that would allow you to edit. After confirmed, the modification should remain there.
+Our Notes list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect click on a `Note` and then show an input containing its state. Then when editing has been confirmed we can turn it back to normal.
 
 This means we'll need to extend `Note` somehow and communicate possible changes to `App` so that it knows to update the data model. In addition `Note` needs to keep track of its edit state and show the correct element (div or input) based on that.
 
@@ -314,28 +330,28 @@ export default class Note extends React.Component {
     this.checkEnter = this.checkEnter.bind(this);
     this.edit = this.edit.bind(this);
     this.renderEdit = this.renderEdit.bind(this);
-    this.renderValue = this.renderValue.bind(this);
+    this.renderTask = this.renderTask.bind(this);
 
     this.state = {
       edited: false
     };
   }
   render() {
-    const {value, onEdit, ...props} = this.props;
+    const {task, onEdit, ...props} = this.props;
     const edited = this.state.edited;
 
     return <div {...props}>
-      {edited ? this.renderEdit() : this.renderValue()}
+      {edited ? this.renderEdit() : this.renderTask()}
     </div>;
   }
   renderEdit() {
     return <input type='text'
-      defaultValue={this.props.value}
+      defaultValue={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter}/>;
   }
-  renderValue() {
-    return <div onClick={this.edit}>{this.props.value}</div>;
+  renderTask() {
+    return <div onClick={this.edit}>{this.props.task}</div>;
   }
   edit() {
     this.setState({
@@ -359,37 +375,23 @@ export default class Note extends React.Component {
 
 If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at console. We'll fix this shortly.
 
-`Note` keeps track of *edited* state. We will manipulate that to change the way it is rendered. If we hit **edit**, we'll trigger edit mode. Once input receives either *blur* event or Enter key, we'll finish editing and reset the value. When finishing we also trigger a callback so the app knows to react.
+There are a couple of places in the code which I'll want to explain in further detail:
 
-We are using [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread) here to keep our props generic. In other words that `<div {...props}>` sets props as element attributes. This gives an additional extension point with little effort. You could for instance attach custom event handlers there or set some standard HTML attributes (e.g. `<Note title='Demo title' value={note.task} />`). I extract `value` and `onEdit` out of `props` as I **don't** want to set these at `div`.
+* `const {task, onEdit, ...props} = this.props;` - `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). I use it here extract props I don't want to end up as element attributes.
+* `return <div {...props}>` - Rest spread is used here again. This time we extract the remaining props. This gives us an extension point with little effort. Now you can set for example `className` outside of the component itself.
+* `{edited ? this.renderEdit() : this.renderTask()}` - The ternary expression (`a ? b : c`) allows us to choose how to render the element. We alter rendering based on the component state.
+
+The remainder of the code deals with events. If we click the component while it is in its initial state, we will enter edit mode. If we confirm the editing by hitting return or trigger `onBlur`, we trigger `onEdit` callback and go back to the default state.
 
 T> It can be a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them quickly from other props and keep your code a little tidier.
 
-We'll be ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result. You can see how it behaves through Node.js cli. Here's a sample session:
+### Adding `onEdit` Stub
 
-```javascript
-> findIndex = require('find-index')
-[Function: findIndex]
-> a = [12, 412, 30]
-[ 12, 412, 30 ]
-> findIndex(a, function(v) {return v === 12;})
-0
-> findIndex(a, function(v) {return v === 121;})
--1
-```
-
-Before proceeding further get it installed using
-
-> npm i find-index --save
-
-In order to make our edit work we'll need to define a callback for `App` like this:
+Given we are currently dealing with logic at `App`, we can deal with `onEdit` there as well. A good first step towards that is to create a stub for it. As `onEdit` is defined on `Note` level we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
 
 **app/components/App.jsx**
 
 ```javascript
-import findIndex from 'find-index';
-...
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -400,27 +402,25 @@ export default class App extends React.Component {
     this.itemEdited = this.itemEdited.bind(this);
   }
   render() {
-    ...
-    <Notes items={notes} onEdit={this.itemEdited} />
-    ...
+    const notes = this.state.notes;
+
+    return (
+      <div>
+        <button onClick={this.addItem}>+</button>
+        <Notes items={notes} onEdit={this.itemEdited} />
+      </div>
+    );
   }
   ...
   itemEdited(noteId, task) {
-    let notes = this.state.notes;
-    const noteIndex = findIndex(notes, (o) => o.id === noteId);
-
-    if(noteIndex < 0) {
-      return console.warn('Failed to find note', notes, noteId);
-    }
-
-    notes[noteIndex].task = task;
-
-    this.setState({notes});
+    console.log('item edited', noteId, task);
   }
 }
 ```
 
-We also need to tweak `Notes` in order to bind the callback and pass the id of the edited `Note` to the parent:
+The idea is that `Notes` will return our callback the id of the note being modified and the new state of the task. We'll need to use this data soon in order to patch the state.
+
+We also need to make `Notes` work according to this idea. It will `bind` the id of the note in question. When the callback is triggered the remaining parameter receives a value and the callback get called.
 
 **app/components/Notes.jsx**
 
@@ -442,7 +442,7 @@ export default class Notes extends React.Component {
     return (
       <li className='note' key={`note${note.id}`}>
         <Note
-          value={note.task}
+          task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)} />
       </li>
     );
@@ -450,13 +450,63 @@ export default class Notes extends React.Component {
 }
 ```
 
-After these changes you should be able to edit notes.
+If you edit a `Note` now, you should see a print at console.
+
+We are missing one final bit, actual logic. The idea is quite simple. Our state consists of `Notes` each of which has an id (string) and a task (string) attached to it. Our callback receives both of these data. Therefore in order to edit a `Note` it should find the `Note` to edit and patch its task using the new data.
+
+### Understanding `findIndex`
+
+We'll be ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result. You can see how it behaves through Node.js cli. Here's a sample session:
+
+```javascript
+> findIndex = require('find-index')
+[Function: findIndex]
+> a = [12, 412, 30]
+[ 12, 412, 30 ]
+> findIndex(a, function(v) {return v === 12;})
+0
+> findIndex(a, function(v) {return v === 121;})
+-1
+```
+
+Before proceeding further get it installed using
+
+> npm i find-index --save
+
+### Implementing `onEdit` Logic
+
+The only thing that remains is gluing this all together. We'll need to take the data, find index based on which to modify, perform the modification and finally commit it to component state through `setState`.
+
+**app/components/App.jsx**
+
+```javascript
+import findIndex from 'find-index';
+...
+
+export default class App extends React.Component {
+  ...
+  itemEdited(noteId, task) {
+    let notes = this.state.notes;
+    const noteIndex = findIndex(notes, (o) => o.id === noteId);
+
+    if(noteIndex < 0) {
+      return console.warn('Failed to find note', notes, noteId);
+    }
+
+    notes[noteIndex].task = task;
+
+    this.setState({notes});
+  }
+}
+```
+
+If you try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
 
 ## Removing Notes
 
-We are still missing one vital functionality. It would be nice to be able to remove notes. We can achieve this easily by extending edit.
+We are still missing one vital functionality. It would be nice to be able to remove notes. We could implement a button per `Note` and trigger the logic using that. We can also achieve this easily by extending edit. I'm opting for that as it's easier to implement.
 
-In case we empty a task, it would make sense to remove it. You can give it a go yourself or follow the example below. It is just a matter of modifying state.
+If we want the laziest possible solution, we can just remove a `Note` when the user erases the entry. This might not be the best UX but it's enough for this demonstration.
 
 **app/components/App.jsx**
 
@@ -468,7 +518,6 @@ export default class App extends React.Component {
   itemEdited(noteId, task) {
     let notes = this.state.notes;
     const noteIndex = findIndex(notes, (o) => o.id === noteId);
-
 
     if(noteIndex < 0) {
       return console.warn('Failed to find note', notes, noteId);
@@ -486,7 +535,9 @@ export default class App extends React.Component {
 }
 ```
 
-If you empty an input now, the new logic should trigger and get rid of the `Note` in question.
+Try erasing an input now. The new logic should kick in and get rid of the `Note`. The idea is exactly the same as earlier. We just perform a different operation over the data.
+
+We have a fairly well working little application now. Our `App` has grown somewhat due to new logic introduced but apart from that we are doing quite fine. You should understand how props and state work by now. There's a lot more than that to React, though.
 
 T> We just introduced some interesting behavior to our system. As we track edit state on `Note` level, this means if you remove an item before the edited `Note`, the same old element remains edited. If we want to edit specific data, our data model should change to take this in count. Can you see how?
 
