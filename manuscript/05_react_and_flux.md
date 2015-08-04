@@ -2,7 +2,11 @@
 
 You can get quite far by keeping everything in components but eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) was designed to help bring clarity to our React applications.
 
+Flux will allow us to separate data and application state from our Views. This allows us to keep them clean and keep the application maintainable. Flux was designed large teams in mind. As a result you might find it quite verbose. This comes with great advantages, though, as it can be straight-forward to work with.
+
 ## Introduction to Flux
+
+![Flux dataflow](images/flux.png)
 
 So far we've been operating solely on View components. Flux brings a couple of new concepts: Actions, Dispatchers and Stores. All of this works as a single loop. You can for instance trigger an Action at some view. This in turn will trigger a Dispatcher which decides which Stores to touch. As Stores get changed the Views listening them will receive new data to show.
 
