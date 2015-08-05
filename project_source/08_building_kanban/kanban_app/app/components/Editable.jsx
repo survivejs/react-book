@@ -11,16 +11,16 @@ export default class Editable extends React.Component {
     this.renderValue = this.renderValue.bind(this);
 
     this.state = {
-      edited: false
+      editing: false
     };
   }
   render() {
     const {value, onEdit, ...props} = this.props;
-    const edited = this.state.edited;
+    const editing = this.state.editing;
 
     return (
       <div {...props}>
-        {edited ? this.renderEdit() : this.renderValue()}
+        {editing ? this.renderEdit() : this.renderValue()}
       </div>
     );
   }
@@ -36,7 +36,7 @@ export default class Editable extends React.Component {
   }
   edit() {
     this.setState({
-      edited: true
+      editing: true
     });
   }
   checkEnter(e) {
@@ -48,7 +48,7 @@ export default class Editable extends React.Component {
     this.props.onEdit(e.target.value);
 
     this.setState({
-      edited: false
+      editing: false
     });
   }
 }

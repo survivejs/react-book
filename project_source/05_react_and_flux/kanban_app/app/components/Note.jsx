@@ -11,16 +11,16 @@ export default class Note extends React.Component {
     this.renderTask = this.renderTask.bind(this);
 
     this.state = {
-      edited: false
+      editing: false
     };
   }
   render() {
     const {task, onEdit, ...props} = this.props;
-    const edited = this.state.edited;
+    const editing = this.state.editing;
 
     return (
       <div {...props}>
-        {edited ? this.renderEdit() : this.renderTask()}
+        {editing ? this.renderEdit() : this.renderTask()}
       </div>
     );
   }
@@ -36,7 +36,7 @@ export default class Note extends React.Component {
   }
   edit() {
     this.setState({
-      edited: true
+      editing: true
     });
   }
   checkEnter(e) {
@@ -48,7 +48,7 @@ export default class Note extends React.Component {
     this.props.onEdit(e.target.value);
 
     this.setState({
-      edited: false
+      editing: false
     });
   }
 }
