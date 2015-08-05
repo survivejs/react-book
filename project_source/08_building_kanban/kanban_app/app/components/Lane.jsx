@@ -28,8 +28,7 @@ const noteTarget = {
 }))
 export default class Lane extends React.Component {
   render() {
-    const { isDragging, connectDropTarget,
-      id, name, notes, ...props } = this.props;
+    const { connectDropTarget, id, name, notes, ...props } = this.props;
 
     return connectDropTarget(
       <div {...props}>

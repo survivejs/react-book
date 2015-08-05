@@ -114,16 +114,15 @@ const noteTarget = {
   }
 };
 
-@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging()
+@DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
+  connectDragSource: connect.dragSource()
 }))
 @DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
   connectDropTarget: connect.dropTarget()
 }))
 export default class Note extends React.Component {
   render() {
-    const { isDragging, connectDragSource, connectDropTarget,
+    const { connectDragSource, connectDropTarget,
       onMove, data, ...props } = this.props;
 
     return connectDragSource(connectDropTarget(
@@ -343,8 +342,7 @@ const noteTarget = {
 }))
 export default class Lane extends React.Component {
   render() {
-    const { isDragging, connectDropTarget,
-      id, name, notes, ...props } = this.props;
+    const { connectDropTarget, id, name, notes, ...props } = this.props;
 
     return connectDropTarget(
       ...
