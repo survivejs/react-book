@@ -325,11 +325,10 @@ export default class Note extends React.Component {
     };
   }
   render() {
-    const {task, onEdit, ...props} = this.props;
     const editing = this.state.editing;
 
     return (
-      <div {...props}>
+      <div>
         {editing ? this.renderEdit() : this.renderTask()}
       </div>
     );
@@ -365,12 +364,6 @@ export default class Note extends React.Component {
 ```
 
 If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at the console. We'll fix this shortly.
-
-There are a couple of places in the code which I'll want to explain in further detail:
-
-* `const {task, onEdit, ...props} = this.props;` - `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). I use it here to extract the props I don't want to end up as element attributes.
-* `return <div {...props}>` - Rest spread is used here again. This time we extract the remaining props. This gives us an extension point with little effort. Now you can set for example `className` outside of the component itself.
-* `{edited ? this.renderEdit() : this.renderTask()}` - The ternary expression (`a ? b : c`) allows us to choose how to render the element. We alter rendering based on the component state.
 
 The remainder of the code deals with events. If we click the component while it is in its initial state, we will enter edit mode. If we confirm the editing by hitting return or trigger `onBlur`, we trigger `onEdit` callback and go back to the default state.
 

@@ -400,6 +400,8 @@ export default (store) => {
 };
 ```
 
+T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). I use it here to extract the props and state and pass them further as props.
+
 You can connect it with `App` like this:
 
 **app/components/App.jsx**

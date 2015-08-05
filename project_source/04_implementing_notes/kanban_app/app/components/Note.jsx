@@ -15,11 +15,10 @@ export default class Note extends React.Component {
     };
   }
   render() {
-    const {task, onEdit, ...props} = this.props;
     const editing = this.state.editing;
 
     return (
-      <div {...props}>
+      <div>
         {editing ? this.renderEdit() : this.renderTask()}
       </div>
     );
