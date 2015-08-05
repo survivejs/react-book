@@ -478,7 +478,7 @@ export default class App extends React.Component {
   ...
   itemEdited(noteId, task) {
     let notes = this.state.notes;
-    const noteIndex = findIndex(notes, (o) => o.id === noteId);
+    const noteIndex = findIndex(notes, (note) => note.id === noteId);
 
     if(noteIndex < 0) {
       return console.warn('Failed to find note', notes, noteId);
@@ -506,12 +506,12 @@ If we want the laziest possible solution, we can just remove a `Note` when the u
 
 export default class App extends React.Component {
   ...
-  itemEdited(noteId, task) {
+  itemEdited(id, task) {
     let notes = this.state.notes;
-    const noteIndex = findIndex(notes, (o) => o.id === noteId);
+    const noteIndex = findIndex(notes, (note) => note.id === id);
 
     if(noteIndex < 0) {
-      return console.warn('Failed to find note', notes, noteId);
+      return console.warn('Failed to find note', notes, id);
     }
 
     if(task) {

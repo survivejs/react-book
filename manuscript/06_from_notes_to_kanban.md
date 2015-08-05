@@ -214,7 +214,7 @@ class LaneStore {
   ...
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, (o) => o.id === laneId);
+    const targetId = findIndex(lanes, (lane) => lane.id === laneId);
 
     if(targetId < 0) {
       return console.warn('Failed to find target lane');
@@ -233,7 +233,7 @@ class LaneStore {
   }
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, (o) => o.id === laneId);
+    const targetId = findIndex(lanes, (lane) => lane.id === laneId);
 
     if(targetId < 0) {
       return console.warn('Failed to find target lane');
@@ -453,17 +453,17 @@ We are also going to need `LaneStore` level implementations for these. They can 
 
 class LaneStore {
   ...
-  update(lane) {
+  update({id, name}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, (o) => o.id === lane.id);
+    const targetId = findIndex(lanes, (lane) => lane.id === id);
 
-    lanes[targetId].name = lane.name;
+    lanes[targetId].name = name;
 
     this.setState({lanes});
   }
   delete(id) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, (o) => o.id === id);
+    const targetId = findIndex(lanes, (lane) => lane.id === id);
 
     this.setState({
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))

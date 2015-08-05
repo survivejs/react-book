@@ -15,17 +15,17 @@ class NoteStore {
       notes: notes.concat(note)
     });
   }
-  update(note) {
+  update({id, task}) {
     const notes = this.notes;
-    const targetId = findIndex(notes, (o) => o.id === note.id);
+    const targetId = findIndex(notes, (note) => note.id === id);
 
-    notes[targetId].task = note.task;
+    notes[targetId].task = task;
 
     this.setState({notes});
   }
   delete(id) {
     const notes = this.notes;
-    const targetId = findIndex(notes, (o) => o.id === id);
+    const targetId = findIndex(notes, (note) => note.id === id);
 
     this.setState({
       notes: notes.slice(0, targetId).concat(notes.slice(targetId + 1))
