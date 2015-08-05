@@ -530,8 +530,6 @@ Try erasing an input now. The new logic should kick in and get rid of the `Note`
 
 We have a fairly well working little application now. Our `App` has grown somewhat due to new logic introduced but apart from that we are doing quite fine. You should understand how props and state work by now. There's a lot more than that to React, though.
 
-T> We just introduced some interesting behavior to our system. As we track edit state on `Note` level, this means if you remove an item before the edited `Note`, the same old element remains edited. If we want to edit specific data, our data model should change to take this in count. Can you see how?
-
 ## Understanding React Components
 
 Besides understanding how props and state work it is important to understand the concept of component lifecycle. We already touched it briefly above but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these three concepts throughout your application.
@@ -556,7 +554,7 @@ Note.willTransitionTo = () => {...};
 export default Note;
 ```
 
-Some libraries such as `react-dnd` rely on static methods to provide transition hooks that allow you to control what happens when a component is shown or hidden. By definition statics are available through class itself as you might guess from the code above.
+Some libraries such as `react-dnd` rely on static methods to provide transition hooks that allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself as you might guess from the code above.
 
 Both component types support `render()`. As seen above this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything return either `null` or `false`.
 
@@ -564,15 +562,15 @@ In addition, React provides the following lifecycle hooks:
 
 * `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
 * `componentDidMount()` gets triggered after initial rendering. You have access to DOM here. You could use this hook to wrap a jQuery plugin within a component for instance.
-* `componentWillReceiveProps(object nextProps)` triggers when component receives new props. You could for instance modify your component state based on the received props.
-* `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize rendering. If you check the props and state and see that there's no need to update, return `false`.
+* `componentWillReceiveProps(object nextProps)` triggers when the component receives new props. You could for instance modify your component state based on the received props.
+* `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize the rendering. If you check the props and state and see that there's no need to update, return `false`.
 * `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here but you can set class properties for instance.
-* `componentDidUpdate` is triggered after rendering. You can modify DOM here. This can be useful for adapting other code to work with React.
-* `componentWillUnmount` is triggered just before a component is unmounted from DOM. This is the ideal place to perform cleanup (e.g. remove running timers, custom DOM elements and so on).
+* `componentDidUpdate` is triggered after rendering. You can modify the DOM here. This can be useful for adapting other code to work with React.
+* `componentWillUnmount` is triggered just before a component is unmounted from the DOM. This is the ideal place to perform cleanup (e.g. remove running timers, custom DOM elements and so on).
 
 ## React Component Conventions
 
-As seen in the above code I prefer to have `constructor` first, possible lifecycle hooks then, `render()` and finally methods used by `render()`. I like this top-down approach as it makes it straight-forward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers for instance.
+As seen in the code above, I prefer to have the `constructor` first, followed by lifecycle hooks, `render()` and finally methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers for instance.
 
 In the end you will have to find conventions you like and that work the best for you. I go more detail in this topic at the linting chapter as I introduce various code quality related tools. It is possible to enforce coding style to some extent for instance.
 
@@ -580,4 +578,4 @@ This can be useful in a team environment as it decreases the amount of friction 
 
 ## Conclusion
 
-You can get quite far just with vanilla React. Unfortunately our little application is already bursting at seams and we have a lot of features to implement. In the next chapter we will clean things up as we introduce Flux architecture and port our application to use it.
+You can get quite far just with vanilla React. The problem is that we are starting to mix data related concerns and logic with our View components. Instead on continuing on this path we'll improve the architecture of our application by introducing Flux to it.
