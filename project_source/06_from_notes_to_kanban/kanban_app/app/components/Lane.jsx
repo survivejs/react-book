@@ -23,9 +23,7 @@ export default class Lane extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={ {
-            items: () => {
-              return NoteStore.get(notes);
-            }
+            items: () => NoteStore.get(notes)
           } }
         >
           <Notes onEdit={this.noteEdited.bind(null, id)} />
