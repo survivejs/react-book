@@ -371,7 +371,11 @@ T> It is a good idea to name your callbacks using `on` prefix. This will allow y
 
 ### Adding `onEdit` Stub
 
-Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. A good first step towards that is to create a stub for it. As `onEdit` is defined on `Note` level we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
+Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. We will need to trigger this callback at `Note` while delegate the result with relevant data to `App` level. The diagram below illustrates the idea:
+
+![`onEdit` flow](images/bind.png)
+
+A good first step towards that behavior is to create a stub. As `onEdit` is defined on `Note` level we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
 
 **app/components/App.jsx**
 
@@ -404,7 +408,7 @@ export default class App extends React.Component {
 
 The idea is that `Notes` will return our callback the id of the note being modified and the new state of the task. We'll need to use this data soon in order to patch the state.
 
-We also need to make `Notes` work according to this idea. It will `bind` the id of the note in question. When the callback is triggered the remaining parameter receives a value and the callback get called.
+We also need to make `Notes` work according to this idea. It will `bind` the id of the note in question. When the callback is triggered the remaining parameter receives a value and the callback gets called.
 
 **app/components/Notes.jsx**
 
