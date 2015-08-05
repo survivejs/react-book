@@ -227,6 +227,8 @@ export default class App extends React.Component {
 
 After this change our application works the same way as before. We have gained something in return, though. We can begin to modify the state.
 
+T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without but it's a good standard to have.
+
 ## Adding New Items to Notes list
 
 Adding new items to the notes list is a good starting point. To get started we could render a button element and attach a dummy `onClick` handler to it. We will grow the actual logic into that.
