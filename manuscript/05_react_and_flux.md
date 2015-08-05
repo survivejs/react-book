@@ -2,13 +2,13 @@
 
 You can get quite far by keeping everything in components but eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) was designed to help bring clarity to our React applications.
 
-Flux will allow us to separate data and application state from our Views. This allows us to keep them clean and keep the application maintainable. Flux was designed large teams in mind. As a result you might find it quite verbose. This comes with great advantages, though, as it can be straight-forward to work with.
+Flux will allow us to separate data and application state from our Views. This allows us to keep them clean and keep the application maintainable. Flux was designed large teams in mind. As a result you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
 
 ## Introduction to Flux
 
 ![Flux dataflow](images/flux.png)
 
-So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher and Stores. Flux implements a unidirectional flow in contrast to popular frameworks such as Angular. Even though two-direction bindings can be convenient and some things are easier to implement using them, the Flux way of doing things comes with its benefits.
+So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient and some things are easier to implement using them, the Flux way of doing things comes with its benefits.
 
 ### Dataflow in Flux
 
@@ -24,7 +24,7 @@ Implementing Flux architecture in your application will actually increase the am
 
 ### Relay?
 
-Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) can be considered an improvement over Flux. It improves especially on data fetching department and allows you to push data requirements to View level. As it still completely new technology we don't be discussing it yet.
+Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) can be considered an improvement over Flux. It improves especially on the data fetching department and allows you to push data requirements to the View level. As it is still a completely new technology we won't be discussing it yet in detail.
 
 ### Which Flux Implementation to Use?
 
