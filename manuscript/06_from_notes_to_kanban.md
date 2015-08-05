@@ -282,16 +282,7 @@ export default class Lane extends React.Component {
           stores={[NoteStore]}
           inject={ {
             items: () => {
-              const allNotes = NoteStore.getState().notes || [];
-              const allNotesIds = allNotes.map((note) => note.id);
-
-              if(notes) {
-                return notes.map((note) => {
-                  return allNotes[allNotesIds.indexOf(note)];
-                });
-              }
-
-              return [];
+              return NoteStore.get(notes);
             }
           } }
         >
@@ -316,6 +307,40 @@ export default class Lane extends React.Component {
     }
   }
 }
+```
+
+We also need to defined that getter for `NoteStore`
+
+**app/stores/NoteStore.jsx**
+
+```javascript
+import alt from '../libs/alt';
+import NoteActions from '../actions/NoteActions';
+
+class NoteStore {
+  constructor() {
+    this.bindActions(NoteActions);
+
+    this.notes = this.notes || [];
+
+    this.exportPublicMethods({
+      get: this.get.bind(this)
+    });
+  }
+  ...
+    get(ids) {
+      const notes = this.notes || [];
+      const notesIds = notes.map((note) => note.id);
+
+      if(ids) {
+        return ids.map((id) => notes[notesIds.indexOf(id)]);
+      }
+
+      return [];
+    }
+  }
+
+  export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
 After these massive changes we have set up a system that can maintain relations between `Lanes` and `Notes`. It's not a particularly beautiful solution but the current structure allowed us to retain singleton stores and a flat data structure.

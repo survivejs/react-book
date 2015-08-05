@@ -6,6 +6,10 @@ class NoteStore {
     this.bindActions(NoteActions);
 
     this.notes = this.notes || [];
+
+    this.exportPublicMethods({
+      get: this.get.bind(this)
+    });
   }
   create(note) {
     const notes = this.notes;
@@ -29,6 +33,16 @@ class NoteStore {
     this.setState({
       notes: notes.slice(0, targetId).concat(notes.slice(targetId + 1))
     });
+  }
+  get(ids) {
+    const notes = this.notes || [];
+    const notesIds = notes.map((note) => note.id);
+
+    if(ids) {
+      return ids.map((id) => notes[notesIds.indexOf(id)]);
+    }
+
+    return [];
   }
 }
 
