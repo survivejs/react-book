@@ -1,4 +1,3 @@
-import findIndex from 'find-index';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
@@ -17,7 +16,7 @@ class NoteStore {
   }
   update({id, task}) {
     const notes = this.notes;
-    const targetId = findIndex(notes, (note) => note.id === id);
+    const targetId = notes.findIndex((note) => note.id === id);
 
     notes[targetId].task = task;
 
@@ -25,7 +24,7 @@ class NoteStore {
   }
   delete(id) {
     const notes = this.notes;
-    const targetId = findIndex(notes, (note) => note.id === id);
+    const targetId = notes.findIndex((note) => note.id === id);
 
     this.setState({
       notes: notes.slice(0, targetId).concat(notes.slice(targetId + 1))

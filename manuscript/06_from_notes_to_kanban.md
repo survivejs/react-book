@@ -206,7 +206,6 @@ We also need to implement the feature at store level as follows:
 **app/stores/LaneStore.js**
 
 ```javascript
-import findIndex from 'find-index';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 
@@ -214,7 +213,7 @@ class LaneStore {
   ...
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, (lane) => lane.id === laneId);
+    const targetId = lanes.findIndex((lane) => lane.id === laneId);
 
     if(targetId < 0) {
       return console.warn('Failed to find target lane');
@@ -233,7 +232,7 @@ class LaneStore {
   }
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, (lane) => lane.id === laneId);
+    const targetId = lanes.findIndex((lane) => lane.id === laneId);
 
     if(targetId < 0) {
       return console.warn('Failed to find target lane');
@@ -455,7 +454,7 @@ class LaneStore {
   ...
   update({id, name}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, (lane) => lane.id === id);
+    const targetId = lanes.findIndex((lane) => lane.id === id);
 
     lanes[targetId].name = name;
 
@@ -463,7 +462,7 @@ class LaneStore {
   }
   delete(id) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, (lane) => lane.id === id);
+    const targetId = lanes.findIndex((lane) => lane.id === id);
 
     this.setState({
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))

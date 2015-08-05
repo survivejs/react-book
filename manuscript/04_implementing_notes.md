@@ -450,19 +450,26 @@ We are missing one final bit, the actual logic. Our state consists of `Notes` ea
 We'll be using a ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result. You can see how it behaves through Node.js cli. Here's a sample session:
 
 ```javascript
-> findIndex = require('find-index')
-[Function: findIndex]
+> require('babel-core/polyfill')
+{}
 > a = [12, 412, 30]
 [ 12, 412, 30 ]
-> findIndex(a, function(v) {return v === 12;})
+> a.findIndex(function(v) {return v === 12;})
 0
-> findIndex(a, function(v) {return v === 121;})
+> a.findIndex(function(v) {return v === 121;})
 -1
 ```
 
-Before proceeding further get it installed using
+Before proceeding we need to enable Babel polyfills. `findIndex` is included amongst many other features. You can see full list of enabled features at [core-js](https://github.com/zloirock/core-js) project page. Enabling can be done as follows:
 
-> npm i find-index --save
+**app/main.jsx**
+
+```
+import 'babel-core/polyfill';
+...
+```
+
+After this you can use `findIndex` against arrays at your code. Note that this will bloat our final bundle a little bit (around 40 kB) but the convenience is worth it.
 
 ### Implementing `onEdit` Logic
 
@@ -471,14 +478,13 @@ The only thing that remains is gluing this all together. We'll need to take the 
 **app/components/App.jsx**
 
 ```javascript
-import findIndex from 'find-index';
 ...
 
 export default class App extends React.Component {
   ...
   itemEdited(noteId, task) {
     let notes = this.state.notes;
-    const noteIndex = findIndex(notes, (note) => note.id === noteId);
+    const noteIndex = notes.findIndex((note) => note.id === noteId);
 
     if(noteIndex < 0) {
       return console.warn('Failed to find note', notes, noteId);
@@ -508,7 +514,7 @@ export default class App extends React.Component {
   ...
   itemEdited(id, task) {
     let notes = this.state.notes;
-    const noteIndex = findIndex(notes, (note) => note.id === id);
+    const noteIndex = notes.findIndex((note) => note.id === id);
 
     if(noteIndex < 0) {
       return console.warn('Failed to find note', notes, id);

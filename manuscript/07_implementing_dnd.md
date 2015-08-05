@@ -414,7 +414,7 @@ class LaneStore {
   ...
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = findIndex(lanes, 'id', laneId);
+    const targetId = lanes.findIndex((lane) => lane.id === laneId);
 
     this.removeNote(noteId);
 
