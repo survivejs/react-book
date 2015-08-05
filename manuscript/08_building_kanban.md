@@ -3,16 +3,16 @@
 Now that we have a nice Kanban application up and running we can worry about showing it the public. If you hit `TARGET=dev node_modules/.bin/webpack` at the project root, you can get a standalone bundle like this:
 
 ```bash
-Hash: 2bd7373ecdc40088eb48
-Version: webpack 1.10.5
-Time: 5065ms
+Hash: 882eb94aec377c93dbc0
+Version: webpack 1.10.1
+Time: 3800ms
      Asset       Size  Chunks             Chunk Names
- bundle.js    1.36 MB       0  [emitted]  main
+ bundle.js    1.19 MB       0  [emitted]  main
 index.html  184 bytes          [emitted]
-    + 487 hidden modules
+    + 345 hidden modules
 ```
 
-The problem is that 1.18 MB is a lot! In addition, our build contains bits and pieces we don't want it to contain.
+The problem is that 1.19 MB is a lot! In addition, our build contains bits and pieces we don't want it to contain.
 
 The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
 
@@ -61,14 +61,14 @@ After these changes `npm run build` should yield the following:
 ```bash
 > TARGET=build webpack
 
-Hash: 2812565fad7a465ba253
-Version: webpack 1.10.5
-Time: 6771ms
+Hash: bd3b549c6c712233167f
+Version: webpack 1.10.1
+Time: 4903ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js    1.23 MB       0  [emitted]  main
-bundle.js.map    1.46 MB       0  [emitted]  main
+    bundle.js    1.09 MB       0  [emitted]  main
+bundle.js.map    1.28 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-    + 487 hidden modules
+    + 345 hidden modules
 ```
 
 We actually shaved a little out of our bundle. We still have a long way to go, though.
@@ -109,14 +109,14 @@ If you hit `npm run build` now, you should see better results:
 ```bash
 > TARGET=build webpack
 
-Hash: cc9f6ffec0f18f738b26
-Version: webpack 1.10.5
-Time: 13377ms
+Hash: d3508663532b5b3565cc
+Version: webpack 1.10.1
+Time: 12221ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js     370 kB       0  [emitted]  main
-bundle.js.map    3.03 MB       0  [emitted]  main
+    bundle.js     324 kB       0  [emitted]  main
+bundle.js.map    2.66 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-    + 487 hidden modules
+    + 345 hidden modules
 ```
 
 Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
@@ -163,17 +163,17 @@ Hit `npm run build` again and you should see improved results:
 ```bash
 > TARGET=build webpack
 
-Hash: 9ff51f86edcbadaf5726
-Version: webpack 1.10.5
-Time: 13518ms
+Hash: 37ebe639517bfeb72ff6
+Version: webpack 1.10.1
+Time: 10930ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js     311 kB       0  [emitted]  main
-bundle.js.map     2.9 MB       0  [emitted]  main
+    bundle.js     264 kB       0  [emitted]  main
+bundle.js.map    2.53 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-    + 482 hidden modules
+    + 339 hidden modules
 ```
 
-So we went from 1.36 MB to 1.23 MB to 370 kB and finally to 311 kB. The final build is a little faster than the previous one. As that 311k can be served gzipped, it is quite reasonable. gzipping will drop around another 40% is well supported by browsers.
+So we went from 1.19 MB to 1.09 MB to 324 kB and finally to 264 kB. The final build is a little faster than the previous one. As that 264k can be served gzipped, it is quite reasonable. gzipping will drop around another 40% is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
@@ -225,20 +225,20 @@ If you run `npm run build` now, you should see output like this:
 ```bash
 > TARGET=build webpack
 
-Hash: 711634c532f96104ad3b
-Version: webpack 1.10.5
-Time: 14842ms
+Hash: 1671be044a8a34b58fa8
+Version: webpack 1.10.1
+Time: 11983ms
                              Asset       Size  Chunks             Chunk Names
-       app.42f0721a554a9868187e.js     104 kB       0  [emitted]  app
-    vendor.879f215ad1bf4f302674.js     208 kB       1  [emitted]  vendor
-   app.42f0721a554a9868187e.js.map     789 kB       0  [emitted]  app
-vendor.879f215ad1bf4f302674.js.map    2.13 MB       1  [emitted]  vendor
+       app.cfd412c37a844a41daf8.js    57.8 kB       0  [emitted]  app
+    vendor.edaf1006b1f4b71898f9.js     208 kB       1  [emitted]  vendor
+   app.cfd412c37a844a41daf8.js.map     415 kB       0  [emitted]  app
+vendor.edaf1006b1f4b71898f9.js.map    2.12 MB       1  [emitted]  vendor
                         index.html  266 bytes          [emitted]
    [0] multi vendor 64 bytes {1} [built]
-    + 482 hidden modules
+    + 339 hidden modules
 ```
 
-Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 104 kB. Not bad.
+Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 57.8 kB. Not bad.
 
 One more way to push the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
 
@@ -359,19 +359,19 @@ After running `npm run build` you should see the following output:
 ```bash
 > TARGET=build webpack
 
-Hash: bcf281a9f407e731b6c7
+Hash: 27584124a5659a941eea
 Version: webpack 1.10.5
-Time: 13089ms
+Time: 10589ms
                              Asset       Size  Chunks             Chunk Names
-       app.c8b29f9e6d90d92df6c5.js     100 kB       0  [emitted]  app
-    vendor.750afe7f345c629fa6d4.js     208 kB       1  [emitted]  vendor
+       app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
+    vendor.876083b45225c03d8a74.js     208 kB       1  [emitted]  vendor
                         styles.css  557 bytes       0  [emitted]  app
-   app.c8b29f9e6d90d92df6c5.js.map     762 kB       0  [emitted]  app
+   app.4a3890cdb2f12f6bd4d5.js.map     389 kB       0  [emitted]  app
                     styles.css.map   87 bytes       0  [emitted]  app
-vendor.750afe7f345c629fa6d4.js.map    2.13 MB       1  [emitted]  vendor
+vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
                         index.html  317 bytes          [emitted]
    [0] multi vendor 64 bytes {1} [built]
-    + 482 hidden modules
+    + 339 hidden modules
 Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```

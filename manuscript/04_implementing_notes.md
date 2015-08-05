@@ -447,11 +447,17 @@ We are missing one final bit, the actual logic. Our state consists of `Notes` ea
 
 ### Understanding `findIndex`
 
-We'll be using a ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result. You can see how it behaves through Node.js cli. Here's a sample session:
+We'll be using a ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result.
+
+Babel provides an easy way to polyfill this feature using `import 'babel-core/polyfill';`. The problem is that it bloats our final bundle somewhat as it enables all [core-js](https://github.com/zloirock/core-js) features. Instead we'll be using more granular approach to enable just the feature we need specifically and depend on `core-js` directly. Install it first.
+
+> npm i core-js --save-dev
+
+You can see how it behaves through Node.js cli. Here's a sample session:
 
 ```javascript
-> require('babel-core/polyfill')
-{}
+> require('core-js/fn/array/find-index')
+[Function]
 > a = [12, 412, 30]
 [ 12, 412, 30 ]
 > a.findIndex(function(v) {return v === 12;})
@@ -460,16 +466,16 @@ We'll be using a ES6 function know as [findIndex](https://developer.mozilla.org/
 -1
 ```
 
-Before proceeding we need to enable Babel polyfills. `findIndex` is included amongst many other features. You can see full list of enabled features at [core-js](https://github.com/zloirock/core-js) project page. Enabling can be done as follows:
+We also need to attach the polyfill to our application.
 
 **app/main.jsx**
 
 ```
-import 'babel-core/polyfill';
+import 'core-js/fn/array/find-index';
 ...
 ```
 
-After this you can use `findIndex` against arrays at your code. Note that this will bloat our final bundle a little bit (around 40 kB) but the convenience is worth it.
+After this you can use `findIndex` against arrays at your code. Note that this will bloat our final bundle a tiny bit (around 4 kB) but the convenience is worth it.
 
 ### Implementing `onEdit` Logic
 
