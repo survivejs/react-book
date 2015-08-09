@@ -105,6 +105,8 @@ if(TARGET === 'dev') {
 
 T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint and many other tools discussed later.
 
+T> If you are using Babel in your project, you can also use it in your webpack configuration. Simply rename it as `webpack.config.babel.js` and webpack will pass it through Babel allowing you to use ES6 module syntax and features.
+
 ## Developing First React View
 
 It is time to add a first application level dependency to our project. Hit
