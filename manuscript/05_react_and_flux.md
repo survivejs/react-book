@@ -66,7 +66,7 @@ T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacke
 
 ### Defining CRUD API for Notes
 
-Next we'll need to define a basic API for operating over Note data. To keep this simple, let's CRUD (CReate, Update, Delete) it. These will be the basic Actions we use to operate our Notes. Alt provides a shorthand known as `generateActions`. We can use it like this:
+Next we'll need to define a basic API for operating over Note data. To keep this simple, let's CRUD (Create, Read, Update, Delete) it. Given Read is implicit we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
 
 **app/actions/NoteActions.js**
 
