@@ -54,13 +54,15 @@ The approach used by React allowed Facebook to develop React Native on top of th
 
 In addition to the standardized ES6 features Babel provides support for certain [experimental features](https://babeljs.io/docs/usage/experimental/) from ES7. Some of these might make it to the core language while some might be dropped altogether. The language proposals have been categorized within stages. **Stage 0** is a strawman, **stage 1** a proposal, **stage 2** draft and so on.
 
-I would be especially careful with **stage 0** as if a **stage 0** feature you are depending upon goes away you'll have to rewrite some of your code. But in smaller projects that may be worth the risk. Babel has **stage 2** and higher features enabled by default. In our project we'll enable **stage 1** to use decorators and property spreading as they will make our code a little tidier. You can find more information at [Babel documentation](https://babeljs.io/docs/usage/experimental/).
+I would be especially careful with **stage 0** as if a **stage 0** feature you are depending upon goes away you'll have to rewrite some of your code. But in smaller projects that may be worth the risk. Babel has **stage 2** and higher features enabled by default.
+
+In our project we'll enable **stage 1** to use decorators and property spreading as they will make our code a little tidier. You can find more information at [Babel documentation](https://babeljs.io/docs/usage/experimental/).
 
 T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of code it generates.
 
 ### Configuring babel-loader
 
-In order to set up Babel for our project we can use [babel-loader](https://www.npmjs.com/package/babel-loader). Install it with
+You can use Babel with webpack easily through [babel-loader](https://www.npmjs.com/package/babel-loader). It will take our ES6 module definition based code and turn it into ES5 bundles while allowing you to use the new features of the language. Install *babel-loader* with
 
 > npm i babel-core babel-loader --save-dev
 
