@@ -356,13 +356,17 @@ W> Our `persist` implementation isn't without its flaws. It is easy to end up in
 
 ## Extracting Connection Decorator
 
+![Decorators are like matryoshkas](images/matryoshka.jpg)
+
 Even though the application is starting to look a little better now, there's still work to be done. For instance `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage.
 
-### Decorators - What Are They?
+One way to achieve this is to push the logic to a decorator. Decorators are a bit like matryoshkas. These Russian dolls can contain dolls inside them. We can achieve the same with decorators.
 
-If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. In short they provide us a way to annotate and push logic elsewhere while keeping our components simple to read.
+### What Are Decorators?
 
-There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript. We'll be using that. By definition a decorator is simply a function that returns a function. For instance invocation of our `connect` decorator could look like `connect(NoteStore)(App)` without using the decorator syntax (`@connect(NoteStore)`).
+If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. In short they provide us a way to annotate and push logic elsewhere while keeping our components simple to read. There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript.
+
+By definition a decorator is a function that returns a function. In the case of our connection decorator we could end up with `connect(NoteStore)(App)`. In decorator syntax the same would be `@connect(NoteStore)` right before `App` class declaration.
 
 ### Implementing `@connect`
 
@@ -400,7 +404,9 @@ export default (store) => {
 };
 ```
 
-T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). I use it here to extract the props and state and pass them further as props.
+I have separated the higher order portion and decorator wrapping for clarity. It would be possible to perform both steps in the same function but I find it more readable this way. Can you see the wrapping idea? Our decorator tracks store state and then passes it to the component contained through props.
+
+T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
 
 You can connect it with `App` like this:
 
