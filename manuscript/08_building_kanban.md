@@ -86,9 +86,6 @@ At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunc
 **webpack.config.js**
 
 ```javascript
-var webpack = require('webpack');
-
-...
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
@@ -326,7 +323,8 @@ if(TARGET === 'dev') {
         },
         ...
       ]
-    }
+    },
+    ...
   });
 }
 

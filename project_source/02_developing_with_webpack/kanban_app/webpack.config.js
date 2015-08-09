@@ -1,5 +1,6 @@
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 var merge = require('webpack-merge');
 
 var TARGET = process.env.TARGET;
@@ -29,6 +30,16 @@ var common = {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    devtool: 'eval'
+    devtool: 'eval',
+    devServer: {
+      colors: true,
+      historyApiFallback: true,
+      hot: true,
+      inline: true,
+      progress: true
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ]
   });
 }

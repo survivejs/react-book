@@ -132,29 +132,50 @@ at project root to get the server installed. We will be invoking our development
 ```json
 ...
 "scripts": {
-  "start": "webpack-dev-server --progress --colors --hot --inline --history-api-fallback"
+  "start": "webpack-dev-server"
 },
 ...
 ```
 
+We also need to do some configuration work.
+
+**webpack.config.js**
+
+```javascript
+...
+var webpack = require('webpack');
+
+var ROOT_PATH = path.resolve(__dirname);
+
+module.exports = {
+  ...
+  devServer: {
+    colors: true,
+    historyApiFallback: true,
+    hot: true,
+    inline: true,
+    progress: true
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    ...
+  ]
+};
+```
+
 Hit `npm start` and surf to **localhost:8080**. You should see something familiar there. Try modifying `app/component.js` while the server is running and see what happens. Quite neat, huh?
-
-T> If you want to use some other port than `8080`, you can pass `--port` parameter (e.g. `--port 4000`) to *webpack-dev-server*.
-
-When you run `npm start` from your terminal it will execute the command mapping to `start` script of the `scripts` section. This is what it does:
-
-1. `webpack-dev-server` - Starts a web service on `localhost:8080`
-2. `--progress` - Will show progress of bundling your application
-3. `--colors` - Colors in the terminal!
-4. `--hot` - Enable hot module loading
-5. `--inline` - Embeds the webpack-dev-server runtime into the bundle
-6. `--history-api-fallback` - Allows HTML5 History API routes to work
 
 Alternatively we can run the application from **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
 
+T> If you want to use some other port than `8080`, you can pass `port` parameter (e.g. `port: 4000`) to *devServer*.
+
+In addition to **webpack.config.js** it is possible to set *webpack-dev-server* configuration through cli. There is also an entire [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api) available in case you want maximum control over it.
+
+We are using a somewhat basic setup here. Beyond defaults we've enabled a couple of useful features, namely hot module loading (HMR) and HTML5 History API fallback. Former will come in handy when we discuss React in detail. Latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily.
+
 ## Refreshing CSS
 
-We can easily extend the approach to work with CSS. webpack allows us to modify CSS without forcing a full refresh. Let's see how to achieve that next.
+We can easily extend the approach to work with CSS. Webpack allows us to modify CSS without forcing a full refresh. Let's see how to achieve that next.
 
 In order to load CSS to project, we'll need to use a couple of loaders. To get started, invoke
 
@@ -243,7 +264,7 @@ For this setup to work we need to pass `TARGET` through `package.json`. You coul
 {
   ...
   "scripts": {
-    "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback"
+    "start": "TARGET=dev webpack-dev-server"
   },
   ...
 }
@@ -270,6 +291,7 @@ In order to improve debuggability of the application we can set up sourcemaps wh
 ```javascript
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 var merge = require('webpack-merge');
 
 var TARGET = process.env.TARGET;
@@ -295,7 +317,17 @@ var common = {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    devtool: 'eval'
+    devtool: 'eval',
+    devServer: {
+      colors: true,
+      historyApiFallback: true,
+      hot: true,
+      inline: true,
+      progress: true
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ]
   });
 }
 ```

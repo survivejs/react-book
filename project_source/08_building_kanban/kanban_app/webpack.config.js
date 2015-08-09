@@ -1,7 +1,7 @@
 var path = require('path');
-var merge = require('webpack-merge');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
+var merge = require('webpack-merge');
 var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -41,7 +41,17 @@ if(TARGET === 'dev') {
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]
-    }
+    },
+    devServer: {
+      colors: true,
+      historyApiFallback: true,
+      hot: true,
+      inline: true,
+      progress: true
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ]
   });
 }
 

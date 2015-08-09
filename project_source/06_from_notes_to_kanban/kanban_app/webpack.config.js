@@ -1,5 +1,6 @@
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 var merge = require('webpack-merge');
 
 var TARGET = process.env.TARGET;
@@ -41,6 +42,16 @@ if(TARGET === 'dev') {
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]
-    }
+    },
+    devServer: {
+      colors: true,
+      historyApiFallback: true,
+      hot: true,
+      inline: true,
+      progress: true
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ]
   });
 }

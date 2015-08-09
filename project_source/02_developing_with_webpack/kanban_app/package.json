@@ -4,7 +4,7 @@
   "description": "Webpack demo app",
   "main": "index.js",
   "scripts": {
-    "start": "TARGET=dev webpack-dev-server --devtool eval --progress --colors --hot --inline --history-api-fallback --content-base build"
+    "start": "TARGET=dev webpack-dev-server"
   },
   "keywords": [
     "webpack",
