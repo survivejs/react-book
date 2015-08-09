@@ -111,7 +111,7 @@ module.exports = {
 };
 ```
 
-We use `path.resolve` here as it is preferred to use absolute paths with webpack. If you move your configuration below some directory, you'll need to take this into account. Alternatively you could use `path.join(__dirname, 'app', 'main')` and such but I like to use `path.resolve` for these.
+Given webpack expects absolute paths we have some good options here. I like to use `path.resolve` but `path.join` would be a good alternative. See [Node.js path API](https://nodejs.org/api/path.html) for exact details.
 
 If you hit `node_modules/.bin/webpack` now you can get a webpack build done. But we are not interested in builds. We want a proper development server to develop against.
 
