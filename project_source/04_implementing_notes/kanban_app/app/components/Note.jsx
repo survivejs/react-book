@@ -34,7 +34,7 @@ export default class Note extends React.Component {
     return (
       <div onClick={this.edit}>
         <span className='task'>{this.props.task}</span>
-        <button className='remove' onClick={this.props.onRemove}>x</button>
+        <button className='delete' onClick={this.props.onDelete}>x</button>
       </div>
     );
   }

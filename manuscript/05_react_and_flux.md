@@ -198,21 +198,20 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button onClick={this.addItem}>+</button>
-        <Notes items={notes} onEdit={this.itemEdited} />
+        <button onClick={this.addNote}>+</button>
+        <Notes items={notes}
+          onEdit={this.editNote} onDelete={this.deleteNote} />
       </div>
     );
   }
-  addItem() {
+  addNote() {
     NoteActions.create({id: uuid.v4(), task: 'New task'});
   }
-  itemEdited(id, task) {
-    if(task) {
-      NoteActions.update({id, task});
-    }
-    else {
-      NoteActions.delete(id);
-    }
+  editNote(id, task) {
+    NoteActions.update({id, task});
+  }
+  removeNote(id) {
+    NoteActions.delete(id);
   }
 }
 ```

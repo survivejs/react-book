@@ -29,10 +29,10 @@ body {
   transition: .6s;
 }
 
-.note:hover .remove {
+.note:hover .delete {
   visibility: visible;
 }
-.note .remove {
+.note .delete {
   float: right;
 
   padding: 0;

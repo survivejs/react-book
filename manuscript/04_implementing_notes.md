@@ -520,9 +520,9 @@ If you try to edit a `Note` now, the modification should stick. The same idea ca
 
 ## Removing Notes
 
-We are still missing one vital functionality. It would be nice to be able to remove notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially but we will style it later.
+We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially but we will style it later.
 
-As before we'll need to define some logic on `App` level. Removing a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove we can construct a new state without it.
+As before we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove we can construct a new state without it.
 
 **app/components/App.jsx**
 
@@ -533,7 +533,7 @@ export default class App extends React.Component {
   constructor(props) {
     ...
     this.editNote = this.editNote.bind(this);
-    this.removeNote = this.removeNote.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
   }
   render() {
     const notes = this.state.notes;
@@ -542,11 +542,11 @@ export default class App extends React.Component {
       <div>
         <button onClick={this.addNote}>+</button>
         <Notes items={notes}
-          onEdit={this.editNote} onRemove={this.removeNote} />
+          onEdit={this.editNote} onDelete={this.deleteNote} />
       </div>
     );
   }
-  removeNote(id) {
+  deleteNote(id) {
     const notes = this.state.notes;
     const noteIndex = this.findNote(id);
 
@@ -572,7 +572,7 @@ export default class App extends React.Component {
 }
 ```
 
-In addition to logic we'll need to trigger `onRemove` logic at `Note` level. The idea is the same as before. We'll bind the id of the `Note` at `Notes`. A `Note` will simply trigger the callback trigger the callback when the user triggers the behavior.
+In addition to logic we'll need to trigger `onDelete` logic at `Note` level. The idea is the same as before. We'll bind the id of the `Note` at `Notes`. A `Note` will simply trigger the callback trigger the callback when the user triggers the behavior.
 
 **app/components/Notes.jsx**
 
@@ -585,14 +585,14 @@ export default class Notes extends React.Component {
         <Note
           task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
-          onRemove={this.props.onRemove.bind(null, note.id)} />
+          onDelete={this.props.onDelete.bind(null, note.id)} />
       </li>
     );
   }
 }
 ```
 
-Triggering `onRemove` is even simpler than the same operation for input. We capture `onClick` and trigger our callback then.
+Triggering `onDelete` is even simpler than the same operation for input. We capture `onClick` and trigger our callback then.
 
 **app/components/Note.jsx**
 
@@ -605,7 +605,7 @@ export default class Note extends React.Component {
     return (
       <div onClick={this.edit}>
         <span className='task'>{this.props.task}</span>
-        <button className='remove' onClick={this.props.onRemove}>x</button>
+        <button className='delete' onClick={this.props.onDelete}>x</button>
       </div>
     );
   }
@@ -614,7 +614,7 @@ export default class Note extends React.Component {
 
 We have a fairly well working little application now. We can create, update and delete `Notes` now. During this process we learned something about props and state. There's more than that to React, though.
 
-T> Now remove is sort of blunt. You remove `Notes` and that's it. One interesting way to develop this further would be to add confirmation. One simple way to achieve this would be to show yes/no buttons before performing the action. The logic would be more or less the same as for editing. This behavior could be extracted into a component of its own.
+T> Now deletion is sort of blunt. One interesting way to develop this further would be to add confirmation. One simple way to achieve this would be to show yes/no buttons before performing the action. The logic would be more or less the same as for editing. This behavior could be extracted into a component of its own.
 
 ## Styling Notes
 
@@ -673,17 +673,17 @@ To make individual `Notes` stand out we can apply a couple of rules.
 
 Note that I animated `Note` shadow so that the user gets a better indication of what `Note` is being hovered upon. Obviously this won't work on touch based interfaces but it's a nice touch for desktop.
 
-Finally we should make those remove buttons stand out less. One way to achieve this is to hide them by default and show them on hover. The gotcha is that remove won't work on touch but we can live with that.
+Finally we should make those delete buttons stand out less. One way to achieve this is to hide them by default and show them on hover. The gotcha is that deletion won't work on touch but we can live with that.
 
 **app/main.css**
 
 ```css
 ...
 
-.note:hover .remove {
+.note:hover .delete {
   visibility: visible;
 }
-.note .remove {
+.note .delete {
   float: right;
 
   padding: 0;
