@@ -5,6 +5,8 @@ class LaneStore {
   constructor() {
     this.bindActions(LaneActions);
 
+    this.findLane = this.findLane.bind(this);
+
     this.lanes = this.lanes || [];
   }
   create(lane) {
@@ -18,7 +20,11 @@ class LaneStore {
   }
   update({id, name}) {
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === id);
+    const targetId = this.findLane(id);
+
+    if(targetId < 0) {
+      return;
+    }
 
     lanes[targetId].name = name;
 
@@ -26,7 +32,11 @@ class LaneStore {
   }
   delete(id) {
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === id);
+    const targetId = this.findLane(id);
+
+    if(targetId < 0) {
+      return;
+    }
 
     this.setState({
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
@@ -34,10 +44,10 @@ class LaneStore {
   }
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === laneId);
+    const targetId = this.findLane(laneId);
 
     if(targetId < 0) {
-      return console.warn('Failed to find target lane');
+      return;
     }
 
     const lane = lanes[targetId];
@@ -53,10 +63,10 @@ class LaneStore {
   }
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === laneId);
+    const targetId = this.findLane(laneId);
 
     if(targetId < 0) {
-      return console.warn('Failed to find target lane');
+      return;
     }
 
     const lane = lanes[targetId];
@@ -71,6 +81,16 @@ class LaneStore {
     else {
       console.warn('Failed to remove note from a lane as it didn\'t exist', lanes);
     }
+  }
+  findLane(id) {
+    let lanes = this.lanes;
+    const laneIndex = lanes.findIndex((lane) => lane.id === id);
+
+    if(laneIndex < 0) {
+      console.warn('Failed to find lane', lanes, id);
+    }
+
+    return laneIndex;
   }
 }
 

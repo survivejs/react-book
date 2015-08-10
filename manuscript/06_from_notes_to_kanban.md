@@ -208,6 +208,13 @@ import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 
 class LaneStore {
+  constructor() {
+    this.bindActions(LaneActions);
+
+    this.findLane = this.findLane.bind(this);
+
+    this.lanes = this.lanes || [];
+  }
   ...
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes;
@@ -483,7 +490,11 @@ class LaneStore {
   ...
   update({id, name}) {
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === id);
+    const targetId = this.findLane(id);
+
+    if(targetId < 0) {
+      return;
+    }
 
     lanes[targetId].name = name;
 
@@ -491,7 +502,11 @@ class LaneStore {
   }
   delete(id) {
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === id);
+    const targetId = this.findLane(id);
+
+    if(targetId < 0) {
+      return;
+    }
 
     this.setState({
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
