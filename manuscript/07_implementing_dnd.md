@@ -66,7 +66,8 @@ export default class Notes extends React.Component {
       <Note className='note' data={note} key={`note${note.id}`}>
         <Editable
           value={note.task}
-          onEdit={this.props.onEdit.bind(null, note.id)} />
+          onEdit={this.props.onEdit.bind(null, note.id)}
+          onDelete={this.props.onDelete.bind(null, note.id)} />
       </Note>
     );
   }
@@ -189,7 +190,8 @@ export default class Notes extends React.Component {
         data={note} key={`note${note.id}`}>
         <Editable
           value={note.task}
-          onEdit={this.props.onEdit.bind(null, note.id)} />
+          onEdit={this.props.onEdit.bind(null, note.id)}
+          onDelete={this.props.onDelete.bind(null, note.id)} />
       </Note>
     );
   }
@@ -412,7 +414,11 @@ class LaneStore {
   ...
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === laneId);
+    const targetId = this.findLane(laneId);
+
+    if(targetId < 0) {
+      return;
+    }
 
     this.removeNote(noteId);
 
