@@ -1,24 +1,10 @@
 # Building Kanban
 
-Now that we have a nice Kanban application up and running we can worry about showing it the public. If you hit `TARGET=dev node_modules/.bin/webpack` at the project root, you can get a standalone bundle like this:
+Now that we have a nice Kanban application up and running we can worry about showing it the public. The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
 
-```bash
-Hash: 882eb94aec377c93dbc0
-Version: webpack 1.10.1
-Time: 3800ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js    1.19 MB       0  [emitted]  main
-index.html  184 bytes          [emitted]
-    + 345 hidden modules
-```
+## Setting Up a Build Target
 
-The problem is that 1.19 MB is a lot! In addition, our build contains bits and pieces we don't want it to contain.
-
-The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
-
-## Setting Up Build Target
-
-Since hitting `TARGET=dev node_modules/.bin/webpack` gets boring after a while we can set up a shortcut for that. Ideally we could just hit `npm run build` and that's it. The following snippet shows how to set this up.
+In our current setup we serve the application through `webpack-dev-server` always. In order to get a build done, we'll need to extend *package.json* `scripts` section.
 
 **package.json**
 
@@ -26,7 +12,7 @@ Since hitting `TARGET=dev node_modules/.bin/webpack` gets boring after a while w
 {
   ...
   "scripts": {
-    "build": "TARGET=build webpack",
+    "build": "webpack",
     ...
   },
   ...
@@ -71,7 +57,7 @@ bundle.js.map    1.28 MB       0  [emitted]  main
     + 345 hidden modules
 ```
 
-We actually shaved a little out of our bundle. We still have a long way to go, though.
+1.09 MB is quite a lot. We should do something about that.
 
 ## Optimizing Build Size
 
@@ -170,7 +156,7 @@ bundle.js.map    2.53 MB       0  [emitted]  main
     + 339 hidden modules
 ```
 
-So we went from 1.19 MB to 1.09 MB to 324 kB and finally to 264 kB. The final build is a little faster than the previous one. As that 264k can be served gzipped, it is quite reasonable. gzipping will drop around another 40% is well supported by browsers.
+So we went from 1.09 MB to 324 kB and finally to 264 kB. The final build is a little faster than the previous one. As that 264k can be served gzipped, it is quite reasonable. gzipping will drop around another 40% is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
@@ -311,7 +297,7 @@ var common = {
   ]
 };
 
-if(TARGET === 'dev') {
+if(TARGET === 'start') {
   module.exports = merge(common, {
     ...
     module: {

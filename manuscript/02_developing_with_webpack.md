@@ -254,35 +254,13 @@ I have settled with a single configuration file based approach. The idea is that
 
 The biggest advantage of this approach is that it allows you to see all relevant configuration at one glance. The problem is that for now there's no nice way to set environment variables through `package.json` in a cross-platform way. It is possible this problem will go away with webpack 2 as it make it possible to pass the context data through the command itself.
 
-### Passing Build Target to Configuration
-
-For this setup to work we need to pass `TARGET` through `package.json`. You could use standard `NODE_ENV` here but it's up to you. I don't like to mix these up. Here's what `package.json` should look like after attaching build target to environment.
-
-**package.json**
-
-```json
-{
-  ...
-  "scripts": {
-    "start": "TARGET=dev webpack-dev-server"
-  },
-  ...
-}
-```
-
-After this change we can access `TARGET` at `webpack.config.js` through `process.env.TARGET`. This will give us branching we need.
-
-T> Note that scripts such as `start` or `test` are special cases. You can run them directly through `npm`. Normally you run these scripts through `npm run` (ie `npm run start` or `npm run build`).
-
-W> `TARGET=dev` type of declarations won't work on Windows! You should instead use `SET TARGET=dev&& webpack` and `SET TARGET=dev&& webpack-dev-server...` there. It is important it's `dev&&` as `build &&` will fail. Later on webpack will allow env to be passed to it directly making this cross-platform. For now this will work.
-
 ### Setting Up Configuration Target for `npm start`
 
 As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit
 
 > npm i webpack-merge --save-dev
 
-to add it to the project. Add `merge` stub as below. We'll expand these in the coming chapters.
+to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch based on that. We'll expand these in the coming chapters.
 
 In order to improve debuggability of the application we can set up sourcemaps while at it. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
 
@@ -294,7 +272,7 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 
-var TARGET = process.env.TARGET;
+var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
@@ -315,7 +293,7 @@ var common = {
   ...
 };
 
-if(TARGET === 'dev') {
+if(TARGET === 'start') {
   module.exports = merge(common, {
     devtool: 'eval',
     devServer: {

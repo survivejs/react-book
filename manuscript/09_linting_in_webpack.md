@@ -165,7 +165,7 @@ Next we need to tweak our development configuration to include it. Add the follo
 **webpack.config.js**
 
 ```javascript
-if(TARGET === 'dev') {
+if(TARGET === 'start') {
   module.exports = merge(common, {
     ...
     module: {
@@ -300,7 +300,7 @@ Next we'll need to integrate it with our configuration:
 ```javascript
 ...
 
-if(TARGET === 'dev') {
+if(TARGET === 'start') {
   module.exports = merge(common, {
     module: {
       preLoaders: [

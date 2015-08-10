@@ -4,8 +4,8 @@
   "description": "Webpack demo app",
   "main": "index.js",
   "scripts": {
-    "build": "TARGET=build webpack",
-    "start": "TARGET=dev webpack-dev-server"
+    "build": "webpack",
+    "start": "webpack-dev-server"
   },
   "keywords": [
     "webpack",

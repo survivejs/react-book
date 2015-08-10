@@ -3,7 +3,7 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 
-var TARGET = process.env.TARGET;
+var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
@@ -31,7 +31,7 @@ var common = {
   ]
 };
 
-if(TARGET === 'dev') {
+if(TARGET === 'start') {
   module.exports = merge(common, {
     devtool: 'eval',
     module: {

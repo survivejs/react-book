@@ -47,11 +47,11 @@ I've annotated `package.json` of my [React component boilerplate](https://github
   "version": "0.0.0",
   /* `npm run <name>` */
   "scripts": {
-    "start": "TARGET=dev node dev-server/server.js",
+    "start": "node dev-server/server.js",
     "test": "jest && npm run check-style && npm run lint",
-    "gh-pages": "TARGET=gh-pages webpack --config ./config",
-    "deploy-gh-pages": "TARGET=gh-pages node ./config/deploy-gh-pages.js",
-    "dist": "TARGET=dist webpack && TARGET=dist-min webpack",
+    "gh-pages": "webpack --config ./config",
+    "deploy-gh-pages": "node ./config/deploy-gh-pages.js",
+    "dist-all": "webpack",
     "dist-modules": "babel ./src --out-dir ./dist-modules",
     "lint": "eslint . --ext .js --ext .jsx",
     "check-style": "jscs .",
