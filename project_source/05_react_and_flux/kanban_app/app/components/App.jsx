@@ -9,27 +9,25 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.addItem}>+</button>
+        <button onClick={this.addNote}>+</button>
         <AltContainer
           stores={[NoteStore]}
           inject={ {
             items: () => NoteStore.getState().notes
           } }
         >
-          <Notes onEdit={this.itemEdited} />
+          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
         </AltContainer>
       </div>
     );
   }
-  addItem() {
+  addNote() {
     NoteActions.create({id: uuid.v4(), task: 'New task'});
   }
-  itemEdited(id, task) {
-    if(task) {
-      NoteActions.update({id, task});
-    }
-    else {
-      NoteActions.delete(id);
-    }
+  editNote(id, task) {
+    NoteActions.update({id, task});
+  }
+  deleteNote(id) {
+    NoteActions.delete(id);
   }
 }

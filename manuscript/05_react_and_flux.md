@@ -120,7 +120,9 @@ class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
 
-    this.notes = [];
+    this.findNote = this.findNote.bind(this);
+
+    this.notes = this.notes || [];
   }
   create(note) {
     const notes = this.notes;
@@ -130,24 +132,43 @@ class NoteStore {
     });
   }
   update({id, task}) {
-    const notes = this.notes;
-    const targetId = notes.findIndex((o) => note.id === id);
+    let notes = this.notes;
+    const noteIndex = this.findNote(id);
 
-    notes[targetId].task = task;
+    if(noteIndex < 0) {
+      return;
+    }
+
+    notes[noteIndex].task = task;
 
     this.setState({notes});
   }
   delete(id) {
     const notes = this.notes;
-    const targetId = notes.findIndex((note) => note.id === id);
+    const noteIndex = this.findNote(id);
+
+    if(noteIndex < 0) {
+      return;
+    }
 
     this.setState({
-      notes: notes.slice(0, targetId).concat(notes.slice(targetId + 1))
+      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
     });
+  }
+  findNote(id) {
+    let notes = this.notes;
+    const noteIndex = notes.findIndex((note) => note.id === id);
+
+    if(noteIndex < 0) {
+      console.warn('Failed to find note', notes, id);
+    }
+
+    return noteIndex;
   }
 }
 
 export default alt.createStore(NoteStore, 'NoteStore');
+
 ```
 
 T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
@@ -210,7 +231,7 @@ export default class App extends React.Component {
   editNote(id, task) {
     NoteActions.update({id, task});
   }
-  removeNote(id) {
+  deleteNote(id) {
     NoteActions.delete(id);
   }
 }
@@ -482,14 +503,14 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.addItem}>+</button>
+        <button onClick={this.addNote}>+</button>
         <AltContainer
           stores={[NoteStore]}
           inject={ {
             items: () => NoteStore.getState().notes
           } }
         >
-          <Notes onEdit={this.itemEdited} />
+          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
         </AltContainer>
       </div>
     );
