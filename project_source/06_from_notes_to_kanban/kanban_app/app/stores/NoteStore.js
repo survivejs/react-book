@@ -5,6 +5,8 @@ class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
 
+    this.findNote = this.findNote.bind(this);
+
     this.notes = this.notes || [];
 
     this.exportPublicMethods({
