@@ -51,7 +51,7 @@ If you open up Node.js cli (`node`) and try the following, you can see what kind
 
 `uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
-T> You can exit Node.js cli by hitting **CTRL-C** twice.
+T> You can exit Node.js cli by hitting **CTRL-D** once.
 
 ## Connecting Data with `App`
 
