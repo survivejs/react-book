@@ -160,7 +160,7 @@ export default class Lane extends React.Component {
             items: () => NoteStore.getState().notes || []
           } }
         >
-          <Notes onEdit={this.noteEdited} />
+          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
         </AltContainer>
       </div>
     );
@@ -168,13 +168,11 @@ export default class Lane extends React.Component {
   addNote() {
     NoteActions.create({id: uuid.v4(), task: 'New task'});
   }
-  noteEdited(id, task) {
-    if(task) {
-      NoteActions.update({id, task});
-    }
-    else {
-      NoteActions.delete(id);
-    }
+  editNote(id, task) {
+    NoteActions.update({id, task});
+  }
+  deleteNote(id) {
+    NoteActions.delete(id);
   }
 }
 ```
@@ -284,7 +282,9 @@ export default class Lane extends React.Component {
             items: () => NoteStore.get(notes)
           } }
         >
-          <Notes onEdit={this.noteEdited.bind(null, id)} />
+          <Notes
+            onEdit={this.editNote.bind(null, id)}
+            onDelete={this.deleteNote.bind(null, id)} />
         </AltContainer>
       </div>
     );
@@ -295,14 +295,12 @@ export default class Lane extends React.Component {
     NoteActions.create({id: noteId, task: 'New task'});
     LaneActions.attachToLane({laneId, noteId});
   }
-  noteEdited(laneId, noteId, task) {
-    if(task) {
-      NoteActions.update({id: noteId, task});
-    }
-    else {
-      NoteActions.delete(noteId);
-      LaneActions.detachFromLane({laneId, noteId});
-    }
+  editNote(laneId, noteId, task) {
+    NoteActions.update({id: noteId, task});
+  }
+  deleteNote(laneId, noteId) {
+    NoteActions.delete(noteId);
+    LaneActions.detachFromLane({laneId, noteId});
   }
 }
 ```
@@ -395,7 +393,14 @@ export default class Editable extends React.Component {
       onKeyPress={this.checkEnter} />;
   }
   renderValue() { // drop renderTask
-    return <div onClick={this.edit}>{this.props.value}</div>;
+    const onDelete = this.props.onDelete;
+
+    return (
+      <div onClick={this.edit}>
+        <span className='value'>{this.props.value}</span>
+        {onDelete ? this.renderDelete() : null }
+      </div>
+    );
   }
   ...
 }
@@ -416,7 +421,8 @@ export default class Notes extends React.Component {
       <li className='note' key={`note${note.id}`}>
         <Editable
           value={note.task}
-          onEdit={this.props.onEdit.bind(null, note.id)} />
+          onEdit={this.props.onEdit.bind(null, note.id)}
+          onDelete={this.props.onDelete.bind(null, note.id)} />
       </li>
     );
   }
@@ -439,7 +445,7 @@ export default class Lane extends React.Component {
       <div {...props}>
         <div className='lane-header'>
           <Editable className='lane-name' value={name}
-            onEdit={this.nameEdited.bind(null, id)} />
+            onEdit={this.editName.bind(null, id)} />
           ...
         </div>
         ...
@@ -447,7 +453,7 @@ export default class Lane extends React.Component {
     )
   }
   ...
-  nameEdited(id, name) {
+  editName(id, name) {
     console.log('edited lane name', id, name);
   }
 }
@@ -508,7 +514,7 @@ Now that we have resolved actions and store, we need to adjust our component to 
 ...
 export default class Lane extends React.Component {
   ...
-  nameEdited(id, name) {
+  editName(id, name) {
     if(name) {
       LaneActions.update({id, name});
     }
@@ -525,7 +531,7 @@ It probably would be possible to refactor the current implementation somewhat. Y
 
 ## Styling Kanban Board
 
-Currently our Kanban board is an eyesore. Fortunately we can do a little something to make it look much nicer. As a first step we can get rid of serifs.
+As we added `Lanes` to the application the styling went a bit off. Add the following styling to make it a little nicer.
 
 **app/main.css**
 
@@ -535,14 +541,6 @@ body {
 
   font-family: sans-serif;
 }
-```
-
-A little better already! Next we could apply some basic styling to lanes. Getting alignment right would go a long way. We can utilize `display: inline-block` here and apply some subtle rounding to make things less blocky.
-
-**app/main.css**
-
-```css
-...
 
 .lane {
   margin: 1em;
@@ -557,14 +555,6 @@ A little better already! Next we could apply some basic styling to lanes. Gettin
 
   background-color: #efefef;
 }
-```
-
-The lane headers could use some work.
-
-**app/main.css**
-
-```css
-...
 
 .lane-header {
   padding: 1em;
@@ -587,41 +577,13 @@ The lane headers could use some work.
 
   margin-left: 0.5em;
 }
-```
 
-Lanes are starting to look quite acceptable now. At least we aren't completely stuck in the 90s anymore.
-
-For notes it's enough just to replace some of that default list styling. We can also make notes visually separate from the lanes by applying color and shape.
-
-**app/main.css**
-
-```css
 ...
-
-.notes {
-  margin: 0.5em;
-
-  padding-left: 0;
-
-  list-style: none;
-}
-
-.note {
-  margin-bottom: 0.25em;
-
-  padding: 0.5em;
-
-  border: 1px solid #ddd;
-
-  background-color: #fdfdfd;
-}
 ```
 
-As this is a small project we can leave the CSS in a single file like this. It is possible it will grow to a horror containing thousands lines one day, though. When using webpack you can actually start pushing styling concerns on component level. This would mean that each component could have a corresponding CSS (e.g. `lane.css`) and you would refer to it directly from the component (e.g. `require('./lane.css')` at `Lane.jsx`).
+As this is a small project we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple. One way to do this is to extract CSS per component and then refer to it there (e.g. `require('./lane.css')` at `Lane.jsx`).
 
-Besides keeping things nice and tidy webpack's lazy loading machinery can pick this up. As a result the initial CSS your user has to load will be smaller.
-
-I go into further detail about the topic at the appendix where I discuss various styling approaches for React.
+Besides keeping things nice and tidy webpack's lazy loading machinery can pick this up. As a result the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling.
 
 ## Conclusion
 

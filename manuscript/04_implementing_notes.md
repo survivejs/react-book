@@ -592,7 +592,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-Triggering `onDelete` is even simpler than the same operation for input. We capture `onClick` and trigger our callback then.
+Triggering `onDelete` is even simpler than the same operation for input. We capture `onClick` and trigger our callback then. It makes sense to render delete button only if the callback exists. An alternative way to solve this would be to push it to a component of its own and compose.
 
 **app/components/Note.jsx**
 
@@ -602,12 +602,17 @@ Triggering `onDelete` is even simpler than the same operation for input. We capt
 export default class Note extends React.Component {
   ...
   renderTask() {
+    const onDelete = this.props.onDelete;
+
     return (
       <div onClick={this.edit}>
         <span className='task'>{this.props.task}</span>
-        <button className='delete' onClick={this.props.onDelete}>x</button>
+        {onDelete ? this.renderDelete() : null }
       </div>
     );
+  }
+  renderDelete() {
+    return <button className='delete' onClick={this.props.onDelete}>x</button>;
   }
   ...
 ```
