@@ -33,8 +33,8 @@ export default class Note extends React.Component {
   renderTask() {
     return (
       <div onClick={this.edit}>
-        <span>{this.props.task}</span>
-        <button onClick={this.props.onRemove}>x</button>
+        <span className='task'>{this.props.task}</span>
+        <button className='remove' onClick={this.props.onRemove}>x</button>
       </div>
     );
   }

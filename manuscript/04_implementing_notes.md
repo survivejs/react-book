@@ -604,8 +604,8 @@ export default class Note extends React.Component {
   renderTask() {
     return (
       <div onClick={this.edit}>
-        <span>{this.props.task}</span>
-        <button onClick={this.props.onRemove}>x</button>
+        <span className='task'>{this.props.task}</span>
+        <button className='remove' onClick={this.props.onRemove}>x</button>
       </div>
     );
   }
@@ -614,9 +614,91 @@ export default class Note extends React.Component {
 
 We have a fairly well working little application now. We can create, update and delete `Notes` now. During this process we learned something about props and state. There's more than that to React, though.
 
+T> Now remove is sort of blunt. You remove `Notes` and that's it. One interesting way to develop this further would be to add confirmation. One simple way to achieve this would be to show yes/no buttons before performing the action. The logic would be more or less the same as for editing. This behavior could be extracted into a component of its own.
+
 ## Styling Notes
 
-TODO: show how to make the notes app look good
+Aesthetically our current application is very barebones. As pretty applications are more fun to use we can do a little something about that. The first step is to get rid of that horrible *serif* font.
+
+**app/main.css**
+
+```css
+body {
+  background: cornsilk;
+
+  font-family: sans-serif;
+}
+```
+
+A good next step would be to constrain `Notes` container a little and get rid of those list bullets.
+
+**app/main.css**
+
+```css
+...
+
+.notes {
+  max-width: 10em;
+
+  margin: 0.5em;
+
+  padding-left: 0;
+
+  list-style: none;
+}
+```
+
+To make individual `Notes` stand out we can apply a couple of rules.
+
+**app/main.css**
+
+```css
+...
+
+.note {
+  margin-bottom: 0.5em;
+
+  padding: 0.5em;
+
+  background-color: #fdfdfd;
+
+  box-shadow: 0 0 0.3em .03em rgba(0,0,0,.3);
+}
+.note:hover {
+  box-shadow: 0 0 0.3em .03em rgba(0,0,0,.7);
+
+  transition: .6s;
+}
+```
+
+Note that I animated `Note` shadow so that the user gets a better indication of what `Note` is being hovered upon. Obviously this won't work on touch based interfaces but it's a nice touch for desktop.
+
+Finally we should make those remove buttons stand out less. One way to achieve this is to hide them by default and show them on hover. The gotcha is that remove won't work on touch but we can live with that.
+
+**app/main.css**
+
+```css
+...
+
+.note:hover .remove {
+  visibility: visible;
+}
+.note .remove {
+  float: right;
+
+  padding: 0;
+
+  background-color: #fdfdfd;
+  border: none;
+
+  cursor: pointer;
+  cursor: hand;
+
+  visibility: hidden;
+}
+```
+
+After these few steps we have an application that doesn't look that bad. We'll be improving its outlook as we add functionality but at least it's something.
 
 ## Understanding React Components
 
