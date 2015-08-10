@@ -6,7 +6,6 @@ export default class Note extends React.Component {
 
     this.finishEdit = this.finishEdit.bind(this);
     this.checkEnter = this.checkEnter.bind(this);
-    this.remove = this.remove.bind(this);
     this.edit = this.edit.bind(this);
     this.renderEdit = this.renderEdit.bind(this);
     this.renderTask = this.renderTask.bind(this);
@@ -35,12 +34,9 @@ export default class Note extends React.Component {
     return (
       <div onClick={this.edit}>
         <span>{this.props.task}</span>
-        <button onClick={this.remove}>x</button>
+        <button onClick={this.props.onRemove}>x</button>
       </div>
     );
-  }
-  remove(e) {
-    this.props.onRemove(e.target.value);
   }
   edit() {
     this.setState({

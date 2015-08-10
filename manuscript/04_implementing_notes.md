@@ -245,20 +245,20 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button onClick={this.addItem}>+</button>
+        <button onClick={this.addNote}>+</button>
         <Notes items={notes} />
       </div>
     );
   }
-  addItem() {
-    console.log('add item');
+  addNote() {
+    console.log('add note');
   }
 }
 ```
 
 If you click the plus button now, you should see something at your browser console. The next step is to connect this stub with our data model.
 
-### Connecting `addItem` with Data Model
+### Connecting `addNote` with Data Model
 
 React provides one simple way to modify state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and an optional callback that is triggered after the process has completed.
 
@@ -275,10 +275,10 @@ export default class App extends React.Component {
 
     ...
 
-    this.addItem = this.addItem.bind(this);
+    this.addNote = this.addNote.bind(this);
   }
   ...
-  addItem() {
+  addNote() {
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
@@ -291,7 +291,7 @@ export default class App extends React.Component {
 
 If you hit the button a few times now, you should see new items. It might not be pretty yet but it works.
 
-In addition, to `this.setState` we had to set up a binding. Without it `this` of `addItem()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.
+In addition, to `this.setState` we had to set up a binding. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.
 
 Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would take additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
 
@@ -386,22 +386,22 @@ export default class App extends React.Component {
 
     ...
 
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
+    this.addNote = this.addNote.bind(this);
+    this.editNote = this.editNote.bind(this);
   }
   render() {
     const notes = this.state.notes;
 
     return (
       <div>
-        <button onClick={this.addItem}>+</button>
-        <Notes items={notes} onEdit={this.itemEdited} />
+        <button onClick={this.addNote}>+</button>
+        <Notes items={notes} onEdit={this.editNote} />
       </div>
     );
   }
   ...
-  itemEdited(noteId, task) {
-    console.log('item edited', noteId, task);
+  editNote(noteId, task) {
+    console.log('note edited', noteId, task);
   }
 }
 ```
@@ -484,18 +484,34 @@ The only thing that remains is gluing this all together. We'll need to take the 
 ...
 
 export default class App extends React.Component {
+constructor(props) {
   ...
-  itemEdited(noteId, task) {
+
+  this.findNote = this.findNote.bind(this);
+  this.addNote = this.addNote.bind(this);
+  this.editNote = this.editNote.bind(this);
+}
+  editNote(id, task) {
     let notes = this.state.notes;
-    const noteIndex = notes.findIndex((note) => note.id === noteId);
+    const noteIndex = this.findNote(id);
 
     if(noteIndex < 0) {
-      return console.warn('Failed to find note', notes, noteId);
+      return;
     }
 
     notes[noteIndex].task = task;
 
     this.setState({notes});
+  }
+  findNote(id) {
+    let notes = this.state.notes;
+    const noteIndex = notes.findIndex((note) => note.id === id);
+
+    if(noteIndex < 0) {
+      console.warn('Failed to find note', notes, id);
+    }
+
+    return noteIndex;
   }
 }
 ```
@@ -504,9 +520,9 @@ If you try to edit a `Note` now, the modification should stick. The same idea ca
 
 ## Removing Notes
 
-We are still missing one vital functionality. It would be nice to be able to remove notes. We could implement a button per `Note` and trigger the logic using that. We can also achieve this easily by extending edit. I'm opting for that as it's easier to implement.
+We are still missing one vital functionality. It would be nice to be able to remove notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially but we will style it later.
 
-If we want the laziest possible solution, we can just remove a `Note` when the user erases the entry. This might not be the best UX but it's enough for this demonstration.
+As before we'll need to define some logic on `App` level. Removing a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove we can construct a new state without it.
 
 **app/components/App.jsx**
 
@@ -514,30 +530,93 @@ If we want the laziest possible solution, we can just remove a `Note` when the u
 ...
 
 export default class App extends React.Component {
+  constructor(props) {
+    ...
+    this.editNote = this.editNote.bind(this);
+    this.removeNote = this.removeNote.bind(this);
+  }
+  render() {
+    const notes = this.state.notes;
+
+    return (
+      <div>
+        <button onClick={this.addNote}>+</button>
+        <Notes items={notes}
+          onEdit={this.editNote} onRemove={this.removeNote} />
+      </div>
+    );
+  }
+  removeNote(id) {
+    const notes = this.state.notes;
+    const noteIndex = this.findNote(id);
+
+    if(noteIndex < 0) {
+      return;
+    }
+
+    this.setState({
+      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
+    });
+  }
   ...
-  itemEdited(id, task) {
-    let notes = this.state.notes;
+  findNote(id) {
+    const notes = this.state.notes;
     const noteIndex = notes.findIndex((note) => note.id === id);
 
     if(noteIndex < 0) {
-      return console.warn('Failed to find note', notes, id);
+      console.warn('Failed to find note', notes, id);
     }
 
-    if(task) {
-      notes[noteIndex].task = task;
-    }
-    else {
-      notes = notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1));
-    }
-
-    this.setState({notes});
+    return noteIndex;
   }
 }
 ```
 
-Try erasing an input now. The new logic should kick in and get rid of the `Note`. The idea is exactly the same as earlier. We just perform a different operation over the data.
+In addition to logic we'll need to trigger `onRemove` logic at `Note` level. The idea is the same as before. We'll bind the id of the `Note` at `Notes`. A `Note` will simply trigger the callback trigger the callback when the user triggers the behavior.
 
-We have a fairly well working little application now. Our `App` has grown somewhat due to new logic introduced but apart from that we are doing quite fine. You should understand how props and state work by now. There's a lot more than that to React, though.
+**app/components/Notes.jsx**
+
+```javascript
+export default class Notes extends React.Component {
+  ...
+  renderNote(note) {
+    return (
+      <li className='note' key={`note${note.id}`}>
+        <Note
+          task={note.task}
+          onEdit={this.props.onEdit.bind(null, note.id)}
+          onRemove={this.props.onRemove.bind(null, note.id)} />
+      </li>
+    );
+  }
+}
+```
+
+Triggering `onRemove` is even simpler than the same operation for input. We capture `onClick` and trigger our callback then.
+
+**app/components/Note.jsx**
+
+```javascript
+...
+
+export default class Note extends React.Component {
+  ...
+  renderTask() {
+    return (
+      <div onClick={this.edit}>
+        <span>{this.props.task}</span>
+        <button onClick={this.props.onRemove}>x</button>
+      </div>
+    );
+  }
+  ...
+```
+
+We have a fairly well working little application now. We can create, update and delete `Notes` now. During this process we learned something about props and state. There's more than that to React, though.
+
+## Styling Notes
+
+TODO: show how to make the notes app look good
 
 ## Understanding React Components
 

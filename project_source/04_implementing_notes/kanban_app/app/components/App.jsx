@@ -34,9 +34,22 @@ export default class App extends React.Component {
     return (
       <div>
         <button onClick={this.addNote}>+</button>
-        <Notes items={notes} onEdit={this.editNote} onRemove={this.removeNote} />
+        <Notes items={notes}
+          onEdit={this.editNote} onRemove={this.removeNote} />
       </div>
     );
+  }
+  removeNote(id) {
+    const notes = this.state.notes;
+    const noteIndex = this.findNote(id);
+
+    if(noteIndex < 0) {
+      return;
+    }
+
+    this.setState({
+      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
+    });
   }
   addNote() {
     this.setState({
@@ -58,20 +71,8 @@ export default class App extends React.Component {
 
     this.setState({notes});
   }
-  removeNote(id) {
-    const notes = this.state.notes;
-    const noteIndex = this.findNote(id);
-
-    if(noteIndex < 0) {
-      return;
-    }
-
-    this.setState({
-      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
-    });
-  }
   findNote(id) {
-    let notes = this.state.notes;
+    const notes = this.state.notes;
     const noteIndex = notes.findIndex((note) => note.id === id);
 
     if(noteIndex < 0) {
