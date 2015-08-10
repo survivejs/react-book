@@ -484,13 +484,13 @@ The only thing that remains is gluing this all together. We'll need to take the 
 ...
 
 export default class App extends React.Component {
-constructor(props) {
-  ...
+  constructor(props) {
+    ...
 
-  this.findNote = this.findNote.bind(this);
-  this.addNote = this.addNote.bind(this);
-  this.editNote = this.editNote.bind(this);
-}
+    this.findNote = this.findNote.bind(this);
+    this.addNote = this.addNote.bind(this);
+    this.editNote = this.editNote.bind(this);
+  }
   editNote(id, task) {
     let notes = this.state.notes;
     const noteIndex = this.findNote(id);
