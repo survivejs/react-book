@@ -332,7 +332,9 @@ if(TARGET === 'dev') {
 }
 ```
 
-If you run the development build now using `npm start`, webpack will generate sourcemaps. The browser will be able to pick it up through naming convention. The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
+If you run the development build now using `npm start`, webpack will generate sourcemaps. When `eval` is used webpack will execute each module through `eval` and `//@ sourceURL`. This option is suitable only for development usage! The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
+
+It is possible you may need to enable sourcemaps at your browser for this to work. See [Chrome](https://developer.chrome.com/devtools/docs/javascript-debugging) and [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) instructions for further details.
 
 Configuration could contain more sections such as these based on your needs. Later on we'll develop another section to generate a production build.
 
