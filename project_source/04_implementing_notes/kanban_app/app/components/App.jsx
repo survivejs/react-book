@@ -23,20 +23,22 @@ export default class App extends React.Component {
       ]
     };
 
-    this.addItem = this.addItem.bind(this);
-    this.itemEdited = this.itemEdited.bind(this);
+    this.findNote = this.findNote.bind(this);
+    this.addNote = this.addNote.bind(this);
+    this.editNote = this.editNote.bind(this);
+    this.removeNote = this.removeNote.bind(this);
   }
   render() {
     const notes = this.state.notes;
 
     return (
       <div>
-        <button onClick={this.addItem}>+</button>
-        <Notes items={notes} onEdit={this.itemEdited} />
+        <button onClick={this.addNote}>+</button>
+        <Notes items={notes} onEdit={this.editNote} onRemove={this.removeNote} />
       </div>
     );
   }
-  addItem() {
+  addNote() {
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
@@ -44,21 +46,38 @@ export default class App extends React.Component {
       }])
     });
   }
-  itemEdited(id, task) {
+  editNote(id, task) {
+    let notes = this.state.notes;
+    const noteIndex = this.findNote(id);
+
+    if(noteIndex < 0) {
+      return;
+    }
+
+    notes[noteIndex].task = task;
+
+    this.setState({notes});
+  }
+  removeNote(id) {
+    const notes = this.state.notes;
+    const noteIndex = this.findNote(id);
+
+    if(noteIndex < 0) {
+      return;
+    }
+
+    this.setState({
+      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
+    });
+  }
+  findNote(id) {
     let notes = this.state.notes;
     const noteIndex = notes.findIndex((note) => note.id === id);
 
     if(noteIndex < 0) {
-      return console.warn('Failed to find note', notes, id);
+      console.warn('Failed to find note', notes, id);
     }
 
-    if(task) {
-      notes[noteIndex].task = task;
-    }
-    else {
-      notes = notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1));
-    }
-
-    this.setState({notes});
+    return noteIndex;
   }
 }
