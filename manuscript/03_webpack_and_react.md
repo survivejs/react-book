@@ -130,6 +130,8 @@ export default class App extends React.Component {
 }
 ```
 
+T> You can import specific portions from `react` using a syntax like `import React, { Component } from 'react';`. You may find this alternative a little neater.
+
 W> If you are used to `React.createClass()`, it is important to note that ES6 based class approach **doesn't** support autobinding behavior. Apart from that you may find ES6 classes neater. See the end of this chapter for more information.
 
 ### Setting Up `Note`
