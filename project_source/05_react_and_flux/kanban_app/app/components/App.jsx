@@ -1,7 +1,7 @@
 import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
-import Notes from './Notes';
+import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 

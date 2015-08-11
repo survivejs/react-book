@@ -194,7 +194,7 @@ Performing all of the needed changes piecewise wouldn't be nice I have included 
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Notes from './Notes';
+import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
@@ -495,7 +495,7 @@ The implementation below illustrates how to bind it all together. We'll drop `@c
 import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
-import Notes from './Notes';
+import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
