@@ -137,7 +137,7 @@ You probably have the skills to implement `Notes` by now. Extract the logic from
 
 ```javascript
 import React from 'react';
-import Note from './Note';
+import Note from './Note.jsx';
 
 export default class Notes extends React.Component {
   render() {
@@ -164,7 +164,7 @@ We also need to replace the old `App` logic to use our new component. You should
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Notes from './Notes';
+import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
   render() {
