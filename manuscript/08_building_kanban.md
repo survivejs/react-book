@@ -229,7 +229,7 @@ One more way to push the build further would be to load popular dependencies, su
 
 Our current setup doesn't clean `build` directory between builds. As this is annoying especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
 
-> npm i clean-webpack-plugin --save-dev`
+> npm i clean-webpack-plugin --save-dev
 
 to install the plugin. Change the build configuration as below to integrate it.
 
