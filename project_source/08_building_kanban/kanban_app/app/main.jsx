@@ -11,9 +11,15 @@ main();
 
 function main() {
   persist(alt, storage, 'app');
-  const app = document.createElement('div');
 
-  document.body.appendChild(app);
+  if(process.env.NODE_ENV === 'production') {
+    React.render(<App />, document.getElementById('app'));
+  }
+  if(process.env.NODE_ENV !== 'production') {
+    const app = document.createElement('div');
 
-  React.render(<App />, app);
+    document.body.appendChild(app);
+
+    React.render(<App />, app);
+  }
 }

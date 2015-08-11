@@ -362,6 +362,144 @@ Child extract-text-webpack-plugin:
 
 This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*. Not bad.
 
+## Isomorphic Rendering
+
+One of the interesting aspects of React is the fact that it allows so called isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code gets run, it will pick up the markup. Even though this sounds trivial there are some nice advantages to this approach:
+
+* Web crawlers will be able to access the content easier (potentially better SEO)
+* You can avoid requests to fetch initial data. Especially on slow connections this can make a big difference.
+* The browser doesn't have to wait for JavaScript to get evaluated. Instead it gets to render HTML straight away.
+* Even users without JavaScript enabled see something. In this case it doesn't matter a lot but otherwise it could be a big factor.
+
+Even though we don't have a proper backend in our project this is a powerful approach you should be aware of. The same idea can be applied for other scenarios such as rendering a JSX template to a PDF invoice for instance. React isn't limited to the web.
+
+We will need to perform a couple of tweaks to our project in order to enable isomorphic rendering. Thankfully *HtmlWebpackPlugin* can do most of the work for us. We just need to implement a custom template and render our initial JSX to it. Set up *index.tpl* as follows.
+
+**templates/index.tpl**
+
+```html
+<!DOCTYPE html>
+<html{% if(o.htmlWebpackPlugin.files.manifest) { %}
+  manifest="{%= o.htmlWebpackPlugin.files.manifest %}"{% } %}>
+  <head>
+    <meta charset="UTF-8">
+    <title>{%=o.htmlWebpackPlugin.options.title%}</title>
+    {% if (o.htmlWebpackPlugin.files.favicon) { %}
+    <link rel="shortcut icon" href="{%=o.htmlWebpackPlugin.files.favicon%}">
+    {% } %}
+    {% for (var css in o.htmlWebpackPlugin.files.css) { %}
+    <link href="{%=o.htmlWebpackPlugin.files.css[css] %}" rel="stylesheet">
+    {% } %}
+  </head>
+  <body>
+    <div id="app">%app%</div>
+
+    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+    <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+    {% } %}
+  </body>
+</html>
+```
+
+This template is based on the default one used by *HtmlWebpackPlugin*. It relies on a templating library known as [blueimp-tpl](https://www.npmjs.com/package/blueimp-tmpl). That's why you see all those `{% ... %}` entries there. We will inject some syntax of our own at `<div id="app">%app%</div>` next and let *HtmlWebpackPlugin* deal with the rest.
+
+As we'll be relying on JSX when rendering, we need to rename *webpack.config.js* as *webpack.config.babel.js* first. That way webpack knows to process it through Babel and everything will work as we expect. Besides this we need to make *HtmlWebpackPlugin* aware of our template and add our custom rendering logic there.
+
+**webpack.config.babel.js**
+
+```javascript
+var fs = require('fs');
+var React = require('react');
+...
+
+var App = require('./app/components/App.jsx');
+var pkg = require('./package.json');
+
+var TARGET = process.env.npm_lifecycle_event;
+var ROOT_PATH = path.resolve(__dirname);
+
+var common = {
+  entry: path.resolve(ROOT_PATH, 'app/main'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+  output: {
+    path: path.resolve(ROOT_PATH, 'build'),
+    filename: 'bundle.js'
+  }
+};
+
+if(TARGET === 'start') {
+  module.exports = merge(common, {
+    ...
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+      new HtmlwebpackPlugin({
+        title: 'Kanban app'
+      })
+    ]
+  });
+}
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    ...
+    plugins: [
+      ...
+      new HtmlwebpackPlugin({
+        title: 'Kanban app',
+        templateContent: renderJSX(
+          fs.readFileSync(path.join(__dirname, 'templates/index.tpl'), 'utf8'),
+          {
+            app: React.renderToString(<App />)
+          })
+      })
+    ]
+  });
+}
+
+function renderJSX(template, replacements) {
+  return function(templateParams, compilation) {
+    return template.replace(/%(\w*)%/g, function(match) {
+      var key = match.slice(1, -1);
+
+      return replacements[key] ? replacements[key] : match;
+    });
+  }
+}
+```
+
+As it doesn't make sense to use isomorphic rendering for development, I set it up only for production usage. It performs a regular expression based string replacement trick to render our React code to `%app%`. `React.renderToString` returns the markup we need.
+
+T> If you want output that doesn't have React keys, use `React.renderToStaticMarkup` instead. This is useful especially if you are writing static site generators and want just static output.
+
+In addition we need to tweak the entry point of our application to take these changes in count. When in production it should use the existing markup instead of injecting its own.
+
+**app/main.jsx**
+
+```javascript
+...
+
+function main() {
+  persist(alt, storage, 'app');
+
+  if(process.env.NODE_ENV === 'production') {
+    React.render(<App />, document.getElementById('app'));
+  }
+  if(process.env.NODE_ENV !== 'production') {
+    const app = document.createElement('div');
+
+    document.body.appendChild(app);
+
+    React.render(<App />, app);
+  }
+}
+```
+
+If you hit `npm run build` now and wait for a while, you should end up with `build/index.html` that contains something familiar. `npm start` should work the same way as earlier.
+
+In this case isomorphic rendering doesn't yield us much. If we had a backend the situation would be different. We could serve the user markup that has initial data and enjoy the benefits. Now it's more of a gimmick but given it's a useful technique to know, you should understand the basic approach now.
+
 ## Conclusion
 
 Our Kanban application is now ready to be served. We went from a chunky build to a slim one. Even better the production version can benefit from caching and it is able to invalidate it. When it comes to webpack this is just a small part of what you can do with it. I discuss more approaches at **Deploying applications** chapter.
