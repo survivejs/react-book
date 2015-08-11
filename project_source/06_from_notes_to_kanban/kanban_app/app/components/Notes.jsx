@@ -1,5 +1,5 @@
 import React from 'react';
-import Editable from './Editable';
+import Editable from './Editable.jsx';
 
 export default class Notes extends React.Component {
   constructor(props) {

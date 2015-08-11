@@ -76,7 +76,7 @@ Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` r
 import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
-import Lanes from './Lanes';
+import Lanes from './Lanes.jsx';
 import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 
@@ -112,7 +112,7 @@ Each `Lane` will be able to render associated `Notes` just like our `App` did ea
 
 ```javascript
 import React from 'react';
-import Lane from './Lane';
+import Lane from './Lane.jsx';
 
 export default class Lanes extends React.Component {
   render() {
@@ -138,7 +138,7 @@ The example below has been modeled largely after our earlier implementation of `
 import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
-import Notes from './Notes';
+import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
@@ -419,7 +419,7 @@ Next we need to make `Notes.jsx` point at this component. We'll need to alter th
 
 ```javascript
 import React from 'react';
-import Editable from './Editable';
+import Editable from './Editable.jsx';
 
 export default class Notes extends React.Component {
   ...
@@ -442,7 +442,7 @@ Next we can use this generalized component to allow `Lane` name to be modified. 
 
 ```javascript
 ...
-import Editable from './Editable';
+import Editable from './Editable.jsx';
 
 export default class Lane extends React.Component {
   render() {
