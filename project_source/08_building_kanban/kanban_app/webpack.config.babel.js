@@ -98,7 +98,7 @@ if(TARGET === 'build') {
       }),
       new HtmlwebpackPlugin({
         title: 'Kanban app',
-        templateContent: renderJSX(
+        templateContent: renderTemplate(
           fs.readFileSync(path.join(__dirname, 'templates/index.tpl'), 'utf8'),
           {
             app: React.renderToString(<App />)
@@ -108,12 +108,12 @@ if(TARGET === 'build') {
   });
 }
 
-function renderJSX(template, replacements) {
-  return function(templateParams, compilation) {
+function renderTemplate(template, replacements) {
+  return function() {
     return template.replace(/%(\w*)%/g, function(match) {
       var key = match.slice(1, -1);
 
       return replacements[key] ? replacements[key] : match;
     });
-  }
+  };
 }
