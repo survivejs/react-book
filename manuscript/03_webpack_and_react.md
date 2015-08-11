@@ -70,8 +70,6 @@ In addition, we need to add loader declaration to the *loaders* section of confi
 
 To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly but I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
-Webpack traverses `['', '.webpack.js', '.web.js', '.js']` files by default. This will get problematic with our `import Note from './Note';` statement. In order to make it find JSX, we'll need to tweak webpack's `resolve.extensions` to include JSX.
-
 Here's the relevant configuration we need to make Babel work:
 
 **webpack.config.js**
@@ -80,10 +78,7 @@ Here's the relevant configuration we need to make Babel work:
 ...
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main'),
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
+  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
   ...
 };
 
@@ -103,6 +98,8 @@ if(TARGET === 'start') {
 }
 ```
 
+T> If you want webpack to find JSX files without having to use the extension, set up `resolve.extensions = ['', '.js', '.jsx']`.
+
 T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint and many other tools discussed later.
 
 T> If you are using Babel in your project, you can also use it in your webpack configuration. Simply rename it as `webpack.config.babel.js` and webpack will pass it through Babel allowing you to use ES6 module syntax and features.
@@ -121,7 +118,7 @@ Now that we got that out of the way we can start to develop our Kanban applicati
 
 ```javascript
 import React from 'react';
-import Note from './Note';
+import Note from './Note.jsx';
 
 export default class App extends React.Component {
   render() {
@@ -162,7 +159,7 @@ We'll need to adjust our `main.js` to render the component correctly. Note that 
 import './main.css';
 
 import React from 'react';
-import App from './components/App';
+import App from './components/App.jsx';
 
 main();
 
