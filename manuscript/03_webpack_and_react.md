@@ -89,7 +89,7 @@ if(TARGET === 'start') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['babel?stage=1'],
+          loaders: ['babel'],
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]
@@ -98,9 +98,17 @@ if(TARGET === 'start') {
 }
 ```
 
-T> If you want webpack to find JSX files without having to use the extension, set up `resolve.extensions = ['', '.js', '.jsx']`.
+In addition we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through webpack (i.e. `babel?stage=1`) but then it would be just for webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
 
-T> Another way to deal with Babel configuration would be to define a [.babelrc](https://babeljs.io/docs/usage/babelrc/) file in the project root. It would contain default settings used by Babel. It's the same idea as for ESLint and many other tools discussed later.
+**.babelrc**
+
+```json
+{
+  "stage": 1
+}
+```
+
+T> If you want webpack to find JSX files without having to use the extension, set up `resolve.extensions = ['', '.js', '.jsx']`. We are using JSX extension here explicitly as that works well with the isomorphic approach we discuss later in this book.
 
 T> If you are using Babel in your project, you can also use it in your webpack configuration. Simply rename it as `webpack.config.babel.js` and webpack will pass it through Babel allowing you to use ES6 module syntax and features.
 
@@ -206,7 +214,7 @@ if(TARGET === 'start') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel?stage=1'],
+          loaders: ['react-hot', 'babel'],
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]

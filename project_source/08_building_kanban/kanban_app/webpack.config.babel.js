@@ -32,7 +32,7 @@ if(TARGET === 'start') {
         },
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel?stage=1'],
+          loaders: ['react-hot', 'babel'],
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]
@@ -73,7 +73,7 @@ if(TARGET === 'build') {
         },
         {
           test: /\.jsx?$/,
-          loaders: ['babel?stage=1'],
+          loaders: ['babel'],
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]

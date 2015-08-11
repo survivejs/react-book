@@ -38,7 +38,7 @@ module.exports = function(o) {
         },
         {
           test: /\.jsx?$/,
-          loaders: ['babel?stage=1'],
+          loaders: ['babel'],
           include: path.resolve(o.inputPath, 'app')
         }
       ]
