@@ -1,5 +1,5 @@
 import React from 'react';
-import Lane from './Lane';
+import Lane from './Lane.jsx';
 
 export default class Lanes extends React.Component {
   render() {

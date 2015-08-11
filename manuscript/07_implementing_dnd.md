@@ -57,7 +57,7 @@ We also need to tweak `Notes` to use our wrapper component. We will simply wrap 
 
 ```javascript
 ...
-import Note from './Note';
+import Note from './Note.jsx';
 
 export default class Notes extends React.Component {
   ...

@@ -1,6 +1,6 @@
 import React from 'react';
-import Editable from './Editable';
-import Note from './Note';
+import Editable from './Editable.jsx';
+import Note from './Note.jsx';
 import LaneActions from '../actions/LaneActions';
 
 export default class Notes extends React.Component {
