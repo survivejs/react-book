@@ -18,11 +18,10 @@ module.exports = function(o) {
 
   return {
     entry: {
-      app: path.resolve(o.inputPath, 'app/main')
+      app: path.resolve(o.inputPath, 'app/main.jsx')
       //vendor: Object.keys(deps)
     },
     resolve: {
-      extensions: ['', '.js', '.jsx'],
       root: o.inputPath
     },
     output: {
