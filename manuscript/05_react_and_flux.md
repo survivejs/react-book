@@ -171,7 +171,6 @@ class NoteStore {
 }
 
 export default alt.createStore(NoteStore, 'NoteStore');
-
 ```
 
 T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
