@@ -1,5 +1,7 @@
+import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
+import NoteStore from './NoteStore';
 
 class LaneStore {
   constructor() {
@@ -12,6 +14,7 @@ class LaneStore {
   create(lane) {
     const lanes = this.lanes;
 
+    lane.id = uuid.v4();
     lane.notes = lane.notes || [];
 
     this.setState({
@@ -42,7 +45,10 @@ class LaneStore {
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
     });
   }
-  attachToLane({laneId, noteId}) {
+  attachToLane({laneId}) {
+    this.waitFor(NoteStore);
+
+    const noteId = NoteStore.getState().notes.slice(-1)[0].id;
     const lanes = this.lanes;
     const targetId = this.findLane(laneId);
 

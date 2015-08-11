@@ -27,6 +27,7 @@ Due to Alt bootstrapping we will need to check against `this.lanes` when we are 
 **app/stores/LaneStore.js**
 
 ```javascript
+import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 
@@ -39,6 +40,7 @@ class LaneStore {
   create(lane) {
     const lanes = this.lanes;
 
+    lane.id = uuid.v4();
     lane.notes = lane.notes || [];
 
     this.setState({
@@ -73,7 +75,6 @@ Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` r
 **app/components/App.jsx**
 
 ```javascript
-import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Lanes from './Lanes.jsx';
@@ -97,7 +98,7 @@ export default class App extends React.Component {
     );
   }
   addItem() {
-    LaneActions.create({id: uuid.v4(), name: 'New lane'});
+    LaneActions.create({name: 'New lane'});
   }
 }
 ```
@@ -135,7 +136,6 @@ The example below has been modeled largely after our earlier implementation of `
 **app/components/Lane.jsx**
 
 ```javascript
-import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Notes from './Notes.jsx';
@@ -166,7 +166,7 @@ export default class Lane extends React.Component {
     );
   }
   addNote() {
-    NoteActions.create({id: uuid.v4(), task: 'New task'});
+    NoteActions.create({task: 'New task'});
   }
   editNote(id, task) {
     NoteActions.update({id, task});
@@ -204,8 +204,10 @@ We also need to implement the feature at store level as follows:
 **app/stores/LaneStore.js**
 
 ```javascript
+import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
+import NoteStore from './NoteStore';
 
 class LaneStore {
   constructor() {
@@ -217,8 +219,11 @@ class LaneStore {
   }
   ...
   attachToLane({laneId, noteId}) {
+    this.waitFor(NoteStore);
+
+    const noteId = NoteStore.getState().notes.slice(-1)[0].id;
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === laneId);
+    const targetId = this.findLane(laneId);
 
     if(targetId < 0) {
       return console.warn('Failed to find target lane');
@@ -237,7 +242,7 @@ class LaneStore {
   }
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes;
-    const targetId = lanes.findIndex((lane) => lane.id === laneId);
+    const targetId = this.findLane(laneId);
 
     if(targetId < 0) {
       return console.warn('Failed to find target lane');
@@ -297,10 +302,8 @@ export default class Lane extends React.Component {
     );
   }
   addNote(laneId) {
-    const noteId = uuid.v4();
-
-    NoteActions.create({id: noteId, task: 'New task'});
-    LaneActions.attachToLane({laneId, noteId});
+    NoteActions.create({task: 'New task'});
+    LaneActions.attachToLane({laneId});
   }
   editNote(laneId, noteId, task) {
     NoteActions.update({id: noteId, task});
@@ -317,6 +320,7 @@ We also need to defined that getter for `NoteStore`
 **app/stores/NoteStore.jsx**
 
 ```javascript
+import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
@@ -331,19 +335,19 @@ class NoteStore {
     });
   }
   ...
-    get(ids) {
-      const notes = this.notes || [];
-      const notesIds = notes.map((note) => note.id);
+  get(ids) {
+    const notes = this.notes || [];
+    const notesIds = notes.map((note) => note.id);
 
-      if(ids) {
-        return ids.map((id) => notes[notesIds.indexOf(id)]);
-      }
-
-      return [];
+    if(ids) {
+      return ids.map((id) => notes[notesIds.indexOf(id)]);
     }
-  }
 
-  export default alt.createStore(NoteStore, 'NoteStore');
+    return [];
+  }
+}
+
+export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
 After these massive changes we have set up a system that can maintain relations between `Lanes` and `Notes`. It's not a particularly beautiful solution but the current structure allowed us to retain singleton stores and a flat data structure.
@@ -512,7 +516,7 @@ class LaneStore {
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
     });
   }
-  attachToLane({laneId, noteId}) {
+  attachToLane({laneId}) {
     ...
   }
   ...

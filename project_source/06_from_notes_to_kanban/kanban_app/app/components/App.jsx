@@ -1,4 +1,3 @@
-import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Lanes from './Lanes.jsx';
@@ -22,6 +21,6 @@ export default class App extends React.Component {
     );
   }
   addItem() {
-    LaneActions.create({id: uuid.v4(), name: 'New lane'});
+    LaneActions.create({name: 'New lane'});
   }
 }

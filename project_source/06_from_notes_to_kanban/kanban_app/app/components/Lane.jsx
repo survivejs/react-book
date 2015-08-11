@@ -1,4 +1,3 @@
-import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Notes from './Notes.jsx';
@@ -34,10 +33,8 @@ export default class Lane extends React.Component {
     );
   }
   addNote(laneId) {
-    const noteId = uuid.v4();
-
-    NoteActions.create({id: noteId, task: 'New task'});
-    LaneActions.attachToLane({laneId, noteId});
+    NoteActions.create({task: 'New task'});
+    LaneActions.attachToLane({laneId});
   }
   editNote(laneId, noteId, task) {
     NoteActions.update({id: noteId, task});
