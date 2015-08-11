@@ -181,7 +181,7 @@ var ROOT_PATH = path.resolve(__dirname);
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app/main'),
+      app: path.resolve(ROOT_PATH, 'app/main.jsx'),
       vendor: Object.keys(pkg.dependencies)
     },
     output: {
@@ -282,10 +282,7 @@ var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main'),
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
+  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -419,10 +416,7 @@ var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main'),
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
+  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
