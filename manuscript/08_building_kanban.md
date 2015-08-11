@@ -496,4 +496,6 @@ In this case isomorphic rendering doesn't yield us much. If we had a backend the
 
 ## Conclusion
 
+Beyond the features discussed webpack allows you to [lazy load](https://webpack.github.io/docs/code-splitting.html) content through `require.ensure`. This is handy if you happen to have some specific big dependency on some specific view and want to avoid serving it through your main bundles.
+
 Our Kanban application is now ready to be served. We went from a chunky build to a slim one. Even better the production version can benefit from caching and it is able to invalidate it. When it comes to webpack this is just a small part of what you can do with it. I discuss more approaches at **Deploying applications** chapter.
