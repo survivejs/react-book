@@ -66,10 +66,10 @@
         "demo": "07_implementing_dnd"
     },
     {
-        "author": "Mugu Marculescu",
-        "source": "https://www.flickr.com/photos/48282484@N00/135720337",
-        "license": "CC BY-NC-SA",
-        "image": "training.jpg",
+        "author": "Acid Pix",
+        "source": "https://www.flickr.com/photos/7870246@N03/481256246",
+        "license": "CC BY",
+        "image": "boots.jpg",
         "demo": "08_building_kanban"
     },
     {
@@ -83,12 +83,6 @@
         "source": "https://www.flickr.com/photos/16324044@N00/10833734686",
         "license": "CC BY-NC-SA",
         "image": "lint.jpg"
-    },
-    {
-        "author": "Acid Pix",
-        "source": "https://www.flickr.com/photos/7870246@N03/481256246",
-        "license": "CC BY",
-        "image": "boots.jpg"
     },
     {
         "author": "Duke University Archives",
