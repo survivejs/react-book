@@ -219,7 +219,11 @@ class LaneStore {
   }
   ...
   attachToLane({laneId, noteId}) {
-    this.waitFor(NoteStore);
+    if(!noteId) {
+      this.waitFor(NoteStore);
+
+      noteId = NoteStore.getState().notes.slice(-1)[0].id;
+    }
 
     const noteId = NoteStore.getState().notes.slice(-1)[0].id;
     const lanes = this.lanes;

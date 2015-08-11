@@ -45,10 +45,13 @@ class LaneStore {
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
     });
   }
-  attachToLane({laneId}) {
-    this.waitFor(NoteStore);
+  attachToLane({laneId, noteId}) {
+    if(!noteId) {
+      this.waitFor(NoteStore);
 
-    const noteId = NoteStore.getState().notes.slice(-1)[0].id;
+      noteId = NoteStore.getState().notes.slice(-1)[0].id;
+    }
+
     const lanes = this.lanes;
     const targetId = this.findLane(laneId);
 
