@@ -113,6 +113,7 @@ To keep the implementation clean we are using `this.setState`, a feature of Alt 
 **app/stores/NoteStore.js**
 
 ```javascript
+import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
@@ -126,6 +127,8 @@ class NoteStore {
   }
   create(note) {
     const notes = this.notes;
+
+    note.id = uuid.v4();
 
     this.setState({
       notes: notes.concat(note)
@@ -181,7 +184,7 @@ T> The current implementation is naive in that it doesn't validate parameters in
 
 ### Gluing It All Together
 
-Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create({id: uuid.v4(), task: 'New task'})`. This would cause the associated Store to change according to the logic. Because Store changes so do all the components listening to it.
+Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create({task: 'New task'})`. This would cause the associated Store to change according to the logic. Because Store changes so do all the components listening to it.
 
 There are multiple ways to connect the Store to our View. Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. They will allow us to keep track of the state and synchronize it with our components.
 
@@ -192,7 +195,6 @@ Performing all of the needed changes piecewise wouldn't be nice I have included 
 **app/components/App.jsx**
 
 ```javascript
-import uuid from 'node-uuid';
 import React from 'react';
 import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
@@ -226,7 +228,7 @@ export default class App extends React.Component {
     );
   }
   addNote() {
-    NoteActions.create({id: uuid.v4(), task: 'New task'});
+    NoteActions.create({task: 'New task'});
   }
   editNote(id, task) {
     NoteActions.update({id, task});
@@ -492,7 +494,6 @@ The implementation below illustrates how to bind it all together. We'll drop `@c
 **app/components/App.jsx**
 
 ```javascript
-import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Notes from './Notes.jsx';

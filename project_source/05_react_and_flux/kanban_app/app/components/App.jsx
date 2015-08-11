@@ -1,4 +1,3 @@
-import uuid from 'node-uuid';
 import AltContainer from 'alt/AltContainer';
 import React from 'react';
 import Notes from './Notes.jsx';
@@ -22,7 +21,7 @@ export default class App extends React.Component {
     );
   }
   addNote() {
-    NoteActions.create({id: uuid.v4(), task: 'New task'});
+    NoteActions.create({task: 'New task'});
   }
   editNote(id, task) {
     NoteActions.update({id, task});

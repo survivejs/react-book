@@ -1,3 +1,4 @@
+import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
@@ -11,6 +12,8 @@ class NoteStore {
   }
   create(note) {
     const notes = this.notes;
+
+    note.id = uuid.v4();
 
     this.setState({
       notes: notes.concat(note)
