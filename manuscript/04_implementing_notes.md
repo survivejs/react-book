@@ -446,15 +446,15 @@ We are missing one final bit, the actual logic. Our state consists of `Notes` ea
 
 We'll be using a ES6 function know as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result.
 
-Babel provides an easy way to polyfill this feature using `import 'babel-core/polyfill';`. The problem is that it bloats our final bundle somewhat as it enables all [core-js](https://github.com/zloirock/core-js) features. Instead we'll be using more granular approach to enable just the feature we need specifically and depend on `core-js` directly. Install it first.
+Babel provides an easy way to polyfill this feature using `import 'babel-core/polyfill';`. The problem is that it bloats our final bundle somewhat as it enables all [core-js](https://github.com/zloirock/core-js) features. As we need just one shim, we'll be using a specific shim for this instead. Hit
 
-> npm i core-js --save-dev
+> npm i array.prototype.findindex --save-dev
 
 You can see how it behaves through Node.js cli. Here's a sample session:
 
 ```javascript
-> require('core-js/fn/array/find-index')
-[Function]
+> require('array.prototype.findindex')
+{}
 > a = [12, 412, 30]
 [ 12, 412, 30 ]
 > a.findIndex(function(v) {return v === 12;})
@@ -463,12 +463,14 @@ You can see how it behaves through Node.js cli. Here's a sample session:
 -1
 ```
 
+T> [es5-shim](https://www.npmjs.com/package/es5-shim), [es6-shim](https://www.npmjs.com/package/es6-shim) and [es7-shim](https://www.npmjs.com/package/es7-shim) are good alternatives to `core-js`. At the moment they don't allow you to import the exact shims you need in a granular way. That said using a whole library at once can be worth the convenience.
+
 We also need to attach the polyfill to our application.
 
 **app/main.jsx**
 
 ```
-import 'core-js/fn/array/find-index';
+import 'array.prototype.findindex';
 ...
 ```
 
