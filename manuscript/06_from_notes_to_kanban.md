@@ -185,9 +185,11 @@ The reason why this happens is quite simple. Our `NoteStore` is a singleton. Thi
 
 Currently our `Lane` model is very simple. We are just storing an array of objects. Each of the objects knows its *id* and *name*. We'll need something more. Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it.
 
-This means we'll need to extend the system to support this. When we `addNote()`, it's not enough to just add it `NoteStore`. We'll need to associate it with the `Lane` in question as well. We are going to need a new action for this. We can call it `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`. This will create the needed association based on the ids. The `Note` filtering logic can be performed when injecting data to `Notes`.
+This means we'll need to extend the system to support this. When we `addNote()`, it's not enough to just add it `NoteStore`. We'll need to associate it with the `Lane` in question as well. We are going to need a new action for this. We can call it `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`.
 
-In addition, to `attachToLane` we are going to need a way to detach a `Note` from a `Lane`. `Notes` can be deleted after all and we don't want to have dead data hanging around. For this purpose we need to implement `LaneActions.detachFromLane({laneId: <id>, noteId: <id>})`.
+The problem with `attachToLane` signature is that we are going to need some way to pass the id of the newly created `Note` to the `Lane`. Fortunately Flux architecture provides a small utility for dealing with data dependencies like this. This is known as `waitFor`. In short we can wait for `addNote` to complete before we try to create the association.
+
+In addition to `attachToLane` we are going to need a way to detach a `Note` from a `Lane`. `Notes` can be deleted after all and we don't want to have dead data hanging around. For this purpose we need to implement `LaneActions.detachFromLane({laneId: <id>, noteId: <id>})`.
 
 The first required change, adding a new action is simple. We will simply add the action to our list of actions.
 
