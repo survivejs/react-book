@@ -13,7 +13,6 @@ The idea of the book is to guide you through a small example project and then di
 Theoretical parts of the book will focus more on the tooling. Through those you will learn to:
 
 * lint your code effectively using [ESLint](http://eslint.org/) and some other tools
-* develop a build configuration for deployment
 * author libraries at [npm](https://www.npmjs.com/)
 * style React in various emerging ways
 

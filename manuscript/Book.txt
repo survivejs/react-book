@@ -13,8 +13,7 @@ React.md
 08_building_kanban.md
 Advanced.md
 09_linting_in_webpack.md
-10_deploying_applications.md
-11_authoring_libraries.md
-12_styling_react.md
+10_authoring_libraries.md
+11_styling_react.md
 Backmatter.txt
-13_troubleshooting.md
+12_troubleshooting.md
