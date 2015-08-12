@@ -280,7 +280,7 @@ export default class App extends React.Component {
 
 As you can see, we have pushed the logic out of `App`. We actually have more code now than before but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application. Things can only get better.
 
-## Dispatching in Alt
+### Dispatching in Alt
 
 Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`.
 
