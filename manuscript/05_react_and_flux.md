@@ -153,16 +153,7 @@ To keep the implementation clean we are using `this.setState`, a feature of Alt 
 ...
 
 class NoteStore {
-  constructor() {
-    this.bindActions(NoteActions);
-
-    this.findNote = this.findNote.bind(this);
-
-    this.notes = [];
-  }
-  create(note) {
-    ...
-  }
+  ...
   update({id, task}) {
     let notes = this.notes;
     const noteIndex = this.findNote(id);
@@ -390,8 +381,6 @@ In order to make our `NoteStore` aware of possibly existing data, we'll need to 
 class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
-
-    this.findNote = this.findNote.bind(this);
 
     this.notes = this.notes || [];
   }
