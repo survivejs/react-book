@@ -97,9 +97,15 @@ class NoteStore {
 
     this.notes = [];
   }
-  create(note) {}
-  update({id, task}) {}
-  delete(id) {}
+  create(note) {
+
+  }
+  update({id, task}) {
+
+  }
+  delete(id) {
+
+  }
 }
 
 export default alt.createStore(NoteStore, 'NoteStore');
