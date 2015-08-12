@@ -215,8 +215,6 @@ class LaneStore {
   constructor() {
     this.bindActions(LaneActions);
 
-    this.findLane = this.findLane.bind(this);
-
     this.lanes = this.lanes || [];
   }
   ...
