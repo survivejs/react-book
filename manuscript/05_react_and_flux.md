@@ -80,13 +80,13 @@ Alt provides an alternative, verbose syntax for defining Actions. It is handy wh
 
 T> You can even track the request state by setting up a custom Store just for that. In that case you would trigger Actions that alter the state of that Store. You could have a component that logs the result or shows it at the user interface based on that.
 
-### Defining Store for Notes
+### Defining a Store for `Notes`
 
-The main purpose of a Store is to deal with data and application state related concerns. In this case it will maintain the state of Notes and alter it based on operations we apply on it. We will connect it with the actions we defined above using `bindActions` shortcut.
+A Store is a single source of truth for a part of your application state. In this case we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
 
-`bindActions` maps each Action to a method by name. We trigger appropriate logic at each method based on that. Finally we connect the Store with Alt using `alt.createStore`. This will treat our Stores as singleton so it's the same idea as for Alt instance. It is possible to create individual Store instances but singleton works for our case.
+`bindActions` maps each Action to a method by name. We trigger appropriate logic at each method based on that. Finally we connect the Store with Alt using `alt.createStore`. This will treat our Stores as singleton. It's the same idea as for Alt instance earlier.
 
-The implementation below describes logic that will be sufficient for this application. A lot of it might be familiar from the previous chapter. Here we are lifting that logic out of View level.
+The implementation below describes the logic that will be sufficient for this application. A lot of it might be familiar from the previous chapter. Here we are lifting that logic out of View level and into the Store.
 
 To keep the implementation clean we are using `this.setState`, a feature of Alt that allows us to signify that we are going to alter Store state and that it should signal the change to possible listeners.
 
@@ -157,7 +157,7 @@ T> It would be possible to operate directly on data. E.g. a oneliner such as `th
 
 Note that assigning an id (`NoteStore` in this case) to a store isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible id collisions. These ids become important when we persist the data.
 
-We have almost integrated Flux to our application. Now we have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions.
+We have almost integrated Flux to our application now. We have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions to complete the cycle.
 
 T> The current implementation is naive in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this. Alternatively you could write nice tests. That's a good idea regardless.
 
@@ -169,7 +169,7 @@ There are multiple ways to connect the Store to our View. Our `NoteStore` provid
 
 As you might remember from the earlier chapters React provides a set of lifecycle hooks. We can connect `NoteStore` with our View using `listen/unlisten` at `componentDidMount` and `componentWillUnmount`. Doing it this way makes sure we don't have weird references hanging around if/when components get created and removed.
 
-Performing all of the needed changes piecewise wouldn't be nice I have included whole `App` View below. Take note how we use `NoteActions` and `NoteStore` in particular. As we alter `NoteStore`, this leads to a cascade that causes our `App` state update through `setState`. This in turn will trigger component `render`.
+Performing all of the needed changes piecewise wouldn't be nice I have included whole `App` View below. Notice how we use `NoteActions` and `NoteStore` in particular. As we alter `NoteStore`, this leads to a cascade that causes our `App` state update through `setState`. This in turn will trigger component `render`.
 
 **app/components/App.jsx**
 
@@ -218,33 +218,31 @@ export default class App extends React.Component {
 }
 ```
 
-As you can see, we pushed the logic out of `App`. We actually have more code now than before but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll see soon. Most importantly we have managed to implement Flux architecture for our application. Things can only get better.
+As you can see, we have pushed the logic out of `App`. We actually have more code now than before but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application. Things can only get better.
 
 ### Dispatching in Alt
 
 Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`.
 
-You can use the same mechanism on Store level. In that case you would trigger `this.dispatcher.register(...)` at constructor. These mechanisms allow you to implement effective logging to your system.
+You can use the same mechanism on the Store level. In that case you would trigger `this.dispatcher.register(...)` at the constructor. These mechanisms allow you to implement effective logging to your system.
 
 ### What's the Point?
 
 Even though integrating Alt took a lot of effort, it was not all in vain. Consider the following questions:
 
-1. Let's say we wanted to persist the Notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
+1. Let's say we wanted to persist the notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
 2. What if we had multiple components relying on the data? We would just consume `NoteStore` and display it however we want.
 3. What if we had multiple, separate Note lists for different type of tasks? We could set up another Store for tracking these lists. That Store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
 
-This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code, it is easier to reason about. Given we are dealing with unidirectional flow we have something that is simple to debug and test.
+This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code, it is easier to reason about. Given we are dealing with a unidirectional flow we have something that is simple to debug and test.
 
 ## Implementing Persistency over `localStorage`
 
-Given it's not nice to lose your Notes after a refresh, we can tweak our implementation of `NoteStore` to persist the data on change. One way to achieve this is to use [localStorage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage). It is a well supported feature that allows you to persist data at browser.
+Given it's not nice to lose your Notes after a refresh, we can tweak our implementation of `NoteStore` to persist the data on change. One way to achieve this is to use [localStorage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage). It is a well supported feature that allows you to persist data to the browser.
 
 ### Understanding `localStorage`
 
-It has a sibling known as `sessionStorage`. `sessionStorage` loses its data when browser is closed, `localStorage` doesn't.
-
-They both share [the same API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API) as discussed below:
+`localStorage` has a sibling known as `sessionStorage`. `sessionStorage` loses its data when browser is closed, `localStorage` doesn't. They both share [the same API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API) as discussed below:
 
 * `storage.getItem(k)` - Returns stored string
 * `storage.removeItem(k)` - Removes data matching to key
@@ -261,7 +259,7 @@ T> You can support Safari private mode by trying to write into `localStorage` fi
 
 To keep things simple and manageable we can implement a little wrapper for `storage`. It will wrap all of these complexities. Given the API operates over strings and it is convenient to store objects we'll deal with serialization here using `JSON.parse` and `JSON.stringify`.
 
-In a more serious case it could be a good idea to use a library such as [localForage](https://github.com/mozilla/localForage) to hide all the complexity for you. You could even integrate it behind this little interface of ours. All we need are just `storage.get(k)` and `storage.set(k, v)` as seen in the implementation below:
+In a more serious case it could be a good idea to use a library such as [localForage](https://github.com/mozilla/localForage) to hide all the complexity. You could even integrate it behind this little interface of ours. All we need are just `storage.get(k)` and `storage.set(k, v)` as seen in the implementation below:
 
 **app/libs/storage.js**
 
@@ -281,11 +279,13 @@ export default {
 };
 ```
 
+The implementation could be generalized further. You could convert it into a factory (`(storage) => {...}`) and make it possible to swap the storage. Now we are stuck with `localStorage` unless we change the code.
+
 ### Persisting Application Using `FinalStore`
 
-Besides this little utility we'll need to adapt our application to use it. Alt provides handy functionality just for this purpose. We can persist the entire state of our application using `FinalStore`, bootstrapping and snapshotting. `FinalStore` is store that listens to all existing stores. Every time some store changes, `FinalStore` will know about it. This makes it ideal for persistency.
+Besides this little utility we'll need to adapt our application to use it. Alt provides handy functionality just for this purpose. We can persist the entire state of our application using `FinalStore`, bootstrapping and snapshotting. `FinalStore` is a store that listens to all existing stores. Every time some store changes, `FinalStore` will know about it. This makes it ideal for persistency.
 
-We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part. `alt.bootstrap` allows us to set state of the all stores. In our case we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere through a WebSocket for instance.
+We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part as `alt.bootstrap` allows us to set state of the all stores. In our case we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere, through a WebSocket for instance.
 
 T> An alternative way would be to take a snapshot only when the window gets closed. There's a Window level `beforeunload` hook that could be used. The problem with this approach is that it is brittle. What if something unexpected happens and the hook doesn't get triggered for some reason? You'll lose data.
 
@@ -365,7 +365,7 @@ One way to achieve this is to push the logic to a decorator. Decorators are a bi
 
 ### What Are Decorators?
 
-If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. In short they provide us a way to annotate and push logic elsewhere while keeping our components simple to read. There is a [Stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript.
+If you have used languages such as Java or Python before you might be familiar with the concept of decorators. They are syntactical sugar that allow us to wrap classes and functions. In short they provide us a way to annotate and push logic elsewhere while keeping our components simple to read. There is a [stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript.
 
 By definition a decorator is a function that returns a function. In the case of our connection decorator we could end up with `connect(NoteStore)(App)`. In decorator syntax the same would be `@connect(NoteStore)` right before `App` class declaration.
 
@@ -409,7 +409,7 @@ I have separated the higher order portion and decorator wrapping for clarity. It
 
 T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
 
-You can connect it with `App` like this:
+You can connect our new decorator with `App` like this:
 
 **app/components/App.jsx**
 
@@ -466,7 +466,7 @@ In order to get familiar with more approaches we'll be using `AltContainer` in t
 
 [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper that does the same thing and a bit more. It provides a greater degree of customizability than our own solution and it's officially supported by Alt protecting us from possible API changes.
 
-You will see the wrapper pattern later again in this book and you will learn to implement it yourself. In this case the pattern it will allow us to set up arbitrary connections to multiple stores while having control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
+You will see the wrapper pattern later again in this book and you will learn to implement it yourself. In this case the pattern will allow us to set up arbitrary connections to multiple stores while having control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
 
 The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use `AltContainer`. After these changes we are good to go.
 
