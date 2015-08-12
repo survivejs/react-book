@@ -76,10 +76,6 @@ import alt from '../libs/alt';
 export default alt.generateActions('create', 'update', 'delete');
 ```
 
-Alt provides an alternative, verbose syntax for defining Actions. It is handy when you are communicating with an external API. Each API query would go here and you would trigger other Actions based on the result. You could then decide what to do with the results.
-
-T> You can even track the request state by setting up a custom Store just for that. In that case you would trigger Actions that alter the state of that Store. You could have a component that logs the result or shows it at the user interface based on that.
-
 ### Defining a Store for `Notes`
 
 A Store is a single source of truth for a part of your application state. In this case we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
