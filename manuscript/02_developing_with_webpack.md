@@ -1,4 +1,4 @@
-# Developing with webpack
+# Developing with Webpack
 
 If you are not one of those guys that likes to skip introductions, you might have some clue what webpack is. In its simplicity it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
 
@@ -6,7 +6,7 @@ This sounds very simple but in practice it can be a very complicated and messy p
 
 ## Setting Up the Project
 
-Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and you can have `npm` available at your terminal. Next you should set a directory for your project, navigate there, hit `npm init` and fill in some details. You can just hit `return` for each and it will work. Here are the commands in detail:
+Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and you can have `npm` available at your terminal. Next you should set a directory for your project, navigate there, hit `npm init` and fill in some details. You can just hit *return* for each and it will work. Here are the commands in detail.
 
 ```bash
 mkdir kanban_app
@@ -15,7 +15,7 @@ npm init
 # hit return a few times till you have gone through the questions
 ```
 
-As a result you should have `package.json`. If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
+As a result you should have `package.json` at your project root. If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
 
 ## Installing webpack
 
@@ -25,17 +25,17 @@ Next you should get webpack installed. We'll do a local install and save it as a
 
 T> `node-libs-browser` is installed as it is a peer dependency of webpack. Starting from npm 3 it won't get installed automatically so it's a good idea to have it installed in order to be future-proof.
 
-This is a good opportunity to try to run webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version print, link to cli guide and a long list of options. We won't be using most of those but it's good to know that this tool is packed with functionality if nothing else.
+This is a good opportunity to try to run webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version print, link to the cli guide and a long list of options. We won't be using most of those but it's good to know that this tool is packed with functionality if nothing else.
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation) but it is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler as you have direct control over the version you are running.
 
 We will be using `--save` and `--save-dev` to get a separation between application and development dependencies. The separation keeps project dependencies more understandable. This will come in handy when we generate a vendor bundle later on.
 
-T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save` and `-D` to `--save-dev`. So if you want to optimize for characters written, consider using these.
+T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save` and `-D` to `--save-dev`. So if you want to optimize for characters written, consider using these instead.
 
 ## Directory Structure
 
-As projects with just `package.json` are very boring, we should set up something more concrete. Let's do a little web site that loads some JavaScript which we build using webpack. Set up a structure like this:
+As projects with just `package.json` are very boring, we should set up something more concrete. Let's do a little web site that loads some JavaScript which we then build using webpack. Set up a structure like this:
 
 - /app
   - main.js
@@ -77,7 +77,7 @@ document.body.appendChild(app);
 app.appendChild(component());
 ```
 
-## Setting Up webpack Configuration
+## Setting Up Webpack Configuration
 
 We'll need to tell webpack how to deal with the assets we just set up. For this purpose we'll build `webpack.config.js`. Webpack and its development server will be able to discover this file automatically through convention.
 
@@ -111,21 +111,25 @@ module.exports = {
 };
 ```
 
-Given webpack expects absolute paths we have some good options here. I like to use `path.resolve` but `path.join` would be a good alternative. See [Node.js path API](https://nodejs.org/api/path.html) for exact details.
+Given webpack expects absolute paths we have some good options here. I like to use `path.resolve` but `path.join` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd* whereas `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
-If you hit `node_modules/.bin/webpack` now you can get a webpack build done. But we are not interested in builds. We want a proper development server to develop against.
+If you hit `node_modules/.bin/webpack` now you should see a webpack build. You can try serving */build* through a dummy server such as *serve* (`npm i serve --global` and `serve`in the directory) and examine the results in a browser.
 
-T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is just fine for our purposes.
+Even though this is nice it's not useful for development. We can set up something far better for development usage.
+
+T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is fine for our purposes for now.
 
 ## Setting Up `webpack-dev-server`
 
-Now that we have basic building blocks together we can set up a development server. `webpack-dev-server` is a development server designed particularly development in mind. It will deal with refreshing browser as you develop. This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage webpack has over these tools is Hot Module Reloading (HMR) which we'll discuss when we go through React.
+Now that we have the basic building blocks together we can set up a development server. `webpack-dev-server` is a development server designed particularly development in mind. It will deal with refreshing browser as you develop.
+
+This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage webpack has over these tools is Hot Module Reloading (HMR) which we'll discuss when we go through React.
 
 Hit
 
 > npm i webpack-dev-server --save-dev
 
-at project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at `package.json`. In this case the following configuration is enough:
+at the project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at `package.json`. In this case the following configuration is enough:
 
 **package.json**
 
@@ -171,7 +175,9 @@ T> If you want to use some other port than `8080`, you can pass `port` parameter
 
 In addition to **webpack.config.js** it is possible to set *webpack-dev-server* configuration through cli. There is also an entire [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api) available in case you want maximum control over it.
 
-We are using a somewhat basic setup here. Beyond defaults we've enabled a couple of useful features, namely hot module loading (HMR) and HTML5 History API fallback. Former will come in handy when we discuss React in detail. Latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily.
+W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the cli and Node.js API and they may behave slightly differently at times. This is the reason why some prefer to use solely Node.js API.
+
+We are using a somewhat basic setup here. Beyond defaults we've enabled a couple of useful features, namely hot module loading (HMR) and HTML5 History API fallback. Former will come in handy when we discuss React in detail. Latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up additional `entry` paths.
 
 ## Refreshing CSS
 
@@ -214,9 +220,9 @@ The configuration we added tells webpack that whenever it meets some file ending
 
 Note that loaders are evaluated from right to left. In this case it will pass a possible CSS file to *css-loader* first and to *style-loader* after that. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* deals with `require` statements in our JavaScript. Similar approach works with CSS preprocessors.
 
-W> Although `['style', 'css']` type loader configuration can be convenient, it can lead to issues due to the way the lookup works. If you happened to have `css` named module installed at `node_modules`, it would try to use that instead of `css-loader` which we might expect!
+W> Although `['style', 'css']` type loader configuration can be convenient, it can lead to issues due to the way the lookup works. If you happened to have `css` named module installed at `node_modules`, it would try to use that instead of `css-loader` which we might expect instead!
 
-W> If `include` isn't set, webpack will traverse all files within the base directory. This can hurt performance!
+W> If `include` isn't set, webpack will traverse all files within the base directory. This can hurt performance! It is a good idea to set up `include` always. There's also `exclude` option that may come in handy.
 
 We are missing just one bit, the actual CSS itself:
 
@@ -246,13 +252,11 @@ To see the magic in action, you should open up *main.css* and change the backgro
 
 In order to make room for later production configuration we can prepare our current one for it. There are multiple ways to approach the problem. Some people prefer to write a separate configuration file per target. In order to share configuration they write a factory function. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
 
-This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a webpack based library that wraps common scenarios within an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
+This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a webpack based library that wraps common scenarios into an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
 
-T> Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon webpack and React and hides a lot of the complexity of webpack from the user. webpack is a good fit for tools like this as it solves so many difficult problems well.
+T> Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon webpack and React and hides a lot of the complexity of webpack from the user. Webpack is a good fit for tools like this as it solves so many difficult problems well.
 
-I have settled with a single configuration file based approach. The idea is that there's a smart `merge` function that overrides objects and concatenates arrays. This works well with webpack configuration given that's what you want to do most of the time. In this approach the configuration block to use is determined based on an environment variable.
-
-The biggest advantage of this approach is that it allows you to see all relevant configuration at one glance. The problem is that for now there's no nice way to set environment variables through `package.json` in a cross-platform way. It is possible this problem will go away with webpack 2 as it make it possible to pass the context data through the command itself.
+I have settled with a single configuration file based approach. The idea is that there's a smart `merge` function that overrides objects and concatenates arrays. This works well with webpack configuration given that's what you want to do most of the time. In this approach the configuration block to use is determined based on an environment variable. The biggest advantage of this approach is that it allows you to see all relevant configuration at one glance.
 
 ### Setting Up Configuration Target for `npm start`
 
@@ -260,7 +264,7 @@ As discussed we'll be using a custom `merge` function for sharing configuration 
 
 > npm i webpack-merge --save-dev
 
-to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch based on that. We'll expand these in the coming chapters.
+to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch and merge based on that. We'll expand these in the coming chapters.
 
 In order to improve debuggability of the application we can set up sourcemaps while at it. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
 
@@ -310,7 +314,7 @@ if(TARGET === 'start') {
 }
 ```
 
-If you run the development build now using `npm start`, webpack will generate sourcemaps. When `eval` is used webpack will execute each module through `eval` and `//@ sourceURL`. This option is suitable only for development usage! The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about possible options available.
+If you run the development build now using `npm start`, webpack will generate sourcemaps. When `eval` is used webpack will execute each module through `eval` and `//@ sourceURL`. This option is suitable only for development usage! The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about the possible options available.
 
 It is possible you may need to enable sourcemaps at your browser for this to work. See [Chrome](https://developer.chrome.com/devtools/docs/javascript-debugging) and [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) instructions for further details.
 
@@ -318,8 +322,8 @@ Configuration could contain more sections such as these based on your needs. Lat
 
 ## Linting the Project
 
-I discuss linting in detail at *Linting in webpack* chapter. Given setting up a linter is the most beneficial at the beginning of a project, not at the end, it may be worth your while to check out the chapter and expand the project configuration as you see fit.
+I discuss linting in detail at *Linting in webpack* chapter. Given setting up a linter is the most beneficial at the beginning of a project, not at the end, it may be worth your while to check out the chapter and expand the project configuration as you see fit. This can save some frustration during development as you can see potential issues earlier.
 
 ## Conclusion
 
-In this chapter you learned to build an effective development configuration using webpack. Webpack deals with the heavy lifting for you now. The current setup can be expanded easily to support more scenarios. Next we can see how to expand it to work with React well.
+In this chapter you learned to build an effective development configuration using webpack. Webpack deals with the heavy lifting for you now. The current setup can be expanded easily to support more scenarios. Next we will see how to expand it to work with React.
