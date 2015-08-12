@@ -38,17 +38,15 @@ When choosing a library it comes down to your own personal preferences. You will
 
 In this chapter we'll be using one of the current top dogs, a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed isomorphic rendering in mind.
 
-In Alt you'll deal in terms of Actions and Stores. Dispatcher is hidden but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore application state. This is handy for implementing persistency and isomorphic rendering.
+In Alt you'll deal in terms of Actions and Stores. Dispatcher is hidden but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. Also, there are special features to allow you to save and restore the application state, which is handy for implementing persistency and isomorphic rendering.
 
 ### Setting Up Alt Instance
 
-Everything in Alt begins from Alt instance. It keeps track of Actions and Stores and keeps communication going on. It is a singleton by default but it's possible to create Alt instances as needed. Alt doesn't force you to any particular design. To get started hit
+Everything in Alt begins from Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, let’s add Alt to our project:
 
 > npm i alt --save
 
-to add Alt to our project.
-
-To keep things simple we'll be treating Alt as a singleton. This is possible to achieve by pushing it to a module of its own and then referring to that from everywhere. Set it up as follows:
+To keep things simple we'll be treating Alt as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). Using the pattern we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 
 **app/libs/alt.js**
 
@@ -62,7 +60,9 @@ const alt = new Alt();
 export default alt;
 ```
 
-T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After installed you can connect Alt with it by uncommenting the lines below. You can use it to debug the state of your stores, search and travel in time.
+Webpack caches the modules so the next time you import Alt, will return the same instance again.
+
+T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After installed you can connect to Alt by uncommenting the related lines above. You can use it to debug the state of your stores, search and travel in time.
 
 ### Defining CRUD API for Notes
 
