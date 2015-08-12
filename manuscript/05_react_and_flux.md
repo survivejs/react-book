@@ -2,13 +2,23 @@
 
 You can get quite far by keeping everything in components but eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) was designed to help bring clarity to our React applications.
 
-Flux will allow us to separate data and application state from our Views. This allows us to keep them clean and keep the application maintainable. Flux was designed large teams in mind. As a result you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
+Flux will allow us to separate data and application state from our Views. This helps us to keep them clean and the application maintainable. Flux was designed large teams in mind. As a result you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
 
 ## Introduction to Flux
 
 ![Flux dataflow](images/flux.png)
 
 So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient and some things are easier to implement using them, the Flux way of doing things comes with its benefits.
+
+Flux isn't entirely simple to understand as there are multiple concepts to worry about. In our case we will model `NoteActions` and `NoteModel`. `NoteActions` provide concrete operations we can perform over our data. For instance we can have `NoteActions.create({task: 'Learn React'})`.
+
+The action itself doesn't necessarily do much. At simplest level it can tell dispatcher to proceed. Alternatively it could hit a backend and then trigger dispatcher based on the result. This will allow us to deal asynchronous behavior and possible errors caused by that.
+
+Once the dispatcher has dealt with the action, Stores that are listening to it get triggered. In our case `NoteStore` gets notified. As a result it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
+
+This completes the loop as Views listening to the Stores receive the data. They can use it to update their own state. As a result the user interface gets refreshed.
+
+Even though this might sound like a lot of steps for achieving something simple as creating a new `Note`, the approach comes with its benefits. Given the flow goes into a single direction always it is easy to debug. If there's something wrong, it's somewhere within the cycle.
 
 ### Dataflow in Flux
 
@@ -84,8 +94,8 @@ If we wanted to model Actions using the verbose syntax it would look like this:
 
 ```javascript
 class NoteActions {
-  create({id, task}) {
-    this.dispatch({id, task});
+  create({task}) {
+    this.dispatch({task});
   }
   update({id, task}) {
     this.dispatch({id, task});
