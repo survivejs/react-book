@@ -20,12 +20,6 @@ This completes the loop as Views listening to the Stores receive the data. They 
 
 Even though this might sound like a lot of steps for achieving something simple as creating a new `Note`, the approach comes with its benefits. Given the flow goes into a single direction always it is easy to debug. If there's something wrong, it's somewhere within the cycle.
 
-### Dataflow in Flux
-
-Using Flux we'll model data related aspects at Stores. Views may still retain some state but in practice a lot of it will go to Stores. Besides application data they can maintain application state as well (i.e. is something loading). You then consume this data at your View components. Views can trigger Actions that cause Store to change somehow.
-
-You could for instance have an action for creating a new Note. Pressing a button at your View could trigger it. Based on this Dispatcher will trigger relevant Stores. They in turn will update their state somehow (i.e. create a Note) and pass their state forward. As a result Views will know to render themselves with the new data.
-
 ### Advantages of Flux
 
 Even though this sounds a little complicated, the arrangement gives our application flexibility. We can for instance implement API communication, caching and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
