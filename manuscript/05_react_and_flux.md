@@ -66,7 +66,7 @@ T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacke
 
 ### Defining CRUD API for Notes
 
-Next we'll need to define a basic API for operating over Note data. To keep this simple, let's CRUD (Create, Read, Update, Delete) it. Given Read is implicit we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
+Next we'll need to define a basic API for operating over the Note data. To keep this simple, let's CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
 
 **app/actions/NoteActions.js**
 
@@ -76,29 +76,9 @@ import alt from '../libs/alt';
 export default alt.generateActions('create', 'update', 'delete');
 ```
 
-Alt provides an alternative, verbose syntax for defining Actions. It is handy when you begin to communicating with an external API. Each API query would go here and you would trigger other Actions based on the result. You could then decide what to do with the results.
+Alt provides an alternative, verbose syntax for defining Actions. It is handy when you are communicating with an external API. Each API query would go here and you would trigger other Actions based on the result. You could then decide what to do with the results.
 
-T> You can even track request state by setting up a custom Store just for that. In that case you would trigger Actions that alter the state of that Store. You could have a component that logs the result or shows it at the user interface based on that.
-
-If we wanted to model Actions using the verbose syntax it would look like this:
-
-```javascript
-class NoteActions {
-  create({task}) {
-    this.dispatch({task});
-  }
-  update({id, task}) {
-    this.dispatch({id, task});
-  }
-  delete(id) {
-    this.dispatch(id);
-  }
-}
-
-export default alt.createActions(NoteActions);
-```
-
-Having a nice set of Actions is a starting point. As you might remember we still need Stores. And we need to complete the cycle by connecting all of this to a View.
+T> You can even track the request state by setting up a custom Store just for that. In that case you would trigger Actions that alter the state of that Store. You could have a component that logs the result or shows it at the user interface based on that.
 
 ### Defining Store for Notes
 
