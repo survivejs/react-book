@@ -80,7 +80,7 @@ export default alt.generateActions('create', 'update', 'delete');
 
 A Store is a single source of truth for a part of your application state. In this case we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
 
-We have the logic we need for our store already at `App`. Next we will extract it and adapt `NoteStore` to work based on it.
+We have the logic we need for our store already at `App`. Next, we will move that logic to `NoteStore`.
 
 ### Setting Up a Skeleton
 
@@ -113,13 +113,13 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-We call `bindActions` to map each action to a method by name. We will trigger the appropriate logic at each method method based on that. Finally we connect the Store with Alt using `alt.createStore`.
+We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method method based on that. Finally we connect the Store with Alt using `alt.createStore`.
 
 Note that assigning a label to a store (`NoteStore` in this case) isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible collisions. These labels become important when we persist the data.
 
 ### Implementing `create`
 
-We can use the same logic for `create` as earlier. `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store.
+Compared to the earlier logic `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store.
 
 ```javascript
 import uuid from 'node-uuid';
@@ -145,11 +145,11 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-To keep the implementation clean we are using `this.setState`, a feature of Alt that allows us to signify that we are going to alter Store state and that it should signal the change to possible listeners.
+To keep the implementation clean we are using `this.setState`, a feature of Alt that allows us to signify that we are going to alter the Store state and that it should signal the change to possible listeners.
 
 ### Implementing `update`
 
-`update` is more complex operation. First we need to find the `Note` to update. If we find one, we can patch it and finally commit it to the store using `this.setState`. It is the same logic as earlier. This time we have moved it to the store.
+`update` follows the earlier logic apart from some renaming. Most importantly we commit the new state through `this.setState`.
 
 ```javascript
 ...
@@ -186,11 +186,11 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-Compared to our earlier implementation at `App` this mirrors it very closely. A couple of references have changed but that's about it. We have one final operation left.
+We have one final operation left, `delete`.
 
 ### Implementing `delete`
 
-In case of `delete` we need to find the Note to be deleted first. If found, we can `slice` it out of the structure and commit.
+`delete` is straightforward. Seek and destroy as earlier and remember to commit the change.
 
 ```javascript
 ...
