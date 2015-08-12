@@ -46,7 +46,7 @@ Everything in Alt begins from Alt instance. It keeps track of Actions and Stores
 
 > npm i alt --save
 
-To keep things simple we'll be treating Alt as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). Using the pattern we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
+To keep things simple we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). Using the pattern we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 
 **app/libs/alt.js**
 
@@ -111,7 +111,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-We call `bindActions` to map each action to a method by name. We will trigger the appropriate logic at each method method based on that. Finally we connect the Store with Alt using `alt.createStore`. This will treat our Stores as a singleton. It's the same idea as for Alt instance earlier.
+We call `bindActions` to map each action to a method by name. We will trigger the appropriate logic at each method method based on that. Finally we connect the Store with Alt using `alt.createStore`.
 
 Note that assigning an id (`NoteStore` in this case) to a store isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible id collisions. These ids become important when we persist the data.
 
