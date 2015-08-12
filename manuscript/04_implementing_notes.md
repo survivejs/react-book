@@ -289,6 +289,8 @@ export default class App extends React.Component {
 }
 ```
 
+In case we were be operating with a backend we would trigger a query here and capture id from response. Now it's enough to just generate an entry and a custom id.
+
 If you hit the button a few times now, you should see new items. It might not be pretty yet but it works.
 
 In addition, to `this.setState` we had to set up a binding. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.

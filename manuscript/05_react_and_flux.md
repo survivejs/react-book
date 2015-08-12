@@ -80,6 +80,8 @@ export default alt.generateActions('create', 'update', 'delete');
 
 A Store is a single source of truth for a part of your application state. In this case we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
 
+We have the logic we need for our store already at `App`. Next we will extract it and adapt `NoteStore` to work based on it.
+
 ### Setting Up a Skeleton
 
 As a first step we can set up a skeleton for our Store. We can fill in the methods we need after that. Alt uses standard ES6 classes so it's the same syntax as we saw earlier with React components. Here's a starting point:
@@ -117,7 +119,7 @@ Note that assigning a label to a store (`NoteStore` in this case) isn't absolute
 
 ### Implementing `create`
 
-We can use the same logic for `create` as earlier. This time, however, we should generate `Note` id within the store. When using a real backend it would return the id for you. This approach can be easily retrofitted to work with that.
+We can use the same logic for `create` as earlier. `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store.
 
 ```javascript
 import uuid from 'node-uuid';
