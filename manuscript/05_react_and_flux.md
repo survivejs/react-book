@@ -224,7 +224,7 @@ We have almost integrated Flux to our application now. We have a set of Actions 
 
 T> The current implementation is naive in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this. Alternatively you could write nice tests. That's a good idea regardless.
 
-### Gluing It All Together
+## Gluing It All Together
 
 Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create({task: 'New task'})`. This would cause the associated Store to change according to the logic. Because Store changes so do all the components listening to it.
 
@@ -283,7 +283,7 @@ export default class App extends React.Component {
 
 As you can see, we have pushed the logic out of `App`. We actually have more code now than before but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application. Things can only get better.
 
-### Dispatching in Alt
+## Dispatching in Alt
 
 Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`.
 
