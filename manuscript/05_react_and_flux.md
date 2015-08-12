@@ -113,7 +113,7 @@ export default alt.createStore(NoteStore, 'NoteStore');
 
 We call `bindActions` to map each action to a method by name. We will trigger the appropriate logic at each method method based on that. Finally we connect the Store with Alt using `alt.createStore`.
 
-Note that assigning an id (`NoteStore` in this case) to a store isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible id collisions. These ids become important when we persist the data.
+Note that assigning a label to a store (`NoteStore` in this case) isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible collisions. These labels become important when we persist the data.
 
 ### Implementing `create`
 
