@@ -44,7 +44,7 @@ class NoteStore {
     });
   }
   findNote(id) {
-    let notes = this.notes;
+    const notes = this.notes;
     const noteIndex = notes.findIndex((note) => note.id === id);
 
     if(noteIndex < 0) {

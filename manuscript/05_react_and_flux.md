@@ -76,15 +76,13 @@ import alt from '../libs/alt';
 export default alt.generateActions('create', 'update', 'delete');
 ```
 
-### Defining a Store for `Notes`
+## Defining a Store for `Notes`
 
 A Store is a single source of truth for a part of your application state. In this case we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
 
-`bindActions` maps each Action to a method by name. We trigger appropriate logic at each method based on that. Finally we connect the Store with Alt using `alt.createStore`. This will treat our Stores as singleton. It's the same idea as for Alt instance earlier.
+### Setting Up a Skeleton
 
-The implementation below describes the logic that will be sufficient for this application. A lot of it might be familiar from the previous chapter. Here we are lifting that logic out of View level and into the Store.
-
-To keep the implementation clean we are using `this.setState`, a feature of Alt that allows us to signify that we are going to alter Store state and that it should signal the change to possible listeners.
+As a first step we can set up a skeleton for our Store. We can fill in the methods we need after that. Alt uses standard ES6 classes so it's the same syntax as we saw earlier with React components. Here's a starting point:
 
 **app/stores/NoteStore.js**
 
@@ -97,9 +95,32 @@ class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
 
-    this.findNote = this.findNote.bind(this);
+    this.notes = [];
+  }
+  create(note) {}
+  update({id, task}) {}
+  delete(id) {}
+}
 
-    this.notes = this.notes || [];
+export default alt.createStore(NoteStore, 'NoteStore');
+```
+
+`bindActions` maps each Action to a method by name. We trigger appropriate logic at each method based on that. Finally we connect the Store with Alt using `alt.createStore`. This will treat our Stores as a singleton. It's the same idea as for Alt instance earlier.
+
+Note that assigning an id (`NoteStore` in this case) to a store isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible id collisions. These ids become important when we persist the data.
+
+### Implementing `create`
+
+We can use the same logic for `create` as earlier. This time, however, we should generate `Note` id within the store. When using a real backend it would return the id for you. This approach can be easily retrofitted to work with that.
+
+```javascript
+import uuid from 'node-uuid';
+import alt from '../libs/alt';
+import NoteActions from '../actions/NoteActions';
+
+class NoteStore {
+  constructor() {
+    ...
   }
   create(note) {
     const notes = this.notes;
@@ -109,6 +130,32 @@ class NoteStore {
     this.setState({
       notes: notes.concat(note)
     });
+  }
+  ...
+}
+
+export default alt.createStore(NoteStore, 'NoteStore');
+```
+
+To keep the implementation clean we are using `this.setState`, a feature of Alt that allows us to signify that we are going to alter Store state and that it should signal the change to possible listeners.
+
+### Implementing `update`
+
+`update` is more complex operation. First we need to find the `Note` to update. If we find one, we can patch it and finally commit it to the store using `this.setState`. It is the same logic as earlier. This time we have moved it to the store.
+
+```javascript
+...
+
+class NoteStore {
+  constructor() {
+    this.bindActions(NoteActions);
+
+    this.findNote = this.findNote.bind(this);
+
+    this.notes = [];
+  }
+  create(note) {
+    ...
   }
   update({id, task}) {
     let notes = this.notes;
@@ -123,19 +170,10 @@ class NoteStore {
     this.setState({notes});
   }
   delete(id) {
-    const notes = this.notes;
-    const noteIndex = this.findNote(id);
-
-    if(noteIndex < 0) {
-      return;
-    }
-
-    this.setState({
-      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
-    });
+    ...
   }
   findNote(id) {
-    let notes = this.notes;
+    const notes = this.notes;
     const noteIndex = notes.findIndex((note) => note.id === id);
 
     if(noteIndex < 0) {
@@ -149,9 +187,38 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-T> It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
+Compared to our earlier implementation at `App` this mirrors it very closely. A couple of references have changed but that's about it. We have one final operation left.
 
-Note that assigning an id (`NoteStore` in this case) to a store isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible id collisions. These ids become important when we persist the data.
+### Implementing `delete`
+
+In case of `delete` we need to find the Note to be deleted first. If found, we can `slice` it out of the structure and commit.
+
+```javascript
+...
+
+class NoteStore {
+  ...
+  delete(id) {
+    const notes = this.notes;
+    const noteIndex = this.findNote(id);
+
+    if(noteIndex < 0) {
+      return;
+    }
+
+    this.setState({
+      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
+    });
+  }
+  findNote(id) {
+    ...
+  }
+}
+
+export default alt.createStore(NoteStore, 'NoteStore');
+```
+
+It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. Even though this works it is recommended that you use `setState` with Alt to keep things clean and easy to understand.
 
 We have almost integrated Flux to our application now. We have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions to complete the cycle.
 
@@ -317,6 +384,8 @@ In order to make our `NoteStore` aware of possibly existing data, we'll need to 
 class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
+
+    this.findNote = this.findNote.bind(this);
 
     this.notes = this.notes || [];
   }
