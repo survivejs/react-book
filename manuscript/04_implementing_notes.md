@@ -4,7 +4,7 @@ Given we have a nice development setup now, we can actually get some work done. 
 
 ## Initial Data Model
 
-Often a good way to begin designing application is to start with the data. We could model a list of notes as follows:
+Often a good way to begin designing an application is to start with the data. We could model a list of notes as follows:
 
 ```javascript
 [
@@ -23,19 +23,19 @@ Often a good way to begin designing application is to start with the data. We co
 ];
 ```
 
-Each note is an object which will contain the data we need including `id` and `task` we want to perform. Later on it is possible to extend this data definition to include things like note color or owner.
+Each note is an object which will contain the data we need including an `id` and a `task` we want to perform. Later on it is possible to extend this data definition to include things like the note color or the owner.
 
 ## On Ids
 
 We could have skipped ids in our definition. This would become problematic as we grow our application, though. For instance if you are referring to data based on array indices and the data changes, each reference has to change too. We can avoid that easily.
 
-Normally the problem is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) allows us to generate unique ids. We'll be using Node.js implementation known as *node-uuid*. Invoke
+Normally the problem is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) allows us to generate unique ids. We'll be using a Node.js implementation known as *node-uuid*. Invoke
 
 > npm i node-uuid --save
 
 at the project root to get it installed.
 
-If you open up Node.js cli (`node`) and try the following, you can see what kind of ids it outputs.
+If you open up the Node.js cli (`node`) and try following, you can see what kind of ids it outputs.
 
 ```javascript
 > uuid = require('node-uuid')
@@ -99,13 +99,13 @@ export default class App extends React.Component {
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
 
 * `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. In this case our function returns a list of `li` elements for React to render as a result of our `map`.
-* ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use `key` property. It is important that this is unique or otherwise it won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
+* ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or otherwise React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
-If you run the application now, you can see it almost works. There's a small glitch but we'll fix it next.
+If you run the application now, you can see it almost works. There's a small glitch but we'll fix that next.
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
-## Fixing Note
+## Fixing `Note`
 
 The problem is that we haven't taken `task` prop in count at `Note`. In React terms *props* is a data structure that's passed to a component from outside. It is up to the component how it uses this data. In the code below I extract the value of a prop and render it.
 
@@ -127,7 +127,7 @@ If you check out the application now, you should see we're seeing results that a
 
 If we keep on growing `App` like this we'll end up in trouble soon. Currently `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to be extracted out.
 
-T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At high level you will just worry about layout and connecting data. As you go lower in architecture you start to see more concrete structures.
+T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At high level you will just worry about layout and connecting data. As you go lower in the architecture you start to see more concrete structures.
 
 A good first step towards a neater `App` is to define `Notes`. It will rely on the rendering logic we already set up. We are just moving it to a component of its own. Specifically we'll want to perform `<Notes items={notes} />` at `render()` method of `App`. That's just nice.
 
@@ -187,7 +187,7 @@ Even though we improved `render()` somewhat and reduced the amount of markup the
 
 ## Pushing `notes` to the `App` `state`
 
-As seen earlier React components can accept props. In addition, they may have state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case pushing `notes` to the state makes sense given we'll want to tweak them through user interface.
+As seen earlier React components can accept props. In addition, they may have a state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case pushing `notes` to the state makes sense given we'll want to tweak them through user interface.
 
 In ES6's class syntax the initial state can be defined at the constructor. We'll assign the state we want to `this.state`. After that we can refer to it. The example below illustrates how to convert our notes into state.
 
@@ -229,7 +229,7 @@ After this change our application works the same way as before. We have gained s
 
 T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without but it's a good standard to have.
 
-## Adding New Items to Notes list
+## Adding New Items to `Notes` list
 
 Adding new items to the notes list is a good starting point. To get started we could render a button element and attach a dummy `onClick` handler to it. We will grow the actual logic into that.
 
@@ -262,7 +262,7 @@ If you click the plus button now, you should see something at your browser conso
 
 React provides one simple way to modify state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and an optional callback that is triggered after the process has completed.
 
-It is best to think of state as immutable and modify it always through `setState`. In our cases adding new note can be done through a `concat` operation as below.
+It is best to think of state as immutable and modify it always through `setState`. In our case adding a new note can be done through a `concat` operation as below.
 
 **app/components/App.jsx**
 
@@ -365,7 +365,7 @@ export default class Note extends React.Component {
 
 If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at the console. We'll fix this shortly.
 
-The remainder of the code deals with events. If we click the component while it is in its initial state, we will enter edit mode. If we confirm the editing by hitting return or trigger `onBlur`, we trigger `onEdit` callback and go back to the default state.
+The remainder of the code deals with events. If we click the component while it is in its initial state, we will enter the edit mode. If we confirm the editing by hitting return or trigger `onBlur`, we trigger `onEdit` callback and go back to the default state.
 
 T> It is a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them quickly from other props and keep your code a little tidier.
 
@@ -375,7 +375,7 @@ Given we are currently dealing with the logic at `App`, we can deal with `onEdit
 
 ![`onEdit` flow](images/bind.png)
 
-A good first step towards that behavior is to create a stub. As `onEdit` is defined on `Note` level we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
+A good first step towards this behavior is to create a stub. As `onEdit` is defined on `Note` level we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
 
 **app/components/App.jsx**
 
@@ -520,7 +520,7 @@ export default class App extends React.Component {
 
 If you try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
 
-## Removing Notes
+## Removing `Notes`
 
 We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially but we will style it later.
 
@@ -594,7 +594,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-Triggering `onDelete` is even simpler than the same operation for input. We capture `onClick` and trigger our callback then. It makes sense to render delete button only if the callback exists. An alternative way to solve this would be to push it to a component of its own and compose.
+Triggering `onDelete` is even simpler than the same operation for input. We capture `onClick` and trigger our callback then. It makes sense to render a delete button only if the callback exists. An alternative way to solve this would be to push it to a component of its own and compose.
 
 **app/components/Note.jsx**
 
