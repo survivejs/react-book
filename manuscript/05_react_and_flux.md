@@ -111,7 +111,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-`bindActions` maps each Action to a method by name. We trigger appropriate logic at each method based on that. Finally we connect the Store with Alt using `alt.createStore`. This will treat our Stores as a singleton. It's the same idea as for Alt instance earlier.
+We call `bindActions` to map each action to a method by name. We will trigger the appropriate logic at each method method based on that. Finally we connect the Store with Alt using `alt.createStore`. This will treat our Stores as a singleton. It's the same idea as for Alt instance earlier.
 
 Note that assigning an id (`NoteStore` in this case) to a store isn't absolutely required. It is a good practice, however, as it protects the code against minification and possible id collisions. These ids become important when we persist the data.
 
