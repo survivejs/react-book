@@ -26,10 +26,6 @@ Even though this sounds a little complicated, the arrangement gives our applicat
 
 Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
 
-### Relay?
-
-Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) can be considered an improvement over Flux. It improves especially on the data fetching department and allows you to push data requirements to the View level. As it is still a completely new technology we won't be discussing it yet in detail.
-
 ### Which Flux Implementation to Use?
 
 The library situation keeps on changing constantly as there is no single right way to interpret the architecture. You will find implementations fitting for different tastes. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
@@ -524,6 +520,12 @@ export default class App extends React.Component {
 ```
 
 Integrating `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could consider pushing it into component of your own. That facade would hide Alt effectively and allow you to replace it with something else later on.
+
+## Relay?
+
+Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) is an interesting alternative to Flux. It improves especially on the data fetching department and allows you to push data requirements to the View level.
+
+Given it's still untested technology we won't be covering it in this book yet. Relay comes with its special requirements of its own (GraphQL compatible API) and only time will tell how it gets adopted.
 
 ## Conclusion
 
