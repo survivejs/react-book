@@ -42,7 +42,7 @@ When choosing a library it comes down to your own personal preferences. You will
 
 In this chapter we'll be using one of the current top dogs, a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed isomorphic rendering in mind.
 
-In Alt you'll deal in terms of Actions and Stores. Dispatcher is hidden but you will still have access to it if needed. There are special features to allow you to save and restore application state. This is handy for implementing persistency and isomorphic rendering.
+In Alt you'll deal in terms of Actions and Stores. Dispatcher is hidden but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore application state. This is handy for implementing persistency and isomorphic rendering.
 
 ### Setting Up Alt Instance
 
