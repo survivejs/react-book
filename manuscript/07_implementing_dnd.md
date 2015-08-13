@@ -434,10 +434,10 @@ class LaneStore {
       return;
     }
 
-    const removeNoteId = removeLane.notes.indexOf(noteId);
+    const removeNoteIndex = removeLane.notes.indexOf(noteId);
 
-    removeLane.notes = removeLane.notes.slice(0, removeNoteId).
-      concat(removeLane.notes.slice(removeNoteId + 1));
+    removeLane.notes = removeLane.notes.slice(0, removeNoteIndex).
+      concat(removeLane.notes.slice(removeNoteIndex + 1));
   }
   ...
 }
