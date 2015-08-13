@@ -450,7 +450,7 @@ We'll be using a ES6 function know as [findIndex](https://developer.mozilla.org/
 
 Babel provides an easy way to polyfill this feature using `import 'babel-core/polyfill';`. The problem is that it bloats our final bundle somewhat as it enables all [core-js](https://github.com/zloirock/core-js) features. As we need just one shim, we'll be using a specific shim for this instead. Hit
 
-> npm i array.prototype.findindex --save-dev
+> npm i array.prototype.findindex --save
 
 You can see how it behaves through Node.js cli. Here's a sample session:
 
