@@ -225,12 +225,11 @@ class LaneStore {
       noteId = NoteStore.getState().notes.slice(-1)[0].id;
     }
 
-    const noteId = NoteStore.getState().notes.slice(-1)[0].id;
     const lanes = this.lanes;
     const targetId = this.findLane(laneId);
 
     if(targetId < 0) {
-      return console.warn('Failed to find target lane');
+      return;
     }
 
     const lane = lanes[targetId];
@@ -249,15 +248,16 @@ class LaneStore {
     const targetId = this.findLane(laneId);
 
     if(targetId < 0) {
-      return console.warn('Failed to find target lane');
+      return;
     }
 
     const lane = lanes[targetId];
     const notes = lane.notes;
-    const removeId = notes.indexOf(noteId);
+    const removeIndex = notes.indexOf(noteId);
 
     if(lane.notes.indexOf(removeId) === -1) {
-      lane.notes = notes.slice(0, removeId).concat(notes.slice(removeId + 1));
+      lane.notes = notes.slice(0, removeIndex).
+        concat(notes.slice(removeIndex + 1));
 
       this.setState({lanes});
     }
