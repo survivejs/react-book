@@ -118,10 +118,10 @@ class LaneStore {
 
     return laneIndex;
   }
-  move({sourceData, targetData}) {
+  move({sourceNote, targetNote}) {
     const lanes = this.lanes;
-    const sourceId = sourceData.id;
-    const targetId = targetData.id;
+    const sourceId = sourceNote.id;
+    const targetId = targetNote.id;
     const sourceLane = lanes.filter((lane) => {
       return lane.notes.indexOf(sourceId) >= 0;
     })[0];

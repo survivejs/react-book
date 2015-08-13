@@ -11,12 +11,12 @@ import ItemTypes from './ItemTypes';
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-    const sourceData = sourceProps.data || {};
+    const sourceNote = sourceProps.data || {};
 
     if(!targetProps.notes.length) {
       LaneActions.attachToLane({
         laneId: targetProps.id,
-        noteId: sourceData.id
+        noteId: sourceNote.id
       });
     }
   }

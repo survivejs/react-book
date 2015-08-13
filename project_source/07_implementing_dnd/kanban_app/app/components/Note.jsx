@@ -12,12 +12,12 @@ const noteSource = {
 
 const noteTarget = {
   hover(targetProps, monitor) {
-    const targetData = targetProps.data || {};
+    const targetNote = targetProps.data || {};
     const sourceProps = monitor.getItem();
-    const sourceData = sourceProps.data || {};
+    const sourceNote = sourceProps.data || {};
 
-    if(sourceData.id !== targetData.id) {
-      targetProps.onMove({sourceData, targetData});
+    if(sourceNote.id !== targetNote.id) {
+      targetProps.onMove({sourceNote, targetNote});
     }
   }
 };

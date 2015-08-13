@@ -162,12 +162,12 @@ const noteSource = {
 
 const noteTarget = {
   hover(targetProps, monitor) {
-    const targetData = targetProps.data || {};
+    const targetNote = targetProps.data || {};
     const sourceProps = monitor.getItem();
-    const sourceData = sourceProps.data || {};
+    const sourceNote = sourceProps.data || {};
 
-    if(sourceData.id !== targetData.id) {
-      targetProps.onMove({sourceData, targetData});
+    if(sourceNote.id !== targetNote.id) {
+      targetProps.onMove({sourceNote, targetNote});
     }
   }
 };
@@ -195,8 +195,8 @@ export default class Notes extends React.Component {
       </Note>
     );
   }
-  onMoveNote({sourceData, targetData}) {
-    console.log('source', sourceData, 'target', targetData);
+  onMoveNote({sourceNote, targetNote}) {
+    console.log('source', sourceNote, 'target', targetNote);
   }
 }
 ```
@@ -253,8 +253,8 @@ We should also define a stub at `LaneStore` to see that we wired it up correctly
 
 class LaneStore {
   ...
-  move({sourceData, targetData}) {
-    console.log('source', sourceData, 'target', targetData);
+  move({sourceNote, targetNote}) {
+    console.log('source', sourceNote, 'target', targetNote);
   }
 }
 
@@ -281,10 +281,10 @@ import update from 'react/lib/update';
 
 export default class LaneStore {
   ...
-  move({sourceData, targetData}) {
+  move({sourceNote, targetNote}) {
     const lanes = this.lanes;
-    const sourceId = sourceData.id;
-    const targetId = targetData.id;
+    const sourceId = sourceNote.id;
+    const targetId = targetNote.id;
     const sourceLane = lanes.filter((lane) => {
       return lane.notes.indexOf(sourceId) >= 0;
     })[0];
@@ -331,9 +331,9 @@ import ItemTypes from './ItemTypes';
 
 const noteTarget = {
   hover(targetProps, monitor) {
-    const targetData = targetProps.data || {};
+    const targetNote = targetProps.data || {};
     const sourceProps = monitor.getItem();
-    const sourceData = sourceProps.data || {};
+    const sourceNote = sourceProps.data || {};
 
     console.log('source', sourceProps, 'target', targetProps);
   }
@@ -363,7 +363,7 @@ This is a simple check to make. Given we know the target lane at our `noteTarget
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-    const sourceData = sourceProps.data || {};
+    const sourceNote = sourceProps.data || {};
 
     if(!targetProps.notes.length) {
       console.log('source', sourceProps, 'target', targetProps);
@@ -391,12 +391,12 @@ The `noteTarget` part of this is simple. We need to trigger `LaneActions.attachT
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-    const sourceData = sourceProps.data || {};
+    const sourceNote = sourceProps.data || {};
 
     if(!targetProps.notes.length) {
       LaneActions.attachToLane({
         laneId: targetProps.id,
-        noteId: sourceData.id
+        noteId: sourceNote.id
       });
     }
   }
