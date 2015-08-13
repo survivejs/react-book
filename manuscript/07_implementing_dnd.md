@@ -291,24 +291,24 @@ export default class LaneStore {
     const targetLane = lanes.filter((lane) => {
       return lane.notes.indexOf(targetId) >= 0;
     })[0];
-    const sourceNoteId = sourceLane.notes.indexOf(sourceId);
-    const targetNoteId = targetLane.notes.indexOf(targetId);
+    const sourceNoteIndex = sourceLane.notes.indexOf(sourceId);
+    const targetNoteIndex = targetLane.notes.indexOf(targetId);
 
     if(sourceLane === targetLane) {
       // move at once to avoid complications
       sourceLane.notes = update(sourceLane.notes, {
         $splice: [
-          [sourceNoteId, 1],
-          [targetNoteId, 0, sourceId]
+          [sourceNoteIndex, 1],
+          [targetNoteIndex, 0, sourceId]
         ]
       });
     }
     else {
       // get rid of the source
-      sourceLane.notes.splice(sourceNoteId, 1);
+      sourceLane.notes.splice(sourceNoteIndex, 1);
 
       // and move it to target
-      targetLane.notes.splice(targetNoteId, 0, sourceId);
+      targetLane.notes.splice(targetNoteIndex, 0, sourceId);
     }
 
     this.setState({lanes});
