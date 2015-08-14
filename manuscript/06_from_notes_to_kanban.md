@@ -225,12 +225,11 @@ class LaneStore {
       noteId = NoteStore.getState().notes.slice(-1)[0].id;
     }
 
-    const noteId = NoteStore.getState().notes.slice(-1)[0].id;
     const lanes = this.lanes;
     const targetId = this.findLane(laneId);
 
     if(targetId < 0) {
-      return console.warn('Failed to find target lane');
+      return;
     }
 
     const lane = lanes[targetId];
@@ -249,15 +248,16 @@ class LaneStore {
     const targetId = this.findLane(laneId);
 
     if(targetId < 0) {
-      return console.warn('Failed to find target lane');
+      return;
     }
 
     const lane = lanes[targetId];
     const notes = lane.notes;
-    const removeId = notes.indexOf(noteId);
+    const removeIndex = notes.indexOf(noteId);
 
-    if(lane.notes.indexOf(removeId) === -1) {
-      lane.notes = notes.slice(0, removeId).concat(notes.slice(removeId + 1));
+    if(lane.notes.indexOf(removeIndex) === -1) {
+      lane.notes = notes.slice(0, removeIndex).
+        concat(notes.slice(removeIndex + 1));
 
       this.setState({lanes});
     }
@@ -299,7 +299,7 @@ export default class Lane extends React.Component {
           } }
         >
           <Notes
-            onEdit={this.editNote.bind(null, id)}
+            onEdit={this.editNote}
             onDelete={this.deleteNote.bind(null, id)} />
         </AltContainer>
       </div>
@@ -309,7 +309,7 @@ export default class Lane extends React.Component {
     NoteActions.create({task: 'New task'});
     LaneActions.attachToLane({laneId});
   }
-  editNote(laneId, noteId, task) {
+  editNote(noteId, task) {
     NoteActions.update({id: noteId, task});
   }
   deleteNote(laneId, noteId) {

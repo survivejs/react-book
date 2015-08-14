@@ -11,12 +11,12 @@ import ItemTypes from './ItemTypes';
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-    const sourceData = sourceProps.data || {};
+    const sourceNote = sourceProps.data || {};
 
     if(!targetProps.notes.length) {
       LaneActions.attachToLane({
         laneId: targetProps.id,
-        noteId: sourceData.id
+        noteId: sourceNote.id
       });
     }
   }
@@ -45,7 +45,7 @@ export default class Lane extends React.Component {
           } }
         >
           <Notes
-            onEdit={this.editNote.bind(null, id)}
+            onEdit={this.editNote}
             onDelete={this.deleteNote.bind(null, id)} />
         </AltContainer>
       </div>
@@ -55,7 +55,7 @@ export default class Lane extends React.Component {
     NoteActions.create({task: 'New task'});
     LaneActions.attachToLane({laneId});
   }
-  editNote(laneId, noteId, task) {
+  editNote(noteId, task) {
     NoteActions.update({id: noteId, task});
   }
   deleteNote(laneId, noteId) {

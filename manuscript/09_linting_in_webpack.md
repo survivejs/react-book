@@ -1,4 +1,4 @@
-# Linting in webpack
+# Linting in Webpack
 
 Nothing is easier than making mistakes when coding in JavaScript. Linting is one of those techniques that can help you to make less mistakes and spot issues before they become actual problems.
 
