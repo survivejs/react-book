@@ -30,7 +30,7 @@ var common = {
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     module: {
       loaders: [
         {

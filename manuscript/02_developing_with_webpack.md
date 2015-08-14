@@ -297,7 +297,7 @@ var common = {
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     devServer: {
       colors: true,
       historyApiFallback: true,
@@ -314,7 +314,9 @@ if(TARGET === 'start' || !TARGET) {
 
 The idea behind `if(TARGET === 'start' || !TARGET) {` check is that if `TARGET` isn't set for reason or another, we still have some sane default configuration in place. This can happen if we execute webpack outside of npm.
 
-If you run the development build now using `npm start`, webpack will generate sourcemaps. When `eval` is used webpack will execute each module through `eval` and `//@ sourceURL`. This option is suitable only for development usage! The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about the possible options available.
+If you run the development build now using `npm start`, webpack will generate sourcemaps. Webpack provides multiple different ways to generate them as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). In this case we're using `eval-source-map`. It builds slowly initially but it provides fast rebuild speed and yields real files.
+
+Faster development specific options such as `cheap-module-eval-source-map` and `eval` produce lower quality sourcemaps. Especially `eval` is fast and is the most suitable for very large projects.
 
 It is possible you may need to enable sourcemaps at your browser for this to work. See [Chrome](https://developer.chrome.com/devtools/docs/javascript-debugging) and [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) instructions for further details.
 
