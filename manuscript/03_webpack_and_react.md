@@ -72,11 +72,11 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 
 ### Configuring `babel-loader`
 
-You can use Babel with webpack easily through [babel-loader](https://www.npmjs.com/package/babel-loader). It will take our ES6 module definition based code and turn it into ES5 bundles while allowing you to use the new features of the language. Install *babel-loader* with
+You can use Babel with Webpack easily through [babel-loader](https://www.npmjs.com/package/babel-loader). It will take our ES6 module definition based code and turn it into ES5 bundles while allowing you to use the new features of the language. Install *babel-loader* with
 
 > npm i babel-core babel-loader --save-dev
 
-In addition, we need to add a loader declaration to the *loaders* section of configuration. It will tell webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression.
+In addition, we need to add a loader declaration to the *loaders* section of configuration. It will tell Webpack to match against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression.
 
 To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly but I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
@@ -108,7 +108,7 @@ if(TARGET === 'start' || !TARGET) {
 }
 ```
 
-In addition we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through webpack (i.e. `babel?stage=1`) but then it would be just for webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
+In addition we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e. `babel?stage=1`) but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
 
 **.babelrc**
 
@@ -120,9 +120,9 @@ In addition we are going to need a [.babelrc](https://babeljs.io/docs/usage/babe
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could for instance enable the features you want to use explicitly.
 
-T> If you want webpack to find JSX files without having to use the extension, set up `resolve.extensions = ['', '.js', '.jsx']`. We will refer to JSX files with extension as that works well with the isomorphic solution we'll discuss later on. It also allows you to tell files apart quickly based on the `require` statement.
+T> If you want Webpack to find JSX files without having to use the extension, set up `resolve.extensions = ['', '.js', '.jsx']`. We will refer to JSX files with extension as that works well with the isomorphic solution we'll discuss later on. It also allows you to tell files apart quickly based on the `require` statement.
 
-T> If you are using Babel in your project, you can also use it to process your webpack configuration. Simply rename it as `webpack.config.babel.js` and webpack will pass it through Babel allowing you to use ES6 module syntax and features. It will pick up `.babelrc` settings. That's one reason why we're using it.
+T> If you are using Babel in your project, you can also use it to process your Webpack configuration. Simply rename it as `webpack.config.babel.js` and Webpack will pass it through Babel allowing you to use ES6 module syntax and features. It will pick up `.babelrc` settings. That's one reason why we're using it.
 
 ## Developing First React View
 
@@ -153,7 +153,7 @@ W> If you are used to `React.createClass()`, it is important to note that ES6 ba
 
 ### Setting Up `Note`
 
-We also need to define the `Note` component. In this case we will just want to show some text like `Learn webpack`. `Hello world` would work if you are into clichés.
+We also need to define the `Note` component. In this case we will just want to show some text like `Learn Webpack`. `Hello world` would work if you are into clichés.
 
 **app/components/Note.jsx**
 
@@ -162,7 +162,7 @@ import React from 'react';
 
 export default class Note extends React.Component {
   render() {
-    return <div>Learn webpack</div>;
+    return <div>Learn Webpack</div>;
   }
 }
 ```
@@ -212,7 +212,7 @@ To enable hot loading for React, you should first install the package using
 
 > npm i react-hot-loader --save-dev
 
-We also need to make our configuration aware of it so it can inject hooks webpack requires for the system to work.
+We also need to make our configuration aware of it so it can inject hooks Webpack requires for the system to work.
 
 **webpack.config.js**
 
@@ -251,4 +251,4 @@ In the future property initializers (likely `tick = () => { ... }`) will solve t
 
 ## Conclusion
 
-You should understand how to set up React with webpack now. Hot loading is one of those features that sets webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter you will see how to implement a little note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
+You should understand how to set up React with Webpack now. Hot loading is one of those features that sets Webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter you will see how to implement a little note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.

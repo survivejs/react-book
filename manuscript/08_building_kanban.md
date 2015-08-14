@@ -19,7 +19,7 @@ In our current setup we serve the application through `webpack-dev-server` alway
 }
 ```
 
-We'll also need some build specific configuration to make webpack pick up our JSX. We can set up sourcemaps while at it. I'll be using `source-map` option here as that's a good pick for production.
+We'll also need some build specific configuration to make Webpack pick up our JSX. We can set up sourcemaps while at it. I'll be using `source-map` option here as that's a good pick for production.
 
 **webpack.config.js**
 
@@ -67,7 +67,7 @@ There are a couple of basic things we can do to slim down our build. We can appl
 
 Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
-At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your webpack configuration:
+At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in React environment by default, however, so we'll enable minification using other way. Add the following section to your Webpack configuration:
 
 **webpack.config.js**
 
@@ -110,7 +110,7 @@ T> It is possible to push minification further by enabling variable name manglin
 
 We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get built in an optimized manner. This will disable some checks (i.e. property type checks) but it will give you a smaller build and improved performance.
 
-In webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
+In Webpack terms you can add the following snippet to the `plugins` section of your configuration like this:
 
 **webpack.config.js**
 
@@ -139,7 +139,7 @@ if(process.env.NODE_ENV !== 'production') {
 }
 ```
 
-T> That `JSON.stringify` is needed as webpack will perform string replace "as is". In this case we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the "'s.
+T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the "'s.
 
 Hit `npm run build` again and you should see improved results:
 
@@ -164,7 +164,7 @@ We can do a little better, though. We can split `app` and `vendor` bundles and a
 
 The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might for instance make most of our changes to the small `app` bundle. In this case the client would have to fetch only it provided `vendor` bundle has been loaded already. This scheme won't load as fast as a single bundle initially due to the extra request but caching more than makes up for this disadvantage.
 
-In webpack terms we will expand `entry` configuration and then use `CommonsChunkPlugin` to extract the vendor bundle. The configuration below shows how this will work out in our case.
+In Webpack terms we will expand `entry` configuration and then use `CommonsChunkPlugin` to extract the vendor bundle. The configuration below shows how this will work out in our case.
 
 **webpack.config.js**
 
@@ -262,7 +262,7 @@ T> An alternatively would be to use your terminal fu (`rm -rf build/`) and set t
 
 Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development it doesn't sound ideal. The current solution doesn't allow us to cache CSS and in some cases we might suffer from flash of unstyled content (FOUC).
 
-As it happens webpack provides means to generate a separate CSS bundle. We can achieve this using `ExtractTextPlugin`. It comes with some overhead during complication phase and won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production usage that won't be a problem.
+As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using `ExtractTextPlugin`. It comes with some overhead during complication phase and won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production usage that won't be a problem.
 
 It will take some configuration to make it work. Hit
 
@@ -400,7 +400,7 @@ We will need to perform a couple of tweaks to our project in order to enable iso
 
 This template is based on the default one used by *HtmlWebpackPlugin*. It relies on a templating library known as [blueimp-tpl](https://www.npmjs.com/package/blueimp-tmpl). That's why you see all those `{% ... %}` entries there. We will inject some syntax of our own at `<div id="app">%app%</div>` next and let *HtmlWebpackPlugin* deal with the rest.
 
-As we'll be relying on JSX when rendering, we need to rename *webpack.config.js* as *webpack.config.babel.js* first. That way webpack knows to process it through Babel and everything will work as we expect. Besides this we need to make *HtmlWebpackPlugin* aware of our template and add our custom rendering logic there.
+As we'll be relying on JSX when rendering, we need to rename *webpack.config.js* as *webpack.config.babel.js* first. That way Webpack knows to process it through Babel and everything will work as we expect. Besides this we need to make *HtmlWebpackPlugin* aware of our template and add our custom rendering logic there.
 
 **webpack.config.babel.js**
 
@@ -496,6 +496,6 @@ In this case isomorphic rendering doesn't yield us much. If we had a backend the
 
 ## Conclusion
 
-Beyond the features discussed webpack allows you to [lazy load](https://webpack.github.io/docs/code-splitting.html) content through `require.ensure`. This is handy if you happen to have some specific big dependency on some specific view and want to avoid serving it through your main bundles.
+Beyond the features discussed Webpack allows you to [lazy load](https://webpack.github.io/docs/code-splitting.html) content through `require.ensure`. This is handy if you happen to have some specific big dependency on some specific view and want to avoid serving it through your main bundles.
 
-Our Kanban application is now ready to be served. We went from a chunky build to a slim one. Even better the production version can benefit from caching and it is able to invalidate it. When it comes to webpack this is just a small part of what you can do with it. I discuss more approaches at **Deploying applications** chapter.
+Our Kanban application is now ready to be served. We went from a chunky build to a slim one. Even better the production version can benefit from caching and it is able to invalidate it. When it comes to Webpack this is just a small part of what you can do with it. I discuss more approaches at **Deploying applications** chapter.

@@ -8,13 +8,13 @@ Perhaps the most known linter that started it all for JavaScript is Douglas Croc
 
 Besides linting for issues it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and all kinds of shenanigans. Stylistically consistent code reads better and is easier to work with particularly in a team environment.
 
-[JSCS](http://jscs.info/) is a tool that makes it possible to define a style guide of your own for JavaScript code. It is easy to integrate into your project through webpack. ESLint implements a large part of its functionality, though, and it is possible you may get away with ESLint only.
+[JSCS](http://jscs.info/) is a tool that makes it possible to define a style guide of your own for JavaScript code. It is easy to integrate into your project through Webpack. ESLint implements a large part of its functionality, though, and it is possible you may get away with ESLint only.
 
 In this chapter I'll go through these tools briefly. We'll integrate just ESLint into our project. Of course if you want, you can give the other tools a go. Just don't be surprised that they aren't included in the demonstration code.
 
 ## Webpack and JSHint
 
-Interestingly no JSLint loader seems to exist for webpack yet. Fortunately there's one for JSHint. On a legacy project setting it up with webpack is easy. We won't be using it for our application but it's a good thing to know. At least you'll see some familiar patterns.
+Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately there's one for JSHint. On a legacy project setting it up with Webpack is easy. We won't be using it for our application but it's a good thing to know. At least you'll see some familiar patterns.
 
 You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition, you will need a little bit of configuration.
 
@@ -58,7 +58,7 @@ You can also define custom settings using a `jshint` object. The project README 
 }
 ```
 
-Besides setting it up with webpack it can be highly beneficial to look into an integration with your editor or IDE. Having warnings and errors inline makes a world of difference. webpack will still complain but an integrated approach has its benefits.
+Besides setting it up with Webpack it can be highly beneficial to look into an integration with your editor or IDE. Having warnings and errors inline makes a world of difference. Webpack will still complain but an integrated approach has its benefits.
 
 ## Setting Up ESLint
 
@@ -154,9 +154,9 @@ Alternatively you could pipe output to `true` like this:
 
 The potential problem with this approach is that in case you invoke `lint` through some other command, it will pass the test even if there are failures! In other words if you have another script that does something like `npm run lint && npm run build`, it will build regardless of the output of the first command.
 
-### Connecting ESLint with webpack
+### Connecting ESLint with Webpack
 
-We can make webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step hit
+We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step hit
 
 > npm i eslint-loader --save-dev
 
@@ -361,7 +361,7 @@ I decided to use a set of rules from Twitter Bootstrap. These seem like a good s
 
 If you hit `npm run lint-css` now, you should see some output, hopefully without errors. That `--quiet` flag is there to keep the tool silent unless there are errors.
 
-Thanks to the webpack configuration we did, you should get output during `npm start` process as well. In addition, you should consider setting up csslint with your editor. That way you get more integrated development experience.
+Thanks to the Webpack configuration we did, you should get output during `npm start` process as well. In addition, you should consider setting up csslint with your editor. That way you get more integrated development experience.
 
 ## Checking JavaScript Style with JSCS
 
@@ -369,7 +369,7 @@ Thanks to the webpack configuration we did, you should get output during `npm st
 
 Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short it can get pretty messy without any discipline. Fortunately there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project but it's good to be aware of it.
 
-[jscs-loader](https://github.com/unindented/jscs-loader) provides webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define `.jscsrc` with your style guide rules and use configuration like this:
+[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define `.jscsrc` with your style guide rules and use configuration like this:
 
 ```javascript
 module: {
@@ -420,4 +420,4 @@ T> Note that like some other tools, such as ESLint and JSHint, JSCS supports `pa
 
 ## Conclusion
 
-In this chapter you learned how to lint your code using webpack in various ways. It is one of those techniques that yields benefits over longer term as you get to fix possible problems before they become actual issues.
+In this chapter you learned how to lint your code using Webpack in various ways. It is one of those techniques that yields benefits over longer term as you get to fix possible problems before they become actual issues.

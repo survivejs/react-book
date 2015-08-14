@@ -146,7 +146,7 @@ In addition, I generate so called *distribution bundles*: `.js` and `.min.js`. T
 
 UMD makes it possible to consume them from various environments including global, AMD and CommonJS (Node.js format). You can refresh your memory with these by checking the Getting Started chapter for examples.
 
-It is surprisingly easy to generate the aforementioned bundles using webpack. In case of my boilerplate the configuration is as follows:
+It is surprisingly easy to generate the aforementioned bundles using Webpack. In case of my boilerplate the configuration is as follows:
 
 ```javascript
 ...
@@ -262,4 +262,4 @@ See [npm documentation](https://docs.npmjs.com/cli/owner) for most up to date in
 
 ## Conclusion
 
-You should have a basic idea on how to author npm libraries with the help of webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.
+You should have a basic idea on how to author npm libraries with the help of Webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.

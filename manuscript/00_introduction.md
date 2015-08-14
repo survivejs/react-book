@@ -1,6 +1,6 @@
 # Introduction
 
-Frontend development moves forward fast. The main purpose of this book is to help you to get up to speed with two emerging tools: [webpack](https://webpack.github.io/) and [React](https://facebook.github.io/react/). Combined these tools allow you to build all sorts of web applications swiftly. Knowledge of webpack is useful beyond React. And understanding React will provide you insight that allows you to see alternatives in a different light.
+Frontend development moves forward fast. The main purpose of this book is to help you to get up to speed with two emerging tools: [webpack](https://webpack.github.io/) and [React](https://facebook.github.io/react/). Combined these tools allow you to build all sorts of web applications swiftly. Knowledge of Webpack is useful beyond React. And understanding React will provide you insight that allows you to see alternatives in a different light.
 
 Webpack solves the fundamental problem of web development, namely bundling. It takes in a variety of assets and provides you something you can serve to your client. Even though this sounds simple it is in fact a difficult problem. Webpack manages it through configuration. This makes it daunting to approach but powerful to use. This book helps you to get through that initial learning curve.
 
@@ -8,7 +8,7 @@ Facebook's React is a component based view abstraction. It is not limited to web
 
 ## How Is This Book Organized?
 
-The idea of the book is to guide you through a small example project and then discuss more theoretical aspects of web development. The project in question will be a small [Kanban](https://en.wikipedia.org/wiki/Kanban) application. We will start by building a webpack based configuration. After that we will develop a small clone of a famous [Todo application](http://todomvc.com/). We will generalize from there and implement [Flux architecture](https://facebook.github.io/flux/docs/overview.html) within our application. Finally we will apply some [DnD magic](https://gaearon.github.io/react-dnd/) so that you can begin dragging things around.
+The idea of the book is to guide you through a small example project and then discuss more theoretical aspects of web development. The project in question will be a small [Kanban](https://en.wikipedia.org/wiki/Kanban) application. We will start by building a Webpack based configuration. After that we will develop a small clone of a famous [Todo application](http://todomvc.com/). We will generalize from there and implement [Flux architecture](https://facebook.github.io/flux/docs/overview.html) within our application. Finally we will apply some [DnD magic](https://gaearon.github.io/react-dnd/) so that you can begin dragging things around.
 
 The theoretical parts of the book focus more on the tooling. Through those you will learn to:
 
@@ -30,7 +30,7 @@ A good idea to see Kanban in action at the web is to check out [Trello](https://
 
 ## Who Is This Book For?
 
-I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm. If you know something about webpack or React, that's great. That said, you should be able to deepen your understanding of these tools by reading this book and going through the project.
+I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm. If you know something about Webpack or React, that's great. That said, you should be able to deepen your understanding of these tools by reading this book and going through the project.
 
 ## Additional Material
 

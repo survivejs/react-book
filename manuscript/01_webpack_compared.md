@@ -1,8 +1,8 @@
 # Webpack Compared
 
-You can understand webpack better by putting it into a historical context. This will show you why its approach is powerful. Back in the day it was enough just to concatenate some scripts together. Times have changed, though. Now distributing your JavaScript code can be a complex endeavor.
+You can understand Webpack better by putting it into a historical context. This will show you why its approach is powerful. Back in the day it was enough just to concatenate some scripts together. Times have changed, though. Now distributing your JavaScript code can be a complex endeavor.
 
-This problem has been escalated by the rise of single page applications (SPAs). They tend to rely on various heavy libraries. The last thing you want to do is to load them all at once. There are better solutions and webpack allows many of those.
+This problem has been escalated by the rise of single page applications (SPAs). They tend to rely on various heavy libraries. The last thing you want to do is to load them all at once. There are better solutions and Webpack allows many of those.
 
 The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package manager, provides more context. Before npm it was difficult to consume dependencies. Now that npm is increasingly popular for frontend development, the situation has changed dramatically. Now we have nice ways to manage the dependencies of our projects.
 
@@ -42,7 +42,7 @@ In this sample we define two basic tasks related to *jshint*, which is a linting
 
 In practice you would have a lot of small tasks such as these for various purposes such as building the project. The example shows well how these tasks are constructed. An important part of the power of Grunt is that it hides a lot of the wiring from you. Taken too far this can get problematic though as you don't understand well enough what's going on under the hood.
 
-T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin allows you to use webpack in a Grunt environment. You can leave the heavy lifting to webpack while utilizing the Grunt plugins you are familiar with.
+T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin allows you to use Webpack in a Grunt environment. You can leave the heavy lifting to Webpack while utilizing the Grunt plugins you are familiar with.
 
 ## Gulp
 
@@ -94,7 +94,7 @@ gulp.task('default', ['watch', 'scripts']);
 
 Given the configuration is code you can always just hack it if you run into troubles. You can wrap existing Node.js modules as Gulp plugins and so on. Compared to Grunt you have a clearer idea of what's going on. You still end up writing a lot of boilerplate for casual tasks, though. That is where some newer approaches come in.
 
-T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use webpack in Gulp environment.
+T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use Webpack in Gulp environment.
 
 ## Browserify
 
@@ -106,13 +106,13 @@ In practice it can be useful just to use CommonJS, the Node.js format, and let t
 
 [Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. In addition, there are tons of smaller transformation tools that allow you to move beyond the basic usage (e.g. [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development automatically). This will save some effort and no doubt is a good solution up to a point.
 
-The Browserify ecosystem is composed of a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than webpack and in fact it is a good alternative to it.
+The Browserify ecosystem is composed of a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than Webpack and in fact it is a good alternative to it.
 
 ## Webpack
 
 ![webpack](images/webpack.png)
 
-You could say webpack takes a more monolithic approach than Browserify. You simply get more out of the box. Webpack extends `require` and allows you to customize its behavior using loaders. You can load arbitary content through this mechanism. This applies also to CSS files (`@import`). Webpack also provides plugins for tasks, such as minifying, localization, hot loading etc.
+You could say Webpack takes a more monolithic approach than Browserify. You simply get more out of the box. Webpack extends `require` and allows you to customize its behavior using loaders. You can load arbitary content through this mechanism. This applies also to CSS files (`@import`). Webpack also provides plugins for tasks, such as minifying, localization, hot loading etc.
 
 All of this is based on configuration. Here is a sample configuration adapted from [the official webpack tutorial](http://webpack.github.io/docs/tutorials/getting-started/):
 
@@ -141,21 +141,21 @@ module.exports = {
 };
 ```
 
-Given the configuration is written in JavaScript it's quite malleable. As long as it's JavaScript, webpack is fine with it.
+Given the configuration is written in JavaScript it's quite malleable. As long as it's JavaScript, Webpack is fine with it.
 
-The configuration model may make webpack feel a bit opaque at times. It can be difficult to understand what it's doing especially if you try to do something too complicated too quickly. I have compiled [a webpack cookbook](https://christianalfoni.github.io/react-webpack-cookbook/) with Christian Alfoni that goes into more detail when it comes to specific problems.
+The configuration model may make Webpack feel a bit opaque at times. It can be difficult to understand what it's doing especially if you try to do something too complicated too quickly. I have compiled [a webpack cookbook](https://christianalfoni.github.io/react-webpack-cookbook/) with Christian Alfoni that goes into more detail when it comes to specific problems.
 
 ### Why Webpack?
 
-Why would you use webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling but there's so much more. The reason why I picked up webpack initially was because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
+Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling but there's so much more. The reason why I picked up Webpack initially was because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
 
 You might be familiar with tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/) already. These tools make it much faster to iterate as they refresh the browser(s) automatically as you make changes. HMR takes things one step further. Instead of performing a full refresh, in React's case it will patch the component that changed while retaining application state. This sounds simple but it makes a big difference in practice.
 
-Besides HMR webpack's bundling capabilities are extensive. It allows you to split bundles in various ways and even load them dynamically as your application gets executed. This sort of lazy loading comes in handy especially for larger applications where you need some specific libraries only for some specific purpose and want to keep initial bundles smaller.
+Besides HMR Webpack's bundling capabilities are extensive. It allows you to split bundles in various ways and even load them dynamically as your application gets executed. This sort of lazy loading comes in handy especially for larger applications where you need some specific libraries only for some specific purpose and want to keep initial bundles smaller.
 
-With webpack you can easily inject a hash to each bundle name. This allows you to invalidate bundles on client side as changes are made. Thanks to bundle splitting the client might need to reload only a small bundle containing your application code while the vendor code remains unchanged.
+With Webpack you can easily inject a hash to each bundle name. This allows you to invalidate bundles on client side as changes are made. Thanks to bundle splitting the client might need to reload only a small bundle containing your application code while the vendor code remains unchanged.
 
-Even though it would be possible to achieve some of these tasks with other tools such as Gulp or Grunt, it would definitely take a lot more work to pull off. In webpack it's a matter of configuration. Note that you can get HMR to Browserify through [livereactload](https://github.com/milankinen/livereactload) so it's not a feature that's exclusive to webpack.
+Even though it would be possible to achieve some of these tasks with other tools such as Gulp or Grunt, it would definitely take a lot more work to pull off. In Webpack it's a matter of configuration. Note that you can get HMR to Browserify through [livereactload](https://github.com/milankinen/livereactload) so it's not a feature that's exclusive to Webpack.
 
 All of these smaller features add up. Surprisingly you can get many things done out of the box. And if you are missing something there are loaders and plugins available that allow you to go further. Webpack comes with a significant learning curve but it's a tool worth learning given it saves so much time and effort over the long term.
 
@@ -232,6 +232,6 @@ Webpack can generate UMD wrapper for you (`output.libraryTarget: 'umd'`). This i
 
 ## Conclusion
 
-I hope this chapter helped you to understand why webpack is a valuable tool worth learning. It solves a fair share of common web development problems. If you know it well, it will save a great deal of time. In the following chapters we'll examine webpack in more detail and learn to build a simple configuration. We'll also get started with our Kanban application.
+I hope this chapter helped you to understand why Webpack is a valuable tool worth learning. It solves a fair share of common web development problems. If you know it well, it will save a great deal of time. In the following chapters we'll examine Webpack in more detail and learn to build a simple configuration. We'll also get started with our Kanban application.
 
-You can, and probably should, use webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling, however, and that's one worry less during development. Just using `package.json` `scripts` and webpack takes you very far as we will see soon.
+You can, and probably should, use Webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling, however, and that's one worry less during development. Just using `package.json` `scripts` and Webpack takes you very far as we will see soon.

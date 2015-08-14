@@ -21,12 +21,12 @@ It is possible new content will be developed to the book. This depends on your s
 Chapter | Description | Progress | Notes
 --- | --- | --- | ---
 Routing with react-router | Extending further (multiple boards, charts) | 0% | It might be nice to discuss routing and expand the app while at it
-Backend | This would discuss the usage of webpack on backend. REST API on top of Express and Swagger? | 5% | [Tech demo](https://github.com/bebraw/swagger-todo)
+Backend | This would discuss the usage of Webpack on backend. REST API on top of Express and Swagger? | 5% | [Tech demo](https://github.com/bebraw/swagger-todo)
 Isomorphism | How to go isomorphic with the app. Discuss benefits and possible gotchas. | 0% |
-Performance | Performance strategies for webpack and React | 0% | |
-Testing | Testing approaches/tools for webpack and React | 0% | |
+Performance | Performance strategies for Webpack and React | 0% | |
+Testing | Testing approaches/tools for Webpack and React | 0% | |
 Internationalization etc. | i18n/l10n/a11y | 0% | Gathering ideas
-Debugging webpack | Various debugging strategies for webpack | 0% | Need to go through various strategies and develop tooling
+Debugging Webpack | Various debugging strategies for Webpack | 0% | Need to go through various strategies and develop tooling
 Data trees (baobab) | How to port the application to Baobab | 0% | I had some material on this initially but went with Alt instead as it felt simpler and more fitting for the book
 
 ## Contributing

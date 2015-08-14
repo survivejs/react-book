@@ -10,7 +10,7 @@ Often a good way to begin designing an application is to start with the data. We
 [
   {
     id: '4a068c42-75b2-4ae2-bd0d-284b4abbb8f0',
-    task: 'Learn webpack'
+    task: 'Learn Webpack'
   },
   {
     id: '4e81fc6e-bfb6-419b-93e5-0242fb6f3f6a',
@@ -68,7 +68,7 @@ export default class App extends React.Component {
     const notes = [
       {
         id: uuid.v4(),
-        task: 'Learn webpack'
+        task: 'Learn Webpack'
       },
       {
         id: uuid.v4(),
@@ -204,7 +204,7 @@ export default class App extends React.Component {
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn webpack'
+          task: 'Learn Webpack'
         },
         {
           id: uuid.v4(),
