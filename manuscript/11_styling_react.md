@@ -10,7 +10,7 @@ The old school approach to styling was just to sprinkle some ids and classes aro
 
 ### webpack Configuration for Vanilla CSS
 
-It is easy to configure vanilla CSS is webpack. Consider the example below:
+It is easy to configure vanilla CSS in webpack. Consider the example below:
 
 **webpack.config.js**
 
@@ -37,7 +37,7 @@ To recap first [css-loader](https://www.npmjs.com/package/css-loader) goes throu
 
 What happens when your application starts to grow and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
 
-We could battle this problem by making the selectors more specific, using some naming rules and so on but where to draw the line? There are various alternative methodologies you can consider.
+We could battle this problem by making the selectors more specific, using some naming rules and so on, but where do we draw the line? There are various alternative methodologies you can consider.
 
 Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS) and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each of them solves problems of vanilla CSS in their own way.
 
@@ -45,19 +45,19 @@ Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://
 
 BEM originates from Yandex. They realized the traditional way of dealing with CSS isn't enough and decided to do something about it. The goal of BEM is to allow reusable components and code sharing through that. Sites such as [Get BEM](http://getbem.com/) help you to understand the methodology in more detail.
 
-As maintaining long class names BEM requires can be ardious various libraries have appeared to make this easier. For React examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react).
+As maintaining long class names BEM requires can be arduous, various libraries have appeared to make this easier. For React examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react).
 
 Note that [postcss-bem-linter](https://www.npmjs.com/package/postcss-bem-linter) allows you to lint your CSS for BEM conformance.
 
 ### OOCSS and SMACSS
 
-Just like BEM both OOCSS and SMACSS come with their own conventions and methodology. As of writing no React specific helper libraries exist for OOCSS and SMACSS.
+Just like BEM both OOCSS and SMACSS come with their own conventions and methodologies. As of this writing, no React specific helper libraries exist for OOCSS and SMACSS.
 
 csslint rules `Disallow qualified headings` and `Headings should only be defined once` allow you to check your CSS against OOCSS principles.
 
 ### Pros and Cons
 
-The primary benefit of adopting a methodology is that it brings certain structure to your project. Rather than writing ad hoc rules and hoping everything works you will actually have something stronger to fall back onto. The methodologies overcome some of the basic issues of CSS and help you develop good software over longer term. Conventions they bring help particularly in maintenance and are less prone to lead to a mess.
+The primary benefit of adopting a methodology is that it brings certain structure to your project. Rather than writing ad hoc rules and hoping everything works, you will actually have something stronger to fall back onto. The methodologies overcome some of the basic issues of CSS and help you develop good software over the long term. The conventions they bring to a project help with maintenance and are less prone to lead to a mess.
 
 On the downside once you adopt one you are pretty much stuck with that on your project. But if you are willing to commit, there are benefits to gain.
 
@@ -84,7 +84,7 @@ Vanilla CSS is missing some functionality that would make maintenance work easie
 
 The advantage of this approach is that you will literally be coding in the future. As browsers get better and adopt the standards, you don't have to worry about porting.
 
-If that sounds a little much or you are just interested in a particular feature such as autoprefixing, you can check out [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader) and [postcss-loader](https://www.npmjs.com/package/postcss-loader). cssnext relies on postcss. It provides you more granular level of control of CSS plugins. You can even implement your own using a bit of JavaScript.
+If that sounds a little much or you are just interested in a particular feature such as autoprefixing, you can check out [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader) and [postcss-loader](https://www.npmjs.com/package/postcss-loader). cssnext relies on postcss. It provides you with a more granular level of control of CSS plugins. You can even implement your own using a bit of JavaScript.
 
 ### Less
 
@@ -118,9 +118,9 @@ Check out the loader for more advanced usage.
 
 ### Pros and Cons
 
-Compared to vanilla CSS preprocessors bring a lot to the table. They deal with certain annoyances (e.g. autoprefixing) and provide useful features. Particularly cssnext and postcss seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
+Compared to vanilla CSS, preprocessors bring a lot to the table. They deal with certain annoyances (e.g. autoprefixing) and provide useful features. Particularly cssnext and postcss seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
 
-In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing rounded corners of our lanes would look good even in legacy browsers. In addition, we could parametrize styling thanks to variables.
+In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing rounded corners of our lanes would look good even in legacy browsers. In addition, we could parameterize styling thanks to variables.
 
 ## React Based Approaches
 
