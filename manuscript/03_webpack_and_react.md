@@ -10,7 +10,7 @@ T> Common editors (Sublime Text, vim, emacs, Atom etc.) have good support for Re
 
 Facebook's [React](https://facebook.github.io/react/) is one of those projects that has changed the way we think about frontend development. Also, thanks to [React Native](https://facebook.github.io/react-native/) the approach isn't limited just to web. Although simple to learn, React provides plenty of power.
 
-React isn't a framework like Angular.js or Ember. Frameworks tend to provide a lot of solutions out of box. With React you will have to assemble your application from separate libraries. Both approaches have their merits. Frameworks may be faster to pick up but they can become harder to work with as you hit their boundaries. In library based approach you have more flexibility but also responsibility.
+React isn't a framework like Angular.js or Ember. Frameworks tend to provide a lot of solutions out of the box. With React you will have to assemble your application from separate libraries. Both approaches have their merits. Frameworks may be faster to pick up but they can become harder to work with as you hit their boundaries. In a library based approach you have more flexibility but also responsibility.
 
 React introduced a concept known as virtual DOM to web developers. This means that instead of manipulating DOM directly just like all the libraries and frameworks before it, React maintains a DOM of its own. As changes are made to virtual DOM, React will batch the changes to actual DOM as it sees best.
 
@@ -40,7 +40,7 @@ function render() {
 
 If you haven't seen JSX before it will likely look strange. It isn't uncommon to experience "JSX shock", a form of disbelief, until you start to understand it. After that it all makes sense.
 
-In JSX we are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, the DOM equivalent. Even though JSX will feel a little weird to use at first it will become a second nature over time.
+In JSX we are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, which is the DOM equivalent. Even though JSX will feel a little weird to use at first it will become second nature over time.
 
 Because of virtual DOM the developers of React have decoupled themselves from the limitations of DOM. As a result React is highly performant. This comes with a cost, though. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire but it's still something.
 
@@ -48,9 +48,9 @@ T> The interesting side benefit of this approach is that React doesn't depend on
 
 ### Better with Friends
 
-Even if React isn't the smallest library out there it does manage to solve fundamental problems. It is a pleasure to develop with thanks to its relative simplicity and a powerful API. You will need to complement it with a set of tools but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
+Even if React isn't the smallest library out there it does manage to solve fundamental problems. It is a pleasure to develop thanks to its relative simplicity and a powerful API. You will need to complement it with a set of tools but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
 
-The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and layout system while providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
+The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and a layout system while providing you the setup you already know from the web. It can be seen as a gateway for web developers wanting to develop performant mobile applications.
 
 ## Babel
 
@@ -132,7 +132,7 @@ It is time to add a first application level dependency to our project. Hit
 
 to get React installed. This will save React to `dependencies` section of `package.json`. Later on we'll be using this information to generate a vendor build for the production version. I find it to be a good practice to separate application and development level dependencies this way.
 
-Now that we got that out of the way we can start to develop our Kanban application. First we should define `App`. This will be the core of our application. It represents the high level view of it and works as an entry point. Later on it will orchestrate it all.
+Now that we got that out of the way we can start to develop our Kanban application. First we should define the `App`. This will be the core of our application. It represents the high level view of it and works as an entry point. Later on it will orchestrate it all.
 
 **app/components/App.jsx**
 
@@ -153,7 +153,7 @@ W> If you are used to `React.createClass()`, it is important to note that ES6 ba
 
 ### Setting Up `Note`
 
-We also need to define `Note` component. In this case we will just want to show some text like `Learn webpack`. `Hello world` would work if you are into clichés.
+We also need to define the `Note` component. In this case we will just want to show some text like `Learn webpack`. `Hello world` would work if you are into clichés.
 
 **app/components/Note.jsx**
 
@@ -192,7 +192,7 @@ function main() {
 }
 ```
 
-I'll be using `const` whenever possible. It will give me a guarantee that the reference to the object won't get changed inadvertently. It does allow you to modify the object contents, though. I.e. you can still push new items to an array and so on.
+I'll be using `const` whenever possible. It will give me a guarantee that the reference to the object won't get changed inadvertently. It does allow you to modify the object contents, though, i.e. you can still push new items to an array and so on.
 
 If I want something mutable, I'll use `let` instead. `let` is scoped to the code block and is another new feature introduced with ES6. These both are good safety measures.
 
@@ -239,16 +239,16 @@ Try hitting `npm start` again and modifying the component. Note what doesn't hap
 
 ## React Component Styles
 
-Besides ES6 classes React allows you to construct components using `React.createClass()`. That was the original way to create components and is still in use. The approaches aren't equivalent by default.
+Besides ES6 classes React allows you to construct components using `React.createClass()`. That was the original way to create components and it is still in use. The approaches aren't equivalent by default.
 
 When you are using `React.createClass` it is possible to inject functionality to a component using mixins. This isn't possible in ES6 by default unless you are using a helper such as [react-mixin](https://github.com/brigand/react-mixin). In later chapters we will go through various alternative approaches that allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
 
-In addition, ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's a good practice to bind the context at the component constructor. We will use this convention in this book. It leads to some extra code but later on it is likely possible to refactor it out.
+In addition, ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's good practice to bind the context at the component constructor. We will use this convention in this book. It leads to some extra code but later on it is likely possible to refactor it out.
 
-The biggest benefit of the class based approach is that it decreases the amount of concepts you have to worry about. Particularly `constructor` helps to keep things simpler than in `React.createClass` based approach where you need to define separate methods to achieve the same result.
+The biggest benefit of the class based approach is that it decreases the amount of concepts you have to worry about. Particularly, `constructor` helps to keep things simpler than in `React.createClass` based approach where you need to define separate methods to achieve the same result.
 
 In the future property initializers (likely `tick = () => { ... }`) will solve this neatly. In fact the proposed feature is available through Babel's **stage 0** but enabling that may lead to other problems later on in case the features change.
 
 ## Conclusion
 
-You should understand how to set up React with webpack now. Especially hot loading is one of those features that sets webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter you will see how to implement a little Note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
+You should understand how to set up React with webpack now. Hot loading is one of those features that sets webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter you will see how to implement a little note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
