@@ -21,7 +21,7 @@ var common = {
   }
 };
 
-if(TARGET === 'start') {
+if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval',
     module: {

@@ -294,7 +294,7 @@ var common = {
   ]
 };
 
-if(TARGET === 'start') {
+if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     ...
     module: {
@@ -423,7 +423,7 @@ var common = {
   }
 };
 
-if(TARGET === 'start') {
+if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     ...
     plugins: [

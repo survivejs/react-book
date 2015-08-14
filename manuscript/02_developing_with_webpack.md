@@ -295,7 +295,7 @@ var common = {
   ...
 };
 
-if(TARGET === 'start') {
+if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval',
     devServer: {
@@ -311,6 +311,8 @@ if(TARGET === 'start') {
   });
 }
 ```
+
+The idea behind `if(TARGET === 'start' || !TARGET) {` check is that if `TARGET` isn't set for reason or another, we still have some sane default configuration in place. This can happen if we execute webpack outside of npm.
 
 If you run the development build now using `npm start`, webpack will generate sourcemaps. When `eval` is used webpack will execute each module through `eval` and `//@ sourceURL`. This option is suitable only for development usage! The [official documentation](https://webpack.github.io/docs/configuration.html#devtool) goes into further detail about the possible options available.
 

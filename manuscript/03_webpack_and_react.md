@@ -92,7 +92,7 @@ var common = {
   ...
 };
 
-if(TARGET === 'start') {
+if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval',
     module: {
@@ -219,7 +219,7 @@ We also need to make our configuration aware of it so it can inject hooks webpac
 ```javascript
 ...
 
-if(TARGET === 'start') {
+if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval',
     module: {
