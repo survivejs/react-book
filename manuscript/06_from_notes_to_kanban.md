@@ -255,7 +255,7 @@ class LaneStore {
     const notes = lane.notes;
     const removeIndex = notes.indexOf(noteId);
 
-    if(lane.notes.indexOf(removeId) === -1) {
+    if(lane.notes.indexOf(removeIndex) === -1) {
       lane.notes = notes.slice(0, removeIndex).
         concat(notes.slice(removeIndex + 1));
 
