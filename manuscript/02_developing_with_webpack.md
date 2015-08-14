@@ -1,6 +1,6 @@
 # Developing with Webpack
 
-If you are not one of those guys that likes to skip introductions, you might have some clue what webpack is. In its simplicity it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
+If you are not one of those people who likes to skip introductions, you might have some clue what webpack is. In its simplicity it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
 
 This sounds very simple but in practice it can be a very complicated and messy process. You definitely don't want to deal with all the details yourself. This is where webpack fits in. Next we'll get webpack set up and your first project running in development mode.
 
@@ -123,7 +123,7 @@ T> Note that you can pass a custom template to `html-webpack-plugin`. In our cas
 
 Now that we have the basic building blocks together we can set up a development server. `webpack-dev-server` is a development server designed particularly development in mind. It will deal with refreshing browser as you develop.
 
-This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage webpack has over these tools is Hot Module Reloading (HMR) which we'll discuss when we go through React.
+This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage webpack has over these tools is hot module reloading (HMR) which we'll discuss when we go through React.
 
 Hit
 
@@ -177,7 +177,7 @@ In addition to **webpack.config.js** it is possible to set *webpack-dev-server* 
 
 W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the cli and Node.js API and they may behave slightly differently at times. This is the reason why some prefer to use solely Node.js API.
 
-We are using a somewhat basic setup here. Beyond defaults we've enabled a couple of useful features, namely hot module loading (HMR) and HTML5 History API fallback. Former will come in handy when we discuss React in detail. Latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up additional `entry` paths.
+We are using a somewhat basic setup here. Beyond defaults we've enabled a couple of useful features, namely hot module loading (HMR) and HTML5 History API fallback. The former will come in handy when we discuss React in detail. Latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up additional `entry` paths.
 
 ## Refreshing CSS
 
@@ -266,7 +266,7 @@ As discussed we'll be using a custom `merge` function for sharing configuration 
 
 to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch and merge based on that. We'll expand these in the coming chapters.
 
-In order to improve debuggability of the application we can set up sourcemaps while at it. These allow you to get proper debug information at browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through `devtool` setting. We can use decent defaults as follows:
+In order to improve debuggability of the application we can set up sourcemaps while we are at it. These allow you to get proper debug information at the browser. You'll see exactly where an error was raised for instance. In webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
 
 **webpack.config.js**
 
@@ -322,7 +322,7 @@ Configuration could contain more sections such as these based on your needs. Lat
 
 ## Linting the Project
 
-I discuss linting in detail at *Linting in webpack* chapter. Given setting up a linter is the most beneficial at the beginning of a project, not at the end, it may be worth your while to check out the chapter and expand the project configuration as you see fit. This can save some frustration during development as you can see potential issues earlier.
+I discuss linting in detail in the *Linting in webpack* chapter. Given setting up a linter is the most beneficial at the beginning of a project, not at the end, it may be worth your while to check out the chapter and expand the project configuration as you see fit. This can save some frustration during development as you can see potential issues earlier.
 
 ## Conclusion
 
