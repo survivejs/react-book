@@ -4,7 +4,7 @@ Frontend development moves forward fast. The main purpose of this book is to hel
 
 Webpack solves the fundamental problem of web development, namely bundling. It takes in a variety of assets and provides you something you can serve to your client. Even though this sounds simple it is in fact a difficult problem. Webpack manages it through configuration. This makes it daunting to approach but powerful to use. This book helps you to get through that initial learning curve.
 
-Facebook's React is a component based view abstraction. It is not limited to web. In fact you can build mobile applications using it. React forces you to think your application in terms of components. It won't be enough, though, and you will need to complement it with some other libraries on more complex cases. Compared to framework based approach this is refreshing.
+Facebook's React is a component based view abstraction. It is not limited to web. In fact you can build mobile applications using it. React forces you to think your application in terms of components. It won't be enough, though, and you will need to complement it with some other libraries on more complex cases. Compared to a framework based approach this is refreshing.
 
 ## How Is This Book Organized?
 
