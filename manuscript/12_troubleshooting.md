@@ -1,6 +1,6 @@
 # Troubleshooting
 
-As it is possible you'll run into problems during development I've tried to cover some common issues here.
+I've tried to cover some common issues here. This chapter will be expanded as common issues are found.
 
 ## `EPEERINVALID`
 
@@ -29,7 +29,7 @@ npm ERR! Please include the following file with any support request:
 ...
 ```
 
-In human terms it means that some package, `eslint-loader` in this case, has too strict `peerDependency` requirement. Our project has a newer version installed already and given the required peer dependency is older than our version we get this particular error.
+In human terms it means that some package, `eslint-loader` in this case, has too strict `peerDependency` requirement. Our project has a newer version installed already. Given the required peer dependency is older than our version we get this particular error.
 
 There are a couple of ways to work around this:
 
