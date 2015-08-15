@@ -1,8 +1,8 @@
 # Authoring Libraries
 
-[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Although initially it was used mostly for managing backend packages, it has become increasingly popular in frontend development. As you have seen so far it is easy to consume npm packages using webpack.
+[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Initially it was used mostly for managing backend packages. It has become increasingly popular in frontend development. As you have seen so far it is easy to consume npm packages using webpack.
 
-Eventually you might want to publish your own packages. You can consider our demo application a package of its own, sort of. We could even design applications to be pluggable so that you could glue them into a bigger whole. This would take some careful thought but in theory you could split everything up in smaller sections which you then knit together.
+Eventually you might want to publish your own packages. You can consider our demo application a package of its own, sort of. We could even design applications to be pluggable so that you could glue them into a bigger whole. This would take some careful thought. In theory you could split everything up in smaller sections which you then knit together.
 
 ## Anatomy of a npm Package
 
@@ -126,7 +126,7 @@ T> As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs
 
 Bumping a version is simple too. You'll just need to invoke `npm version <x.y.z>`. That will update `package.json` and create a version commit automatically. If you hit `npm publish`, you should have something new out there.
 
-Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build and it will get tested just in case.
+Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case.
 
 T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node.js will resolve to the linked version unless local `node_modules` happens to contain a version.
 
@@ -200,7 +200,7 @@ Most of the magic happens thanks to `devtool` and `output` declarations. In addi
 
 ## npm Lifecycle Hooks
 
-npm provides various lifecycle hooks that can be useful. Let's say you are authoring a React component using Babel and some of its goodies. Even though you could let `package.json` *main* field point at the UMD version as generated above, this won't be ideal for those who consume it through npm.
+npm provides various lifecycle hooks that can be useful. Let's say you are authoring a React component using Babel and some of its goodies. You could let `package.json` *main* field point at the UMD version as generated above. This won't be ideal for those consuming the library through npm, though.
 
 It is better to generate a ES5 compatible version of the package for npm consumers. This can be achieved using **babel** cli tool:
 
@@ -221,7 +221,7 @@ Since we want to avoid having to run the command directly whenever we publish a 
 
 Make sure you hit `npm i babel --save-dev` to include the tool into your project.
 
-As you probably don't want the directory content to end up to your Git repository accidentally and prefer to keep your `git status` clean, you should modify your `.gitignore` like this:
+You probably don't want the directory content to end up to your Git repository. In order to avoid this and to keep your `git status` clean, consider this sort of `.gitignore`:
 
 ```bash
 dist-modules/
@@ -232,9 +232,9 @@ T> Dealing with regular `dist` that gets versioned is trickier. Ideally the cont
 
 Besides `prepublish` npm provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`.
 
-Even though npm will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (i.e. `npm run prepublish`). Regardless of the usage, the idea here is that we want to make our package as easy to consume and let our users get away with the least possible amount of work on their part.
+Even though npm will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (i.e. `npm run prepublish`). The idea here is that we want to make our package as easy to consume as possible. We can take one for our library users.
 
-There are plenty of smaller tricks to learn for advanced usage but those are better covered by [the official documentation](https://docs.npmjs.com/misc/scripts). Often all you need is just a `prepublish` script for build automation.
+There are plenty of smaller tricks to learn for advanced usage. Those are better covered by [the official documentation](https://docs.npmjs.com/misc/scripts). Often all you need is just a `prepublish` script for build automation.
 
 ## Keeping Dependencies Up to Date
 
@@ -246,11 +246,17 @@ There are a few ways to approach dependency updates:
 * Install newest version of some specific dependency. I.e. `npm i lodash@* --save`. This is more controlled way to approach the problem.
 * Patch version information by hand by modifying `package.json` directly.
 
-It is important to remember that your dependencies may introduce backwards incompatible changes. Therefore it can be useful to remember how SemVer works and study dependency release notes, if they exist, carefully. You should at least walk through version history to see what changes have been made and how they might affect you.
+It is important to remember that your dependencies may introduce backwards incompatible changes. It can be useful to remember how SemVer works and study dependency release notes. They might not exist always so you may have to go through the project commit history.
 
-As keeping track of important changes can be a chore, there are a few services that can help you with that: [David](https://david-dm.org/), [versioneye](https://www.versioneye.com/), [Gemnasium](https://gemnasium.com). These services provide badges you can integrate into your project `README.md`. In addition, they may email you about important changes and even point out possible security issues that have been fixed.
+There are a few services that can help you to keep track of your project dependencies:
 
-For testing your projects you can consider solutions such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). Many others exist. The advantage of these is that they allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems for your package consumers.
+* [David](https://david-dm.org/)
+* [versioneye](https://www.versioneye.com/)
+* [Gemnasium](https://gemnasium.com).
+
+These services provide badges you can integrate into your project `README.md`. These services may email you about important changes. They can also point out possible security issues that have been fixed.
+
+For testing your projects you can consider solutions such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). Many others exist. These services allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems.
 
 ## Sharing Authorship
 
