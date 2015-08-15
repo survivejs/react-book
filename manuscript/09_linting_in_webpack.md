@@ -1,14 +1,14 @@
 # Linting in Webpack
 
-Nothing is easier than making mistakes when coding in JavaScript. Linting is one of those techniques that can help you to make less mistakes and spot issues before they become actual problems.
+Nothing is easier than making mistakes when coding in JavaScript. Linting is one of those techniques that can help you to make less mistakes. You can spot issues before they become actual problems.
 
-Perhaps the most known linter that started it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization.
+The linter that started it it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization.
 
-[ESLint](http://eslint.org/) is the newest tool in vogue. It has learned from its predecessors and takes linting to the next level. Besides allowing you to implement custom rules, you can hook it with custom parsers and reporters. This means ESLint will work with Babel and JSX syntax. The project rules have been well documented and you will have control over their severity. These features alone make it a powerful tool.
+[ESLint](http://eslint.org/) is the newest tool in vogue. It has learned from its predecessors and takes linting to the next level. ESLint allows you to implement custom rules. You can hook it up with custom parsers and reporters. This means ESLint will work with Babel and JSX syntax. The project rules have been well documented. You will have control over their severity. These features alone make it a powerful tool.
 
-Besides linting for issues it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and all kinds of shenanigans. Stylistically consistent code reads better and is easier to work with particularly in a team environment.
+Besides linting for issues it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and such. Stylistically consistent code reads better and is easier to work with.
 
-[JSCS](http://jscs.info/) is a tool that makes it possible to define a style guide of your own for JavaScript code. It is easy to integrate into your project through Webpack. ESLint implements a large part of its functionality, though, and it is possible you may get away with ESLint only.
+[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack. ESLint implements a large part of its functionality, though. It is possible you may get away with ESLint only.
 
 In this chapter I'll go through these tools briefly. We'll integrate just ESLint into our project. Of course if you want, you can give the other tools a go. Just don't be surprised that they aren't included in the demonstration code.
 
@@ -132,13 +132,13 @@ Note how we can define severity of an individual rule by passing it a number. Ze
 
 If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them if there are any. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
 
-T> Note that like some other tools, such as JSCS and JSHint, ESLint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
+T> Other tools, such as JSCS and JSHint, ESLint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
 
 T> It is possible to generate a sample `.eslintrc` using `eslint --init` (or `node_modules/.bin/eslint --init` for local install). This can be useful on new projects.
 
 ### Dealing with `ELIFECYCLE` Error
 
-In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error.A good way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit. You can define an alias for this purpose. At Unix you would do `alias run='npm run --silent'` and then `run <script>`.
+In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error. A good way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit. You can define an alias for this purpose. At Unix you would do `alias run='npm run --silent'` and then `run <script>`.
 
 Alternatively you could pipe output to `true` like this:
 
@@ -152,7 +152,7 @@ Alternatively you could pipe output to `true` like this:
 ...
 ```
 
-The potential problem with this approach is that in case you invoke `lint` through some other command, it will pass the test even if there are failures! In other words if you have another script that does something like `npm run lint && npm run build`, it will build regardless of the output of the first command.
+The problem with this approach is that if you invoke `lint` through some other command, it will pass even if there are failures. If you have another script that does something like `npm run lint && npm run build`, it will build regardless of the output of the first command!
 
 ### Connecting ESLint with Webpack
 
@@ -188,11 +188,11 @@ if(TARGET === 'start' || !TARGET) {
 
 We are using `preLoaders` section here as we want to play it safe. This section is executed before possible `loaders` get triggered. We won't even try to compile code if it doesn't pass our linting.
 
-If you execute `npm start` now and break some linting rule while developing, you should see that in terminal output.
+If you execute `npm start` now and break some linting rule while developing, you should see that in the terminal output.
 
 ## Customizing ESLint
 
-Even though you can get very far with vanilla ESLint there are several techniques you should be aware of. For instance sometimes you might want to skip some particular rules per file or you might want to implement rules of your own. We'll cover these cases briefly next.
+Even though you can get very far with vanilla ESLint there are several techniques you should be aware of. For instance sometimes you might want to skip some particular rules per file. You might even want to implement rules of your own. We'll cover these cases briefly next.
 
 ### Skipping ESLint Rules
 
@@ -285,7 +285,7 @@ Besides the official documentation available at [eslint.org](http://eslint.org/)
 * [Understanding the Real Advantages of Using ESLint](http://rangle.io/blog/understanding-the-real-advantages-of-using-eslint/) - Evan Schultz's post digs into details.
 * [eslint-plugin-smells](https://github.com/elijahmanor/eslint-plugin-smells) - This plugin by Elijah Manor allows you to lint against various JavaScript smells. Recommended.
 
-If you just want some starting point quickly, you can pick one of [eslint-config- packages](https://www.npmjs.com/search?q=eslint-config) or go with [standard](https://www.npmjs.com/package/standard) style. By the looks of it `standard` has [some issues with JSX](https://github.com/feross/standard/issues/138) so be careful with that.
+If you just want some starting point, you can pick one of [eslint-config- packages](https://www.npmjs.com/search?q=eslint-config) or go with [standard](https://www.npmjs.com/package/standard) style. By the looks of it `standard` has [some issues with JSX](https://github.com/feross/standard/issues/138) so be careful with that.
 
 ## Linting CSS
 
@@ -420,4 +420,4 @@ T> Note that like some other tools, such as ESLint and JSHint, JSCS supports `pa
 
 ## Conclusion
 
-In this chapter you learned how to lint your code using Webpack in various ways. It is one of those techniques that yields benefits over longer term as you get to fix possible problems before they become actual issues.
+In this chapter you learned how to lint your code using Webpack in various ways. It is one of those techniques that yields benefits over longer term. You can fix possible problems before they become actual issues.
