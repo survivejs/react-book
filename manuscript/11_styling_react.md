@@ -6,7 +6,7 @@ With React styling is still in bit of a flux and we're still figuring out the be
 
 ## Old School Styling
 
-The old school approach to styling was just to sprinkle some ids and classes around, set up some rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default everything is global in CSS. Furthermore nesting definitions (e.g. `.main .sidebar .button`) creates implicit logic to your styling.
+The old school approach to styling was to sprinkle some ids and classes around, set up rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default everything is global in CSS. Furthermore nesting definitions (e.g. `.main .sidebar .button`) creates implicit logic to your styling.
 
 ### Webpack Configuration for Vanilla CSS
 
@@ -31,21 +31,21 @@ var common = {
 
 To recap first [css-loader](https://www.npmjs.com/package/css-loader) goes through possible `@import` and `url()` statements within the matched files and treats them as regular `require`. This allows us to rely on various other loaders such as [file-loader](https://www.npmjs.com/package/file-loader) or [url-loader](https://www.npmjs.com/package/url-loader).
 
-`file-loader` generates files while `url-loader` can create inline data urls for small resources. This can be useful for optimizing application loading as you avoid unnecessary requests while providing a slightly bigger payload. Small improvements such as this can yield large benefits especially if you are depending on a large amount of small resources within your style definitions.
+`file-loader` generates files while `url-loader` can create inline data urls for small resources. This can be useful for optimizing application loading. You avoid unnecessary requests while providing a slightly bigger payload. Small improvements can yield large benefits if you depend on a lot of small resources at your style definitions.
 
 ## CSS Methodologies
 
 What happens when your application starts to grow and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
 
-We could battle this problem by making the selectors more specific, using some naming rules and so on, but where do we draw the line? There are various alternative methodologies you can consider.
+We could battle this problem by making the selectors more specific, using some naming rules and so on. Where do we draw the line? There are various alternative methodologies you can consider.
 
 Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS) and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each of them solves problems of vanilla CSS in their own way.
 
 ### BEM
 
-BEM originates from Yandex. They realized the traditional way of dealing with CSS isn't enough and decided to do something about it. The goal of BEM is to allow reusable components and code sharing through that. Sites such as [Get BEM](http://getbem.com/) help you to understand the methodology in more detail.
+BEM originates from Yandex. They realized the traditional way of dealing with CSS isn't enough. As a result they decided to do something about it. The goal of BEM is to allow reusable components and code sharing through that. Sites such as [Get BEM](http://getbem.com/) help you to understand the methodology in more detail.
 
-As maintaining long class names BEM requires can be arduous, various libraries have appeared to make this easier. For React examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react).
+Maintaining long class names BEM requires can be arduous. Thus various libraries have appeared to make this easier. For React examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react).
 
 Note that [postcss-bem-linter](https://www.npmjs.com/package/postcss-bem-linter) allows you to lint your CSS for BEM conformance.
 
@@ -57,13 +57,13 @@ csslint rules `Disallow qualified headings` and `Headings should only be defined
 
 ### Pros and Cons
 
-The primary benefit of adopting a methodology is that it brings certain structure to your project. Rather than writing ad hoc rules and hoping everything works, you will actually have something stronger to fall back onto. The methodologies overcome some of the basic issues of CSS and help you develop good software over the long term. The conventions they bring to a project help with maintenance and are less prone to lead to a mess.
+The primary benefit of adopting a methodology is that it brings certain structure to your project. Rather than writing ad hoc rules and hoping everything works, you will have something stronger to fall back onto. The methodologies overcome some of the basic issues and help you develop good software over the long term. The conventions they bring to a project help with maintenance and are less prone to lead to a mess.
 
 On the downside once you adopt one you are pretty much stuck with that on your project. But if you are willing to commit, there are benefits to gain.
 
-The methodologies also bring their own quirks (e.g. complex naming schemes) and may make certain things more complicated than they have to be. They don't necessarily solve any of the bigger underlying issues but rather provide patches around them.
+The methodologies also bring their own quirks (e.g. complex naming schemes). This may make certain things more complicated than they have to be. They don't necessarily solve any of the bigger underlying issues. They rather provide patches around them.
 
-There are various approaches, such as using preprocessors, that go deeper and solve some of these fundamental problems. That said it's not an either-or proposition. You may adopt a methodology even if you use some preprocessor.
+There are various approaches that go deeper and solve some of these fundamental problems. That said it's not an either-or proposition. You may adopt a methodology even if you use some preprocessor.
 
 ## cssnext, Less, Sass
 
@@ -90,7 +90,7 @@ If that sounds a little much or you are just interested in a particular feature 
 
 ![Less](images/less.png)
 
-Less is a popular CSS preprocessor that implements functionality we talked about and comes with a syntax of its own. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
+Less is a popular CSS preprocessor that implements functionality we talked about. It comes with a syntax of its own. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
 
 ```javascript
 {
@@ -99,7 +99,7 @@ Less is a popular CSS preprocessor that implements functionality we talked about
 }
 ```
 
-There is also support for Less plugins, sourcemaps and so on but to understand how those work you should check out the project itself.
+There is also support for Less plugins, sourcemaps and so on. To understand how those work you should check out the project itself.
 
 ### Sass
 
@@ -157,7 +157,7 @@ render(props, context) {
 }
 ```
 
-Just like with HTML attribute names, we are using the same camelcase convention for CSS properties.
+Like with HTML attribute names, we are using the same camelcase convention for CSS properties.
 
 Note that now that we have styling at component level we can implement logic touching it easily. One classic way to do this has been to alter class name based on the outlook we want. Now we can adjust the properties we want directly.
 
@@ -362,14 +362,14 @@ import styles from './style.css';
 <button className={classNames(styles.button, styles.primary)}>Confirm</button>
 ```
 
-As you can see, this approach provides a good balance between what a lot of people are familiar with already and what various React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
+As you can see, this approach provides a balance between what people are familiar with and what React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
 
 ## Conclusion
 
 It is simple to try out various styling approaches with Webpack. You can do it all ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
 
-React based styling approaches allow us to push styles to component level. This provides an interesting contrast to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS but in return you gain something that is simpler to understand and harder to break.
+React based styling approaches allow us to push styles to component level. This provides an interesting contrast to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS but in return you gain something that is simpler to understand. It is also harder to break.
 
-CSS Modules strike in between conventional approach and React specific approaches. Even though it's a newcomer, it shows a lot of promise. The biggest benefit seems to be that it doesn't lose too much in the process even though it's a nice step ahead from what was before.
+CSS Modules strike in between conventional approach and React specific approaches. Even though it's a newcomer, it shows a lot of promise. The biggest benefit seems to be that it doesn't lose too much in the process. It's a nice step ahead from what was before.
 
 There are no best practices yet and we are still figuring out the best ways to do this in React. You will likely have to do some experimentation of your own to figure out what ways fit your use case the best.
