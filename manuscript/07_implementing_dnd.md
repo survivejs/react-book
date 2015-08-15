@@ -33,9 +33,9 @@ After this change the application should look exactly the same as before. We are
 
 Next we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll want to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
 
-Earlier we extracted some of the editing functionality from `Note` and ended up dropping it. Since we need to decorate the component and don't want to end up with a mess, it seems like we'll want to add that concept back if only for decoration purposes.
+Earlier we extracted editing functionality from `Note` and ended up dropping `Note`. It seems like we'll want to add that concept back if only for decoration purposes.
 
-We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic at `Note` without having to duplicate any logic related to `Editable`. The magic lies in a single property known as `children` as seen in the implementation below. React will render possible child components at `{this.props.children}`slot.
+We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic at `Note`. This avoids having to duplicate any logic related to `Editable`. The magic lies in a single property known as `children` as seen in the implementation below. React will render possible child components at `{this.props.children}`slot.
 
 **app/components/Note.jsx**
 
@@ -135,7 +135,7 @@ export default class Note extends React.Component {
 
 If you drag a `Note` now, you should see some debug prints at console. We are still missing some vital logic to make this all work.
 
-W> Note that React DnD doesn't support hot loading perfectly so you may need to refresh browser to see prints you expect!
+W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh browser to see prints you expect!
 
 ## Developing `onMove` API for Notes
 
@@ -265,7 +265,7 @@ You should see the same prints as earlier. Next we'll need to add some logic to 
 
 ## Implementing Note Drag and Drop Logic
 
-Moving within a lane itself is more complicated because given you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations in count. Therefore I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
+Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations in count. As a result I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
 
 It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note and then we `splice` it to the target lane. Again, `update` could work here but I didn't see much point in that given `splice` is nice and simple.
 
@@ -316,11 +316,11 @@ export default class LaneStore {
 }
 ```
 
-If you try out the application now, you can actually drag notes around and it should behave as you expect. You cannot, however, drag notes to an empty lane.
+If you try out the application now, you can actually drag notes around and it should behave as you expect. You cannot drag notes to an empty lane yet, though.
 
 ## Dragging Notes to an Empty Lanes
 
-In order to drag notes to an empty lane we should allow lanes to receive notes. Just as above we can set up `DropTarget` based logic for this. First we need to capture the drag on `Lane`. It's the same idea as earlier.
+To drag notes to an empty lane we should allow lanes to receive notes. Just as above we can set up `DropTarget` based logic for this. First we need to capture the drag on `Lane`. It's the same idea as earlier.
 
 **app/components/Lane.jsx**
 
@@ -451,4 +451,4 @@ In this chapter you saw how to implement drag and drop for our little applicatio
 
 I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending DnD implementation you can try adding more data to the system.
 
-The next chapters go into advanced topics we have so far glanced over. They are more theoretical in nature and should give you further ideas to integrate into your development workflow.
+In the next chapter we'll set up a production level build for our application. You can use the same techniques in your own projects.
