@@ -121,7 +121,7 @@ T> Note that you can pass a custom template to `html-webpack-plugin`. In our cas
 
 ## Setting Up `webpack-dev-server`
 
-Now that we have the basic building blocks together we can set up a development server. `webpack-dev-server` is a development server designed particularly development in mind. It will deal with refreshing browser as you develop.
+Now that we have the basic building blocks together, we can set up a development server. `webpack-dev-server` is a development server that automatically refreshes content in the browser while you develop your application.
 
 This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is hot module reloading (HMR). We'll discuss it when we go through React.
 
