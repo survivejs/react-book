@@ -14,28 +14,15 @@ The repository has been split in two main parts: `manuscript` and `project_sourc
 
 There is no single right way to approach the book. It depends on your experience level and interest. You can build the project from scratch by following the book or you can start from a specific stage. Just pick the source from previous chapter as your starting point.
 
-## Bonus Chapters?
-
-It is possible new content will be developed to the book. This depends on your support. You can see some potential ideas below.
-
-Chapter | Description | Progress | Notes
---- | --- | --- | ---
-Routing with react-router | Extending further (multiple boards, charts) | 0% | It might be nice to discuss routing and expand the app while at it
-Backend | This would discuss the usage of Webpack on backend. REST API on top of Express and Swagger? | 5% | [Tech demo](https://github.com/bebraw/swagger-todo)
-Isomorphism | How to go isomorphic with the app. Discuss benefits and possible gotchas. | 0% |
-Performance | Performance strategies for Webpack and React | 0% | |
-Testing | Testing approaches/tools for Webpack and React | 0% | |
-Internationalization etc. | i18n/l10n/a11y | 0% | Gathering ideas
-Debugging Webpack | Various debugging strategies for Webpack | 0% | Need to go through various strategies and develop tooling
-Data trees (baobab) | How to port the application to Baobab | 0% | I had some material on this initially but went with Alt instead as it felt simpler and more fitting for the book
-
 ## Contributing
 
 Feedback is welcome. You can provide it through [the issue tracker](https://github.com/survivejs/webpack_react/issues).
 
-## Generating Ebooks
+## Generating PDF
 
-It is possible to generate an ebook version through Calibre. Make sure you have it installed before trying the generation script. You can get it from [Calibre site](http://calibre-ebook.com/download) or alternatively you can use the package manager of your operating system (Homebrew-cask for Mac, `sudo apt-get install calibre calibre-bin` for Ubuntu). If you use Homebrew-cask, you may need to add the Calibre CLI to your PATH (e.g. `export PATH=$PATH://opt/homebrew-cask/Caskroom/calibre/2.31.0/calibre.app/Contents/MacOS`).
+If you want a rough pdf version, you can generate one through Calibre. It won't look as pretty as [the official version](https://leanpub.com/survivejs_webpack) and will be missing some content. That said it's better than nothing if you cannot afford the full monty for a reason or another. I'm not blaming you. :)
+
+Make sure you have Calibre installed before trying the generation script. You can get it from [Calibre site](http://calibre-ebook.com/download) or alternatively you can use the package manager of your operating system (Homebrew-cask for Mac, `sudo apt-get install calibre calibre-bin` for Ubuntu). If you use Homebrew-cask, you may need to add the Calibre CLI to your PATH (e.g. `export PATH=$PATH://opt/homebrew-cask/Caskroom/calibre/2.31.0/calibre.app/Contents/MacOS`).
 
 To generate a pdf version of the book, hit `npm install` and `npm start`. After that you should have `./book.pdf`.
 
