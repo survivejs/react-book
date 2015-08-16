@@ -1,8 +1,8 @@
 # Developing with Webpack
 
-If you are not one of those people who likes to skip introductions, you might have some clue what Webpack is. In its simplicity it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
+If you are not one of those people who likes to skip the introductions, you might have some clue what Webpack is. In its simplicity, it is a module bundler. It takes a bunch of assets in and outputs assets you can give to your client.
 
-This sounds simple but in practice it can be a complicated and messy process. You definitely don't want to deal with all the details yourself. This is where Webpack fits in. Next we'll get Webpack set up and your first project running in development mode.
+This sounds simple, but in practice, it can be a complicated and messy process. You definitely don't want to deal with all the details yourself. This is where Webpack fits in. Next, we'll get Webpack set up and your first project running in development mode.
 
 ## Setting Up the Project
 
@@ -15,17 +15,17 @@ npm init
 # hit return a few times till you have gone through the questions
 ```
 
-As a result you should have `package.json` at your project root. If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
+As a result, you should have `package.json` at your project root. If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
 
 ## Installing Webpack
 
-Next you should get Webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain Webpack's version per project. Hit
+Next, you should get Webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain Webpack's version per project. Hit
 
 > npm i webpack node-libs-browser --save-dev
 
 T> `node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically. It's a good idea to have it installed to be future-proof.
 
-This is a good opportunity to try to run Webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version print, link to the cli guide and a long list of options. We won't be using most of those but it's good to know that this tool is packed with functionality if nothing else.
+This is a good opportunity to try to run Webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version print, link to the cli guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality if nothing else.
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation). It is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler. This way you have direct control over the version you are running.
 
@@ -46,7 +46,7 @@ As projects with just `package.json` are boring, we should set up something more
 - package.json
 - webpack.config.js
 
-In this case we'll generate `bundle.js` using Webpack based on our `/app`. To make this possible, let's set up some assets and `webpack.config.js`.
+In this case, we'll generate `bundle.js` using Webpack based on our `/app`. To make this possible, let's set up some assets and `webpack.config.js`.
 
 ## Setting Up Assets
 
@@ -64,7 +64,7 @@ module.exports = function () {
 };
 ```
 
-Next we are going to need an entry point for our application. It will simply `require` our component and render it through DOM.
+Next, we are going to need an entry point for our application. It will simply `require` our component and render it through DOM.
 
 **app/main.js**
 
@@ -111,13 +111,13 @@ module.exports = {
 };
 ```
 
-Given Webpack expects absolute paths we have some good options here. I like to use `path.resolve` but `path.join` would be a good alternative. `path.resolve` is equal to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
+Given Webpack expects absolute paths we have some good options here. I like to use `path.resolve`, but `path.join` would be a good alternative. `path.resolve` is equal to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
 If you hit `node_modules/.bin/webpack` now you should see a Webpack build. You can serve */build* through a dummy server such as *serve* (`npm i serve -g`). Examine the results in a browser.
 
 Even though this is nice it's not useful for development. We can set up something far better for development usage.
 
-T> Note that you can pass a custom template to `html-webpack-plugin`. In our case the default template it uses is fine for our purposes for now.
+T> Note that you can pass a custom template to `html-webpack-plugin`. In our case, the default template it uses is fine for our purposes for now.
 
 ## Setting Up `webpack-dev-server`
 
@@ -129,7 +129,7 @@ Hit
 
 > npm i webpack-dev-server --save-dev
 
-at the project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at `package.json`. In this case the following configuration is enough:
+at the project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at `package.json`. The following configuration is enough:
 
 **package.json**
 
@@ -216,7 +216,7 @@ module.exports = {
 };
 ```
 
-The configuration we added means that files ending with `css` should invoke given loaders. `test` matches against a regular expression. The loaders are evaluated from right to left. In this case *css-loader* gets evaluated first and to *style-loader* after that. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* deals with `require` statements in our JavaScript. Similar approach works with CSS preprocessors.
+The configuration we added means that files ending with `css` should invoke given loaders. `test` matches against a regular expression. The loaders are evaluated from right to left. In this case, *css-loader* gets evaluated first and to *style-loader* after that. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* deals with `require` statements in our JavaScript. Similar approach works with CSS preprocessors.
 
 W> If `include` isn't set, Webpack will traverse all files within the base directory. This can hurt performance! It is a good idea to set up `include` always. There's also `exclude` option that may come in handy.
 
@@ -248,7 +248,7 @@ Open up *main.css* and change the background color to something like `lime` (`ba
 
 To make room for later production configuration we can prepare our current one for it. There are many ways to approach the problem. Some people prefer to write a separate configuration file per target. They write factory functions to share configuration. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
 
-This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a Webpack based library that wraps common scenarios into an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process but sometimes that can be acceptable.
+This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a Webpack based library that wraps common scenarios into an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process, but sometimes that can be acceptable.
 
 T> Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon Webpack and React and hides a lot of the complexity from the user.
 
@@ -262,7 +262,7 @@ As discussed we'll be using a custom `merge` function for sharing configuration 
 
 to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch and merge based on that. We'll expand these in the coming chapters.
 
-To improve debuggability of the application we can set up sourcemaps while we are at it. These allow you to get proper debug information at the browser. You'll see exactly where an error was raised for instance. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
+To improve debuggability of the application, we can set up sourcemaps while we are at it. These allow you to get proper debug information at the browser. You'll see exactly where an error was raised for instance. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
 
 **webpack.config.js**
 
@@ -312,7 +312,7 @@ if(TARGET === 'start' || !TARGET) {
 
 `if(TARGET === 'start' || !TARGET) {` provides a default in case we're running outside of npm.
 
-If you run the development build now using `npm start`, Webpack will generate sourcemaps. Webpack provides many different ways to generate them as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). In this case we're using `eval-source-map`. It builds slowly initially but it provides fast rebuild speed and yields real files.
+If you run the development build now using `npm start`, Webpack will generate sourcemaps. Webpack provides many different ways to generate them as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). In this case, we're using `eval-source-map`. It builds slowly initially, but it provides fast rebuild speed and yields real files.
 
 Faster development specific options such as `cheap-module-eval-source-map` and `eval` produce lower quality sourcemaps. Especially `eval` is fast and is the most suitable for large projects.
 
@@ -326,4 +326,4 @@ I discuss linting in detail in the *Linting in Webpack* chapter. Consider integr
 
 ## Conclusion
 
-In this chapter you learned to build an effective development configuration using Webpack. Webpack deals with the heavy lifting for you now. The current setup can be expanded to support more scenarios. Next we will see how to expand it to work with React.
+In this chapter you learned to build an effective development configuration using Webpack. Webpack deals with the heavy lifting for you now. The current setup can be expanded to support more scenarios. Next, we will see how to expand it to work with React.

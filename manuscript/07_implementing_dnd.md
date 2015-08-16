@@ -8,9 +8,9 @@ Before going further hit
 
 > npm i react-dnd --save
 
-to add React DnD to the project. Next we'll need to patch our application to use it. React DnD supports the idea of backends. This means it is possible to adapt it to work on different platforms. Even a testing backend is feasible. As of writing it supports only HTML5 Drag and Drop API based backend. As a result the application won't work on touch yet.
+to add React DnD to the project. Next, we'll need to patch our application to use it. React DnD supports the idea of back-ends. This means it is possible to adapt it to work on different platforms. Even a testing back-end is feasible. As of writing it supports only HTML5 Drag and Drop API based back-end. As a result, the application won't work on touch yet.
 
-To get started we'll need to hook up React DnD's HTML5Backend with our `App`. After this has been done we can start worrying about actual functionality.
+To get started, we'll need to hook up React DnD's HTML5Backend with our `App`. After this has been done we can start worrying about actual functionality.
 
 **app/components/App.jsx**
 
@@ -31,7 +31,7 @@ After this change the application should look exactly the same as before. We are
 
 ## Preparing Notes to Be Sorted
 
-Next we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll want to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
+Next, we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll want to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
 
 Earlier we extracted editing functionality from `Note` and ended up dropping `Note`. It seems like we'll want to add that concept back if only for decoration purposes.
 
@@ -74,7 +74,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-After this change the application should look exactly same as before. We have achieved nothing yet. Fortunately we can start adding functionality now that we have foundation in place.
+After this change the application should look exactly same as before. We have achieved nothing yet. Fortunately, we can start adding functionality now that we have foundation in place.
 
 ## Allowing Notes to Be Dragged
 
@@ -88,9 +88,9 @@ export default {
 };
 ```
 
-We'll expand this definition later as we add new types to the system. Next we need to tell our `Note` that it's possible to drag and drop it.
+We'll expand this definition later as we add new types to the system. Next, we need to tell our `Note` that it's possible to drag and drop it.
 
-We will be relying on `DragSource` and `DropTarget` decorators. In our case `Note` is both. After all we'll want to be able to sort them. Both decorators give us access to `Note` props. In addition, we can access the source `Note` through `monitor.getItem()` at `noteTarget` while `props` map to target.
+We will be relying on `DragSource` and `DropTarget` decorators. In our case, `Note` is both. After all we'll want to be able to sort them. Both decorators give us access to `Note` props. In addition, we can access the source `Note` through `monitor.getItem()` at `noteTarget` while `props` map to target.
 
 **app/components/Note.jsx**
 
@@ -207,7 +207,7 @@ If you drag a `Note` around now, you should see prints like `source [Object] tar
 
 The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
-In our case we'll get some extra complexity due to lane to lane dragging. Note that when we move a `Note` we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`.
+In our case, we'll get some extra complexity due to lane to lane dragging. Note that when we move a `Note` we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`.
 
 **app/actions/LaneActions.jsx**
 
@@ -261,13 +261,13 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-You should see the same prints as earlier. Next we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about. Moving within a lane itself and moving from lane to another.
+You should see the same prints as earlier. Next, we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about. Moving within a lane itself and moving from lane to another.
 
 ## Implementing Note Drag and Drop Logic
 
-Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations in count. As a result I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
+Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations in count. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
 
-It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note and then we `splice` it to the target lane. Again, `update` could work here but I didn't see much point in that given `splice` is nice and simple.
+It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple.
 
 Note that these operations will mutate our `lanes` structure. At least we have the mutation contained now and it won't leak out of the store. It is possible to implement the same algorithm without mutation.
 
@@ -374,14 +374,14 @@ const noteTarget = {
 
 If you refresh your browser and drag around now, the print should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
 
-Next we'll need to trigger logic that can perform the move operation. We have some actions we can apply for this purpose. Remember those attach/detach actions we implemented earlier? To remind you of their signatures they look like this:
+Next, we'll need to trigger logic that can perform the move operation. We have some actions we can apply for this purpose. Remember those attach/detach actions we implemented earlier? To remind you of their signatures they look like this:
 
 * `LaneStore.attachToLane({laneId, noteId})`
 * `LaneStore.detachFromLane({laneId, noteId})`
 
 By the looks of it we have enough data to perform `attachToLane`. `detachFromLane` is more problematic as we would need to know where to detach the note from. There are a couple of ways to solve this problem. We could pass lane id to `Note` through the hierarchy. This doesn't feel particularly nice, though.
 
-Instead it feels more reasonable to solve this on store level. We can have the nasty logic there. Given a note can belong to only a single lane in our system we can enforce this rule at `attachToLane`. We simply remove the note before attaching it should it exist somewhere within the system.
+Instead, it feels more reasonable to solve this on store level. We can have the nasty logic there. Given a note can belong to only a single lane in our system we can enforce this rule at `attachToLane`. We simply remove the note before attaching it should it exist somewhere within the system.
 
 The `noteTarget` part of this is simple. We need to trigger `LaneActions.attachToLane` using the ids we know based on the data we have available.
 

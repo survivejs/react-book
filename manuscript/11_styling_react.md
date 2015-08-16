@@ -1,12 +1,12 @@
 # Styling React
 
-Traditionally web pages have been split up in markup (e.g. HTML), styling (e.g. CSS) and logic (e.g. JavaScript). Even though this sounds simple in practice there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
+Traditionally web pages have been split up in markup (e.g. HTML), styling (e.g. CSS) and logic (e.g. JavaScript). Even though this sounds simple in practice, there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
 
 With React styling is still in bit of a flux and we're still figuring out the best ways to deal with it. Some patterns have begun to emerge, however. Perhaps some of the ideas will stick. It is hard to give any specific recommendations as it is dependent on the case and the way you like to work.
 
 ## Old School Styling
 
-The old school approach to styling was to sprinkle some ids and classes around, set up rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default everything is global in CSS. Furthermore nesting definitions (e.g. `.main .sidebar .button`) creates implicit logic to your styling.
+The old school approach to styling was to sprinkle some ids and classes around, set up rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default, everything is global in CSS. Furthermore nesting definitions (e.g. `.main .sidebar .button`) creates implicit logic to your styling.
 
 ### Webpack Configuration for Vanilla CSS
 
@@ -43,7 +43,7 @@ Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://
 
 ### BEM
 
-BEM originates from Yandex. They realized the traditional way of dealing with CSS isn't enough. As a result they decided to do something about it. The goal of BEM is to allow reusable components and code sharing through that. Sites such as [Get BEM](http://getbem.com/) help you to understand the methodology in more detail.
+BEM originates from Yandex. They realized the traditional way of dealing with CSS isn't enough. As a result, they decided to do something about it. The goal of BEM is to allow reusable components and code sharing through that. Sites such as [Get BEM](http://getbem.com/) help you to understand the methodology in more detail.
 
 Maintaining long class names BEM requires can be arduous. Thus various libraries have appeared to make this easier. For React examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render) and [bem-react](https://www.npmjs.com/package/bem-react).
 
@@ -63,7 +63,7 @@ On the downside once you adopt one you are pretty much stuck with that on your p
 
 The methodologies also bring their own quirks (e.g. complex naming schemes). This may make certain things more complicated than they have to be. They don't necessarily solve any of the bigger underlying issues. They rather provide patches around them.
 
-There are various approaches that go deeper and solve some of these fundamental problems. That said it's not an either-or proposition. You may adopt a methodology even if you use some preprocessor.
+There are various approaches that go deeper and solve some of these fundamental problems. That said, it's not an either-or proposition. You may adopt a methodology even if you use some preprocessor.
 
 ## cssnext, Less, Sass
 
@@ -73,7 +73,7 @@ Vanilla CSS is missing some functionality that would make maintenance work easie
 
 ![cssnext](images/cssnext.jpg)
 
-[cssnext](https://cssnext.github.io/) is a project that allows us to experience the future now. There are some restrictions but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case you would end up with the following:
+[cssnext](https://cssnext.github.io/) is a project that allows us to experience the future now. There are some restrictions but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case, you would end up with the following:
 
 ```javascript
 {
@@ -124,7 +124,7 @@ In our project we could benefit from cssnext even if we didn't make any changes 
 
 ## React Based Approaches
 
-With React we have some additional alternatives. What if the way we've been thinking about styling has been misguided? CSS is powerful but it can become an unmaintainable mess without some discipline. Where to draw the line between CSS and JavaScript?
+With React we have some additional alternatives. What if the way we've been thinking about styling has been misguided? CSS is powerful, but it can become an unmaintainable mess without some discipline. Where to draw the line between CSS and JavaScript?
 
 There are various approaches for React that allow us to push styling to component level. It may sound heretical. React, being an iconoclast, may lead the way here.
 
@@ -165,7 +165,7 @@ We have lost something in process, though. Now all of our styling is tied to our
 
 We can try to work against this by injecting a part of styling through props. A component could provide patch its style based on provided one. This can be improved further by coming up with conventions that allow parts of style configuration mapped to some specific part. We just reinvented selectors on a small scale.
 
-How about things like media queries? This naive approach won't quite cut it. Fortunately people have come up with libraries to solve these tough problems for us.
+How about things like media queries? This naive approach won't quite cut it. Fortunately, people have come up with libraries to solve these tough problems for us.
 
 According to Michele Bertoli basic features of these libraries are
 
@@ -245,9 +245,9 @@ const styles = StyleSheet.create({
 <button styles={[styles.button, styles.primary]}>Confirm</button>
 ```
 
-As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (e.g. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead it's preferred to use some other solution for that.
+As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (e.g. `:hover` and such) through JavaScript. Also CSS animations won't work. Instead, it's preferred to use some other solution for that.
 
-Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to but without cascades. We also have our style declarations on component level.
+Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to, but without cascades. We also have our style declarations on component level.
 
 ### smart-css
 
@@ -303,7 +303,7 @@ class ConfirmButton extends React.Component {
 }
 ```
 
-Unlike React Style, the approach supports browser states (e.g. `:hover` etc.). Unfortunately it relies on its own custom tooling to generate React code and CSS it needs to work. As of yet there's no Webpack loader available.
+Unlike React Style, the approach supports browser states (e.g. `:hover` etc.). Unfortunately, it relies on its own custom tooling to generate React code and CSS it needs to work. As of yet, there's no Webpack loader available.
 
 ### jsxstyle
 
@@ -317,7 +317,7 @@ Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate so
 >Confirm</button>
 ```
 
-The approach is still in its early days. For instance support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
+The approach is still in its early days. For instance, support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
 
 Just like React Style, also jsxstyle comes with a Webpack loader that can extract CSS into a separate file.
 
@@ -368,8 +368,8 @@ As you can see, this approach provides a balance between what people are familia
 
 It is simple to try out various styling approaches with Webpack. You can do it all ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
 
-React based styling approaches allow us to push styles to component level. This provides an interesting contrast to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS but in return you gain something that is simpler to understand. It is also harder to break.
+React based styling approaches allow us to push styles to component level. This provides an interesting contrast to conventional approaches where CSS is kept separate. Dealing with component specific logic becomes easier. You will lose some power provided by CSS. In return you gain something that is simpler to understand. It is also harder to break.
 
 CSS Modules strike in between conventional approach and React specific approaches. Even though it's a newcomer, it shows a lot of promise. The biggest benefit seems to be that it doesn't lose too much in the process. It's a nice step ahead from what was before.
 
-There are no best practices yet and we are still figuring out the best ways to do this in React. You will likely have to do some experimentation of your own to figure out what ways fit your use case the best.
+There are no best practices yet, and we are still figuring out the best ways to do this in React. You will likely have to do some experimentation of your own to figure out what ways fit your use case the best.

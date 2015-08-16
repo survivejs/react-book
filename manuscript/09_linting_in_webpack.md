@@ -14,9 +14,7 @@ In this chapter I'll go through these tools briefly. We'll integrate just ESLint
 
 ## Webpack and JSHint
 
-Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately there's one for JSHint. On a legacy project setting it up with Webpack is easy. We won't be using it for our application but it's a good thing to know. At least you'll see some familiar patterns.
-
-You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition, you will need a little bit of configuration.
+Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. On a legacy project setting it up with Webpack is easy. You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition, you will need a little bit of configuration.
 
 ```javascript
 module: {
@@ -64,7 +62,7 @@ Besides setting it up with Webpack it can be highly beneficial to look into an i
 
 ![ESLint](images/eslint.png)
 
-[ESLint](http://eslint.org/) is a recent linting solution for JavaScript. It builds on top of ideas presented by JSLint and JSHint. Most importantly it allows you to develop custom rules. As a result a nice set of rules have been developed for React in form of [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react).
+[ESLint](http://eslint.org/) is a recent linting solution for JavaScript. It builds on top of ideas presented by JSLint and JSHint. Most importantly it allows you to develop custom rules. As a result, a nice set of rules have been developed for React in form of [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react).
 
 ### Connecting ESlint with `package.json`
 
@@ -72,7 +70,7 @@ In order to integrate ESLint with our project, we'll need to do a couple of litt
 
 > npm i babel-eslint eslint eslint-plugin-react --save-dev
 
-This will add ESLint and the plugin we want to use as our project development dependency. Next we'll need to do some configuration to make linting work in our project.
+This will add ESLint and the plugin we want to use as our project development dependency. Next, we'll need to do some configuration to make linting work in our project.
 
 **package.json**
 
@@ -92,7 +90,7 @@ This will trigger ESLint against all JS and JSX files of our project. That's def
 build/
 ```
 
-Next we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. You'll find more information about the rules at [the official rule documentation](http://eslint.org/docs/rules/).
+Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. You'll find more information about the rules at [the official rule documentation](http://eslint.org/docs/rules/).
 
 **.eslintrc**
 
@@ -140,7 +138,7 @@ T> It is possible to generate a sample `.eslintrc` using `eslint --init` (or `no
 
 In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error. A good way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit. You can define an alias for this purpose. At Unix you would do `alias run='npm run --silent'` and then `run <script>`.
 
-Alternatively you could pipe output to `true` like this:
+Alternatively, you could pipe output to `true` like this:
 
 **package.json**
 
@@ -160,7 +158,7 @@ We can make Webpack emit ESLint messages for us by using [eslint-loader](https:/
 
 > npm i eslint-loader --save-dev
 
-Next we need to tweak our development configuration to include it. Add the following section to it:
+Next, we need to tweak our development configuration to include it. Add the following section to it:
 
 **webpack.config.js**
 
@@ -192,7 +190,7 @@ If you execute `npm start` now and break some linting rule while developing, you
 
 ## Customizing ESLint
 
-Even though you can get very far with vanilla ESLint there are several techniques you should be aware of. For instance sometimes you might want to skip some particular rules per file. You might even want to implement rules of your own. We'll cover these cases briefly next.
+Even though you can get very far with vanilla ESLint there are several techniques you should be aware of. For instance, sometimes you might want to skip some particular rules per file. You might even want to implement rules of your own. We'll cover these cases briefly next.
 
 ### Skipping ESLint Rules
 
@@ -228,7 +226,7 @@ Note that the rule specific examples assume you have the rules in your configura
 
 ESLint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools such as [recast](https://github.com/benjamn/recast) that allow you perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
 
-To get a better idea of how AST works and what it looks like you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [JS AST Explorer by Felix Kling](http://felix-kling.de/esprima_ast_explorer/). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with at ESLint rules.
+To get a better idea of how AST works and what it looks like you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [JS AST Explorer by Felix Kling](http://felix-kling.de/esprima_ast_explorer/). Alternatively, you can install `recast` and examine the output it gives. That is the structure we'll be working with at ESLint rules.
 
 In ESLint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
@@ -252,13 +250,13 @@ module.exports = {
 };
 ```
 
-In this case we just report for every identifier found. In practice you'll likely want to do something more complex than this but this is a good starting point.
+In this case, we just report for every identifier found. In practice, you'll likely want to do something more complex than this, but this is a good starting point.
 
-Next you need to hit `npm link` within `eslint-plugin-custom`. This will make your plugin visible within your system. `npm link` allows you to consume easily a development version of a library you are developing. To reverse the link you can hit `npm unlink` when you feel like it.
+Next, you need to hit `npm link` within `eslint-plugin-custom`. This will make your plugin visible within your system. `npm link` allows you to consume easily a development version of a library you are developing. To reverse the link you can hit `npm unlink` when you feel like it.
 
 T> If you want to do something serious, you should point to your plugin through `package.json`.
 
-Next we need to alter our project configuration to make it to find the plugin and the rule within.
+We need to alter our project configuration to make it to find the plugin and the rule within.
 
 **.eslintrc**
 
@@ -289,11 +287,11 @@ If you just want some starting point, you can pick one of [eslint-config- packag
 
 ## Linting CSS
 
-[csslint](https://www.npmjs.com/package/csslint) allows us to lint CSS. [csslint-loader](https://www.npmjs.com/package/csslint-loader) makes it possible to integrate it into our project. To get started hit
+[csslint](https://www.npmjs.com/package/csslint) allows us to lint CSS. [csslint-loader](https://www.npmjs.com/package/csslint-loader) makes it possible to integrate it into our project. To get started, hit
 
 > npm i csslint csslint-loader --save-dev
 
-Next we'll need to integrate it with our configuration:
+Next, we'll need to integrate it with our configuration:
 
 **webpack.config.js**
 
@@ -367,7 +365,7 @@ Thanks to the Webpack configuration we did, you should get output during `npm st
 
 ![JSCS](images/jscs.png)
 
-Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short it can get pretty messy without any discipline. Fortunately there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project but it's good to be aware of it.
+Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short, it can get pretty messy without any discipline. Fortunately, there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project, but it's good to be aware of it.
 
 [jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define `.jscsrc` with your style guide rules and use configuration like this:
 

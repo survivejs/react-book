@@ -1,6 +1,6 @@
 # Authoring Libraries
 
-[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Initially it was used mostly for managing backend packages. It has become increasingly popular in frontend development. As you have seen so far it is easy to consume npm packages using webpack.
+[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Initially it was used mostly for managing back-end packages. It has become increasingly popular in front-end development. As you have seen so far it is easy to consume npm packages using webpack.
 
 Eventually you might want to publish your own packages. You can consider our demo application a package of its own, sort of. We could even design applications to be pluggable so that you could glue them into a bigger whole. This would take some careful thought. In theory you could split everything up in smaller sections which you then knit together.
 
@@ -17,8 +17,8 @@ In bigger projects you may find the following:
 
 * `CONTRIBUTING.md` - A guide for potential contributors. How should the code be developed and so on.
 * `CHANGELOG.md` - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history provided you write nice enough commits.
-* `.travis.yml` - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course but Travis is very popular.
-* `bower.json` - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for frontend. That said, just providing npm support is often enough.
+* `.travis.yml` - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course, but Travis is very popular.
+* `bower.json` - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for front-end. That said, just providing npm support is often enough.
 * `.gitignore` - Ignore patterns for Git. I.e. which file shouldn't go to version control.
 * `.eslintignore` - Ignore patterns for ESLint. Again, tool specific.
 * `.npmignore` - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
@@ -132,7 +132,7 @@ T> It can be useful to use `npm link` during development. That will allow you to
 
 Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
 
-An alternative way to consume a library is to point at it directly at `package.json`. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag or branch. This can be useful especially if you need to hack around something and cannot wait for a fix.
+An alternative way to consume a library is to point at it directly at `package.json`. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
 
 ## Respect the SemVer
 
@@ -196,7 +196,7 @@ exports.distMin = mergeDist({
 
 T> The example uses the same `merge` utility we defined earlier on. You should check [the boilerplate](https://github.com/bebraw/react-component-boilerplate) itself for exact configuration.
 
-Most of the magic happens thanks to `devtool` and `output` declarations. In addition, I have set up `externals` as I want to avoid bundling React into my library. Instead if will be loaded as an external dependency using the naming defined in the mapping.
+Most of the magic happens thanks to `devtool` and `output` declarations. In addition, I have set up `externals` as I want to avoid bundling React into my library. Instead, it will be loaded as an external dependency using the naming defined in the mapping.
 
 ## npm Lifecycle Hooks
 

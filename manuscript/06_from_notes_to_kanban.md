@@ -8,7 +8,7 @@ Most importantly our system is missing the concept of Lane. A Lane is something 
 
 ## Extracting `Lanes`
 
-As earlier we can use the same idea of two components here. There will be a component for higher level (i.e. `Lanes`) and for lower level (i.e. `Lane`). The higher level component will deal with lane ordering. A `Lane` will render itself (i.e. name and `Notes`) and have basic manipulation operations.
+As earlier, we can use the same idea of two components here. There will be a component for higher level (i.e. `Lanes`) and for lower level (i.e. `Lane`). The higher level component will deal with lane ordering. A `Lane` will render itself (i.e. name and `Notes`) and have basic manipulation operations.
 
 Just as with Notes we are going to need a set of actions. For now it is enough if we can just create new lanes so we can create a corresponding action for that as below:
 
@@ -70,7 +70,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions and store needed. Consider the example below:
+Next, we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions and store needed. Consider the example below:
 
 **app/components/App.jsx**
 
@@ -187,7 +187,7 @@ Currently our `Lane` model is very simple. We are just storing an array of objec
 
 This means we'll need to extend the system to support this. When we `addNote()`, it's not enough to just add it `NoteStore`. We'll need to associate it with the `Lane` in question as well. We are going to need a new action for this. We can call it `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`.
 
-The problem with `attachToLane` is that we are going to need some way to pass the id of the newly created `Note` to the `Lane`. Fortunately Flux architecture provides a small utility for dealing with data dependencies like this. This is known as `waitFor`. In short we can wait for `addNote` to complete before we try to create the association.
+The problem with `attachToLane` is that we are going to need some way to pass the id of the newly created `Note` to the `Lane`. Fortunately, Flux architecture provides a small utility for dealing with data dependencies like this. This is known as `waitFor`. In short, we can wait for `addNote` to complete before we try to create the association.
 
 In addition to `attachToLane` we are going to need a way to detach a `Note` from a `Lane`. `Notes` can be deleted after all and we don't want to have dead data hanging around. For this purpose we need to implement `LaneActions.detachFromLane({laneId: <id>, noteId: <id>})`.
 
@@ -272,7 +272,7 @@ export default alt.createStore(LaneStore, 'LaneStore');
 
 It is a lot of code. In order to make it easier to track possible problems it has been written defensively. Hence the extensive logging.
 
-Finally we need to make `Lane` to trigger `attachToLane` and `detachLane`. We also need to display `Notes` associated with a `Lane`.
+Finally, we need to make `Lane` to trigger `attachToLane` and `detachLane`. We also need to display `Notes` associated with a `Lane`.
 
 **app/components/Lane.jsx**
 
@@ -358,17 +358,17 @@ After these changes we have set up a system that can maintain relations between 
 
 ### Alternative Designs
 
-There are a couple of alternatives to the current design. The data structure it uses is convenient. This is true especially for lane related operations (e.g. moving notes). `Lanes` know which `Notes` they contain.
+There are a couple of alternatives to the current design. The data structure, it uses is convenient. This is true particularly for lane related operations (e.g. moving notes). `Lanes` know which `Notes` they contain.
 
-This will be important as we implement drag and drop. Incidentally the current structure would work nicely with a backend. The current structures would map neatly to a RESTful API. We would have resources for both `Lanes` and `Notes`. Each action would then operate through these directly using standard CRUD interface.
+This will be important as we implement drag and drop. Incidentally the current structure would work nicely with a back-end. The current structures would map neatly to a RESTful API. We would have resources for both `Lanes` and `Notes`. Each action would then operate through these directly using standard CRUD interface.
 
-That said the current solution isn't ideal. There's a fair amount of complexity. Especially having to track relations is a little painful. One way to deal with this problem would be to drop `notes` array from `Lane` level and inverse the relation. This means a `Note` would have to know into which `Lane` it belongs. It would also have to know its position. In our current solution position is given by the location in `notes` array.
+That said, the current solution isn't ideal. There's a fair amount of complexity. Especially, having to track relations is a little painful. One way to deal with this problem would be to drop `notes` array from `Lane` level and inverse the relation. This means a `Note` would have to know into which `Lane` it belongs. It would also have to know its position. In our current solution position is given by the location in `notes` array.
 
-This change would push our problems elsewhere. We would still have to resolve which `Notes` belong to a `Lane`. In addition, we would have to resolve their order. Ordering operations would become harder to pull off. Integrating with a backend would become more challenging due to the mapping. By pushing references to the `Note` we could drop those `attach` and `detach` parts. That would simplify reference handling somewhat.
+This change would push our problems elsewhere. We would still have to resolve which `Notes` belong to a `Lane`. In addition, we would have to resolve their order. Ordering operations would become harder to pull off. Integrating with a back-end would become more challenging due to the mapping. By pushing references to the `Note` we could drop those `attach` and `detach` parts. That would simplify reference handling somewhat.
 
-We could also consider modeling `NoteStores` as individual instances. In this case each `Lane` would be associated with a `NoteStore` of its own. Again, the problem with relations would disappear. We would still have to manage these stores, though. This would tie `NoteStores` to components tightly. It goes against the basic principles of Flux. It is considered a Flux anti-pattern.
+We could also consider modeling `NoteStores` as individual instances. In this case, each `Lane` would be associated with a `NoteStore` of its own. Again, the problem with relations would disappear. We would still have to manage these stores, though. This would tie `NoteStores` to components tightly. It goes against the basic principles of Flux. It is considered a Flux anti-pattern.
 
-Sometimes there's no clear cut way way to deal with data modeling. It is even possible Flux isn't the right architecture for this application. Flux works well with flat structures. Once you get dynamic nesting like in this case, it might start to get a little complicated. It is possible better solutions appear as people get more experienced with it. The solution I'm presenting here is just one possibility amongst many.
+Sometimes there's no clear cut way to deal with data modeling. It is even possible Flux isn't the right architecture for this application. Flux works well with flat structures. Once you get dynamic nesting like in this case, it might start to get a little complicated. It is possible better solutions appear as people get more experienced with it. The solution I'm presenting here is just one possibility amongst many.
 
 ## Implementing Edit/Remove for `Lane`
 
@@ -423,7 +423,7 @@ export default class Editable extends React.Component {
 }
 ```
 
-Next we need to make `Notes.jsx` point at this component. We'll need to alter the import and component name at `render()`.
+Next, we need to make `Notes.jsx` point at this component. We'll need to alter the import and component name at `render()`.
 
 **app/components/Notes.jsx**
 
@@ -446,7 +446,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-Next we can use this generalized component to allow `Lane` name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
+Next, we can use this generalized component to allow `Lane` name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
 
 **app/components/Lane.jsx**
 
@@ -476,7 +476,7 @@ export default class Lane extends React.Component {
 }
 ```
 
-If you try to edit a lane name now, you should see a print at console. Next we will need to define some logic to make this work. To follow the same idea as with `Note`, we can model the remaining CRUD actions here. We'll need to set up `update` and `delete` actions in particular.
+If you try to edit a lane name now, you should see a print at console. Next, we will need to define some logic to make this work. To follow the same idea as with `Note`, we can model the remaining CRUD actions here. We'll need to set up `update` and `delete` actions in particular.
 
 **app/actions/LaneActions.js**
 
@@ -552,7 +552,7 @@ export default class Lane extends React.Component {
 
 Try modifying a lane name now. Modifications should get saved now the same way as they do for notes. Deleting lanes should be possible as well.
 
-It probably would be possible to refactor the current implementation somewhat. You could for instance start by standardizing CRUD operations. That would likely decrease the amount of code while adding some rigidity to it. As this is a small project there's probably no need to over-engineer things so we can leave it as is. Of course you can try to push the implementation further. There are better ways to compose the functionality.
+It probably would be possible to refactor the current implementation somewhat. You could, for instance, start by standardizing CRUD operations. That would likely decrease the amount of code while adding some rigidity to it. As this is a small project, there's probably no need to over-engineer things so we can leave it as is. Of course you can try to push the implementation further. There are better ways to compose the functionality.
 
 ## Styling Kanban Board
 
@@ -608,7 +608,7 @@ body {
 
 As this is a small project we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple. One way to do this is to extract CSS per component and then refer to it there (e.g. `require('./lane.css')` at `Lane.jsx`).
 
-Besides keeping things nice and tidy Webpack's lazy loading machinery can pick this up. As a result the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling.
+Besides keeping things nice and tidy Webpack's lazy loading machinery can pick this up. As a result, the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling.
 
 ## Conclusion
 

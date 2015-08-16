@@ -8,9 +8,9 @@ T> Common editors (Sublime Text, vim, emacs, Atom etc.) have good support for Re
 
 ![React](images/react_header.png)
 
-Facebook's [React](https://facebook.github.io/react/) has changed the way we think about frontend development. Also, thanks to [React Native](https://facebook.github.io/react-native/) the approach isn't limited just to web. Although simple to learn, React provides plenty of power.
+Facebook's [React](https://facebook.github.io/react/) has changed the way we think about front-end development. Also, thanks to [React Native](https://facebook.github.io/react-native/) the approach isn't limited just to web. Although simple to learn, React provides plenty of power.
 
-React isn't a framework like Angular.js or Ember. Frameworks tend to provide a lot of solutions out of the box. With React you will have to assemble your application from separate libraries. Both approaches have their merits. Frameworks may be faster to pick up but they can become harder to work with as you hit their boundaries. In a library based approach you have more flexibility but also responsibility.
+React isn't a framework like Angular.js or Ember. Frameworks tend to provide a lot of solutions out of the box. With React you will have to assemble your application from separate libraries. Both approaches have their merits. Frameworks may be faster to pick up, but they can become harder to work with as you hit their boundaries. In a library based approach you have more flexibility, but also responsibility.
 
 React introduced a concept known as virtual DOM to web developers. React maintains a DOM of its own unlike all the libraries and frameworks before it. As changes are made to virtual DOM, React will batch the changes to actual DOM as it sees best.
 
@@ -18,7 +18,7 @@ T> Libraries such as [Matt-Esch/virtual-dom](https://github.com/Matt-Esch/virtua
 
 ### JSX and Virtual DOM
 
-React provides a [high level API](https://facebook.github.io/react/docs/top-level-api.html) for generating virtual DOM. Generating complex structures using the API becomes cumbersome fast. Thus people usually don't write it by hand. Instead they use some intermediate format that is converted into it. Facebook's [JSX](https://facebook.github.io/jsx/) is one popular format.
+React provides a [high level API](https://facebook.github.io/react/docs/top-level-api.html) for generating virtual DOM. Generating complex structures using the API becomes cumbersome fast. Thus people usually don't write it by hand. Instead, they use some intermediate format that is converted into it. Facebook's [JSX](https://facebook.github.io/jsx/) is one popular format.
 
 JSX is a superset of JavaScript that allows you to mix XMLish syntax with JavaScript. Consider the example below:
 
@@ -42,13 +42,13 @@ If you haven't seen JSX before it will likely look strange. It isn't uncommon to
 
 In JSX we are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, which is the DOM equal. Even though JSX will feel a little weird to use at first it will become second nature over time.
 
-The developers of React have decoupled themselves from the limitations of DOM. As a result React is highly performant. This comes with a cost, though. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire but it's still something.
+The developers of React have decoupled themselves from the limitations of DOM. As a result, React is highly performant. This comes with a cost, though. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire, but it's still something.
 
-T> The interesting side benefit of this approach is that React doesn't depend on DOM. In fact React can use other targets, such as [mobile](https://facebook.github.io/react-native/), [canvas](https://github.com/Flipboard/react-canvas) or [terminal](https://github.com/Yomguithereal/react-blessed). DOM just happens to be the most relevant one for web developers.
+T> The interesting side benefit of this approach is that React doesn't depend on DOM. In fact, React can use other targets, such as [mobile](https://facebook.github.io/react-native/), [canvas](https://github.com/Flipboard/react-canvas) or [terminal](https://github.com/Yomguithereal/react-blessed). DOM just happens to be the most relevant one for web developers.
 
 ### Better with Friends
 
-React isn't the smallest library out there. It does manage to solve fundamental problems, though. It is a pleasure to develop thanks to its relative simplicity and a powerful API. You will need to complement it with a set of tools but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
+React isn't the smallest library out there. It does manage to solve fundamental problems, though. It is a pleasure to develop thanks to its relative simplicity and a powerful API. You will need to complement it with a set of tools, but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
 
 The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and a layout system. It provides you the setup you already know from the web. This makes it a good gateway for web developers wanting to go mobile.
 
@@ -66,7 +66,7 @@ Babel provides support for certain [experimental features](https://babeljs.io/do
 * **Stage 3** - Candidate
 * **Stage 4** - Finished
 
-I would be especially careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk. In our project we'll enable **stage 1**. This allows us to use decorators and property spreading. These features will make our code a little tidier.
+I would be careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk. In our project we'll enable **stage 1**. This allows us to use decorators and property spreading. These features will make our code a little tidier.
 
 T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of code it generates.
 
@@ -108,7 +108,7 @@ if(TARGET === 'start' || !TARGET) {
 }
 ```
 
-Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e. `babel?stage=1`) but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
+Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e. `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
 
 **.babelrc**
 
@@ -118,7 +118,7 @@ Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/).
 }
 ```
 
-There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could for instance enable the features you want to use explicitly.
+There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could, for instance, enable the features you want to use explicitly.
 
 T> Set up `resolve.extensions = ['', '.js', '.jsx']` if you want to refer to JSX files without an extension. We will use an extension as that works well with the isomorphic solution we'll discuss later on. It also allows you to tell files apart quickly based on the `require` statement.
 
@@ -153,7 +153,7 @@ W> It is important to note that ES6 based class approach **doesn't** support aut
 
 ### Setting Up `Note`
 
-We also need to define the `Note` component. In this case we will just want to show some text like `Learn Webpack`. `Hello world` would work if you are into clichés.
+We also need to define the `Note` component. In this case, we will just want to show some text like `Learn Webpack`. `Hello world` would work if you are into clichés.
 
 **app/components/Note.jsx**
 
@@ -167,7 +167,7 @@ export default class Note extends React.Component {
 }
 ```
 
-T> Note that we're using *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary but it is a good convention to have.
+T> Note that we're using *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
 
 ### Rendering Through `main.jsx`
 
@@ -196,17 +196,17 @@ I'll be using `const` whenever possible. It will give me a guarantee that the re
 
 If I want something mutable, I'll use `let` instead. `let` is scoped to the code block and is another new feature introduced with ES6. These both are good safety measures.
 
-W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead give React a little sandbox of its own. That way everyone, including React, will stay happy.
+W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead, give React a little sandbox of its own. That way everyone, including React, will stay happy.
 
 If you hit `npm start` now, you should see something familiar at **localhost:8080**.
 
-Before moving on this is a good chance to get rid of the old `component.js` file. It might be hanging around at `app` root.
+Before moving on, this is a good chance to get rid of the old `component.js` file. It might be hanging around at `app` root.
 
 ## Activating Hot Loading for Development
 
-Note that every time you perform a modification, the browser updates with a flash. That's unfortunate because this means our application loses state. It doesn't matter yet but as we keep on expanding the application this will become painful. It is annoying to manipulate the user interface back to the state in which it was to test something.
+Note that every time you perform a modification, the browser updates with a flash. That's unfortunate because this means our application loses state. It doesn't matter yet, but as we keep on expanding the application this will become painful. It is annoying to manipulate the user interface back to the state in which it was to test something.
 
-We can work around this problem using hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/). It will swap React components one by one as they change without forcing a full refresh. There will be times when that will be necessary but it will help a lot. Once you get used to hot loading, it is hard to live without.
+We can work around this problem using hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/). It will swap React components one by one as they change without forcing a full refresh. There will be times when that will be necessary, but it will help a lot. Once you get used to hot loading, it is hard to live without.
 
 To enable hot loading for React, you should first install the package using
 
@@ -235,7 +235,7 @@ if(TARGET === 'start' || !TARGET) {
 }
 ```
 
-Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in but in practice this is a powerful feature. Small things such as this add up and make you more effective.
+Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things such as this add up and make you more effective.
 
 ## React Component Styles
 
@@ -243,11 +243,11 @@ Besides ES6 classes React allows you to construct components using `React.create
 
 When you are using `React.createClass` it is possible to inject functionality using mixins. This isn't possible in ES6 by default. Yet, you can use a helper such as [react-mixin](https://github.com/brigand/react-mixin). In later chapters we will go through various alternative approaches. They allow you to reach roughly equal results as you can achieve with mixins. Often a decorator is all you need.
 
-Also, ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's good practice to bind the context at the component constructor. We will use this convention in this book. It leads to some extra code but later on it is likely possible to refactor it out.
+Also, ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's good practice to bind the context at the component constructor. We will use this convention in this book. It leads to some extra code, but later on it is likely possible to refactor it out.
 
 The class based approach decreases the amount of concepts you have to worry about. `constructor` helps to keep things simpler than in `React.createClass` based approach. There you need to define separate methods to achieve the same result.
 
-In the future property initializers (likely `tick = () => { ... }`) will solve this neatly. In fact the proposed feature is available through Babel's **stage 0**. Enabling that may lead to other problems later on in case the features change.
+In the future property initializers (likely `tick = () => { ... }`) will solve this neatly. The proposed feature is available through Babel's **stage 0**. Enabling that may lead to other problems later on in case the features change.
 
 ## Conclusion
 

@@ -23,13 +23,13 @@ Often a good way to begin designing an application is to start with the data. We
 ];
 ```
 
-Each note is an object which will contain the data we need including an `id` and a `task` we want to perform. Later on it is possible to extend this data definition to include things like the note color or the owner.
+Each note is an object which will contain the data we need, including an `id` and a `task` we want to perform. Later on it is possible to extend this data definition to include things like the note color or the owner.
 
 ## On Ids
 
 We could have skipped ids in our definition. This would become problematic as we grow our application, though. If you are referring to data based on array indices and the data changes, each reference has to change too. We can avoid that.
 
-Normally the problem is solved by a backend. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) allows us to generate unique ids. We'll be using a Node.js implementation known as *node-uuid*. Invoke
+Normally the problem is solved by a back-end. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) allows us to generate unique ids. We'll be using a Node.js implementation known as *node-uuid*. Invoke
 
 > npm i node-uuid --save
 
@@ -55,7 +55,7 @@ T> You can exit Node.js cli by hitting **CTRL-D** once.
 
 ## Connecting Data with `App`
 
-Next we need to connect our data model with `App`. The simplest way to achieve that is to push the data directly to `render()` for now. This won't be efficient but it will allow us to get started. The implementation below shows how this works out in React terms.
+Next, we need to connect our data model with `App`. The simplest way to achieve that is to push the data directly to `render()` for now. This won't be efficient, but it will allow us to get started. The implementation below shows how this works out in React terms.
 
 **app/components/App.jsx**
 
@@ -101,7 +101,7 @@ We are using various important features of React in the snippet above. Understan
 * `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
 * ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or otherwise React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
-If you run the application now, you can see it almost works. There's a small glitch but we'll fix that next.
+If you run the application now, you can see it almost works. There's a small glitch, but we'll fix that next.
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
@@ -121,11 +121,11 @@ export default class Note extends React.Component {
 }
 ```
 
-If you check out the application now, you should see we're seeing results that are more like it. This is only start, though. Our `App` is getting cramped. It feels like there's a component waiting to be extracted.
+If you check out the application now, you should see we're seeing results that are more like it. This is only the start, though. Our `App` is getting cramped. It feels like there's a component waiting to be extracted.
 
 ## Extracting `Notes`
 
-If we keep on growing `App` like this we'll end up in trouble soon. Currently `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to moved out.
+If we keep on growing `App` like this we'll end up in trouble soon. Currently `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier, we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to moved out.
 
 T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At high level you will just worry about layout and connecting data. As you go lower in the architecture you start to see more concrete structures.
 
@@ -155,7 +155,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I've discussed them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case we'll just focus on keeping it simple.
+It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I've discussed them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
 
 We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Note` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness.
 
@@ -181,13 +181,13 @@ export default class App extends React.Component {
 }
 ```
 
-Logically we have exactly the same `App` as earlier. There's one great difference. Our application is more flexible. You could render multiple `Notes` with data of their own easily.
+Logically, we have exactly the same `App` as earlier. There's one great difference. Our application is more flexible. You could render multiple `Notes` with data of their own easily.
 
 Even though we improved `render()` and reduced the amount of markup, it's still not neat. We can push the data to the `App`'s state. Besides making the code neater this will allow us to implement logic related to it.
 
 ## Pushing `notes` to the `App` `state`
 
-As seen earlier React components can accept props. In addition, they may have a state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case pushing `notes` to the state makes sense. We'll want to tweak them through user interface.
+As seen earlier React components can accept props. In addition, they may have a state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case, pushing `notes` to the state makes sense. We'll want to tweak them through user interface.
 
 In ES6's class syntax the initial state can be defined at the constructor. We'll assign the state we want to `this.state`. After that we can refer to it. The example below illustrates how to convert our notes into state.
 
@@ -227,11 +227,11 @@ export default class App extends React.Component {
 
 After this change our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
 
-T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without but it's a good standard to have.
+T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without, but it's a good standard to have.
 
 ## Adding New Items to `Notes` list
 
-Adding new items to the notes list is a good starting point. To get started we could render a button element and attach a dummy `onClick` handler to it. We will grow the actual logic into that.
+Adding new items to the notes list is a good starting point. To get started, we could render a button element and attach a dummy `onClick` handler to it. We will grow the actual logic into that.
 
 **app/components/App.jsx**
 
@@ -256,13 +256,13 @@ export default class App extends React.Component {
 }
 ```
 
-If you click the plus button now, you should see something at your browser console. The next step is to connect this stub with our data model.
+If you click the plus button now, you should see something in your browser console. The next step is to connect this stub with our data model.
 
 ### Connecting `addNote` with Data Model
 
-React provides one simple way to change state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and an optional callback. The callback is triggered after the process has completed.
+React provides one simple way to change the state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and an optional callback. The callback is triggered after the process has completed.
 
-It is best to think of state as immutable and alter it always through `setState`. In our case adding a new note can be done through a `concat` operation as below.
+It is best to think of state as immutable and alter it always through `setState`. In our case, adding a new note can be done through a `concat` operation as below.
 
 **app/components/App.jsx**
 
@@ -289,11 +289,11 @@ export default class App extends React.Component {
 }
 ```
 
-In case we were be operating with a backend we would trigger a query here and capture id from response. Now it's enough to just generate an entry and a custom id.
+In case we were be operating with a back-end we would trigger a query here and capture id from response. Now it's enough to just generate an entry and a custom id.
 
-If you hit the button a few times now, you should see new items. It might not be pretty yet but it works.
+If you hit the button a few times now, you should see new items. It might not be pretty yet, but it works.
 
-In addition, to `this.setState` we had to set up a binding. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying but necessary to bind therefore.
+In addition, to `this.setState` we had to set up a binding. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying, but necessary to bind therefore.
 
 Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would take additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
 
@@ -367,7 +367,7 @@ export default class Note extends React.Component {
 
 If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at the console. We'll fix this shortly.
 
-The rest of the code deals with events. If we click the component while it is in its initial state, we will enter the edit mode. If we confirm the editing, we hit the `onEdit` callback. As a result we go back to the default state.
+The rest of the code deals with events. If we click the component while it is in its initial state, we will enter the edit mode. If we confirm the editing, we hit the `onEdit` callback. As a result, we go back to the default state.
 
 T> It is a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them from other props and keep your code a little tidier.
 
@@ -377,7 +377,7 @@ Given we are currently dealing with the logic at `App`, we can deal with `onEdit
 
 ![`onEdit` flow](images/bind.png)
 
-A good first step towards this behavior is to create a stub. As `onEdit` is defined on `Note` level we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
+A good first step towards this behavior is to create a stub. As `onEdit` is defined on `Note` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
 
 **app/components/App.jsx**
 
@@ -465,7 +465,7 @@ You can see how it behaves through Node.js cli. Here's a sample session:
 -1
 ```
 
-T> [es5-shim](https://www.npmjs.com/package/es5-shim), [es6-shim](https://www.npmjs.com/package/es6-shim) and [es7-shim](https://www.npmjs.com/package/es7-shim) are good alternatives to `core-js`. At the moment they don't allow you to import the exact shims you need in a granular way. That said using a whole library at once can be worth the convenience.
+T> [es5-shim](https://www.npmjs.com/package/es5-shim), [es6-shim](https://www.npmjs.com/package/es6-shim) and [es7-shim](https://www.npmjs.com/package/es7-shim) are good alternatives to `core-js`. At the moment they don't allow you to import the exact shims you need in a granular way. That said, using a whole library at once can be worth the convenience.
 
 We also need to attach the polyfill to our application.
 
@@ -476,11 +476,11 @@ import 'array.prototype.findindex';
 ...
 ```
 
-After this you can use `findIndex` against arrays at your code. Note that this will bloat our final bundle a tiny bit (around 4 kB) but the convenience is worth it.
+After this you can use `findIndex` against arrays at your code. Note that this will bloat our final bundle a tiny bit (around 4 kB), but the convenience is worth it.
 
 ### Implementing `onEdit` Logic
 
-The only thing that remains is gluing this all together. We'll need to take the data and find index based on which to alter. Finally we need to modify and commit it to the component state through `setState`.
+The only thing that remains is gluing this all together. We'll need to take the data and find index based on which to alter. Finally, we need to modify and commit it to the component state through `setState`.
 
 **app/components/App.jsx**
 
@@ -524,7 +524,7 @@ If you try to edit a `Note` now, the modification should stick. The same idea ca
 
 ## Removing `Notes`
 
-We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially but we will style it later.
+We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
 
 As before we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove we can construct a new state without it.
 
@@ -680,9 +680,9 @@ To make individual `Notes` stand out we can apply a couple of rules.
 }
 ```
 
-Note that I animated `Note` shadow. This way the user gets a better indication of what `Note` is being hovered upon. This won't work on touch based interfaces but it's a nice touch for the desktop.
+Note that I animated `Note` shadow. This way the user gets a better indication of what `Note` is being hovered upon. This won't work on touch based interfaces, but it's a nice touch for the desktop.
 
-Finally we should make those delete buttons stand out less. One way to achieve this is to hide them by default and show them on hover. The gotcha is that deletion won't work on touch but we can live with that.
+Finally, we should make those delete buttons stand out less. One way to achieve this is to hide them by default and show them on hover. The gotcha is that deletion won't work on touch, but we can live with that.
 
 **app/main.css**
 
@@ -707,18 +707,18 @@ Finally we should make those delete buttons stand out less. One way to achieve t
 }
 ```
 
-After these few steps we have an application that doesn't look that bad. We'll be improving its outlook as we add functionality but at least it's something.
+After these few steps we have an application that doesn't look that bad. We'll be improving its outlook as we add functionality, but at least it's something.
 
 ## Understanding React Components
 
-Understanding how props and state work it is important. Component lifecycle is the third bigger concept you'll want to understand well. We already touched it above but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
+Understanding how props and state work it is important. Component lifecycle is the third bigger concept you'll want to understand well. We already touched it above, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
 
 To quote [the official documentation](https://facebook.github.io/react/docs/component-specs.html) React provides the following `React.createClass` specific component specifications:
 
 * `displayName` - It is preferable to set `displayName` as that will improve debug information. For ES6 classes this is derived automatically based on the class name.
 * `getInitialState()` - In class based approach the same can be achieved through `constructor`.
 * `getDefaultProps()` - In classes you can set these in `constructor`.
-* `propTypes` - As seen above you can use Flow to deal with prop types. In `React.createClass` you would build a complex looking declaration as seen in [the propType documentation](https://facebook.github.io/react/docs/reusable-components.html).
+* `propTypes` - As seen above, you can use Flow to deal with prop types. In `React.createClass` you would build a complex looking declaration as seen in [the propType documentation](https://facebook.github.io/react/docs/reusable-components.html).
 * `mixins` - `mixins` contains an array of mixins to apply to component.
 * `statics` - `statics` contains static properties and method for a component. In ES6 you would assign them to the class like below:
 
@@ -735,15 +735,15 @@ export default Note;
 
 Some libraries such as `react-dnd` rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
 
-Both component types support `render()`. As seen above this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything return either `null` or `false`.
+Both component types support `render()`. As seen above, this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything return either `null` or `false`.
 
 In addition, React provides the following lifecycle hooks:
 
 * `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
 * `componentDidMount()` gets triggered after initial rendering. You have access to DOM here. You could use this hook to wrap a jQuery plugin within a component for instance.
-* `componentWillReceiveProps(object nextProps)` triggers when the component receives new props. You could for instance modify your component state based on the received props.
+* `componentWillReceiveProps(object nextProps)` triggers when the component receives new props. You could, for instance, modify your component state based on the received props.
 * `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize the rendering. If you check the props and state and see that there's no need to update, return `false`.
-* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here but you can set class properties for instance.
+* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here, but you can set class properties for instance.
 * `componentDidUpdate` is triggered after rendering. You can modify the DOM here. This can be useful for adapting other code to work with React.
 * `componentWillUnmount` is triggered just before a component is unmounted from the DOM. This is the ideal place to perform cleanup (e.g. remove running timers, custom DOM elements and so on).
 
@@ -751,7 +751,7 @@ In addition, React provides the following lifecycle hooks:
 
 I prefer to have the `constructor` first, followed by lifecycle hooks, `render()` and finally methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers for instance.
 
-In the end you will have to find conventions you like and that work the best for you. I go more detail in this topic at the linting chapter as I introduce various code quality related tools. It is possible to enforce coding style to some extent for instance.
+In the end you will have to find conventions you like and that work the best for you. I go more detail in this topic at the linting chapter as I introduce various code quality related tools. It is possible to enforce coding style to some extent for example.
 
 This can be useful in a team environment. It decreases the amount of friction when working on code written by others. Even on personal projects having some tools to check out things for you can be useful. It lessens the amount and severity of mistakes.
 

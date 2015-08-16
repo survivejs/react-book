@@ -2,7 +2,7 @@
 
 You can get far by keeping everything in components. Eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications.
 
-Flux will allow us to separate data and application state from our Views. This helps us to keep them clean and the application maintainable. Flux was designed large teams in mind. As a result you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
+Flux will allow us to separate data and application state from our Views. This helps us to keep them clean and the application maintainable. Flux was designed large teams in mind. As a result, you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
 
 ## Introduction to Flux
 
@@ -10,21 +10,21 @@ Flux will allow us to separate data and application state from our Views. This h
 
 So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient it comes with a cost. It can be hard to deduce what's going on and why.
 
-Flux isn't entirely simple to understand as there are many concepts to worry about. In our case we will model `NoteActions` and `NoteModel`. `NoteActions` provide concrete operations we can perform over our data. For instance we can have `NoteActions.create({task: 'Learn React'})`.
+Flux isn't entirely simple to understand as there are many concepts to worry about. In our case, we will model `NoteActions` and `NoteModel`. `NoteActions` provide concrete operations we can perform over our data. For instance, we can have `NoteActions.create({task: 'Learn React'})`.
 
-The action itself doesn't necessarily do much. At simplest level it can tell dispatcher to proceed. Or it could hit a backend and then trigger dispatcher based on the result. This will allow us to deal asynchronous behavior and possible errors caused by that.
+The action itself doesn't necessarily do much. At simplest level it can tell dispatcher to proceed. Or it could hit a back-end and then trigger dispatcher based on the result. This will allow us to deal asynchronous behavior and possible errors caused by that.
 
-Once the dispatcher has dealt with the action, Stores that are listening to it get triggered. In our case `NoteStore` gets notified. As a result it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
+Once the dispatcher has dealt with the action, Stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
 
-This completes the loop as Views listening to the Stores receive the data. They can use it to update their own state. As a result the user interface gets refreshed.
+This completes the loop as Views listening to the Stores receive the data. They can use it to update their own state. As a result, the user interface gets refreshed.
 
 This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow goes into a single direction always it is easy to debug. If there's something wrong, it's somewhere within the cycle.
 
 ### Advantages of Flux
 
-Even though this sounds a little complicated, the arrangement gives our application flexibility. We can for instance implement API communication, caching and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
+Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
 
-Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
+Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand, minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
 
 ### Which Flux Implementation to Use?
 
@@ -38,7 +38,7 @@ When choosing a library it comes down to your own personal preferences. You will
 
 In this chapter we'll be using a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed isomorphic rendering in mind.
 
-In Alt you'll deal with Actions and Stores. Dispatcher is hidden but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and isomorphic rendering.
+In Alt you'll deal with Actions and Stores. Dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and isomorphic rendering.
 
 ### Setting Up Alt Instance
 
@@ -46,7 +46,7 @@ Everything in Alt begins from Alt instance. It keeps track of Actions and Stores
 
 > npm i alt --save
 
-To keep things simple we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). Using the pattern we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
+To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). Using the pattern we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 
 **app/libs/alt.js**
 
@@ -66,7 +66,7 @@ T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacke
 
 ### Defining CRUD API for Notes
 
-Next we'll need to define a basic API for operating over the Note data. To keep this simple, let's CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
+Next, we'll need to define a basic API for operating over the Note data. To keep this simple, let's CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
 
 **app/actions/NoteActions.js**
 
@@ -78,7 +78,7 @@ export default alt.generateActions('create', 'update', 'delete');
 
 ## Defining a Store for `Notes`
 
-A Store is a single source of truth for a part of your application state. In this case we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
+A Store is a single source of truth for a part of your application state. In this case, we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
 
 We have the logic we need for our store already at `App`. Next, we will move that logic to `NoteStore`.
 
@@ -113,7 +113,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method method based on that. Finally we connect the Store with Alt using `alt.createStore`.
+We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method method based on that. Finally, we connect the Store with Alt using `alt.createStore`.
 
 Note that assigning a label to a store (`NoteStore` in this case) isn't required. It is a good practice as it protects the code against minification and possible collisions. These labels become important when we persist the data.
 
@@ -190,7 +190,7 @@ We have one final operation left, `delete`.
 
 ### Implementing `delete`
 
-`delete` is straightforward. Seek and destroy as earlier and remember to commit the change:
+`delete` is straightforward. Seek and destroy, as earlier, and remember to commit the change:
 
 ```javascript
 ...
@@ -221,11 +221,11 @@ It would be possible to operate directly on data. E.g. a oneliner such as `this.
 
 We have almost integrated Flux to our application now. We have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions to complete the cycle.
 
-T> The current implementation is naive in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this. Alternatively you could write nice tests. That's a good idea regardless.
+T> The current implementation is naive in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this. Alternatively, you could write nice tests. That's a good idea regardless.
 
 ## Gluing It All Together
 
-Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance to create a Note, we would need to trigger `NoteActions.create({task: 'New task'})`. This would cause the associated Store to change according to the logic. Because Store changes so do all the components listening to it.
+Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance, to create a Note, we would need to trigger `NoteActions.create({task: 'New task'})`. This would cause the associated Store to change according to the logic. Because Store changes so do all the components listening to it.
 
 There are multiple ways to connect the Store to our View. Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. They will allow us to keep track of the state and synchronize it with our components.
 
@@ -280,7 +280,7 @@ export default class App extends React.Component {
 }
 ```
 
-As you can see, we have pushed the logic out of `App`. We actually have more code now than before but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application. Things can only get better.
+As you can see, we have pushed the logic out of `App`. We actually have more code now than before, but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application. Things can only get better.
 
 ### Dispatching in Alt
 
@@ -293,7 +293,7 @@ You can use the same mechanism on the Store level. In that case you would trigge
 Even though integrating Alt took a lot of effort, it was not all in vain. Consider the following questions:
 
 1. Let's say we wanted to persist the notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
-2. What if we had many components relying on the data? We would just consume `NoteStore` and display it however we want.
+2. What if we had many components relying on the data? We would just consume `NoteStore` and display it, however we want.
 3. What if we had many, separate Note lists for different type of tasks? We could set up another Store for tracking these lists. That Store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
 
 This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code, it is easier to reason about. Given we are dealing with a unidirectional flow we have something that is simple to debug and test.
@@ -311,7 +311,7 @@ We can tweak our implementation of `NoteStore` to persist the data on change. Th
 * `storage.setItem(k, v)` - Stores given value using given key
 * `storage.clear()` - Empties storage contents
 
-Note that it is convenient to operate on the API using your browser developer tools. For instance in Chrome you can see the state of the storages through the *Resources* tab. *Console* tab allows you to perform direct operations on the data. You can even use `storage.key` and `storage.key = 'value'` shorthands for quick modifications.
+Note that it is convenient to operate on the API using your browser developer tools. For instance, in Chrome you can see the state of the storages through the *Resources* tab. *Console* tab allows you to perform direct operations on the data. You can even use `storage.key` and `storage.key = 'value'` shorthands for quick modifications.
 
 `localStorage` and `sessionStorage` can use up to 10 MB of data combined. Even though they are well supported, there are certain corner cases with interesting failures. These include running out of memory at Internet Explorer (fails silently) and failing altogether at Safari private mode. It is possible to work around these glitches, though.
 
@@ -319,7 +319,7 @@ T> You can support Safari private mode by trying to write into `localStorage` fi
 
 ### Implementing a Wrapper for `localStorage`
 
-To keep things simple and manageable we can implement a little wrapper for `storage`. It will wrap all of these complexities. The API expects strings. As objects are convenient, we'll use `JSON.parse` and `JSON.stringify` for serialization.
+To keep things simple and manageable, we can implement a little wrapper for `storage`. It will wrap all of these complexities. The API expects strings. As objects are convenient, we'll use `JSON.parse` and `JSON.stringify` for serialization.
 
 It could be a good idea to use a library such as [localForage](https://github.com/mozilla/localForage) to hide all the complexity. You could even integrate it behind this little interface of ours. We need just `storage.get(k)` and `storage.set(k, v)` as seen in the implementation below:
 
@@ -347,7 +347,7 @@ The implementation could be generalized further. You could convert it into a fac
 
 Besides this little utility we'll need to adapt our application to use it. Alt provides handy functionality just for this purpose. We can persist the entire state of our application using `FinalStore`, bootstrapping and snapshotting. `FinalStore` is a store that listens to all existing stores. Every time some store changes, `FinalStore` will know about it. This makes it ideal for persistency.
 
-We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part as `alt.bootstrap` allows us to set state of the all stores. In our case we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere, through a WebSocket for instance.
+We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part as `alt.bootstrap` allows us to set state of the all stores. In our case, we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere, through a WebSocket for instance.
 
 T> An alternative way would be to take a snapshot only when the window gets closed. There's a Window level `beforeunload` hook that could be used. The problem with this approach is that it is brittle. What if something unexpected happens and the hook doesn't get triggered for some reason? You'll lose data.
 
@@ -392,7 +392,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-Finally we need to trigger persistency logic at initialization. We will need to pass relevant data to it (Alt instance, storage, storage name) and off we go.
+Finally, we need to trigger persistency logic at initialization. We will need to pass relevant data to it (Alt instance, storage, storage name) and off we go.
 
 **app/main.jsx**
 
@@ -411,9 +411,9 @@ function main() {
 }
 ```
 
-If you try refreshing the browser now, the application should retain its state. The solution should scale with minimal effort if we add more stores to the system. Integrating a real backend wouldn't be a problem. There are hooks in place for that now.
+If you try refreshing the browser now, the application should retain its state. The solution should scale with minimal effort if we add more stores to the system. Integrating a real back-end wouldn't be a problem. There are hooks in place for that now.
 
-You could for instance pass the initial payload as a part of your HTML (isomorphic rendering), load it up and then persist the data to the backend. You have a great deal of control over how to do this and you can use `localStorage` as a backup if you want.
+You could, for instance, pass the initial payload as a part of your HTML (isomorphic rendering), load it up and then persist the data to the back-end. You have a great deal of control over how to do this and you can use `localStorage` as a backup if you want.
 
 W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
 
@@ -421,13 +421,13 @@ W> Our `persist` implementation isn't without its flaws. It is easy to end up in
 
 ![Decorators are like matryoshkas](images/matryoshka.jpg)
 
-Even though the application is starting to look a little better now, there's still work to be done. For instance `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage.
+Even though the application is starting to look a little better now, there's still work to be done. For instance, `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage.
 
 One way to achieve this is to push the logic to a decorator. Decorators are a bit like matryoshkas. These Russian dolls can contain dolls inside them. We can achieve the same with decorators.
 
 ### What Are Decorators?
 
-If you have used languages such as Java or Python before, you might be familiar with the concept. They are syntactical sugar that allow us to wrap classes and functions. In short they provide us a way to annotate and push logic elsewhere. This allows us to keep our components simple to read. There is a [stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript.
+If you have used languages such as Java or Python before, you might be familiar with the concept. They are syntactical sugar that allow us to wrap classes and functions. In short, they provide us a way to annotate and push logic elsewhere. This allows us to keep our components simple to read. There is a [stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript.
 
 By definition a decorator is a function that returns a function. In the case of our connection decorator we could end up with `connect(NoteStore)(App)`. In decorator syntax the same would be `@connect(NoteStore)` right before `App` class declaration.
 
@@ -467,7 +467,7 @@ export default (store) => {
 };
 ```
 
-I have separated the higher order portion and decorator wrapping for clarity. It would be possible to perform both steps in the same function but I find it more readable this way. Can you see the wrapping idea? Our decorator tracks store state. After that it passes the state to the component contained through props.
+I have separated the higher order portion and decorator wrapping for clarity. It would be possible to perform both steps in the same function, but I find it more readable this way. Can you see the wrapping idea? Our decorator tracks store state. After that it passes the state to the component contained through props.
 
 T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
 
@@ -500,7 +500,7 @@ We can build new decorators for various functionalities, such as undo, in this m
 
 ### Alt's `@connectToStores`
 
-Alt provides a similar decorator known as `@connectToStores`. It relies on static methods. This a ES6 feature and you might be familiar with it from other languages. Rather than normal methods that are bound to a specific instance these are bound on class level. This means you can call them through the class itself (i.e. `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
+Alt provides a similar decorator known as `@connectToStores`. It relies on static methods. This a ES6 feature and you might be familiar with it from other languages. Rather than normal methods that are bound to a specific instance, these are bound on class level. This means you can call them through the class itself (i.e. `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
 
 ```javascript
 ...
@@ -526,7 +526,7 @@ To get familiar with more approaches we'll be using `AltContainer` in this proje
 
 [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper that does the same thing and a bit more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes.
 
-You will see the wrapper pattern later again in this book and you will learn to implement it yourself. In this case the pattern will allow us to set up arbitrary connections to multiple stores. Besides, we have control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
+You will see the wrapper pattern later again in this book and you will learn to implement it yourself. In this case, the pattern will allow us to set up arbitrary connections to multiple stores. Besides, we have control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
 
 The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use `AltContainer`. After these changes we are good to go.
 
@@ -563,7 +563,7 @@ Integrating `AltContainer` actually grew our component a little bit. It also tie
 
 ## Relay?
 
-Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) is an interesting alternative to Flux. It improves especially on the data fetching department. It allows you to push data requirements to the View level.
+Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) is an interesting alternative to Flux. It improves on the data fetching department. It allows you to push data requirements to the View level.
 
 Given it's still untested technology we won't be covering it in this book yet. Relay comes with its special requirements of its own (GraphQL compatible API). Only time will tell how it gets adopted.
 

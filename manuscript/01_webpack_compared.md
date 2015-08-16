@@ -4,9 +4,9 @@ You can understand Webpack better by putting it into a historical context. This 
 
 This problem has been escalated by the rise of single page applications (SPAs). They tend to rely on various heavy libraries. The last thing you want to do is to load them all at once. There are better solutions and Webpack allows many of those.
 
-The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package manager, provides more context. Before npm it was difficult to consume dependencies. Now that npm has become popular for frontend development, the situation has changed. Now we have nice ways to manage the dependencies of our projects.
+The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package manager, provides more context. Before npm it was difficult to consume dependencies. Now that npm has become popular for front-end development, the situation has changed. Now we have nice ways to manage the dependencies of our projects.
 
-Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the most known one and still a viable option. In the frontend world [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have particularly gained popularity. Plugins make available through npm make both approaches powerful.
+Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the most known one and still a viable option. In the front-end world [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have particularly gained popularity. Plugins make available through npm make both approaches powerful.
 
 ## Grunt
 
@@ -38,9 +38,9 @@ module.exports = function(grunt) {
 };
 ```
 
-In this sample we define two basic tasks related to *jshint*. It is a linting tool that helps you spot possible problem spots at your source code. We have a standalone task for running it. Also, we have a watcher based task. If we run it, we'll get warnings interactively at our terminal as we edit.
+In this sample, we define two basic tasks related to *jshint*. It is a linting tool that helps you spot possible problem spots at your source code. We have a standalone task for running it. Also, we have a watcher based task. If we run it, we'll get warnings interactively at our terminal as we edit.
 
-In practice you would have a lot of small tasks such as these for various purposes such as building the project. The example shows well how these tasks are constructed. An important part of the power of Grunt is that it hides a lot of the wiring from you. Taken too far this can get problematic though. It can be hard to understand well enough what's going on under the hood.
+In practice, you would have a lot of small tasks such as these for various purposes such as building the project. The example shows well how these tasks are constructed. An important part of the power of Grunt is that it hides a lot of the wiring from you. Taken too far this can get problematic though. It can be hard to understand well enough what's going on under the hood.
 
 T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin allows you to use Webpack in a Grunt environment. You can leave the heavy lifting to Webpack.
 
@@ -50,7 +50,7 @@ T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin
 
 Gulp takes a different approach. Instead of relying on configuration per plugin you deal with actual code. Gulp builds on top of the tried and true concept of piping. If you are familiar with Unix, it's the same idea here. You simply have sources, filters and sinks.
 
-Sources match files. Filters perform operations on those (e.g. convert to JavaScript). Finally it gets passed to sinks (your build directory etc.). Here's a sample `Gulpfile` to give you a better idea of the approach taken from the project README. It has been abbreviated a bit:
+Sources match files. Filters perform operations on those (e.g. convert to JavaScript). Finally, it gets passed to sinks (your build directory etc.). Here's a sample `Gulpfile` to give you a better idea of the approach taken from the project README. It has been abbreviated a bit:
 
 ```javascript
 var gulp = require('gulp');
@@ -102,11 +102,11 @@ T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use 
 
 Dealing with JavaScript modules has always been a bit of a problem. The language actually didn't have the concept of modules till ES6. Ergo we are stuck in the 90s when it comes to browser environment. Various solutions, including [AMD](http://requirejs.org/docs/whyamd.html), have been proposed.
 
-In practice it can be useful just to use CommonJS, the Node.js format, and let the tooling deal with the rest. The advantage is that you can often hook into npm and avoid reinventing the wheel.
+In practice, it can be useful just to use CommonJS, the Node.js format, and let the tooling deal with the rest. The advantage is that you can often hook into npm and avoid reinventing the wheel.
 
 [Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. There are smaller transformation tools that allow you to move beyond the basic usage. E.g. [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development. This will save some effort and no doubt is a good solution up to a point.
 
-The Browserify ecosystem is composed of a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than Webpack and in fact it is a good alternative to it.
+The Browserify ecosystem is composed of a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than Webpack and in fact, it is a good alternative to it.
 
 ## Webpack
 
@@ -143,17 +143,17 @@ module.exports = {
 
 Given the configuration is written in JavaScript it's quite malleable. As long as it's JavaScript, Webpack is fine with it.
 
-The configuration model may make Webpack feel a bit opaque at times. It can be difficult to understand what it's doing especially. This is particularly true for more complicated cases. I have compiled [a webpack cookbook](https://christianalfoni.github.io/react-webpack-cookbook/) with Christian Alfoni that goes into more detail when it comes to specific problems.
+The configuration model may make Webpack feel a bit opaque at times. It can be difficult to understand what it's doing. This is particularly true for more complicated cases. I have compiled [a webpack cookbook](https://christianalfoni.github.io/react-webpack-cookbook/) with Christian Alfoni that goes into more detail when it comes to specific problems.
 
 ### Why Webpack?
 
-Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling but there's so much more. I picked up Webpack because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
+Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
 
-You might be familiar with tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/) already. These tools refresh the browser(s) automatically as you make changes. HMR takes things one step further. In the case of React it allows the application to keep state.   This sounds simple but it makes a big difference in practice.
+You might be familiar with tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/) already. These tools refresh the browser(s) automatically as you make changes. HMR takes things one step further. In the case of React it allows the application to keep state. This sounds simple but it makes a big difference in practice.
 
-Besides HMR Webpack's bundling capabilities are extensive. It allows you to split bundles in various ways. You can even load them dynamically as your application gets executed. This sort of lazy loading comes in handy especially for larger applications. You can load dependencies as you need them.
+Besides HMR Webpack's bundling capabilities are extensive. It allows you to split bundles in various ways. You can even load them dynamically as your application gets executed. This sort of lazy loading comes in handy, especially for larger applications. You can load dependencies as you need them.
 
-With Webpack you can easily inject a hash to each bundle name. This allows you to invalidate bundles on client side as changes are made. Bundle splitting allows the client to reload only a small part of the data in the ideal case.
+With Webpack you can easily inject a hash to each bundle name. This allows you to invalidate bundles on the client side as changes are made. Bundle splitting allows the client to reload only a small part of the data in the ideal case.
 
 It is possible to achieve some of these tasks with other tools. The problem is that it would definitely take a lot more work to pull off. In Webpack it's a matter of configuration. Note that you can get HMR to Browserify through [livereactload](https://github.com/milankinen/livereactload) so it's not a feature that's exclusive to Webpack.
 
@@ -175,7 +175,7 @@ var MyModule = require('./MyModule');
 // export at module root
 module.exports = function() { ... };
 
-// alternatively export individual functions
+// alternatively, export individual functions
 exports.hello = function() {...};
 ```
 

@@ -67,7 +67,7 @@ There are a couple of basic things we can do to slim down our build. We can appl
 
 Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
-At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunch of warnings especially in a React environment by default. As a result we'll disable them. Add the following section to your Webpack configuration:
+At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunch of warnings, especially in a React environment by default. As a result we'll disable them. Add the following section to your Webpack configuration:
 
 **webpack.config.js**
 
@@ -131,7 +131,7 @@ if(TARGET === 'build') {
 }
 ```
 
-This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from build completely. You can attach debugging specific utilities and such to your code easily this way. For instance you could build a powerful logging system just for development. Here's a small example of what that could look like:
+This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from build completely. You can attach debugging specific utilities and such to your code easily this way. For instance, you could build a powerful logging system just for development. Here's a small example of what that could look like:
 
 ```javascript
 if(process.env.NODE_ENV !== 'production') {
@@ -139,7 +139,7 @@ if(process.env.NODE_ENV !== 'production') {
 }
 ```
 
-T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the "'s.
+T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case, we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the "'s.
 
 Hit `npm run build` again and you should see improved results:
 
@@ -162,7 +162,7 @@ We can do a little better, though. We can split `app` and `vendor` bundles and a
 
 ### Splitting `app` and `vendor` Bundles
 
-The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might for instance make most of our changes to the small `app` bundle. In this case the client would have to fetch only it provided `vendor` bundle has been loaded already. This scheme won't load as fast as a single bundle initially due to the extra request. Caching more than makes up for this disadvantage.
+The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might, for instance, make most of our changes to the small `app` bundle. In this case, the client would have to fetch only it provided `vendor` bundle has been loaded already. This scheme won't load as fast as a single bundle initially due to the extra request. Caching more than makes up for this disadvantage.
 
 In Webpack terms we will expand `entry` configuration. After that we use `CommonsChunkPlugin` to extract the vendor bundle. The configuration below shows how this will work out in our case.
 
@@ -227,7 +227,7 @@ One more way to push the build further would be to load popular dependencies, su
 
 ## Cleaning Build
 
-Our current setup doesn't clean `build` directory between builds. As this is annoying especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
+Our current setup doesn't clean `build` directory between builds. As this is annoying, especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
 
 > npm i clean-webpack-plugin --save-dev
 
@@ -268,7 +268,7 @@ It will take some configuration to make it work. Hit
 
 > npm i extract-text-webpack-plugin --save-dev
 
-to get started. Next we need to get rid of our current css related declaration at `common` configuration. After that we need to split it up between `build` and `dev` configuration sections as below:
+to get started. Next, we need to get rid of our current css related declaration at `common` configuration. After that we need to split it up between `build` and `dev` configuration sections as below:
 
 **webpack.config.js**
 
@@ -365,10 +365,10 @@ One of the interesting aspects of React is the fact that it allows so called iso
 
 * Web crawlers will be able to access the content easier (potentially better SEO)
 * You can avoid requests to fetch initial data. Especially on slow connections this can make a big difference.
-* The browser doesn't have to wait for JavaScript to get evaluated. Instead it gets to render HTML straight away.
-* Even users without JavaScript enabled see something. In this case it doesn't matter a lot but otherwise it could be a big factor.
+* The browser doesn't have to wait for JavaScript to get evaluated. Instead, it gets to render HTML straight away.
+* Even users without JavaScript enabled see something. In this case, it doesn't matter a lot, but otherwise it could be a big factor.
 
-Even though we don't have a proper backend in our project this is a powerful approach you should be aware of. The same idea can be applied for other scenarios such as rendering a JSX template to a PDF invoice for instance. React isn't limited to the web.
+Even though we don't have a proper back-end in our project this is a powerful approach you should be aware of. The same idea can be applied for other scenarios such as rendering a JSX template to a PDF invoice for example. React isn't limited to the web.
 
 We will need to perform a couple of tweaks to our project in order to enable isomorphic rendering. Thankfully *HtmlWebpackPlugin* can do most of the work for us. We just need to implement a custom template and render our initial JSX to it. Set up *index.tpl* as follows.
 
@@ -492,7 +492,7 @@ function main() {
 
 If you hit `npm run build` now and wait for a while, you should end up with `build/index.html` that contains something familiar. `npm start` should work the same way as earlier.
 
-In this case isomorphic rendering doesn't yield us much. If we had a backend the situation would be different. We could serve the user markup that has initial data and enjoy the benefits. Now it's more of a gimmick but it's a useful technique to be aware of.
+In this case, isomorphic rendering doesn't yield us much. If we had a back-end the situation would be different. We could serve the user markup that has the initial data and enjoy the benefits. Even though it's now more of a gimmick, it's a useful technique to be aware of.
 
 ## Conclusion
 
