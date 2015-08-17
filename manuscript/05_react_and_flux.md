@@ -42,7 +42,7 @@ In Alt you'll deal with Actions and Stores. Dispatcher is hidden, but you will s
 
 ### Setting Up Alt Instance
 
-Everything in Alt begins from Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, let’s add Alt to our project:
+Everything in Alt begins from Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, let's add Alt to our project:
 
 > npm i alt --save
 
