@@ -113,7 +113,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method method based on that. Finally, we connect the Store with Alt using `alt.createStore`.
+We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method based on that. Finally, we connect the Store with Alt using `alt.createStore`.
 
 Note that assigning a label to a store (`NoteStore` in this case) isn't required. It is a good practice as it protects the code against minification and possible collisions. These labels become important when we persist the data.
 
