@@ -225,13 +225,13 @@ T> The current implementation is naive in that it doesn't validate parameters in
 
 ## Gluing It All Together
 
-Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance, to create a Note, we would need to trigger `NoteActions.create({task: 'New task'})`. This would cause the associated Store to change according to the logic. Because Store changes so do all the components listening to it.
+Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance, to create a Note, we would need to trigger `NoteActions.create({task: 'New task'})`. That would cause the associated Store to change and, as a result, all the components listening to it.
 
-There are multiple ways to connect the Store to our View. Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. They will allow us to keep track of the state and synchronize it with our components.
+Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. They will allow Views to subscribe to the state changes.
 
-As you might remember from the earlier chapters React provides a set of lifecycle hooks. We can connect `NoteStore` with our View using `listen/unlisten` at `componentDidMount` and `componentWillUnmount`. This way we don't have weird references hanging around if/when components get created and removed.
+As you might remember from the earlier chapters, React provides a set of lifecycle hooks. We can subscribe to `NoteStore` within our View at `componentDidMount` and `componentWillUnmount`. By unsubscribing, we avoid possible memory leaks.
 
-Performing the needed changes piecewise wouldn't be nice so I have included whole `App` below. Notice how we use `NoteActions` and `NoteStore` in particular. As we alter `NoteStore`, this leads to a cascade that causes our `App` state update through `setState`. This in turn will trigger component `render`.
+Based on these ideas we can connect `App` with `NoteStore` and `NoteActions`:
 
 **app/components/App.jsx**
 
@@ -280,7 +280,9 @@ export default class App extends React.Component {
 }
 ```
 
-As you can see, we have pushed the logic out of `App`. We actually have more code now than before, but that's okay. `App` is a little neater now and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application. Things can only get better.
+As we alter `NoteStore` through actions, this leads to a cascade that causes our `App` state update through `setState`. This in turn will cause the component to `render`. That's Flux unidirectional flow in practice.
+
+We actually have more code now than before, but that's okay. `App` is a little neater and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application.
 
 ### Dispatching in Alt
 
