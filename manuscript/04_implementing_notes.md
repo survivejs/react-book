@@ -245,7 +245,7 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button onClick={this.addNote}>+</button>
+        <button className='add-note' onClick={this.addNote}>+</button>
         <Notes items={notes} />
       </div>
     );
@@ -634,7 +634,6 @@ Aesthetically our current application is very barebones. As pretty applications 
 ```css
 body {
   background: cornsilk;
-
   font-family: sans-serif;
 }
 ```
@@ -646,13 +645,16 @@ A good next step would be to constrain `Notes` container a little and get rid of
 ```css
 ...
 
+.add-note {
+  background-color: #fdfdfd;
+  border: 1px solid #ccc;
+}
+
 .notes {
-  max-width: 10em;
-
   margin: 0.5em;
-
   padding-left: 0;
 
+  max-width: 10em;
   list-style: none;
 }
 ```
@@ -666,17 +668,15 @@ To make individual `Notes` stand out we can apply a couple of rules.
 
 .note {
   margin-bottom: 0.5em;
-
   padding: 0.5em;
 
   background-color: #fdfdfd;
-
-  box-shadow: 0 0 0.3em .03em rgba(0,0,0,.3);
+  box-shadow: 0 0 0.3em 0.03em rgba(0, 0, 0, 0.3);
 }
 .note:hover {
-  box-shadow: 0 0 0.3em .03em rgba(0,0,0,.7);
+  box-shadow: 0 0 0.3em 0.03em rgba(0, 0, 0, 0.7);
 
-  transition: .6s;
+  transition: 0.6s;
 }
 ```
 
@@ -689,9 +689,6 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 ```css
 ...
 
-.note:hover .delete {
-  visibility: visible;
-}
 .note .delete {
   float: right;
 
@@ -699,11 +696,13 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 
   background-color: #fdfdfd;
   border: none;
-
   cursor: pointer;
   cursor: hand;
 
   visibility: hidden;
+}
+.note:hover .delete {
+  visibility: visible;
 }
 ```
 

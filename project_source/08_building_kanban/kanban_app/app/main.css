@@ -5,29 +5,29 @@ body {
 }
 
 .lane {
+  display: inline-block;
+
   margin: 1em;
 
+  background-color: #efefef;
   border: 1px solid #ccc;
   border-radius: 0.5em;
 
   min-width: 10em;
-
-  display: inline-block;
   vertical-align: top;
-
-  background-color: #efefef;
 }
 
 .lane-header {
+  overflow: auto;
+
   padding: 1em;
+
+  color: #efefef;
+  background-color: #333;
 
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
 
-  overflow: auto;
-
-  color: #efefef;
-  background-color: #333;
 }
 
 .lane-name {
@@ -40,23 +40,24 @@ body {
   margin-left: 0.5em;
 }
 
+.add-lane, .lane-add-note button {
+  background-color: #fdfdfd;
+  border: 1px solid #ccc;
+}
+
 .notes {
-  max-width: 10em;
-
   margin: 0.5em;
-
   padding-left: 0;
 
+  max-width: 10em;
   list-style: none;
 }
 
 .note {
   margin-bottom: 0.5em;
-
   padding: 0.5em;
 
   background-color: #fdfdfd;
-
   box-shadow: 0 0 0.3em .03em rgba(0,0,0,.3);
 }
 .note:hover {
@@ -65,9 +66,6 @@ body {
   transition: .6s;
 }
 
-.note:hover .delete {
-  visibility: visible;
-}
 .note .delete {
   float: right;
 
@@ -75,9 +73,11 @@ body {
 
   background-color: #fdfdfd;
   border: none;
-
   cursor: pointer;
   cursor: hand;
 
   visibility: hidden;
+}
+.note:hover .delete {
+  visibility: visible;
 }

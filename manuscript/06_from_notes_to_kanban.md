@@ -85,7 +85,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.addItem}>+</button>
+        <button className='add-lane' onClick={this.addItem}>+</button>
         <AltContainer
           stores={[LaneStore]}
           inject={ {
@@ -568,29 +568,29 @@ body {
 }
 
 .lane {
+  display: inline-block;
+
   margin: 1em;
 
+  background-color: #efefef;
   border: 1px solid #ccc;
   border-radius: 0.5em;
 
   min-width: 10em;
-
-  display: inline-block;
   vertical-align: top;
-
-  background-color: #efefef;
 }
 
 .lane-header {
+  overflow: auto;
+
   padding: 1em;
+
+  color: #efefef;
+  background-color: #333;
 
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
 
-  overflow: auto;
-
-  color: #efefef;
-  background-color: #333;
 }
 
 .lane-name {
@@ -601,6 +601,11 @@ body {
   float: right;
 
   margin-left: 0.5em;
+}
+
+.add-lane, .lane-add-note button {
+  background-color: #fdfdfd;
+  border: 1px solid #ccc;
 }
 
 ...
