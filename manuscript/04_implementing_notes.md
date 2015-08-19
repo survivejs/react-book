@@ -596,7 +596,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-Triggering `onDelete` is even simpler than the same operation for input. We capture `onClick` and trigger our callback then. It makes sense to render a delete button only if the callback exists. An alternative way to solve this would be to push it to a component of its own and compose.
+In order to invoke the previous `onDelete` callback we need to connect it with `onClick` of `Note`. If the callback doesn't exist, it makes sense to avoid rendering the delete button. An alternative way to solve this would be to push it to a component of its own.
 
 **app/components/Note.jsx**
 
