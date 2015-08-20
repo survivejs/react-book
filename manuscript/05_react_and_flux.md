@@ -284,12 +284,6 @@ As we alter `NoteStore` through actions, this leads to a cascade that causes our
 
 We actually have more code now than before, but that's okay. `App` is a little neater and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application.
 
-### Dispatching in Alt
-
-Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`.
-
-You can use the same mechanism on the Store level. In that case you would trigger `this.dispatcher.register(...)` at the constructor. These mechanisms allow you to implement effective logging to your system.
-
 ### What's the Point?
 
 Even though integrating Alt took a lot of effort, it was not all in vain. Consider the following questions:
@@ -562,6 +556,12 @@ export default class App extends React.Component {
 ```
 
 Integrating `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
+
+## Dispatching in Alt
+
+Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`.
+
+You can use the same mechanism on the Store level. In that case you would trigger `this.dispatcher.register(...)` at the constructor. These mechanisms allow you to implement effective logging to your system.
 
 ## Relay?
 
