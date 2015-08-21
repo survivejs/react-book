@@ -351,7 +351,7 @@ T> An alternative way would be to take a snapshot only when the window gets clos
 
 In order to integrate this idea to our application we will need to implement a little module to manage it. We take the possible initial data into account there and trigger the new logic.
 
-*app/libs/persist.js*  does the hard part. It will set up a `FinalStore`, deal with bootstrapping (restore data) and snapshotting (save data). I have included an escape hatch in form of `debug` flag. If it is set, the data won't get saved to `localStorage`. The reasoning is that doing this you can set the flag (`localStorage.setItem('debug', 'true')`), hit `localStorage.clear()` and refresh the browser to get a clean slate. The implementation below illustrates these ideas:
+*app/libs/persist.js*  does the hard part. It will set up a `FinalStore`, deal with bootstrapping (restore data) and snapshotting (save data). I have included an escape hatch in form of `debug` flag. If it is set, the data won't get saved to `localStorage`. The reasoning is that by doing this you can set the flag (`localStorage.setItem('debug', 'true')`), hit `localStorage.clear()` and refresh the browser to get a clean slate. The implementation below illustrates these ideas:
 
 **app/libs/persist.js**
 
@@ -371,7 +371,7 @@ export default function(alt, storage, storeName) {
 }
 ```
 
-To make our `NoteStore` aware of possibly existing data, we'll need to tweak our constructor to take it in count. The data might not exist already, though, so we'll still need a default.
+To make our `NoteStore` aware of the possibly existing data, we'll need to tweak our constructor to take it in count. The data might not exist already, though, so we'll still need a default.
 
 **app/stores/NoteStore.js**
 
@@ -390,7 +390,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-Finally, we need to trigger persistency logic at initialization. We will need to pass relevant data to it (Alt instance, storage, storage name) and off we go.
+Finally, we need to trigger the persistency logic at initialization. We will need to pass the relevant data to it (Alt instance, storage, storage name) and off we go.
 
 **app/main.jsx**
 
@@ -409,11 +409,11 @@ function main() {
 }
 ```
 
-If you try refreshing the browser now, the application should retain its state. The solution should scale with minimal effort if we add more stores to the system. Integrating a real back-end wouldn't be a problem. There are hooks in place for that now.
+If you try refreshing the browser now, the application should retain its state. The solution should scale with a minimal effort if we add more stores to the system. Integrating a real back-end wouldn't be a problem. There are hooks in place for that now.
 
 You could, for instance, pass the initial payload as a part of your HTML (isomorphic rendering), load it up and then persist the data to the back-end. You have a great deal of control over how to do this and you can use `localStorage` as a backup if you want.
 
-W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
+W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless, this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
 
 ## Extracting Connection Decorator
 
