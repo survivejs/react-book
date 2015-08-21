@@ -425,7 +425,7 @@ One way to achieve this is to push the logic to a decorator. Decorators are a bi
 
 ### What Are Decorators?
 
-If you have used languages such as Java or Python before, you might be familiar with the concept. They are syntactical sugar that allow us to wrap classes and functions. In short, they provide us a way to annotate and push logic elsewhere. This allows us to keep our components simple to read. There is a [stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript.
+If you have used languages such as Java or Python before, you might be familiar with the concept. They are syntactic sugar that allow us to wrap classes and functions. In short, they provide us a way to annotate and push logic elsewhere. This allows us to keep our components simple to read. There is a [stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript.
 
 By definition a decorator is a function that returns a function. In the case of our connection decorator we could end up with `connect(NoteStore)(App)`. In decorator syntax the same would be `@connect(NoteStore)` right before `App` class declaration.
 
