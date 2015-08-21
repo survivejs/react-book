@@ -315,9 +315,9 @@ T> You can support Safari private mode by trying to write into `localStorage` fi
 
 ### Implementing a Wrapper for `localStorage`
 
-To keep things simple and manageable, we can implement a little wrapper for `storage`. It will wrap all of these complexities. The API expects strings. As objects are convenient, we'll use `JSON.parse` and `JSON.stringify` for serialization.
+To keep things simple and manageable, we can implement a little wrapper for `storage`. It will wrap all of these complexities. The API expects strings.
 
-It could be a good idea to use a library such as [localForage](https://github.com/mozilla/localForage) to hide all the complexity. You could even integrate it behind this little interface of ours. We need just `storage.get(k)` and `storage.set(k, v)` as seen in the implementation below:
+As objects are convenient, we'll use `JSON.parse` and `JSON.stringify` for serialization. We need just `storage.get(k)` and `storage.set(k, v)` as seen in the implementation below:
 
 **app/libs/storage.js**
 
@@ -339,15 +339,17 @@ export default {
 
 The implementation could be generalized further. You could convert it into a factory (`(storage) => {...}`) and make it possible to swap the storage. Now we are stuck with `localStorage` unless we change the code.
 
+T> We're operating with `localStorage` directly to keep the implementation simple. An alternative would be to use [localForage](https://github.com/mozilla/localForage) to hide all the complexity. You could even integrate it behind our interface.
+
 ### Persisting Application Using `FinalStore`
 
-Besides this little utility we'll need to adapt our application to use it. Alt provides handy functionality just for this purpose. We can persist the entire state of our application using `FinalStore`, bootstrapping and snapshotting. `FinalStore` is a store that listens to all existing stores. Every time some store changes, `FinalStore` will know about it. This makes it ideal for persistency.
+Besides this little utility we'll need to adapt our application to use it. Alt provides a built-in store called `FinalStore` which is perfect for this purpose. We can persist the entire state of our application using `FinalStore`, bootstrapping and snapshotting. `FinalStore` is a store that listens to all existing stores. Every time some store changes, `FinalStore` will know about it. This makes it ideal for persistency.
 
 We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part as `alt.bootstrap` allows us to set state of the all stores. In our case, we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere, through a WebSocket for instance.
 
 T> An alternative way would be to take a snapshot only when the window gets closed. There's a Window level `beforeunload` hook that could be used. The problem with this approach is that it is brittle. What if something unexpected happens and the hook doesn't get triggered for some reason? You'll lose data.
 
-In order to integrate this idea to our application we will need to implement a little module to manage it. There we take possible initial data in count and trigger the new logic.
+In order to integrate this idea to our application we will need to implement a little module to manage it. We take the possible initial data into account there and trigger the new logic.
 
 *app/libs/persist.js*  does the hard part. It will set up a `FinalStore`, deal with bootstrapping (restore data) and snapshotting (save data). I have included an escape hatch in form of `debug` flag. If it is set, the data won't get saved to `localStorage`. The reasoning is that doing this you can set the flag (`localStorage.setItem('debug', 'true')`), hit `localStorage.clear()` and refresh the browser to get a clean slate. The implementation below illustrates these ideas:
 
