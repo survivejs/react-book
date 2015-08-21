@@ -425,9 +425,58 @@ One way to achieve this is to push the logic to a decorator. Decorators are a bi
 
 ### What Are Decorators?
 
-If you have used languages such as Java or Python before, you might be familiar with the concept. They are syntactic sugar that allow us to wrap classes and functions. In short, they provide us a way to annotate and push logic elsewhere. This allows us to keep our components simple to read. There is a [stage 1 decorator proposal](https://github.com/wycats/javascript-decorators) for JavaScript.
+If you have used languages such as Java or Python before, you might be familiar with the idea. Decorators are syntactic sugar that allow us to wrap and annotate classes and functions. In their [current proposal](https://github.com/wycats/javascript-decorators) (stage 1) only class and method level wrapping is supported. Functions may become supported later on.
 
-By definition a decorator is a function that returns a function. In the case of our connection decorator we could end up with `connect(NoteStore)(App)`. In decorator syntax the same would be `@connect(NoteStore)` right before `App` class declaration.
+By definition a decorator is a function that returns a function or sets a property. In the case of our connection decorator we could end up with `@connect(NoteStore)`. That's alias to `connect(NoteStore)(App)`.
+
+### Implementing Logging Decorator
+
+Sometimes it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's more controllable way to deal with it. Consider the example below:
+
+```javascript
+class Math {
+  @log
+  add(a, b) {
+    return a + b;
+  }
+}
+
+function log(target, name, descriptor) {
+  var oldValue = descriptor.value;
+
+  descriptor.value = function() {
+    console.log(`Calling "${name}" with`, arguments);
+
+    return oldValue.apply(null, arguments);
+  };
+
+  return descriptor;
+}
+
+const math = new Math();
+
+// passed parameters should get logged now
+math.add(2, 4);
+```
+
+Strangely enough our decorator takes most of the code. The decorated class is simple. Fortunately you can hide the decorator within some library. Once implemented you don't need to worry about it. You can just `@log` methods.
+
+The decorator receives three parameters:
+
+* `target` maps to the instance of the class
+* `name` contains the name of the method being decorated
+* `descriptor` is the most interesting piece as it allows us to annotate the method and manipulate its behavior. It could look like this for instance:
+
+```javascript
+const descriptor = {
+  value: () => {...},
+  enumerable: false,
+  configurable: true,
+  writable: true
+};
+```
+
+As you saw above `value` makes it possible to shape the behavior. The rest allow you to modify behavior on method level. For instance `@readonly` decorator could limit access. `@memoize` is another interesting example as that allows you to implement easy caching for methods.
 
 ### Implementing `@connect`
 
