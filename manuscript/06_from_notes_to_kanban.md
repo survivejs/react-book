@@ -531,7 +531,7 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-Now that we have resolved actions and store, we need to adjust our component to take these changes in count. Not surprisingly the logic is going to resemble `Note` editing a lot.
+Now that we have resolved actions and store, we need to adjust our component to take these changes into account. Not surprisingly the logic is going to resemble `Note` editing a lot.
 
 **app/components/Lane.jsx**
 

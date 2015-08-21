@@ -371,7 +371,7 @@ export default function(alt, storage, storeName) {
 }
 ```
 
-To make our `NoteStore` aware of the possibly existing data, we'll need to tweak our constructor to take it in count. The data might not exist already, though, so we'll still need a default.
+To make our `NoteStore` aware of the possibly existing data, we'll need to tweak our constructor to take it into account. The data might not exist already, though, so we'll still need a default.
 
 **app/stores/NoteStore.js**
 

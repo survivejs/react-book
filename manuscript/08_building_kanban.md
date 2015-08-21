@@ -467,7 +467,7 @@ As it doesn't make sense to use isomorphic rendering for development, I set it u
 
 T> If you want output that doesn't have React keys, use `React.renderToStaticMarkup` instead. This is useful especially if you are writing static site generators.
 
-In addition, we need to tweak the entry point of our application to take these changes in count. When in production it should use the existing markup instead of injecting its own.
+In addition, we need to tweak the entry point of our application to take these changes into account. When in production it should use the existing markup instead of injecting its own.
 
 **app/main.jsx**
 
