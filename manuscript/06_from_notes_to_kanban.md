@@ -358,7 +358,7 @@ After these changes we have set up a system that can maintain relations between 
 
 ### Alternative Designs
 
-There are a couple of alternatives to the current design. The data structure, it uses is convenient. This is true particularly for lane related operations (e.g. moving notes). `Lanes` know which `Notes` they contain.
+There are a couple of alternatives to the current design. The data structure, it uses is convenient. This is true particularly for lane related operations (e.g., moving notes). `Lanes` know which `Notes` they contain.
 
 This will be important as we implement drag and drop. Incidentally the current structure would work nicely with a back-end. The current structures would map neatly to a RESTful API. We would have resources for both `Lanes` and `Notes`. Each action would then operate through these directly using standard CRUD interface.
 
@@ -611,7 +611,7 @@ body {
 ...
 ```
 
-As this is a small project we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple. One way to do this is to extract CSS per component and then refer to it there (e.g. `require('./lane.css')` at `Lane.jsx`).
+As this is a small project we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple. One way to do this is to extract CSS per component and then refer to it there (e.g., `require('./lane.css')` at `Lane.jsx`).
 
 Besides keeping things nice and tidy Webpack's lazy loading machinery can pick this up. As a result, the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling.
 
