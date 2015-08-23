@@ -12,7 +12,7 @@ Historically speaking there have been many build systems. [Make](https://en.wiki
 
 ![Grunt](images/grunt.png)
 
-Grunt went mainstream before Gulp. Its plugin architecture especially contributed towards its popularity. At the same time this is the Achilles' heel of Grunt. I know from experience that you **don't** want to end up having to maintain a 300 line `Gruntfile`. Here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
+Grunt went mainstream before Gulp. Its plugin architecture especially contributed towards its popularity. At the same time this is the Achilles' heel of Grunt. I know from experience that you **don't** want to end up having to maintain a 300-line `Gruntfile`. Here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
 
 ```javascript
 module.exports = function(grunt) {
@@ -38,9 +38,9 @@ module.exports = function(grunt) {
 };
 ```
 
-In this sample, we define two basic tasks related to *jshint*. It is a linting tool that helps you spot possible problem spots at your source code. We have a standalone task for running it. Also, we have a watcher based task. If we run it, we'll get warnings interactively at our terminal as we edit.
+In this sample, we define two basic tasks related to *jshint*, a linting tool that helps you spot possible problem spots in your JavaScript source code. We have a standalone task for running jshint. Also, we have a watcher based task. When we run Grunt, we'll get warnings in real-time in our terminal as we edit and save our source code.
 
-In practice, you would have a lot of small tasks such as these for various purposes such as building the project. The example shows well how these tasks are constructed. An important part of the power of Grunt is that it hides a lot of the wiring from you. Taken too far this can get problematic though. It can be hard to understand well enough what's going on under the hood.
+In practice you would have many small tasks for various purposes, such as building the project. The example shows how these tasks are constructed. An important part of the power of Grunt is that it hides a lot of the wiring from you. Taken too far this can get problematic though. It can become hard to thoroughly understand what's going on under the hood.
 
 T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin allows you to use Webpack in a Grunt environment. You can leave the heavy lifting to Webpack.
 
