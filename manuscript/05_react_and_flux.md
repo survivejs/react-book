@@ -217,7 +217,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-It would be possible to operate directly on data. E.g. a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. It is recommended that you use `setState` with Alt to keep things clean and easy to understand.
+It would be possible to operate directly on data. For example a oneliner such as `this.notes.splice(targetId, 1)` would work for `delete`. It is recommended that you use `setState` with Alt to keep things clean and easy to understand.
 
 We have almost integrated Flux to our application now. We have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit - integration with our View. It will have to listen to the Store and be able to trigger Actions to complete the cycle.
 

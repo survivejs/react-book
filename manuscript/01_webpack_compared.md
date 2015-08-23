@@ -48,9 +48,9 @@ T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin
 
 ![Gulp](images/gulp.png)
 
-Gulp takes a different approach. Instead of relying on configuration per plugin you deal with actual code. Gulp builds on top of the tried and true concept of piping. If you are familiar with Unix, it's the same idea here. You simply have sources, filters and sinks.
+Gulp takes a different approach. Instead of relying on configuration per plugin, you deal with actual code. Gulp builds on top of the tried and true concept of piping. If you are familiar with Unix, it's the same idea here. You simply have sources, filters, and sinks.
 
-Sources match files. Filters perform operations on those (e.g. convert to JavaScript). Finally, it gets passed to sinks (your build directory etc.). Here's a sample `Gulpfile` to give you a better idea of the approach taken from the project README. It has been abbreviated a bit:
+Sources match files. Filters perform operations on those (e.g., convert to JavaScript). Finally, it gets passed to sinks (your build directory etc.). Here's a sample `Gulpfile` to give you a better idea of the approach taken from the project README. It has been abbreviated a bit:
 
 ```javascript
 var gulp = require('gulp');
@@ -104,7 +104,7 @@ Dealing with JavaScript modules has always been a bit of a problem. The language
 
 In practice, it can be useful just to use CommonJS, the Node.js format, and let the tooling deal with the rest. The advantage is that you can often hook into npm and avoid reinventing the wheel.
 
-[Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. There are smaller transformation tools that allow you to move beyond the basic usage. E.g. [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development. This will save some effort and no doubt is a good solution up to a point.
+[Browserify](http://browserify.org/) solves this problem. It provides a way to bundle CommonJS modules together. You can hook it up with Gulp. There are smaller transformation tools that allow you to move beyond the basic usage. For example, [watchify](https://www.npmjs.com/package/watchify) provides a file watcher that creates bundles for you during development. This will save some effort and no doubt is a good solution up to a point.
 
 The Browserify ecosystem is composed of a lot of small modules. This way they remind of the Unix philosophy. It is a little easier to adopt than Webpack and in fact, it is a good alternative to it.
 

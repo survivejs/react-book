@@ -171,7 +171,7 @@ Hit `npm start` and surf to **localhost:8080**. You should see something familia
 
 Or we can run the application from **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar. It indicates the status of the rebundling process.
 
-T> If you want to use some other port than `8080`, you can pass `port` parameter (e.g. `port: 4000`) to *devServer*.
+T> If you want to use some other port than `8080`, you can pass `port` parameter (e.g., `port: 4000`) to *devServer*.
 
 In addition to **webpack.config.js** it is possible to set *webpack-dev-server* configuration through cli. There is also an entire [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api) available in case you want most control over it.
 
