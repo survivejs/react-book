@@ -22,9 +22,9 @@ The theoretical parts of the book focus more on the tooling. Through those you w
 
 ![Kanban by Dennis Hamilton (CC BY)](images/kanban_intro.jpg)
 
-Kanban, originally developed at Toyota, allows you to track the status of tasks. It can be modeled as `Lanes` and `Notes`. `Notes` move through `Lanes` representing stages from left to right as they become completed. `Notes` themselves can contain information about the task itself, priority and so on.
+Kanban, originally developed at Toyota, allows you to track the status of tasks. It can be modeled as `Lanes` and `Notes`. `Notes` move through `Lanes` representing stages from left to right as they become completed. `Notes` themselves can contain information about the task itself, its priority, and so on.
 
-The simplest way to build a Kanban is to get a bunch of post-it notes and find a wall. After that you split it up in columns. These `Lanes` could consist of the following stages: Todo, Doing, Done. All `Notes` would go to Todo initially. As you begin working on them you would move them to Doing and finally, to Done when completed. This is the simplest way to get started.
+The simplest way to build a Kanban is to get a bunch of Post-it notes and find a wall. After that you split it up into columns. These `Lanes` could consist of the following stages: Todo, Doing, Done. All `Notes` would go to Todo initially. As you begin working on them, you would move them to Doing, and finally to Done when completed. This is the simplest way to get started.
 
 As the system gets more sophisticated you can start applying concepts such as WIP limit. The effect of this is that you are forced to focus on getting that particular task done. That is one of the good consequences of using Kanban. Moving those notes around is satisfying. As a bonus you get visibility and know what is yet to be done.
 
