@@ -6,7 +6,7 @@ Webpack solves the fundamental problem of web development, namely module bundlin
 
 For example, let's say you have a form with a date input, and you want to use jQuery plugins for a date picker and validation, but you only want to include those plugins on specific pages. Webpack manages this module bundling scenario through configuration. This makes Webpack daunting to approach, yet powerful to use. This book helps you to get through that initial learning curve.
 
-Facebook's React is a component based view abstraction. It is not limited to web. In fact, you can build mobile applications using it. React forces you to think your application as components. It won't be enough, though. You will need to complement it with some other libraries on more complex cases. Compared to a framework based approach, this is refreshing.
+Facebook's React javascript library is a component based view abstraction. A component could be a form input, button, or any other element in your user interface. Use of React is not limited to web applications. In fact you can build mobile applications with React, too. React is flexible and provides hooks so you can complement it with other frameworks and libraries for more complex cases. Compared to a monolithic framework based approach, this is refreshing.
 
 ## How Is This Book Organized?
 
