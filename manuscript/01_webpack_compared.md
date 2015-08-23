@@ -1,12 +1,12 @@
 # Webpack Compared
 
-You can understand Webpack better by putting it into a historical context. This will show you why its approach is powerful. Back in the day it was enough just to concatenate some scripts together. Times have changed, though. Now distributing your JavaScript code can be a complex endeavor.
+You can understand Webpack better by putting it into an historical context. This will show you why its approach is powerful. Back in the day it was enough just to concatenate some scripts together. Times have changed, though. Now distributing your JavaScript code can be a complex endeavor.
 
-This problem has been escalated by the rise of single page applications (SPAs). They tend to rely on various heavy libraries. The last thing you want to do is to load them all at once. There are better solutions and Webpack allows many of those.
+This problem has been escalated by the rise of single page applications (SPAs). They tend to rely on various heavy libraries. The last thing you want to do is to load them all at once. There are better solutions, and Webpack works with many of those.
 
 The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package manager, provides more context. Before npm it was difficult to consume dependencies. Now that npm has become popular for front-end development, the situation has changed. Now we have nice ways to manage the dependencies of our projects.
 
-Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the most known one and still a viable option. In the front-end world [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have particularly gained popularity. Plugins make available through npm make both approaches powerful.
+Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the most known one and still a viable option. In the front-end world [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have particularly gained popularity. Plugins made available through npm make both approaches powerful.
 
 ## Grunt
 
