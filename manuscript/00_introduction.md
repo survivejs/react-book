@@ -2,15 +2,23 @@
 
 Front-end development moves forward fast. In this book we'll discuss  [Webpack](https://webpack.github.io/) and [React](https://facebook.github.io/react/). Combined, these tools allow you to build all sorts of web applications swiftly. Knowledge of Webpack is useful beyond React. Understanding React will allow you to see alternatives in a different light.
 
+## What Is Webpack?
+
 Webpack solves the fundamental problem of web development, namely module bundling. Webpack collects and processes a variety of web assets and packs them into a bundle that you can serve to your client. Even though this sounds simple, it is in fact a difficult problem that becomes more complex as your web application grows.
 
-For example, let's say you have a form with a date input, and you want to use jQuery plugins for a date picker and validation, but you only want to include those plugins on specific pages. Webpack manages this module bundling scenario through configuration. This makes Webpack daunting to approach, yet powerful to use. This book helps you to get through that initial learning curve.
+Let's say you have a form with a date input. Then you want to use jQuery plugins for a date picker and validation but you only want to include those plugins on specific pages. Webpack manages this module bundling scenario through configuration. This makes Webpack daunting to approach, yet powerful to use. This book helps you to get through that initial learning curve.
 
-Facebook's React javascript library is a component based view abstraction. A component could be a form input, button, or any other element in your user interface. Use of React is not limited to web applications. In fact you can build mobile applications with React, too. React is flexible and provides hooks so you can complement it with other frameworks and libraries for more complex cases. Compared to a monolithic framework based approach, this is refreshing.
+## What Is React?
+
+Facebook's React, a JavaScript library, is a component based view abstraction. A component could be a form input, button, or any other element in your user interface. This provides an interesting contrast to earlier approaches as React isn't bound to DOM by design. You can use it to implement mobile applications for example.
+
+Given React focuses only on the view you'll likely have to complement it with other libraries to give you the missing bits. This provides an interesting contrast to framework based approaches as they give you a lot more out of the box.
 
 ## How Is This Book Organized?
 
-The idea of the book is to guide you through a small example project. After that we discuss more theoretical aspects of web development. The project in question will be a small [Kanban](https://en.wikipedia.org/wiki/Kanban) application. We will start by building a Webpack based configuration. After that we will develop a small clone of a famous [Todo application](http://todomvc.com/). We will generalize from there and put in place [Flux architecture](https://facebook.github.io/flux/docs/overview.html) within our application. Finally, we will apply some [Drag and Drop (DnD) magic](https://gaearon.github.io/react-dnd/) and start dragging things around.
+The idea of the book is to guide you through a small example project. After that we discuss more theoretical aspects of web development. The project in question will be a small [Kanban](https://en.wikipedia.org/wiki/Kanban) application.
+
+We will start by building a Webpack based configuration. After that we will develop a small clone of a famous [Todo application](http://todomvc.com/). We will generalize from there and put in place [Flux architecture](https://facebook.github.io/flux/docs/overview.html) within our application. We will apply some [Drag and Drop (DnD) magic](https://gaearon.github.io/react-dnd/) and start dragging things around. Finally we will get a production grade build done.
 
 The theoretical parts of the book focus more on the tooling. Through those you will learn to:
 
