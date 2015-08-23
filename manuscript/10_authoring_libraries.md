@@ -22,7 +22,7 @@ In bigger projects you may find the following:
 * `.gitignore` - Ignore patterns for Git. I.e. which file shouldn't go to version control.
 * `.eslintignore` - Ignore patterns for ESLint. Again, tool specific.
 * `.npmignore` - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
-* `.eslintrc` - Linting rules. You can use `.jshintrc` etc. based on your preferences.
+* `.eslintrc` - Linting rules. You can use `.jshintrc` and such based on your preferences.
 * `webpack.config.js` - If you are using a simple setup, you might as well have the configuration at project root.
 
 In addition, you'll likely have various directories for source, tests, demos, documentation and so on.
@@ -140,7 +140,7 @@ Even though it is simple to publish new versions out there, it is important to r
 
 ## Library Formats
 
-I output my React component in various formats at my boilerplate. I generate a version that's convenient to consume from Node.js by processing my component code through Babel. That will convert ES6 etc. goodies to a format which is possible to consume from vanilla Node.js. This allows the user to refer to some specific module within the whole if needed.
+I output my React component in various formats at my boilerplate. I generate a version that's convenient to consume from Node.js by processing my component code through Babel. That will convert ES6 and other goodies to a format which is possible to consume from vanilla Node.js. This allows the user to refer to some specific module within the whole if needed.
 
 In addition, I generate so called *distribution bundles*: `.js` and `.min.js`. There's a sourcemap (`.map`) for both. That is useful for debugging. It is possible to consume these bundles standalone. They come with an [UMD](https://github.com/umdjs/umd) wrapper.
 
