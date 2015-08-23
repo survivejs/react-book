@@ -28,7 +28,7 @@ The simplest way to build a Kanban is to get a bunch of Post-it notes and find a
 
 As the system gets more sophisticated you can start applying concepts such as a limit on Work In Progress (WIP). The effect of this is that you are forced to focus on getting that particular task done. That is one of the good consequences of using Kanban. Moving those notes around is satisfying. As a bonus you get visibility and know what is yet to be done.
 
-A good idea to see Kanban in action at the web is to check out [Trello](https://trello.com/). Sprintly has open sourced their [React implementation of Kanban](https://github.com/sprintly/sprintly-kanban). Ours won't be as sophisticated, but it will be enough to get started.
+A good example of Kanban in action on the web is [Trello](https://trello.com/). Sprintly has open sourced their [React implementation of Kanban](https://github.com/sprintly/sprintly-kanban). Ours won't be as sophisticated, but it will be enough to get started.
 
 ## Who Is This Book For?
 
