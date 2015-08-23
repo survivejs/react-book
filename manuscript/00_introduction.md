@@ -33,6 +33,7 @@ A good idea to see Kanban in action at the web is to check out [Trello](https://
 ## Who Is This Book For?
 
 I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm. If you know something about Webpack or React, that's great. By reading this book you will deepen your understanding of these tools.
+
 ## Extra Material
 
 The book content and source are available at [GitHub](https://github.com/survivejs/webpack_react). This allows you to start from any chapter you want.
