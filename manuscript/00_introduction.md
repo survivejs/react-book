@@ -10,7 +10,7 @@ Facebook's React javascript library is a component based view abstraction. A com
 
 ## How Is This Book Organized?
 
-The idea of the book is to guide you through a small example project. After that we discuss more theoretical aspects of web development. The project in question will be a small [Kanban](https://en.wikipedia.org/wiki/Kanban) application. We will start by building a Webpack based configuration. After that we will develop a small clone of a famous [Todo application](http://todomvc.com/). We will generalize from there and put in place [Flux architecture](https://facebook.github.io/flux/docs/overview.html) within our application. Finally, we will apply some [DnD magic](https://gaearon.github.io/react-dnd/) and start dragging things around.
+The idea of the book is to guide you through a small example project. After that we discuss more theoretical aspects of web development. The project in question will be a small [Kanban](https://en.wikipedia.org/wiki/Kanban) application. We will start by building a Webpack based configuration. After that we will develop a small clone of a famous [Todo application](http://todomvc.com/). We will generalize from there and put in place [Flux architecture](https://facebook.github.io/flux/docs/overview.html) within our application. Finally, we will apply some [Drag and Drop (DnD) magic](https://gaearon.github.io/react-dnd/) and start dragging things around.
 
 The theoretical parts of the book focus more on the tooling. Through those you will learn to:
 
