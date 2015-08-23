@@ -296,7 +296,7 @@ This is what makes Flux a strong architecture when used with React. It isn't har
 
 ## Implementing Persistency over `localStorage`
 
-We will our implementation of `NoteStore` to persist the data on change. This way we don't lose our data after a refresh. One way to achieve this is to use [localStorage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage). It is a well supported feature that allows you to persist data to the browser.
+We will modify our implementation of `NoteStore` to persist the data on change. This way we don't lose our data after a refresh. One way to achieve this is to use [localStorage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage). It is a well supported feature that allows you to persist data to the browser.
 
 ### Understanding `localStorage`
 
