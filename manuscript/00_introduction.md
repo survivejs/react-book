@@ -26,7 +26,7 @@ Kanban, originally developed at Toyota, allows you to track the status of tasks.
 
 The simplest way to build a Kanban is to get a bunch of Post-it notes and find a wall. After that you split it up into columns. These `Lanes` could consist of the following stages: Todo, Doing, Done. All `Notes` would go to Todo initially. As you begin working on them, you would move them to Doing, and finally to Done when completed. This is the simplest way to get started.
 
-As the system gets more sophisticated you can start applying concepts such as WIP limit. The effect of this is that you are forced to focus on getting that particular task done. That is one of the good consequences of using Kanban. Moving those notes around is satisfying. As a bonus you get visibility and know what is yet to be done.
+As the system gets more sophisticated you can start applying concepts such as a limit on Work In Progress (WIP). The effect of this is that you are forced to focus on getting that particular task done. That is one of the good consequences of using Kanban. Moving those notes around is satisfying. As a bonus you get visibility and know what is yet to be done.
 
 A good idea to see Kanban in action at the web is to check out [Trello](https://trello.com/). Sprintly has open sourced their [React implementation of Kanban](https://github.com/sprintly/sprintly-kanban). Ours won't be as sophisticated, but it will be enough to get started.
 
