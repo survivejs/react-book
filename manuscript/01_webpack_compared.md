@@ -50,7 +50,7 @@ T> Note that [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) plugin
 
 Gulp takes a different approach. Instead of relying on configuration per plugin, you deal with actual code. Gulp builds on top of the tried and true concept of piping. If you are familiar with Unix, it's the same idea here. You simply have sources, filters, and sinks.
 
-Sources match files. Filters perform operations on those (e.g., convert to JavaScript). Finally, it gets passed to sinks (your build directory etc.). Here's a sample `Gulpfile` to give you a better idea of the approach taken from the project README. It has been abbreviated a bit:
+Sources match files. Filters perform operations on sources (e.g., convert to JavaScript). Finally, the results get passed to sinks (e.g., your build directory). Here's a sample `Gulpfile` to give you a better idea of the approach, taken from the project's README. It has been abbreviated a bit:
 
 ```javascript
 var gulp = require('gulp');
@@ -92,9 +92,9 @@ gulp.task('watch', function() {
 gulp.task('default', ['watch', 'scripts']);
 ```
 
-Given the configuration is code you can always just hack it if you run into troubles. You can wrap existing Node.js modules as Gulp plugins and so on. Compared to Grunt you have a clearer idea of what's going on. You still end up writing a lot of boilerplate for casual tasks, though. That is where some newer approaches come in.
+Given the configuration is code, you can always just hack it if you run into troubles. You can wrap existing Node.js modules as Gulp plugins, and so on. Compared to Grunt, you have a clearer idea of what's going on. You still end up writing a lot of boilerplate for casual tasks, though. That is where some newer approaches come in.
 
-T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use Webpack in Gulp environment.
+T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use Webpack in a Gulp environment.
 
 ## Browserify
 
