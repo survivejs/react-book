@@ -589,8 +589,6 @@ To get familiar with more approaches we'll be using the `AltContainer` in this p
 
 The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper does the same thing and more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes.
 
-You will see the wrapper pattern later again in this book and you will learn to implement it yourself. In this case, the pattern will allow us to set up arbitrary connections to multiple stores. Besides, we have control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
-
 The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use the `AltContainer`. After these changes we are good to go.
 
 **app/components/App.jsx**
@@ -621,6 +619,8 @@ export default class App extends React.Component {
   ...
 }
 ```
+
+The `AltContainer` allows us to bind data to its immediate children. In this case it injects `items` property to `Notes`. It is the same idea as for decorators earlier but now it's closer to the code. The pattern allows us to set up arbitrary connections to multiple stores and manage them.
 
 Integrating the `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
 
