@@ -583,15 +583,15 @@ export default class App extends React.Component {
 
 This more verbose approach is roughly equivalent to our implementation. It actually does more as it allows you to connect to multiple stores at once. It also provides more control over the way you can shape store state to props.
 
-To get familiar with more approaches we'll be using `AltContainer` in this project. Using the decorator is completely acceptable. It comes down to your personal preferences.
+To get familiar with more approaches we'll be using the `AltContainer` in this project. Using the decorator is completely acceptable. It comes down to your personal preferences.
 
-## Using `AltContainer` Instead of a Decorator
+## Using the `AltContainer` Instead of a Decorator
 
-[AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper does the same thing and more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes.
+The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper does the same thing and more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes.
 
 You will see the wrapper pattern later again in this book and you will learn to implement it yourself. In this case, the pattern will allow us to set up arbitrary connections to multiple stores. Besides, we have control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
 
-The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use `AltContainer`. After these changes we are good to go.
+The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use the `AltContainer`. After these changes we are good to go.
 
 **app/components/App.jsx**
 
@@ -622,7 +622,7 @@ export default class App extends React.Component {
 }
 ```
 
-Integrating `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
+Integrating the `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
 
 ## Dispatching in Alt
 
