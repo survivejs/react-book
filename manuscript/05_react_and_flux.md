@@ -528,6 +528,24 @@ import connect from '../decorators/connect';
 
 @connect(NoteStore)
 export default class App extends React.Component {
+  /*
+  these lines can be removed now
+  constructor(props) {
+    super(props);
+
+    this.storeChanged = this.storeChanged.bind(this);
+    this.state = NoteStore.getState();
+  }
+  componentDidMount() {
+    NoteStore.listen(this.storeChanged);
+  }
+  componentWillUnmount() {
+    NoteStore.unlisten(this.storeChanged);
+  }
+  storeChanged(state) {
+    this.setState(state);
+  }
+   */
   render() {
     const notes = this.props.notes;
 
