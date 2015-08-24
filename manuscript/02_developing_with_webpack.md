@@ -177,7 +177,7 @@ In addition to **webpack.config.js** it is possible to set *webpack-dev-server* 
 
 W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the cli and Node.js API and they may behave slightly differently at times. This is the reason why some prefer to use solely Node.js API.
 
-We are using a somewhat basic setup here. Beyond defaults we've enabled hot module loading (HMR) and HTML5 History API fallback. The former will come in handy when we discuss React in detail. Latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up more `entry` paths.
+We are using a somewhat basic setup here. Beyond defaults we've enabled hot module reloading (HMR) and HTML5 History API fallback. The former will come in handy when we discuss React in detail. The latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up more `entry` paths.
 
 ## Refreshing CSS
 
