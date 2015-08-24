@@ -319,7 +319,7 @@ export default class Lane extends React.Component {
 }
 ```
 
-We also need to defined that getter for `NoteStore`
+We also need to defined that getter for `NoteStore`:
 
 **app/stores/NoteStore.jsx**
 
@@ -354,7 +354,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. It's not a particularly beautiful solution. The current structure allowed us to keep singleton stores and a flat data structure. That's consistent with Flux architecture
+After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. It's not a particularly beautiful solution. The current structure allowed us to keep singleton stores and a flat data structure. That's consistent with Flux architecture.
 
 ### Alternative Designs
 
