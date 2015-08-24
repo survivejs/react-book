@@ -563,7 +563,7 @@ We can build new decorators for various functionalities, such as undo, in this m
 
 ### Alt's `@connectToStores`
 
-Alt provides a similar decorator known as `@connectToStores`. It relies on static methods. This a ES6 feature and you might be familiar with it from other languages. Rather than normal methods that are bound to a specific instance, these are bound on class level. This means you can call them through the class itself (i.e. `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
+Alt provides a similar decorator known as `@connectToStores`. It relies on static methods.  Rather than normal methods that are bound to a specific instance, these are bound on class level. This means you can call them through the class itself (i.e. `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
 
 ```javascript
 ...
@@ -587,7 +587,7 @@ To get familiar with more approaches we'll be using `AltContainer` in this proje
 
 ## Using `AltContainer` Instead of a Decorator
 
-[AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper that does the same thing and a bit more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes.
+[AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper does the same thing and more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes.
 
 You will see the wrapper pattern later again in this book and you will learn to implement it yourself. In this case, the pattern will allow us to set up arbitrary connections to multiple stores. Besides, we have control over how to inject them to the contained components. Particularly this fact will become important as we grow the application.
 
