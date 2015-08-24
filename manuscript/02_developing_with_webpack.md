@@ -21,7 +21,9 @@ As a result, you should have `package.json` at your project root. If you are int
 
 Next, you should get Webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain Webpack's version per project. Hit
 
-> npm i webpack node-libs-browser --save-dev
+```bash
+npm i webpack node-libs-browser --save-dev
+```
 
 T> `node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically. It's a good idea to have it installed to be future-proof.
 
@@ -83,7 +85,9 @@ We'll need to tell Webpack how to deal with the assets we just set up. For this 
 
 To keep things simple, we'll generate an entry point to our application using `html-webpack-plugin`. It will create links to possible assets and keep our life simple. Hit
 
-> npm i html-webpack-plugin --save-dev
+```bash
+npm i html-webpack-plugin --save-dev
+```
 
 to install it to the project.
 
@@ -127,7 +131,9 @@ This makes it roughly equal to tools such as [LiveReload](http://livereload.com/
 
 Hit
 
-> npm i webpack-dev-server --save-dev
+```bash
+npm i webpack-dev-server --save-dev
+```
 
 at the project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at `package.json`. The following configuration is enough:
 
@@ -185,7 +191,9 @@ We can extend the approach to work with CSS. Webpack allows us to change CSS wit
 
 To load CSS to project, we'll need to use a couple of loaders. To get started, invoke
 
-> npm i css-loader style-loader --save-dev
+```bash
+npm i css-loader style-loader --save-dev
+```
 
 Now that we have the loaders we need, we'll need to make sure Webpack is aware of them. Configure as follows.
 
@@ -258,7 +266,9 @@ I have settled with a single configuration file based approach. The idea is that
 
 As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit
 
-> npm i webpack-merge --save-dev
+```bash
+npm i webpack-merge --save-dev
+```
 
 to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch and merge based on that. We'll expand these in the coming chapters.
 

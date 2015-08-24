@@ -31,7 +31,9 @@ We could have skipped ids in our definition. This would become problematic as we
 
 Normally the problem is solved by a back-end. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) allows us to generate unique ids. We'll be using a Node.js implementation known as *node-uuid*. Invoke
 
-> npm i node-uuid --save
+```bash
+npm i node-uuid --save
+```
 
 at the project root to get it installed.
 
@@ -450,7 +452,9 @@ We'll be using an ES6 function known as [findIndex](https://developer.mozilla.or
 
 Babel provides an easy way to polyfill this feature using `import 'babel-core/polyfill';`. The problem is that it bloats our final bundle somewhat as it enables all [core-js](https://github.com/zloirock/core-js) features. As we need just one shim, we'll be using a specific shim for this instead. Hit
 
-> npm i array.prototype.findindex --save
+```bash
+npm i array.prototype.findindex --save
+```
 
 You can see how it behaves through Node.js cli. Here's a sample session:
 

@@ -44,7 +44,9 @@ In Alt you'll deal with Actions and Stores. Dispatcher is hidden, but you will s
 
 Everything in Alt begins from Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, let's add Alt to our project:
 
-> npm i alt --save
+```bash
+npm i alt --save
+```
 
 To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). Using the pattern we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 

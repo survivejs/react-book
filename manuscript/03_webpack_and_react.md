@@ -74,7 +74,9 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 
 You can use Babel with Webpack easily through [babel-loader](https://www.npmjs.com/package/babel-loader). It takes our ES6 module definition based code and turn it into ES5 bundles. Install *babel-loader* with
 
-> npm i babel-core babel-loader --save-dev
+```bash
+npm i babel-core babel-loader --save-dev
+```
 
 Besides, we need to add a loader declaration to the *loaders* section of configuration. It matches against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression.
 
@@ -128,7 +130,9 @@ T> If you are using Babel in your project, you can also use it to process your W
 
 It is time to add a first application level dependency to our project. Hit
 
-> npm i react --save
+```bash
+npm i react --save
+```
 
 to get React installed. This will save React to `dependencies` section of `package.json`. Later on we'll use this to generate a vendor build for the production version. It's a good practice to separate application and development level dependencies this way.
 
@@ -210,7 +214,9 @@ We can work around this problem using hot loading. This is enabled by [react-hot
 
 To enable hot loading for React, you should first install the package using
 
-> npm i react-hot-loader --save-dev
+```bash
+npm i react-hot-loader --save-dev
+```
 
 We also need to make our configuration aware of it so it can inject hooks Webpack requires for the system to work.
 

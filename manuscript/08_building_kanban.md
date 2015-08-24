@@ -229,7 +229,9 @@ One more way to push the build further would be to load popular dependencies, su
 
 Our current setup doesn't clean `build` directory between builds. As this is annoying, especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
 
-> npm i clean-webpack-plugin --save-dev
+```bash
+npm i clean-webpack-plugin --save-dev
+```
 
 to install the plugin. Change the build configuration as below to integrate it.
 
@@ -266,7 +268,9 @@ As it happens Webpack provides means to generate a separate CSS bundle. We can a
 
 It will take some configuration to make it work. Hit
 
-> npm i extract-text-webpack-plugin --save-dev
+```bash
+npm i extract-text-webpack-plugin --save-dev
+```
 
 to get started. Next, we need to get rid of our current css related declaration at `common` configuration. After that we need to split it up between `build` and `dev` configuration sections as below:
 

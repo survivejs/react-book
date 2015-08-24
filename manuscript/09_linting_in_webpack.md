@@ -68,7 +68,9 @@ Besides setting it up with Webpack it can be highly beneficial to look into an i
 
 In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. First we'll need to hit
 
-> npm i babel-eslint eslint eslint-plugin-react --save-dev
+```bash
+npm i babel-eslint eslint eslint-plugin-react --save-dev
+```
 
 This will add ESLint and the plugin we want to use as our project development dependency. Next, we'll need to do some configuration to make linting work in our project.
 
@@ -156,7 +158,9 @@ The problem with this approach is that if you invoke `lint` through some other c
 
 We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step hit
 
-> npm i eslint-loader --save-dev
+```bash
+npm i eslint-loader --save-dev
+```
 
 Next, we need to tweak our development configuration to include it. Add the following section to it:
 
@@ -289,7 +293,9 @@ If you just want some starting point, you can pick one of [eslint-config- packag
 
 [csslint](https://www.npmjs.com/package/csslint) allows us to lint CSS. [csslint-loader](https://www.npmjs.com/package/csslint-loader) makes it possible to integrate it into our project. To get started, hit
 
-> npm i csslint csslint-loader --save-dev
+```bash
+npm i csslint csslint-loader --save-dev
+```
 
 Next, we'll need to integrate it with our configuration:
 
