@@ -427,11 +427,9 @@ One way to achieve this is to push the logic to a decorator. Decorators are a bi
 
 If you have used languages such as Java or Python before, you might be familiar with the idea. Decorators are syntactic sugar that allow us to wrap and annotate classes and functions. In their [current proposal](https://github.com/wycats/javascript-decorators) (stage 1) only class and method level wrapping is supported. Functions may become supported later on.
 
-By definition a decorator is a function that returns a function or sets a property. In the case of our connection decorator we could end up with `@connect(NoteStore)`. That's alias to `connect(NoteStore)(App)`.
-
 ### Implementing Logging Decorator
 
-Sometimes it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's more controllable way to deal with it. Consider the example below:
+Sometimes it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's a more controllable way to deal with it. Consider the example below:
 
 ```javascript
 class Math {
@@ -459,7 +457,7 @@ const math = new Math();
 math.add(2, 4);
 ```
 
-Strangely enough our decorator takes most of the code. The decorated class is simple. Fortunately you can hide the decorator within some library. Once implemented you don't need to worry about it. You can just `@log` methods.
+This logger could be pushed to a separate module. After that we could use it across our application whenever we want to log some methods. Once implemented decorators become powerful building blocks.
 
 The decorator receives three parameters:
 
@@ -480,7 +478,7 @@ As you saw above `value` makes it possible to shape the behavior. The rest allow
 
 ### Implementing `@connect`
 
-`@connect` will wrap our component in another component. That in turn will deal with the connection logic (`listen/unlisten/setState`). It will maintain the store state internally and then pass it to the child component we are wrapping. During this process it will pass the state through props. The implementation below illustrates the idea:
+`@connect` will wrap our component in another component. That in turn will deal with the connection logic (`listen/unlisten/setState`). It will maintain the store state internally and then pass it to the child component that we are wrapping. During this process it will pass the state through props. The implementation below illustrates the idea:
 
 **app/decorators/connect.js**
 
@@ -514,7 +512,7 @@ export default (store) => {
 };
 ```
 
-I have separated the higher order portion and decorator wrapping for clarity. It would be possible to perform both steps in the same function, but I find it more readable this way. Can you see the wrapping idea? Our decorator tracks store state. After that it passes the state to the component contained through props.
+Can you see the wrapping idea? Our decorator tracks store state. After that it passes the state to the component contained through props.
 
 T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
 
