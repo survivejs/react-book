@@ -105,7 +105,7 @@ The current implementation doesn't do much. It just shows a plus button and *lan
 
 ## Modeling `Lane`
 
-Each `Lane` will be able to render associated `Notes` just like our `App` did earlier. `Lanes` container in turn will render each `Lane` separately. It is analogous to `Notes` in this manner. The example below illustrates how to set up `Lanes`.
+The `Lanes` container will render each `Lane` separately. Each `Lane` in turn will then render associated `Notes` just like our `App` did earlier. `Lanes` is analogous to `Notes` in this manner. The example below illustrates how to set this up:
 
 **app/components/Lanes.jsx**
 
