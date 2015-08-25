@@ -229,7 +229,7 @@ export default class App extends React.Component {
 
 After this change our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
 
-T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without, but it's a good standard to have.
+T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without, but it's a good standard to have. Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
 ## Adding New Items to `Notes` list
 
