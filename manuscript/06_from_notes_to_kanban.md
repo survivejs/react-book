@@ -179,7 +179,7 @@ If you run the application, you can see there's something wrong. If you add new 
 
 The reason why this happens is simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem.
 
-## Making Lanes Responsible of Notes
+## Making `Lanes` Responsible of `Notes
 
 Currently our `Lane` model is very simple. We are just storing an array of objects. Each of the objects knows its *id* and *name*. We'll need something more. Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it.
 
