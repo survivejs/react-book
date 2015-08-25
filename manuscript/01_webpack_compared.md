@@ -189,7 +189,8 @@ import MyModule from './MyModule.js';
 // export at module root
 export default function () { ... };
 
-// or export as module function
+// or export as module function,
+// you can have multiple of these per module
 export function hello() {...};
 ```
 
