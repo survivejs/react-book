@@ -101,7 +101,7 @@ export default class App extends React.Component {
 }
 ```
 
-The current implementation doesn't do much. It just shows a plus button and *lanes should go here* text. We still need to model `Lane` and attach `Notes` to that to make this work.
+The current implementation doesn't do much. It just shows a plus button and *lanes should go here* text. Even the add button doesn't work yet. We still need to model `Lane` and attach `Notes` to that to make this all work.
 
 ## Modeling `Lane`
 
