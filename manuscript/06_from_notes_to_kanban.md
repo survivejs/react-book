@@ -127,8 +127,6 @@ export default class Lanes extends React.Component {
 
 We are also going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
 
-I'll be using [Object rest spread syntax](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) available as a **Stage 1** feature. It is perfect for a case such as this as it will extract the props we don't need. This way we don't end up polluting the HTML element.
-
 The example below has been modeled largely after our earlier implementation of `App`. It introduced Object rest syntax. It will render an entire lane including its name and associated notes:
 
 **app/components/Lane.jsx**
@@ -142,7 +140,7 @@ import NoteStore from '../stores/NoteStore';
 
 export default class Lane extends React.Component {
   render() {
-    const {id, name, ...props} = this.props;
+    const {name, ...props} = this.props;
 
     return (
       <div {...props}>
@@ -175,7 +173,9 @@ export default class Lane extends React.Component {
 }
 ```
 
-Now we have something that sort of works. You can see there's something wrong, though. If you add new Notes to a Lane, the Note appears to each Lane. Also if you modify a Note, also other Lanes update.
+I am using [Object rest spread syntax (stage 1)](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) in the example. We use it to extract the props we don't need. This way we don't end up polluting the HTML element.
+
+If you run the application, you can see there's something wrong. If you add new `Notes` to a `Lane`, the `Note` appears to each `Lane`. Also if you modify a `Note`, also other `Lanes` update.
 
 The reason why this happens is quite simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem somehow.
 
