@@ -125,9 +125,9 @@ export default class Lanes extends React.Component {
 }
 ```
 
-We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
+Note that we are using Object rest spread syntax `{...lane}` to pass lane specific props to each `Lane`.
 
-The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane including its name and associated notes:
+We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane including its name and associated notes:
 
 **app/components/Lane.jsx**
 
@@ -173,7 +173,7 @@ export default class Lane extends React.Component {
 }
 ```
 
-I am using [Object rest spread syntax (stage 1)](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) in the example. We use it to extract the props we don't need. This way we don't end up polluting the HTML element.
+I am using [Object rest spread syntax (stage 1)](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) in the example. This allows us to attach a `className` to `Lane` and we avoid polluting it with HTML attributes we don't need.
 
 If you run the application, you can see there's something wrong. If you add new `Notes` to a `Lane`, the `Note` appears to each `Lane`. Also if you modify a `Note`, also other `Lanes` update.
 
