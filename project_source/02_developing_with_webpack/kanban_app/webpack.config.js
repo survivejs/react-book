@@ -32,7 +32,6 @@ if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval-source-map',
     devServer: {
-      colors: true,
       historyApiFallback: true,
       hot: true,
       inline: true,

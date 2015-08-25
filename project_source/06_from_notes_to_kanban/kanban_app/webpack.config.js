@@ -41,7 +41,6 @@ if(TARGET === 'start' || !TARGET) {
       ]
     },
     devServer: {
-      colors: true,
       historyApiFallback: true,
       hot: true,
       inline: true,

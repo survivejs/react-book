@@ -160,7 +160,6 @@ var ROOT_PATH = path.resolve(__dirname);
 module.exports = {
   ...
   devServer: {
-    colors: true,
     historyApiFallback: true,
     hot: true,
     inline: true,
@@ -307,7 +306,6 @@ if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval-source-map',
     devServer: {
-      colors: true,
       historyApiFallback: true,
       hot: true,
       inline: true,
