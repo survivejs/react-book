@@ -263,6 +263,16 @@ class LaneStore {
       console.warn('Failed to remove note from a lane as it didn\'t exist', lanes);
     }
   }
+  findLane(id) {
+    let lanes = this.lanes;
+    const laneIndex = lanes.findIndex((lane) => lane.id === id);
+
+    if(laneIndex < 0) {
+      console.warn('Failed to find lane', lanes, id);
+    }
+
+    return laneIndex;
+  }
 }
 
 export default alt.createStore(LaneStore, 'LaneStore');
