@@ -66,6 +66,11 @@ body {
   transition: .6s;
 }
 
+.note .value {
+  /* force to use inline-block so that it gets minimum height */
+  display: inline-block;
+}
+
 .note .delete {
   float: right;
 

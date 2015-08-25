@@ -682,6 +682,11 @@ To make individual `Notes` stand out we can apply a couple of rules.
 
   transition: 0.6s;
 }
+
+.note .task {
+  /* force to use inline-block so that it gets minimum height */
+  display: inline-block;
+}
 ```
 
 Note that I animated `Note` shadow. This way the user gets a better indication of what `Note` is being hovered upon. This won't work on touch based interfaces, but it's a nice touch for the desktop.

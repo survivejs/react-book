@@ -431,7 +431,19 @@ export default class Editable extends React.Component {
 }
 ```
 
-Next, we need to make `Notes.jsx` point at this component. We'll need to alter the import and component name at `render()`.
+Because the class name changes, `main.css` needs a small tweak:
+
+**app/main.css**
+
+```css
+/*.note .task {*/
+.note .value {
+  /* force to use inline-block so that it gets minimum height */
+  display: inline-block;
+}
+```
+
+Next, we need to make `Notes.jsx` point at the new component. We'll need to alter the import and component name at `render()`:
 
 **app/components/Notes.jsx**
 
