@@ -15,7 +15,21 @@ npm init
 # hit return a few times till you have gone through the questions
 ```
 
-As a result, you should have `package.json` at your project root. If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
+As a result, you should have `package.json` at your project root. You can still tweak it manually to make further changes. We'll be doing some changes through `npm` tool but it's fine to tweak the file to your liking. The official documentation explains various [package.json options](https://docs.npmjs.com/files/package.json) in more detail. I also cover some useful library authoring related tricks later in this book.
+
+If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
+
+If you are using git, I recommend setting up a `.gitignore` to the project root as follows:
+
+**.gitignore**
+
+```
+node_modules
+*.log
+.DS_Store
+```
+
+At the very least you should have `node_modules` here as you probably don't want that to end up in the source control. The problem with that is that as some modules need to be compiled per platform, it gets rather messy to collaborate. Ideally your `git status` should look clean. You can extend `.gitignore` as you go.
 
 ## Installing Webpack
 
