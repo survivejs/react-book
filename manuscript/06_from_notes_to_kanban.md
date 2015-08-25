@@ -68,7 +68,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-Next, we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions and store needed. Consider the example below:
+Next, we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions and store needed:
 
 **app/components/App.jsx**
 
@@ -127,7 +127,7 @@ export default class Lanes extends React.Component {
 
 We are also going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
 
-The example below has been modeled largely after our earlier implementation of `App`. It introduced Object rest syntax. It will render an entire lane including its name and associated notes:
+The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane including its name and associated notes:
 
 **app/components/Lane.jsx**
 
@@ -177,7 +177,7 @@ I am using [Object rest spread syntax (stage 1)](https://github.com/sebmarkbage/
 
 If you run the application, you can see there's something wrong. If you add new `Notes` to a `Lane`, the `Note` appears to each `Lane`. Also if you modify a `Note`, also other `Lanes` update.
 
-The reason why this happens is quite simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem somehow.
+The reason why this happens is simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem.
 
 ## Making Lanes Responsible of Notes
 
