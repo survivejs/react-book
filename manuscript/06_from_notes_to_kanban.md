@@ -613,6 +613,59 @@ As this is a small project we can leave the CSS in a single file like this. In c
 
 Besides keeping things nice and tidy Webpack's lazy loading machinery can pick this up. As a result, the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling.
 
+## On Namespacing Components
+
+So far we've been defining a component per file. That's not the only way. It may be handy to treat a file as a namespace and expose multiple components from it. React provides [namespaces components](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components) just for this purpose. In this case we could apply namespacing to the concept of `Lane` or `Note`. This would add some additional flexibility to our system while keeping it simple to manage. By using namespacing we could do something like this:
+
+**app/components/Lanes.jsx**
+
+```javascript
+...
+
+export default class Lanes extends React.Component {
+  render() {
+    const lanes = this.props.items;
+
+    return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
+  }
+  renderLane(lane) {
+    // new
+    return (
+      <Lane className='lane' key={`lane${lane.id}`}>
+        <Lane.Header id={lane.id} name={lane.name} />
+        <Lane.Notes id={lane.id} notes={lane.notes} />
+      </Lane>
+    );
+
+    // old
+    // return <Lane className='lane' key={`lane${lane.id}`} {...lane} />;
+  }
+}
+```
+
+**app/components/Lane.jsx**
+
+```javascript
+...
+
+class Lane extends React.Component {
+  ...
+}
+
+Lane.Header = class LaneHeader extends React.Component {
+  ...
+}
+Lane.Notes = class LaneNotes extends React.Component {
+  ...
+}
+
+export default Lane;
+```
+
+Now we have pushed the control over `Lane` formatting to a higher level. In this case the change isn't worth it but it can make sense in a more complex case.
+
+You can use similar approach for more generic components as well. Consider something like `Form`. You could easily have `Form.Label`, `Form.Input`, `Form.Textarea` and so on. Each would contain your custom formatting and logic as needed.
+
 ## Conclusion
 
 In this chapter we took our feeble notes application closer to a functional Kanban board. We still cannot move notes between lanes. We will solve that in the next chapter as we implement drag and drop.
