@@ -380,7 +380,7 @@ Sometimes there's no clear cut way to deal with data modeling. It is even possib
 
 ## Implementing Edit/Remove for `Lane`
 
-Now that we have some basic data structures in place we can start extending the application. We are still missing basic functionality such as editing lane names and removing them. We can follow the same idea as for `Note` here. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove it. Given it's the same behavior we can save work by extracting the logic from `Note` and then reusing it at `Lane`.
+Now that we have some basic data structures in place we can start extending the application. We are still missing basic functionality such as editing lane names and removing the lanes. We can do a simplified implementation for this. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove the lane.
 
 As a first step we should rename `Note.jsx` as `Editable.jsx`. After that we need to tweak it to avoid confusion and to push abstraction level up:
 
