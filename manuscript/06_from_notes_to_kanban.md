@@ -22,8 +22,6 @@ export default alt.generateActions('create');
 
 In addition, we are going to need a `LaneStore` and a method matching to `create`. The idea is pretty much the same as for `NoteStore` earlier. `create` will concatenate a new lane to the list of lanes. After that the change will propagate to the listeners (i.e. `FinalStore` and components).
 
-Due to Alt bootstrapping we will need to check against `this.lanes` when we are loading data initially. If there's data already, we might as well use that. This is the same idea as we saw for `NoteStore` earlier.
-
 **app/stores/LaneStore.js**
 
 ```javascript
@@ -35,7 +33,7 @@ class LaneStore {
   constructor() {
     this.bindActions(LaneActions);
 
-    this.lanes = this.lanes || [];
+    this.lanes = [];
   }
   create(lane) {
     const lanes = this.lanes;
@@ -215,7 +213,7 @@ class LaneStore {
   constructor() {
     this.bindActions(LaneActions);
 
-    this.lanes = this.lanes || [];
+    this.lanes = [];
   }
   ...
   attachToLane({laneId, noteId}) {
@@ -332,7 +330,7 @@ class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
 
-    this.notes = this.notes || [];
+    this.notes = [];
 
     this.exportPublicMethods({
       get: this.get.bind(this)

@@ -8,7 +8,7 @@ class LaneStore {
   constructor() {
     this.bindActions(LaneActions);
 
-    this.lanes = this.lanes || [];
+    this.lanes = [];
   }
   create(lane) {
     const lanes = this.lanes;

@@ -373,25 +373,6 @@ export default function(alt, storage, storeName) {
 }
 ```
 
-To make our `NoteStore` aware of the possibly existing data, we'll need to tweak our constructor to take it into account. The data might not exist already, though, so we'll still need a default.
-
-**app/stores/NoteStore.js**
-
-```javascript
-...
-
-class NoteStore {
-  constructor() {
-    this.bindActions(NoteActions);
-
-    this.notes = this.notes || [];
-  }
-  ...
-}
-
-export default alt.createStore(NoteStore, 'NoteStore');
-```
-
 Finally, we need to trigger the persistency logic at initialization. We will need to pass the relevant data to it (Alt instance, storage, storage name) and off we go.
 
 **app/main.jsx**
