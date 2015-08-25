@@ -125,7 +125,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-We are also going to need `Lane` component to make this work. It will render `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
+We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. To make it easier to customize, I will keep the prop interface generic. In other words I'll allow `Lanes` to attach custom HTML attributes to each. This way the `className` declaration above will work.
 
 The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane including its name and associated notes:
 
