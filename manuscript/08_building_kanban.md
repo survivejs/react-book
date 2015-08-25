@@ -75,7 +75,10 @@ At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunc
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    ...
+    devtool: 'source-map',
+    module: {
+      ...
+    },
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -117,7 +120,10 @@ In Webpack terms you can add the following snippet to the `plugins` section of y
 ```javascript
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    ...
+    devtool: 'source-map',
+    module: {
+      ...
+    },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
@@ -191,7 +197,7 @@ if(TARGET === 'build') {
     devtool: 'source-map',
     module: {
       ...
-    }
+    },
     plugins: [
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
@@ -246,6 +252,10 @@ var Clean = require('clean-webpack-plugin');
 if(TARGET === 'build') {
   module.exports = merge(common, {
     ...
+    devtool: 'source-map',
+    module: {
+      ...
+    },
     plugins: [
       new Clean(['build']),
       ...
