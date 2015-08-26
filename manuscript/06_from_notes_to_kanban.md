@@ -181,40 +181,38 @@ The reason why this happens is simple. Our `NoteStore` is a singleton. This mean
 
 ## Making `Lanes` Responsible of `Notes`
 
-Currently our `Lane` model is very simple. We are just storing an array of objects. Each of the objects knows its *id* and *name*. We'll need something more. Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it.
+Currently our `Lane` model is simple. We are just storing an array of objects. Each of the objects knows its *id* and *name*. We'll need something more. Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it.
 
-This means we'll need to extend the system to support this. When we `addNote()`, it's not enough to just add it `NoteStore`. We'll need to associate it with the `Lane` in question as well. We are going to need a new action for this. We can call it `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`.
+### Setting Up `attachToLane`
 
-The problem with `attachToLane` is that we are going to need some way to pass the id of the newly created `Note` to the `Lane`. Fortunately, Flux architecture provides a small utility for dealing with data dependencies like this. This is known as `waitFor`. In short, we can wait for `addNote` to complete before we try to create the association.
+When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method such as `LaneActions.attachToLane({laneId: <id>})`. As a `Note` needs to exist before this association can be made, this method needs to `waitFor` it. Here's an example of how we would use the API:
 
-In addition to `attachToLane` we are going to need a way to detach a `Note` from a `Lane`. `Notes` can be deleted after all and we don't want to have dead data hanging around. For this purpose we need to implement `LaneActions.detachFromLane({laneId: <id>, noteId: <id>})`.
+```javascript
+NoteActions.create({task: 'New task'});
+LaneActions.attachToLane({laneId});
+```
 
-The first required change, adding a new action is simple. We will simply add the action to our list of actions.
+This is a special feature of Flux that allows us to perform this kind of synchronization. It allows `attachToLane` to wait until a `Note` has been created. Before using it, however, you should always consider other ways first. In this case it is an absolute necessity.
+
+To get started we should add `attachToLane` to actions as before:
 
 **app/actions/LaneActions.js**
 
 ```javascript
 import alt from '../libs/alt';
 
-export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
+export default alt.generateActions('create', 'attachToLane');
 ```
 
-We also need to implement the feature at store level as follows:
+The next step takes more code. We need to take care of attaching:
 
 **app/stores/LaneStore.js**
 
 ```javascript
-import uuid from 'node-uuid';
-import alt from '../libs/alt';
-import LaneActions from '../actions/LaneActions';
+...
 import NoteStore from './NoteStore';
 
 class LaneStore {
-  constructor() {
-    this.bindActions(LaneActions);
-
-    this.lanes = [];
-  }
   ...
   attachToLane({laneId, noteId}) {
     if(!noteId) {
@@ -241,6 +239,48 @@ class LaneStore {
       console.warn('Already attached note to lane', lanes);
     }
   }
+}
+
+export default alt.createStore(LaneStore, 'LaneStore');
+```
+
+`attachToLane` has been coded defensively to guard against possible problems. Unless we pass `noteId` we `waitFor` one. Passing one explicitly becomes useful when we implement drag and drop so it's good to have it in place.
+
+The rest of the code deals with the logic. First we try to find a matching lane. If found, we attach the note id to it unless it has been attached already.
+
+### Setting Up `detachFromLane`
+
+`deleteNote` is the opposite operation of `addNote`. When removing a `Note`, it's important to remember to remove association related to it from a `Lane` as well. For this purpose we can implement `LaneActions.detachFromLane({laneId: <id>})`. We would use it like this:
+
+```javascript
+NoteActions.delete(noteId);
+LaneActions.detachFromLane({laneId, noteId});
+```
+
+Again, we should set up an action:
+
+**app/actions/LaneActions.js**
+
+```javascript
+import alt from '../libs/alt';
+
+export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
+```
+
+The implementation will resemble `attachToLane`. In this case we'll remove the possibly found `Note` instead:
+
+**app/stores/LaneStore.js**
+
+```javascript
+import uuid from 'node-uuid';
+import alt from '../libs/alt';
+import LaneActions from '../actions/LaneActions';
+import NoteStore from './NoteStore';
+
+class LaneStore {
+  attachToLane({laneId, noteId}) {
+    ...
+  }
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes;
     const targetId = this.findLane(laneId);
@@ -263,8 +303,30 @@ class LaneStore {
       console.warn('Failed to remove note from a lane as it didn\'t exist', lanes);
     }
   }
+}
+
+export default alt.createStore(LaneStore, 'LaneStore');
+```
+
+Again, the implementation has been coded drag and drop in mind. Later on we'll want to pass `noteId` explicitly so it doesn't hurt to have it there. You've seen the rest of the code earlier in different contexts.
+
+### Implementing `findLane`
+
+Both `attachToLane` and `detachFromLane` depend on a helper method known as `findLane`. As you might guess from the name, it will return a `Lane` index if found:
+
+**app/stores/LaneStore.js**
+
+```javascript
+...
+import NoteStore from './NoteStore';
+
+class LaneStore {
+  ...
+  detachFromLane({laneId, noteId}) {
+    ...
+  }
   findLane(id) {
-    let lanes = this.lanes;
+    const lanes = this.lanes;
     const laneIndex = lanes.findIndex((lane) => lane.id === id);
 
     if(laneIndex < 0) {
@@ -278,7 +340,9 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-It is a lot of code. In order to make it easier to track possible problems it has been written defensively. Hence the extensive logging.
+`findLane` has been coded defensively to warn if a `Lane` is not found. It relies on `findIndex` discussed earlier.
+
+### Connecting `Lane` with the Logic
 
 Finally, we need to make `Lane` to trigger `attachToLane` and `detachLane`. We also need to display `Notes` associated with a `Lane`.
 

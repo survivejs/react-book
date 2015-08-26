@@ -91,7 +91,7 @@ class LaneStore {
     }
   }
   findLane(id) {
-    let lanes = this.lanes;
+    const lanes = this.lanes;
     const laneIndex = lanes.findIndex((lane) => lane.id === id);
 
     if(laneIndex < 0) {
