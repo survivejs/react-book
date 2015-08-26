@@ -8,6 +8,10 @@ The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package
 
 Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the most known one and still a viable option. In the front-end world [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have particularly gained popularity. Plugins made available through npm make both approaches powerful.
 
+[Browserify](http://browserify.org/) took one step further. It provides powerful npm based bundling. You can complement it with many smaller utilities. This is a nice contrast to the approach Webpack uses.
+
+[JSPM](http://jspm.io/) goes one step further and pushes package management directly to the browser. It relies on [System.js](https://github.com/systemjs/systemjs), a dynamic module loader. Unlike Browserify and Webpack it skips the bundling step altogether during development. You can generate a production bundle using it, however. Glen Maddern goes into good detail at his [video about JSPM](https://www.youtube.com/watch?t=33&v=iukBMY4apvI).
+
 ## Make
 
 You could say Make goes way back. It was initially released in 1977. Even though it's an old tool, it has remained relevant. Make allows you to write separate tasks for various purposes. For instance you might have separate tasks for creating a production build, minifying your JavaScript or running tests. You can find the same idea in many other tools.
@@ -184,7 +188,15 @@ Given the configuration is written in JavaScript it's quite malleable. As long a
 
 The configuration model may make Webpack feel a bit opaque at times. It can be difficult to understand what it's doing. This is particularly true for more complicated cases. I have compiled [a webpack cookbook](https://christianalfoni.github.io/react-webpack-cookbook/) with Christian Alfoni that goes into more detail when it comes to specific problems.
 
-### Why Webpack?
+## JSPM
+
+![JSPM](images/jspm.png)
+
+Using JSPM is quite different than earlier tools. It comes with a little cli tool of its own that is used to install new packages to the project, create production bundle and so on. It supports [SystemJS plugins](https://github.com/systemjs/systemjs#plugins) that allow you to load various formats to your project.
+
+Given JSPM is still a young project there might be rough spots. That said, it may be worth a look if you are adventurous. As you know by now, tooling tends to change quite often in front-end development and JSPM is definitely a worthy contender.
+
+## Why to Use Webpack?
 
 Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
 
@@ -200,7 +212,7 @@ All these smaller features add up. Surprisingly you can get many things done out
 
 To get a better idea how it compares to some other tools, check out [the official comparison](https://webpack.github.io/docs/comparison.html).
 
-### Supported Module Formats
+## Module Formats Supported by Webpack
 
 Webpack allows you to use different module formats, but under the hood they all work the same way.
 
