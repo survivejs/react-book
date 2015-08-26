@@ -659,7 +659,7 @@ Try modifying a lane name now. Modifications should get saved now the same way a
 
 ## Styling Kanban Board
 
-As we added `Lanes` to the application the styling went a bit off. Add the following styling to make it a little nicer.
+As we added `Lanes` to the application the styling went a bit off. Add the following styling to make it a little nicer:
 
 **app/main.css**
 
