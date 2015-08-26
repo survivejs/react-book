@@ -449,9 +449,7 @@ After these changes we have set up a system that can maintain relations between 
 
 ## Implementing Edit/Remove for `Lane`
 
-Now that we have some basic data structures in place we can start extending the application. We are still missing basic functionality such as editing lane names and removing the lanes. We can do a simplified implementation for this. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove the lane.
-
-As a first step we should rename `Note.jsx` as `Editable.jsx`. After that we need to tweak it to avoid confusion and to push abstraction level up:
+We are still missing some basic functionality such as editing and removing lanes. We are going to reuse the functionality we used with `Note` so let’s rename it to `Editable.jsx` and tweak the code a bit to make it generic:
 
 **app/components/Editable.jsx**
 
@@ -500,6 +498,12 @@ export default class Editable extends React.Component {
 }
 ```
 
+There are a couple of important changes:
+
+* `this.renderValue = this.renderValue.bind(this);` - Previously we had `Task`, now we are using the term `Value` as that's more generic.
+* `const {value, onEdit, ...props} = this.props;` - We changed task to value here as well.
+* `renderValue()` - Formerly this was known as `renderTask()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
+
 Because the class name changes, `main.css` needs a small tweak:
 
 **app/main.css**
@@ -512,7 +516,9 @@ Because the class name changes, `main.css` needs a small tweak:
 }
 ```
 
-Next, we need to make `Notes.jsx` point at the new component. We'll need to alter the import and component name at `render()`:
+### Pointing `Notes` to `Editable`
+
+Next, we need to make `Notes.jsx` point at the new component. We'll need to alter the import and the component name at `render()`:
 
 **app/components/Notes.jsx**
 
@@ -522,7 +528,7 @@ import Editable from './Editable.jsx';
 
 export default class Notes extends React.Component {
   ...
-  renderNote(note, i) {
+  renderNote(note) {
     return (
       <li className='note' key={`note${note.id}`}>
         <Editable
@@ -535,7 +541,9 @@ export default class Notes extends React.Component {
 }
 ```
 
-Next, we can use this generalized component to allow `Lane` name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
+### Connecting `Lane` with `Editable`
+
+Next, we can use this generic component to allow `Lane` name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
 
 **app/components/Lane.jsx**
 
@@ -569,7 +577,11 @@ export default class Lane extends React.Component {
 }
 ```
 
-If you try to edit a lane name now, you should see a print at console. Next, we will need to define some logic to make this work. To follow the same idea as with `Note`, we can model the remaining CRUD actions here. We'll need to set up `update` and `delete` actions in particular.
+If you try to edit a lane name now, you should see a print at the console.
+
+### Defining `Editable` Logic
+
+We will need to define some logic to make this work. To follow the same idea as with `Note`, we can model the remaining CRUD actions here. We'll need to set up `update` and `delete` actions in particular.
 
 **app/actions/LaneActions.js**
 
@@ -582,7 +594,7 @@ export default alt.generateActions(
 );
 ```
 
-We are also going to need `LaneStore` level implementations for these. They can be modeled based what we have seen on `NoteStore` earlier.
+We are also going to need `LaneStore` level implementations for these. They can be modeled based what we have seen on `NoteStore` earlier:
 
 **app/stores/LaneStore.js**
 
@@ -624,7 +636,7 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-Now that we have resolved actions and store, we need to adjust our component to take these changes into account. Not surprisingly the logic is going to resemble `Note` editing a lot.
+Now that we have resolved actions and store, we need to adjust our component to take these changes into account:
 
 **app/components/Lane.jsx**
 
@@ -644,8 +656,6 @@ export default class Lane extends React.Component {
 ```
 
 Try modifying a lane name now. Modifications should get saved now the same way as they do for notes. Deleting lanes should be possible as well.
-
-It probably would be possible to refactor the current implementation somewhat. You could, for instance, start by standardizing CRUD operations. That would likely decrease the amount of code while adding some rigidity to it. As this is a small project, there's probably no need to over-engineer things so we can leave it as is. Of course you can try to push the implementation further. There are better ways to compose the functionality.
 
 ## Styling Kanban Board
 
