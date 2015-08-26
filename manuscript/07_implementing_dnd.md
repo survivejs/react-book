@@ -345,6 +345,7 @@ const noteTarget = {
   connectDropTarget: connect.dropTarget()
 }))
 export default class Lane extends React.Component {
+  ...
   render() {
     const { connectDropTarget, id, name, notes, ...props } = this.props;
 

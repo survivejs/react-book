@@ -342,56 +342,15 @@ export default alt.createStore(LaneStore, 'LaneStore');
 
 `findLane` has been coded defensively to warn if a `Lane` is not found. It relies on `findIndex` discussed earlier.
 
-### Connecting `Lane` with the Logic
+### Implementing a Getter for `NoteStore`
 
-Finally, we need to make `Lane` to trigger `attachToLane` and `detachLane`. We also need to display `Notes` associated with a `Lane`.
+Given our lanes contain references to notes through ids, we are going to need some way to resolve those ids to actual notes. One neat way to do this is to implement a public method, `NoteStore.get(notes)` for the purpose. It takes an array of `Note` ids in and returns corresponding objects.
 
-**app/components/Lane.jsx**
+This can be achieved using the `map` operation. First we need to get the ids of all notes to match against. After that we can perform a lookup for each note id passed using `indexOf`.
 
-```javascript
-...
-import LaneActions from '../actions/LaneActions';
+Just implementing the method isn't enough. We also need to make it public. In Alt this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question.
 
-export default class Lane extends React.Component {
-  render() {
-    const {id, name, notes, ...props} = this.props;
-
-    return (
-      <div {...props}>
-        <div className='lane-header'>
-          <div className='lane-name'>{name}</div>
-          <div className='lane-add-note'>
-            <button onClick={this.addNote.bind(null, id)}>+</button>
-          </div>
-        </div>
-        <AltContainer
-          stores={[NoteStore]}
-          inject={ {
-            items: () => NoteStore.get(notes)
-          } }
-        >
-          <Notes
-            onEdit={this.editNote}
-            onDelete={this.deleteNote.bind(null, id)} />
-        </AltContainer>
-      </div>
-    );
-  }
-  addNote(laneId) {
-    NoteActions.create({task: 'New task'});
-    LaneActions.attachToLane({laneId});
-  }
-  editNote(noteId, task) {
-    NoteActions.update({id: noteId, task});
-  }
-  deleteNote(laneId, noteId) {
-    NoteActions.delete(noteId);
-    LaneActions.detachFromLane({laneId, noteId});
-  }
-}
-```
-
-We also need to defined that getter for `NoteStore`:
+Consider the implementation below:
 
 **app/stores/NoteStore.jsx**
 
@@ -412,21 +371,81 @@ class NoteStore {
   }
   ...
   get(ids) {
-    const notes = this.notes || [];
-    const notesIds = notes.map((note) => note.id);
+    ids = ids || [];
 
-    if(ids) {
-      return ids.map((id) => notes[notesIds.indexOf(id)]);
-    }
-
-    return [];
+    return this.notes.filter((note) => ids.indexOf(note.id) >= 0);
   }
 }
 
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. It's not a particularly beautiful solution. The current structure allowed us to keep singleton stores and a flat data structure. That's consistent with Flux architecture.
+Note that the implementation filters possible not matching ids from the result. 
+
+### Connecting `Lane` with the Logic
+
+Now that we have the logical bits together, we can integrate it at `Lane`. We'll need to take the newly added props (`id`, `notes`) in count and glue this all together:
+
+**app/components/Lane.jsx**
+
+```javascript
+...
+import LaneActions from '../actions/LaneActions';
+
+export default class Lane extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const id = props.id;
+
+    this.addNote = this.addNote.bind(this, id);
+    this.deleteNote = this.deleteNote.bind(this, id);
+  }
+  render() {
+    const {id, name, notes, ...props} = this.props;
+
+    return (
+      <div {...props}>
+        <div className='lane-header'>
+          <div className='lane-name'>{name}</div>
+          <div className='lane-add-note'>
+            <button onClick={this.addNote}>+</button>
+          </div>
+        </div>
+        <AltContainer
+          stores={[NoteStore]}
+          inject={ {
+            items: () => NoteStore.get(notes)
+          } }
+        >
+          <Notes
+            onEdit={this.editNote}
+            onDelete={this.deleteNote} />
+        </AltContainer>
+      </div>
+    );
+  }
+  addNote(laneId) {
+    NoteActions.create({task: 'New task'});
+    LaneActions.attachToLane({laneId});
+  }
+  editNote(id, task) {
+    NoteActions.update({id, task});
+  }
+  deleteNote(laneId, noteId) {
+    NoteActions.delete(noteId);
+    LaneActions.detachFromLane({laneId, noteId});
+  }
+}
+```
+
+There are a couple of important changes:
+
+* `const {id, name, notes, ...props} = this.props;` - New props are taken in count.
+* `items: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
+* `addNote`, `deleteNote` - These operate now based on the new logic we specified.
+
+After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. The current structure allowed us to keep singleton stores and a flat data structure. Dealing with references is a little nasty but that's consistent with the Flux architecture.
 
 ### Alternative Designs
 
@@ -539,6 +558,10 @@ Next, we can use this generalized component to allow `Lane` name to be modified.
 import Editable from './Editable.jsx';
 
 export default class Lane extends React.Component {
+  constructor(props) {
+    ...
+    this.editName = this.editName.bind(this, id);
+  }
   render() {
     const {id, name, notes, ...props} = this.props;
 
@@ -546,7 +569,7 @@ export default class Lane extends React.Component {
       <div {...props}>
         <div className='lane-header'>
           <Editable className='lane-name' value={name}
-            onEdit={this.editName.bind(null, id)} />
+            onEdit={this.editName} />
           ...
         </div>
         ...

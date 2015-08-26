@@ -7,6 +7,15 @@ import LaneActions from '../actions/LaneActions';
 import Editable from './Editable.jsx';
 
 export default class Lane extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const id = props.id;
+
+    this.addNote = this.addNote.bind(this, id);
+    this.deleteNote = this.deleteNote.bind(this, id);
+    this.editName = this.editName.bind(this, id);
+  }
   render() {
     const {id, name, notes, ...props} = this.props;
 
@@ -14,9 +23,9 @@ export default class Lane extends React.Component {
       <div {...props}>
         <div className='lane-header'>
           <Editable className='lane-name' value={name}
-            onEdit={this.editName.bind(null, id)} />
+            onEdit={this.editName} />
           <div className='lane-add-note'>
-            <button onClick={this.addNote.bind(null, id)}>+</button>
+            <button onClick={this.addNote}>+</button>
           </div>
         </div>
         <AltContainer
@@ -27,7 +36,7 @@ export default class Lane extends React.Component {
         >
           <Notes
             onEdit={this.editNote}
-            onDelete={this.deleteNote.bind(null, id)} />
+            onDelete={this.deleteNote} />
         </AltContainer>
       </div>
     );
@@ -36,8 +45,8 @@ export default class Lane extends React.Component {
     NoteActions.create({task: 'New task'});
     LaneActions.attachToLane({laneId});
   }
-  editNote(noteId, task) {
-    NoteActions.update({id: noteId, task});
+  editNote(id, task) {
+    NoteActions.update({id, task});
   }
   deleteNote(laneId, noteId) {
     NoteActions.delete(noteId);
