@@ -693,7 +693,6 @@ body {
 
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
-
 }
 
 .lane-name {
