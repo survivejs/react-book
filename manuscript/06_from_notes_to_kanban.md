@@ -447,20 +447,6 @@ There are a couple of important changes:
 
 After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. The current structure allowed us to keep singleton stores and a flat data structure. Dealing with references is a little nasty but that's consistent with the Flux architecture.
 
-### Alternative Designs
-
-There are a couple of alternatives to the current design. The data structure, it uses is convenient. This is true particularly for lane related operations (e.g., moving notes). `Lanes` know which `Notes` they contain.
-
-This will be important as we implement drag and drop. Incidentally the current structure would work nicely with a back-end. The current structures would map neatly to a RESTful API. We would have resources for both `Lanes` and `Notes`. Each action would then operate through these directly using standard CRUD interface.
-
-That said, the current solution isn't ideal. There's a fair amount of complexity. Especially, having to track relations is a little painful. One way to deal with this problem would be to drop `notes` array from `Lane` level and inverse the relation. This means a `Note` would have to know into which `Lane` it belongs. It would also have to know its position. In our current solution position is given by the location in `notes` array.
-
-This change would push our problems elsewhere. We would still have to resolve which `Notes` belong to a `Lane`. In addition, we would have to resolve their order. Ordering operations would become harder to pull off. Integrating with a back-end would become more challenging due to the mapping. By pushing references to the `Note` we could drop those `attach` and `detach` parts. That would simplify reference handling somewhat.
-
-We could also consider modeling `NoteStores` as individual instances. In this case, each `Lane` would be associated with a `NoteStore` of its own. Again, the problem with relations would disappear. We would still have to manage these stores, though. This would tie `NoteStores` to components tightly. It goes against the basic principles of Flux. It is considered a Flux anti-pattern.
-
-Sometimes there's no clear cut way to deal with data modeling. It is even possible Flux isn't the right architecture for this application. Flux works well with flat structures. Once you get dynamic nesting like in this case, it might start to get a little complicated. It is possible better solutions appear as people get more experienced with it. The solution I'm presenting here is just one possibility amongst many.
-
 ## Implementing Edit/Remove for `Lane`
 
 Now that we have some basic data structures in place we can start extending the application. We are still missing basic functionality such as editing lane names and removing the lanes. We can do a simplified implementation for this. I.e. if you click `Lane` name, it should become editable. In case the new name is empty, we'll simply remove the lane.
@@ -777,4 +763,10 @@ You can use similar approach for more generic components as well. Consider somet
 
 ## Conclusion
 
-In this chapter we took our feeble notes application closer to a functional Kanban board. We still cannot move notes between lanes. We will solve that in the next chapter as we implement drag and drop.
+The current design has been optimized drag and drop operations in mind. Moving notes within a lane is a matter of swapping ids. Moving notes from a lane to a lane is again an operation over ids. This structure leads to some complexity as we need to track ids but it will pay off in the next chapter.
+
+There isn't always a clear cut way to model data and relations. In some other case we could push the references elsewhere. For instance the note to lane relation could be inversed and pushed to `Note` level. We would still need to track their order within a lane somehow, however. We would be pushing the complexity elsewhere by doing this.
+
+Currently `NoteStore` is treated as a singleton. Another way to deal within it would be to create `NoteStore` per `Notes` dynamically. Even though this simplifies dealing with the relations somewhat, this is a Flux anti-pattern better avoided.
+
+We still cannot move notes between lanes or within a lane. We will solve that in the next chapter as we implement drag and drop.
