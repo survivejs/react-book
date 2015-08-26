@@ -8,6 +8,45 @@ The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package
 
 Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the most known one and still a viable option. In the front-end world [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have particularly gained popularity. Plugins made available through npm make both approaches powerful.
 
+## Make
+
+You could say Make goes way back. It was initially released in 1977. Even though it's an old tool, it has remained relevant. Make allows you to write separate tasks for various purposes. For instance you might have separate tasks for creating a production build, minifying your JavaScript or running tests. You can find the same idea in many other tools.
+
+Even though Make is mostly used with C projects, it's not tied to it in any way. James Coglan discusses in detail [how to use Make with JavaScript](https://blog.jcoglan.com/2014/02/05/building-javascript-projects-with-make/). Consider the abbreviated code based on James' post below:
+
+**Makefile**
+
+```bash
+PATH  := node_modules/.bin:$(PATH)
+SHELL := /bin/bash
+
+source_files := $(wildcard lib/*.coffee)
+build_files  := $(source_files:%.coffee=build/%.js)
+app_bundle   := build/app.js
+spec_coffee  := $(wildcard spec/*.coffee)
+spec_js      := $(spec_coffee:%.coffee=build/%.js)
+
+libraries    := vendor/jquery.js
+
+.PHONY: all clean test
+
+all: $(app_bundle)
+
+build/%.js: %.coffee
+    coffee -co $(dir $@) $<
+
+$(app_bundle): $(libraries) $(build_files)
+    uglifyjs -cmo $@ $^
+
+test: $(app_bundle) $(spec_js)
+    phantomjs phantom.js
+
+clean:
+    rm -rf build
+```
+
+With Make you will model your tasks using some Make specific syntax and terminal commands. This allows to use it with Webpack easily.
+
 ## Grunt
 
 ![Grunt](images/grunt.png)
