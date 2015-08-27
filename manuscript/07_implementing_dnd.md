@@ -10,9 +10,9 @@ Before going further hit
 npm i react-dnd --save
 ```
 
-to add React DnD to the project. Next, we'll need to patch our application to use it. React DnD supports the idea of back-ends. This means it is possible to adapt it to work on different platforms. Even a testing back-end is feasible. As of writing it supports only HTML5 Drag and Drop API based back-end. As a result, the application won't work on touch yet.
+to add React DnD to the project.
 
-To get started, we'll need to hook up React DnD's HTML5Backend with our `App`. After this has been done we can start worrying about actual functionality.
+As a first step we'll need to connect it with our project. Currently it provides an HTML5 Drag and Drop API specific back-end. There's no official support for touch yet but it's possible to add later on. In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
 
 **app/components/App.jsx**
 
@@ -30,6 +30,8 @@ export default class App extends React.Component {
 ```
 
 After this change the application should look exactly the same as before. We are now ready to add some sweet functionality to it.
+
+T> Back-ends allow us to customize React DnD behavior. For instance we can add [support for touch](https://github.com/gaearon/react-dnd/pull/240) to our application using one. There's also a testing specific one available.
 
 ## Preparing Notes to Be Sorted
 
