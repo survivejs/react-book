@@ -190,6 +190,8 @@ module.exports = {
 
 Hit `npm start` and surf to **localhost:8080**. You should see something familiar there. Try modifying `app/component.js` while the server is running and see what happens. Quite neat, huh?
 
+![Hello world](images/hello_01.png)
+
 Or we can run the application from **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar. It indicates the status of the rebundling process.
 
 T> If you want to use some other port than `8080`, you can pass `port` parameter (e.g., `port: 4000`) to *devServer*.
@@ -235,7 +237,11 @@ module.exports = {
       }
     ]
   },
-  ...
+  plugins: [
+    new HtmlwebpackPlugin({
+      title: 'Kanban app'
+    })
+  ]
 };
 ```
 
@@ -266,6 +272,8 @@ require('./main.css');
 Hit `npm start` now. Point your browser to **localhost:8080** if you are using the default port.
 
 Open up *main.css* and change the background color to something like `lime` (`background: lime`). Develop styles as needed to make it look a little nicer.
+
+![Hello cornsilk world](images/hello_02.png)
 
 ## Making the Configuration Extensible
 
