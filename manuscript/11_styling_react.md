@@ -277,7 +277,7 @@ css.setClass('.warning', {
 <button className={css.getClasses({button: true, primary: true})}>Confirm</button>
 
 // in addition you'll need to trigger at higher level after the elements you are using
-// have been injected to DOM
+// have been injected to the DOM
 SmartCSS.injectStyles();
 ```
 
