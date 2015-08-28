@@ -366,6 +366,8 @@ import styles from './style.css';
 
 As you can see, this approach provides a balance between what people are familiar with and what React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
 
+T> [gajus/react-css-modules](https://github.com/gajus/react-css-modules) makes it even more convenient to use CSS Modules with React. Using it you don't need to refer to the `styles` object anymore and you are not forced to use camelCase for naming.
+
 ## Conclusion
 
 It is simple to try out various styling approaches with Webpack. You can do it all ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
