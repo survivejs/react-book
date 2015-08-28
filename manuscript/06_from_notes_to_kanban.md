@@ -4,13 +4,13 @@
 
 So far we have managed to set up a nice little development environment. We have developed an application for keeping track of notes in `localStorage`. We still have work to do to turn this into a real Kanban as pictured above.
 
-Most importantly our system is missing the concept of Lane. A Lane is something that should be able to contain many `Notes` within itself. In the current system that is implicit. We'll need to extract that into a component of its own.
+Most importantly our system is missing the concept of `Lane`. A `Lane` is something that should be able to contain many `Notes` within itself. In the current system that is implicit. We'll need to extract that into a component of its own.
 
 ## Extracting `Lanes`
 
 As earlier, we can use the same idea of two components here. There will be a component for higher level (i.e. `Lanes`) and for lower level (i.e. `Lane`). The higher level component will deal with lane ordering. A `Lane` will render itself (i.e. name and `Notes`) and have basic manipulation operations.
 
-Just as with Notes we are going to need a set of actions. For now it is enough if we can just create new lanes so we can create a corresponding action for that as below:
+Just as with `Notes` we are going to need a set of actions. For now it is enough if we can just create new lanes so we can create a corresponding action for that as below:
 
 **app/actions/LaneActions.js**
 
