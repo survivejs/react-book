@@ -57,31 +57,32 @@ T> You can exit Node.js cli by hitting **CTRL-D** once.
 
 ## Connecting Data with `App`
 
-Next, we need to connect our data model with `App`. The simplest way to achieve that is to push the data directly to `render()` for now. This won't be efficient, but it will allow us to get started. The implementation below shows how this works out in React terms.
+Next, we need to connect our data model with `App`. The simplest way to achieve that is to push the data directly to `render()` for now. This won't be efficient, but it will allow us to get started. The implementation below shows how this works out in React terms:
 
 **app/components/App.jsx**
 
 ```javascript
 import uuid from 'node-uuid';
-...
+import React from 'react';
+import Note from './Note.jsx';
+
+const notes = [
+  {
+    id: uuid.v4(),
+    task: 'Learn Webpack'
+  },
+  {
+    id: uuid.v4(),
+    task: 'Learn React'
+  },
+  {
+    id: uuid.v4(),
+    task: 'Do laundry'
+  }
+];
 
 export default class App extends React.Component {
   render() {
-    const notes = [
-      {
-        id: uuid.v4(),
-        task: 'Learn Webpack'
-      },
-      {
-        id: uuid.v4(),
-        task: 'Learn React'
-      },
-      {
-        id: uuid.v4(),
-        task: 'Do laundry'
-      }
-    ];
-
     return (
       <div>
         <ul>{notes.map(this.renderNote)}</ul>
@@ -105,6 +106,8 @@ We are using various important features of React in the snippet above. Understan
 
 If you run the application now, you can see it almost works. There's a small glitch, but we'll fix that next.
 
+![Almost done](images/react_02.png)
+
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
 ## Fixing `Note`
@@ -124,6 +127,8 @@ export default class Note extends React.Component {
 ```
 
 If you check out the application now, you should see we're seeing results that are more like it. This is only the start, though. Our `App` is getting cramped. It feels like there's a component waiting to be extracted.
+
+![Notes render now](images/react_03.png)
 
 ## Extracting `Notes`
 
@@ -159,21 +164,33 @@ export default class Notes extends React.Component {
 
 It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I've discussed them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
 
-We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Note` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness.
+We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Note` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness:
 
 **app/components/App.jsx**
 
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
+import Note from './Note.jsx';
 import Notes from './Notes.jsx';
+
+const notes = [
+  {
+    id: uuid.v4(),
+    task: 'Learn Webpack'
+  },
+  {
+    id: uuid.v4(),
+    task: 'Learn React'
+  },
+  {
+    id: uuid.v4(),
+    task: 'Do laundry'
+  }
+];
 
 export default class App extends React.Component {
   render() {
-    const notes = [
-      ...
-    ];
-
     return (
       <div>
         <Notes items={notes} />
@@ -196,7 +213,10 @@ In ES6's class syntax the initial state can be defined at the constructor. We'll
 **app/components/App.jsx**
 
 ```javascript
-...
+import uuid from 'node-uuid';
+import React from 'react';
+import Note from './Note.jsx';
+import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -260,6 +280,8 @@ export default class App extends React.Component {
 
 If you click the plus button now, you should see something in your browser console. The next step is to connect this stub with our data model.
 
+![Notes with plus](images/react_04.png)
+
 ### Connecting `addNote` with Data Model
 
 React provides one simple way to change the state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and an optional callback. The callback is triggered after the process has completed.
@@ -294,6 +316,8 @@ export default class App extends React.Component {
 In case we were be operating with a back-end we would trigger a query here and capture id from response. Now it's enough to just generate an entry and a custom id.
 
 If you hit the button a few times now, you should see new items. It might not be pretty yet, but it works.
+
+![Notes with a new item](images/react_05.png)
 
 In addition, to `this.setState` we had to set up a binding. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying, but necessary to bind therefore.
 
@@ -384,6 +408,11 @@ A good first step towards this behavior is to create a stub. As `onEdit` is defi
 **app/components/App.jsx**
 
 ```javascript
+import uuid from 'node-uuid';
+import React from 'react';
+import Note from './Note.jsx';
+import Notes from './Notes.jsx';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -417,7 +446,8 @@ We also need to make `Notes` work according to this idea. It will `bind` the id 
 **app/components/Notes.jsx**
 
 ```javascript
-...
+import React from 'react';
+import Note from './Note.jsx';
 
 export default class Notes extends React.Component {
   constructor(props) {
@@ -489,7 +519,10 @@ The only thing that remains is gluing this all together. We'll need to take the 
 **app/components/App.jsx**
 
 ```javascript
-...
+import uuid from 'node-uuid';
+import React from 'react';
+import Note from './Note.jsx';
+import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -512,7 +545,7 @@ export default class App extends React.Component {
     this.setState({notes});
   }
   findNote(id) {
-    let notes = this.state.notes;
+    const notes = this.state.notes;
     const noteIndex = notes.findIndex((note) => note.id === id);
 
     if(noteIndex < 0) {
@@ -526,6 +559,8 @@ export default class App extends React.Component {
 
 If you try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
 
+![Edited a note](images/react_06.png)
+
 ## Removing `Notes`
 
 We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
@@ -535,7 +570,10 @@ As before we'll need to define some logic on `App` level. Deleting a note can be
 **app/components/App.jsx**
 
 ```javascript
-...
+import uuid from 'node-uuid';
+import React from 'react';
+import Note from './Note.jsx';
+import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -567,16 +605,6 @@ export default class App extends React.Component {
     });
   }
   ...
-  findNote(id) {
-    const notes = this.state.notes;
-    const noteIndex = notes.findIndex((note) => note.id === id);
-
-    if(noteIndex < 0) {
-      console.warn('Failed to find note', notes, id);
-    }
-
-    return noteIndex;
-  }
 }
 ```
 
@@ -625,6 +653,10 @@ export default class Note extends React.Component {
   ...
 ```
 
+After these changes you should be able to delete notes as like.
+
+![Deleted a note](images/react_07.png)
+
 We have a fairly well working little application now. We can create, update and delete `Notes` now. During this process we learned something about props and state. There's more than that to React, though.
 
 T> Now deletion is sort of blunt. One interesting way to develop this further would be to add confirmation. One simple way to achieve this would be to show yes/no buttons before performing the action. The logic would be more or less the same as for editing. This behavior could be extracted into a component of its own.
@@ -641,6 +673,10 @@ body {
   font-family: sans-serif;
 }
 ```
+
+Looking a little nicer now:
+
+![Sans serif](images/react_08.png)
 
 A good next step would be to constrain `Notes` container a little and get rid of those list bullets.
 
@@ -662,6 +698,10 @@ A good next step would be to constrain `Notes` container a little and get rid of
   list-style: none;
 }
 ```
+
+Removing bullets helps:
+
+![No bullets](images/react_09.png)
 
 To make individual `Notes` stand out we can apply a couple of rules.
 
@@ -689,7 +729,11 @@ To make individual `Notes` stand out we can apply a couple of rules.
 }
 ```
 
-Note that I animated `Note` shadow. This way the user gets a better indication of what `Note` is being hovered upon. This won't work on touch based interfaces, but it's a nice touch for the desktop.
+Now notes stand out a bit:
+
+![Styling notes](images/react_10.png)
+
+I animated `Note` shadow in the process. This way the user gets a better indication of what `Note` is being hovered upon. This won't work on touch based interfaces, but it's a nice touch for the desktop.
 
 Finally, we should make those delete buttons stand out less. One way to achieve this is to hide them by default and show them on hover. The gotcha is that deletion won't work on touch, but we can live with that.
 
@@ -714,6 +758,10 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
   visibility: visible;
 }
 ```
+
+No more those pesky deletion buttons:
+
+![Delete on hover](images/react_11.png)
 
 After these few steps we have an application that doesn't look that bad. We'll be improving its outlook as we add functionality, but at least it's something.
 
