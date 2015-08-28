@@ -204,6 +204,8 @@ W> Avoid rendering directly to `document.body`. This can cause strange problems 
 
 If you hit `npm start` now, you should see something familiar at **localhost:8080**.
 
+![Hello React](images/react_01.png)
+
 Before moving on, this is a good chance to get rid of the old `component.js` file. It might be hanging around at `app` root.
 
 ## Activating Hot Loading for Development
