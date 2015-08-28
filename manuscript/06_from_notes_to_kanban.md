@@ -371,16 +371,14 @@ class NoteStore {
   }
   ...
   get(ids) {
-    ids = ids || [];
-
-    return this.notes.filter((note) => ids.indexOf(note.id) >= 0);
+    return (ids || []).map((id) => this.notes[this.findNote(id)]);
   }
 }
 
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-Note that the implementation filters possible not matching ids from the result. 
+Note that the implementation filters possible not matching ids from the result.
 
 ### Connecting `Lane` with the Logic
 
