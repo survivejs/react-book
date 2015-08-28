@@ -126,7 +126,7 @@ T> Set up `resolve.extensions = ['', '.js', '.jsx']` if you want to refer to JSX
 
 T> If you are using Babel in your project, you can also use it to process your Webpack configuration. Simply rename it as `webpack.config.babel.js`. After this Webpack will pass it through Babel allowing you to use ES6 module syntax and features. It will pick up `.babelrc` settings. That's one reason why we're using it.
 
-## Developing First React View
+## Developing the First React View
 
 It is time to add a first application level dependency to our project. Hit
 
