@@ -40,9 +40,9 @@ In this chapter we'll be using a library known as [Alt](http://alt.js.org/). It 
 
 In Alt you'll deal with Actions and Stores. Dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and isomorphic rendering.
 
-### Setting Up Alt Instance
+### Setting Up an Alt Instance
 
-Everything in Alt begins from Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, let's add Alt to our project:
+Everything in Alt begins from an Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, let's add Alt to our project:
 
 ```bash
 npm i alt --save
@@ -171,7 +171,7 @@ class NoteStore {
     this.setState({notes});
   }
   delete(id) {
-    ...
+
   }
   findNote(id) {
     const notes = this.notes;

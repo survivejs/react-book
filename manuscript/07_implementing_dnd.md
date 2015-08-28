@@ -86,7 +86,7 @@ After this change the application should look exactly same as before. We have ac
 
 React DnD uses constants to tell different draggables apart. Set up a file for tracking `Note` as follows:
 
-**app/components/ItemTypes.js**
+**app/libs/item_types.js**
 
 ```javascript
 export default {
@@ -103,7 +103,7 @@ We will be relying on `DragSource` and `DropTarget` decorators. In our case, `No
 ```javascript
 ...
 import { DragSource, DropTarget } from 'react-dnd';
-import ItemTypes from './ItemTypes';
+import ItemTypes from '../libs/item_types';
 
 const noteSource = {
   beginDrag(props) {
@@ -331,7 +331,7 @@ To drag notes to an empty lane we should allow lanes to receive notes. Just as a
 ```javascript
 ...
 import { DropTarget } from 'react-dnd';
-import ItemTypes from './ItemTypes';
+import ItemTypes from '../libs/item_types';
 
 const noteTarget = {
   hover(targetProps, monitor) {
