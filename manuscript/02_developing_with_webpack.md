@@ -6,7 +6,7 @@ This sounds simple, but in practice, it can be a complicated and messy process. 
 
 ## Setting Up the Project
 
-Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and that you have `npm` available at your terminal. Set up a directory for your project, navigate there, hit `npm init` and fill in some details. You can just hit *return* for each and it will work. Here are the commands in detail.
+Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and that you have `npm` available at your terminal. Set up a directory for your project, navigate there, hit `npm init` and fill in some details. You can just hit *return* for each and it will work. Here are the commands:
 
 ```bash
 mkdir kanban_app
@@ -19,7 +19,7 @@ As a result, you should have `package.json` at your project root. You can still 
 
 If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
 
-If you are using git, I recommend setting up a `.gitignore` to the project root as follows:
+If you are using git, I recommend setting up a `.gitignore` to the project root:
 
 **.gitignore**
 
@@ -31,6 +31,8 @@ node_modules
 
 At the very least you should have `node_modules` here as you probably don't want that to end up in the source control. The problem with that is that as some modules need to be compiled per platform, it gets rather messy to collaborate. Ideally your `git status` should look clean. You can extend `.gitignore` as you go.
 
+T> `.DS_Store` is something OS X specific. It contains system specific custom attributes related to the directory. As a result it can be safely ignored.
+
 ## Installing Webpack
 
 Next, you should get Webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain Webpack's version per project. Hit
@@ -39,9 +41,9 @@ Next, you should get Webpack installed. We'll do a local install and save it as 
 npm i webpack node-libs-browser --save-dev
 ```
 
-T> `node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically. It's a good idea to have it installed to be future-proof.
+T> `node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically. It's a good idea to have it installed in order to be future-proof.
 
-This is a good opportunity to try to run Webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version print, link to the cli guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality if nothing else.
+This is a good opportunity to try to run Webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version print, link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality if nothing else.
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation). It is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler. This way you have direct control over the version you are running.
 
@@ -66,7 +68,7 @@ In this case, we'll generate `bundle.js` using Webpack based on our `/app`. To m
 
 ## Setting Up Assets
 
-As you never get tired of `Hello world`, we might as well model a variant of that. Set up a component like this.
+As you never get tired of `Hello world`, we might as well model a variant of that. Set up a component like this:
 
 **app/component.js**
 
@@ -80,7 +82,7 @@ module.exports = function () {
 };
 ```
 
-Next, we are going to need an entry point for our application. It will simply `require` our component and render it through DOM.
+Next, we are going to need an entry point for our application. It will simply `require` our component and render it through the DOM:
 
 **app/main.js**
 
@@ -133,7 +135,7 @@ Given Webpack expects absolute paths we have some good options here. I like to u
 
 If you hit `node_modules/.bin/webpack` now you should see a Webpack build. You can serve */build* through a dummy server such as *serve* (`npm i serve -g`). Examine the results in a browser.
 
-Even though this is nice it's not useful for development. We can set up something far better for development usage.
+Even though this is nice, it's not useful for development. We can set up something better for development usage.
 
 T> Note that you can pass a custom template to `html-webpack-plugin`. In our case, the default template it uses is fine for our purposes for now.
 
