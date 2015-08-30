@@ -1,6 +1,6 @@
 # From Notes to Kanban
 
-![Kanban board](images/kanban.png)
+![Kanban board](images/kanban_05.png)
 
 So far we have managed to set up a nice little development environment. We have developed an application for keeping track of notes in `localStorage`. We still have work to do to turn this into a real Kanban as pictured above.
 
@@ -177,6 +177,8 @@ I am using [Object rest spread syntax (stage 1)](https://github.com/sebmarkbage/
 
 If you run the application, you can see there's something wrong. If you add new `Notes` to a `Lane`, the `Note` appears to each `Lane`. Also if you modify a `Note`, also other `Lanes` update.
 
+![Duplicate notes](images/kanban_01.png)
+
 The reason why this happens is simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem.
 
 ## Making `Lanes` Responsible of `Notes`
@@ -209,7 +211,9 @@ The next step takes more code. We need to take care of attaching:
 **app/stores/LaneStore.js**
 
 ```javascript
-...
+import uuid from 'node-uuid';
+import alt from '../libs/alt';
+import LaneActions from '../actions/LaneActions';
 import NoteStore from './NoteStore';
 
 class LaneStore {
@@ -317,7 +321,9 @@ Both `attachToLane` and `detachFromLane` depend on a helper method known as `fin
 **app/stores/LaneStore.js**
 
 ```javascript
-...
+import uuid from 'node-uuid';
+import alt from '../libs/alt';
+import LaneActions from '../actions/LaneActions';
 import NoteStore from './NoteStore';
 
 class LaneStore {
@@ -348,9 +354,7 @@ Given our lanes contain references to notes through ids, we are going to need so
 
 This can be achieved using the `map` operation. First we need to get the ids of all notes to match against. After that we can perform a lookup for each note id passed using `indexOf`.
 
-Just implementing the method isn't enough. We also need to make it public. In Alt this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question.
-
-Consider the implementation below:
+Just implementing the method isn't enough. We also need to make it public. In Alt this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question. Consider the implementation below:
 
 **app/stores/NoteStore.jsx**
 
@@ -444,6 +448,8 @@ There are a couple of important changes:
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified.
 
 After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. The current structure allowed us to keep singleton stores and a flat data structure. Dealing with references is a little nasty but that's consistent with the Flux architecture.
+
+![Separate notes](images/kanban_02.png)
 
 ## Implementing Edit/Remove for `Lane`
 
@@ -562,7 +568,9 @@ export default class Lane extends React.Component {
         <div className='lane-header'>
           <Editable className='lane-name' value={name}
             onEdit={this.editName} />
-          ...
+          <div className='lane-add-note'>
+            <button onClick={this.addNote}>+</button>
+          </div>
         </div>
         ...
       </div>
@@ -576,6 +584,8 @@ export default class Lane extends React.Component {
 ```
 
 If you try to edit a lane name now, you should see a print at the console.
+
+![Logging lane name editing](images/kanban_03.png)
 
 ### Defining `Editable` Logic
 
@@ -655,6 +665,8 @@ export default class Lane extends React.Component {
 
 Try modifying a lane name now. Modifications should get saved now the same way as they do for notes. Deleting lanes should be possible as well.
 
+![Editing a lane name](images/kanban_04.png)
+
 ## Styling Kanban Board
 
 As we added `Lanes` to the application the styling went a bit off. Add the following styling to make it a little nicer:
@@ -710,6 +722,10 @@ body {
 
 ...
 ```
+
+You should end up with a result like this:
+
+![Styled Kanban](images/kanban_05.png)
 
 As this is a small project we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple. One way to do this is to extract CSS per component and then refer to it there (e.g., `require('./lane.css')` at `Lane.jsx`).
 
