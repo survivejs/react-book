@@ -120,20 +120,20 @@ Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-
     "react/jsx-quotes": 1,
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
-    "react/jsx-uses-vars": 1,
-    "react/no-did-mount-set-state": 1,
-    "react/no-did-update-set-state": 1,
-    "react/no-multi-comp": 1,
-    "react/no-unknown-property": 1,
-    "react/react-in-jsx-scope": 1,
-    "react/self-closing-comp": 1
+    "react/jsx-uses-vars": 1
   }
 }
 ```
 
-Note how we can define severity of an individual rule by passing it a number. Zero or `false` would mean a rule is set off. One would mark it as a warning. Two would yield an error. In some cases you can pass additional parameters to a rule by using an array notation.
+The severity of an individual rule is defined by a number as follows:
 
-If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them if there are any. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
+* 0 - The rule has been disabled.
+* 1 - The rule will emit a warning.
+* 2 - The rule will emit an error.
+
+Some rules, such as `quotes`, accept an array instead. This allows you to pass extra parameters to them. Refer to the rule specific documentation for specifics.
+
+The `react/` rules listed above are just a small subset of all rules available. Pick rules from [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) as needed.
 
 T> Other tools, such as JSCS and JSHint, ESLint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
 
