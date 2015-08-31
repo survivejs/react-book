@@ -2,15 +2,17 @@
 
 Nothing is easier than making mistakes when coding in JavaScript. Linting is one of those techniques that can help you to make less mistakes. You can spot issues before they become actual problems.
 
-The linter that started it it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization.
+Better yet, modern editors and IDEs offer strong support for popular tools. This means you can spot possible issues as you are developing. Despite this, it is a good idea to set them up with Webpack. That allows you to cancel a build that might not be up to your standards for example.
 
-[ESLint](http://eslint.org/) is the newest tool in vogue. It has learned from its predecessors and takes linting to the next level. ESLint allows you to implement custom rules. You can hook it up with custom parsers and reporters. This means ESLint will work with Babel and JSX syntax. The project rules have been well documented. You will have control over their severity. These features alone make it a powerful tool.
+## Brief History of Linting in JavaScript
 
-Besides linting for issues it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and such. Stylistically consistent code reads better and is easier to work with.
+The linter that started it it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization. [ESLint](http://eslint.org/) is the newest tool in vogue.
 
-[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack. ESLint implements a large part of its functionality, though. It is possible you may get away with ESLint only.
+ESLint has learned from its predecessors. It allows you to implement custom rules. You can hook it up with custom parsers and reporters. This means ESLint will work with Babel and JSX syntax. The project rules have been well documented. You will have control over their severity. These features alone make it a powerful tool.
 
-In this chapter I'll go through these tools briefly. We'll integrate just ESLint into our project. Of course if you want, you can give the other tools a go. Just don't be surprised that they aren't included in the demonstration code.
+Besides linting for issues, it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and such. Stylistically consistent code reads better and is easier to work with.
+
+[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack. ESLint implements a large part of its functionality, though.
 
 ## Webpack and JSHint
 
