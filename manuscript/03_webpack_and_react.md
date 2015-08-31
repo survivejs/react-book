@@ -40,11 +40,11 @@ function render() {
 
 If you haven't seen JSX before it will likely look strange. It isn't uncommon to experience "JSX shock" until you start to understand it. After that it all makes sense.
 
-In JSX we are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, which is the DOM equal. Even though JSX will feel a little weird to use at first it will become second nature over time.
+In JSX we are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, which is the DOM equivalent. Even though JSX will feel a little weird to use at first, it will become second nature over time.
 
-The developers of React have decoupled themselves from the limitations of the DOM. As a result, React is highly performant. This comes with a cost, though. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over wire, but it's still something.
+The developers of React have decoupled themselves from the limitations of the DOM. As a result, React is highly performant. This comes with a cost, though. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over the wire, but it's still something.
 
-T> The interesting side benefit of this approach is that React doesn't depend on the DOM. In fact, React can use other targets, such as [mobile](https://facebook.github.io/react-native/), [canvas](https://github.com/Flipboard/react-canvas) or [terminal](https://github.com/Yomguithereal/react-blessed). The DOM just happens to be the most relevant one for web developers.
+T> The interesting side benefit of this approach is that React doesn't depend on the DOM. In fact, React can use other targets, such as [mobile](https://facebook.github.io/react-native/), [canvas](https://github.com/Flipboard/react-canvas), or [terminal](https://github.com/Yomguithereal/react-blessed). The DOM just happens to be the most relevant one for web developers.
 
 ### Better with Friends
 
@@ -78,7 +78,7 @@ You can use Babel with Webpack easily through [babel-loader](https://www.npmjs.c
 npm i babel-core babel-loader --save-dev
 ```
 
-Besides, we need to add a loader declaration to the *loaders* section of configuration. It matches against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression.
+Besides, we need to add a loader declaration to the *loaders* section of configuration. It matches against `.js` and `.jsx` using a regular expression (`/\.jsx?$/`).
 
 To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly. I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
@@ -136,7 +136,7 @@ npm i react --save
 
 to get React installed. This will save React to `dependencies` section of `package.json`. Later on we'll use this to generate a vendor build for the production version. It's a good practice to separate application and development level dependencies this way.
 
-Now that we got that out of the way we can start to develop our Kanban application. First we should define the `App`. This will be the core of our application. It represents the high level view of it and works as an entry point. Later on it will orchestrate it all.
+Now that we got that out of the way, we can start to develop our Kanban application. First we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire app.
 
 **app/components/App.jsx**
 
