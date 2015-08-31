@@ -37,7 +37,7 @@ npm i node-uuid --save
 
 at the project root to get it installed.
 
-If you open up the Node.js cli (`node`) and try following, you can see what kind of ids it outputs.
+If you open up the Node.js CLI (`node`) and try following, you can see what kind of ids it outputs.
 
 ```javascript
 > uuid = require('node-uuid')
@@ -53,7 +53,7 @@ If you open up the Node.js cli (`node`) and try following, you can see what kind
 
 `uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
-T> You can exit Node.js cli by hitting **CTRL-D** once.
+T> You can exit Node.js CLI by hitting **CTRL-D** once.
 
 ## Connecting Data with `App`
 

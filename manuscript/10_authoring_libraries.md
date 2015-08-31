@@ -62,7 +62,7 @@ I've annotated `package.json` of my [React component boilerplate](https://github
     "postpublish": "npm run gh-pages && npm run deploy-gh-pages"
   },
   /* Entry point for terminal (i.e. <package name>) */
-  /* Don't set this unless you intend to allow cli usage */
+  /* Don't set this unless you intend to allow CLI usage */
   "bin": "./index.js",
   /* Entry point (defaults to index.js) */
   "main": "dist-modules/index.js",
@@ -202,7 +202,7 @@ Most of the magic happens thanks to `devtool` and `output` declarations. In addi
 
 npm provides various lifecycle hooks that can be useful. Let's say you are authoring a React component using Babel and some of its goodies. You could let `package.json` *main* field point at the UMD version as generated above. This won't be ideal for those consuming the library through npm, though.
 
-It is better to generate a ES5 compatible version of the package for npm consumers. This can be achieved using **babel** cli tool:
+It is better to generate a ES5 compatible version of the package for npm consumers. This can be achieved using **babel** CLI tool:
 
 ```bash
 babel ./lib --out-dir ./dist-modules
