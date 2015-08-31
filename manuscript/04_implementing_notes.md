@@ -653,7 +653,7 @@ export default class Note extends React.Component {
   ...
 ```
 
-After these changes you should be able to delete notes as like.
+After these changes you should be able to delete notes as you like.
 
 ![Deleted a note](images/react_07.png)
 
