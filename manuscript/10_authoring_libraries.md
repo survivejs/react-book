@@ -132,7 +132,7 @@ T> It can be useful to use `npm link` during development. That will allow you to
 
 Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
 
-An alternative way to consume a library is to point at it directly at `package.json`. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
+An alternative way to consume a library is to point at it directly at `package.json`. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
 
 ## Respect the SemVer
 
@@ -228,7 +228,7 @@ dist-modules/
 ...
 ```
 
-Besides `prepublish` npm provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart` or `version`.
+Besides `prepublish` npm provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`, or `version`.
 
 Even though npm will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (i.e. `npm run prepublish`). The idea here is that we want to make our package as easy to consume as possible. We can take one for our library users.
 
