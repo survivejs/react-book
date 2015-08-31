@@ -10,11 +10,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var App = require('./app/components/App.jsx');
 var pkg = require('./package.json');
 
-var TARGET = process.env.npm_lifecycle_event;
-var ROOT_PATH = path.resolve(__dirname);
-var APP_TITLE = 'Kanban app';
+const TARGET = process.env.npm_lifecycle_event;
+const ROOT_PATH = path.resolve(__dirname);
+const APP_TITLE = 'Kanban app';
 
-var common = {
+const common = {
   entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
