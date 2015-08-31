@@ -17,16 +17,19 @@ In this chapter I'll go through these tools briefly. We'll integrate just ESLint
 Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. On a legacy project setting it up with Webpack is easy. You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition, you will need a little bit of configuration.
 
 ```javascript
-module: {
-  preLoaders: [
-    {
-      test: /\.js$/,
-      // define an include so we check just the files we need
-      include: path.resolve(ROOT_PATH, 'app'),
-      loader: 'jshint'
-    }
-  ]
-}
+var common = {
+  ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.js?$/,
+        loader: 'jshint',
+        // define an include so we check just the files we need
+        include: path.resolve(ROOT_PATH, 'app')
+      }
+    ]
+  },
+};
 ```
 
 You can also define custom settings using a `jshint` object. The project README covers that in detail. The tool will look into specific rules to apply from `.jshintrc`. Those have been covered at JSHint documentation in detail. An example configuration could look like this:
@@ -167,27 +170,25 @@ Next, we need to tweak our development configuration to include it. Add the foll
 **webpack.config.js**
 
 ```javascript
-if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {
-    ...
-    module: {
-      preLoaders: [
-        {
-          test: /\.jsx?$/,
-          loader: 'eslint',
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    },
-    output: {...},
-    ...
-  });
-}
+var common = {
+  ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'eslint',
+        include: path.resolve(ROOT_PATH, 'app')
+      }
+    ]
+  },
+};
 ```
 
-We are using `preLoaders` section here as we want to play it safe. This section is executed before possible `loaders` get triggered. We won't even try to compile code if it doesn't pass our linting.
+We are including the configuration to `common` as this way linting gets performed always. This way you can make sure your production build passes your rules while making sure you benefit from linting during development.
 
-If you execute `npm start` now and break some linting rule while developing, you should see that in the terminal output.
+`preLoaders` section of the configuration gets executed before `loaders`. If linting fails, you'll know about it first. There's a third section, `postLoaders`, that gets executed after `loaders`. You could include code coverage checking there during testing for instance.
+
+If you execute `npm start` now and break some linting rule while developing, you should see that in the terminal output. The same should happen when you build the project.
 
 ## Customizing ESLint
 
@@ -299,25 +300,18 @@ Next, we'll need to integrate it with our configuration:
 **webpack.config.js**
 
 ```javascript
-...
-
-if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {
-    module: {
-      preLoaders: [
-        {
-          test: /\.css$/,
-          loader: 'csslint'
-        },
-        {
-          test: /\.jsx?$/,
-          loader: 'eslint-loader',
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ],
+var common = {
+  ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.css$/,
+        loader: 'csslint'
+      },
       ...
-    }
-  });
+    ],
+    ...
+  }
 }
 ```
 
