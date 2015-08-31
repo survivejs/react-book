@@ -409,6 +409,34 @@ T> ESLint implements a large part of the functionality provided by JSCS. It is p
 
 T> Note that like some other tools, such as ESLint and JSHint, JSCS supports `package.json` based configuration. Simply add a `jscsConfig` field to it and write the configuration there.
 
+## EditorConfig
+
+[EditorConfig](http://editorconfig.org/) allows you to maintain a consistent coding style across different IDEs and editors. Some even come with built-in support. For others you have to install a separate plugin. In addition to this you'll need to set up a `.editorconfig` file like this:
+
+**.editorconfig**
+
+```yaml
+root = true
+
+# General settings for whole project
+[*]
+indent_style = space
+indent_size = 4
+
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Format specific overrides
+[*.md]
+trim_trailing_whitespace = false
+
+[app/**.js]
+indent_style = space
+indent_size = 2
+```
+
 ## Conclusion
 
 In this chapter you learned how to lint your code using Webpack in various ways. It is one of those techniques that yields benefits over longer term. You can fix possible problems before they become actual issues.
