@@ -206,7 +206,7 @@ We are using a somewhat basic setup here. Beyond defaults we've enabled Hot Modu
 
 We can extend the approach to work with CSS. Webpack allows us to change CSS without forcing a full refresh. Let's see how to achieve that next.
 
-To load CSS to project, we'll need to use a couple of loaders. To get started, invoke
+To load CSS into a project, we'll need to use a couple of loaders. To get started, invoke
 
 ```bash
 npm i css-loader style-loader --save-dev
@@ -245,7 +245,9 @@ module.exports = {
 };
 ```
 
-The configuration we added means that files ending with `css` should invoke given loaders. `test` matches against a regular expression. The loaders are evaluated from right to left. In this case, *css-loader* gets evaluated first and to *style-loader* after that. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* deals with `require` statements in our JavaScript. Similar approach works with CSS preprocessors.
+The configuration we added means that files ending with `.css` should invoke given loaders. `test` matches against a JavaScript style regular expression. The loaders are evaluated from right to left. In this case, *css-loader* gets evaluated first, then *style-loader*. *css-loader* will resolve `@import` and `url` statements in our CSS files. *style-loader* deals with `require` statements in our JavaScript. A similar approach works with CSS preprocessors, like Sass and Less, and their loaders.
+
+T> Loaders are transformations that are applied to source files, and return the new source. Loaders can be chained together, like using a pipe in Unix. See Webpack's [What are loaders?](http://webpack.github.io/docs/using-loaders.html) and [list of loaders](http://webpack.github.io/docs/list-of-loaders.html).
 
 W> If `include` isn't set, Webpack will traverse all files within the base directory. This can hurt performance! It is a good idea to set up `include` always. There's also `exclude` option that may come in handy.
 
