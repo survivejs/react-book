@@ -200,7 +200,7 @@ I'll be using `const` whenever possible. It will give me a guarantee that the re
 
 If I want something mutable, I'll use `let` instead. `let` is scoped to the code block and is another new feature introduced with ES6. These both are good safety measures.
 
-W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead, give React a little sandbox of its own. That way everyone, including React, will stay happy.
+W> Avoid rendering directly to `document.body`. This can cause strange problems when relying on it. Instead give React a little sandbox of its own. That way everyone, including React, will stay happy.
 
 If you hit `npm start` now, you should see something familiar at **localhost:8080**.
 
