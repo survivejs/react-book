@@ -301,7 +301,8 @@ var common = {
     preLoaders: [
       {
         test: /\.css$/,
-        loader: 'csslint'
+        loader: 'csslint',
+        include: path.resolve(ROOT_PATH, 'app')
       },
       ...
     ],
@@ -310,7 +311,7 @@ var common = {
 }
 ```
 
-To keep things nice and tidy I put it into the `preLoaders` section of configuration.
+To keep things nice and tidy I put it into the `preLoaders` section of configuration. In addition we are going to need some basic configuration. The following has been borrowed from Twitter Bootstrap and seems like a good starting point:
 
 **.csslintrc**
 
@@ -336,7 +337,7 @@ To keep things nice and tidy I put it into the `preLoaders` section of configura
 }
 ```
 
-I decided to use a set of rules from Twitter Bootstrap. These seem like a good starting point.
+We should also tweak *package.json* targets so that we can lint what we want outside of Webpack:
 
 **package.json**
 
@@ -345,11 +346,11 @@ I decided to use a set of rules from Twitter Bootstrap. These seem like a good s
   ...
   "lint": "npm run lint-js && npm run lint-css",
   "lint-js": "eslint . --ext .js --ext .jsx",
-  "lint-css": "csslint app/stylesheets --quiet"
+  "lint-css": "csslint app --quiet"
 }
 ```
 
-If you hit `npm run lint-css` now, you should see some output, hopefully without errors. That `--quiet` flag is there to keep the tool silent unless there are errors.
+That `--quiet` flag is there to keep the tool silent unless there are errors. If you hit `npm run lint-css` now, you might see some errors or not depending on whether the process passes. If you want to trigger a failure, try overqualifying a selector. I.e. do something like `body.lane` and you should get a warning.
 
 Thanks to the Webpack configuration we did, you should get output during `npm start` process as well. In addition, you should consider setting up csslint with your editor. That way you get more integrated development experience.
 
