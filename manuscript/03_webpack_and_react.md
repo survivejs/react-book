@@ -175,7 +175,7 @@ T> Note that we're using *jsx* extension here. It helps us to tell modules using
 
 ### Rendering Through `main.jsx`
 
-We'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where to render. Then it renders our application through React.
+We'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where it will render. Then it renders our application through React.
 
 **app/main.jsx**
 
