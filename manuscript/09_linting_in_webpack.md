@@ -31,7 +31,7 @@ var common = {
     preLoaders: [
       {
         test: /\.js?$/,
-        loader: 'jshint',
+        loaders: ['jshint'],
         // define an include so we check just the files we need
         include: path.resolve(ROOT_PATH, 'app')
       }
@@ -171,7 +171,7 @@ var common = {
     preLoaders: [
       {
         test: /\.jsx?$/,
-        loader: 'eslint',
+        loaders: ['eslint'],
         include: path.resolve(ROOT_PATH, 'app')
       }
     ]
@@ -301,7 +301,7 @@ var common = {
     preLoaders: [
       {
         test: /\.css$/,
-        loader: 'csslint',
+        loaders: ['csslint'],
         include: path.resolve(ROOT_PATH, 'app')
       },
       ...
