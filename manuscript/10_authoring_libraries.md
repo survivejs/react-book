@@ -240,7 +240,7 @@ An important part of maintaining npm packages is keeping their dependencies up t
 
 There are a few ways to approach dependency updates:
 
-* You can update all dependencies at once and hope for the best. Tools such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) or [mankees-update_deps](https://www.npmjs.com/package/mankees-update_deps) can do this for you. Remember to invoke `npm i` after to make sure you have the right dependencies installed for testing the changes.
+* You can update all dependencies at once and hope for the best. Tools such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) can do this for you. Remember to invoke `npm i` after to make sure you have the right dependencies installed for testing the changes.
 * Install the newest version of some specific dependency. I.e. `npm i lodash@* --save`. This is more controlled way to approach the problem.
 * Patch version information by hand by modifying `package.json` directly.
 
