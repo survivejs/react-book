@@ -16,7 +16,13 @@ Besides linting for issues, it can be useful to manage code style on some level.
 
 ## Webpack and JSHint
 
-Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. On a legacy project setting it up with Webpack is easy. You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition, you will need a little bit of configuration.
+Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. On a legacy project setting it up with Webpack is easy. You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project
+
+```bash
+npm i jshint-loader --save-dev
+```
+
+In addition, you will need a little bit of configuration:
 
 ```javascript
 var common = {
@@ -34,34 +40,21 @@ var common = {
 };
 ```
 
-You can also define custom settings using a `jshint` object. The project README covers that in detail. The tool will look into specific rules to apply from `.jshintrc`. Those have been covered at JSHint documentation in detail. An example configuration could look like this:
+You can also define custom settings using a `jshint` object. The tool will look into specific rules to apply from `.jshintrc`. Those have been covered at [the JSHint documentation](http://jshint.com/docs/) in detail. An example configuration could look like this:
 
 **.jshintrc**
 
 ```json
 {
-  "bitwise": true,
   "browser": true,
   "camelcase": false,
-  "curly": true,
-  "eqeqeq": true,
   "esnext": true,
-  "immed": true,
   "indent": 2,
   "latedef": false,
   "newcap": true,
-  "noarg": true,
-  "node": true,
-  "quotmark": "double",
-  "strict": true,
-  "trailing": true,
-  "undef": true,
-  "unused": true,
-  "sub": true
+  "quotmark": "double"
 }
 ```
-
-Besides setting it up with Webpack it can be highly beneficial to look into an integration with your editor or IDE. Having warnings and errors inline makes a world of difference. Webpack will still complain but an integrated approach has its benefits.
 
 ## Setting Up ESLint
 
