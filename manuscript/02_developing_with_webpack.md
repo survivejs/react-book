@@ -131,7 +131,7 @@ module.exports = {
 };
 ```
 
-Given Webpack expects absolute paths we have some good options here. I like to use `path.resolve`, but `path.join` would be a good alternative. `path.resolve` is equal to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
+Given Webpack expects absolute paths we have some good options here. I like to use `path.resolve`, but `path.join` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
 If you hit `node_modules/.bin/webpack` now you should see a Webpack build. You can serve */build* through a dummy server such as *serve* (`npm i serve -g`). Examine the results in a browser.
 
@@ -143,7 +143,7 @@ T> Note that you can pass a custom template to `html-webpack-plugin`. In our cas
 
 Now that we have the basic building blocks together, we can set up a development server. `webpack-dev-server` is a development server that automatically refreshes content in the browser while you develop your application.
 
-This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through React.
+This makes it roughly equivalent to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through React.
 
 Hit
 
