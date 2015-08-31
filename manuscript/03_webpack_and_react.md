@@ -96,7 +96,7 @@ var common = {
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     module: {
       loaders: [
         {
@@ -229,7 +229,7 @@ We also need to make our configuration aware of it so it can inject hooks Webpac
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     module: {
       loaders: [
         {
