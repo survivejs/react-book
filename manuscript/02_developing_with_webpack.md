@@ -143,7 +143,7 @@ T> Note that you can pass a custom template to `html-webpack-plugin`. In our cas
 
 Now that we have the basic building blocks together, we can set up a development server. `webpack-dev-server` is a development server that automatically refreshes content in the browser while you develop your application.
 
-This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is hot module reloading (HMR). We'll discuss it when we go through React.
+This makes it roughly equal to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through React.
 
 Hit
 
@@ -196,17 +196,17 @@ Or we can run the application from **localhost:8080/webpack-dev-server/bundle** 
 
 T> If you want to use some other port than `8080`, you can pass `port` parameter (e.g., `port: 4000`) to *devServer*.
 
-In addition to **webpack.config.js** it is possible to set *webpack-dev-server* configuration through cli. There is also an entire [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api) available in case you want most control over it.
+In addition to **webpack.config.js** it is possible to set *webpack-dev-server* configuration through a command line interface (CLI). For additional configuration options, refer to the WebpackDevServer's [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api) documentation.
 
-W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the cli and Node.js API and they may behave slightly differently at times. This is the reason why some prefer to use solely Node.js API.
+W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and Node.js API and they may behave slightly differently at times. This is the reason why some prefer to use solely Node.js API.
 
-We are using a somewhat basic setup here. Beyond defaults we've enabled hot module reloading (HMR) and HTML5 History API fallback. The former will come in handy when we discuss React in detail. The latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up more `entry` paths.
+We are using a somewhat basic setup here. Beyond defaults we've enabled Hot Module Replacement (HMR) and HTML5 History API fallback. The former will come in handy when we discuss React in detail. The latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up more `entry` paths.
 
 ## Refreshing CSS
 
 We can extend the approach to work with CSS. Webpack allows us to change CSS without forcing a full refresh. Let's see how to achieve that next.
 
-To load CSS to project, we'll need to use a couple of loaders. To get started, invoke
+To load CSS into a project, we'll need to use a couple of loaders. To get started, invoke
 
 ```bash
 npm i css-loader style-loader --save-dev
@@ -245,7 +245,9 @@ module.exports = {
 };
 ```
 
-The configuration we added means that files ending with `css` should invoke given loaders. `test` matches against a regular expression. The loaders are evaluated from right to left. In this case, *css-loader* gets evaluated first and to *style-loader* after that. *css-loader* will resolve `@import` and `url` statements of our CSS files. *style-loader* deals with `require` statements in our JavaScript. Similar approach works with CSS preprocessors.
+The configuration we added means that files ending with `.css` should invoke given loaders. `test` matches against a JavaScript style regular expression. The loaders are evaluated from right to left. In this case, *css-loader* gets evaluated first, then *style-loader*. *css-loader* will resolve `@import` and `url` statements in our CSS files. *style-loader* deals with `require` statements in our JavaScript. A similar approach works with CSS preprocessors, like Sass and Less, and their loaders.
+
+T> Loaders are transformations that are applied to source files, and return the new source. Loaders can be chained together, like using a pipe in Unix. See Webpack's [What are loaders?](http://webpack.github.io/docs/using-loaders.html) and [list of loaders](http://webpack.github.io/docs/list-of-loaders.html).
 
 W> If `include` isn't set, Webpack will traverse all files within the base directory. This can hurt performance! It is a good idea to set up `include` always. There's also `exclude` option that may come in handy.
 
