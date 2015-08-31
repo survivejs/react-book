@@ -78,7 +78,7 @@ You can use Babel with Webpack easily through [babel-loader](https://www.npmjs.c
 npm i babel-core babel-loader --save-dev
 ```
 
-Besides, we need to add a loader declaration to the *loaders* section of configuration. It matches against `.js` and `.jsx` (`/\.jsx?$/`) using a regular expression.
+Besides, we need to add a loader declaration to the *loaders* section of configuration. It matches against `.js` and `.jsx` using a regular expression (`/\.jsx?$/`).
 
 To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly. I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
