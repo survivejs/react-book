@@ -583,7 +583,7 @@ export default class Lane extends React.Component {
 }
 ```
 
-If you try to edit a lane name now, you should see a print at the console.
+If you try to edit a lane name now, you should see a log at the console.
 
 ![Logging lane name editing](images/kanban_03.png)
 

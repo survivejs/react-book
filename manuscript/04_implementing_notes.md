@@ -472,7 +472,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-If you edit a `Note` now, you should see a print at the console.
+If you edit a `Note` now, you should see a log at the console.
 
 We are missing one final bit, the actual logic. Our state consists of `Notes` each of which has an id (string) and a task (string) attached to it. Our callback receives both of these. In order to edit a `Note` it should find the `Note` to edit and patch its task using the new data.
 

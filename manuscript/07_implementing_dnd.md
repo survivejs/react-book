@@ -130,16 +130,16 @@ export default class Note extends React.Component {
 There are a couple of important changes:
 
 * We set up imports for the new logic.
-* We defined a `noteSource`. It contains `beginDrag` handler. We can set the initial state for dragging here. Now we just have a debug print there.
+* We defined a `noteSource`. It contains `beginDrag` handler. We can set the initial state for dragging here. Now we just have a debug log there.
 * `@DragSource` connects `NOTE` item type with `noteSource`
 * `id` and `onMove` props are extracted from `this.props`. We'll use these later on to set up a callback so that the parent of a `Note` can deal with the moving related logic.
 * Finally `connectDragSource` prop wraps the element at `render()`. It could be applied to a specific part of it. This would be handy for implementing handles for example.
 
-If you drag a `Note` now, you should see a debug print at the console.
+If you drag a `Note` now, you should see a debug log at the console.
 
 We still need to make sure `Note` works as a `@DropTarget`. Later on this will allow swapping them as we add logic in place.
 
-W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh browser to see the prints you expect!
+W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh browser to see the logs you expect!
 
 ### Setting Up `Note` `@DropTarget`
 
@@ -186,7 +186,7 @@ export default class Note extends React.Component {
 }
 ```
 
-Besides the initial debug print, we should see way more prints as we drag a `Note` around. Note that both decorators give us access to the `Note` props. In this case we are using `monitor.getItem()` to access them at `noteTarget`.
+Besides the initial debug log, we should see way more logs as we drag a `Note` around. Note that both decorators give us access to the `Note` props. In this case we are using `monitor.getItem()` to access them at `noteTarget`.
 
 ## Developing `onMove` API for `Notes`
 
@@ -252,7 +252,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-If you drag a `Note` around now, you should see prints like `source <id> target <id>` at console. We are getting close. We still need to figure out what to do with these ids, though.
+If you drag a `Note` around now, you should see logs like `source <id> target <id>` at console. We are getting close. We still need to figure out what to do with these ids, though.
 
 ## Adding Action and Store Method for Moving
 
@@ -296,7 +296,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-We should also define a stub at `LaneStore` to see that we wired it up correctly.
+We should also define a stub at `LaneStore` to see that we wired it up correctly:
 
 **app/stores/LaneStore.jsx**
 
@@ -402,7 +402,7 @@ export default class Lane extends React.Component {
 }
 ```
 
-If you drag a note to a lane now, you should see prints at your console. The question is what to do with this data? Before actually moving the note to a lane we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
+If you drag a note to a lane now, you should see logs at your console. The question is what to do with this data? Before actually moving the note to a lane we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
 
 This is a simple check to make. Given we know the target lane at our `noteTarget` `hover` handler, we can check its `notes` array as below:
 
@@ -421,7 +421,7 @@ const noteTarget = {
 };
 ```
 
-If you refresh your browser and drag around now, the print should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
+If you refresh your browser and drag around now, the log should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
 
 ### Trigger `move` Logic
 
