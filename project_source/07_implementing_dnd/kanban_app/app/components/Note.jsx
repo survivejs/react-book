@@ -1,6 +1,6 @@
 import React from 'react';
 import {DragSource, DropTarget} from 'react-dnd';
-import ItemTypes from '../libs/item_types';
+import ItemTypes from '../libs/itemTypes';
 
 const noteSource = {
   beginDrag(props) {
