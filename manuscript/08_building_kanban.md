@@ -511,6 +511,8 @@ function main() {
 }
 ```
 
+The strange looking `NODE_ENV` checks are used to make sure dead code elimination kicks in when building the JavaScript. It will remove the entire branch from the eliminated code because the statement will evaluate as `false` in a static check performed by the minifier.
+
 If you hit `npm run build` now and wait for a while, you should end up with `build/index.html` that contains something familiar. `npm start` should work the same way as earlier.
 
 In this case, isomorphic rendering doesn't yield us much. If we had a back-end the situation would be different. We could serve the user markup that has the initial data and enjoy the benefits. Even though it's now more of a gimmick, it's a useful technique to be aware of.
