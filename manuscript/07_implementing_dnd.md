@@ -272,7 +272,7 @@ export default alt.generateActions(
 );
 ```
 
-We also need to trigger it when moving. We should connect this action with `onMove` hook we just defined:
+We should connect this action with `onMove` hook we just defined:
 
 **app/components/Notes.jsx**
 
@@ -312,7 +312,7 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-You should see the same prints as earlier. Next, we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about. Moving within a lane itself and moving from lane to another.
+You should see the same logs as earlier. Next, we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about. Moving within a lane itself and moving from lane to another.
 
 ## Implementing Note Drag and Drop Logic
 
