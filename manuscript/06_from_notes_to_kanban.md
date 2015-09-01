@@ -125,7 +125,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-Note that we are using Object rest spread syntax `{...lane}` to pass lane specific props to each `Lane`.
+Note that we are using [Object rest spread syntax](https://gist.github.com/sebmarkbage/07bbe37bc42b6d4aef81) `{...lane}` to pass lane specific props to each `Lane`.
 
 We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane including its name and associated notes:
 
