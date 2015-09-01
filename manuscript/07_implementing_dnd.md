@@ -425,16 +425,16 @@ If you refresh your browser and drag around now, the log should appear only when
 
 ### Trigger `move` Logic
 
-Next, we'll need to trigger logic that can perform the move operation. We have some actions we can apply for this purpose. Remember those attach/detach actions we implemented earlier? To remind you of their signatures they look like this:
+Next, we'll need to trigger the logic that can perform the move operation. We have some actions we can apply for this purpose. Remember those attach/detach actions we implemented earlier? To remind you of their signatures they look like this:
 
 * `LaneStore.attachToLane({laneId, noteId})`
 * `LaneStore.detachFromLane({laneId, noteId})`
 
-By the looks of it we have enough data to perform `attachToLane`. `detachFromLane` is more problematic as we would need to know where to detach the note from. There are a couple of ways to solve this problem. We could pass lane id to `Note` through the hierarchy. This doesn't feel particularly nice, though.
+By the looks of it, we have enough data to perform `attachToLane`. `detachFromLane` is more problematic as we would need to know where to detach the note from. There are a couple of ways to solve this problem. We could pass the lane id to `Note` through the hierarchy. This doesn't feel particularly nice, though.
 
-Instead, it feels more reasonable to solve this on store level. We can have the nasty logic there. Given a note can belong to only a single lane in our system we can enforce this rule at `attachToLane`. We simply remove the note before attaching it should it exist somewhere within the system.
+Instead, it feels more reasonable to solve this on store level. We can have the logic there. Given that a note can belong to only a single lane in our system, we can enforce this rule at `attachToLane`. We simply remove the note before attaching if it exists somewhere within the system.
 
-The `noteTarget` part of this is simple. We need to trigger `LaneActions.attachToLane` using the ids we know based on the data we have available.
+The `noteTarget` part of this is simple. We need to trigger `LaneActions.attachToLane` using the ids we know based on the data we have available:
 
 **app/components/Lane.jsx**
 

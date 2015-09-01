@@ -280,7 +280,7 @@ Besides the official documentation available at [eslint.org](http://eslint.org/)
 * [Understanding the Real Advantages of Using ESLint](http://rangle.io/blog/understanding-the-real-advantages-of-using-eslint/) - Evan Schultz's post digs into details.
 * [eslint-plugin-smells](https://github.com/elijahmanor/eslint-plugin-smells) - This plugin by Elijah Manor allows you to lint against various JavaScript smells. Recommended.
 
-If you just want some starting point, you can pick one of [eslint-config- packages](https://www.npmjs.com/search?q=eslint-config) or go with [standard](https://www.npmjs.com/package/standard) style. By the looks of it `standard` has [some issues with JSX](https://github.com/feross/standard/issues/138) so be careful with that.
+If you just want some starting point, you can pick one of [eslint-config- packages](https://www.npmjs.com/search?q=eslint-config) or go with [standard](https://www.npmjs.com/package/standard) style. By the looks of it, `standard` has [some issues with JSX](https://github.com/feross/standard/issues/138) so be careful with that.
 
 ## Linting CSS
 
