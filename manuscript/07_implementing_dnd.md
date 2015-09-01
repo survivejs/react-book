@@ -21,8 +21,6 @@ As a first step we'll need to connect it with our project. Currently it provides
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd/modules/backends/HTML5';
 
-...
-
 @DragDropContext(HTML5Backend)
 export default class App extends React.Component {
   ...
@@ -69,7 +67,7 @@ export default class Notes extends React.Component {
   ...
   renderNote(note) {
     return (
-      <Note className='note' data={note} key={`note${note.id}`}>
+      <Note className='note' id={note.id} key={`note${note.id}`}>
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
@@ -178,8 +176,8 @@ const noteTarget = {
 }))
 export default class Note extends React.Component {
   render() {
-    const {connectDragSource, connectDropTarget, onMove,
-      data, ...props} = this.props;
+    const {connectDragSource, connectDropTarget,
+      id, onMove, ...props} = this.props;
 
     return connectDragSource(connectDropTarget(
       <li {...props}>{props.children}</li>
@@ -240,7 +238,7 @@ export default class Notes extends React.Component {
   renderNote(note) {
     return (
       <Note className='note' onMove={this.onMoveNote}
-        data={note} key={`note${note.id}`}>
+        id={note.id} key={`note${note.id}`}>
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
