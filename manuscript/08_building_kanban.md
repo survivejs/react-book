@@ -482,7 +482,9 @@ function renderTemplate(template, replacements) {
 }
 ```
 
-As it doesn't make sense to use isomorphic rendering for development, I set it up only for production. It performs a regular expression based replacement to render our React code to `%app%`. `React.renderToString` returns the markup we need.
+We cannot use isomorphic rendering for development in this case because the generated results and front-end state may differ. This is due to the fact that `localStorage` may contain some initial data. If you had an actual back-end to develop against and you store the data there, this wouldn't be a problem.
+
+Our isomorphic setup performs a regular expression based replacement to render our React code to `%app%`. Alternatively we could use a templating library, such as [handlebars](https://www.npmjs.com/package/handlebars), but this solution is enough for now. Finally `React.renderToString` returns the markup we need.
 
 T> If you want output that doesn't have React keys, use `React.renderToStaticMarkup` instead. This is useful especially if you are writing static site generators.
 
