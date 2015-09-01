@@ -1,6 +1,6 @@
 # Implementing Drag and Drop
 
-Our Kanban application is almost usable now. It doesn't look that bad and there's some basic functionality in place. In this chapter I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter you should be able to sort notes within a lane and drag them from a lane to another.
+Our Kanban application is almost usable now. It looks alright and there's some basic functionality in place. In this chapter I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter you should be able to sort notes within a lane and drag them from a lane to another.
 
 ## Setting Up React DnD
 
@@ -319,9 +319,7 @@ You should see the same logs as earlier. Next, we'll need to add some logic to m
 
 Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) helper from React as that solves the problem in one pass.
 
-It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple.
-
-Note that these operations will mutate our `lanes` structure. At least we have the mutation contained now and it won't leak out of the store. It is possible to implement the same algorithm without mutation. The code below illustrates a mutation based solution:
+It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
 
 **app/stores/LaneStore.jsx**
 

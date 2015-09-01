@@ -447,7 +447,7 @@ There are a couple of important changes:
 * `items: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified.
 
-After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. The current structure allowed us to keep singleton stores and a flat data structure. Dealing with references is a little nasty but that's consistent with the Flux architecture.
+After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. The current structure allowed us to keep singleton stores and a flat data structure. Dealing with references is a little awkward but that's consistent with the Flux architecture.
 
 ![Separate notes](images/kanban_02.png)
 

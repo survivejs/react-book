@@ -227,7 +227,7 @@ vendor.edaf1006b1f4b71898f9.js.map    2.12 MB       1  [emitted]  vendor
     + 339 hidden modules
 ```
 
-Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 57.8 kB. Not bad.
+Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 57.8 kB.
 
 One more way to push the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
 
@@ -375,7 +375,7 @@ Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
 
-This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*. Not bad.
+This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*.
 
 ## Isomorphic Rendering
 

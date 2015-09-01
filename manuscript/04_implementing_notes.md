@@ -763,7 +763,7 @@ No more those pesky deletion buttons:
 
 ![Delete on hover](images/react_11.png)
 
-After these few steps we have an application that doesn't look that bad. We'll be improving its outlook as we add functionality, but at least it's something.
+After these few steps we have an application that looks passable. We'll be improving its outlook as we add functionality, but at least it's something.
 
 ## Understanding React Components
 
