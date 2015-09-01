@@ -190,7 +190,7 @@ export default class Note extends React.Component {
 
 Besides the initial debug print, we should see way more prints as we drag a `Note` around. Note that both decorators give us access to the `Note` props. In this case we are using `monitor.getItem()` to access them at `noteTarget`.
 
-## Developing `onMove` API for Notes
+## Developing `onMove` API for `Notes`
 
 Now that we can move notes around, we still need to define logic. The following steps are needed:
 
@@ -260,7 +260,7 @@ If you drag a `Note` around now, you should see prints like `source [Object] tar
 
 The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
-In our case, we'll get some extra complexity due to lane to lane dragging. Note that when we move a `Note` we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`.
+In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note` we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`:
 
 **app/actions/LaneActions.jsx**
 
@@ -274,7 +274,7 @@ export default alt.generateActions(
 );
 ```
 
-We also need to trigger it when moving. We should connect this action with `onMove` hook we just defined.
+We also need to trigger it when moving. We should connect this action with `onMove` hook we just defined:
 
 **app/components/Notes.jsx**
 
