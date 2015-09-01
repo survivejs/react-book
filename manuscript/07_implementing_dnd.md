@@ -18,7 +18,7 @@ As a first step we'll need to connect it with our project. Currently it provides
 
 ```javascript
 ...
-import { DragDropContext } from 'react-dnd';
+import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd/modules/backends/HTML5';
 
 ...
