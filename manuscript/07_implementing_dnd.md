@@ -425,16 +425,7 @@ If you refresh your browser and drag around now, the log should appear only when
 
 ### Trigger `move` Logic
 
-Next, we'll need to trigger the logic that can perform the move operation. We have some actions we can apply for this purpose. Remember those attach/detach actions we implemented earlier? To remind you of their signatures they look like this:
-
-* `LaneStore.attachToLane({laneId, noteId})`
-* `LaneStore.detachFromLane({laneId, noteId})`
-
-By the looks of it, we have enough data to perform `attachToLane`. `detachFromLane` is more problematic as we would need to know where to detach the note from. There are a couple of ways to solve this problem. We could pass the lane id to `Note` through the hierarchy. This doesn't feel particularly nice, though.
-
-Instead, it feels more reasonable to solve this on store level. We can have the logic there. Given that a note can belong to only a single lane in our system, we can enforce this rule at `attachToLane`. We simply remove the note before attaching if it exists somewhere within the system.
-
-The `noteTarget` part of this is simple. We need to trigger `LaneActions.attachToLane` using the ids we know based on the data we have available:
+Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is ideal for this purpose. Adjust `Lane` as below:
 
 **app/components/Lane.jsx**
 
@@ -454,7 +445,11 @@ const noteTarget = {
 };
 ```
 
-The store part is more complicated. I've separated the search and destroy part to a method of its own. Given we use search elsewhere it might be beneficial to refactor that to method as well. The code also relies on mutation which isn't particularly nice.
+There is one problem, though. What happens to the old instance of the `Note`? In the current solution the old lane will have an id pointing to it. As a result we have duplicate data in the system.
+
+Earlier we resolved this using `detachFromLane`. The problem is that we don't know which lane the note belonged. We could pass this data through the component hierarchy but that doesn't feel particularly nice.
+
+We could resolve this on store level instead by implementing an invariant at `attachToLane` that makes sure any possible earlier references get removed. This can be achieved by implementing `this.removeNote(noteId)` check:
 
 **app/stores/LaneStore.jsx**
 
@@ -494,7 +489,9 @@ class LaneStore {
 }
 ```
 
-After these changes we have a Kanban table that is actually useful! We can create new lanes and notes, edit and remove them. In addition, we can move notes around. Mission accomplished!
+`removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that we have a clean slate and we can add a note to a lane. This change would allow us to drop `detachFromLane` from the system entirely but I'll leave doing that up to you.
+
+Now we have a Kanban table that is actually useful! We can create new lanes and notes, edit and remove them. In addition, we can move notes around. Mission accomplished!
 
 ## Conclusion
 
