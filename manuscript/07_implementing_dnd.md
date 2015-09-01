@@ -387,7 +387,7 @@ const noteTarget = {
   }
 };
 
-@DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 export default class Lane extends React.Component {
