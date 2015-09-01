@@ -120,7 +120,7 @@ const noteSource = {
 }))
 export default class Note extends React.Component {
   render() {
-    const {connectDragSource, data, onMove, ...props} = this.props;
+    const {connectDragSource, id, onMove, ...props} = this.props;
 
     return connectDragSource(
       <li {...props}>{props.children}</li>
@@ -134,7 +134,7 @@ There are a couple of important changes:
 * We set up imports for the new logic.
 * We defined a `noteSource`. It contains `beginDrag` handler. We can set the initial state for dragging here. Now we just have a debug print there.
 * `@DragSource` connects `NOTE` item type with `noteSource`
-* `onMove` prop is extracted from `this.props`. We'll use this later on to set up a callback so that the parent of a `Note` can deal with the moving related logic.
+* `id` and `onMove` props are extracted from `this.props`. We'll use these later on to set up a callback so that the parent of a `Note` can deal with the moving related logic.
 * Finally `connectDragSource` prop wraps the element at `render()`. It could be applied to a specific part of it. This would be handy for implementing handles for example.
 
 If you drag a `Note` now, you should see a debug print at the console.
@@ -194,9 +194,9 @@ Besides the initial debug print, we should see way more prints as we drag a `Not
 
 Now that we can move notes around, we still need to define logic. The following steps are needed:
 
-* Capture `Note` data on `beginDrag`
-* Capture target `Note` data on `hover`
-* Trigger `onMove` callback on `hover` so that we can deal with the logic on higher level
+* Capture `Note` id on `beginDrag`.
+* Capture target `Note` id on `hover`.
+* Trigger `onMove` callback on `hover` so that we can deal with the logic on higher level.
 
 You can see how this translates to code below:
 
@@ -208,19 +208,19 @@ You can see how this translates to code below:
 const noteSource = {
   beginDrag(props) {
     return {
-      data: props.data
+      id: props.id
     };
   }
 };
 
 const noteTarget = {
   hover(targetProps, monitor) {
-    const targetNote = targetProps.data || {};
+    const targetId = targetProps.id;
     const sourceProps = monitor.getItem();
-    const sourceNote = sourceProps.data || {};
+    const sourceId = sourceProps.id;
 
-    if(sourceNote.id !== targetNote.id) {
-      targetProps.onMove({sourceNote, targetNote});
+    if(sourceId !== targetId) {
+      targetProps.onMove({sourceId, targetId});
     }
   }
 };
@@ -248,13 +248,13 @@ export default class Notes extends React.Component {
       </Note>
     );
   }
-  onMoveNote({sourceNote, targetNote}) {
-    console.log('source', sourceNote, 'target', targetNote);
+  onMoveNote({sourceId, targetId}) {
+    console.log('source', sourceId, 'target', targetId);
   }
 }
 ```
 
-If you drag a `Note` around now, you should see prints like `source [Object] target [Object]` at console. We are getting close. We still need to figure out what to do with this data, though.
+If you drag a `Note` around now, you should see prints like `source <id> target <id>` at console. We are getting close. We still need to figure out what to do with these ids, though.
 
 ## Adding Action and Store Method for Moving
 
@@ -287,7 +287,7 @@ export default class Notes extends React.Component {
   renderNote(note) {
     return (
       <Note className='note' onMove={LaneActions.move}
-        data={note} key={`note${note.id}`}>
+        id={note.id} key={`note${note.id}`}>
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)} />
@@ -306,8 +306,8 @@ We should also define a stub at `LaneStore` to see that we wired it up correctly
 
 class LaneStore {
   ...
-  move({sourceNote, targetNote}) {
-    console.log('source', sourceNote, 'target', targetNote);
+  move({sourceId, targetId}) {
+    console.log('source', sourceId, 'target', targetId);
   }
 }
 
@@ -332,10 +332,8 @@ import update from 'react/lib/update';
 
 export default class LaneStore {
   ...
-  move({sourceNote, targetNote}) {
+  move({sourceId, targetId}) {
     const lanes = this.lanes;
-    const sourceId = sourceNote.id;
-    const targetId = targetNote.id;
     const sourceLane = lanes.filter((lane) => {
       return lane.notes.indexOf(sourceId) >= 0;
     })[0];
@@ -377,16 +375,16 @@ To drag notes to an empty lane we should allow lanes to receive notes. Just as a
 
 ```javascript
 ...
-import { DropTarget } from 'react-dnd';
+import {DropTarget} from 'react-dnd';
 import ItemTypes from '../libs/item_types';
 
 const noteTarget = {
   hover(targetProps, monitor) {
-    const targetNote = targetProps.data || {};
+    const targetId = targetProps.id;
     const sourceProps = monitor.getItem();
-    const sourceNote = sourceProps.data || {};
+    const sourceId = sourceProps.id;
 
-    console.log('source', sourceProps, 'target', targetProps);
+    console.log('source', sourceId, 'target', targetId);
   }
 };
 
@@ -396,7 +394,7 @@ const noteTarget = {
 export default class Lane extends React.Component {
   ...
   render() {
-    const { connectDropTarget, id, name, notes, ...props } = this.props;
+    const {connectDropTarget, id, name, notes, ...props} = this.props;
 
     return connectDropTarget(
       ...
@@ -415,10 +413,10 @@ This is a simple check to make. Given we know the target lane at our `noteTarget
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-    const sourceNote = sourceProps.data || {};
+    const sourceId = sourceProps.id;
 
     if(!targetProps.notes.length) {
-      console.log('source', sourceProps, 'target', targetProps);
+      console.log('source', sourceId, 'target', targetProps);
     }
   }
 };
@@ -445,12 +443,12 @@ The `noteTarget` part of this is simple. We need to trigger `LaneActions.attachT
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-    const sourceNote = sourceProps.data || {};
+    const sourceId = sourceProps.id;
 
     if(!targetProps.notes.length) {
       LaneActions.attachToLane({
         laneId: targetProps.id,
-        noteId: sourceNote.id
+        noteId: sourceId
       });
     }
   }

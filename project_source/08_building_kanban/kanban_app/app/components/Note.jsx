@@ -5,19 +5,19 @@ import ItemTypes from '../libs/item_types';
 const noteSource = {
   beginDrag(props) {
     return {
-      data: props.data
+      id: props.id
     };
   }
 };
 
 const noteTarget = {
   hover(targetProps, monitor) {
-    const targetNote = targetProps.data || {};
+    const targetId = targetProps.id;
     const sourceProps = monitor.getItem();
-    const sourceNote = sourceProps.data || {};
+    const sourceId = sourceProps.id;
 
-    if(sourceNote.id !== targetNote.id) {
-      targetProps.onMove({sourceNote, targetNote});
+    if(sourceId !== targetId) {
+      targetProps.onMove({sourceId, targetId});
     }
   }
 };
@@ -31,7 +31,7 @@ const noteTarget = {
 export default class Note extends React.Component {
   render() {
     const {connectDragSource, connectDropTarget,
-      onMove, data, ...props} = this.props;
+      onMove, id, ...props} = this.props;
 
     return connectDragSource(connectDropTarget(
       <li {...props}>{props.children}</li>
