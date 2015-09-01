@@ -94,15 +94,64 @@ export default {
 };
 ```
 
-This definition can be expanded later as we add new types to the system. Next, we need to tell our `Note` that it's possible to drag and drop it.
+This definition can be expanded later as we add new types to the system. Next, we need to tell our `Note` that it's possible to drag and drop it. This is done through `@DragSource` and `@DropTarget` annotations.
 
-We will be relying on `DragSource` and `DropTarget` decorators. In our case, `Note` should receive both. After all we'll want to be able to sort them. Both decorators give us access to the `Note` props. In addition, we can access the source `Note` through `monitor.getItem()` at `noteTarget` while `props` map to target.
+### Setting Up `Note` `@DragSource`
+
+Marking a component as a `@DragSource` simply means that it can be dragged. Set up the annotation as follows:
 
 **app/components/Note.jsx**
 
 ```javascript
 ...
-import { DragSource, DropTarget } from 'react-dnd';
+import {DragSource} from 'react-dnd';
+import ItemTypes from '../libs/item_types';
+
+const noteSource = {
+  beginDrag(props) {
+    console.log('begin dragging note', props);
+
+    return {};
+  }
+};
+
+@DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
+  connectDragSource: connect.dragSource()
+}))
+export default class Note extends React.Component {
+  render() {
+    const {connectDragSource, data, onMove, ...props} = this.props;
+
+    return connectDragSource(
+      <li {...props}>{props.children}</li>
+    );
+  }
+}
+```
+
+There are a couple of important changes:
+
+* We set up imports for the new logic.
+* We defined a `noteSource`. It contains `beginDrag` handler. We can set the initial state for dragging here. Now we just have a debug print there.
+* `@DragSource` connects `NOTE` item type with `noteSource`
+* `onMove` prop is extracted from `this.props`. We'll use this later on to set up a callback so that the parent of a `Note` can deal with the moving related logic.
+* Finally `connectDragSource` prop wraps the element at `render()`. It could be applied to a specific part of it. This would be handy for implementing handles for example.
+
+If you drag a `Note` now, you should see a debug print at the console.
+
+We still need to make sure `Note` works as a `@DropTarget`. Later on this will allow swapping them as we add logic in place.
+
+W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh browser to see the prints you expect!
+
+### Setting Up `Note` `@DropTarget`
+
+`@DropTarget` allows a component to receive components annotated using `@DragSource`. As `@DropTarget` triggers, we can perform actual logic based on the components. Expand as follows:
+
+**app/components/Note.jsx**
+
+```javascript
+...
+import {DragSource, DropTarget} from 'react-dnd';
 import ItemTypes from '../libs/item_types';
 
 const noteSource = {
@@ -124,13 +173,13 @@ const noteTarget = {
 @DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
   connectDragSource: connect.dragSource()
 }))
-@DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 export default class Note extends React.Component {
   render() {
-    const { connectDragSource, connectDropTarget,
-      onMove, data, ...props } = this.props;
+    const {connectDragSource, connectDropTarget, onMove,
+      data, ...props} = this.props;
 
     return connectDragSource(connectDropTarget(
       <li {...props}>{props.children}</li>
@@ -139,17 +188,15 @@ export default class Note extends React.Component {
 }
 ```
 
-If you drag a `Note` now, you should see some debug prints at the console. We are still missing some vital logic to make this all work.
-
-W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh browser to see prints you expect!
+Besides the initial debug print, we should see way more prints as we drag a `Note` around. Note that both decorators give us access to the `Note` props. In this case we are using `monitor.getItem()` to access them at `noteTarget`.
 
 ## Developing `onMove` API for Notes
 
-In order to make `Note` operate based on id, we'll need to do a few things:
+Now that we can move notes around, we still need to define logic. The following steps are needed:
 
 * Capture `Note` data on `beginDrag`
 * Capture target `Note` data on `hover`
-* Trigger a callback on `hover` so that we can deal with the logic on higher level
+* Trigger `onMove` callback on `hover` so that we can deal with the logic on higher level
 
 You can see how this translates to code below:
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DragSource, DropTarget } from 'react-dnd';
+import {DragSource, DropTarget} from 'react-dnd';
 import ItemTypes from '../libs/item_types';
 
 const noteSource = {
@@ -25,7 +25,7 @@ const noteTarget = {
 @DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
   connectDragSource: connect.dragSource()
 }))
-@DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 export default class Note extends React.Component {
