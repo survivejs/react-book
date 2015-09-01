@@ -749,8 +749,8 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 
   background-color: #fdfdfd;
   border: none;
+
   cursor: pointer;
-  cursor: hand;
 
   visibility: hidden;
 }
