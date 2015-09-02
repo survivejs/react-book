@@ -82,7 +82,9 @@
         "author": "Markus Mayer",
         "source": "https://www.flickr.com/photos/10832246@N06/2925254789/",
         "license": "CC BY-NC-ND",
-        "image": "typing.jpg"
+        "image": "typing.jpg",
+        "bonus": true,
+        "sourceRoot": "/"
     },
     {
         "author": "Eva the Weaver",
