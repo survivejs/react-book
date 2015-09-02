@@ -11,9 +11,10 @@ React.md
 06_from_notes_to_kanban.md
 07_implementing_dnd.md
 08_building_kanban.md
+09_typing_with_react.md
 Advanced.md
-09_linting_in_webpack.md
-10_authoring_libraries.md
-11_styling_react.md
+10_linting_in_webpack.md
+11_authoring_libraries.md
+12_styling_react.md
 Backmatter.txt
-12_troubleshooting.md
+13_troubleshooting.md
