@@ -3,7 +3,7 @@ import Editable from './Editable.jsx';
 import Note from './Note.jsx';
 import LaneActions from '../actions/LaneActions';
 
-export default class Notes extends React.Component {
+class Notes extends React.Component {
   constructor(props) {
     super(props);
 
@@ -26,3 +26,15 @@ export default class Notes extends React.Component {
     );
   }
 }
+Notes.propTypes = {
+  items: React.PropTypes.array.isRequired,
+  onEdit: React.PropTypes.func,
+  onDelete: React.PropTypes.func
+};
+Notes.defaultProps = {
+  items: [],
+  onEdit: () => {},
+  onDelete: () => {}
+};
+
+export default Notes;
