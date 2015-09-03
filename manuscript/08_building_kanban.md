@@ -314,7 +314,7 @@ Our current setup doesn't clean the `build` directory between builds. As this is
 npm i clean-webpack-plugin --save-dev
 ```
 
-to install the plugin. Change the build configuration as below to integrate it.
+to install the plugin. Change the build configuration as below to integrate it:
 
 **webpack.config.js**
 
@@ -327,10 +327,6 @@ var Clean = require('clean-webpack-plugin');
 if(TARGET === 'build') {
   module.exports = merge(common, {
     ...
-    devtool: 'source-map',
-    module: {
-      ...
-    },
     plugins: [
       new Clean(['build']),
       ...
@@ -339,17 +335,15 @@ if(TARGET === 'build') {
 }
 ```
 
-After this change our `build` directory should remain nice and tidy when building.
-
-Note that you can provide a `context` parameter to `Clean`. That allows you to execute the process in some other directory. Example: `new Clean(['build'], '<context path>')`.
+After this change our `build` directory should remain nice and tidy when building. See [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin) for further options.
 
 T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up at the `scripts` of `package.json`.
 
 ## Separating CSS
 
-Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from flash of unstyled content (FOUC).
+Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development, it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from a flash of unstyled content (FOUC).
 
-As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using `ExtractTextPlugin`. It comes with some overhead during complication phase. It won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production usage that won't be a problem.
+As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with some overhead during complication phase. And it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
 
 It will take some configuration to make it work. Hit
 
