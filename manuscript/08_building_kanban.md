@@ -409,7 +409,8 @@ if(TARGET === 'build') {
       ]
     },
     plugins: [
-      new ExtractTextPlugin('styles.css'),
+      new Clean(['build']),
+      new ExtractTextPlugin('styles.[chunkhash].css'),
       ...
     ]
   });
@@ -430,14 +431,14 @@ After running `npm run build` you should similar output:
 Hash: 27584124a5659a941eea
 Version: webpack 1.12.0
 Time: 10589ms
-                             Asset       Size  Chunks             Chunk Names
-       app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
-    vendor.876083b45225c03d8a74.js     208 kB       1  [emitted]  vendor
-                        styles.css  557 bytes       0  [emitted]  app
-   app.4a3890cdb2f12f6bd4d5.js.map     389 kB       0  [emitted]  app
-                    styles.css.map   87 bytes       0  [emitted]  app
-vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
-                        index.html  317 bytes          [emitted]
+                              Asset       Size  Chunks             Chunk Names
+        app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
+     vendor.876083b45225c03d8a74.js     208 kB       1  [emitted]  vendor
+    styles.bf777bbb05bec4070276.css  557 bytes       0  [emitted]  app
+    app.4a3890cdb2f12f6bd4d5.js.map     389 kB       0  [emitted]  app
+styles.bf777bbb05bec4070276.css.map   87 bytes       0  [emitted]  app
+ vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
+                         index.html  317 bytes          [emitted]
    [0] multi vendor 64 bytes {1} [built]
     + 316 hidden modules
 Child extract-text-webpack-plugin:

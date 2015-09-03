@@ -79,7 +79,7 @@ if(TARGET === 'build') {
       ]
     },
     plugins: [
-      new ExtractTextPlugin('styles.css'),
+      new ExtractTextPlugin('styles.[chunkhash].css'),
       new Clean(['build']),
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
