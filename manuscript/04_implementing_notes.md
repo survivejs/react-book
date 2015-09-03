@@ -37,7 +37,7 @@ npm i node-uuid --save
 
 at the project root to get it installed.
 
-If you open up the Node.js CLI (`node`) and try following, you can see what kind of ids it outputs.
+If you open up the Node.js CLI (`node`) and try the following, you can see what kind of ids it outputs.
 
 ```javascript
 > uuid = require('node-uuid')
@@ -51,7 +51,7 @@ If you open up the Node.js CLI (`node`) and try following, you can see what kind
 '1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
 ```
 
-`uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
+`uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed to return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
 T> You can exit Node.js CLI by hitting **CTRL-D** once.
 
@@ -102,7 +102,7 @@ export default class App extends React.Component {
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
 
 * `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
-* ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or otherwise React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
+* ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
 If you run the application now, you can see it almost works. There's a small glitch, but we'll fix that next.
 
@@ -132,9 +132,9 @@ If you check out the application now, you should see we're seeing results that a
 
 ## Extracting `Notes`
 
-If we keep on growing `App` like this we'll end up in trouble soon. Currently `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier, we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to moved out.
+If we keep on growing `App` like this we'll end up in trouble soon. Currently `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier, we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to be moved out.
 
-T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At high level you will just worry about layout and connecting data. As you go lower in the architecture you start to see more concrete structures.
+T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At higher levels, you will just worry about layout and connecting data. As you go lower in the architecture, you start to see more concrete structures.
 
 A good first step towards a neater `App` is to define `Notes`. It will rely on the rendering logic we already set up. We are just moving it to a component of its own. Specifically we'll want to perform `<Notes items={notes} />` at `render()` method of `App`. That's just nice.
 
@@ -162,9 +162,9 @@ export default class Notes extends React.Component {
 }
 ```
 
-It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I've discussed them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
+It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I will discuss them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
 
-We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Notes` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness:
+We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Notes`, and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness:
 
 **app/components/App.jsx**
 

@@ -175,7 +175,7 @@ T> Note that we're using *jsx* extension here. It helps us to tell modules using
 
 ### Rendering Through `main.jsx`
 
-We'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where to render. Then it renders our application through React.
+We'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where it will render. Then it renders our application through React.
 
 **app/main.jsx**
 
@@ -196,11 +196,11 @@ function main() {
 }
 ```
 
-I'll be using `const` whenever possible. It will give me a guarantee that the reference to the object won't get changed inadvertently. It does allow you to change the object contents, though, i.e. you can still push new items to an array and so on.
+I'll be using `const` whenever possible. It will give me a guarantee that the reference to the object won't get changed inadvertently. It does allow you to change the object contents, though, in that you can still push new items to an array and so on.
 
 If I want something mutable, I'll use `let` instead. `let` is scoped to the code block and is another new feature introduced with ES6. These both are good safety measures.
 
-W> Avoid rendering directly to `document.body`. This can cause strange problems with relying on it. Instead, give React a little sandbox of its own. That way everyone, including React, will stay happy.
+W> Avoid rendering directly to `document.body`. This can cause strange problems when relying on it. Instead give React a little sandbox of its own. That way everyone, including React, will stay happy.
 
 If you hit `npm start` now, you should see something familiar at **localhost:8080**.
 
