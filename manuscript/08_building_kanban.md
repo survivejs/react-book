@@ -343,7 +343,7 @@ T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that
 
 Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development, it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from a flash of unstyled content (FOUC).
 
-As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with some overhead during complication phase. And it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
+As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with overhead during the compilation phase and it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
 
 It will take some configuration to make it work. Hit
 
@@ -416,19 +416,19 @@ if(TARGET === 'build') {
 }
 ```
 
-Using this setup we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
+Using this setup we can still benefit from the HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
 
 W> Definition such as `loaders: [ExtractTextPlugin.extract('style', 'css')]` won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use `loader` form.
 
-W> If you want to pass more loaders to `ExtractTextPlugin`, you should use `!` syntax. Example: `ExtractTextPlugin.extract('style', 'css!autoprefixer-loader')`.
+W> If you want to pass more loaders to the `ExtractTextPlugin`, you should use `!` syntax. Example: `ExtractTextPlugin.extract('style', 'css!autoprefixer-loader')`.
 
-After running `npm run build` you should see the following output:
+After running `npm run build` you should similar output:
 
 ```bash
 > webpack
 
 Hash: 27584124a5659a941eea
-Version: webpack 1.10.5
+Version: webpack 1.12.0
 Time: 10589ms
                              Asset       Size  Chunks             Chunk Names
        app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
@@ -439,12 +439,12 @@ Time: 10589ms
 vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
                         index.html  317 bytes          [emitted]
    [0] multi vendor 64 bytes {1} [built]
-    + 339 hidden modules
+    + 316 hidden modules
 Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
 
-This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*.
+This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this we have sourcemaps and an automatically generated *index.html*.
 
 ## Isomorphic Rendering
 
