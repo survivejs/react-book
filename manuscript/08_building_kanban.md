@@ -306,9 +306,9 @@ Note how small `app` bundle is in comparison. If we update the application now a
 
 One more way to push the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
 
-## Cleaning Build
+## Cleaning the Build
 
-Our current setup doesn't clean `build` directory between builds. As this is annoying, especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
+Our current setup doesn't clean the `build` directory between builds. As this is annoying, especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
 
 ```bash
 npm i clean-webpack-plugin --save-dev
@@ -339,11 +339,11 @@ if(TARGET === 'build') {
 }
 ```
 
-After this change our `build` directory should remain nice and tidy while building.
+After this change our `build` directory should remain nice and tidy when building.
 
-Note that you can provide `context` parameter to `Clean`. That allows you to execute the process in some other directory. Example `new Clean(['build'], '<context path>')`.
+Note that you can provide a `context` parameter to `Clean`. That allows you to execute the process in some other directory. Example: `new Clean(['build'], '<context path>')`.
 
-T> An alternative would be to use your terminal fu (`rm -rf build/`) and set that up at the `scripts` of `package.json`.
+T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up at the `scripts` of `package.json`.
 
 ## Separating CSS
 
