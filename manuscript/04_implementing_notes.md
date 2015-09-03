@@ -164,7 +164,7 @@ export default class Notes extends React.Component {
 
 It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I've discussed them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
 
-We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Note` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness:
+We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Notes` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness:
 
 **app/components/App.jsx**
 
@@ -472,7 +472,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-If you edit a `Note` now, you should see a print at the console.
+If you edit a `Note` now, you should see a log at the console.
 
 We are missing one final bit, the actual logic. Our state consists of `Notes` each of which has an id (string) and a task (string) attached to it. Our callback receives both of these. In order to edit a `Note` it should find the `Note` to edit and patch its task using the new data.
 
@@ -749,8 +749,8 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 
   background-color: #fdfdfd;
   border: none;
+
   cursor: pointer;
-  cursor: hand;
 
   visibility: hidden;
 }
@@ -763,7 +763,7 @@ No more those pesky deletion buttons:
 
 ![Delete on hover](images/react_11.png)
 
-After these few steps we have an application that doesn't look that bad. We'll be improving its outlook as we add functionality, but at least it's something.
+After these few steps we have an application that looks passable. We'll be improving its outlook as we add functionality, but at least it's something.
 
 ## Understanding React Components
 

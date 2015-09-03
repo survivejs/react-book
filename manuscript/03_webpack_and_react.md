@@ -96,7 +96,7 @@ var common = {
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     module: {
       loaders: [
         {
@@ -229,7 +229,7 @@ We also need to make our configuration aware of it so it can inject hooks Webpac
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     module: {
       loaders: [
         {
@@ -251,7 +251,7 @@ W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/
 
 Besides ES6 classes React allows you to construct components using `React.createClass()`. That was the original way to create components and it is still in use. The approaches aren't equivalent by default.
 
-When you are using `React.createClass` it is possible to inject functionality using mixins. This isn't possible in ES6 by default. Yet, you can use a helper such as [react-mixin](https://github.com/brigand/react-mixin). In later chapters we will go through various alternative approaches. They allow you to reach roughly equal results as you can achieve with mixins. Often a decorator is all you need.
+When you are using `React.createClass` it is possible to inject functionality using mixins. This isn't possible in ES6 by default. Yet, you can use a helper such as [react-mixin](https://github.com/brigand/react-mixin). In later chapters we will go through various alternative approaches. They allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
 
 Also, ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's good practice to bind the context at the component constructor. We will use this convention in this book. It leads to some extra code, but later on it is likely possible to refactor it out.
 

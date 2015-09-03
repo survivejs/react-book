@@ -2,61 +2,59 @@
 
 Nothing is easier than making mistakes when coding in JavaScript. Linting is one of those techniques that can help you to make less mistakes. You can spot issues before they become actual problems.
 
-The linter that started it it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization.
+Better yet, modern editors and IDEs offer strong support for popular tools. This means you can spot possible issues as you are developing. Despite this, it is a good idea to set them up with Webpack. That allows you to cancel a build that might not be up to your standards for example.
 
-[ESLint](http://eslint.org/) is the newest tool in vogue. It has learned from its predecessors and takes linting to the next level. ESLint allows you to implement custom rules. You can hook it up with custom parsers and reporters. This means ESLint will work with Babel and JSX syntax. The project rules have been well documented. You will have control over their severity. These features alone make it a powerful tool.
+## Brief History of Linting in JavaScript
 
-Besides linting for issues it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and such. Stylistically consistent code reads better and is easier to work with.
+The linter that started it it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization. [ESLint](http://eslint.org/) is the newest tool in vogue.
 
-[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack. ESLint implements a large part of its functionality, though. It is possible you may get away with ESLint only.
+ESLint has learned from its predecessors. It allows you to implement custom rules. You can hook it up with custom parsers and reporters. This means ESLint will work with Babel and JSX syntax. The project rules have been well documented. You will have control over their severity. These features alone make it a powerful tool.
 
-In this chapter I'll go through these tools briefly. We'll integrate just ESLint into our project. Of course if you want, you can give the other tools a go. Just don't be surprised that they aren't included in the demonstration code.
+Besides linting for issues, it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and such. Stylistically consistent code reads better and is easier to work with.
+
+[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack. ESLint implements a large part of its functionality, though.
 
 ## Webpack and JSHint
 
-Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. On a legacy project setting it up with Webpack is easy. You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project (`npm i jshint-loader --save-dev`). In addition, you will need a little bit of configuration.
+Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. On a legacy project setting it up with Webpack is easy. You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project
 
-```javascript
-module: {
-  preLoaders: [
-    {
-      test: /\.js$/,
-      // define an include so we check just the files we need
-      include: path.resolve(ROOT_PATH, 'app'),
-      loader: 'jshint'
-    }
-  ]
-}
+```bash
+npm i jshint-loader --save-dev
 ```
 
-You can also define custom settings using a `jshint` object. The project README covers that in detail. The tool will look into specific rules to apply from `.jshintrc`. Those have been covered at JSHint documentation in detail. An example configuration could look like this:
+In addition, you will need a little bit of configuration:
+
+```javascript
+var common = {
+  ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.js?$/,
+        loaders: ['jshint'],
+        // define an include so we check just the files we need
+        include: path.resolve(ROOT_PATH, 'app')
+      }
+    ]
+  },
+};
+```
+
+You can also define custom settings using a `jshint` object. The tool will look into specific rules to apply from `.jshintrc`. Those have been covered at [the JSHint documentation](http://jshint.com/docs/) in detail. An example configuration could look like this:
 
 **.jshintrc**
 
 ```json
 {
-  "bitwise": true,
   "browser": true,
   "camelcase": false,
-  "curly": true,
-  "eqeqeq": true,
   "esnext": true,
-  "immed": true,
   "indent": 2,
   "latedef": false,
   "newcap": true,
-  "noarg": true,
-  "node": true,
-  "quotmark": "double",
-  "strict": true,
-  "trailing": true,
-  "undef": true,
-  "unused": true,
-  "sub": true
+  "quotmark": "double"
 }
 ```
-
-Besides setting it up with Webpack it can be highly beneficial to look into an integration with your editor or IDE. Having warnings and errors inline makes a world of difference. Webpack will still complain but an integrated approach has its benefits.
 
 ## Setting Up ESLint
 
@@ -117,20 +115,20 @@ Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-
     "react/jsx-quotes": 1,
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
-    "react/jsx-uses-vars": 1,
-    "react/no-did-mount-set-state": 1,
-    "react/no-did-update-set-state": 1,
-    "react/no-multi-comp": 1,
-    "react/no-unknown-property": 1,
-    "react/react-in-jsx-scope": 1,
-    "react/self-closing-comp": 1
+    "react/jsx-uses-vars": 1
   }
 }
 ```
 
-Note how we can define severity of an individual rule by passing it a number. Zero or `false` would mean a rule is set off. One would mark it as a warning. Two would yield an error. In some cases you can pass additional parameters to a rule by using an array notation.
+The severity of an individual rule is defined by a number as follows:
 
-If you hit `npm run lint` now, you should get some errors and warnings to fix depending on the rules you have set up. Go ahead and fix them if there are any. You can check [the book site](https://github.com/survivejs/webpack) for potential fixes if you get stuck.
+* 0 - The rule has been disabled.
+* 1 - The rule will emit a warning.
+* 2 - The rule will emit an error.
+
+Some rules, such as `quotes`, accept an array instead. This allows you to pass extra parameters to them. Refer to the rule specific documentation for specifics.
+
+The `react/` rules listed above are just a small subset of all rules available. Pick rules from [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) as needed.
 
 T> Other tools, such as JSCS and JSHint, ESLint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
 
@@ -167,30 +165,25 @@ Next, we need to tweak our development configuration to include it. Add the foll
 **webpack.config.js**
 
 ```javascript
-if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {
-    ...
-    module: {
-      preLoaders: [
-        {
-          test: /\.jsx?$/,
-          // we are using `eslint-loader` explicitly since
-          // we have ESLint module installed. This way we
-          // can be certain that it uses the right loader
-          loader: 'eslint-loader',
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    },
-    output: {...},
-    ...
-  });
-}
+var common = {
+  ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['eslint'],
+        include: path.resolve(ROOT_PATH, 'app')
+      }
+    ]
+  },
+};
 ```
 
-We are using `preLoaders` section here as we want to play it safe. This section is executed before possible `loaders` get triggered. We won't even try to compile code if it doesn't pass our linting.
+We are including the configuration to `common` as this way linting gets performed always. This way you can make sure your production build passes your rules while making sure you benefit from linting during development.
 
-If you execute `npm start` now and break some linting rule while developing, you should see that in the terminal output.
+`preLoaders` section of the configuration gets executed before `loaders`. If linting fails, you'll know about it first. There's a third section, `postLoaders`, that gets executed after `loaders`. You could include code coverage checking there during testing for instance.
+
+If you execute `npm start` now and break some linting rule while developing, you should see that in the terminal output. The same should happen when you build the project.
 
 ## Customizing ESLint
 
@@ -287,7 +280,7 @@ Besides the official documentation available at [eslint.org](http://eslint.org/)
 * [Understanding the Real Advantages of Using ESLint](http://rangle.io/blog/understanding-the-real-advantages-of-using-eslint/) - Evan Schultz's post digs into details.
 * [eslint-plugin-smells](https://github.com/elijahmanor/eslint-plugin-smells) - This plugin by Elijah Manor allows you to lint against various JavaScript smells. Recommended.
 
-If you just want some starting point, you can pick one of [eslint-config- packages](https://www.npmjs.com/search?q=eslint-config) or go with [standard](https://www.npmjs.com/package/standard) style. By the looks of it `standard` has [some issues with JSX](https://github.com/feross/standard/issues/138) so be careful with that.
+If you just want some starting point, you can pick one of [eslint-config- packages](https://www.npmjs.com/search?q=eslint-config) or go with [standard](https://www.npmjs.com/package/standard) style. By the looks of it, `standard` has [some issues with JSX](https://github.com/feross/standard/issues/138) so be careful with that.
 
 ## Linting CSS
 
@@ -302,29 +295,23 @@ Next, we'll need to integrate it with our configuration:
 **webpack.config.js**
 
 ```javascript
-...
-
-if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {
-    module: {
-      preLoaders: [
-        {
-          test: /\.css$/,
-          loader: 'csslint'
-        },
-        {
-          test: /\.jsx?$/,
-          loader: 'eslint-loader',
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ],
+var common = {
+  ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.css$/,
+        loaders: ['csslint'],
+        include: path.resolve(ROOT_PATH, 'app')
+      },
       ...
-    }
-  });
+    ],
+    ...
+  }
 }
 ```
 
-To keep things nice and tidy I put it into the `preLoaders` section of configuration.
+To keep things nice and tidy I put it into the `preLoaders` section of configuration. In addition we are going to need some basic configuration. The following has been borrowed from Twitter Bootstrap and seems like a good starting point:
 
 **.csslintrc**
 
@@ -350,7 +337,7 @@ To keep things nice and tidy I put it into the `preLoaders` section of configura
 }
 ```
 
-I decided to use a set of rules from Twitter Bootstrap. These seem like a good starting point.
+We should also tweak *package.json* targets so that we can lint what we want outside of Webpack:
 
 **package.json**
 
@@ -359,11 +346,11 @@ I decided to use a set of rules from Twitter Bootstrap. These seem like a good s
   ...
   "lint": "npm run lint-js && npm run lint-css",
   "lint-js": "eslint . --ext .js --ext .jsx",
-  "lint-css": "csslint app/stylesheets --quiet"
+  "lint-css": "csslint app --quiet"
 }
 ```
 
-If you hit `npm run lint-css` now, you should see some output, hopefully without errors. That `--quiet` flag is there to keep the tool silent unless there are errors.
+That `--quiet` flag is there to keep the tool silent unless there are errors. If you hit `npm run lint-css` now, you might see some errors or not depending on whether the process passes. If you want to trigger a failure, try overqualifying a selector. I.e. do something like `body.lane` and you should get a warning.
 
 Thanks to the Webpack configuration we did, you should get output during `npm start` process as well. In addition, you should consider setting up csslint with your editor. That way you get more integrated development experience.
 
@@ -421,6 +408,34 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
 T> ESLint implements a large part of the functionality provided by JSCS. It is possible you can skip JSCS altogether provided you configure ESLint correctly. There's a large amount of presets available.
 
 T> Note that like some other tools, such as ESLint and JSHint, JSCS supports `package.json` based configuration. Simply add a `jscsConfig` field to it and write the configuration there.
+
+## EditorConfig
+
+[EditorConfig](http://editorconfig.org/) allows you to maintain a consistent coding style across different IDEs and editors. Some even come with built-in support. For others you have to install a separate plugin. In addition to this you'll need to set up a `.editorconfig` file like this:
+
+**.editorconfig**
+
+```yaml
+root = true
+
+# General settings for whole project
+[*]
+indent_style = space
+indent_size = 4
+
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Format specific overrides
+[*.md]
+trim_trailing_whitespace = false
+
+[app/**.js]
+indent_style = space
+indent_size = 2
+```
 
 ## Conclusion
 

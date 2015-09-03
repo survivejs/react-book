@@ -227,7 +227,7 @@ vendor.edaf1006b1f4b71898f9.js.map    2.12 MB       1  [emitted]  vendor
     + 339 hidden modules
 ```
 
-Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 57.8 kB. Not bad.
+Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 57.8 kB.
 
 One more way to push the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
 
@@ -349,6 +349,10 @@ if(TARGET === 'build') {
 
 Using this setup we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
 
+W> Definition such as `loaders: [ExtractTextPlugin.extract('style', 'css')]` won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use `loader` form.
+
+W> If you want to pass more loaders to `ExtractTextPlugin`, you should use `!` syntax. Example: `ExtractTextPlugin.extract('style', 'css!autoprefixer-loader')`.
+
 After running `npm run build` you should see the following output:
 
 ```bash
@@ -371,7 +375,7 @@ Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
 
-This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*. Not bad.
+This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*.
 
 ## Isomorphic Rendering
 
@@ -426,10 +430,11 @@ var React = require('react');
 var App = require('./app/components/App.jsx');
 var pkg = require('./package.json');
 
-var TARGET = process.env.npm_lifecycle_event;
-var ROOT_PATH = path.resolve(__dirname);
+const TARGET = process.env.npm_lifecycle_event;
+const ROOT_PATH = path.resolve(__dirname);
+const APP_TITLE = 'Kanban app';
 
-var common = {
+const common = {
   entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
@@ -443,7 +448,7 @@ if(TARGET === 'start' || !TARGET) {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new HtmlwebpackPlugin({
-        title: 'Kanban app'
+        title: APP_TITLE
       })
     ]
   });
@@ -455,7 +460,7 @@ if(TARGET === 'build') {
     plugins: [
       ...
       new HtmlwebpackPlugin({
-        title: 'Kanban app',
+        title: APP_TITLE,
         templateContent: renderTemplate(
           fs.readFileSync(path.join(__dirname, 'templates/index.tpl'), 'utf8'),
           {
@@ -477,7 +482,9 @@ function renderTemplate(template, replacements) {
 }
 ```
 
-As it doesn't make sense to use isomorphic rendering for development, I set it up only for production. It performs a regular expression based replacement to render our React code to `%app%`. `React.renderToString` returns the markup we need.
+We cannot use isomorphic rendering for development in this case because the generated results and front-end state may differ. This is due to the fact that `localStorage` may contain some initial data. If you had an actual back-end to develop against and you store the data there, this wouldn't be a problem.
+
+Our isomorphic setup performs a regular expression based replacement to render our React code to `%app%`. Alternatively we could use a templating library, such as [handlebars](https://www.npmjs.com/package/handlebars), but this solution is enough for now. Finally `React.renderToString` returns the markup we need.
 
 T> If you want output that doesn't have React keys, use `React.renderToStaticMarkup` instead. This is useful especially if you are writing static site generators.
 
@@ -503,6 +510,8 @@ function main() {
   }
 }
 ```
+
+The strange looking `NODE_ENV` checks are used to make sure dead code elimination kicks in when building the JavaScript. It will remove the entire branch from the eliminated code because the statement will evaluate as `false` in a static check performed by the minifier.
 
 If you hit `npm run build` now and wait for a while, you should end up with `build/index.html` that contains something familiar. `npm start` should work the same way as earlier.
 

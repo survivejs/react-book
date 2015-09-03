@@ -41,8 +41,8 @@ body {
 
   background-color: #fdfdfd;
   border: none;
+
   cursor: pointer;
-  cursor: hand;
 
   visibility: hidden;
 }

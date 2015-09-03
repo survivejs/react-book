@@ -10,10 +10,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var App = require('./app/components/App.jsx');
 var pkg = require('./package.json');
 
-var TARGET = process.env.npm_lifecycle_event;
-var ROOT_PATH = path.resolve(__dirname);
+const TARGET = process.env.npm_lifecycle_event;
+const ROOT_PATH = path.resolve(__dirname);
+const APP_TITLE = 'Kanban app';
 
-var common = {
+const common = {
   entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
@@ -46,7 +47,7 @@ if(TARGET === 'start' || !TARGET) {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new HtmlwebpackPlugin({
-        title: 'Kanban app'
+        title: APP_TITLE
       })
     ]
   });
@@ -96,7 +97,7 @@ if(TARGET === 'build') {
         }
       }),
       new HtmlwebpackPlugin({
-        title: 'Kanban app',
+        title: APP_TITLE,
         templateContent: renderTemplate(
           fs.readFileSync(path.join(__dirname, 'templates/index.tpl'), 'utf8'),
           {

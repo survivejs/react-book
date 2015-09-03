@@ -125,7 +125,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-Note that we are using Object rest spread syntax `{...lane}` to pass lane specific props to each `Lane`.
+Note that we are using [Object rest spread syntax](https://gist.github.com/sebmarkbage/07bbe37bc42b6d4aef81) `{...lane}` to pass lane specific props to each `Lane`.
 
 We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane including its name and associated notes:
 
@@ -375,7 +375,7 @@ class NoteStore {
   }
   ...
   get(ids) {
-    return (ids || []).map((id) => this.notes[this.findNote(id)]);
+    return (ids || []).map((id) => this.notes[this.findNote(id)]).filter((a) => a);
   }
 }
 
@@ -447,7 +447,7 @@ There are a couple of important changes:
 * `items: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified.
 
-After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. The current structure allowed us to keep singleton stores and a flat data structure. Dealing with references is a little nasty but that's consistent with the Flux architecture.
+After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. The current structure allowed us to keep singleton stores and a flat data structure. Dealing with references is a little awkward but that's consistent with the Flux architecture.
 
 ![Separate notes](images/kanban_02.png)
 
@@ -583,7 +583,7 @@ export default class Lane extends React.Component {
 }
 ```
 
-If you try to edit a lane name now, you should see a print at the console.
+If you try to edit a lane name now, you should see a log at the console.
 
 ![Logging lane name editing](images/kanban_03.png)
 

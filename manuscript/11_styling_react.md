@@ -65,7 +65,7 @@ The methodologies also bring their own quirks (e.g., complex naming schemes). Th
 
 There are various approaches that go deeper and solve some of these fundamental problems. That said, it's not an either-or proposition. You may adopt a methodology even if you use some preprocessor.
 
-## cssnext, Less, Sass
+## cssnext, Less, Sass, Stylus
 
 Vanilla CSS is missing some functionality that would make maintenance work easier. Consider something basic like variables, math/color functions and so on. It would also be nice to be able to forget about browser specific prefixes. These are small things that add up quite fast and make it annoying to write vanilla CSS.
 
@@ -105,7 +105,7 @@ There is also support for Less plugins, sourcemaps and so on. To understand how 
 
 ![Sass](images/sass.png)
 
-Sass is a popular alternative to Less. You should use [sass-loader](https://www.npmjs.com/package/sass-loader) with it. Remember to install `node-sass` to your project as the loader has a peer dependency on that. Webpack configuration is light again:
+Sass is a popular alternative to Less. You should use [sass-loader](https://www.npmjs.com/package/sass-loader) with it. Remember to install `node-sass` to your project as the loader has a peer dependency on that. Webpack doesn't take much configuration:
 
 ```javascript
 {
@@ -115,6 +115,21 @@ Sass is a popular alternative to Less. You should use [sass-loader](https://www.
 ```
 
 Check out the loader for more advanced usage.
+
+### Stylus
+
+![Stylus](images/stylus.png)
+
+Stylus is a Python inspired way to write CSS. Besides providing an indentation based syntax, it is a full-featured preprocessor. When using Webpack, you can use [stylus-loader](https://www.npmjs.com/package/stylus-loader) to Stylus within your project. Configure as follows:
+
+```javascript
+{
+  test: /\.styl$/,
+  loaders: ['style', 'css', 'stylus']
+}
+```
+
+You can also use Stylus plugins with it by setting `stylus.use: [plugin()]`. Check out the loader for more information.
 
 ### Pros and Cons
 
