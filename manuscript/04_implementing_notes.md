@@ -37,7 +37,7 @@ npm i node-uuid --save
 
 at the project root to get it installed.
 
-If you open up the Node.js CLI (`node`) and try following, you can see what kind of ids it outputs.
+If you open up the Node.js CLI (`node`) and try the following, you can see what kind of ids it outputs.
 
 ```javascript
 > uuid = require('node-uuid')
