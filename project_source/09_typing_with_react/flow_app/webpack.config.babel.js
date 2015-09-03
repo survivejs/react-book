@@ -61,7 +61,7 @@ if(TARGET === 'build') {
     },
     output: {
       path: path.resolve(ROOT_PATH, 'build'),
-      filename: 'app.[chunkhash].js'
+      filename: '[name].[chunkhash].js'
     },
     devtool: 'source-map',
     module: {
@@ -83,7 +83,7 @@ if(TARGET === 'build') {
       new Clean(['build']),
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        'vendor.[chunkhash].js'
+        '[name].[chunkhash].js'
       ),
       new webpack.DefinePlugin({
         'process.env': {
