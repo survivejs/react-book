@@ -51,7 +51,7 @@ If you open up the Node.js CLI (`node`) and try the following, you can see what 
 '1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
 ```
 
-`uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
+`uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed to return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
 
 T> You can exit Node.js CLI by hitting **CTRL-D** once.
 
@@ -102,7 +102,7 @@ export default class App extends React.Component {
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
 
 * `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
-* ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or otherwise React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
+* ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
 If you run the application now, you can see it almost works. There's a small glitch, but we'll fix that next.
 
