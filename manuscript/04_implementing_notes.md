@@ -162,9 +162,9 @@ export default class Notes extends React.Component {
 }
 ```
 
-It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I've discussed them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
+It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I will discuss them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
 
-We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Notes` and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness:
+We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Notes`, and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness:
 
 **app/components/App.jsx**
 
