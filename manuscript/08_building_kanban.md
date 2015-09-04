@@ -447,6 +447,8 @@ Child extract-text-webpack-plugin:
 
 This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this we have sourcemaps and an automatically generated *index.html*.
 
+T> If you have a complex project with a lot of dependencies, it is likely a good idea to use the `DedupePlugin`. It will find possible duplicate files and deduplicate them. Use `new webpack.optimize.DedupePlugin()` at your plugins definition to enable it.
+
 W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! I.e. if you change your application code, `vendor` hash will change!
 
 ## Isomorphic Rendering
