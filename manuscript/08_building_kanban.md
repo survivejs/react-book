@@ -447,14 +447,16 @@ Child extract-text-webpack-plugin:
 
 This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this we have sourcemaps and an automatically generated *index.html*.
 
+W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! I.e. if you change your application code, `vendor` hash will change!
+
 ## Isomorphic Rendering
 
-One of the interesting aspects of React is the fact that it allows so called isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code gets run, it will pick up the markup. Even though this sounds trivial there are some nice advantages to this approach:
+React supports isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code gets run, it will pick up the markup. Even though this sounds trivial there are some nice advantages to this approach:
 
 * Web crawlers will be able to access the content easier (potentially better SEO)
 * You can avoid requests to fetch initial data. Especially on slow connections this can make a big difference.
 * The browser doesn't have to wait for JavaScript to get evaluated. Instead, it gets to render HTML straight away.
-* Even users without JavaScript enabled see something. In this case, it doesn't matter a lot, but otherwise it could be a big factor.
+* Even users without JavaScript enabled can see something. In this case, it doesn't matter a lot, but otherwise it could be a big factor.
 
 Even though we don't have a proper back-end in our project this is a powerful approach you should be aware of. The same idea can be applied for other scenarios such as rendering a JSX template to a PDF invoice for example. React isn't limited to the web.
 
