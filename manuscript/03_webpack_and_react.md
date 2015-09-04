@@ -122,7 +122,7 @@ Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/).
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could, for instance, enable the features you want to use explicitly.
 
-T> Set up `resolve.extensions = ['', '.js', '.jsx']` if you want to refer to JSX files without an extension. We will use an extension as that works well with the isomorphic solution we'll discuss later on. It also allows you to tell files apart quickly based on the `require` statement.
+T> Set up `resolve.extensions = ['', '.js', '.jsx']` if you want to refer to JSX files without an extension. I use the extension for clarity.
 
 T> If you are using Babel in your project, you can also use it to process your Webpack configuration. Simply rename it as `webpack.config.babel.js`. After this Webpack will pass it through Babel allowing you to use ES6 module syntax and features. It will pick up `.babelrc` settings. That's one reason why we're using it.
 
