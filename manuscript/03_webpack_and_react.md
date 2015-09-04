@@ -153,6 +153,8 @@ export default class App extends React.Component {
 
 T> You can import portions from `react` using syntax `import React, { Component } from 'react';`. Then you can do `class App extends Component`. You may find this alternative a little neater.
 
+T> It may be worth your while to install [React Developer Tools](https://github.com/facebook/react-devtools) extension to your browser. Currently Chrome and Firefox are supported. This will make it easier to understand what's going on while developing.
+
 W> It is important to note that ES6 based class approach **doesn't** support autobinding behavior. Apart from that you may find ES6 classes neater than `React.createClass`. See the end of this chapter for a comparison.
 
 ### Setting Up `Note`
