@@ -27,18 +27,22 @@ function render() {
   const names = ['John', 'Jill', 'Jack'];
 
   return (
-    <h2>Names</h2>
+    <div>
+      <h2>Names</h2>
 
-    <ul className='names'>{
-      names.map((name) =>
-        <li className='name'>{name}</li>
-      )
-    }</ul>
+      <ul className='names'>{
+        names.map((name) =>
+          <li className='name'>{name}</li>
+        )
+      }</ul>
+    </div>
   );
 }
 ```
 
 If you haven't seen JSX before it will likely look strange. It isn't uncommon to experience "JSX shock" until you start to understand it. After that it all makes sense.
+
+T> Note that `render()` [must return a single node](https://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html). Returning multiple won't work!
 
 In JSX we are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, which is the DOM equivalent. Even though JSX will feel a little weird to use at first, it will become second nature over time.
 
