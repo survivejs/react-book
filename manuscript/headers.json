@@ -21,8 +21,7 @@
         "author": "Fumi Yamazaki",
         "source": "https://www.flickr.com/photos/35237097961@N01/3561706030",
         "license": "CC BY-NC-SA",
-        "image": "oscillo.jpg",
-        "demo": "02_developing_with_webpack"
+        "image": "oscillo.jpg"
     },
     {
         "author": "Jairus Khan",
