@@ -94,7 +94,10 @@ Here's the relevant configuration we need to make Babel work:
 ...
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: path.resolve(ROOT_PATH, 'app'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   ...
 };
 
@@ -114,6 +117,8 @@ if(TARGET === 'start' || !TARGET) {
 }
 ```
 
+Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity but now you can omit it if you want to.
+
 Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e. `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
 
 **.babelrc**
@@ -125,8 +130,6 @@ Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/).
 ```
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could, for instance, enable the features you want to use explicitly.
-
-T> Set up `resolve.extensions = ['', '.js', '.jsx']` if you want to refer to JSX files without an extension. I use the extension for clarity.
 
 ### Advanced Babel Setup
 
@@ -214,11 +217,11 @@ export default class Note extends React.Component {
 
 T> Note that we're using *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
 
-### Rendering Through `main.jsx`
+### Rendering Through `index.jsx`
 
-We'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where it will render. Then it renders our application through React.
+We'll need to adjust our `index.js` to render the component correctly. Note that I've renamed it as `index.jsx` given we have JSX content there. First the rendering logic creates a DOM element where it will render. Then it renders our application through React.
 
-**app/main.jsx**
+**app/index.jsx**
 
 ```javascript
 import './main.css';

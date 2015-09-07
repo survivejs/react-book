@@ -192,7 +192,7 @@ var ROOT_PATH = path.resolve(__dirname);
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app/main.jsx'),
+      app: path.resolve(ROOT_PATH, 'app'),
       vendor: Object.keys(pkg.dependencies)
     },
     devtool: 'source-map',
@@ -226,7 +226,7 @@ We can use the placeholder idea within our configuration like this:
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app/main.jsx'),
+      app: path.resolve(ROOT_PATH, 'app'),
       vendor: Object.keys(pkg.dependencies)
     },
     /* important! */
@@ -365,7 +365,10 @@ var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: path.resolve(ROOT_PATH, 'app'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -509,7 +512,10 @@ const ROOT_PATH = path.resolve(__dirname);
 const APP_TITLE = 'Kanban app';
 
 const common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: path.resolve(ROOT_PATH, 'app'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -564,7 +570,7 @@ T> If you want output that doesn't have React keys, use `React.renderToStaticMar
 
 In addition, we need to tweak the entry point of our application to take these changes into account. When in production it should use the existing markup instead of injecting its own.
 
-**app/main.jsx**
+**app/index.jsx**
 
 ```javascript
 ...

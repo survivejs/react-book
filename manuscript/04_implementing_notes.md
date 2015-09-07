@@ -503,7 +503,7 @@ T> [es5-shim](https://www.npmjs.com/package/es5-shim), [es6-shim](https://www.np
 
 We also need to attach the polyfill to our application.
 
-**app/main.jsx**
+**app/index.jsx**
 
 ```
 import 'array.prototype.findindex';
