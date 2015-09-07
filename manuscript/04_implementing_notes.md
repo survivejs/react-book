@@ -171,7 +171,6 @@ We also need to replace the old `App` logic to use our new component. You should
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 const notes = [
@@ -215,7 +214,6 @@ In ES6's class syntax the initial state can be defined at the constructor. We'll
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
@@ -412,7 +410,6 @@ A good first step towards this behavior is to create a stub. As `onEdit` is defi
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
@@ -523,7 +520,6 @@ The only thing that remains is gluing this all together. We'll need to take the 
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
@@ -574,7 +570,6 @@ As before we'll need to define some logic on `App` level. Deleting a note can be
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
