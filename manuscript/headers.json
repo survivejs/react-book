@@ -28,13 +28,14 @@
         "source": "https://www.flickr.com/photos/10282509@N00/4674249352",
         "license": "CC BY-NC-SA",
         "image": "mainframe.jpg",
-        "demo": "03_webpack_and_react"
+        "demo": "02_developing_with_webpack"
     },
     {
         "author": "Radek Orszewski",
         "source": "https://www.flickr.com/photos/61745819@N00/10588140955",
         "license": "CC BY-NC-SA",
-        "image": "kanban_photo.jpg"
+        "image": "kanban_photo.jpg",
+        "demo": "03_webpack_and_react"
     },
     {
         "author": "Angela",
