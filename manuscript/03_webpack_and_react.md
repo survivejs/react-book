@@ -128,7 +128,42 @@ There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelr
 
 T> Set up `resolve.extensions = ['', '.js', '.jsx']` if you want to refer to JSX files without an extension. I use the extension for clarity.
 
-T> If you are using Babel in your project, you can also use it to process your Webpack configuration. Simply rename it as `webpack.config.babel.js`. After this Webpack will pass it through Babel allowing you to use ES6 module syntax and features. It will pick up `.babelrc` settings. That's one reason why we're using it.
+### Advanced Babel Setup
+
+Babel is a powerful tool. You can even use it to process your Webpack configuration. We won't be doing this yet but it's a good technique to be aware of.
+
+First you will need to make sure Babel is included into your project as a dependency. After that you can rename your `webpack.config.js` as `webpack.config.babel.js`. Webpack will process configuration through Babel after that. It picks up `.babelrc` settings.
+
+Sometimes you might want to perform advanced Babel configuration. Currently Babel allows you to control `.babelrc` through env. To quote [the documentation](https://babeljs.io/docs/usage/babelrc/), you could do something like this:
+
+**.babelrc**
+
+```json
+{
+  "stage": 1,
+  "env": {
+    "build": {
+      "optional": ["optimisation", "minification"]
+    }
+  }
+}
+```
+
+This would enable production build specific Babel optimizations. You have to check out the official documentation for exact flags to use. Some may be considered experimental and might be better avoided for now.
+
+Doing the aforementioned configuration isn't enough. Babel determines `env` like this:
+
+1. Use the value of `BABEL_ENV` if set
+2. Use the value of `NODE_ENV` if set
+3. Default to `development`
+
+In this case we could set `BABEL_ENV` based on npm lifecycle event given we're triggering it through npm. The following line would work:
+
+```javascript
+process.env.BABEL_ENV = process.env.npm_lifecycle_event;
+```
+
+This setup provides you more control over Babel's behavior depending on the environment.
 
 ## Developing the First React View
 
