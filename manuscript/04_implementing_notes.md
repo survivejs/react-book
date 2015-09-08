@@ -206,7 +206,7 @@ Even though we improved `render()` and reduced the amount of markup, it's still 
 
 ## Pushing `notes` to the `App` `state`
 
-As seen earlier React components can accept props. In addition, they may have a state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case, pushing `notes` to the state makes sense. We'll want to tweak them through user interface.
+As seen earlier React components can accept props. In addition, they may have a state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case, pushing `notes` to the state makes sense. We'll want to tweak them through the user interface.
 
 In ES6's class syntax the initial state can be defined at the constructor. We'll assign the state we want to `this.state`. After that we can refer to it. The example below illustrates how to convert our notes into state.
 
