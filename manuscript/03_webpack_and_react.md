@@ -27,18 +27,24 @@ function render() {
   const names = ['John', 'Jill', 'Jack'];
 
   return (
-    <h2>Names</h2>
+    <div>
+      <h2>Names</h2>
 
-    <ul className='names'>{
-      names.map((name) =>
-        <li className='name'>{name}</li>
-      )
-    }</ul>
+      <ul className='names'>{
+        names.map((name) =>
+          <li className='name'>{name}</li>
+        )
+      }</ul>
+    </div>
   );
 }
 ```
 
 If you haven't seen JSX before it will likely look strange. It isn't uncommon to experience "JSX shock" until you start to understand it. After that it all makes sense.
+
+Cory House goes into more detail [about the shock](https://medium.com/@housecor/react-s-jsx-the-other-side-of-the-coin-2ace7ab62b98). Briefly summarized, JSX gives us a level of validation we haven't encountered earlier. It takes a while to grasp but once you get it, it's hard to go back.
+
+T> Note that `render()` [must return a single node](https://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html). Returning multiple won't work!
 
 In JSX we are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, which is the DOM equivalent. Even though JSX will feel a little weird to use at first, it will become second nature over time.
 
@@ -90,7 +96,10 @@ Here's the relevant configuration we need to make Babel work:
 ...
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: path.resolve(ROOT_PATH, 'app'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   ...
 };
 
@@ -110,6 +119,8 @@ if(TARGET === 'start' || !TARGET) {
 }
 ```
 
+Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity but now you can omit it if you want to.
+
 Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e. `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
 
 **.babelrc**
@@ -122,9 +133,42 @@ Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/).
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could, for instance, enable the features you want to use explicitly.
 
-T> Set up `resolve.extensions = ['', '.js', '.jsx']` if you want to refer to JSX files without an extension. We will use an extension as that works well with the isomorphic solution we'll discuss later on. It also allows you to tell files apart quickly based on the `require` statement.
+### Advanced Babel Setup
 
-T> If you are using Babel in your project, you can also use it to process your Webpack configuration. Simply rename it as `webpack.config.babel.js`. After this Webpack will pass it through Babel allowing you to use ES6 module syntax and features. It will pick up `.babelrc` settings. That's one reason why we're using it.
+Babel is a powerful tool. You can even use it to process your Webpack configuration. We won't be doing this yet but it's a good technique to be aware of.
+
+First you will need to make sure Babel is included into your project as a dependency. After that you can rename your `webpack.config.js` as `webpack.config.babel.js`. Webpack will process configuration through Babel after that. It picks up `.babelrc` settings.
+
+Sometimes you might want to perform advanced Babel configuration. Currently Babel allows you to control `.babelrc` through env. To quote [the documentation](https://babeljs.io/docs/usage/babelrc/), you could do something like this:
+
+**.babelrc**
+
+```json
+{
+  "stage": 1,
+  "env": {
+    "build": {
+      "optional": ["optimisation", "minification"]
+    }
+  }
+}
+```
+
+This would enable production build specific Babel optimizations. You have to check out the official documentation for exact flags to use. Some may be considered experimental and might be better avoided for now.
+
+Doing the aforementioned configuration isn't enough. Babel determines `env` like this:
+
+1. Use the value of `BABEL_ENV` if set
+2. Use the value of `NODE_ENV` if set
+3. Default to `development`
+
+In this case we could set `BABEL_ENV` based on npm lifecycle event given we're triggering it through npm. The following line would work:
+
+```javascript
+process.env.BABEL_ENV = process.env.npm_lifecycle_event;
+```
+
+This setup provides you more control over Babel's behavior depending on the environment.
 
 ## Developing the First React View
 
@@ -153,6 +197,8 @@ export default class App extends React.Component {
 
 T> You can import portions from `react` using syntax `import React, { Component } from 'react';`. Then you can do `class App extends Component`. You may find this alternative a little neater.
 
+T> It may be worth your while to install [React Developer Tools](https://github.com/facebook/react-devtools) extension to your browser. Currently Chrome and Firefox are supported. This will make it easier to understand what's going on while developing.
+
 W> It is important to note that ES6 based class approach **doesn't** support autobinding behavior. Apart from that you may find ES6 classes neater than `React.createClass`. See the end of this chapter for a comparison.
 
 ### Setting Up `Note`
@@ -173,11 +219,11 @@ export default class Note extends React.Component {
 
 T> Note that we're using *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
 
-### Rendering Through `main.jsx`
+### Rendering Through `index.jsx`
 
-We'll need to adjust our `main.js` to render the component correctly. Note that I've renamed it as `main.jsx` given we have JSX content there. First the rendering logic creates a DOM element where it will render. Then it renders our application through React.
+We'll need to adjust our `index.js` to render the component correctly. Note that I've renamed it as `index.jsx` given we have JSX content there. First the rendering logic creates a DOM element where it will render. Then it renders our application through React.
 
-**app/main.jsx**
+**app/index.jsx**
 
 ```javascript
 import './main.css';

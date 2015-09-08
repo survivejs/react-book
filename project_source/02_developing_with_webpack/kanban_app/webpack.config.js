@@ -7,7 +7,7 @@ var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main'),
+  entry: path.resolve(ROOT_PATH, 'app'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'

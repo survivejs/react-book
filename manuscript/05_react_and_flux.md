@@ -375,7 +375,7 @@ export default function(alt, storage, storeName) {
 
 Finally, we need to trigger the persistency logic at initialization. We will need to pass the relevant data to it (Alt instance, storage, storage name) and off we go.
 
-**app/main.jsx**
+**app/index.jsx**
 
 ```javascript
 ...

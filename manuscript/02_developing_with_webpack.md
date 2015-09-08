@@ -56,7 +56,7 @@ T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save
 As projects with just `package.json` are boring, we should set up something more concrete. Let's do a little web site that loads some JavaScript which we then build using Webpack. Set up a structure like this:
 
 - /app
-  - main.js
+  - index.js
   - component.js
 - /build (automatically generated, no need to create this)
   - bundle.js
@@ -84,7 +84,7 @@ module.exports = function () {
 
 Next, we are going to need an entry point for our application. It will simply `require` our component and render it through the DOM:
 
-**app/main.js**
+**app/index.js**
 
 ```javascript
 var component = require('./component');
@@ -223,7 +223,7 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 var ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
-  entry: path.resolve(ROOT_PATH, 'app/main'),
+  entry: path.resolve(ROOT_PATH, 'app'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -263,7 +263,7 @@ body {
 
 Also, we'll need to make Webpack aware of this file:
 
-**app/main.js**
+**app/index.js**
 
 ```javascript
 require('./main.css');

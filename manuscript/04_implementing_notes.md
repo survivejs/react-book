@@ -171,7 +171,6 @@ We also need to replace the old `App` logic to use our new component. You should
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 const notes = [
@@ -215,7 +214,6 @@ In ES6's class syntax the initial state can be defined at the constructor. We'll
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
@@ -248,6 +246,8 @@ export default class App extends React.Component {
 ```
 
 After this change our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
+
+W> Note that *react-hot-loader* doesn't pick the change made to the constructor. You will have to force a refresh in this case!
 
 T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without, but it's a good standard to have. Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
@@ -403,14 +403,13 @@ Given we are currently dealing with the logic at `App`, we can deal with `onEdit
 
 ![`onEdit` flow](images/bind.png)
 
-A good first step towards this behavior is to create a stub. As `onEdit` is defined on `Note` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
+A good first step towards this behavior is to create a stub. As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
 
 **app/components/App.jsx**
 
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
@@ -476,6 +475,8 @@ If you edit a `Note` now, you should see a log at the console.
 
 We are missing one final bit, the actual logic. Our state consists of `Notes` each of which has an id (string) and a task (string) attached to it. Our callback receives both of these. In order to edit a `Note` it should find the `Note` to edit and patch its task using the new data.
 
+T> Some of the prop related logic could be potentially extracted to a *context*. That would help us to avoid some of the prop passing. It is especially useful for implementing features such as internationalization (i18n). A component interested in it may simply query for a translator instance. Although this aspect hasn't been documented well yet, Dmitry Kudryavtsev goes into [a good detail in his article about the context](https://medium.com/@skwee357/the-land-of-undocumented-react-js-the-context-99b3f931ff73).
+
 ### Understanding `findIndex`
 
 We'll be using an ES6 function known as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result.
@@ -503,7 +504,7 @@ T> [es5-shim](https://www.npmjs.com/package/es5-shim), [es6-shim](https://www.np
 
 We also need to attach the polyfill to our application.
 
-**app/main.jsx**
+**app/index.jsx**
 
 ```
 import 'array.prototype.findindex';
@@ -521,7 +522,6 @@ The only thing that remains is gluing this all together. We'll need to take the 
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
@@ -572,7 +572,6 @@ As before we'll need to define some logic on `App` level. Deleting a note can be
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
-import Note from './Note.jsx';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {

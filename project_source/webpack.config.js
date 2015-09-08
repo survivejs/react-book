@@ -13,16 +13,19 @@ module.exports = function(o) {
     console.warn('missing output path');
   }
 
+  var appPath = path.resolve(o.inputPath, 'app');
+
   //var pkg = require(path.resolve(o.inputPath, 'package.json'));
   //var deps = pkg.dependencies || {};
 
   return {
     entry: {
-      app: path.resolve(o.inputPath, 'app/main.jsx')
+      app: appPath
       //vendor: Object.keys(deps)
     },
     resolve: {
-      root: o.inputPath
+      root: o.inputPath,
+      extensions: ['', '.js', '.jsx']
     },
     output: {
       path: o.outputPath,
@@ -34,12 +37,12 @@ module.exports = function(o) {
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
-          include: path.resolve(o.inputPath, 'app')
+          include: appPath
         },
         {
           test: /\.jsx?$/,
           loaders: ['babel'],
-          include: path.resolve(o.inputPath, 'app')
+          include: appPath
         }
       ]
     },

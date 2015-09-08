@@ -15,7 +15,10 @@ const ROOT_PATH = path.resolve(__dirname);
 const APP_TITLE = 'Kanban app';
 
 const common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: path.resolve(ROOT_PATH, 'app'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -61,7 +64,7 @@ if(TARGET === 'build') {
     },
     output: {
       path: path.resolve(ROOT_PATH, 'build'),
-      filename: 'app.[chunkhash].js'
+      filename: '[name].[chunkhash].js'
     },
     devtool: 'source-map',
     module: {
@@ -79,11 +82,11 @@ if(TARGET === 'build') {
       ]
     },
     plugins: [
-      new ExtractTextPlugin('styles.css'),
+      new ExtractTextPlugin('styles.[chunkhash].css'),
       new Clean(['build']),
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        'vendor.[chunkhash].js'
+        '[name].[chunkhash].js'
       ),
       new webpack.DefinePlugin({
         'process.env': {

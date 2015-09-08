@@ -45,7 +45,7 @@ if(TARGET === 'build') {
 After these changes `npm run build` should yield the following:
 
 ```bash
-> TARGET=build webpack
+> webpack
 
 Hash: bd3b549c6c712233167f
 Version: webpack 1.10.1
@@ -67,12 +67,11 @@ There are a couple of basic things we can do to slim down our build. We can appl
 
 Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
-At minimum we need to just pass `-p` parameter to `webpack`. It will give a bunch of warnings, especially in a React environment by default. As a result we'll disable them. Add the following section to your Webpack configuration:
+The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). As Uglify will output a lot of these and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
 
 **webpack.config.js**
 
 ```javascript
-
 if(TARGET === 'build') {
   module.exports = merge(common, {
     devtool: 'source-map',
@@ -90,10 +89,12 @@ if(TARGET === 'build') {
 }
 ```
 
+T> Uglify warnings can help you to understand how it processes the code. Therefore it may be beneficial to have a peek at the output every once in a while.
+
 If you hit `npm run build` now, you should see better results:
 
 ```bash
-> TARGET=build webpack
+> webpack
 
 Hash: d3508663532b5b3565cc
 Version: webpack 1.10.1
@@ -162,15 +163,19 @@ bundle.js.map    2.53 MB       0  [emitted]  main
     + 339 hidden modules
 ```
 
-So we went from 1.09 MB to 324 kB and finally to 264 kB. The final build is a little faster than the previous one. As that 264k can be served gzipped, it is quite reasonable. gzipping will drop around another 40% is well supported by browsers.
+So we went from 1.09 MB to 324 kB and finally to 264 kB. The final build is a little faster than the previous one. As that 264k can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
-### Splitting `app` and `vendor` Bundles
+## Splitting `app` and `vendor` Bundles
 
-The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might, for instance, make most of our changes to the small `app` bundle. In this case, the client would have to fetch only it provided `vendor` bundle has been loaded already. This scheme won't load as fast as a single bundle initially due to the extra request. Caching more than makes up for this disadvantage.
+The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might, for instance, make most of our changes to the small `app` bundle. In this case, the client would have to fetch only it provided `vendor` bundle has been loaded already.
 
-In Webpack terms we will expand `entry` configuration. After that we use `CommonsChunkPlugin` to extract the vendor bundle. The configuration below shows how this will work out in our case.
+This scheme won't load as fast as a single bundle initially due to the extra request. Thanks to client-side caching, we might not need to reload all the data always. This is particularly true if a bundle remains unchanged. For instance if only `app` updates, only that may need to be downloaded.
+
+### Defining a `vendor` Entry Point
+
+To get started, we need to define a `vendor` entry point:
 
 **webpack.config.js**
 
@@ -187,21 +192,91 @@ var ROOT_PATH = path.resolve(__dirname);
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app/main.jsx'),
+      app: path.resolve(ROOT_PATH, 'app'),
       vendor: Object.keys(pkg.dependencies)
     },
+    devtool: 'source-map',
+    ...
+  });
+}
+```
+
+This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies. Webpack provides multiple ways to define chunks. Each chunk will contain a part of your application code. For example is possible to set up chunks that are loaded dynamically.
+
+### Adding Hashing to Filenames
+
+To make sure client-side caching works, we'll need to attach hashes to filenames. Webpack provides placeholders that are useful for this. The most useful ones are:
+
+* `[name]` - Returns entry name.
+* `[hash]` - Returns build hash.
+* `[chunkhash]` - Returns a chunk specific hash.
+
+Using these placeholders you could end up with filenames such as:
+
+```bash
+app.d587bbd6e38337f5accd.js
+vendor.dc746a5db4ed650296e1.js
+```
+
+We can use the placeholder idea within our configuration like this:
+
+**webpack.config.js**
+
+```javascript
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    entry: {
+      app: path.resolve(ROOT_PATH, 'app'),
+      vendor: Object.keys(pkg.dependencies)
+    },
+    /* important! */
     output: {
       path: path.resolve(ROOT_PATH, 'build'),
-      filename: 'app.[chunkhash].js'
+      filename: '[name].[chunkhash].js'
     },
-    devtool: 'source-map',
+    ...
+  });
+}
+```
+
+If you hit `npm run build` now, you should see output like this.
+
+```bash
+> webpack
+
+Hash: 93b7068ed91340e3f5ac
+Version: webpack 1.12.0
+Time: 16398ms
+                             Asset       Size  Chunks             Chunk Names
+       app.d9e6f800dcb46e3638b9.js     263 kB       0  [emitted]  app
+    vendor.f6e6ad0dd8123b64e914.js     208 kB       1  [emitted]  vendor
+   app.d9e6f800dcb46e3638b9.js.map    2.51 MB       0  [emitted]  app
+vendor.f6e6ad0dd8123b64e914.js.map    2.13 MB       1  [emitted]  vendor
+                        index.html  266 bytes          [emitted]
+   [0] multi vendor 76 bytes {1} [built]
+    + 316 hidden modules
+```
+
+This isn't quite what we expected. Both our `app` and `vendor` bundles are big. The problem is that Webpack will include all the required files in the `app` bundle. This includes the `vendor` modules.
+
+### Setting Up `CommonsChunkPlugin`
+
+To fix our problem, we can use `CommonsChunkPlugin`. It can extract the code we need. We can tell it what *entry chunk* to extract and how to output it. Consider the configuration:
+
+**webpack.config.js**
+
+```javascript
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    ...
     module: {
       ...
     },
     plugins: [
+      /* important! */
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        'vendor.[chunkhash].js'
+        '[name].[chunkhash].js'
       ),
       ...
     ]
@@ -209,37 +284,37 @@ if(TARGET === 'build') {
 }
 ```
 
-If you run `npm run build` now, you should see output like this:
+If you run `npm run build` now, you should see output as below:
 
 ```bash
-> TARGET=build webpack
+> webpack
 
-Hash: 1671be044a8a34b58fa8
-Version: webpack 1.10.1
-Time: 11983ms
+Hash: 5a0cf7711f1d3fc5c930
+Version: webpack 1.12.0
+Time: 10565ms
                              Asset       Size  Chunks             Chunk Names
-       app.cfd412c37a844a41daf8.js    57.8 kB       0  [emitted]  app
-    vendor.edaf1006b1f4b71898f9.js     208 kB       1  [emitted]  vendor
-   app.cfd412c37a844a41daf8.js.map     415 kB       0  [emitted]  app
-vendor.edaf1006b1f4b71898f9.js.map    2.12 MB       1  [emitted]  vendor
+       app.bf777bbb05bec4070276.js      55 kB       0  [emitted]  app
+    vendor.f33176572a7ad31551ee.js     209 kB       1  [emitted]  vendor
+   app.bf777bbb05bec4070276.js.map     389 kB       0  [emitted]  app
+vendor.f33176572a7ad31551ee.js.map    2.13 MB       1  [emitted]  vendor
                         index.html  266 bytes          [emitted]
-   [0] multi vendor 64 bytes {1} [built]
-    + 339 hidden modules
+   [0] multi vendor 76 bytes {1} [built]
+    + 316 hidden modules
 ```
 
-Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 57.8 kB.
+Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 55 kB.
 
 One more way to push the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
 
-## Cleaning Build
+## Cleaning the Build
 
-Our current setup doesn't clean `build` directory between builds. As this is annoying, especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
+Our current setup doesn't clean the `build` directory between builds. As this is annoying, especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
 
 ```bash
 npm i clean-webpack-plugin --save-dev
 ```
 
-to install the plugin. Change the build configuration as below to integrate it.
+to install the plugin. Change the build configuration as below to integrate it:
 
 **webpack.config.js**
 
@@ -252,10 +327,6 @@ var Clean = require('clean-webpack-plugin');
 if(TARGET === 'build') {
   module.exports = merge(common, {
     ...
-    devtool: 'source-map',
-    module: {
-      ...
-    },
     plugins: [
       new Clean(['build']),
       ...
@@ -264,17 +335,15 @@ if(TARGET === 'build') {
 }
 ```
 
-After this change our `build` directory should remain nice and tidy while building.
+After this change our `build` directory should remain nice and tidy when building. See [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin) for further options.
 
-Note that you can provide `context` parameter to `Clean`. That allows you to execute the process in some other directory. Example `new Clean(['build'], '<context path>')`.
-
-T> An alternative would be to use your terminal fu (`rm -rf build/`) and set that up at the `scripts` of `package.json`.
+T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up at the `scripts` of `package.json`.
 
 ## Separating CSS
 
-Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from flash of unstyled content (FOUC).
+Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development, it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from a flash of unstyled content (FOUC).
 
-As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using `ExtractTextPlugin`. It comes with some overhead during complication phase. It won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production usage that won't be a problem.
+As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with overhead during the compilation phase and it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
 
 It will take some configuration to make it work. Hit
 
@@ -296,7 +365,10 @@ var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: path.resolve(ROOT_PATH, 'app'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -340,51 +412,56 @@ if(TARGET === 'build') {
       ]
     },
     plugins: [
-      new ExtractTextPlugin('styles.css'),
+      new Clean(['build']),
+      new ExtractTextPlugin('styles.[chunkhash].css'),
       ...
     ]
   });
 }
 ```
 
-Using this setup we can still benefit from HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject into our `index.html`.
+Using this setup we can still benefit from the HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
 
 W> Definition such as `loaders: [ExtractTextPlugin.extract('style', 'css')]` won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use `loader` form.
 
-W> If you want to pass more loaders to `ExtractTextPlugin`, you should use `!` syntax. Example: `ExtractTextPlugin.extract('style', 'css!autoprefixer-loader')`.
+W> If you want to pass more loaders to the `ExtractTextPlugin`, you should use `!` syntax. Example: `ExtractTextPlugin.extract('style', 'css!autoprefixer-loader')`.
 
-After running `npm run build` you should see the following output:
+After running `npm run build` you should similar output:
 
 ```bash
-> TARGET=build webpack
+> webpack
 
 Hash: 27584124a5659a941eea
-Version: webpack 1.10.5
+Version: webpack 1.12.0
 Time: 10589ms
-                             Asset       Size  Chunks             Chunk Names
-       app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
-    vendor.876083b45225c03d8a74.js     208 kB       1  [emitted]  vendor
-                        styles.css  557 bytes       0  [emitted]  app
-   app.4a3890cdb2f12f6bd4d5.js.map     389 kB       0  [emitted]  app
-                    styles.css.map   87 bytes       0  [emitted]  app
-vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
-                        index.html  317 bytes          [emitted]
+                              Asset       Size  Chunks             Chunk Names
+        app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
+     vendor.876083b45225c03d8a74.js     208 kB       1  [emitted]  vendor
+    styles.bf777bbb05bec4070276.css  557 bytes       0  [emitted]  app
+    app.4a3890cdb2f12f6bd4d5.js.map     389 kB       0  [emitted]  app
+styles.bf777bbb05bec4070276.css.map   87 bytes       0  [emitted]  app
+ vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
+                         index.html  317 bytes          [emitted]
    [0] multi vendor 64 bytes {1} [built]
-    + 339 hidden modules
+    + 316 hidden modules
 Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
 
-This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And top this we have sourcemaps and an automatically generated *index.html*.
+This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this we have sourcemaps and an automatically generated *index.html*.
+
+T> If you have a complex project with a lot of dependencies, it is likely a good idea to use the `DedupePlugin`. It will find possible duplicate files and deduplicate them. Use `new webpack.optimize.DedupePlugin()` at your plugins definition to enable it.
+
+W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! I.e. if you change your application code, `vendor` hash will change!
 
 ## Isomorphic Rendering
 
-One of the interesting aspects of React is the fact that it allows so called isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code gets run, it will pick up the markup. Even though this sounds trivial there are some nice advantages to this approach:
+React supports isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code gets run, it will pick up the markup. Even though this sounds trivial there are some nice advantages to this approach:
 
 * Web crawlers will be able to access the content easier (potentially better SEO)
 * You can avoid requests to fetch initial data. Especially on slow connections this can make a big difference.
 * The browser doesn't have to wait for JavaScript to get evaluated. Instead, it gets to render HTML straight away.
-* Even users without JavaScript enabled see something. In this case, it doesn't matter a lot, but otherwise it could be a big factor.
+* Even users without JavaScript enabled can see something. In this case, it doesn't matter a lot, but otherwise it could be a big factor.
 
 Even though we don't have a proper back-end in our project this is a powerful approach you should be aware of. The same idea can be applied for other scenarios such as rendering a JSX template to a PDF invoice for example. React isn't limited to the web.
 
@@ -435,7 +512,10 @@ const ROOT_PATH = path.resolve(__dirname);
 const APP_TITLE = 'Kanban app';
 
 const common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: path.resolve(ROOT_PATH, 'app'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -490,7 +570,7 @@ T> If you want output that doesn't have React keys, use `React.renderToStaticMar
 
 In addition, we need to tweak the entry point of our application to take these changes into account. When in production it should use the existing markup instead of injecting its own.
 
-**app/main.jsx**
+**app/index.jsx**
 
 ```javascript
 ...
