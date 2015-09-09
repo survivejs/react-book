@@ -59,7 +59,7 @@ if(TARGET === 'start' || !TARGET) {
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app/main.jsx'),
+      app: path.resolve(ROOT_PATH, 'app'),
       vendor: Object.keys(pkg.dependencies)
     },
     output: {
