@@ -403,7 +403,7 @@ Given we are currently dealing with the logic at `App`, we can deal with `onEdit
 
 ![`onEdit` flow](images/bind.png)
 
-A good first step towards this behavior is to create a stub. As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
+A good first step towards this behavior is to create a stub. As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work, changes in two files are needed. Here's what it should look like for `App`.
 
 **app/components/App.jsx**
 
