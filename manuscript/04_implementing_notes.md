@@ -319,7 +319,7 @@ If you hit the button a few times now, you should see new items. It might not be
 
 ![Notes with a new item](images/react_05.png)
 
-In addition, to `this.setState` we had to set up a binding. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying, but necessary to bind therefore.
+We additionally had to set up a binding for `this.setState`. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying, but it is necessary to bind nonetheless.
 
 Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would take additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
 
