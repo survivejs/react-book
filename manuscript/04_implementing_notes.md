@@ -249,7 +249,7 @@ After this change our application works the same way as before. We have gained s
 
 W> Note that *react-hot-loader* doesn't pick the change made to the constructor. You will have to force a refresh in this case!
 
-T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without, but it's a good standard to have. Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
+T> In earlier versions of React you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. It will work without it, but it's a good practice. Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
 ## Adding New Items to `Notes` list
 
