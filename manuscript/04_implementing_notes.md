@@ -327,7 +327,7 @@ T> Besides allowing you to set context, [bind](https://developer.mozilla.org/en-
 
 ## Editing Notes
 
-Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect click on a `Note` and then show an input containing its state. Then when the editing has been confirmed we can turn it back to normal.
+Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect a click event on a `Note` and then show an input containing its state. Then when the editing has been confirmed, we can return it back to normal.
 
 This means we'll need to extend `Note` somehow and communicate possible changes to `App`. That way it knows to update the data model. Additionally, `Note` needs to keep track of its edit state. It has to show the correct element (div or input) based on that.
 
