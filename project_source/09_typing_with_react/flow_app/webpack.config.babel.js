@@ -16,6 +16,9 @@ const APP_TITLE = 'Kanban app';
 
 const common = {
   entry: path.resolve(ROOT_PATH, 'app'),
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
