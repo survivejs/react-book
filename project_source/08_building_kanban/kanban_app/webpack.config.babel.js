@@ -64,7 +64,7 @@ if(TARGET === 'build') {
     },
     output: {
       path: path.resolve(ROOT_PATH, 'build'),
-      filename: '[name].[chunkhash].js'
+      filename: '[name].js?[chunkhash]'
     },
     devtool: 'source-map',
     module: {
@@ -82,11 +82,11 @@ if(TARGET === 'build') {
       ]
     },
     plugins: [
-      new ExtractTextPlugin('styles.[chunkhash].css'),
+      new ExtractTextPlugin('styles.css?[chunkhash]'),
       new Clean(['build']),
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        '[name].[chunkhash].js'
+        '[name].js?[chunkhash]'
       ),
       new webpack.DefinePlugin({
         'process.env': {

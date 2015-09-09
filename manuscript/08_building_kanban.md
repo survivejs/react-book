@@ -214,9 +214,11 @@ To make sure client-side caching works, we'll need to attach hashes to filenames
 Using these placeholders you could end up with filenames such as:
 
 ```bash
-app.d587bbd6e38337f5accd.js
-vendor.dc746a5db4ed650296e1.js
+app.js?d587bbd6e38337f5accd
+vendor.js?dc746a5db4ed650296e1
 ```
+
+The part behind the question mark will invalidate the cache. An alternative way would be to include it to the filename itself but I find this convention to be cleaner.
 
 We can use the placeholder idea within our configuration like this:
 
@@ -232,7 +234,7 @@ if(TARGET === 'build') {
     /* important! */
     output: {
       path: path.resolve(ROOT_PATH, 'build'),
-      filename: '[name].[chunkhash].js'
+      filename: '[name].js?[chunkhash]'
     },
     ...
   });
@@ -248,10 +250,10 @@ Hash: 93b7068ed91340e3f5ac
 Version: webpack 1.12.0
 Time: 16398ms
                              Asset       Size  Chunks             Chunk Names
-       app.d9e6f800dcb46e3638b9.js     263 kB       0  [emitted]  app
-    vendor.f6e6ad0dd8123b64e914.js     208 kB       1  [emitted]  vendor
-   app.d9e6f800dcb46e3638b9.js.map    2.51 MB       0  [emitted]  app
-vendor.f6e6ad0dd8123b64e914.js.map    2.13 MB       1  [emitted]  vendor
+       app.js?d9e6f800dcb46e3638b9     263 kB       0  [emitted]  app
+    vendor.js?f6e6ad0dd8123b64e914     208 kB       1  [emitted]  vendor
+   app.js.map?d9e6f800dcb46e3638b9    2.51 MB       0  [emitted]  app
+vendor.js.map?f6e6ad0dd8123b64e914    2.13 MB       1  [emitted]  vendor
                         index.html  266 bytes          [emitted]
    [0] multi vendor 76 bytes {1} [built]
     + 316 hidden modules
@@ -276,7 +278,7 @@ if(TARGET === 'build') {
       /* important! */
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        '[name].[chunkhash].js'
+        '[name].js?[chunkhash]'
       ),
       ...
     ]
@@ -293,10 +295,10 @@ Hash: 5a0cf7711f1d3fc5c930
 Version: webpack 1.12.0
 Time: 10565ms
                              Asset       Size  Chunks             Chunk Names
-       app.bf777bbb05bec4070276.js      55 kB       0  [emitted]  app
-    vendor.f33176572a7ad31551ee.js     209 kB       1  [emitted]  vendor
-   app.bf777bbb05bec4070276.js.map     389 kB       0  [emitted]  app
-vendor.f33176572a7ad31551ee.js.map    2.13 MB       1  [emitted]  vendor
+       app.js?bf777bbb05bec4070276      55 kB       0  [emitted]  app
+    vendor.js?f33176572a7ad31551ee     209 kB       1  [emitted]  vendor
+   app.js.map?bf777bbb05bec4070276     389 kB       0  [emitted]  app
+vendor.js.map?f33176572a7ad31551ee    2.13 MB       1  [emitted]  vendor
                         index.html  266 bytes          [emitted]
    [0] multi vendor 76 bytes {1} [built]
     + 316 hidden modules
@@ -308,7 +310,7 @@ One more way to push the build further would be to load popular dependencies, su
 
 ## Cleaning the Build
 
-Our current setup doesn't clean the `build` directory between builds. As this is annoying, especially when hashes are used, we can set up a plugin to clean the directory for us. Execute
+Our current setup doesn't clean the `build` directory between builds. As this can get annoying if we change our setup, we can use a plugin to clean the directory for us. Execute
 
 ```bash
 npm i clean-webpack-plugin --save-dev
@@ -413,7 +415,7 @@ if(TARGET === 'build') {
     },
     plugins: [
       new Clean(['build']),
-      new ExtractTextPlugin('styles.[chunkhash].css'),
+      new ExtractTextPlugin('styles.css?[chunkhash]'),
       ...
     ]
   });
@@ -435,12 +437,12 @@ Hash: 27584124a5659a941eea
 Version: webpack 1.12.0
 Time: 10589ms
                               Asset       Size  Chunks             Chunk Names
-        app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
-     vendor.876083b45225c03d8a74.js     208 kB       1  [emitted]  vendor
-    styles.bf777bbb05bec4070276.css  557 bytes       0  [emitted]  app
-    app.4a3890cdb2f12f6bd4d5.js.map     389 kB       0  [emitted]  app
-styles.bf777bbb05bec4070276.css.map   87 bytes       0  [emitted]  app
- vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
+        app.js?4a3890cdb2f12f6bd4d5    54.3 kB       0  [emitted]  app
+     vendor.js?876083b45225c03d8a74     208 kB       1  [emitted]  vendor
+    styles.css?bf777bbb05bec4070276  557 bytes       0  [emitted]  app
+    app.js.map?4a3890cdb2f12f6bd4d5     389 kB       0  [emitted]  app
+styles.css.map?bf777bbb05bec4070276   87 bytes       0  [emitted]  app
+ vendor.js.map?876083b45225c03d8a74    2.12 MB       1  [emitted]  vendor
                          index.html  317 bytes          [emitted]
    [0] multi vendor 64 bytes {1} [built]
     + 316 hidden modules
