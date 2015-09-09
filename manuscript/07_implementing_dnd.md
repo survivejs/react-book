@@ -258,7 +258,7 @@ If you drag a `Note` around now, you should see logs like `source <id> target <i
 
 The logic of drag and drop is quite simple. Let's say we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
-In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note` we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`:
+In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note`, we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`:
 
 **app/actions/LaneActions.jsx**
 
@@ -495,6 +495,6 @@ Now we have a Kanban table that is actually useful! We can create new lanes and 
 
 In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids and finally you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
 
-I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending DnD implementation you can try adding more data to the system.
+I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending the DnD implementation, you can try adding more data to the system.
 
 In the next chapter we'll set up a production level build for our application. You can use the same techniques in your own projects.

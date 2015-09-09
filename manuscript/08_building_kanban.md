@@ -163,7 +163,7 @@ bundle.js.map    2.53 MB       0  [emitted]  main
     + 339 hidden modules
 ```
 
-So we went from 1.09 MB to 324 kB and finally to 264 kB. The final build is a little faster than the previous one. As that 264k can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
+So we went from 1.09 MB to 324 kB, and finally to 264 kB. The final build is a little faster than the previous one. As that 264k can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 

@@ -35,7 +35,7 @@ To recap first [css-loader](https://www.npmjs.com/package/css-loader) goes throu
 
 ## CSS Methodologies
 
-What happens when your application starts to grow and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
+What happens when your application starts to expand and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
 
 We could battle this problem by making the selectors more specific, using some naming rules and so on. Where do we draw the line? There are various alternative methodologies you can consider.
 

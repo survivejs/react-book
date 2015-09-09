@@ -228,7 +228,7 @@ dist-modules/
 ...
 ```
 
-Besides `prepublish` npm provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`, or `version`.
+Besides `prepublish`, npm provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`, or `version`.
 
 Even though npm will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (i.e. `npm run prepublish`). The idea here is that we want to make our package as easy to consume as possible. We can take one for our library users.
 

@@ -201,7 +201,7 @@ export default class App extends React.Component {
 
 Logically, we have exactly the same `App` as earlier. There's one great difference. Our application is more flexible. You could render multiple `Notes` with data of their own easily.
 
-Even though we improved `render()` and reduced the amount of markup, it's still not neat. We can push the data to the `App`'s state. Besides making the code neater this will allow us to implement logic related to it.
+Even though we improved `render()` and reduced the amount of markup, it's still not neat. We can push the data to the `App`'s state. Besides making the code neater, this will allow us to implement logic related to it.
 
 ## Pushing `notes` to the `App` `state`
 
