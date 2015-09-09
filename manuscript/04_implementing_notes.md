@@ -323,7 +323,7 @@ We additionally had to set up a binding for `this.setState`. Without it `this` o
 
 Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would take additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
 
-T> Besides allowing you to set context [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) makes it possible to fix parameters to certain values. You will see an example of this shortly.
+T> Besides allowing you to set context, [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) makes it possible to fix parameters to certain values. You will see an example of this shortly.
 
 ## Editing Notes
 
