@@ -253,7 +253,7 @@ T> In earlier versions of React you achieved the same result with `getInitialSta
 
 ## Adding New Items to `Notes` list
 
-Adding new items to the notes list is a good starting point. To get started, we could render a button element and attach a dummy `onClick` handler to it. We will grow the actual logic into that.
+Adding new items to the notes list is a good starting point. To get started, we could render a button element and attach a dummy `onClick` handler to it. We will expand the actual logic into that.
 
 **app/components/App.jsx**
 
