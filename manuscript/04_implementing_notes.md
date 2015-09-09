@@ -438,9 +438,9 @@ export default class App extends React.Component {
 }
 ```
 
-The idea is that `Notes` will return our callback the id of the note being modified and the new state of the task. We'll need to use this data soon in order to patch the state.
+The idea is that `Notes` will return via our callback the id of the note being modified and the new state of the task. We'll need to use this data soon in order to patch the state.
 
-We also need to make `Notes` work according to this idea. It will `bind` the id of the note in question. When the callback is triggered the remaining parameter receives a value and the callback gets called.
+We also need to make `Notes` work according to this idea. It will `bind` the id of the note in question. When the callback is triggered, the remaining parameter receives a value and the callback gets called.
 
 **app/components/Notes.jsx**
 
@@ -479,7 +479,7 @@ T> Some of the prop related logic could be potentially extracted to a *context*.
 
 ### Understanding `findIndex`
 
-We'll be using an ES6 function known as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result.
+We'll be using an ES6 function known as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or the zero-based index number (match) depending on the result.
 
 Babel provides an easy way to polyfill this feature using `import 'babel-core/polyfill';`. The problem is that it bloats our final bundle somewhat as it enables all [core-js](https://github.com/zloirock/core-js) features. As we need just one shim, we'll be using a specific shim for this instead. Hit
 
