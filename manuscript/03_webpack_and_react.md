@@ -121,6 +121,8 @@ if(TARGET === 'start' || !TARGET) {
 
 Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity but now you can omit it if you want to.
 
+T> As `resolve.extensions` gets evaluated from left to right, we can use it to control which code gets loaded for given configuration. For instance, you could have `.web.js` to define web specific parts and then have something like `['', '.web.js', '.js', '.jsx']`. If a "web" version of the file is found, Webpack would use that instead of the default.
+
 Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e. `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
 
 **.babelrc**
