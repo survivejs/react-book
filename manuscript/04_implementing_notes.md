@@ -249,11 +249,11 @@ After this change our application works the same way as before. We have gained s
 
 W> Note that *react-hot-loader* doesn't pick the change made to the constructor. You will have to force a refresh in this case!
 
-T> In earlier versions of React you achieved the same with `getInitialState`. We're passing `props` to `super` by convention. It will work without, but it's a good standard to have. Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
+T> In earlier versions of React you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. It will work without it, but it's a good practice. Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
 ## Adding New Items to `Notes` list
 
-Adding new items to the notes list is a good starting point. To get started, we could render a button element and attach a dummy `onClick` handler to it. We will grow the actual logic into that.
+Adding new items to the notes list is a good starting point. To get started, we could render a button element and attach a dummy `onClick` handler to it. We will expand the actual logic into that.
 
 **app/components/App.jsx**
 
@@ -313,23 +313,23 @@ export default class App extends React.Component {
 }
 ```
 
-In case we were be operating with a back-end we would trigger a query here and capture id from response. Now it's enough to just generate an entry and a custom id.
+If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
 
 If you hit the button a few times now, you should see new items. It might not be pretty yet, but it works.
 
 ![Notes with a new item](images/react_05.png)
 
-In addition, to `this.setState` we had to set up a binding. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying, but necessary to bind therefore.
+We additionally had to set up a binding for `this.setState`. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying, but it is necessary to bind nonetheless.
 
 Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would take additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
 
-T> Besides allowing you to set context [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) makes it possible to fix parameters to certain values. You will see an example of this shortly.
+T> Besides allowing you to set context, [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) makes it possible to fix parameters to certain values. You will see an example of this shortly.
 
 ## Editing Notes
 
-Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect click on a `Note` and then show an input containing its state. Then when the editing has been confirmed we can turn it back to normal.
+Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect a click event on a `Note`, and then show an input containing its state. Then when the editing has been confirmed, we can return it back to normal.
 
-This means we'll need to extend `Note` somehow and communicate possible changes to `App`. That way it knows to update the data model. Additionally, `Note` needs to keep track of its edit state. It has to show the correct element (div or input) based on that.
+This means we'll need to extend `Note` somehow and communicate possible changes to `App`. That way it knows to update the data model. Additionally, `Note` needs to keep track of its edit state. It has to show the correct element (div or input) based on its state.
 
 We can achieve these goals using a callback and a ternary expression. Here's a sample implementation of the idea:
 
@@ -403,7 +403,7 @@ Given we are currently dealing with the logic at `App`, we can deal with `onEdit
 
 ![`onEdit` flow](images/bind.png)
 
-A good first step towards this behavior is to create a stub. As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work changes in two files are needed. Here's what it should look like for `App`.
+A good first step towards this behavior is to create a stub. As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work, changes in two files are needed. Here's what it should look like for `App`.
 
 **app/components/App.jsx**
 
@@ -438,9 +438,9 @@ export default class App extends React.Component {
 }
 ```
 
-The idea is that `Notes` will return our callback the id of the note being modified and the new state of the task. We'll need to use this data soon in order to patch the state.
+The idea is that `Notes` will return via our callback the id of the note being modified and the new state of the task. We'll need to use this data soon in order to patch the state.
 
-We also need to make `Notes` work according to this idea. It will `bind` the id of the note in question. When the callback is triggered the remaining parameter receives a value and the callback gets called.
+We also need to make `Notes` work according to this idea. It will `bind` the id of the note in question. When the callback is triggered, the remaining parameter receives a value and the callback gets called.
 
 **app/components/Notes.jsx**
 
@@ -479,7 +479,7 @@ T> Some of the prop related logic could be potentially extracted to a *context*.
 
 ### Understanding `findIndex`
 
-We'll be using an ES6 function known as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or index (match) depending on the result.
+We'll be using an ES6 function known as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or the zero-based index number (match) depending on the result.
 
 Babel provides an easy way to polyfill this feature using `import 'babel-core/polyfill';`. The problem is that it bloats our final bundle somewhat as it enables all [core-js](https://github.com/zloirock/core-js) features. As we need just one shim, we'll be using a specific shim for this instead. Hit
 
