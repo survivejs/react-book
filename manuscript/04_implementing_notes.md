@@ -313,7 +313,7 @@ export default class App extends React.Component {
 }
 ```
 
-In case we were be operating with a back-end we would trigger a query here and capture id from response. Now it's enough to just generate an entry and a custom id.
+If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
 
 If you hit the button a few times now, you should see new items. It might not be pretty yet, but it works.
 
