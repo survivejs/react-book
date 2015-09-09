@@ -15,7 +15,7 @@ const ROOT_PATH = path.resolve(__dirname);
 const APP_TITLE = 'Kanban app';
 
 const common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: path.resolve(ROOT_PATH, 'app'),
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -56,12 +56,12 @@ if(TARGET === 'start' || !TARGET) {
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app/main.jsx'),
+      app: path.resolve(ROOT_PATH, 'app'),
       vendor: Object.keys(pkg.dependencies)
     },
     output: {
       path: path.resolve(ROOT_PATH, 'build'),
-      filename: '[name].[chunkhash].js'
+      filename: '[name].js?[chunkhash]'
     },
     devtool: 'source-map',
     module: {
@@ -79,11 +79,11 @@ if(TARGET === 'build') {
       ]
     },
     plugins: [
-      new ExtractTextPlugin('styles.css'),
+      new ExtractTextPlugin('styles.css?[chunkhash]'),
       new Clean(['build']),
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        '[name].[chunkhash].js'
+        '[name].js?[chunkhash]'
       ),
       new webpack.DefinePlugin({
         'process.env': {
