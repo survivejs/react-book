@@ -73,18 +73,27 @@
         "demo": "08_building_kanban"
     },
     {
-        "author": "NASA",
-        "source": "https://pixabay.com/en/skydiving-indoors-training-navy-665034/",
-        "license": "Public Domain",
-        "image": "skydiving.jpg"
+        "author": "TODO",
+        "source": "https://www.flickr.com/photos/7870246@N03/481256246",
+        "license": "CC BY",
+        "image": "boots.jpg",
+        "demo": "09_testing_react",
+        "bonus": true
     },
     {
         "author": "Markus Mayer",
         "source": "https://www.flickr.com/photos/10832246@N06/2925254789/",
         "license": "CC BY-NC-ND",
         "image": "typing.jpg",
+        "demo": "10_typing_with_react",
         "bonus": true,
         "sourceRoot": "/"
+    },
+    {
+        "author": "NASA",
+        "source": "https://pixabay.com/en/skydiving-indoors-training-navy-665034/",
+        "license": "Public Domain",
+        "image": "skydiving.jpg"
     },
     {
         "author": "Eva the Weaver",
