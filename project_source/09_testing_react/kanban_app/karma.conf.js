@@ -1,7 +1,7 @@
 // needed given our Webpack configuration uses ES6 and JSX
 require('babel/register');
 
-// Reference: http://karma-runner.github.io/0.12/config/configuration-file.html
+// Reference: http://karma-runner.github.io/0.13/config/configuration-file.html
 module.exports = function karmaConfig (config) {
   config.set({
     frameworks: [
