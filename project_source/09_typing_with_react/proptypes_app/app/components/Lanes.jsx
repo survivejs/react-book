@@ -12,7 +12,7 @@ class Lanes extends React.Component {
   }
 }
 Lanes.propTypes = {
-  items: React.PropTypes.array.isRequired
+  items: React.PropTypes.array
 };
 Lanes.defaultProps = {
   items: []

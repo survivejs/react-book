@@ -27,7 +27,7 @@ class Notes extends React.Component {
   }
 }
 Notes.propTypes = {
-  items: React.PropTypes.array.isRequired,
+  items: React.PropTypes.array,
   onEdit: React.PropTypes.func,
   onDelete: React.PropTypes.func
 };
