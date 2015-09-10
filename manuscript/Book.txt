@@ -11,8 +11,8 @@ React.md
 06_from_notes_to_kanban.md
 07_implementing_dnd.md
 08_building_kanban.md
-09_typing_with_react.md
-10_testing_react.md
+09_testing_react.md
+10_typing_with_react.md
 Advanced.md
 11_linting_in_webpack.md
 12_authoring_libraries.md
