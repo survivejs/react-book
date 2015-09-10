@@ -111,6 +111,36 @@ if(TARGET === 'build') {
   });
 }
 
+if(TARGET === 'test' || TARGET === 'tdd') {
+  module.exports = merge(common, {
+    entry: {}, // karma will set this
+    output: {}, // karma will set this
+    devtool: 'inline-source-map',
+    module: {
+      preLoaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['isparta-instrumenter'],
+          include: [
+            path.resolve(ROOT_PATH, 'app'),
+            path.resolve(ROOT_PATH, 'tests')
+          ]
+        }
+      ],
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['babel'],
+          include: [
+            path.resolve(ROOT_PATH, 'app'),
+            path.resolve(ROOT_PATH, 'tests')
+          ]
+        }
+      ]
+    },
+  });
+}
+
 function renderTemplate(template, replacements) {
   return function() {
     return template.replace(/%(\w*)%/g, function(match) {
