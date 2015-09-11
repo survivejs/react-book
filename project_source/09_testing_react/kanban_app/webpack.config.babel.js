@@ -126,10 +126,7 @@ if(TARGET === 'test' || TARGET === 'tdd') {
         {
           test: /\.jsx?$/,
           loaders: ['isparta-instrumenter'],
-          include: [
-            path.resolve(ROOT_PATH, 'app'),
-            path.resolve(ROOT_PATH, 'tests')
-          ]
+          include: path.resolve(ROOT_PATH, 'app')
         }
       ],
       loaders: [

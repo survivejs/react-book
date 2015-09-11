@@ -36,8 +36,10 @@ describe('Editable', () => {
   });
 
   it('triggers onEdit', () => {
+    let triggered = false;
     const newValue = 'value';
     const onEdit = (val) => {
+      triggered = true;
       assert.equal(val, newValue);
     };
     const component = renderIntoDocument(
@@ -51,6 +53,8 @@ describe('Editable', () => {
     input.value = newValue;
 
     Simulate.blur(input);
+
+    assert.equal(triggered, true);
   });
 
   it('allows deletion', () => {
