@@ -142,7 +142,7 @@ if(TARGET === 'test' || TARGET === 'tdd') {
           ]
         }
       ]
-    },
+    }
   });
 }
 

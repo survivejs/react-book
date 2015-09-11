@@ -76,7 +76,7 @@ describe('Editable', () => {
     let deleted = false;
     const onDelete = () => {
       deleted = true;
-    }
+    };
     const component = renderIntoDocument(
       <Editable value={'value'} onDelete={onDelete} />
     );
