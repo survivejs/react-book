@@ -53,24 +53,6 @@ describe('Editable', () => {
     Simulate.blur(input);
   });
 
-  it('allows editing', () => {
-    const newValue = 'value';
-    const component = renderIntoDocument(
-      <Editable value={'value'} onEdit={() => {}} />
-    );
-
-    let valueComponent = findRenderedDOMComponentWithClass(component, 'value');
-    Simulate.click(valueComponent);
-
-    const input = findRenderedDOMComponentWithTag(component, 'input');
-    input.value = newValue;
-
-    Simulate.blur(input);
-
-    valueComponent = findRenderedDOMComponentWithClass(component, 'value');
-    assert.equal(valueComponent.getDOMNode().textContent, newValue);
-  });
-
   it('allows deletion', () => {
     let deleted = false;
     const onDelete = () => {
