@@ -25,7 +25,7 @@ module.exports = function karmaConfig (config) {
       // Needed because React.js requires bind and phantomjs does not support it
       'node_modules/phantomjs-polyfill/bind-polyfill.js',
 
-      // Grab all files in the app folder that contain .test.
+      // Grab all files in the tests directory that contain _test.
       'tests/**/*_test.*'
     ],
 
