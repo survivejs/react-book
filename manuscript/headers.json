@@ -73,10 +73,10 @@
         "demo": "08_building_kanban"
     },
     {
-        "author": "TODO",
-        "source": "https://www.flickr.com/photos/7870246@N03/481256246",
-        "license": "CC BY",
-        "image": "boots.jpg",
+        "author": "skeeze",
+        "source": "https://pixabay.com/en/eyeglasses-exam-optometry-vision-679696/",
+        "license": "Public Domain",
+        "image": "testing.jpg",
         "demo": "09_testing_react",
         "bonus": true
     },
