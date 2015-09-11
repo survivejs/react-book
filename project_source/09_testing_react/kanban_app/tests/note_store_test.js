@@ -1,6 +1,5 @@
 import assert from 'assert';
 import 'array.prototype.findindex';
-import AltTestingUtils from 'alt/utils/AltTestingUtils';
 import NoteActions from 'app/actions/NoteActions';
 import NoteStore from 'app/stores/NoteStore';
 import alt from 'app/libs/alt';
