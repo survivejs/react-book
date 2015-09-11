@@ -20,6 +20,7 @@ describe('NoteStore', () => {
     assert.equal(state.notes.length, 1);
     assert.equal(state.notes[0].task, task);
   });
+
   it('updates notes', () => {
     const task = 'test';
     const updatedTask = 'test 2';
@@ -35,6 +36,7 @@ describe('NoteStore', () => {
     assert.equal(state.notes.length, 1);
     assert.equal(state.notes[0].task, updatedTask);
   });
+
   it('deletes notes', () => {
     NoteActions.create({task: 'test'});
 
@@ -46,6 +48,7 @@ describe('NoteStore', () => {
 
     assert.equal(state.notes.length, 0);
   });
+
   it('gets notes', () => {
     const task = 'test';
     NoteActions.create({task: task});
