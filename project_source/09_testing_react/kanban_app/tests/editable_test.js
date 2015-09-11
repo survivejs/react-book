@@ -1,6 +1,5 @@
 import React from 'react/addons';
 import assert from 'assert';
-
 import Editable from 'app/components/Editable.jsx';
 
 const {
