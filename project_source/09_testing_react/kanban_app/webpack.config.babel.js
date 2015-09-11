@@ -116,6 +116,11 @@ if(TARGET === 'test' || TARGET === 'tdd') {
     entry: {}, // karma will set this
     output: {}, // karma will set this
     devtool: 'inline-source-map',
+    resolve: {
+      alias: {
+        'app': path.resolve(ROOT_PATH, 'app')
+      }
+    },
     module: {
       preLoaders: [
         {
