@@ -20,11 +20,16 @@ The idea of the book is to guide you through a small example project. After that
 
 We will start by building a Webpack based configuration. After that we will develop a small clone of a famous [Todo application](http://todomvc.com/). We will generalize from there and put in place [Flux architecture](https://facebook.github.io/flux/docs/overview.html) within our application. We will apply some [Drag and Drop (DnD) magic](https://gaearon.github.io/react-dnd/) and start dragging things around. Finally we will get a production grade build done.
 
-The theoretical parts of the book focus more on the tooling. Through those you will learn to:
+After that we have a couple of Leanpub exclusive chapters in which we discuss how to:
 
-* lint your code effectively using [ESLint](http://eslint.org/) and some other tools
-* author libraries at [npm](https://www.npmjs.com/)
-* style React in various emerging ways
+* Deal with typing in React.
+* Test your components and logic.
+
+The final part of the book focuses on the tooling. Through the chapters included you will learn to:
+
+* Lint your code effectively using [ESLint](http://eslint.org/) and some other tools.
+* Author libraries at [npm](https://www.npmjs.com/).
+* Style React in various emerging ways.
 
 ## What is Kanban?
 
