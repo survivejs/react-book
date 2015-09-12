@@ -62,6 +62,8 @@ You can also define custom settings using a `jshint` object. The tool will look 
 
 [ESLint](http://eslint.org/) is a recent linting solution for JavaScript. It builds on top of ideas presented by JSLint and JSHint. Most importantly it allows you to develop custom rules. As a result, a nice set of rules have been developed for React in form of [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react).
 
+T> Since *v1.4.0* ESLint supports a feature known as [autofixing](http://eslint.org/blog/2015/09/eslint-v1.4.0-released/). It allows you to perform certain rule fixes automatically. To activate it, pass `--fix` flag to the tool.
+
 ### Connecting ESlint with `package.json`
 
 In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. First we'll need to hit
