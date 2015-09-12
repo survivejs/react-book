@@ -118,7 +118,9 @@ As you can see `package.json` can contain a lot of information. You can attach n
 
 ## npm Workflow
 
-Working with npm is surprisingly simple. Provided you have created an account on the service and logged in once using [npm adduser](https://docs.npmjs.com/cli/adduser), all you need to do is to hit `npm publish`. Given that the package name is still available, you should have something out there!
+Working with npm is surprisingly simple. [npm adduser](https://docs.npmjs.com/cli/adduser), aliased to `npm login`, allows you to set up an account. After this process, it will set up `~/.npmrc` and use that data for authentication. There's also [npm logout](https://docs.npmjs.com/cli/logout) that will clear the credentials.
+
+Provided you have logged in, creating new packages is just a matter of hitting `npm publish`. Given that the package name is still available and everything goes fine, you should have something out there!
 
 T> Before starting to develop it can be a good idea to spend a little bit of time on that naming issue. It's not very fun to write an awesome package just to notice the name has been taken. Save some time and nerves by doing a little bit of research. With some luck you could find something fitting your purposes and avoid the chore of writing a library.
 
