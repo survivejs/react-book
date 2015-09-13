@@ -20,7 +20,7 @@ Even though Make is mostly used with C projects, it's not tied to it in any way.
 
 **Makefile**
 
-```bash
+```makefile
 PATH  := node_modules/.bin:$(PATH)
 SHELL := /bin/bash
 
