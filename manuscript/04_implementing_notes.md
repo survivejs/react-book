@@ -506,7 +506,7 @@ We also need to attach the polyfill to our application.
 
 **app/index.jsx**
 
-```
+```javascript
 import 'array.prototype.findindex';
 ...
 ```

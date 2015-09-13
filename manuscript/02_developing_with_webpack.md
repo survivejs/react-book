@@ -23,7 +23,7 @@ If you are using git, I recommend setting up a `.gitignore` to the project root:
 
 **.gitignore**
 
-```
+```bash
 node_modules
 *.log
 .DS_Store
