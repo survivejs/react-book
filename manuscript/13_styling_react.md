@@ -289,9 +289,13 @@ css.setClass('.warning', {
 
 ...
 
-<button className={css.getClasses({button: true, primary: true})}>Confirm</button>
+<button className={css.getClasses({
+  button: true,
+  primary: true
+})}>Confirm</button>
 
-// in addition you'll need to trigger at higher level after the elements you are using
+// in addition you'll need to trigger at
+// higher level after the elements you are using
 // have been injected to the DOM
 SmartCSS.injectStyles();
 ```
@@ -376,7 +380,9 @@ import styles from './style.css';
 
 ...
 
-<button className={classNames(styles.button, styles.primary)}>Confirm</button>
+<button className={classNames(
+  styles.button, styles.primary
+)}>Confirm</button>
 ```
 
 As you can see, this approach provides a balance between what people are familiar with and what React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
