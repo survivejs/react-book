@@ -247,7 +247,7 @@ export default class App extends React.Component {
 
 After this change our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
 
-W> Note that *react-hot-loader* doesn't pick the change made to the constructor. You will have to force a refresh in this case!
+W> Note that *react-hot-loader* doesn't pick the change made to the constructor. Technically it just replaces methods. As a result the constructor won't get invoked. You will have to force a refresh in this case!
 
 T> In earlier versions of React you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. It will work without it, but it's a good practice. Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
