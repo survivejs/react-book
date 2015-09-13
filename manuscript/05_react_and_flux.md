@@ -363,7 +363,12 @@ import makeFinalStore from 'alt/utils/makeFinalStore';
 export default function(alt, storage, storeName) {
   const finalStore = makeFinalStore(alt);
 
-  alt.bootstrap(storage.get(storeName));
+  try {
+    alt.bootstrap(storage.get(storeName));
+  }
+  catch(e) {
+    console.error('Failed to bootstrap data', e);
+  }
 
   finalStore.listen(() => {
     if(!storage.get('debug')) {
