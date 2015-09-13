@@ -111,7 +111,25 @@
         "author": "Andrea Williams",
         "source": "https://www.flickr.com/photos/82405581@N00/3173065446",
         "license": "CC BY-NC-ND",
-        "image": "taxi.jpg"
+        "image": "taxi.jpg",
+        "resources": [
+          {
+            "name": "Atomic CSS",
+            "url": "http://acss.io/"
+          },
+          {
+            "name": "react-styling",
+            "url": "https://github.com/halt-hammerzeit/react-styling"
+          },
+          {
+            "name": "react-classnames",
+            "url": "https://www.npmjs.com/package/react-classnames"
+          },
+          {
+            "name": "react-classtree",
+            "url": "https://www.npmjs.com/package/react-classtree"
+          }
+        ]
     },
     {
         "author": "Edvard Munch",
