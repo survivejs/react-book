@@ -2,7 +2,7 @@
 
 You can get far by keeping everything in components. Eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications.
 
-Flux will allow us to separate data and application state from our Views. This helps us to keep them clean and the application maintainable. Flux was designed large teams in mind. As a result, you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
+Flux will allow us to separate data and application state from our Views. This helps us to keep them clean and the application maintainable. Flux was designed with large teams in mind. As a result, you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
 
 ## Introduction to Flux
 
@@ -36,7 +36,7 @@ When choosing a library it comes down to your own personal preferences. You will
 
 ![Alt](images/alt.png)
 
-In this chapter we'll be using a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed isomorphic rendering in mind.
+In this chapter we'll be using a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed with isomorphic rendering in mind.
 
 In Alt you'll deal with Actions and Stores. Dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and isomorphic rendering.
 
