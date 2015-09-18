@@ -388,7 +388,11 @@ Thanks to the Webpack configuration we did, you should get output during `npm st
 
 ![JSCS](images/jscs.png)
 
-Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short, it can get pretty messy without any discipline. Fortunately, there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project, but it's good to be aware of it.
+Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short, it can get pretty messy without any discipline. Fortunately, there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project, but it's good to be aware of it. You can install it through
+
+```bash
+npm i jscs jscs-loader --save-dev
+```
 
 [jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define `.jscsrc` with your style guide rules and use configuration like this:
 
@@ -420,7 +424,7 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
 
   "maximumLineLength": 120,
   "validateLineBreaks": "LF",
-  "validateIndentation": 4,
+  "validateIndentation": 2,
 
   "disallowKeywords": ["with"],
   "disallowSpacesInsideObjectBrackets": null,
