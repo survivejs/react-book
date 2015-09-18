@@ -2,24 +2,24 @@
 
 Nothing is easier than making mistakes when coding in JavaScript. Linting is one of those techniques that can help you to make less mistakes. You can spot issues before they become actual problems.
 
-Better yet, modern editors and IDEs offer strong support for popular tools. This means you can spot possible issues as you are developing. Despite this, it is a good idea to set them up with Webpack. That allows you to cancel a build that might not be up to your standards for example.
+Better yet, modern editors and IDEs offer strong support for popular tools. This means you can spot possible issues as you are developing. Despite this, it is a good idea to set them up with Webpack. That allows you to cancel a production build that might not be up to your standards for example.
 
 ## Brief History of Linting in JavaScript
 
 The linter that started it it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization. [ESLint](http://eslint.org/) is the newest tool in vogue.
 
-ESLint has learned from its predecessors. It allows you to implement custom rules. You can hook it up with custom parsers and reporters. This means ESLint will work with Babel and JSX syntax. The project rules have been well documented. You will have control over their severity. These features alone make it a powerful tool.
+ESLint goes to the next level as it allows you to implement custom rules, parsers and reporters. ESLint works with Babel and JSX syntax making it ideal for React projects. The project rules have been documented well and you have full control over their severity. These features alone make it a powerful tool.
 
-Besides linting for issues, it can be useful to manage code style on some level. Nothing is more annoying than having to work with source that has mixed tabs or spaces and such. Stylistically consistent code reads better and is easier to work with.
+Besides linting for issues, it can be useful to manage the code style on some level. Nothing is more annoying than having to work with a source that has mixed tabs or spaces. Stylistically consistent code reads better and is easier to work with.
 
-[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack. ESLint implements a large part of its functionality, though.
+[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack, although, ESLint implements a large part of its functionality
 
 ## Webpack and JSHint
 
-Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. On a legacy project setting it up with Webpack is easy. You will need to install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project
+Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. You could set it up on a legacy project easily. Install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project first:
 
 ```bash
-npm i jshint-loader --save-dev
+npm i jshint jshint-loader --save-dev
 ```
 
 In addition, you will need a little bit of configuration:
@@ -40,7 +40,9 @@ var common = {
 };
 ```
 
-You can also define custom settings using a `jshint` object. The tool will look into specific rules to apply from `.jshintrc`. Those have been covered at [the JSHint documentation](http://jshint.com/docs/) in detail. An example configuration could look like this:
+`preLoaders` section of the configuration gets executed before `loaders`. If linting fails, you'll know about it first. There's a third section, `postLoaders`, that gets executed after `loaders`. You could include code coverage checking there during testing for instance.
+
+JSHint will look into specific rules to apply from `.jshintrc`. You can also define custom settings within a `jshint` object at your Webpack configuration. Exact configuration options have been covered at [the JSHint documentation](http://jshint.com/docs/) in detail. `.jshintrc` could look like this:
 
 **.jshintrc**
 
@@ -55,6 +57,10 @@ You can also define custom settings using a `jshint` object. The tool will look 
   "quotmark": "double"
 }
 ```
+
+This tells JSHint we're operating within browser environment, don't care about linting for camelcase naming, want to use double quotes everywhere and so on.
+
+If you try running JSHint on our project, you will get a lot of output. It's not the ideal solution for React projects. ESLint will be more useful so we'll be setting it up next for better insights. Remember to remove JSHint configuration before proceeding further.
 
 ## Setting Up ESLint
 
@@ -72,7 +78,7 @@ In order to integrate ESLint with our project, we'll need to do a couple of litt
 npm i babel-eslint eslint eslint-plugin-react --save-dev
 ```
 
-This will add ESLint and the plugin we want to use as our project development dependency. Next, we'll need to do some configuration to make linting work in our project.
+This will add ESLint and the plugin we want to use as our project development dependency. Next, we'll need to do some configuration:
 
 **package.json**
 
@@ -84,7 +90,7 @@ This will add ESLint and the plugin we want to use as our project development de
 ...
 ```
 
-This will trigger ESLint against all JS and JSX files of our project. That's definitely too much so we'll need to restrict it. Set up *.eslintignore* to the project root like this:
+This will trigger ESLint against all JS and JSX files of our project. That's definitely too much so we'll need to restrict it to avoid going through possible production build. Set up *.eslintignore* to the project root like this:
 
 **.eslintignore**
 
@@ -113,7 +119,6 @@ Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-
     "no-use-before-define": 0,
     "eol-last": 0,
     "quotes": [2, "single"],
-    "react/jsx-boolean-value": 1,
     "react/jsx-quotes": 1,
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
@@ -132,7 +137,7 @@ Some rules, such as `quotes`, accept an array instead. This allows you to pass e
 
 The `react/` rules listed above are just a small subset of all rules available. Pick rules from [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) as needed.
 
-T> Other tools, such as JSCS and JSHint, ESLint supports `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
+T> Tools such as JSCS, JSHint, and ESLint support `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
 
 T> It is possible to generate a sample `.eslintrc` using `eslint --init` (or `node_modules/.bin/eslint --init` for local install). This can be useful on new projects.
 
@@ -181,9 +186,7 @@ var common = {
 };
 ```
 
-We are including the configuration to `common` as this way linting gets performed always. This way you can make sure your production build passes your rules while making sure you benefit from linting during development.
-
-`preLoaders` section of the configuration gets executed before `loaders`. If linting fails, you'll know about it first. There's a third section, `postLoaders`, that gets executed after `loaders`. You could include code coverage checking there during testing for instance.
+We are including the configuration to `common` as then linting gets performed always. This way you can make sure your production build passes your rules while making sure you benefit from linting during development.
 
 If you execute `npm start` now and break some linting rule while developing, you should see that in the terminal output. The same should happen when you build the project.
 
