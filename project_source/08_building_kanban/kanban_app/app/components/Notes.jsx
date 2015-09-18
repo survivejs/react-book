@@ -12,11 +12,11 @@ export default class Notes extends React.Component {
   render() {
     const notes = this.props.items;
 
-    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
+    return <ul className="notes">{notes.map(this.renderNote)}</ul>;
   }
   renderNote(note) {
     return (
-      <Note className='note' onMove={LaneActions.move}
+      <Note className="note" onMove={LaneActions.move}
         id={note.id} key={`note${note.id}`}>
         <Editable
           value={note.task}

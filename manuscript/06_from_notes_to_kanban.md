@@ -60,7 +60,7 @@ import React from 'react';
 export default class Lanes extends React.Component {
   render() {
     return (
-      <div className='lanes'>
+      <div className="lanes">
         lanes should go here
       </div>
     );
@@ -83,7 +83,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button className='add-lane' onClick={this.addItem}>+</button>
+        <button className="add-lane" onClick={this.addItem}>+</button>
         <AltContainer
           stores={[LaneStore]}
           inject={ {
@@ -117,10 +117,10 @@ export default class Lanes extends React.Component {
   render() {
     const lanes = this.props.items;
 
-    return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
+    return <div className="lanes">{lanes.map(this.renderLane)}</div>;
   }
   renderLane(lane) {
-    return <Lane className='lane' key={`lane${lane.id}`} {...lane} />;
+    return <Lane className="lane" key={`lane${lane.id}`} {...lane} />;
   }
 }
 ```
@@ -144,9 +144,9 @@ export default class Lane extends React.Component {
 
     return (
       <div {...props}>
-        <div className='lane-header'>
-          <div className='lane-name'>{name}</div>
-          <div className='lane-add-note'>
+        <div className="lane-header">
+          <div className="lane-name">{name}</div>
+          <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
         </div>
@@ -408,9 +408,9 @@ export default class Lane extends React.Component {
 
     return (
       <div {...props}>
-        <div className='lane-header'>
-          <div className='lane-name'>{name}</div>
-          <div className='lane-add-note'>
+        <div className="lane-header">
+          <div className="lane-name">{name}</div>
+          <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
         </div>
@@ -482,7 +482,7 @@ export default class Editable extends React.Component {
     );
   }
   renderEdit() {
-    return <input type='text'
+    return <input type="text"
       autoFocus={true}
       defaultValue={this.props.value}
       onBlur={this.finishEdit}
@@ -493,7 +493,7 @@ export default class Editable extends React.Component {
 
     return (
       <div onClick={this.edit}>
-        <span className='value'>{this.props.value}</span>
+        <span className="value">{this.props.value}</span>
         {onDelete ? this.renderDelete() : null }
       </div>
     );
@@ -534,7 +534,7 @@ export default class Notes extends React.Component {
   ...
   renderNote(note) {
     return (
-      <li className='note' key={`note${note.id}`}>
+      <li className="note" key={`note${note.id}`}>
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
@@ -565,10 +565,10 @@ export default class Lane extends React.Component {
 
     return (
       <div {...props}>
-        <div className='lane-header'>
-          <Editable className='lane-name' value={name}
+        <div className="lane-header">
+          <Editable className="lane-name" value={name}
             onEdit={this.editName} />
-          <div className='lane-add-note'>
+          <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
         </div>
@@ -744,19 +744,19 @@ export default class Lanes extends React.Component {
   render() {
     const lanes = this.props.items;
 
-    return <div className='lanes'>{lanes.map(this.renderLane)}</div>;
+    return <div className="lanes">{lanes.map(this.renderLane)}</div>;
   }
   renderLane(lane) {
     // new
     return (
-      <Lane className='lane' key={`lane${lane.id}`}>
+      <Lane className="lane" key={`lane${lane.id}`}>
         <Lane.Header id={lane.id} name={lane.name} />
         <Lane.Notes id={lane.id} notes={lane.notes} />
       </Lane>
     );
 
     // old
-    // return <Lane className='lane' key={`lane${lane.id}`} {...lane} />;
+    // return <Lane className="lane" key={`lane${lane.id}`} {...lane} />;
   }
 }
 ```

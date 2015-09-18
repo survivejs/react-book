@@ -264,7 +264,7 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button className='add-note' onClick={this.addNote}>+</button>
+        <button className="add-note" onClick={this.addNote}>+</button>
         <Notes items={notes}
           onEdit={this.editNote} onDelete={this.deleteNote} />
       </div>
@@ -592,7 +592,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button className='add-note' onClick={this.addNote}>+</button>
+        <button className="add-note" onClick={this.addNote}>+</button>
         <AltContainer
           stores={[NoteStore]}
           inject={ {

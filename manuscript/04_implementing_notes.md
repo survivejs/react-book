@@ -150,11 +150,11 @@ export default class Notes extends React.Component {
   render() {
     const notes = this.props.items;
 
-    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
+    return <ul className="notes">{notes.map(this.renderNote)}</ul>;
   }
   renderNote(note) {
     return (
-      <li className='note' key={`note${note.id}`}>
+      <li className="note" key={`note${note.id}`}>
         <Note task={note.task} />
       </li>
     );
@@ -267,7 +267,7 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button className='add-note' onClick={this.addNote}>+</button>
+        <button className="add-note" onClick={this.addNote}>+</button>
         <Notes items={notes} />
       </div>
     );
@@ -362,7 +362,7 @@ export default class Note extends React.Component {
     );
   }
   renderEdit() {
-    return <input type='text'
+    return <input type="text"
       autoFocus={true}
       defaultValue={this.props.task}
       onBlur={this.finishEdit}
@@ -426,7 +426,7 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button className='add-note' onClick={this.addNote}>+</button>
+        <button className="add-note" onClick={this.addNote}>+</button>
         <Notes items={notes} onEdit={this.editNote} />
       </div>
     );
@@ -457,11 +457,11 @@ export default class Notes extends React.Component {
   render() {
     const notes = this.props.items;
 
-    return <ul className='notes'>{notes.map(this.renderNote)}</ul>;
+    return <ul className="notes">{notes.map(this.renderNote)}</ul>;
   }
   renderNote(note) {
     return (
-      <li className='note' key={`note${note.id}`}>
+      <li className="note" key={`note${note.id}`}>
         <Note
           task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)} />
@@ -585,7 +585,7 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button className='add-note' onClick={this.addNote}>+</button>
+        <button className="add-note" onClick={this.addNote}>+</button>
         <Notes items={notes}
           onEdit={this.editNote} onDelete={this.deleteNote} />
       </div>
@@ -616,7 +616,7 @@ export default class Notes extends React.Component {
   ...
   renderNote(note) {
     return (
-      <li className='note' key={`note${note.id}`}>
+      <li className="note" key={`note${note.id}`}>
         <Note
           task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
@@ -641,13 +641,13 @@ export default class Note extends React.Component {
 
     return (
       <div onClick={this.edit}>
-        <span className='task'>{this.props.task}</span>
+        <span className="task">{this.props.task}</span>
         {onDelete ? this.renderDelete() : null }
       </div>
     );
   }
   renderDelete() {
-    return <button className='delete' onClick={this.props.onDelete}>x</button>;
+    return <button className="delete" onClick={this.props.onDelete}>x</button>;
   }
   ...
 ```

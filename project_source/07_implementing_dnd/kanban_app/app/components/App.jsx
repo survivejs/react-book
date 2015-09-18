@@ -11,7 +11,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button className='add-lane' onClick={this.addItem}>+</button>
+        <button className="add-lane" onClick={this.addItem}>+</button>
         <AltContainer
           stores={[LaneStore]}
           inject={ {
