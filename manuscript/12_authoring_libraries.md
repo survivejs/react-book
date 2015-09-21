@@ -122,7 +122,7 @@ Working with npm is surprisingly simple. [npm adduser](https://docs.npmjs.com/cl
 
 Provided you have logged in, creating new packages is just a matter of hitting `npm publish`. Given that the package name is still available and everything goes fine, you should have something out there!
 
-T> Before starting to develop it can be a good idea to spend a little bit of time on that naming issue. It's not very fun to write an awesome package just to notice the name has been taken. Save some time and nerves by doing a little bit of research. With some luck you could find something fitting your purposes and avoid the chore of writing a library.
+T> Before starting to develop it can be a good idea to spend a little bit of time on that naming issue. It's not very fun to write a great package just to notice the name has been taken. Save some time and nerves by doing a little bit of research. With some luck you could find something fitting your purposes and avoid the chore of writing a library.
 
 T> As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that format when naming your project.
 
