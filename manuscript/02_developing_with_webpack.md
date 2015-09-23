@@ -99,7 +99,7 @@ app.appendChild(component());
 
 We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll build `webpack.config.js`. Webpack and its development server will be able to discover this file through convention.
 
-To keep things simple, we'll generate an entry point to our application using `html-webpack-plugin`. It will create links to possible assets and keep our life simple. Hit
+To keep things simple, we'll generate an entry point to our application using `html-webpack-plugin`. We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. `html-webpack-plugin` is able to create links to our assets keeping our life simple. Hit
 
 ```bash
 npm i html-webpack-plugin --save-dev
