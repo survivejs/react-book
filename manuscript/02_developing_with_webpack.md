@@ -25,13 +25,11 @@ If you are using git, I recommend setting up a `.gitignore` to the project root:
 
 ```bash
 node_modules
-*.log
-.DS_Store
 ```
 
 At the very least you should have `node_modules` here as you probably don't want that to end up in the source control. The problem with that is that as some modules need to be compiled per platform, it gets rather messy to collaborate. Ideally your `git status` should look clean. You can extend `.gitignore` as you go.
 
-T> `.DS_Store` is something OS X specific. It contains system specific custom attributes related to the directory. As a result it can be safely ignored.
+T> You can push operating level ignore rules such as `.DS_Store` and `*.log` to `~/.gitignore`. This will keep your project level rules simpler.
 
 ## Installing Webpack
 
