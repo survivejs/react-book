@@ -315,6 +315,8 @@ export default class App extends React.Component {
 
 If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
 
+T> You could use `[...this.state.notes, [{id: uuid.v4(), task: 'New task'}]]` to achieve the same result. This [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) can be used with function parameters as well.
+
 If you hit the button a few times now, you should see new items. It might not be pretty yet, but it works.
 
 ![Notes with a new item](images/react_05.png)
