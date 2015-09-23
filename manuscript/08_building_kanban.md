@@ -214,9 +214,11 @@ To make sure client-side caching works, we'll need to attach hashes to filenames
 Using these placeholders you could end up with filenames such as:
 
 ```bash
-app.js?d587bbd6e38337f5accd
-vendor.js?dc746a5db4ed650296e1
+app.d587bbd6e38337f5accd.js
+vendor.dc746a5db4ed650296e1.js
 ```
+
+If the file contents are different, the hash will change as well invalidating the cache. An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e. `app.js?d587bbd6e38337f5accd`). According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
 
 The part behind the question mark will invalidate the cache. An alternative way would be to include it to the filename itself but I find this convention to be cleaner.
 
@@ -234,7 +236,7 @@ if(TARGET === 'build') {
     /* important! */
     output: {
       path: path.resolve(ROOT_PATH, 'build'),
-      filename: '[name].js?[chunkhash]'
+      filename: '[name].[chunkhash].js?'
     },
     ...
   });
@@ -250,10 +252,10 @@ Hash: 93b7068ed91340e3f5ac
 Version: webpack 1.12.0
 Time: 16398ms
                              Asset       Size  Chunks             Chunk Names
-       app.js?d9e6f800dcb46e3638b9     263 kB       0  [emitted]  app
-    vendor.js?f6e6ad0dd8123b64e914     208 kB       1  [emitted]  vendor
-   app.js.map?d9e6f800dcb46e3638b9    2.51 MB       0  [emitted]  app
-vendor.js.map?f6e6ad0dd8123b64e914    2.13 MB       1  [emitted]  vendor
+       app.d9e6f800dcb46e3638b9.js     263 kB       0  [emitted]  app
+    vendor.f6e6ad0dd8123b64e914.js     208 kB       1  [emitted]  vendor
+   app.d9e6f800dcb46e3638b9.js.map    2.51 MB       0  [emitted]  app
+vendor.f6e6ad0dd8123b64e914.js.map    2.13 MB       1  [emitted]  vendor
                         index.html  266 bytes          [emitted]
    [0] multi vendor 76 bytes {1} [built]
     + 316 hidden modules
@@ -278,7 +280,7 @@ if(TARGET === 'build') {
       /* important! */
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        '[name].js?[chunkhash]'
+        '[name].[chunkhash].js'
       ),
       ...
     ]
@@ -295,10 +297,10 @@ Hash: 5a0cf7711f1d3fc5c930
 Version: webpack 1.12.0
 Time: 10565ms
                              Asset       Size  Chunks             Chunk Names
-       app.js?bf777bbb05bec4070276      55 kB       0  [emitted]  app
-    vendor.js?f33176572a7ad31551ee     209 kB       1  [emitted]  vendor
-   app.js.map?bf777bbb05bec4070276     389 kB       0  [emitted]  app
-vendor.js.map?f33176572a7ad31551ee    2.13 MB       1  [emitted]  vendor
+       app.bf777bbb05bec4070276.js      55 kB       0  [emitted]  app
+    vendor.f33176572a7ad31551ee.js     209 kB       1  [emitted]  vendor
+   app.bf777bbb05bec4070276.js.map     389 kB       0  [emitted]  app
+vendor.f33176572a7ad31551ee.js.map    2.13 MB       1  [emitted]  vendor
                         index.html  266 bytes          [emitted]
    [0] multi vendor 76 bytes {1} [built]
     + 316 hidden modules
@@ -415,7 +417,7 @@ if(TARGET === 'build') {
     },
     plugins: [
       new Clean(['build']),
-      new ExtractTextPlugin('styles.css?[chunkhash]'),
+      new ExtractTextPlugin('styles.[chunkhash].css'),
       ...
     ]
   });
@@ -437,12 +439,12 @@ Hash: 27584124a5659a941eea
 Version: webpack 1.12.0
 Time: 10589ms
                               Asset       Size  Chunks             Chunk Names
-        app.js?4a3890cdb2f12f6bd4d5    54.3 kB       0  [emitted]  app
-     vendor.js?876083b45225c03d8a74     208 kB       1  [emitted]  vendor
-    styles.css?bf777bbb05bec4070276  557 bytes       0  [emitted]  app
-    app.js.map?4a3890cdb2f12f6bd4d5     389 kB       0  [emitted]  app
-styles.css.map?bf777bbb05bec4070276   87 bytes       0  [emitted]  app
- vendor.js.map?876083b45225c03d8a74    2.12 MB       1  [emitted]  vendor
+        app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
+     vendor.876083b45225c03d8a74.js     208 kB       1  [emitted]  vendor
+    styles.bf777bbb05bec4070276.css  557 bytes       0  [emitted]  app
+    app.4a3890cdb2f12f6bd4d5.js.map     389 kB       0  [emitted]  app
+styles.bf777bbb05bec4070276.css.map   87 bytes       0  [emitted]  app
+ vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
                          index.html  317 bytes          [emitted]
    [0] multi vendor 64 bytes {1} [built]
     + 316 hidden modules
