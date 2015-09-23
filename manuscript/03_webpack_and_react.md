@@ -156,7 +156,7 @@ Sometimes you might want to perform advanced Babel configuration. Currently Babe
 }
 ```
 
-This would enable production build specific Babel optimizations. You have to check out the official documentation for exact flags to use. Some may be considered experimental and might be better avoided for now.
+This would enable production build specific Babel optimizations. You can also enable specific language features this way. You have to check out the official documentation for the exact flags to use. Some may be considered experimental and might be better avoided for now.
 
 Doing the aforementioned configuration isn't enough. Babel determines `env` like this:
 
