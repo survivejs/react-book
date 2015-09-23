@@ -97,7 +97,7 @@ app.appendChild(component());
 
 We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll build `webpack.config.js`. Webpack and its development server will be able to discover this file through convention.
 
-To keep things simple, we'll generate an entry point to our application using `html-webpack-plugin`. We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. `html-webpack-plugin` is able to create links to our assets keeping our life simple. Hit
+To keep things simple, we'll generate an entry point to our application using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. `html-webpack-plugin` is able to create links to our assets keeping our life simple. Hit
 
 ```bash
 npm i html-webpack-plugin --save-dev
@@ -136,6 +136,8 @@ If you hit `node_modules/.bin/webpack` now you should see a Webpack build. You c
 Even though this is nice, it's not useful for development. We can set up something better for development usage.
 
 T> Note that you can pass a custom template to `html-webpack-plugin`. In our case, the default template it uses is fine for our purposes for now.
+
+T> There are other little plugins, such as `html-webpack-plugin`, that you may find useful. For example [open-browser-webpack-plugin](https://www.npmjs.com/package/open-browser-webpack-plugin) allows you to open a browser automatically after Webpack is running.
 
 ## Setting Up `webpack-dev-server`
 
