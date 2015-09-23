@@ -108,7 +108,7 @@ If you run the application now, you can see it almost works. There's a small gli
 
 ![Almost done](images/react_02.png)
 
-T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
+T> If you want to examine your application state, it can be useful to attach a `debugger;` statement to the place you want to study. This will cause the browser debugging tools to trigger and allow you to study the current call stack and scope. You can attach breakpoints like this through browser but this is a good alternative.
 
 ## Fixing `Note`
 
@@ -129,6 +129,8 @@ export default class Note extends React.Component {
 If you check out the application now, you should see we're seeing results that are more like it. This is only the start, though. Our `App` is getting cramped. It feels like there's a component waiting to be extracted.
 
 ![Notes render now](images/react_03.png)
+
+T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
 ## Extracting `Notes`
 
