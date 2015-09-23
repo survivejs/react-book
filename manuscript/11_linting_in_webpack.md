@@ -78,7 +78,7 @@ In order to integrate ESLint with our project, we'll need to do a couple of litt
 npm i babel-eslint eslint eslint-plugin-react --save-dev
 ```
 
-This will add ESLint and the plugin we want to use as our project development dependency. Next, we'll need to do some configuration:
+This will add ESLint and the plugin we want to use as our project development dependencies. *babel-eslint* allows us to use Babel specific language features with ESLint. Next, we'll need to do some configuration:
 
 **package.json**
 
