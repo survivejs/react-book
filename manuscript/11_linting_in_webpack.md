@@ -127,6 +127,8 @@ Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-
 }
 ```
 
+T> ESLint supports ES6 features through configuration. You will have to specify the features to use through [ecmaFeatures](http://eslint.org/docs/user-guide/configuring.html#specifying-language-options) property.
+
 The severity of an individual rule is defined by a number as follows:
 
 * 0 - The rule has been disabled.
