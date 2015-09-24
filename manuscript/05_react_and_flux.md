@@ -190,6 +190,8 @@ export default alt.createStore(NoteStore, 'NoteStore');
 
 We have one final operation left, `delete`.
 
+T> `{notes}` is known as a an ES6 feature known as [property shorthand](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer). This is equivalent to `{notes: notes}`.
+
 ### Implementing `delete`
 
 `delete` is straightforward. Seek and destroy, as earlier, and remember to commit the change:
