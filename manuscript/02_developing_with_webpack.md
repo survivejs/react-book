@@ -114,11 +114,13 @@ var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 
 var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 module.exports = {
-  entry: path.resolve(ROOT_PATH, 'app'),
+  entry: APP_PATH,
   output: {
-    path: path.resolve(ROOT_PATH, 'build'),
+    path: BUILD_PATH,
     filename: 'bundle.js'
   },
   plugins: [
@@ -172,6 +174,8 @@ We also need to do some configuration work.
 var webpack = require('webpack');
 
 var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 module.exports = {
   ...
@@ -217,15 +221,12 @@ Now that we have the loaders we need, we'll need to make sure Webpack is aware o
 **webpack.config.js**
 
 ```javascript
-var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-
-var ROOT_PATH = path.resolve(__dirname);
+...
 
 module.exports = {
-  entry: path.resolve(ROOT_PATH, 'app'),
+  entry: APP_PATH,
   output: {
-    path: path.resolve(ROOT_PATH, 'build'),
+    path: BUILD_PATH,
     filename: 'bundle.js'
   },
   module: {
@@ -233,7 +234,7 @@ module.exports = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: path.resolve(ROOT_PATH, 'app')
+        include: APP_PATH
       }
     ]
   },
@@ -309,11 +310,13 @@ var merge = require('webpack-merge');
 
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app'),
+  entry: APP_PATH,
   output: {
-    path: path.resolve(ROOT_PATH, 'build'),
+    path: BUILD_PATH,
     filename: 'bundle.js'
   },
   module: {
@@ -321,7 +324,7 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: path.resolve(ROOT_PATH, 'app')
+        include: APP_PATH
       }
     ]
   }
@@ -344,7 +347,7 @@ if(TARGET === 'start' || !TARGET) {
 }
 ```
 
-`if(TARGET === 'start' || !TARGET) {` provides a default in case we're running outside of npm.
+`if(TARGET === 'start' || !TARGET) {` provides a default in case we're running Webpack outside of npm.
 
 If you run the development build now using `npm start`, Webpack will generate sourcemaps. Webpack provides many different ways to generate them as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). In this case, we're using `eval-source-map`. It builds slowly initially, but it provides fast rebuild speed and yields real files.
 

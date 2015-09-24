@@ -96,7 +96,7 @@ Here's the relevant configuration we need to make Babel work:
 ...
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app'),
+  entry: APP_PATH,
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -111,7 +111,7 @@ if(TARGET === 'start' || !TARGET) {
         {
           test: /\.jsx?$/,
           loaders: ['babel'],
-          include: path.resolve(ROOT_PATH, 'app')
+          include: APP_PATH
         }
       ]
     }
@@ -283,7 +283,7 @@ if(TARGET === 'start' || !TARGET) {
         {
           test: /\.jsx?$/,
           loaders: ['react-hot', 'babel'],
-          include: path.resolve(ROOT_PATH, 'app')
+          include: APP_PATH
         }
       ]
     }

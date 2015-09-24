@@ -5,11 +5,13 @@ var merge = require('webpack-merge');
 
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app'),
+  entry: APP_PATH,
   output: {
-    path: path.resolve(ROOT_PATH, 'build'),
+    path: BUILD_PATH,
     filename: 'bundle.js'
   },
   module: {
@@ -17,7 +19,7 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: path.resolve(ROOT_PATH, 'app')
+        include: APP_PATH
       }
     ]
   },

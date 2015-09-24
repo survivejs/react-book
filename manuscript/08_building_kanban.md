@@ -34,7 +34,7 @@ if(TARGET === 'build') {
         {
           test: /\.jsx?$/,
           loaders: ['babel'],
-          include: path.resolve(ROOT_PATH, 'app')
+          include: APP_PATH
         }
       ]
     }
@@ -186,13 +186,15 @@ var pkg = require('./package.json');
 
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 ...
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app'),
+      app: APP_PATH,
       vendor: Object.keys(pkg.dependencies)
     },
     devtool: 'source-map',
@@ -230,12 +232,12 @@ We can use the placeholder idea within our configuration like this:
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app'),
+      app: APP_PATH,
       vendor: Object.keys(pkg.dependencies)
     },
     /* important! */
     output: {
-      path: path.resolve(ROOT_PATH, 'build'),
+      path: BUILD_PATH,
       filename: '[name].[chunkhash].js?'
     },
     ...
@@ -367,14 +369,16 @@ var pkg = require('./package.json');
 
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app'),
+  entry: APP_PATH,
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   output: {
-    path: path.resolve(ROOT_PATH, 'build'),
+    path: BUILD_PATH,
     filename: 'bundle.js'
   },
   plugins: [
@@ -392,7 +396,7 @@ if(TARGET === 'start' || !TARGET) {
         {
           test: /\.css$/,
           loaders: ['style', 'css'],
-          include: path.resolve(ROOT_PATH, 'app')
+          include: APP_PATH
         },
         ...
       ]
@@ -410,7 +414,7 @@ if(TARGET === 'build') {
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
-          include: path.resolve(ROOT_PATH, 'app')
+          include: APP_PATH
         },
         ...
       ]
@@ -504,24 +508,26 @@ As we'll be relying on JSX when rendering, we need to rename *webpack.config.js*
 **webpack.config.babel.js**
 
 ```javascript
-var fs = require('fs');
-var React = require('react');
+const fs = require('fs');
+const React = require('react');
 ...
 
-var App = require('./app/components/App.jsx');
-var pkg = require('./package.json');
+const App = require('./app/components/App.jsx');
+const pkg = require('./package.json');
 
 const TARGET = process.env.npm_lifecycle_event;
 const ROOT_PATH = path.resolve(__dirname);
+const APP_PATH = path.resolve(ROOT_PATH, 'app');
+const BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 const APP_TITLE = 'Kanban app';
 
 const common = {
-  entry: path.resolve(ROOT_PATH, 'app'),
+  entry: APP_PATH,
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   output: {
-    path: path.resolve(ROOT_PATH, 'build'),
+    path: BUILD_PATH,
     filename: 'bundle.js'
   }
 };
