@@ -43,6 +43,8 @@ T> Note that peer dependencies will be dealt with differently starting with npm 
 
 Even though everything should work in theory sometimes version ranges can bite despite semver. If some core package, say `babel`, breaks, and you happen to hit `npm i` at an unfortunate time, you may end up with a project that doesn't compile.
 
-As a first step it can be a good idea to nuke `node_modules` (`rm -rf node_modules`) from the project directory and reinstall the dependencies (`npm i`). That may fix the problem. Alternatively, you can try to explicitly lock some of your dependencies to specific versions.
+A good first step is to hit `npm update`. This will check out your dependencies and pull the newest versions matching to your semver declarations. If this doesn't fix the issue, you can try to nuke `node_modules` (`rm -rf node_modules`) from the project directory and reinstall the dependencies (`npm i`). Alternatively, you can try to explicitly lock some of your dependencies to specific versions.
+
+Often you are not alone with your problem. Therefore it may be worth your while to check out the project issue trackers to see what's going on. You can likely find a good workaround or a proposed fix there. These issues tend to get fixed fast for popular projects.
 
 In production environment it may be preferable to lock production dependencies using `npm shrinkwrap`. [The official documentation](https://docs.npmjs.com/cli/shrinkwrap) goes into more detail at the topic.
