@@ -51,7 +51,7 @@ T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save
 
 ## Directory Structure
 
-As projects with just `package.json` are boring, we should set up something more concrete. Let's do a little web site that loads some JavaScript which we then build using Webpack. Set up a structure like this:
+As projects with just `package.json` are boring, we should set up something more concrete. To get started, we can implement a little web site that loads some JavaScript which we then build using Webpack. Set up a structure like this:
 
 - /app
   - index.js
@@ -62,7 +62,7 @@ As projects with just `package.json` are boring, we should set up something more
 - package.json
 - webpack.config.js
 
-In this case, we'll generate `bundle.js` using Webpack based on our `/app`. To make this possible, let's set up some assets and `webpack.config.js`.
+In this case, we'll generate `bundle.js` using Webpack based on our `/app`. To make this possible, we should set up some assets and `webpack.config.js`.
 
 ## Setting Up Assets
 
@@ -208,9 +208,7 @@ We are using a somewhat basic setup here. Beyond defaults we've enabled Hot Modu
 
 ## Refreshing CSS
 
-We can extend the approach to work with CSS. Webpack allows us to change CSS without forcing a full refresh. Let's see how to achieve that next.
-
-To load CSS into a project, we'll need to use a couple of loaders. To get started, invoke
+We can extend the approach to work with CSS. Webpack allows us to change CSS without forcing a full refresh. To load CSS into a project, we'll need to use a couple of loaders. To get started, invoke
 
 ```bash
 npm i css-loader style-loader --save-dev

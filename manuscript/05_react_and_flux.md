@@ -42,7 +42,7 @@ In Alt you'll deal with Actions and Stores. Dispatcher is hidden, but you will s
 
 ### Setting Up an Alt Instance
 
-Everything in Alt begins from an Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, let's add Alt to our project:
+Everything in Alt begins from an Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, we should add Alt to our project:
 
 ```bash
 npm i alt --save
@@ -68,7 +68,7 @@ T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacke
 
 ### Defining CRUD API for Notes
 
-Next, we'll need to define a basic API for operating over the Note data. To keep this simple, let's CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
+Next, we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
 
 **app/actions/NoteActions.js**
 
@@ -292,7 +292,7 @@ We actually have more code now than before, but that's okay. `App` is a little n
 
 Even though integrating Alt took a lot of effort, it was not all in vain. Consider the following questions:
 
-1. Let's say we wanted to persist the notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
+1. Suppose we wanted to persist the notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
 2. What if we had many components relying on the data? We would just consume `NoteStore` and display it, however we want.
 3. What if we had many, separate Note lists for different type of tasks? We could set up another Store for tracking these lists. That Store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
 

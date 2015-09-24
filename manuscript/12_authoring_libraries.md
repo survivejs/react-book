@@ -202,7 +202,7 @@ Most of the magic happens thanks to `devtool` and `output` declarations. In addi
 
 ## npm Lifecycle Hooks
 
-npm provides various lifecycle hooks that can be useful. Let's say you are authoring a React component using Babel and some of its goodies. You could let `package.json` *main* field point at the UMD version as generated above. This won't be ideal for those consuming the library through npm, though.
+npm provides various lifecycle hooks that can be useful. Suppose you are authoring a React component using Babel and some of its goodies. You could let `package.json` *main* field point at the UMD version as generated above. This won't be ideal for those consuming the library through npm, though.
 
 It is better to generate a ES5 compatible version of the package for npm consumers. This can be achieved using **babel** CLI tool:
 

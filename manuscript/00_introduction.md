@@ -6,7 +6,7 @@ Front-end development moves forward fast. In this book we'll discuss  [Webpack](
 
 Webpack solves the fundamental problem of web development, namely module bundling. Webpack collects and processes a variety of web assets and packs them into a bundle that you can serve to your client. Even though this sounds simple, it is in fact a difficult problem that becomes more complex as your web application grows.
 
-Let's say you have a form with a date input. Then you want to use jQuery plugins for a date picker and validation but you only want to include those plugins on specific pages. Webpack manages this module bundling scenario through configuration. This makes Webpack daunting to approach, yet powerful to use. This book helps you to get through that initial learning curve.
+Suppose you have a form with a date input. Then you want to use jQuery plugins for a date picker and validation but you only want to include those plugins on specific pages. Webpack manages this module bundling scenario through configuration. This makes Webpack daunting to approach, yet powerful to use. This book helps you to get through that initial learning curve.
 
 ## What Is React?
 
