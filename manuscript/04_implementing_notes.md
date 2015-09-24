@@ -536,6 +536,7 @@ export default class App extends React.Component {
     this.addNote = this.addNote.bind(this);
     this.editNote = this.editNote.bind(this);
   }
+  ...
   editNote(id, task) {
     let notes = this.state.notes;
     const noteIndex = this.findNote(id);
