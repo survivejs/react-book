@@ -187,14 +187,18 @@ Currently our `Lane` model is simple. We are just storing an array of objects. E
 
 ### Setting Up `attachToLane`
 
-When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method such as `LaneActions.attachToLane({laneId: <id>})`. As a `Note` needs to exist before this association can be made, this method needs to `waitFor` it. Here's an example of how we would use the API:
+When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method such as `LaneActions.attachToLane({laneId: <id>})`. As a `Note` needs to exist before this association can be made, this method needs to trigger `waitFor`.
+
+`waitFor` literally tells the dispatcher that it should wait before going on. For example a line such as `this.waitFor(NoteStore);` at `LaneStore` would force `NoteStore` operation proceed only after `NoteStore` has finished processing. Here's an example of how it would work out:
 
 ```javascript
 NoteActions.create({task: 'New task'});
+
+// triggers waitFor
 LaneActions.attachToLane({laneId});
 ```
 
-This is a special feature of Flux that allows us to perform this kind of synchronization. It allows `attachToLane` to wait until a `Note` has been created. Before using it, however, you should always consider other ways first. In this case it is an absolute necessity.
+`waitFor` is a feature that should be used carefully. Always consider other alternatives before using it. In this particular case there's no easy way around it.
 
 To get started we should add `attachToLane` to actions as before:
 
