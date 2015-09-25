@@ -243,6 +243,9 @@ class LaneStore {
       console.warn('Already attached note to lane', lanes);
     }
   }
+  findLane(id) {
+
+  }
 }
 
 export default alt.createStore(LaneStore, 'LaneStore');
@@ -307,6 +310,9 @@ class LaneStore {
       console.warn('Failed to remove note from a lane as it didn\'t exist', lanes);
     }
   }
+  findLane(id) {
+
+  }
 }
 
 export default alt.createStore(LaneStore, 'LaneStore');
@@ -316,7 +322,7 @@ Again, the implementation has been coded drag and drop in mind. Later on we'll w
 
 ### Implementing `findLane`
 
-Both `attachToLane` and `detachFromLane` depend on a helper method known as `findLane`. As you might guess from the name, it will return a `Lane` index if found:
+Both `attachToLane` and `detachFromLane` depend on a helper method known as `findLane`. It will return a `Lane` index if found:
 
 **app/stores/LaneStore.js**
 
