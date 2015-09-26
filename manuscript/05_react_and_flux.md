@@ -28,9 +28,9 @@ Implementing Flux architecture in your application will actually increase the am
 
 ### Which Flux Implementation to Use?
 
-The library situation keeps on changing constantly. There is no single right way to interpret the architecture. You will find implementations fitting for different tastes. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
+The library situation is constantly changing. There is no single right way to interpret the architecture. You will find implementations that fit different tastes. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
 
-When choosing a library it comes down to your own personal preferences. You will have to consider factors such as API, features, documentation and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture you are able to make choices that serve you better.
+When choosing a library it comes down to your own personal preferences. You will have to consider factors such as API, features, documentation, and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture, you are able to make choices that serve you better.
 
 ## Porting to Alt
 
