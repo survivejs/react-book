@@ -568,9 +568,9 @@ If you try to edit a `Note` now, the modification should stick. The same idea ca
 
 ## Removing `Notes`
 
-We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
+We are still missing one vital function. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
 
-As before we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove we can construct a new state without it.
+As before we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove, we can construct a new state without it.
 
 **app/components/App.jsx**
 
@@ -612,7 +612,7 @@ export default class App extends React.Component {
 }
 ```
 
-In addition to logic we'll need to trigger `onDelete` logic at `Note` level. The idea is the same as before. We'll bind the id of the `Note` at `Notes`. A `Note` will simply trigger the callback when the user triggers the behavior.
+In addition to `App` level logic, we'll need to trigger `onDelete` logic at `Note` level. The idea is the same as before. We'll bind the id of the `Note` at `Notes`. A `Note` will simply trigger the callback when the user triggers the behavior.
 
 **app/components/Notes.jsx**
 
@@ -632,7 +632,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-In order to invoke the previous `onDelete` callback we need to connect it with `onClick` of `Note`. If the callback doesn't exist, it makes sense to avoid rendering the delete button. An alternative way to solve this would be to push it to a component of its own.
+In order to invoke the previous `onDelete` callback we need to connect it with `onClick` for `Note`. If the callback doesn't exist, it makes sense to avoid rendering the delete button. An alternative way to solve this would be to push it to a component of its own.
 
 **app/components/Note.jsx**
 
@@ -667,7 +667,7 @@ T> Now deletion is sort of blunt. One interesting way to develop this further wo
 
 ## Styling Notes
 
-Aesthetically our current application is very barebones. As pretty applications are more fun to use we can do a little something about that. The first step is to get rid of that horrible *serif* font.
+Aesthetically our current application is very barebones. As pretty applications are more fun to use, we can do a little something about that. The first step is to get rid of that horrible *serif* font.
 
 **app/main.css**
 
@@ -682,7 +682,7 @@ Looking a little nicer now:
 
 ![Sans serif](images/react_08.png)
 
-A good next step would be to constrain `Notes` container a little and get rid of those list bullets.
+A good next step would be to constrain the `Notes` container a little and get rid of those list bullets.
 
 **app/main.css**
 
@@ -763,11 +763,11 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 }
 ```
 
-No more those pesky deletion buttons:
+No more of those pesky delete buttons:
 
 ![Delete on hover](images/react_11.png)
 
-After these few steps we have an application that looks passable. We'll be improving its outlook as we add functionality, but at least it's something.
+After these few steps we have an application that looks passable. We'll be improving its appearance as we add functionality, but at least it's somewhat visually appealing.
 
 ## Understanding React Components
 
