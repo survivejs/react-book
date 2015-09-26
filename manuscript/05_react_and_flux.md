@@ -12,7 +12,7 @@ So far we've been dealing only with Views. Flux architecture introduces a couple
 
 Flux isn't entirely simple to understand as there are many concepts to worry about. In our case, we will model `NoteActions` and `NoteModel`. `NoteActions` provide concrete operations we can perform over our data. For instance, we can have `NoteActions.create({task: 'Learn React'})`.
 
-The action itself doesn't necessarily do much. At simplest level it can tell dispatcher to proceed. Or it could hit a back-end and then trigger dispatcher based on the result. This will allow us to deal asynchronous behavior and possible errors caused by that.
+The action itself doesn't necessarily do much. At its simplest level, it can tell dispatcher to proceed. Or it could hit a back-end, and then trigger dispatcher based on the result. This will allow us to handle asynchronous behavior and possible errors caused by that.
 
 Once the dispatcher has dealt with the action, Stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
 
