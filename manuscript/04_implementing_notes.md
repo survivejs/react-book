@@ -771,15 +771,15 @@ After these few steps we have an application that looks passable. We'll be impro
 
 ## Understanding React Components
 
-Understanding how props and state work is important. Component lifecycle is another big concept you'll want to understand well. We already touched it above, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
+Understanding how props and state work is important. Component lifecycle is another big concept you'll want to understand well. We already touched on it earlier, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
 
-To quote [the official documentation](https://facebook.github.io/react/docs/component-specs.html) React provides the following `React.createClass` specific component specifications:
+To quote [the official documentation](https://facebook.github.io/react/docs/component-specs.html), React provides the following `React.createClass` component specifications:
 
 * `displayName` - It is preferable to set `displayName` as that will improve debug information. For ES6 classes this is derived automatically based on the class name.
 * `getInitialState()` - In class based approach the same can be achieved through `constructor`.
 * `getDefaultProps()` - In classes you can set these in `constructor`.
 * `propTypes` - As seen above, you can use Flow to deal with prop types. In `React.createClass` you would build a complex looking declaration as seen in [the propType documentation](https://facebook.github.io/react/docs/reusable-components.html).
-* `mixins` - `mixins` contains an array of mixins to apply to component.
+* `mixins` - `mixins` contains an array of mixins to apply to components.
 * `statics` - `statics` contains static properties and method for a component. In ES6 you would assign them to the class like below:
 
 ```javascript
@@ -795,9 +795,9 @@ export default Note;
 
 Some libraries such as `react-dnd` rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
 
-Both component types support `render()`. As seen above, this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything return either `null` or `false`.
+Both component types support `render()`. As seen above, this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything, return either `null` or `false`.
 
-In addition, React provides the following lifecycle hooks:
+In addition React provides the following lifecycle hooks:
 
 * `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
 * `componentDidMount()` gets triggered after initial rendering. You have access to the DOM here. You could use this hook to wrap a jQuery plugin within a component for instance.
