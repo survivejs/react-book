@@ -8,7 +8,7 @@ Flux will allow us to separate data and application state from our Views. This h
 
 ![Flux dataflow](images/flux.png)
 
-So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient it comes with a cost. It can be hard to deduce what's going on and why.
+So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher, and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient, they come with a cost. It can be hard to deduce what's going on and why.
 
 Flux isn't entirely simple to understand as there are many concepts to worry about. In our case, we will model `NoteActions` and `NoteModel`. `NoteActions` provide concrete operations we can perform over our data. For instance, we can have `NoteActions.create({task: 'Learn React'})`.
 
