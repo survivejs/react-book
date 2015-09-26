@@ -18,7 +18,7 @@ Once the dispatcher has dealt with the action, Stores that are listening to it g
 
 This completes the loop as Views listening to the Stores receive the data. They can use it to update their own state. As a result, the user interface gets refreshed.
 
-This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow goes into a single direction always it is easy to debug. If there's something wrong, it's somewhere within the cycle.
+This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow is always in a single direction, it is easy to trace and debug. If there's something wrong, it's somewhere within the cycle.
 
 ### Advantages of Flux
 
