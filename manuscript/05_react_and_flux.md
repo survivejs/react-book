@@ -1,6 +1,6 @@
 # React and Flux
 
-You can get far by keeping everything in components. Eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications.
+You can get pretty far by keeping everything in components. Eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications.
 
 Flux will allow us to separate data and application state from our Views. This helps us to keep them clean and the application maintainable. Flux was designed with large teams in mind. As a result, you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
 
@@ -8,29 +8,29 @@ Flux will allow us to separate data and application state from our Views. This h
 
 ![Flux dataflow](images/flux.png)
 
-So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient it comes with a cost. It can be hard to deduce what's going on and why.
+So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher, and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient, they come with a cost. It can be hard to deduce what's going on and why.
 
 Flux isn't entirely simple to understand as there are many concepts to worry about. In our case, we will model `NoteActions` and `NoteModel`. `NoteActions` provide concrete operations we can perform over our data. For instance, we can have `NoteActions.create({task: 'Learn React'})`.
 
-The action itself doesn't necessarily do much. At simplest level it can tell dispatcher to proceed. Or it could hit a back-end and then trigger dispatcher based on the result. This will allow us to deal asynchronous behavior and possible errors caused by that.
+The action itself doesn't necessarily do much. At its simplest level, it can tell dispatcher to proceed. Or it could hit a back-end, and then trigger dispatcher based on the result. This will allow us to handle asynchronous behavior and possible errors caused by that.
 
 Once the dispatcher has dealt with the action, Stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
 
 This completes the loop as Views listening to the Stores receive the data. They can use it to update their own state. As a result, the user interface gets refreshed.
 
-This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow goes into a single direction always it is easy to debug. If there's something wrong, it's somewhere within the cycle.
+This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow is always in a single direction, it is easy to trace and debug. If there's something wrong, it's somewhere within the cycle.
 
 ### Advantages of Flux
 
-Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
+Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching, and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
 
-Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand, minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
+Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand: minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say, "explicit is better than implicit".
 
 ### Which Flux Implementation to Use?
 
-The library situation keeps on changing constantly. There is no single right way to interpret the architecture. You will find implementations fitting for different tastes. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
+The library situation is constantly changing. There is no single right way to interpret the architecture. You will find implementations that fit different tastes. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
 
-When choosing a library it comes down to your own personal preferences. You will have to consider factors such as API, features, documentation and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture you are able to make choices that serve you better.
+When choosing a library it comes down to your own personal preferences. You will have to consider factors such as API, features, documentation, and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture, you are able to make choices that serve you better.
 
 ## Porting to Alt
 
@@ -48,7 +48,7 @@ Everything in Alt begins from an Alt instance. It keeps track of Actions and Sto
 npm i alt --save
 ```
 
-To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). Using the pattern we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
+To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 
 **app/libs/alt.js**
 
@@ -62,13 +62,13 @@ const alt = new Alt();
 export default alt;
 ```
 
-Webpack caches the modules so the next time you import Alt, will return the same instance again.
+Webpack caches the modules so the next time you import Alt, it will return the same instance again.
 
-T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After installed you can connect to Alt by uncommenting the related lines above. You can use it to debug the state of your stores, search and travel in time.
+T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After it is installed, you can connect to Alt by uncommenting the related lines above. You can use it to debug the state of your stores, search, and travel in time.
 
 ### Defining CRUD API for Notes
 
-Next, we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
+Next we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
 
 **app/actions/NoteActions.js**
 
@@ -82,11 +82,11 @@ export default alt.generateActions('create', 'update', 'delete');
 
 A Store is a single source of truth for a part of your application state. In this case, we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
 
-We have the logic we need for our store already at `App`. Next, we will move that logic to `NoteStore`.
+We have the logic we need for our store already at `App`. We will move that logic to `NoteStore`.
 
 ### Setting Up a Skeleton
 
-As a first step we can set up a skeleton for our Store. We can fill in the methods we need after that. Alt uses standard ES6 classes so it's the same syntax as we saw earlier with React components. Here's a starting point:
+As a first step, we can set up a skeleton for our Store. We can fill in the methods we need after that. Alt uses standard ES6 classes, so it's the same syntax as we saw earlier with React components. Here's a starting point:
 
 **app/stores/NoteStore.js**
 
@@ -115,13 +115,13 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method based on that. Finally, we connect the Store with Alt using `alt.createStore`.
+We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method based on that. Finally we connect the Store with Alt using `alt.createStore`.
 
 Note that assigning a label to a store (`NoteStore` in this case) isn't required. It is a good practice as it protects the code against minification and possible collisions. These labels become important when we persist the data.
 
 ### Implementing `create`
 
-Compared to the earlier logic `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store.
+Compared to the earlier logic, `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store.
 
 ```javascript
 import uuid from 'node-uuid';
@@ -147,7 +147,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-To keep the implementation clean we are using `this.setState`. It is a feature of Alt that allows us to signify that we are going to alter the Store state. Alt will signal the change to possible listeners.
+To keep the implementation clean, we are using `this.setState`. It is a feature of Alt that allows us to signify that we are going to alter the Store state. Alt will signal the change to possible listeners.
 
 ### Implementing `update`
 

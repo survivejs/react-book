@@ -519,7 +519,7 @@ After this you can use `findIndex` against arrays at your code. Note that this w
 
 ### Implementing `onEdit` Logic
 
-The only thing that remains is gluing this all together. We'll need to take the data and find index based on which to alter. Finally, we need to modify and commit it to the component state through `setState`.
+The only thing that remains is gluing this all together. We'll need to take the data and find the specific `Note` by its indexed value. Finally, we need to modify and commit the `Note`'s data to the component state through `setState`.
 
 **app/components/App.jsx**
 
@@ -568,9 +568,9 @@ If you try to edit a `Note` now, the modification should stick. The same idea ca
 
 ## Removing `Notes`
 
-We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
+We are still missing one vital function. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
 
-As before we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove we can construct a new state without it.
+As before we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove, we can construct a new state without it.
 
 **app/components/App.jsx**
 
@@ -612,7 +612,7 @@ export default class App extends React.Component {
 }
 ```
 
-In addition to logic we'll need to trigger `onDelete` logic at `Note` level. The idea is the same as before. We'll bind the id of the `Note` at `Notes`. A `Note` will simply trigger the callback when the user triggers the behavior.
+In addition to `App` level logic, we'll need to trigger `onDelete` logic at `Note` level. The idea is the same as before. We'll bind the id of the `Note` at `Notes`. A `Note` will simply trigger the callback when the user triggers the behavior.
 
 **app/components/Notes.jsx**
 
@@ -632,7 +632,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-In order to invoke the previous `onDelete` callback we need to connect it with `onClick` of `Note`. If the callback doesn't exist, it makes sense to avoid rendering the delete button. An alternative way to solve this would be to push it to a component of its own.
+In order to invoke the previous `onDelete` callback we need to connect it with `onClick` for `Note`. If the callback doesn't exist, it makes sense to avoid rendering the delete button. An alternative way to solve this would be to push it to a component of its own.
 
 **app/components/Note.jsx**
 
@@ -667,7 +667,7 @@ T> Now deletion is sort of blunt. One interesting way to develop this further wo
 
 ## Styling Notes
 
-Aesthetically our current application is very barebones. As pretty applications are more fun to use we can do a little something about that. The first step is to get rid of that horrible *serif* font.
+Aesthetically our current application is very barebones. As pretty applications are more fun to use, we can do a little something about that. The first step is to get rid of that horrible *serif* font.
 
 **app/main.css**
 
@@ -682,7 +682,7 @@ Looking a little nicer now:
 
 ![Sans serif](images/react_08.png)
 
-A good next step would be to constrain `Notes` container a little and get rid of those list bullets.
+A good next step would be to constrain the `Notes` container a little and get rid of those list bullets.
 
 **app/main.css**
 
@@ -763,23 +763,23 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 }
 ```
 
-No more those pesky deletion buttons:
+No more of those pesky delete buttons:
 
 ![Delete on hover](images/react_11.png)
 
-After these few steps we have an application that looks passable. We'll be improving its outlook as we add functionality, but at least it's something.
+After these few steps we have an application that looks passable. We'll be improving its appearance as we add functionality, but at least it's somewhat visually appealing.
 
 ## Understanding React Components
 
-Understanding how props and state work it is important. Component lifecycle is the third bigger concept you'll want to understand well. We already touched it above, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
+Understanding how props and state work is important. Component lifecycle is another big concept you'll want to understand well. We already touched on it earlier, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
 
-To quote [the official documentation](https://facebook.github.io/react/docs/component-specs.html) React provides the following `React.createClass` specific component specifications:
+To quote [the official documentation](https://facebook.github.io/react/docs/component-specs.html), React provides the following `React.createClass` component specifications:
 
 * `displayName` - It is preferable to set `displayName` as that will improve debug information. For ES6 classes this is derived automatically based on the class name.
 * `getInitialState()` - In class based approach the same can be achieved through `constructor`.
 * `getDefaultProps()` - In classes you can set these in `constructor`.
 * `propTypes` - As seen above, you can use Flow to deal with prop types. In `React.createClass` you would build a complex looking declaration as seen in [the propType documentation](https://facebook.github.io/react/docs/reusable-components.html).
-* `mixins` - `mixins` contains an array of mixins to apply to component.
+* `mixins` - `mixins` contains an array of mixins to apply to components.
 * `statics` - `statics` contains static properties and method for a component. In ES6 you would assign them to the class like below:
 
 ```javascript
@@ -795,25 +795,25 @@ export default Note;
 
 Some libraries such as `react-dnd` rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
 
-Both component types support `render()`. As seen above, this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything return either `null` or `false`.
+Both component types support `render()`. As seen above, this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything, return either `null` or `false`.
 
-In addition, React provides the following lifecycle hooks:
+In addition React provides the following lifecycle hooks:
 
 * `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
-* `componentDidMount()` gets triggered after initial rendering. You have access to the DOM here. You could use this hook to wrap a jQuery plugin within a component for instance.
+* `componentDidMount()` gets triggered after initial rendering. You have access to the DOM here. You could use this hook to wrap a jQuery plugin within a component, for instance.
 * `componentWillReceiveProps(object nextProps)` triggers when the component receives new props. You could, for instance, modify your component state based on the received props.
 * `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize the rendering. If you check the props and state and see that there's no need to update, return `false`.
-* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here, but you can set class properties for instance.
+* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here, but you can set class properties, for instance.
 * `componentDidUpdate` is triggered after rendering. You can modify the DOM here. This can be useful for adapting other code to work with React.
-* `componentWillUnmount` is triggered just before a component is unmounted from the DOM. This is the ideal place to perform cleanup (e.g., remove running timers, custom DOM elements and so on).
+* `componentWillUnmount` is triggered just before a component is unmounted from the DOM. This is the ideal place to perform cleanup (e.g., remove running timers, custom DOM elements, and so on).
 
 ## React Component Conventions
 
-I prefer to have the `constructor` first, followed by lifecycle hooks, `render()` and finally methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers for instance.
+I prefer to have the `constructor` first, followed by lifecycle hooks, `render()`, and finally methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers, too.
 
-In the end you will have to find conventions you like and that work the best for you. I go more detail in this topic at the linting chapter as I introduce various code quality related tools. It is possible to enforce coding style to some extent for example.
+In the end you will have to find conventions that you like and which work the best for you. I go into more detail about this topic in the linting chapter where I introduce various code quality related tools. Through the use of these tools, it is possible to enforce coding style to some extent.
 
-This can be useful in a team environment. It decreases the amount of friction when working on code written by others. Even on personal projects having some tools to check out things for you can be useful. It lessens the amount and severity of mistakes.
+This can be useful in a team environment. It decreases the amount of friction when working on code written by others. Even on personal projects, using tools to verify syntax and standards for you can be useful. It lessens the amount and severity of mistakes.
 
 ## Conclusion
 
