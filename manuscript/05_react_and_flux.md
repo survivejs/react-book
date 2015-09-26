@@ -22,9 +22,9 @@ This sounds like a lot of steps for achieving something simple as creating a new
 
 ### Advantages of Flux
 
-Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
+Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching, and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
 
-Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand, minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say explicit is better than implicit.
+Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand: minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say, "explicit is better than implicit".
 
 ### Which Flux Implementation to Use?
 
