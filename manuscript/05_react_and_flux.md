@@ -121,7 +121,7 @@ Note that assigning a label to a store (`NoteStore` in this case) isn't required
 
 ### Implementing `create`
 
-Compared to the earlier logic `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store.
+Compared to the earlier logic, `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store.
 
 ```javascript
 import uuid from 'node-uuid';
@@ -147,7 +147,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-To keep the implementation clean we are using `this.setState`. It is a feature of Alt that allows us to signify that we are going to alter the Store state. Alt will signal the change to possible listeners.
+To keep the implementation clean, we are using `this.setState`. It is a feature of Alt that allows us to signify that we are going to alter the Store state. Alt will signal the change to possible listeners.
 
 ### Implementing `update`
 
