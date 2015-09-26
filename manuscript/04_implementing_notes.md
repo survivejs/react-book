@@ -771,7 +771,7 @@ After these few steps we have an application that looks passable. We'll be impro
 
 ## Understanding React Components
 
-Understanding how props and state work it is important. Component lifecycle is the third bigger concept you'll want to understand well. We already touched it above, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
+Understanding how props and state work is important. Component lifecycle is the third bigger concept you'll want to understand well. We already touched it above, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
 
 To quote [the official documentation](https://facebook.github.io/react/docs/component-specs.html) React provides the following `React.createClass` specific component specifications:
 
