@@ -48,7 +48,7 @@ Everything in Alt begins from an Alt instance. It keeps track of Actions and Sto
 npm i alt --save
 ```
 
-To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). Using the pattern we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
+To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 
 **app/libs/alt.js**
 
@@ -62,9 +62,9 @@ const alt = new Alt();
 export default alt;
 ```
 
-Webpack caches the modules so the next time you import Alt, will return the same instance again.
+Webpack caches the modules so the next time you import Alt, it will return the same instance again.
 
-T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After installed you can connect to Alt by uncommenting the related lines above. You can use it to debug the state of your stores, search and travel in time.
+T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After it is installed, you can connect to Alt by uncommenting the related lines above. You can use it to debug the state of your stores, search, and travel in time.
 
 ### Defining CRUD API for Notes
 
