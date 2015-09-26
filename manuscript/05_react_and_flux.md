@@ -68,7 +68,7 @@ T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacke
 
 ### Defining CRUD API for Notes
 
-Next, we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
+Next we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
 
 **app/actions/NoteActions.js**
 
@@ -82,11 +82,11 @@ export default alt.generateActions('create', 'update', 'delete');
 
 A Store is a single source of truth for a part of your application state. In this case, we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
 
-We have the logic we need for our store already at `App`. Next, we will move that logic to `NoteStore`.
+We have the logic we need for our store already at `App`. We will move that logic to `NoteStore`.
 
 ### Setting Up a Skeleton
 
-As a first step we can set up a skeleton for our Store. We can fill in the methods we need after that. Alt uses standard ES6 classes so it's the same syntax as we saw earlier with React components. Here's a starting point:
+As a first step, we can set up a skeleton for our Store. We can fill in the methods we need after that. Alt uses standard ES6 classes, so it's the same syntax as we saw earlier with React components. Here's a starting point:
 
 **app/stores/NoteStore.js**
 
@@ -115,7 +115,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method based on that. Finally, we connect the Store with Alt using `alt.createStore`.
+We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method based on that. Finally we connect the Store with Alt using `alt.createStore`.
 
 Note that assigning a label to a store (`NoteStore` in this case) isn't required. It is a good practice as it protects the code against minification and possible collisions. These labels become important when we persist the data.
 
