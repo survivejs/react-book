@@ -519,7 +519,7 @@ After this you can use `findIndex` against arrays at your code. Note that this w
 
 ### Implementing `onEdit` Logic
 
-The only thing that remains is gluing this all together. We'll need to take the data and find index based on which to alter. Finally, we need to modify and commit it to the component state through `setState`.
+The only thing that remains is gluing this all together. We'll need to take the data and find the specific `Note` by its indexed value. Finally, we need to modify and commit the `Note`'s data to the component state through `setState`.
 
 **app/components/App.jsx**
 
