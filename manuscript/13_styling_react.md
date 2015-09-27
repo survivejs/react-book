@@ -180,7 +180,7 @@ We have lost something in process, though. Now all of our styling is tied to our
 
 We can try to work against this by injecting a part of styling through props. A component could provide patch its style based on provided one. This can be improved further by coming up with conventions that allow parts of style configuration mapped to some specific part. We just reinvented selectors on a small scale.
 
-How about things like media queries? This naive approach won't quite cut it. Fortunately, people have come up with libraries to solve these tough problems for us.
+How about things like media queries? This naïve approach won't quite cut it. Fortunately, people have come up with libraries to solve these tough problems for us.
 
 According to Michele Bertoli basic features of these libraries are
 
