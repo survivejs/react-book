@@ -321,7 +321,7 @@ You should see the same logs as earlier. Next, we'll need to add some logic to m
 
 Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
 
-It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
+It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
 
 **app/stores/LaneStore.jsx**
 
@@ -368,7 +368,7 @@ If you try out the application now, you can actually drag notes around and it sh
 
 ## Dragging Notes to an Empty Lanes
 
-To drag notes to an empty lane we should allow lanes to receive notes. Just as above we can set up `DropTarget` based logic for this. First we need to capture the drag on `Lane`:
+To drag notes to an empty lane, we should allow lanes to receive notes. Just as above, we can set up `DropTarget` based logic for this. First we need to capture the drag on `Lane`:
 
 **app/components/Lane.jsx**
 
@@ -402,9 +402,9 @@ export default class Lane extends React.Component {
 }
 ```
 
-If you drag a note to a lane now, you should see logs at your console. The question is what to do with this data? Before actually moving the note to a lane we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
+If you drag a note to a lane now, you should see logs at your console. The question is what to do with this data? Before actually moving the note to a lane, we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
 
-This is a simple check to make. Given we know the target lane at our `noteTarget` `hover` handler, we can check its `notes` array as below:
+This is a simple check to make. Given we know the target lane at our `noteTarget` `hover` handler, we can check its `notes` array as follows:
 
 **app/components/Lane.jsx**
 
@@ -425,7 +425,7 @@ If you refresh your browser and drag around now, the log should appear only when
 
 ### Trigger `move` Logic
 
-Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is ideal for this purpose. Adjust `Lane` as below:
+Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is ideal for this purpose. Adjust `Lane` as follows:
 
 **app/components/Lane.jsx**
 
@@ -445,9 +445,9 @@ const noteTarget = {
 };
 ```
 
-There is one problem, though. What happens to the old instance of the `Note`? In the current solution the old lane will have an id pointing to it. As a result we have duplicate data in the system.
+There is one problem, though. What happens to the old instance of the `Note`? In the current solution, the old lane will have an id pointing to it. As a result we have duplicate data in the system.
 
-Earlier we resolved this using `detachFromLane`. The problem is that we don't know which lane the note belonged. We could pass this data through the component hierarchy but that doesn't feel particularly nice.
+Earlier we resolved this using `detachFromLane`. The problem is that we don't know to which lane the note belonged. We could pass this data through the component hierarchy, but that doesn't feel particularly nice.
 
 We could resolve this on store level instead by implementing an invariant at `attachToLane` that makes sure any possible earlier references get removed. This can be achieved by implementing `this.removeNote(noteId)` check:
 
@@ -489,13 +489,13 @@ class LaneStore {
 }
 ```
 
-`removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that we have a clean slate and we can add a note to a lane. This change would allow us to drop `detachFromLane` from the system entirely but I'll leave doing that up to you.
+`removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that we have a clean slate, and we can add a note to a lane. This change allows us to drop `detachFromLane` from the system entirely, but I'll leave that up to you.
 
-Now we have a Kanban table that is actually useful! We can create new lanes and notes, edit and remove them. In addition, we can move notes around. Mission accomplished!
+Now we have a Kanban table that is actually useful! We can create new lanes and notes, and edit and remove them. In addition we can move notes around. Mission accomplished!
 
 ## Conclusion
 
-In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids and finally you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
+In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids, and finally you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
 
 I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending the DnD implementation, you can try adding more data to the system.
 
