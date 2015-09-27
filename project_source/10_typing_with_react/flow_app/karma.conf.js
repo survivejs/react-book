@@ -1,6 +1,3 @@
-// needed given our Webpack configuration uses ES6 and JSX
-require('babel/register');
-
 // Reference: http://karma-runner.github.io/0.13/config/configuration-file.html
 module.exports = function karmaConfig (config) {
   config.set({
@@ -50,7 +47,7 @@ module.exports = function karmaConfig (config) {
     },
 
     // Test webpack config
-    webpack: require('./webpack.config.babel'),
+    webpack: require('./webpack.config'),
 
     // Hide webpack build information from output
     webpackMiddleware: {

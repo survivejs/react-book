@@ -1,23 +1,19 @@
-const fs = require('fs');
-const React = require('react');
-const path = require('path');
-const webpack = require('webpack');
-const HtmlwebpackPlugin = require('html-webpack-plugin');
-const merge = require('webpack-merge');
-const Clean = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path = require('path');
+var webpack = require('webpack');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
+var merge = require('webpack-merge');
+var Clean = require('clean-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const App = require('./app/components/App.jsx');
-const pkg = require('./package.json');
+var pkg = require('./package.json');
 
-const TARGET = process.env.npm_lifecycle_event;
-const ROOT_PATH = path.resolve(__dirname);
-const APP_PATH = path.resolve(ROOT_PATH, 'app');
-const BUILD_PATH = path.resolve(ROOT_PATH, 'build');
-const TEST_PATH = path.resolve(ROOT_PATH, 'test');
-const APP_TITLE = 'Kanban app';
+var TARGET = process.env.npm_lifecycle_event;
+var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+var TEST_PATH = path.resolve(ROOT_PATH, 'test');
 
-const common = {
+var common = {
   entry: APP_PATH,
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -25,7 +21,12 @@ const common = {
   output: {
     path: BUILD_PATH,
     filename: 'bundle.js'
-  }
+  },
+  plugins: [
+    new HtmlwebpackPlugin({
+      title: 'Kanban app'
+    })
+  ]
 };
 
 if(TARGET === 'start' || !TARGET) {
@@ -51,10 +52,7 @@ if(TARGET === 'start' || !TARGET) {
       progress: true
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new HtmlwebpackPlugin({
-        title: APP_TITLE
-      })
+      new webpack.HotModuleReplacementPlugin()
     ]
   });
 }
@@ -85,8 +83,8 @@ if(TARGET === 'build') {
       ]
     },
     plugins: [
-      new ExtractTextPlugin('styles.[chunkhash].css'),
       new Clean(['build']),
+      new ExtractTextPlugin('styles.[chunkhash].css'),
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
         '[name].[chunkhash].js'
@@ -101,14 +99,6 @@ if(TARGET === 'build') {
         compress: {
           warnings: false
         }
-      }),
-      new HtmlwebpackPlugin({
-        title: APP_TITLE,
-        templateContent: renderTemplate(
-          fs.readFileSync(path.join(__dirname, 'templates/index.tpl'), 'utf8'),
-          {
-            app: React.renderToString(<App />)
-          })
       })
     ]
   });
@@ -144,14 +134,4 @@ if(TARGET === 'test' || TARGET === 'tdd') {
       ]
     }
   });
-}
-
-function renderTemplate(template, replacements) {
-  return function() {
-    return template.replace(/%(\w*)%/g, function(match) {
-      var key = match.slice(1, -1);
-
-      return replacements[key] ? replacements[key] : match;
-    });
-  };
 }
