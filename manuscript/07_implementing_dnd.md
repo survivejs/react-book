@@ -12,7 +12,7 @@ npm i react-dnd --save
 
 to add React DnD to the project.
 
-As a first step we'll need to connect it with our project. Currently it provides an HTML5 Drag and Drop API specific back-end. There's no official support for touch yet but it's possible to add later on. In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
+As a first step we'll need to connect it with our project. Currently it provides an HTML5 Drag and Drop API specific back-end. There's no official support for touch yet, but it's possible to add later on. In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
 
 **app/components/App.jsx**
 
@@ -33,13 +33,13 @@ T> Back-ends allow us to customize React DnD behavior. For instance we can add [
 
 ## Preparing Notes to Be Sorted
 
-Next, we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll need to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
+Next we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll need to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
 
 Earlier we extracted editing functionality from `Note` and ended up dropping `Note`. It seems like we'll want to add that concept back to allow drag and drop.
 
-We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic at `Note`. This avoids having to duplicate any logic related to `Editable`.
+We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic in `Note`. This avoids having to duplicate any logic related to `Editable`.
 
-The magic lies in a single property known as `children`, React will render possible child components at `{this.props.children}` slot as seen below:
+The magic lies in a single property known as `children`. React will render possible child components in the slot `{this.props.children}` as shown below:
 
 **app/components/Note.jsx**
 
@@ -55,7 +55,7 @@ export default class Note extends React.Component {
 }
 ```
 
-We also need to tweak `Notes` to use our wrapper component. We will simply wrap `Editable` using `Note` and we are good to go. We will pass `note` data to the wrapper as we'll need that later when dealing with logic:
+We also need to tweak `Notes` to use our wrapper component. We will simply wrap `Editable` using `Note`, and we are good to go. We will pass `note` data to the wrapper as we'll need that later when dealing with logic:
 
 **app/components/Notes.jsx**
 
@@ -78,7 +78,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-After this change the application should look exactly same as before. We have achieved nothing yet. Fortunately, we can start adding functionality now that we have foundation in place.
+After this change the application should look exactly the same as before. We have achieved nothing yet. Fortunately we can start adding functionality, now that we have the foundation in place.
 
 ## Allowing Notes to Be Dragged
 
