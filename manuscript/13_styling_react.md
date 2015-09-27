@@ -33,6 +33,8 @@ To recap first [css-loader](https://www.npmjs.com/package/css-loader) goes throu
 
 `file-loader` generates files while `url-loader` can create inline data urls for small resources. This can be useful for optimizing application loading. You avoid unnecessary requests while providing a slightly bigger payload. Small improvements can yield large benefits if you depend on a lot of small resources at your style definitions.
 
+Finally `style-loader` picks up `css-loader` output and injects the CSS to the bundle. As we saw earlier in the build chapter, it is possible to use `ExtractTextPlugin` to generate a separate CSS file.
+
 ## CSS Methodologies
 
 What happens when your application starts to expand and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins. Unless there's `!important` somewhere and so on. It gets complex very fast.
@@ -82,6 +84,8 @@ Vanilla CSS is missing some functionality that would make maintenance work easie
 }
 ```
 
+Note how we pipe cssnext output to css-loader and then to style-loader. This is generally the way you use these type of style loaders. You let them do their processing first and then defer to the default way of loading styling.
+
 The advantage of this approach is that you will literally be coding in the future. As browsers get better and adopt the standards, you don't have to worry about porting.
 
 If that sounds a little much or you are just interested in a particular feature such as autoprefixing, you can check out [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader) and [postcss-loader](https://www.npmjs.com/package/postcss-loader). cssnext relies on postcss. It provides you with a more granular level of control of CSS plugins. You can even implement your own using a bit of JavaScript.
@@ -90,7 +94,7 @@ If that sounds a little much or you are just interested in a particular feature 
 
 ![Less](images/less.png)
 
-Less is a popular CSS preprocessor that implements functionality we talked about. It comes with a syntax of its own. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
+Less is a popular CSS preprocessor that implements the functionality we talked about. It comes with a syntax of its own. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
 
 ```javascript
 {
