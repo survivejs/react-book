@@ -292,9 +292,9 @@ We actually have more code now than before, but that's okay. `App` is a little n
 
 Even though integrating Alt took a lot of effort, it was not all in vain. Consider the following questions:
 
-1. Suppose we wanted to persist the notes within `localStorage`, where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
+1. Suppose we wanted to persist the notes within `localStorage`. Where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
 2. What if we had many components relying on the data? We would just consume `NoteStore` and display it, however we want.
-3. What if we had many, separate Note lists for different type of tasks? We could set up another Store for tracking these lists. That Store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
+3. What if we had many, separate Note lists for different types of tasks? We could set up another Store for tracking these lists. That Store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
 
 This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code, it is easier to reason about. Given we are dealing with a unidirectional flow we have something that is simple to debug and test.
 
