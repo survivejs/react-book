@@ -189,7 +189,7 @@ Currently our `Lane` model is simple. We are just storing an array of objects. E
 
 When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method such as `LaneActions.attachToLane({laneId: <id>})`. As a `Note` needs to exist before this association can be made, this method needs to trigger `waitFor`.
 
-`waitFor` literally tells the dispatcher that it should wait before going on. For example a line such as `this.waitFor(NoteStore);` at `LaneStore` would force `NoteStore` operation proceed only after `NoteStore` has finished processing. Here's an example of how it would work out:
+`waitFor` literally tells the dispatcher that it should wait before going on. For example a line such as `this.waitFor(NoteStore);` at `LaneStore` would force the `NoteStore` operation to proceed only after `NoteStore` has finished processing. Here's an example of how it would work:
 
 ```javascript
 NoteActions.create({task: 'New task'});
@@ -198,7 +198,7 @@ NoteActions.create({task: 'New task'});
 LaneActions.attachToLane({laneId});
 ```
 
-`waitFor` is a feature that should be used carefully. Always consider other alternatives before using it. In this particular case there's no easy way around it.
+`waitFor` is a feature that should be used carefully. Always consider other alternatives before using it. In this particular case, there's no easy way around it.
 
 To get started we should add `attachToLane` to actions as before:
 
@@ -255,13 +255,13 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-`attachToLane` has been coded defensively to guard against possible problems. Unless we pass `noteId` we `waitFor` one. Passing one explicitly becomes useful when we implement drag and drop so it's good to have it in place.
+`attachToLane` has been coded defensively to guard against possible problems. Unless we pass `noteId`, we `waitFor` one. Passing one explicitly becomes useful when we implement drag and drop, so it's good to have it in place.
 
 The rest of the code deals with the logic. First we try to find a matching lane. If found, we attach the note id to it unless it has been attached already.
 
 ### Setting Up `detachFromLane`
 
-`deleteNote` is the opposite operation of `addNote`. When removing a `Note`, it's important to remember to remove association related to it from a `Lane` as well. For this purpose we can implement `LaneActions.detachFromLane({laneId: <id>})`. We would use it like this:
+`deleteNote` is the opposite operation of `addNote`. When removing a `Note`, it's important to remove its association with a `Lane` as well. For this purpose we can implement `LaneActions.detachFromLane({laneId: <id>})`. We would use it like this:
 
 ```javascript
 NoteActions.delete(noteId);
@@ -322,7 +322,7 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-Again, the implementation has been coded drag and drop in mind. Later on we'll want to pass `noteId` explicitly so it doesn't hurt to have it there. You've seen the rest of the code earlier in different contexts.
+Again, the implementation has been coded with drag and drop in mind. Later on we'll want to pass `noteId` explicitly, so it doesn't hurt to have it there. You've seen the rest of the code earlier in different contexts.
 
 ### Implementing `findLane`
 
@@ -360,9 +360,9 @@ export default alt.createStore(LaneStore, 'LaneStore');
 
 ### Implementing a Getter for `NoteStore`
 
-Given our lanes contain references to notes through ids, we are going to need some way to resolve those ids to actual notes. One neat way to do this is to implement a public method, `NoteStore.get(notes)` for the purpose. It takes an array of `Note` ids in and returns corresponding objects.
+Given our lanes contain references to notes through ids, we are going to need some way to resolve those ids to actual notes. One neat way to do this is to implement a public method `NoteStore.get(notes)` for the purpose. It accepts an array of `Note` ids, and returns corresponding objects.
 
-This can be achieved using the `map` operation. First we need to get the ids of all notes to match against. After that we can perform a lookup for each note id passed using `indexOf`.
+This can be achieved using the `map` operation. First we need to get the ids of all notes to match against. After that, we can perform a lookup for each note id passed in using `indexOf`.
 
 Just implementing the method isn't enough. We also need to make it public. In Alt this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question. Consider the implementation below:
 
@@ -392,11 +392,11 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-Note that the implementation filters possible not matching ids from the result.
+Note that the implementation filters possible non-matching ids from the result.
 
 ### Connecting `Lane` with the Logic
 
-Now that we have the logical bits together, we can integrate it at `Lane`. We'll need to take the newly added props (`id`, `notes`) in count and glue this all together:
+Now that we have the logical bits together, we can integrate it with `Lane`. We'll need to take the newly added props (`id`, `notes`) into account, and glue this all together:
 
 **app/components/Lane.jsx**
 
@@ -453,11 +453,11 @@ export default class Lane extends React.Component {
 
 There are a couple of important changes:
 
-* `const {id, name, notes, ...props} = this.props;` - New props are taken in count.
+* `const {id, name, notes, ...props} = this.props;` - New props are taken into account.
 * `items: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified.
 
-After these changes we have set up a system that can maintain relations between `Lanes` and `Notes`. The current structure allowed us to keep singleton stores and a flat data structure. Dealing with references is a little awkward but that's consistent with the Flux architecture.
+After these changes, we now have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
 
 ![Separate notes](images/kanban_02.png)
 
