@@ -196,7 +196,7 @@ Now that we can move notes around, we still need to define logic. The following 
 
 * Capture `Note` id on `beginDrag`.
 * Capture target `Note` id on `hover`.
-* Trigger `onMove` callback on `hover` so that we can deal with the logic on higher level.
+* Trigger `onMove` callback on `hover` so that we can deal with the logic at a higher level.
 
 You can see how this translates to code below:
 
@@ -254,7 +254,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-If you drag a `Note` around now, you should see logs like `source <id> target <id>` at console. We are getting close. We still need to figure out what to do with these ids, though.
+If you drag a `Note` around now, you should see logs like `source <id> target <id>` in the console. We are getting close. We still need to figure out what to do with these ids, though.
 
 ## Adding Action and Store Method for Moving
 
