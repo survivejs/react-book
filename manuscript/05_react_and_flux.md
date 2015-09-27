@@ -451,8 +451,8 @@ This logger could be pushed to a separate module. After that we could use it acr
 
 The decorator receives three parameters:
 
-* `target` maps to the instance of the class
-* `name` contains the name of the method being decorated
+* `target` maps to the instance of the class.
+* `name` contains the name of the method being decorated.
 * `descriptor` is the most interesting piece as it allows us to annotate the method and manipulate its behavior. It could look like this for instance:
 
 ```javascript
@@ -464,7 +464,7 @@ const descriptor = {
 };
 ```
 
-As you saw above `value` makes it possible to shape the behavior. The rest allow you to modify behavior on method level. For instance `@readonly` decorator could limit access. `@memoize` is another interesting example as that allows you to implement easy caching for methods.
+As you saw above, `value` makes it possible to shape the behavior. The rest allows you to modify behavior on method level. For instance a `@readonly` decorator could limit access. `@memoize` is another interesting example as that allows you to implement easy caching for methods.
 
 ### Implementing `@connect`
 
@@ -553,7 +553,7 @@ We can build new decorators for various functionalities, such as undo, in this m
 
 ### Alt's `@connectToStores`
 
-Alt provides a similar decorator known as `@connectToStores`. It relies on static methods.  Rather than normal methods that are bound to a specific instance, these are bound on class level. This means you can call them through the class itself (i.e. `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
+Alt provides a similar decorator known as `@connectToStores`. It relies on static methods.  Rather than normal methods that are bound to a specific instance, these are bound on class level. This means you can call them through the class itself (i.e., `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
 
 ```javascript
 ...
@@ -610,7 +610,7 @@ export default class App extends React.Component {
 }
 ```
 
-The `AltContainer` allows us to bind data to its immediate children. In this case it injects `items` property to `Notes`. It is the same idea as for decorators earlier but now it's closer to the code. The pattern allows us to set up arbitrary connections to multiple stores and manage them.
+The `AltContainer` allows us to bind data to its immediate children. In this case it injects the `items` property in to `Notes`. It is the same idea as for decorators earlier, but now it's closer to the code. The pattern allows us to set up arbitrary connections to multiple stores and manage them.
 
 Integrating the `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
 
@@ -624,7 +624,7 @@ You can use the same mechanism on the Store level. In that case you would trigge
 
 Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) is an interesting alternative to Flux. It improves on the data fetching department. It allows you to push data requirements to the View level.
 
-Given it's still untested technology we won't be covering it in this book yet. Relay comes with its special requirements of its own (GraphQL compatible API). Only time will tell how it gets adopted.
+Given it's still untested technology, we won't be covering it in this book yet. Relay comes with special requirements of its own (GraphQL compatible API). Only time will tell how it gets adopted.
 
 ## Conclusion
 
