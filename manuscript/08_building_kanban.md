@@ -351,7 +351,7 @@ T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that
 
 Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development, it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from a flash of unstyled content (FOUC).
 
-As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with overhead during the compilation phase and it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
+It just so happens that Webpack provides a means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with overhead during the compilation phase, and it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
 
 It will take some configuration to make it work. Hit
 
@@ -359,7 +359,7 @@ It will take some configuration to make it work. Hit
 npm i extract-text-webpack-plugin --save-dev
 ```
 
-to get started. Next, we need to get rid of our current css related declaration at `common` configuration. After that we need to split it up between `build` and `dev` configuration sections as below:
+to get started. Next we need to get rid of our current CSS related declaration at `common` configuration. After that, we need to split it up between `build` and `dev` configuration sections as follows:
 
 **webpack.config.js**
 
@@ -430,13 +430,13 @@ if(TARGET === 'build') {
 }
 ```
 
-Using this setup we can still benefit from the HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
+Using this setup we can still benefit from the HMR during development. For a production build, we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
 
-W> Definition such as `loaders: [ExtractTextPlugin.extract('style', 'css')]` won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use `loader` form.
+W> Definitions such as `loaders: [ExtractTextPlugin.extract('style', 'css')]` won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use the `loader` form instead.
 
 W> If you want to pass more loaders to the `ExtractTextPlugin`, you should use `!` syntax. Example: `ExtractTextPlugin.extract('style', 'css!autoprefixer-loader')`.
 
-After running `npm run build` you should similar output:
+After running `npm run build` you should see output similar to the following:
 
 ```bash
 > webpack
@@ -458,11 +458,11 @@ Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
 
-This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this we have sourcemaps and an automatically generated *index.html*.
+This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this, we have sourcemaps and an automatically generated *index.html*.
 
-T> If you have a complex project with a lot of dependencies, it is likely a good idea to use the `DedupePlugin`. It will find possible duplicate files and deduplicate them. Use `new webpack.optimize.DedupePlugin()` at your plugins definition to enable it.
+T> If you have a complex project with a lot of dependencies, it is likely a good idea to use the `DedupePlugin`. It will find possible duplicate files and deduplicate them. Use `new webpack.optimize.DedupePlugin()` in your plugins definition to enable it.
 
-W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! I.e. if you change your application code, `vendor` hash will change!
+W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! That is, if you change your application code, the hash for `vendor` will change!
 
 ## Isomorphic Rendering
 
