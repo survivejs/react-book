@@ -4,7 +4,7 @@ Now that we have a nice Kanban application up and running, we can worry about sh
 
 ## Setting Up a Build Target
 
-In our current setup we serve the application through `webpack-dev-server` always. To get a build done, we'll need to extend *package.json* `scripts` section.
+In our current setup, we always serve the application through `webpack-dev-server`. To create a build, we'll need to extend the `scripts` section in *package.json*.
 
 **package.json**
 
@@ -19,7 +19,7 @@ In our current setup we serve the application through `webpack-dev-server` alway
 }
 ```
 
-We'll also need some build specific configuration to make Webpack pick up our JSX. We can set up sourcemaps while at it. I'll be using `source-map` option here as that's a good pick for production.
+We'll also need some build specific configuration to make Webpack pick up our JSX. We can set up sourcemaps while we're at it. I'll be using the `source-map` option here as that's a good choice for production.
 
 **webpack.config.js**
 
@@ -42,7 +42,7 @@ if(TARGET === 'build') {
 }
 ```
 
-After these changes `npm run build` should yield the following:
+After these changes, `npm run build` should yield something like the following:
 
 ```bash
 > webpack
