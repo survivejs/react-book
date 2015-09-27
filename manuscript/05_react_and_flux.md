@@ -304,18 +304,18 @@ We will modify our implementation of `NoteStore` to persist the data on change. 
 
 ### Understanding `localStorage`
 
-`localStorage` has a sibling known as `sessionStorage`. `sessionStorage` loses its data when browser is closed, `localStorage` doesn't. They both share [the same API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API) as discussed below:
+`localStorage` has a sibling known as `sessionStorage`. Whereas `sessionStorage` loses its data when the browser is closed, `localStorage` retains its data. They both share [the same API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API) as discussed below:
 
-* `storage.getItem(k)` - Returns stored string
-* `storage.removeItem(k)` - Removes data matching to key
+* `storage.getItem(k)` - Returns stored string value for given key
+* `storage.removeItem(k)` - Removes data matching key
 * `storage.setItem(k, v)` - Stores given value using given key
 * `storage.clear()` - Empties storage contents
 
-Note that it is convenient to operate on the API using your browser developer tools. For instance, in Chrome you can see the state of the storages through the *Resources* tab. *Console* tab allows you to perform direct operations on the data. You can even use `storage.key` and `storage.key = 'value'` shorthands for quick modifications.
+Note that it is convenient to operate on the API using your browser developer tools. For instance in Chrome, you can see the state of the storages through the *Resources* tab. *Console* tab allows you to perform direct operations on the data. You can even use `storage.key` and `storage.key = 'value'` shorthands for quick modifications.
 
-`localStorage` and `sessionStorage` can use up to 10 MB of data combined. Even though they are well supported, there are certain corner cases with interesting failures. These include running out of memory at Internet Explorer (fails silently) and failing altogether at Safari private mode. It is possible to work around these glitches, though.
+`localStorage` and `sessionStorage` can use up to 10 MB of data combined. Even though they are well supported, there are certain corner cases with interesting failures. These include running out of memory in Internet Explorer (fails silently) and failing altogether in Safari's private mode. It is possible to work around these glitches, though.
 
-T> You can support Safari private mode by trying to write into `localStorage` first. If that fails, you can use in-memory store instead or just let the user know about the situation. See [Stack Overflow](https://stackoverflow.com/questions/14555347/html5-localstorage-error-with-safari-quota-exceeded-err-dom-exception-22-an) for details.
+T> You can support Safari in private mode by trying to write into `localStorage` first. If that fails, you can use Safari's in-memory store instead, or just let the user know about the situation. See [Stack Overflow](https://stackoverflow.com/questions/14555347/html5-localstorage-error-with-safari-quota-exceeded-err-dom-exception-22-an) for details.
 
 ### Implementing a Wrapper for `localStorage`
 
