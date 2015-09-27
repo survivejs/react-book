@@ -146,7 +146,7 @@ if(process.env.NODE_ENV !== 'production') {
 }
 ```
 
-T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the double quotation marks (").
+T> That `JSON.stringify` is needed, as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the double quotation marks (").
 
 Hit `npm run build` again, and you should see improved results:
 
@@ -169,9 +169,9 @@ We can do a little better, though. We can split `app` and `vendor` bundles and a
 
 ## Splitting `app` and `vendor` Bundles
 
-The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might, for instance, make most of our changes to the small `app` bundle. In this case, the client would have to fetch only it provided `vendor` bundle has been loaded already.
+The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might, for instance, make most of our changes to the small `app` bundle. In this case, the client would have to fetch only the `app` bundle, assuming the `vendor` bundle has already been loaded.
 
-This scheme won't load as fast as a single bundle initially due to the extra request. Thanks to client-side caching, we might not need to reload all the data always. This is particularly true if a bundle remains unchanged. For instance if only `app` updates, only that may need to be downloaded.
+This scheme won't load as fast as a single bundle initially due to the extra request. Thanks to client-side caching, we might not need to reload all the data for every request. This is particularly true if a bundle remains unchanged. For instance if only `app` updates, only that may need to be downloaded.
 
 ### Defining a `vendor` Entry Point
 
@@ -203,9 +203,9 @@ if(TARGET === 'build') {
 }
 ```
 
-This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies. Webpack provides multiple ways to define chunks. Each chunk will contain a part of your application code. For example is possible to set up chunks that are loaded dynamically.
+This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies. Webpack provides multiple ways to define chunks. Each chunk will contain a part of your application code. For example it's possible to set up chunks that are loaded dynamically.
 
-### Adding Hashing to Filenames
+### Adding Hashes to Filenames
 
 To make sure client-side caching works, we'll need to attach hashes to filenames. Webpack provides placeholders that are useful for this. The most useful ones are:
 
@@ -220,9 +220,11 @@ app.d587bbd6e38337f5accd.js
 vendor.dc746a5db4ed650296e1.js
 ```
 
-If the file contents are different, the hash will change as well invalidating the cache. An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e. `app.js?d587bbd6e38337f5accd`). According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
+If the file contents are different, the hash will change as well, thus invalidating the cache, or more accurately the browser will send a new request for the new file.
 
-The part behind the question mark will invalidate the cache. An alternative way would be to include it to the filename itself but I find this convention to be cleaner.
+An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e. `app.js?d587bbd6e38337f5accd`). The part behind the question mark will invalidate the cache. This method is not recommended. According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
+
+It's just as easy to include the hash in the filename itself, and I find this convention to be cleaner.
 
 We can use the placeholder idea within our configuration like this:
 
