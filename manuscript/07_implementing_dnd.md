@@ -92,7 +92,9 @@ export default {
 };
 ```
 
-This definition can be expanded later as we add new types to the system. Next, we need to tell our `Note` that it's possible to drag and drop it. This is done through `@DragSource` and `@DropTarget` annotations.
+This definition can be expanded later as we add new types to the system.
+
+Next we need to tell our `Note` that it's possible to drag and drop it. This is done through `@DragSource` and `@DropTarget` annotations.
 
 ### Setting Up `Note` `@DragSource`
 
@@ -130,8 +132,8 @@ export default class Note extends React.Component {
 There are a couple of important changes:
 
 * We set up imports for the new logic.
-* We defined a `noteSource`. It contains `beginDrag` handler. We can set the initial state for dragging here. Now we just have a debug log there.
-* `@DragSource` connects `NOTE` item type with `noteSource`
+* We defined a `noteSource`. It contains a `beginDrag` handler. We can set the initial state for dragging here. For now we just have a debug log there.
+* `@DragSource` connects `NOTE` item type with `noteSource`.
 * `id` and `onMove` props are extracted from `this.props`. We'll use these later on to set up a callback so that the parent of a `Note` can deal with the moving related logic.
 * Finally `connectDragSource` prop wraps the element at `render()`. It could be applied to a specific part of it. This would be handy for implementing handles for example.
 
@@ -139,11 +141,11 @@ If you drag a `Note` now, you should see a debug log at the console.
 
 We still need to make sure `Note` works as a `@DropTarget`. Later on this will allow swapping them as we add logic in place.
 
-W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh browser to see the logs you expect!
+W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh the browser to see the logs you expect!
 
 ### Setting Up `Note` `@DropTarget`
 
-`@DropTarget` allows a component to receive components annotated using `@DragSource`. As `@DropTarget` triggers, we can perform actual logic based on the components. Expand as follows:
+`@DropTarget` allows a component to receive components annotated with `@DragSource`. As `@DropTarget` triggers, we can perform actual logic based on the components. Expand as follows:
 
 **app/components/Note.jsx**
 
