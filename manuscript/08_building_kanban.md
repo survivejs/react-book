@@ -67,7 +67,7 @@ There are a couple of basic things we can do to slim down our build. We can appl
 
 Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
-The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). As Uglify will output a lot of these and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
+The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). As Uglify will output a lot of warnings and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
 
 **webpack.config.js**
 
@@ -108,13 +108,13 @@ bundle.js.map    2.66 MB       0  [emitted]  main
 
 Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
 
-T> It is possible to push minification further by enabling variable name mangling. It comes with some extra complexity to worry about but may be worth it when you are pushing for minimal size. See [the official documentation](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) for details.
+T> It is possible to push minification further by enabling variable name mangling. It comes with some extra complexity to worry about, but it may be worth it when you are pushing for minimal size. See [the official documentation](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) for details.
 
 ### `process.env.NODE_ENV`
 
-We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get built in an optimized manner. This will disable some checks (i.e. property type checks). Most importantly it will give you a smaller build and improved performance.
+We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get built in an optimized manner. This will disable some checks (e.g., property type checks). Most importantly it will give you a smaller build and improved performance.
 
-In Webpack terms you can add the following snippet to the `plugins` section of your configuration:
+In Webpack terms, you can add the following snippet to the `plugins` section of your configuration:
 
 **webpack.config.js**
 
@@ -146,9 +146,9 @@ if(process.env.NODE_ENV !== 'production') {
 }
 ```
 
-T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case, we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the "'s.
+T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the double quotation marks (").
 
-Hit `npm run build` again and you should see improved results:
+Hit `npm run build` again, and you should see improved results:
 
 ```bash
 > TARGET=build webpack
