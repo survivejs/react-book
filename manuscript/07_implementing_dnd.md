@@ -1,6 +1,6 @@
 # Implementing Drag and Drop
 
-Our Kanban application is almost usable now. It looks alright and there's some basic functionality in place. In this chapter I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter you should be able to sort notes within a lane and drag them from a lane to another.
+Our Kanban application is almost usable now. It looks alright and there's some basic functionality in place. In this chapter I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter you should be able to sort notes within a lane and drag them from one lane to another.
 
 ## Setting Up React DnD
 
@@ -12,7 +12,7 @@ npm i react-dnd --save
 
 to add React DnD to the project.
 
-As a first step we'll need to connect it with our project. Currently it provides an HTML5 Drag and Drop API specific back-end. There's no official support for touch yet but it's possible to add later on. In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
+As a first step we'll need to connect it with our project. Currently it provides an HTML5 Drag and Drop API specific back-end. There's no official support for touch yet, but it's possible to add later on. In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
 
 **app/components/App.jsx**
 
@@ -33,13 +33,13 @@ T> Back-ends allow us to customize React DnD behavior. For instance we can add [
 
 ## Preparing Notes to Be Sorted
 
-Next, we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll need to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
+Next we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll need to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
 
 Earlier we extracted editing functionality from `Note` and ended up dropping `Note`. It seems like we'll want to add that concept back to allow drag and drop.
 
-We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic at `Note`. This avoids having to duplicate any logic related to `Editable`.
+We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic in `Note`. This avoids having to duplicate any logic related to `Editable`.
 
-The magic lies in a single property known as `children`, React will render possible child components at `{this.props.children}` slot as seen below:
+The magic lies in a single property known as `children`. React will render possible child components in the slot `{this.props.children}` as shown below:
 
 **app/components/Note.jsx**
 
@@ -55,7 +55,7 @@ export default class Note extends React.Component {
 }
 ```
 
-We also need to tweak `Notes` to use our wrapper component. We will simply wrap `Editable` using `Note` and we are good to go. We will pass `note` data to the wrapper as we'll need that later when dealing with logic:
+We also need to tweak `Notes` to use our wrapper component. We will simply wrap `Editable` using `Note`, and we are good to go. We will pass `note` data to the wrapper as we'll need that later when dealing with logic:
 
 **app/components/Notes.jsx**
 
@@ -78,7 +78,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-After this change the application should look exactly same as before. We have achieved nothing yet. Fortunately, we can start adding functionality now that we have foundation in place.
+After this change the application should look exactly the same as before. We have achieved nothing yet. Fortunately we can start adding functionality, now that we have the foundation in place.
 
 ## Allowing Notes to Be Dragged
 
@@ -92,7 +92,9 @@ export default {
 };
 ```
 
-This definition can be expanded later as we add new types to the system. Next, we need to tell our `Note` that it's possible to drag and drop it. This is done through `@DragSource` and `@DropTarget` annotations.
+This definition can be expanded later as we add new types to the system.
+
+Next we need to tell our `Note` that it's possible to drag and drop it. This is done through `@DragSource` and `@DropTarget` annotations.
 
 ### Setting Up `Note` `@DragSource`
 
@@ -130,8 +132,8 @@ export default class Note extends React.Component {
 There are a couple of important changes:
 
 * We set up imports for the new logic.
-* We defined a `noteSource`. It contains `beginDrag` handler. We can set the initial state for dragging here. Now we just have a debug log there.
-* `@DragSource` connects `NOTE` item type with `noteSource`
+* We defined a `noteSource`. It contains a `beginDrag` handler. We can set the initial state for dragging here. For now we just have a debug log there.
+* `@DragSource` connects `NOTE` item type with `noteSource`.
 * `id` and `onMove` props are extracted from `this.props`. We'll use these later on to set up a callback so that the parent of a `Note` can deal with the moving related logic.
 * Finally `connectDragSource` prop wraps the element at `render()`. It could be applied to a specific part of it. This would be handy for implementing handles for example.
 
@@ -139,11 +141,11 @@ If you drag a `Note` now, you should see a debug log at the console.
 
 We still need to make sure `Note` works as a `@DropTarget`. Later on this will allow swapping them as we add logic in place.
 
-W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh browser to see the logs you expect!
+W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh the browser to see the logs you expect!
 
 ### Setting Up `Note` `@DropTarget`
 
-`@DropTarget` allows a component to receive components annotated using `@DragSource`. As `@DropTarget` triggers, we can perform actual logic based on the components. Expand as follows:
+`@DropTarget` allows a component to receive components annotated with `@DragSource`. As `@DropTarget` triggers, we can perform actual logic based on the components. Expand as follows:
 
 **app/components/Note.jsx**
 
@@ -194,7 +196,7 @@ Now that we can move notes around, we still need to define logic. The following 
 
 * Capture `Note` id on `beginDrag`.
 * Capture target `Note` id on `hover`.
-* Trigger `onMove` callback on `hover` so that we can deal with the logic on higher level.
+* Trigger `onMove` callback on `hover` so that we can deal with the logic at a higher level.
 
 You can see how this translates to code below:
 
@@ -252,7 +254,7 @@ export default class Notes extends React.Component {
 }
 ```
 
-If you drag a `Note` around now, you should see logs like `source <id> target <id>` at console. We are getting close. We still need to figure out what to do with these ids, though.
+If you drag a `Note` around now, you should see logs like `source <id> target <id>` in the console. We are getting close. We still need to figure out what to do with these ids, though.
 
 ## Adding Action and Store Method for Moving
 
@@ -317,9 +319,9 @@ You should see the same logs as earlier. Next, we'll need to add some logic to m
 
 ## Implementing Note Drag and Drop Logic
 
-Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) helper from React as that solves the problem in one pass.
+Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
 
-It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
+It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
 
 **app/stores/LaneStore.jsx**
 
@@ -366,7 +368,7 @@ If you try out the application now, you can actually drag notes around and it sh
 
 ## Dragging Notes to an Empty Lanes
 
-To drag notes to an empty lane we should allow lanes to receive notes. Just as above we can set up `DropTarget` based logic for this. First we need to capture the drag on `Lane`:
+To drag notes to an empty lane, we should allow lanes to receive notes. Just as above, we can set up `DropTarget` based logic for this. First we need to capture the drag on `Lane`:
 
 **app/components/Lane.jsx**
 
@@ -400,9 +402,9 @@ export default class Lane extends React.Component {
 }
 ```
 
-If you drag a note to a lane now, you should see logs at your console. The question is what to do with this data? Before actually moving the note to a lane we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
+If you drag a note to a lane now, you should see logs at your console. The question is what to do with this data? Before actually moving the note to a lane, we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
 
-This is a simple check to make. Given we know the target lane at our `noteTarget` `hover` handler, we can check its `notes` array as below:
+This is a simple check to make. Given we know the target lane at our `noteTarget` `hover` handler, we can check its `notes` array as follows:
 
 **app/components/Lane.jsx**
 
@@ -423,7 +425,7 @@ If you refresh your browser and drag around now, the log should appear only when
 
 ### Trigger `move` Logic
 
-Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is ideal for this purpose. Adjust `Lane` as below:
+Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is ideal for this purpose. Adjust `Lane` as follows:
 
 **app/components/Lane.jsx**
 
@@ -443,9 +445,9 @@ const noteTarget = {
 };
 ```
 
-There is one problem, though. What happens to the old instance of the `Note`? In the current solution the old lane will have an id pointing to it. As a result we have duplicate data in the system.
+There is one problem, though. What happens to the old instance of the `Note`? In the current solution, the old lane will have an id pointing to it. As a result we have duplicate data in the system.
 
-Earlier we resolved this using `detachFromLane`. The problem is that we don't know which lane the note belonged. We could pass this data through the component hierarchy but that doesn't feel particularly nice.
+Earlier we resolved this using `detachFromLane`. The problem is that we don't know to which lane the note belonged. We could pass this data through the component hierarchy, but that doesn't feel particularly nice.
 
 We could resolve this on store level instead by implementing an invariant at `attachToLane` that makes sure any possible earlier references get removed. This can be achieved by implementing `this.removeNote(noteId)` check:
 
@@ -487,13 +489,13 @@ class LaneStore {
 }
 ```
 
-`removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that we have a clean slate and we can add a note to a lane. This change would allow us to drop `detachFromLane` from the system entirely but I'll leave doing that up to you.
+`removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that we have a clean slate, and we can add a note to a lane. This change allows us to drop `detachFromLane` from the system entirely, but I'll leave that up to you.
 
-Now we have a Kanban table that is actually useful! We can create new lanes and notes, edit and remove them. In addition, we can move notes around. Mission accomplished!
+Now we have a Kanban table that is actually useful! We can create new lanes and notes, and edit and remove them. In addition we can move notes around. Mission accomplished!
 
 ## Conclusion
 
-In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids and finally you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
+In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids, and finally you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
 
 I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending the DnD implementation, you can try adding more data to the system.
 

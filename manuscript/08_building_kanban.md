@@ -1,10 +1,10 @@
 # Building Kanban
 
-Now that we have a nice Kanban application up and running we can worry about showing it the public. The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
+Now that we have a nice Kanban application up and running, we can worry about showing it to the public. The goal of this chapter is to set up a nice production grade build. There are various techniques we can apply to bring the bundle size down. We can also leverage browser caching.
 
 ## Setting Up a Build Target
 
-In our current setup we serve the application through `webpack-dev-server` always. To get a build done, we'll need to extend *package.json* `scripts` section.
+In our current setup, we always serve the application through `webpack-dev-server`. To create a build, we'll need to extend the `scripts` section in *package.json*.
 
 **package.json**
 
@@ -19,7 +19,7 @@ In our current setup we serve the application through `webpack-dev-server` alway
 }
 ```
 
-We'll also need some build specific configuration to make Webpack pick up our JSX. We can set up sourcemaps while at it. I'll be using `source-map` option here as that's a good pick for production.
+We'll also need some build specific configuration to make Webpack pick up our JSX. We can set up sourcemaps while we're at it. I'll be using the `source-map` option here as that's a good choice for production.
 
 **webpack.config.js**
 
@@ -42,7 +42,7 @@ if(TARGET === 'build') {
 }
 ```
 
-After these changes `npm run build` should yield the following:
+After these changes, `npm run build` should yield something like the following:
 
 ```bash
 > webpack
@@ -67,7 +67,7 @@ There are a couple of basic things we can do to slim down our build. We can appl
 
 Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
-The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). As Uglify will output a lot of these and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
+The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). As Uglify will output a lot of warnings and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
 
 **webpack.config.js**
 
@@ -108,13 +108,13 @@ bundle.js.map    2.66 MB       0  [emitted]  main
 
 Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
 
-T> It is possible to push minification further by enabling variable name mangling. It comes with some extra complexity to worry about but may be worth it when you are pushing for minimal size. See [the official documentation](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) for details.
+T> It is possible to push minification further by enabling variable name mangling. It comes with some extra complexity to worry about, but it may be worth it when you are pushing for minimal size. See [the official documentation](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) for details.
 
 ### `process.env.NODE_ENV`
 
-We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get built in an optimized manner. This will disable some checks (i.e. property type checks). Most importantly it will give you a smaller build and improved performance.
+We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get built in an optimized manner. This will disable some checks (e.g., property type checks). Most importantly it will give you a smaller build and improved performance.
 
-In Webpack terms you can add the following snippet to the `plugins` section of your configuration:
+In Webpack terms, you can add the following snippet to the `plugins` section of your configuration:
 
 **webpack.config.js**
 
@@ -146,9 +146,9 @@ if(process.env.NODE_ENV !== 'production') {
 }
 ```
 
-T> That `JSON.stringify` is needed as Webpack will perform string replace "as is". In this case, we'll want to end up with strings as that's what various comparisons expect, not just `production`. Latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the "'s.
+T> That `JSON.stringify` is needed, as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the double quotation marks (").
 
-Hit `npm run build` again and you should see improved results:
+Hit `npm run build` again, and you should see improved results:
 
 ```bash
 > TARGET=build webpack
@@ -169,9 +169,9 @@ We can do a little better, though. We can split `app` and `vendor` bundles and a
 
 ## Splitting `app` and `vendor` Bundles
 
-The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might, for instance, make most of our changes to the small `app` bundle. In this case, the client would have to fetch only it provided `vendor` bundle has been loaded already.
+The main advantage of splitting the application into two separate bundles is that it allows us to benefit from client caching. We might, for instance, make most of our changes to the small `app` bundle. In this case, the client would have to fetch only the `app` bundle, assuming the `vendor` bundle has already been loaded.
 
-This scheme won't load as fast as a single bundle initially due to the extra request. Thanks to client-side caching, we might not need to reload all the data always. This is particularly true if a bundle remains unchanged. For instance if only `app` updates, only that may need to be downloaded.
+This scheme won't load as fast as a single bundle initially due to the extra request. Thanks to client-side caching, we might not need to reload all the data for every request. This is particularly true if a bundle remains unchanged. For instance if only `app` updates, only that may need to be downloaded.
 
 ### Defining a `vendor` Entry Point
 
@@ -203,9 +203,9 @@ if(TARGET === 'build') {
 }
 ```
 
-This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies. Webpack provides multiple ways to define chunks. Each chunk will contain a part of your application code. For example is possible to set up chunks that are loaded dynamically.
+This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies. Webpack provides multiple ways to define chunks. Each chunk will contain a part of your application code. For example it's possible to set up chunks that are loaded dynamically.
 
-### Adding Hashing to Filenames
+### Adding Hashes to Filenames
 
 To make sure client-side caching works, we'll need to attach hashes to filenames. Webpack provides placeholders that are useful for this. The most useful ones are:
 
@@ -220,9 +220,11 @@ app.d587bbd6e38337f5accd.js
 vendor.dc746a5db4ed650296e1.js
 ```
 
-If the file contents are different, the hash will change as well invalidating the cache. An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e. `app.js?d587bbd6e38337f5accd`). According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
+If the file contents are different, the hash will change as well, thus invalidating the cache, or more accurately the browser will send a new request for the new file.
 
-The part behind the question mark will invalidate the cache. An alternative way would be to include it to the filename itself but I find this convention to be cleaner.
+An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e. `app.js?d587bbd6e38337f5accd`). The part behind the question mark will invalidate the cache. This method is not recommended. According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
+
+It's just as easy to include the hash in the filename itself, and I find this convention to be cleaner.
 
 We can use the placeholder idea within our configuration like this:
 
@@ -320,7 +322,7 @@ Our current setup doesn't clean the `build` directory between builds. As this ca
 npm i clean-webpack-plugin --save-dev
 ```
 
-to install the plugin. Change the build configuration as below to integrate it:
+to install the plugin. Change the build configuration as follows to integrate it:
 
 **webpack.config.js**
 
@@ -343,13 +345,13 @@ if(TARGET === 'build') {
 
 After this change our `build` directory should remain nice and tidy when building. See [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin) for further options.
 
-T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up at the `scripts` of `package.json`.
+T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up in the `scripts` section of `package.json`.
 
 ## Separating CSS
 
 Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development, it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from a flash of unstyled content (FOUC).
 
-As it happens Webpack provides means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with overhead during the compilation phase and it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
+It just so happens that Webpack provides a means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with overhead during the compilation phase, and it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
 
 It will take some configuration to make it work. Hit
 
@@ -357,7 +359,7 @@ It will take some configuration to make it work. Hit
 npm i extract-text-webpack-plugin --save-dev
 ```
 
-to get started. Next, we need to get rid of our current css related declaration at `common` configuration. After that we need to split it up between `build` and `dev` configuration sections as below:
+to get started. Next we need to get rid of our current CSS related declaration at `common` configuration. After that, we need to split it up between `build` and `dev` configuration sections as follows:
 
 **webpack.config.js**
 
@@ -428,13 +430,13 @@ if(TARGET === 'build') {
 }
 ```
 
-Using this setup we can still benefit from the HMR during development. For production build we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
+Using this setup we can still benefit from the HMR during development. For a production build, we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
 
-W> Definition such as `loaders: [ExtractTextPlugin.extract('style', 'css')]` won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use `loader` form.
+W> Definitions such as `loaders: [ExtractTextPlugin.extract('style', 'css')]` won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use the `loader` form instead.
 
 W> If you want to pass more loaders to the `ExtractTextPlugin`, you should use `!` syntax. Example: `ExtractTextPlugin.extract('style', 'css!autoprefixer-loader')`.
 
-After running `npm run build` you should similar output:
+After running `npm run build` you should see output similar to the following:
 
 ```bash
 > webpack
@@ -456,22 +458,22 @@ Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
 
-This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this we have sourcemaps and an automatically generated *index.html*.
+This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this, we have sourcemaps and an automatically generated *index.html*.
 
-T> If you have a complex project with a lot of dependencies, it is likely a good idea to use the `DedupePlugin`. It will find possible duplicate files and deduplicate them. Use `new webpack.optimize.DedupePlugin()` at your plugins definition to enable it.
+T> If you have a complex project with a lot of dependencies, it is likely a good idea to use the `DedupePlugin`. It will find possible duplicate files and deduplicate them. Use `new webpack.optimize.DedupePlugin()` in your plugins definition to enable it.
 
-W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! I.e. if you change your application code, `vendor` hash will change!
+W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! That is, if you change your application code, the hash for `vendor` will change!
 
 ## Isomorphic Rendering
 
-React supports isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code gets run, it will pick up the markup. Even though this sounds trivial there are some nice advantages to this approach:
+React supports isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code runs, it will pick up the HTML markup. Even though this sounds trivial, there are some nice advantages to this approach:
 
-* Web crawlers will be able to access the content easier (potentially better SEO)
-* You can avoid requests to fetch initial data. Especially on slow connections this can make a big difference.
-* The browser doesn't have to wait for JavaScript to get evaluated. Instead, it gets to render HTML straight away.
+* Web crawlers will be able to access the content easier (potentially better SEO).
+* You can avoid requests to fetch initial data. Especially on slow connections, this can make a big difference.
+* The browser doesn't have to wait for JavaScript to get evaluated. Instead it gets to render HTML right away.
 * Even users without JavaScript enabled can see something. In this case, it doesn't matter a lot, but otherwise it could be a big factor.
 
-Even though we don't have a proper back-end in our project this is a powerful approach you should be aware of. The same idea can be applied for other scenarios such as rendering a JSX template to a PDF invoice for example. React isn't limited to the web.
+Even though we don't have a proper back-end in our project, this is a powerful approach you should be aware of. The same idea can be applied for other scenarios, such as rendering a JSX template to a PDF invoice for example. React isn't limited to the web.
 
 We will need to perform a couple of tweaks to our project in order to enable isomorphic rendering. Thankfully *HtmlWebpackPlugin* can do most of the work for us. We just need to implement a custom template and render our initial JSX to it. Set up *index.tpl* as follows.
 
@@ -501,9 +503,9 @@ We will need to perform a couple of tweaks to our project in order to enable iso
 </html>
 ```
 
-This template is based on the default one used by *HtmlWebpackPlugin*. It relies on a templating library known as [blueimp-tpl](https://www.npmjs.com/package/blueimp-tmpl). That's why you see all those `{% ... %}` entries there. We will inject some syntax of our own at `<div id="app">%app%</div>` next and let *HtmlWebpackPlugin* deal with the rest.
+This template is based on the default one used by *HtmlWebpackPlugin*. It relies on a templating library known as [blueimp-tpl](https://www.npmjs.com/package/blueimp-tmpl). That's why you see all those `{% ... %}` entries there. We will inject some syntax of our own in `<div id="app">%app%</div>` next, and let *HtmlWebpackPlugin* deal with the rest.
 
-As we'll be relying on JSX when rendering, we need to rename *webpack.config.js* as *webpack.config.babel.js* first. That way Webpack knows to process it through Babel and everything will work as we expect. Besides this we need to make *HtmlWebpackPlugin* aware of our template and add our custom rendering logic there.
+As we'll be relying on JSX when rendering, we need to rename *webpack.config.js* to *webpack.config.babel.js* first. That way Webpack knows to process it through Babel, and everything will work as we expect. Besides this we need to make *HtmlWebpackPlugin* aware of our template, and add our custom rendering logic there.
 
 **webpack.config.babel.js**
 
@@ -578,7 +580,7 @@ Our isomorphic setup performs a regular expression based replacement to render o
 
 T> If you want output that doesn't have React keys, use `React.renderToStaticMarkup` instead. This is useful especially if you are writing static site generators.
 
-In addition, we need to tweak the entry point of our application to take these changes into account. When in production it should use the existing markup instead of injecting its own.
+In addition we need to tweak the entry point of our application to take these changes into account. When in production it should use the existing markup instead of injecting its own.
 
 **app/index.jsx**
 
