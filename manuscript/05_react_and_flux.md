@@ -284,7 +284,7 @@ export default class App extends React.Component {
 }
 ```
 
-As we alter `NoteStore` through actions, this leads to a cascade that causes our `App` state update through `setState`. This in turn will cause the component to `render`. That's Flux unidirectional flow in practice.
+As we alter `NoteStore` through actions, this leads to a cascade that causes our `App` state to update through `setState`. This in turn will cause the component to `render`. That's Flux's unidirectional flow in practice.
 
 We actually have more code now than before, but that's okay. `App` is a little neater and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application.
 
