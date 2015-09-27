@@ -322,7 +322,7 @@ Our current setup doesn't clean the `build` directory between builds. As this ca
 npm i clean-webpack-plugin --save-dev
 ```
 
-to install the plugin. Change the build configuration as below to integrate it:
+to install the plugin. Change the build configuration as follows to integrate it:
 
 **webpack.config.js**
 
@@ -345,7 +345,7 @@ if(TARGET === 'build') {
 
 After this change our `build` directory should remain nice and tidy when building. See [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin) for further options.
 
-T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up at the `scripts` of `package.json`.
+T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up in the `scripts` section of `package.json`.
 
 ## Separating CSS
 
