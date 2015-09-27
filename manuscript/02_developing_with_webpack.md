@@ -296,7 +296,7 @@ npm i webpack-merge --save-dev
 
 to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch and merge based on that. We'll expand these in the coming chapters.
 
-To improve debuggability of the application, we can set up sourcemaps while we are at it. These allow you to get proper debug information at the browser. You'll see exactly where an error was raised for instance. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
+To improve debuggability of the application, we can set up sourcemaps while we are at it. They allow you to see exactly where an error was raised. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
 
 **webpack.config.js**
 
