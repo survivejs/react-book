@@ -15,7 +15,7 @@ npm init
 # hit return a few times till you have gone through the questions
 ```
 
-As a result, you should have `package.json` at your project root. You can still tweak it manually to make further changes. We'll be doing some changes through `npm` tool but it's fine to tweak the file to your liking. The official documentation explains various [package.json options](https://docs.npmjs.com/files/package.json) in more detail. I also cover some useful library authoring related tricks later in this book.
+As a result, you should have *package.json* at your project root. You can still tweak it manually to make further changes. We'll be doing some changes through `npm` tool but it's fine to tweak the file to your liking. The official documentation explains various [package.json options](https://docs.npmjs.com/files/package.json) in more detail. I also cover some useful library authoring related tricks later in this book.
 
 If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
 
@@ -51,7 +51,7 @@ T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save
 
 ## Directory Structure
 
-As projects with just `package.json` are boring, we should set up something more concrete. To get started, we can implement a little web site that loads some JavaScript which we then build using Webpack. Set up a structure like this:
+As projects with just *package.json* are boring, we should set up something more concrete. To get started, we can implement a little web site that loads some JavaScript which we then build using Webpack. Set up a structure like this:
 
 - /app
   - index.js
@@ -62,7 +62,7 @@ As projects with just `package.json` are boring, we should set up something more
 - package.json
 - webpack.config.js
 
-In this case, we'll generate `bundle.js` using Webpack based on our `/app`. To make this possible, we should set up some assets and `webpack.config.js`.
+In this case, we'll generate *bundle.js* using Webpack based on our `/app`. To make this possible, we should set up some assets and `webpack.config.js`.
 
 ## Setting Up Assets
 
@@ -153,7 +153,7 @@ Hit
 npm i webpack-dev-server --save-dev
 ```
 
-at the project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at `package.json`. The following configuration is enough:
+at the project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at *package.json*. The following configuration is enough:
 
 **package.json**
 

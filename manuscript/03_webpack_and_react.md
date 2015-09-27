@@ -180,7 +180,7 @@ It is time to add a first application level dependency to our project. Hit
 npm i react --save
 ```
 
-to get React installed. This will save React to `dependencies` section of `package.json`. Later on we'll use this to generate a vendor build for the production version. It's a good practice to separate application and development level dependencies this way.
+to get React installed. This will save React to `dependencies` section of *package.json*. Later on we'll use this to generate a vendor build for the production version. It's a good practice to separate application and development level dependencies this way.
 
 Now that we got that out of the way, we can start to develop our Kanban application. First we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire app.
 

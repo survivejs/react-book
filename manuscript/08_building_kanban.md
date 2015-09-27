@@ -345,7 +345,7 @@ if(TARGET === 'build') {
 
 After this change our `build` directory should remain nice and tidy when building. See [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin) for further options.
 
-T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up in the `scripts` section of `package.json`.
+T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up in the `scripts` section of *package.json*.
 
 ## Separating CSS
 

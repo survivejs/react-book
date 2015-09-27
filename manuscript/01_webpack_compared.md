@@ -288,4 +288,4 @@ Webpack can generate UMD wrappers for you (`output.libraryTarget: 'umd'`). This 
 
 I hope this chapter helped you understand why Webpack is a valuable tool worth learning. It solves a fair share of common web development problems. If you know it well, it will save a great deal of time. In the following chapters we'll examine Webpack in more detail. You will learn to develop a simple development configuration. We'll also get started with our Kanban application.
 
-You can, and probably should, use Webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling. That's one fewer worry during development. Just using `package.json`, `scripts`, and Webpack takes you far, as we will see soon.
+You can, and probably should, use Webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling. That's one fewer worry during development. Just using *package.json*, `scripts`, and Webpack takes you far, as we will see soon.
