@@ -466,14 +466,14 @@ W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in 
 
 ## Isomorphic Rendering
 
-React supports isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code gets run, it will pick up the markup. Even though this sounds trivial there are some nice advantages to this approach:
+React supports isomorphic rendering. This means you can render static HTML through it. Once the JavaScript code runs, it will pick up the HTML markup. Even though this sounds trivial, there are some nice advantages to this approach:
 
-* Web crawlers will be able to access the content easier (potentially better SEO)
-* You can avoid requests to fetch initial data. Especially on slow connections this can make a big difference.
-* The browser doesn't have to wait for JavaScript to get evaluated. Instead, it gets to render HTML straight away.
+* Web crawlers will be able to access the content easier (potentially better SEO).
+* You can avoid requests to fetch initial data. Especially on slow connections, this can make a big difference.
+* The browser doesn't have to wait for JavaScript to get evaluated. Instead it gets to render HTML right away.
 * Even users without JavaScript enabled can see something. In this case, it doesn't matter a lot, but otherwise it could be a big factor.
 
-Even though we don't have a proper back-end in our project this is a powerful approach you should be aware of. The same idea can be applied for other scenarios such as rendering a JSX template to a PDF invoice for example. React isn't limited to the web.
+Even though we don't have a proper back-end in our project, this is a powerful approach you should be aware of. The same idea can be applied for other scenarios, such as rendering a JSX template to a PDF invoice for example. React isn't limited to the web.
 
 We will need to perform a couple of tweaks to our project in order to enable isomorphic rendering. Thankfully *HtmlWebpackPlugin* can do most of the work for us. We just need to implement a custom template and render our initial JSX to it. Set up *index.tpl* as follows.
 
@@ -503,9 +503,9 @@ We will need to perform a couple of tweaks to our project in order to enable iso
 </html>
 ```
 
-This template is based on the default one used by *HtmlWebpackPlugin*. It relies on a templating library known as [blueimp-tpl](https://www.npmjs.com/package/blueimp-tmpl). That's why you see all those `{% ... %}` entries there. We will inject some syntax of our own at `<div id="app">%app%</div>` next and let *HtmlWebpackPlugin* deal with the rest.
+This template is based on the default one used by *HtmlWebpackPlugin*. It relies on a templating library known as [blueimp-tpl](https://www.npmjs.com/package/blueimp-tmpl). That's why you see all those `{% ... %}` entries there. We will inject some syntax of our own in `<div id="app">%app%</div>` next, and let *HtmlWebpackPlugin* deal with the rest.
 
-As we'll be relying on JSX when rendering, we need to rename *webpack.config.js* as *webpack.config.babel.js* first. That way Webpack knows to process it through Babel and everything will work as we expect. Besides this we need to make *HtmlWebpackPlugin* aware of our template and add our custom rendering logic there.
+As we'll be relying on JSX when rendering, we need to rename *webpack.config.js* to *webpack.config.babel.js* first. That way Webpack knows to process it through Babel, and everything will work as we expect. Besides this we need to make *HtmlWebpackPlugin* aware of our template, and add our custom rendering logic there.
 
 **webpack.config.babel.js**
 
@@ -580,7 +580,7 @@ Our isomorphic setup performs a regular expression based replacement to render o
 
 T> If you want output that doesn't have React keys, use `React.renderToStaticMarkup` instead. This is useful especially if you are writing static site generators.
 
-In addition, we need to tweak the entry point of our application to take these changes into account. When in production it should use the existing markup instead of injecting its own.
+In addition we need to tweak the entry point of our application to take these changes into account. When in production it should use the existing markup instead of injecting its own.
 
 **app/index.jsx**
 
