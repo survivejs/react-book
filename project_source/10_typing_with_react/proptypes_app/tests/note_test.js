@@ -11,7 +11,7 @@ describe('Note', () => {
     const test = 'test';
     const NoteContent = wrapInTestContext(Note);
     const component = renderIntoDocument(
-      <NoteContent>{test}</NoteContent>
+      <NoteContent id="test">{test}</NoteContent>
     );
 
     assert.equal(component.props.children, test);
