@@ -70,7 +70,7 @@ If you try running JSHint on our project, you will get a lot of output. It's not
 
 T> Since *v1.4.0* ESLint supports a feature known as [autofixing](http://eslint.org/blog/2015/09/eslint-v1.4.0-released/). It allows you to perform certain rule fixes automatically. To activate it, pass `--fix` flag to the tool.
 
-### Connecting ESlint with `package.json`
+### Connecting ESlint with *package.json*
 
 In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. First we'll need to hit
 
@@ -139,7 +139,7 @@ Some rules, such as `quotes`, accept an array instead. This allows you to pass e
 
 The `react/` rules listed above are just a small subset of all rules available. Pick rules from [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) as needed.
 
-T> Tools such as JSCS, JSHint, and ESLint support `package.json` based configuration. Simply add a `eslintConfig` field to it and write the configuration there.
+T> Note that you can write ESLint configuration directly to *package.json*. Set up a `eslintConfig` field and write your declarations below it.
 
 T> It is possible to generate a sample `.eslintrc` using `eslint --init` (or `node_modules/.bin/eslint --init` for local install). This can be useful on new projects.
 
@@ -260,7 +260,7 @@ To get a better idea of how AST works and what it looks like you can check [Espr
 In ESLint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
 1. Set up a new project named `eslint-plugin-custom`. You can replace `custom` with whatever you want. ESLint follows this naming convention.
-2. Hit `npm init` to create a dummy `package.json`
+2. Hit `npm init` to create a dummy *package.json*
 3. Set up `index.js` in the project root with content like this:
 
 **eslint-plugin-custom/index.js**
@@ -283,7 +283,7 @@ In this case, we just report for every identifier found. In practice, you'll lik
 
 Next, you need to hit `npm link` within `eslint-plugin-custom`. This will make your plugin visible within your system. `npm link` allows you to consume easily a development version of a library you are developing. To reverse the link you can hit `npm unlink` when you feel like it.
 
-T> If you want to do something serious, you should point to your plugin through `package.json`.
+T> If you want to do something serious, you should point to your plugin through *package.json*.
 
 We need to alter our project configuration to make it to find the plugin and the rule within.
 
@@ -443,9 +443,9 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
 }
 ```
 
-T> ESLint implements a large part of the functionality provided by JSCS. It is possible you can skip JSCS altogether provided you configure ESLint correctly. There's a large amount of presets available.
+JSCS supports *package.json* based configuration. In this case you would write it to `jscsConfig` field there.
 
-T> Note that like some other tools, such as ESLint and JSHint, JSCS supports `package.json` based configuration. Simply add a `jscsConfig` field to it and write the configuration there.
+T> ESLint implements a large part of the functionality provided by JSCS. It is possible you can skip JSCS altogether provided you configure ESLint correctly. There's a large amount of presets available.
 
 ## EditorConfig
 
