@@ -10,7 +10,7 @@ Most importantly our system is missing the concept of `Lane`. A `Lane` is someth
 
 As earlier, we can use the same idea of two components here. There will be a component for the higher level (i.e. `Lanes`) and for the lower level (i.e. `Lane`). The higher level component will deal with lane ordering. A `Lane` will render itself (i.e. name and `Notes`) and have basic manipulation operations.
 
-Just as with `Notes` we are going to need a set of actions. For now it is enough if we can just create new lanes so we can create a corresponding action for that as below:
+Just as with `Notes`, we are going to need a set of actions. For now it is enough if we can just create new lanes so we can create a corresponding action for that as below:
 
 **app/actions/LaneActions.js**
 
@@ -20,7 +20,7 @@ import alt from '../libs/alt';
 export default alt.generateActions('create');
 ```
 
-In addition, we are going to need a `LaneStore` and a method matching to `create`. The idea is pretty much the same as for `NoteStore` earlier. `create` will concatenate a new lane to the list of lanes. After that the change will propagate to the listeners (i.e. `FinalStore` and components).
+In addition, we are going to need a `LaneStore` and a method matching to `create`. The idea is pretty much the same as for `NoteStore` earlier. `create` will concatenate a new lane to the list of lanes. After that the change will propagate to the listeners (i.e., `FinalStore` and components).
 
 **app/stores/LaneStore.js**
 
@@ -50,7 +50,7 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-We are also going to need a stub for `Lanes`. We will expand this later. Now we just want something simple to show up.
+We are also going to need a stub for `Lanes`. We will expand this later. For now we just want something simple to show up.
 
 **app/components/Lanes.jsx**
 
@@ -68,7 +68,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-Next, we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions and store needed:
+Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions, and store as needed:
 
 **app/components/App.jsx**
 
