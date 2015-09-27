@@ -453,7 +453,7 @@ The decorator receives three parameters:
 
 * `target` maps to the instance of the class.
 * `name` contains the name of the method being decorated.
-* `descriptor` is the most interesting piece as it allows us to annotate the method and manipulate its behavior. It could look like this for instance:
+* `descriptor` is the most interesting piece as it allows us to annotate the method and manipulate its behavior. It could look for example like this:
 
 ```javascript
 const descriptor = {
