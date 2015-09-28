@@ -10,19 +10,19 @@ export default class Lane extends React.Component {
   constructor(props) {
     super(props);
 
-    const id = props.id;
+    const id = props.lane.id;
 
     this.addNote = this.addNote.bind(this, id);
     this.deleteNote = this.deleteNote.bind(this, id);
     this.editName = this.editName.bind(this, id);
   }
   render() {
-    const {id, name, notes, ...props} = this.props;
+    const {lane, ...props} = this.props;
 
     return (
       <div {...props}>
         <div className="lane-header">
-          <Editable className="lane-name" value={name}
+          <Editable className="lane-name" value={lane.name}
             onEdit={this.editName} />
           <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
@@ -31,7 +31,7 @@ export default class Lane extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={ {
-            items: () => NoteStore.get(notes)
+            items: () => NoteStore.get(lane.notes)
           } }
         >
           <Notes
@@ -49,8 +49,8 @@ export default class Lane extends React.Component {
     NoteActions.update({id, task});
   }
   deleteNote(laneId, noteId) {
-    NoteActions.delete(noteId);
     LaneActions.detachFromLane({laneId, noteId});
+    NoteActions.delete(noteId);
   }
   editName(id, name) {
     if(name) {

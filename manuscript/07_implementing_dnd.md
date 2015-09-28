@@ -379,7 +379,7 @@ import ItemTypes from '../constants/itemTypes';
 
 const noteTarget = {
   hover(targetProps, monitor) {
-    const targetId = targetProps.id;
+    const targetId = targetProps.lane.id;
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
@@ -393,7 +393,7 @@ const noteTarget = {
 export default class Lane extends React.Component {
   ...
   render() {
-    const {connectDropTarget, id, name, notes, ...props} = this.props;
+    const {connectDropTarget, lane, ...props} = this.props;
 
     return connectDropTarget(
       ...
@@ -414,7 +414,7 @@ const noteTarget = {
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
-    if(!targetProps.notes.length) {
+    if(!targetProps.lane.notes.length) {
       console.log('source', sourceId, 'target', targetProps);
     }
   }
@@ -435,9 +435,9 @@ const noteTarget = {
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
-    if(!targetProps.notes.length) {
+    if(!targetProps.lane.notes.length) {
       LaneActions.attachToLane({
-        laneId: targetProps.id,
+        laneId: targetProps.lane.id,
         noteId: sourceId
       });
     }

@@ -120,12 +120,10 @@ export default class Lanes extends React.Component {
     return <div className="lanes">{lanes.map(this.renderLane)}</div>;
   }
   renderLane(lane) {
-    return <Lane className="lane" key={`lane${lane.id}`} {...lane} />;
+    return <Lane className="lane" key={`lane${lane.id}`} lane={lane} />;
   }
 }
 ```
-
-Note that we are using [Object rest spread syntax](https://gist.github.com/sebmarkbage/07bbe37bc42b6d4aef81) `{...lane}` to pass lane specific props to each `Lane`.
 
 We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane including its name and associated notes:
 
@@ -140,12 +138,12 @@ import NoteStore from '../stores/NoteStore';
 
 export default class Lane extends React.Component {
   render() {
-    const {name, ...props} = this.props;
+    const {lane, ...props} = this.props;
 
     return (
       <div {...props}>
         <div className="lane-header">
-          <div className="lane-name">{name}</div>
+          <div className="lane-name">{lane.name}</div>
           <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
@@ -173,7 +171,7 @@ export default class Lane extends React.Component {
 }
 ```
 
-I am using [Object rest spread syntax (stage 2)](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) in the example. This allows us to attach a `className` to `Lane` and we avoid polluting it with HTML attributes we don't need.
+I am using [Object rest spread syntax (stage 2)](https://github.com/sebmarkbage/ecmascript-rest-spread) (`{a, b, ...props} = this.props`) in the example. This allows us to attach a `className` to `Lane` and we avoid polluting it with HTML attributes we don't need. The syntax expands Object key value pairs as props so we don't have to write each prop we want separately.
 
 If you run the application, you can see there's something wrong. If you add new `Notes` to a `Lane`, the `Note` appears to each `Lane`. Also if you modify a `Note`, the other `Lanes` update, too.
 
@@ -264,8 +262,8 @@ The rest of the code deals with the logic. First we try to find a matching lane.
 `deleteNote` is the opposite operation of `addNote`. When removing a `Note`, it's important to remove its association with a `Lane` as well. For this purpose we can implement `LaneActions.detachFromLane({laneId: <id>})`. We would use it like this:
 
 ```javascript
-NoteActions.delete(noteId);
 LaneActions.detachFromLane({laneId, noteId});
+NoteActions.delete(noteId);
 ```
 
 Again, we should set up an action:
@@ -408,18 +406,18 @@ export default class Lane extends React.Component {
   constructor(props) {
     super(props);
 
-    const id = props.id;
+    const id = props.lane.id;
 
     this.addNote = this.addNote.bind(this, id);
     this.deleteNote = this.deleteNote.bind(this, id);
   }
   render() {
-    const {id, name, notes, ...props} = this.props;
+    const {lane, ...props} = this.props;
 
     return (
       <div {...props}>
         <div className="lane-header">
-          <div className="lane-name">{name}</div>
+          <div className="lane-name">{lane.name}</div>
           <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
@@ -427,7 +425,7 @@ export default class Lane extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={ {
-            items: () => NoteStore.get(notes)
+            items: () => NoteStore.get(lane.notes)
           } }
         >
           <Notes
@@ -445,17 +443,16 @@ export default class Lane extends React.Component {
     NoteActions.update({id, task});
   }
   deleteNote(laneId, noteId) {
-    NoteActions.delete(noteId);
     LaneActions.detachFromLane({laneId, noteId});
+    NoteActions.delete(noteId);
   }
 }
 ```
 
-There are a couple of important changes:
+There are two important changes:
 
-* `const {id, name, notes, ...props} = this.props;` - New props are taken into account.
 * `items: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
-* `addNote`, `deleteNote` - These operate now based on the new logic we specified.
+* `addNote`, `deleteNote` - These operate now based on the new logic we specified. Note that we trigger `detachFromLane` before `delete` at `deleteNote`. Otherwise we may try to render non-existent notes. You can try swapping the order to see warnings.
 
 After these changes, we now have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
 
@@ -571,12 +568,12 @@ export default class Lane extends React.Component {
     this.editName = this.editName.bind(this, id);
   }
   render() {
-    const {id, name, notes, ...props} = this.props;
+    const {lane, ...props} = this.props;
 
     return (
       <div {...props}>
         <div className="lane-header">
-          <Editable className="lane-name" value={name}
+          <Editable className="lane-name" value={lane.name}
             onEdit={this.editName} />
           <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
@@ -766,7 +763,7 @@ export default class Lanes extends React.Component {
     );
 
     // old
-    // return <Lane className="lane" key={`lane${lane.id}`} {...lane} />;
+    // return <Lane className="lane" key={`lane${lane.id}`} lane={lane} />;
   }
 }
 ```

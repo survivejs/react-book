@@ -8,7 +8,7 @@ class Lanes extends React.Component {
     return <div className="lanes">{lanes.map(this.renderLane)}</div>;
   }
   renderLane(lane) {
-    return <Lane className="lane" key={`lane${lane.id}`} {...lane} />;
+    return <Lane className="lane" key={`lane${lane.id}`} lane={lane} />;
   }
 }
 Lanes.propTypes = {
