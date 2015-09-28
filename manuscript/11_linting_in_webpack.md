@@ -169,6 +169,8 @@ We can make Webpack emit ESLint messages for us by using [eslint-loader](https:/
 npm i eslint-loader --save-dev
 ```
 
+W> Note that `eslint-loader` will use a globally installed version of ESLint unless you have one included with the project itself! Make sure you have ESLint as a development dependency to avoid strange behavior.
+
 Next, we need to tweak our development configuration to include it. Add the following section to it:
 
 **webpack.config.js**
