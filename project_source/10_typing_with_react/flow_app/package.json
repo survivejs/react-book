@@ -7,7 +7,8 @@
     "build": "webpack",
     "start": "webpack-dev-server",
     "test": "karma start",
-    "tdd": "karma start --auto-watch --no-single-run"
+    "tdd": "karma start --auto-watch --no-single-run",
+    "flow": "flow check"
   },
   "keywords": [
     "webpack",
