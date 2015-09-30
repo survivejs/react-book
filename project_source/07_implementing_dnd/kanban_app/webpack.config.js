@@ -8,6 +8,8 @@ var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
+process.env.BABEL_ENV = TARGET;
+
 var common = {
   entry: APP_PATH,
   resolve: {
@@ -23,6 +25,11 @@ var common = {
         test: /\.css$/,
         loaders: ['style', 'css'],
         include: APP_PATH
+      },
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel'],
+        include: APP_PATH
       }
     ]
   },
@@ -36,15 +43,6 @@ var common = {
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval-source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel'],
-          include: APP_PATH
-        }
-      ]
-    },
     devServer: {
       historyApiFallback: true,
       hot: true,

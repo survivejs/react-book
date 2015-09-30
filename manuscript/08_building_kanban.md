@@ -28,16 +28,7 @@ We'll also need some build specific configuration to make Webpack pick up our JS
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    devtool: 'source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['babel'],
-          include: APP_PATH
-        }
-      ]
-    }
+    devtool: 'source-map'
   });
 }
 ```
@@ -75,9 +66,6 @@ The easiest way to enable minification is to call `webpack -p` (`-p` as in `prod
 if(TARGET === 'build') {
   module.exports = merge(common, {
     devtool: 'source-map',
-    module: {
-      ...
-    },
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -122,9 +110,6 @@ In Webpack terms, you can add the following snippet to the `plugins` section of 
 if(TARGET === 'build') {
   module.exports = merge(common, {
     devtool: 'source-map',
-    module: {
-      ...
-    },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
@@ -383,6 +368,15 @@ var common = {
     path: BUILD_PATH,
     filename: 'bundle.js'
   },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel'],
+        include: APP_PATH
+      }
+    ]
+  },
   plugins: [
     new HtmlwebpackPlugin({
       title: 'Kanban app'
@@ -399,8 +393,7 @@ if(TARGET === 'start' || !TARGET) {
           test: /\.css$/,
           loaders: ['style', 'css'],
           include: APP_PATH
-        },
-        ...
+        }
       ]
     },
     ...
@@ -417,8 +410,7 @@ if(TARGET === 'build') {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
           include: APP_PATH
-        },
-        ...
+        }
       ]
     },
     plugins: [

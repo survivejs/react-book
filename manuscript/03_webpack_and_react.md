@@ -101,22 +101,19 @@ var common = {
     extensions: ['', '.js', '.jsx']
   },
   ...
+  module: {
+    loaders: [
+      ...
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel'],
+        include: APP_PATH
+      }
+    ]
+  }
 };
 
-if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {
-    devtool: 'eval-source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['babel'],
-          include: APP_PATH
-        }
-      ]
-    }
-  });
-}
+...
 ```
 
 Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity but now you can omit it if you want to.
@@ -260,38 +257,60 @@ Before moving on, this is a good chance to get rid of the old `component.js` fil
 
 Note that every time you perform a modification, the browser updates with a flash. That's unfortunate because this means our application loses state. It doesn't matter yet, but as we keep on expanding the application this will become painful. It is annoying to manipulate the user interface back to the state in which it was to test something.
 
-We can work around this problem using hot loading. This is enabled by [react-hot-loader](https://gaearon.github.io/react-hot-loader/). It will swap React components one by one as they change without forcing a full refresh. There will be times when that will be necessary, but it will help a lot. Once you get used to hot loading, it is hard to live without.
+We can work around this problem using hot loading. [babel-plugin-react-transform](babel-plugin-react-transform) allow us to instrument React components in various ways. Hot loading is one of these. It is enabled through [react-transform-hmr](https://github.com/gaearon/react-transform-hmr).
 
-To enable hot loading for React, you should first install the package using
+*react-transform-hmr* will swap React components one by one as they change without forcing a full refresh. Given it just replaces methods, it won't catch every possible change. This includes changes made to class constructors. There will be times when you will need to force a refresh but it will work most of the time.
+
+To enable hot loading for React, you should first install the packages using
 
 ```bash
-npm i react-hot-loader --save-dev
+npm i babel-plugin-react-transform react-transform-hmr --save-dev
 ```
 
-We also need to make our configuration aware of it so it can inject hooks Webpack requires for the system to work.
+We also need to make Babel aware of HMR. First we should pass target environment to Babel through our Webpack configuration:
 
 **webpack.config.js**
 
 ```javascript
 ...
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
-if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {
-    devtool: 'eval-source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel'],
-          include: APP_PATH
+process.env.BABEL_ENV = TARGET;
+
+...
+```
+
+In addition we need to expand Babel configuration to include the plugin we need during development:
+
+**.babelrc**
+
+```json
+{
+  "stage": 1,
+  "env": {
+    "start": {
+      "plugins": [
+        "react-transform"
+      ],
+      "extra": {
+        "react-transform": {
+          "transforms": [
+            {
+              "transform": "react-transform-hmr",
+              "imports": ["react"],
+              "locals": ["module"]
+            }
+          ]
         }
-      ]
+      }
     }
-  });
+  }
 }
 ```
 
 Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things such as this add up and make you more effective.
+
+T> If you want to show errors directly in the browser, you can configure [react-transform-catch-errors](https://github.com/gaearon/react-transform-catch-errors). At the time of writing it works reliable only with `devtool: 'eval'` but regardless it may be worth a look.
 
 W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/chromium/issues/detail?id=492902) and Firefox due to browser level bugs! This may change in the future as the browsers get patched, though.
 
