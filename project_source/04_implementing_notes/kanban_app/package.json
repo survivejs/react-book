@@ -17,7 +17,6 @@
     "babel-loader": "^5.3.2",
     "css-loader": "^0.15.5",
     "html-webpack-plugin": "^1.6.0",
-    "node-libs-browser": "^0.5.2",
     "react-hot-loader": "^1.2.8",
     "style-loader": "^0.12.3",
     "webpack": "^1.10.1",

@@ -36,10 +36,8 @@ T> You can push operating level ignore rules such as `.DS_Store` and `*.log` to 
 Next, you should get Webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain Webpack's version per project. Hit
 
 ```bash
-npm i webpack node-libs-browser --save-dev
+npm i webpack --save-dev
 ```
-
-T> `node-libs-browser` is installed as it is a peer dependency of Webpack. Starting from npm 3 it won't get installed automatically. It's a good idea to have it installed in order to be future-proof.
 
 This is a good opportunity to try to run Webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version log, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality if nothing else.
 
