@@ -51,7 +51,7 @@ I expect that you have a basic knowledge of JavaScript and Node.js. You should b
 
 The book content and source are available at [GitHub](https://github.com/survivejs/webpack_react). This allows you to start from any chapter you want.
 
-You can also find alternative implementations of the application using [mobservable](https://github.com/survivejs/mobservable-demo) and [Redux](https://github.com/survivejs/redux-demo). Studying those can give you a good idea of how different architectures work out using the same example.
+You can also find alternative implementations of the application using [mobservable](https://github.com/survivejs/mobservable-demo), [Redux](https://github.com/survivejs/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
 
 ## Getting Support
 
