@@ -222,7 +222,7 @@ vendor.dc746a5db4ed650296e1.js
 
 If the file contents are different, the hash will change as well, thus invalidating the cache, or more accurately the browser will send a new request for the new file.
 
-An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e. `app.js?d587bbd6e38337f5accd`). The part behind the question mark will invalidate the cache. This method is not recommended. According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
+An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e., `app.js?d587bbd6e38337f5accd`). The part behind the question mark will invalidate the cache. This method is not recommended. According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
 
 It's just as easy to include the hash in the filename itself, and I find this convention to be cleaner.
 

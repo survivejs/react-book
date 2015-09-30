@@ -230,7 +230,7 @@ Note that the rule specific examples assume you have the rules in your configura
 
 ### Setting Environment
 
-Sometimes you may want to run ESLint in a specific environment, such as Node.js or Mocha. These environments have certain conventions of their own. For instance, Mocha relies on a custom keywords (e.g. `describe`, `it`) and its good if the linter doesn't choke on those.
+Sometimes you may want to run ESLint in a specific environment, such as Node.js or Mocha. These environments have certain conventions of their own. For instance, Mocha relies on a custom keywords (e.g., `describe`, `it`) and its good if the linter doesn't choke on those.
 
 ESLint provides two ways to deal with this - local and global. If you want to set it per file, you can use a declaration at the beginning of a file:
 
@@ -386,7 +386,7 @@ We should also tweak *package.json* targets so that we can lint what we want out
 }
 ```
 
-That `--quiet` flag is there to keep the tool silent unless there are errors. If you hit `npm run lint-css` now, you might see some errors or not depending on whether the process passes. If you want to trigger a failure, try overqualifying a selector. I.e. do something like `body.lane` and you should get a warning.
+That `--quiet` flag is there to keep the tool silent unless there are errors. If you hit `npm run lint-css` now, you might see some errors or not depending on whether the process passes. If you want to trigger a failure, try overqualifying a selector. I.e., do something like `body.lane` and you should get a warning.
 
 Thanks to the Webpack configuration we did, you should get output during `npm start` process as well. In addition, you should consider setting up csslint with your editor. That way you get more integrated development experience.
 

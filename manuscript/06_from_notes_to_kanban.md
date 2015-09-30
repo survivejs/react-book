@@ -8,7 +8,7 @@ Most importantly our system is missing the concept of `Lane`. A `Lane` is someth
 
 ## Extracting `Lanes`
 
-As earlier, we can use the same idea of two components here. There will be a component for the higher level (i.e. `Lanes`) and for the lower level (i.e. `Lane`). The higher level component will deal with lane ordering. A `Lane` will render itself (i.e. name and `Notes`) and have basic manipulation operations.
+As earlier, we can use the same idea of two components here. There will be a component for the higher level (i.e., `Lanes`) and for the lower level (i.e., `Lane`). The higher level component will deal with lane ordering. A `Lane` will render itself (i.e., name and `Notes`) and have basic manipulation operations.
 
 Just as with `Notes`, we are going to need a set of actions. For now it is enough if we can just create new lanes so we can create a corresponding action for that as below:
 

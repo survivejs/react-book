@@ -304,7 +304,7 @@ css.setClass('.warning', {
 SmartCSS.injectStyles();
 ```
 
-The approach supports pseudoselectors. I.e. you could define a selector such as `.button:hover` and it would just work.
+The approach supports pseudoselectors. I.e., you could define a selector such as `.button:hover` and it would just work.
 
 There are plans to introduce autoprefixing, better ways to deal with measurements, better APIs for complex properties and for a Webpack plugin to extract the CSS into an external file.
 
