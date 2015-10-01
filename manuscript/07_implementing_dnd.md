@@ -364,7 +364,66 @@ export default class LaneStore {
 }
 ```
 
-If you try out the application now, you can actually drag notes around and it should behave as you expect. You cannot drag notes to an empty lane yet, though.
+If you try out the application now, you can actually drag notes around and it should behave as you expect. The presentation could be better, though.
+
+It would be better if indicated the note target better. We can do this by hiding the dragged note from the list. React DnD provides us the hooks we need.
+
+### Indicating Where to Move
+
+React DnD provides a feature known as state monitors. We can use `monitor.isDragging()` to detect which note we are currently dragging. It can be set up as follows:
+
+**app/components/Note.jsx**
+
+```javascript
+...
+
+@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging() // map isDragging() state to isDragging prop
+}))
+@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+  connectDropTarget: connect.dropTarget()
+}))
+export default class Note extends React.Component {
+  render() {
+    const {connectDragSource, connectDropTarget, isDragging,
+      onMove, id, ...props} = this.props;
+
+      return connectDragSource(connectDropTarget(
+        <li style={{
+          opacity: isDragging ? 0 : 1
+        }} {...props}>{props.children}</li>
+      ));
+  }
+}
+```
+
+If you drag a note within a lane, you should see the behavior we expect. The target should be shown as blank. If you try moving the note to another lane and move it there, you will see this doesn't quite work.
+
+The problem is that our note component gets unmounted during this process. This makes it lose `isDragging` state. Fortunately we can override the default behavior by implementing a `isDragging` check of our own to fix the issue. Perform the following addition:
+
+**app/components/Note.jsx**
+
+```javascript
+...
+
+const noteSource = {
+  beginDrag(props) {
+    return {
+      id: props.id
+    };
+  },
+  isDragging(props, monitor) {
+    return props.id === monitor.getItem().id;
+  }
+};
+
+...
+```
+
+This tells React DnD to perform our custom check instead of relying on the default logic. After this change, unmounting won't be an issue and the feature works as we expect.
+
+There is one little problem in our system. We cannot drag notes to an empty lane yet.
 
 ## Dragging Notes to an Empty Lanes
 
