@@ -6,7 +6,7 @@ Flux will allow us to separate data and application state from our Views. This h
 
 ## Introduction to Flux
 
-![Flux dataflow](images/flux.png)
+![Unidirectional Flux dataflow](images/flux_linear.png)
 
 So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher, and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient, they come with a cost. It can be hard to deduce what's going on and why.
 
@@ -18,9 +18,11 @@ At the simplest level, actions can just pass the message to dispatcher as is. Th
 
 Once the dispatcher has dealt with the action, Stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
 
-This completes the loop as Views listening to the Stores receive the data. They can use it to update their own state. As a result, the user interface gets refreshed.
+In practice we trigger our actions through our Views. It is the same idea again but in a form of a cycle this time. Eventually the components depending our our Store data become refreshed.
 
 This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow is always in a single direction, it is easy to trace and debug. If there's something wrong, it's somewhere within the cycle.
+
+![Flux dataflow with cycle](images/flux.png)
 
 ### Advantages of Flux
 
