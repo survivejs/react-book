@@ -108,7 +108,7 @@ If you run the application now, you can see it almost works. There's a small gli
 
 ![Almost done](images/react_02.png)
 
-T> If you want to examine your application state, it can be useful to attach a `debugger;` statement to the place you want to study. This will cause the browser debugging tools to trigger and allow you to study the current call stack and scope. You can attach breakpoints like this through browser but this is a good alternative.
+T> If you want to examine your application state, it can be useful to attach a `debugger;` statement to the place you want to study. This will cause the browser debugging tools to trigger and allow you to study the current call stack and scope. You can attach breakpoints like this through browser, but this is a good alternative.
 
 ## Fixing `Note`
 

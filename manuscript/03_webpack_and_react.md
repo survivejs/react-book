@@ -42,7 +42,7 @@ function render() {
 
 If you haven't seen JSX before it will likely look strange. It isn't uncommon to experience "JSX shock" until you start to understand it. After that it all makes sense.
 
-Cory House goes into more detail [about the shock](https://medium.com/@housecor/react-s-jsx-the-other-side-of-the-coin-2ace7ab62b98). Briefly summarized, JSX gives us a level of validation we haven't encountered earlier. It takes a while to grasp but once you get it, it's hard to go back.
+Cory House goes into more detail [about the shock](https://medium.com/@housecor/react-s-jsx-the-other-side-of-the-coin-2ace7ab62b98). Briefly summarized, JSX gives us a level of validation we haven't encountered earlier. It takes a while to grasp, but once you get it, it's hard to go back.
 
 T> Note that `render()` [must return a single node](https://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html). Returning multiple won't work!
 
@@ -116,7 +116,7 @@ var common = {
 ...
 ```
 
-Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity but now you can omit it if you want to.
+Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity, but for now you can omit it.
 
 T> As `resolve.extensions` gets evaluated from left to right, we can use it to control which code gets loaded for given configuration. For instance, you could have `.web.js` to define web specific parts and then have something like `['', '.web.js', '.js', '.jsx']`. If a "web" version of the file is found, Webpack would use that instead of the default.
 
@@ -134,7 +134,7 @@ There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelr
 
 ### Advanced Babel Setup
 
-Babel is a powerful tool. You can even use it to process your Webpack configuration. We won't be doing this yet but it's a good technique to be aware of.
+Babel is a powerful tool. You can even use it to process your Webpack configuration. We won't be doing this yet, but it's a good technique to be aware of.
 
 First you will need to make sure Babel is included into your project as a dependency. After that you can rename your `webpack.config.js` as `webpack.config.babel.js`. Webpack will process configuration through Babel after that. It picks up `.babelrc` settings.
 
@@ -259,7 +259,7 @@ Note that every time you perform a modification, the browser updates with a flas
 
 We can work around this problem using hot loading. [babel-plugin-react-transform](babel-plugin-react-transform) allow us to instrument React components in various ways. Hot loading is one of these. It is enabled through [react-transform-hmr](https://github.com/gaearon/react-transform-hmr).
 
-*react-transform-hmr* will swap React components one by one as they change without forcing a full refresh. Given it just replaces methods, it won't catch every possible change. This includes changes made to class constructors. There will be times when you will need to force a refresh but it will work most of the time.
+*react-transform-hmr* will swap React components one by one as they change without forcing a full refresh. Given it just replaces methods, it won't catch every possible change. This includes changes made to class constructors. There will be times when you will need to force a refresh, but it will work most of the time.
 
 To enable hot loading for React, you should first install the packages using
 
@@ -310,7 +310,7 @@ In addition we need to expand Babel configuration to include the plugin we need 
 
 Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things such as this add up and make you more effective.
 
-T> If you want to show errors directly in the browser, you can configure [react-transform-catch-errors](https://github.com/gaearon/react-transform-catch-errors). At the time of writing it works reliable only with `devtool: 'eval'` but regardless it may be worth a look.
+T> If you want to show errors directly in the browser, you can configure [react-transform-catch-errors](https://github.com/gaearon/react-transform-catch-errors). At the time of writing it works reliable only with `devtool: 'eval'`, but regardless it may be worth a look.
 
 W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/chromium/issues/detail?id=492902) and Firefox due to browser level bugs! This may change in the future as the browsers get patched, though.
 
