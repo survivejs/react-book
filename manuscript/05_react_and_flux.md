@@ -626,9 +626,9 @@ You can use the same mechanism on the Store level. In that case you would trigge
 
 ## Relay?
 
-Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) is an interesting alternative to Flux. It improves on the data fetching department. It allows you to push data requirements to the View level.
+Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) improves on the data fetching department. It allows you to push data requirements to the View level. It can be used standalone or with Flux depending on your needs.
 
-Given it's still untested technology, we won't be covering it in this book yet. Relay comes with special requirements of its own (GraphQL compatible API). Only time will tell how it gets adopted.
+Given it's still largely untested technology, we won't be covering it in this book yet. Relay comes with special requirements of its own (GraphQL compatible API). Only time will tell how it gets adopted by the community.
 
 ## Conclusion
 
