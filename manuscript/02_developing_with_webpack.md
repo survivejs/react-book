@@ -4,6 +4,8 @@ If you are not one of those people who likes to skip the introductions, you migh
 
 This sounds simple, but in practice, it can be a complicated and messy process. You definitely don't want to deal with all the details yourself. This is where Webpack fits in. Next, we'll get Webpack set up and your first project running in development mode.
 
+W> Before getting started, make sure you are using a recent version of Node.js. Especially Node.js 0.10 has [issues with css-loader](https://github.com/webpack/css-loader/issues/144). This will save you some trouble.
+
 ## Setting Up the Project
 
 Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and that you have `npm` available at your terminal. Set up a directory for your project, navigate there, hit `npm init` and fill in some details. You can just hit *return* for each and it will work. Here are the commands:
