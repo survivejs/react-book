@@ -1,6 +1,6 @@
 # Authoring Libraries
 
-[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Initially it was used mostly for managing back-end packages. It has become increasingly popular in front-end development. As you have seen so far it is easy to consume npm packages using webpack.
+[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Initially it was used mostly for managing back-end packages. It has become increasingly popular in front-end development. As you have seen so far, it is easy to consume npm packages using webpack.
 
 Eventually you might want to publish your own packages. You can consider our demo application a package of its own, sort of. We could even design applications to be pluggable so that you could glue them into a bigger whole. This would take some careful thought. In theory you could split everything up in smaller sections which you then knit together.
 
@@ -10,26 +10,26 @@ Most of npm packages are small and include just a select few files such as:
 
 * *index.js* - On small projects it's enough to have the code at the root. On larger ones you may want to start splitting it up further.
 * *package.json* - npm metadata in JSON format
-* *README.md* - README is the most important document of your project. It is written in Markdown format and provides an overview. On simple projects the whole documentation can fit there. It will be shown at the package page at *npmjs.com*.
+* *README.md* - README is the most important document of your project. It is written in Markdown format and provides an overview. For simple projects the whole documentation can fit there. It will be shown at the package page at *npmjs.com*.
 * *LICENSE* - You should include licensing information within your project. You can refer to it from *package.json*.
 
 In bigger projects you may find the following:
 
 * *CONTRIBUTING.md* - A guide for potential contributors. How should the code be developed and so on.
-* *CHANGELOG.md* - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history provided you write nice enough commits.
+* *CHANGELOG.md* - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history, provided you write nice enough commits.
 * *.travis.yml* - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course, but Travis is very popular.
-* *bower.json* - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for front-end. That said, just providing npm support is often enough.
-* *.gitignore* - Ignore patterns for Git. I.e., which file shouldn't go to version control.
+* *bower.json* - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for the front-end. That said, just providing npm support is often enough.
+* *.gitignore* - Ignore patterns for Git, i.e., which files shouldn't go under version control.
 * *.eslintignore* - Ignore patterns for ESLint. Again, tool specific.
 * *.npmignore* - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
 * *.eslintrc* - Linting rules. You can use *.jshintrc* and such based on your preferences.
 * *webpack.config.js* - If you are using a simple setup, you might as well have the configuration at project root.
 
-In addition, you'll likely have various directories for source, tests, demos, documentation and so on.
+In addition, you'll likely have various directories for source, tests, demos, documentation, and so on.
 
 ## Understanding *package.json*
 
-All packages come with a *package.json* that describes metadata related to them. This includes information about the author, various links, dependencies and so on. The [official documentation](https://docs.npmjs.com/files/package.json) covers them in detail.
+All packages come with a *package.json* that describes metadata related to them. This includes information about the author, various links, dependencies, and so on. The [official documentation](https://docs.npmjs.com/files/package.json) covers them in detail.
 
 I've annotated *package.json* of my [React component boilerplate](https://github.com/survivejs/react-component-boilerplate) below.
 
@@ -134,7 +134,7 @@ T> It can be useful to use `npm link` during development. That will allow you to
 
 Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
 
-An alternative way to consume a library is to point at it directly at *package.json*. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
+An alternative way to consume a library is to point at it directly in *package.json*. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
 
 ## Respect the SemVer
 
@@ -146,9 +146,9 @@ I output my React component in various formats at my boilerplate. I generate a v
 
 In addition, I generate so called *distribution bundles*: `.js` and `.min.js`. There's a sourcemap (`.map`) for both. That is useful for debugging. It is possible to consume these bundles standalone. They come with an [UMD](https://github.com/umdjs/umd) wrapper.
 
-UMD makes it possible to consume them from various environments including global, AMD and CommonJS (Node.js format). You can refresh your memory with these by checking the Getting Started chapter for examples.
+UMD makes it possible to consume them from various environments including global, AMD, and CommonJS (Node.js format). You can refresh your memory with these by checking the Getting Started chapter for examples.
 
-It is surprisingly easy to generate the aforementioned bundles using Webpack. In case of my boilerplate the configuration is as follows:
+It is surprisingly easy to generate the aforementioned bundles using Webpack. In the case of my boilerplate, the configuration is as follows:
 
 ```javascript
 ...
@@ -202,7 +202,7 @@ Most of the magic happens thanks to `devtool` and `output` declarations. In addi
 
 ## npm Lifecycle Hooks
 
-npm provides various lifecycle hooks that can be useful. Suppose you are authoring a React component using Babel and some of its goodies. You could let *package.json* `main` field point at the UMD version as generated above. This won't be ideal for those consuming the library through npm, though.
+npm provides various lifecycle hooks that can be useful. Suppose you are authoring a React component using Babel and some of its goodies. You could let the *package.json* `main` field point at the UMD version as generated above. This won't be ideal for those consuming the library through npm, though.
 
 It is better to generate a ES5 compatible version of the package for npm consumers. This can be achieved using **babel** CLI tool:
 
@@ -210,7 +210,7 @@ It is better to generate a ES5 compatible version of the package for npm consume
 babel ./lib --out-dir ./dist-modules
 ```
 
-This will walk through `./lib` directory and output a processed file for each it encounters to `./dist-modules`.
+This will walk through the `./lib` directory and output a processed file for each library it encounters to `./dist-modules`.
 
 Since we want to avoid having to run the command directly whenever we publish a new version, we can connect it to `prepublish` hook like this:
 
@@ -223,7 +223,7 @@ Since we want to avoid having to run the command directly whenever we publish a 
 
 Make sure you hit `npm i babel --save-dev` to include the tool into your project.
 
-You probably don't want the directory content to end up to your Git repository. In order to avoid this and to keep your `git status` clean, consider this sort of `.gitignore`:
+You probably don't want the directory content to end up in your Git repository. In order to avoid this and to keep your `git status` clean, consider this sort of `.gitignore`:
 
 ```bash
 dist-modules/
@@ -242,17 +242,17 @@ An important part of maintaining npm packages is keeping their dependencies up t
 
 There are a few ways to approach dependency updates:
 
-* You can update all dependencies at once and hope for the best. Tools such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) can do this for you. Remember to invoke `npm i` after to make sure you have the right dependencies installed for testing the changes.
-* Install the newest version of some specific dependency. I.e., `npm i lodash@* --save`. This is more controlled way to approach the problem.
+* You can update all dependencies at once and hope for the best. Tools such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) can do this for you. Remember to invoke `npm i` afterward to make sure you have the right dependencies installed for testing the changes.
+* Install the newest version of some specific dependency, e.g., `npm i lodash@* --save`. This is a more controlled way to approach the problem.
 * Patch version information by hand by modifying *package.json* directly.
 
-It is important to remember that your dependencies may introduce backwards incompatible changes. It can be useful to remember how SemVer works and study dependency release notes. They might not exist always so you may have to go through the project commit history.
+It is important to remember that your dependencies may introduce backwards incompatible changes. It can be useful to remember how SemVer works and study dependency release notes. They might not always exist, so you may have to go through the project commit history.
 
 There are a few services that can help you to keep track of your project dependencies:
 
 * [David](https://david-dm.org/)
 * [versioneye](https://www.versioneye.com/)
-* [Gemnasium](https://gemnasium.com).
+* [Gemnasium](https://gemnasium.com)
 
 These services provide badges you can integrate into your project `README.md`. These services may email you about important changes. They can also point out possible security issues that have been fixed.
 
@@ -262,11 +262,11 @@ These services are valuable as they allow you to test your updates against a var
 
 ## Sharing Authorship
 
-As packages evolve you may want to start developing with others. You could become the new maintainer of some project or pass the torch to someone other. These things happen as packages evolve.
+As packages evolve you may want to start developing with others. You could become the new maintainer of some project, or pass the torch to someone else. These things happen as packages evolve.
 
 npm provides a few commands for these purposes. It's all behind `npm owner` namespace. More specifically you'll find `ls <package name>`, `add <user> <package name>` and `rm <user> <package name>` there (i.e., `npm owner ls`). That's about it.
 
-See [npm documentation](https://docs.npmjs.com/cli/owner) for most up to date information about the topic.
+See [npm documentation](https://docs.npmjs.com/cli/owner) for the most up to date information about the topic.
 
 ## Conclusion
 
