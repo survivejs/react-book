@@ -6,7 +6,7 @@ With React styling is still in bit of a flux and we're still figuring out the be
 
 ## Old School Styling
 
-The old school approach to styling was to sprinkle some ids and classes around, set up rules and hope for the best. Although this can work up to an extent it gets more complicated as development goes on. By default, everything is global in CSS. Furthermore nesting definitions (e.g., `.main .sidebar .button`) creates implicit logic to your styling.
+The old school approach to styling was to sprinkle some ids and classes around, set up rules, and hope for the best. Although this can work up to an extent, it gets more complicated as development goes on. By default everything is global in CSS. Furthermore, nesting definitions (e.g., `.main .sidebar .button`) creates implicit logic to your styling.
 
 ### Webpack Configuration for Vanilla CSS
 
@@ -29,11 +29,11 @@ var common = {
 };
 ```
 
-To recap first [css-loader](https://www.npmjs.com/package/css-loader) goes through possible `@import` and `url()` statements within the matched files and treats them as regular `require`. This allows us to rely on various other loaders such as [file-loader](https://www.npmjs.com/package/file-loader) or [url-loader](https://www.npmjs.com/package/url-loader).
+To recap, first [css-loader](https://www.npmjs.com/package/css-loader) goes through possible `@import` and `url()` statements within the matched files and treats them as regular `require`. This allows us to rely on various other loaders such as [file-loader](https://www.npmjs.com/package/file-loader) or [url-loader](https://www.npmjs.com/package/url-loader).
 
-`file-loader` generates files while `url-loader` can create inline data urls for small resources. This can be useful for optimizing application loading. You avoid unnecessary requests while providing a slightly bigger payload. Small improvements can yield large benefits if you depend on a lot of small resources at your style definitions.
+`file-loader` generates files, whereas `url-loader` can create inline data URLs for small resources. This can be useful for optimizing application loading. You avoid unnecessary requests while providing a slightly bigger payload. Small improvements can yield large benefits if you depend on a lot of small resources in your style definitions.
 
-Finally `style-loader` picks up `css-loader` output and injects the CSS to the bundle. As we saw earlier in the build chapter, it is possible to use `ExtractTextPlugin` to generate a separate CSS file.
+Finally `style-loader` picks up `css-loader` output and injects the CSS into the bundle. As we saw earlier in the build chapter, it is possible to use `ExtractTextPlugin` to generate a separate CSS file.
 
 ## CSS Methodologies
 
