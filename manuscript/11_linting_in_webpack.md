@@ -8,15 +8,15 @@ Better yet, modern editors and IDEs offer strong support for popular tools. This
 
 The linter that started it it all for JavaScript is Douglas Crockford's [JSLint](http://www.jslint.com/). It is opinionated like the man himself. The next step in evolution was [JSHint](http://jshint.com/). It took the opinionated edge out of JSLint and allowed for more customization. [ESLint](http://eslint.org/) is the newest tool in vogue.
 
-ESLint goes to the next level as it allows you to implement custom rules, parsers and reporters. ESLint works with Babel and JSX syntax making it ideal for React projects. The project rules have been documented well and you have full control over their severity. These features alone make it a powerful tool.
+ESLint goes to the next level as it allows you to implement custom rules, parsers, and reporters. ESLint works with Babel and JSX syntax making it ideal for React projects. The project rules have been documented well and you have full control over their severity. These features alone make it a powerful tool.
 
-Besides linting for issues, it can be useful to manage the code style on some level. Nothing is more annoying than having to work with a source that has mixed tabs or spaces. Stylistically consistent code reads better and is easier to work with.
+Besides linting for issues, it can be useful to manage the code style on some level. Nothing is more annoying than having to work with source code that has mixed tabs and spaces. Stylistically consistent code reads better and is easier to work with.
 
-[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack, although, ESLint implements a large part of its functionality
+[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack, although ESLint implements a large part of its functionality.
 
 ## Webpack and JSHint
 
-Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. You could set it up on a legacy project easily. Install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project first:
+Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately there's one for JSHint. You could set it up on a legacy project easily. Install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project first:
 
 ```bash
 npm i jshint jshint-loader --save-dev
@@ -66,9 +66,9 @@ If you try running JSHint on our project, you will get a lot of output. It's not
 
 ![ESLint](images/eslint.png)
 
-[ESLint](http://eslint.org/) is a recent linting solution for JavaScript. It builds on top of ideas presented by JSLint and JSHint. Most importantly it allows you to develop custom rules. As a result, a nice set of rules have been developed for React in form of [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react).
+[ESLint](http://eslint.org/) is a recent linting solution for JavaScript. It builds on top of ideas presented by JSLint and JSHint. More importantly it allows you to develop custom rules. As a result, a nice set of rules have been developed for React in the form of [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react).
 
-T> Since *v1.4.0* ESLint supports a feature known as [autofixing](http://eslint.org/blog/2015/09/eslint-v1.4.0-released/). It allows you to perform certain rule fixes automatically. To activate it, pass `--fix` flag to the tool.
+T> Since *v1.4.0* ESLint supports a feature known as [autofixing](http://eslint.org/blog/2015/09/eslint-v1.4.0-released/). It allows you to perform certain rule fixes automatically. To activate it, pass the flag `--fix` to the tool.
 
 ### Connecting ESlint with *package.json*
 
@@ -90,7 +90,7 @@ This will add ESLint and the plugin we want to use as our project development de
 ...
 ```
 
-This will trigger ESLint against all JS and JSX files of our project. That's definitely too much so we'll need to restrict it to avoid going through possible production build. Set up *.eslintignore* to the project root like this:
+This will trigger ESLint against all JS and JSX files of our project. That's definitely too much, so we'll need to restrict it to avoid going through a possible production build. Set up *.eslintignore* to the project root like this:
 
 **.eslintignore**
 
@@ -98,7 +98,7 @@ This will trigger ESLint against all JS and JSX files of our project. That's def
 build/
 ```
 
-Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. You'll find more information about the rules at [the official rule documentation](http://eslint.org/docs/rules/).
+Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. For details see the official [ESLint rules documentation](http://eslint.org/docs/rules/).
 
 **.eslintrc**
 
@@ -127,7 +127,7 @@ Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-
 }
 ```
 
-T> ESLint supports ES6 features through configuration. You will have to specify the features to use through [ecmaFeatures](http://eslint.org/docs/user-guide/configuring.html#specifying-language-options) property.
+T> ESLint supports ES6 features through configuration. You will have to specify the features to use through the [ecmaFeatures](http://eslint.org/docs/user-guide/configuring.html#specifying-language-options) property.
 
 The severity of an individual rule is defined by a number as follows:
 
@@ -135,17 +135,17 @@ The severity of an individual rule is defined by a number as follows:
 * 1 - The rule will emit a warning.
 * 2 - The rule will emit an error.
 
-Some rules, such as `quotes`, accept an array instead. This allows you to pass extra parameters to them. Refer to the rule specific documentation for specifics.
+Some rules, such as `quotes`, accept an array instead. This allows you to pass extra parameters to them. Refer to the rule's documentation for specifics.
 
-The `react/` rules listed above are just a small subset of all rules available. Pick rules from [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) as needed.
+The `react/` rules listed above are just a small subset of all available rules. Pick rules from [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) as needed.
 
-T> Note that you can write ESLint configuration directly to *package.json*. Set up a `eslintConfig` field and write your declarations below it.
+T> Note that you can write ESLint configuration directly to *package.json*. Set up a `eslintConfig` field, and write your declarations below it.
 
 T> It is possible to generate a sample `.eslintrc` using `eslint --init` (or `node_modules/.bin/eslint --init` for local install). This can be useful on new projects.
 
 ### Dealing with `ELIFECYCLE` Error
 
-In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error. A good way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit. You can define an alias for this purpose. At Unix you would do `alias run='npm run --silent'` and then `run <script>`.
+In case the linting process fails, `npm` will give you a nasty looking `ELIFECYCLE` error. A good way to achieve a tidier output is to invoke `npm run lint --silent`. That will hide the `ELIFECYCLE` bit. You can define an alias for this purpose. In Unix you would do `alias run='npm run --silent'` and then `run <script>`.
 
 Alternatively, you could pipe output to `true` like this:
 
@@ -190,7 +190,7 @@ var common = {
 };
 ```
 
-We are including the configuration to `common` as then linting gets performed always. This way you can make sure your production build passes your rules while making sure you benefit from linting during development.
+We are including the configuration to `common` so that linting always gets performed. This way you can make sure your production build passes your rules while making sure you benefit from linting during development.
 
 If you execute `npm start` now and break some linting rule while developing, you should see that in the terminal output. The same should happen when you build the project.
 
