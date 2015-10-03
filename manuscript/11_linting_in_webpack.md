@@ -394,7 +394,7 @@ Thanks to the Webpack configuration we did, you should get output during `npm st
 
 ![JSCS](images/jscs.png)
 
-Especially in a team environment it can be annoying if one guy uses tabs and other spaces. There can also be discrepancies between space usage. Some like to use two, some like four for indentation. In short, it can get pretty messy without any discipline. Fortunately, there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project, but it's good to be aware of it. You can install it through
+Especially in a team environment, it can be annoying if one guy uses tabs and another uses spaces. There can also be discrepancies between space usage. Some like to use two spaces, and some like four for indentation. In short, it can get pretty messy without any discipline. Fortunately there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project, but it's good to be aware of it. You can install it through
 
 ```bash
 npm i jscs jscs-loader --save-dev
@@ -479,4 +479,4 @@ indent_size = 2
 
 ## Conclusion
 
-In this chapter you learned how to lint your code using Webpack in various ways. It is one of those techniques that yields benefits over longer term. You can fix possible problems before they become actual issues.
+In this chapter you learned how to lint your code using Webpack in various ways. It is one of those techniques that yields benefits over the long term. You can fix possible problems before they become actual issues.
