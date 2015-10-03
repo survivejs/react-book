@@ -386,7 +386,7 @@ We should also tweak *package.json* targets so that we can lint what we want out
 }
 ```
 
-That `--quiet` flag is there to keep the tool silent unless there are errors. If you hit `npm run lint-css` now, you might see some errors or not depending on whether the process passes. If you want to trigger a failure, try overqualifying a selector. I.e., do something like `body.lane` and you should get a warning.
+That `--quiet` flag is there to keep the tool silent unless there are errors. If you hit `npm run lint-css` now, you might see some errors or not depending on whether the process passes. If you want to trigger a failure, try overqualifying a selector, e.g., do something like `body.lane`, and you should get a warning.
 
 Thanks to the Webpack configuration we did, you should get output during `npm start` process as well. In addition, you should consider setting up csslint with your editor. That way you get more integrated development experience.
 
