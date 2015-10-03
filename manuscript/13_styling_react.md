@@ -1,8 +1,8 @@
 # Styling React
 
-Traditionally web pages have been split up in markup (HTML), styling (CSS) and logic (JavaScript). Even though this sounds simple in practice, there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
+Traditionally web pages have been split up into markup (HTML), styling (CSS), and logic (JavaScript). Even though this sounds simple in practice, there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
 
-With React styling is still in bit of a flux and we're still figuring out the best ways to deal with it. Some patterns have begun to emerge, however. Perhaps some of the ideas will stick. It is hard to give any specific recommendations as it is dependent on the case and the way you like to work.
+With React styling is still in bit of a flux and we're still figuring out the best ways to deal with it. Some patterns have begun to emerge, however. Perhaps some of the ideas will stick. It is hard to give any specific recommendations as it is dependent on the use case and the way you like to work.
 
 ## Old School Styling
 
