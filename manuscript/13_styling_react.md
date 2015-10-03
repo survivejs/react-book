@@ -53,7 +53,7 @@ Note that [postcss-bem-linter](https://www.npmjs.com/package/postcss-bem-linter)
 
 ### OOCSS and SMACSS
 
-Just like BEM both OOCSS and SMACSS come with their own conventions and methodologies. As of this writing, no React specific helper libraries exist for OOCSS and SMACSS.
+Just like BEM, both OOCSS and SMACSS come with their own conventions and methodologies. As of this writing, no React specific helper libraries exist for OOCSS and SMACSS.
 
 csslint rules `Disallow qualified headings` and `Headings should only be defined once` allow you to check your CSS against OOCSS principles.
 
@@ -69,7 +69,7 @@ There are various approaches that go deeper and solve some of these fundamental 
 
 ## cssnext, Less, Sass, Stylus
 
-Vanilla CSS is missing some functionality that would make maintenance work easier. Consider something basic like variables, math/color functions and so on. It would also be nice to be able to forget about browser specific prefixes. These are small things that add up quite fast and make it annoying to write vanilla CSS.
+Vanilla CSS is missing some functionality that would make maintenance work easier. Consider something basic like variables, math or color functions, and so on. It would also be nice to be able to forget about browser specific prefixes. These are small things that add up quite fast and make it annoying to write vanilla CSS.
 
 ### cssnext
 
@@ -88,7 +88,7 @@ Note how we pipe cssnext output to css-loader and then to style-loader. This is 
 
 The advantage of this approach is that you will literally be coding in the future. As browsers get better and adopt the standards, you don't have to worry about porting.
 
-If that sounds a little much or you are just interested in a particular feature such as autoprefixing, you can check out [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader) and [postcss-loader](https://www.npmjs.com/package/postcss-loader). cssnext relies on postcss. It provides you with a more granular level of control of CSS plugins. You can even implement your own using a bit of JavaScript.
+If that sounds a little too much, or you are just interested in a particular feature such as autoprefixing, you can check out [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader) and [postcss-loader](https://www.npmjs.com/package/postcss-loader). cssnext relies on postcss. It provides you with a more granular level of control of CSS plugins. You can even implement your own using a bit of JavaScript.
 
 ### Less
 
@@ -103,7 +103,7 @@ Less is a popular CSS preprocessor that implements the functionality we talked a
 }
 ```
 
-There is also support for Less plugins, sourcemaps and so on. To understand how those work you should check out the project itself.
+There is also support for Less plugins, sourcemaps, and so on. To understand how those work you should check out the project itself.
 
 ### Sass
 
@@ -139,7 +139,7 @@ You can also use Stylus plugins with it by setting `stylus.use: [plugin()]`. Che
 
 Compared to vanilla CSS, preprocessors bring a lot to the table. They deal with certain annoyances (e.g., autoprefixing) and provide useful features. Particularly cssnext and postcss seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
 
-In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing rounded corners of our lanes would look good even in legacy browsers. In addition, we could parameterize styling thanks to variables.
+In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing, rounded corners of our lanes would look good even in legacy browsers. In addition, we could parameterize styling thanks to variables.
 
 ## React Based Approaches
 
