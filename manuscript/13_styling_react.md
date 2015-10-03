@@ -143,15 +143,15 @@ In our project we could benefit from cssnext even if we didn't make any changes 
 
 ## React Based Approaches
 
-With React we have some additional alternatives. What if the way we've been thinking about styling has been misguided? CSS is powerful, but it can become an unmaintainable mess without some discipline. Where to draw the line between CSS and JavaScript?
+With React we have some additional alternatives. What if the way we've been thinking about styling has been misguided? CSS is powerful, but it can become an unmaintainable mess without some discipline. Where do we draw the line between CSS and JavaScript?
 
-There are various approaches for React that allow us to push styling to component level. It may sound heretical. React, being an iconoclast, may lead the way here.
+There are various approaches for React that allow us to push styling to the component level. It may sound heretical. React, being an iconoclast, may lead the way here.
 
 ### Inline Styles to Rescue
 
 Ironically the way solutions based on React solve this is through inline styles. Getting rid of inline styles was one of the main reasons for using separate CSS files in the first place. Now we are back there.
 
-This means that instead of something like
+This means that instead of something like this:
 
 ```javascript
 render(props, context) {
@@ -178,23 +178,23 @@ render(props, context) {
 
 Like with HTML attribute names, we are using the same camelcase convention for CSS properties.
 
-Note that now that we have styling at component level we can implement logic touching it easily. One classic way to do this has been to alter class name based on the outlook we want. Now we can adjust the properties we want directly.
+Now that we have styling at the component level, we can implement logic that also alters the styles easily. One classic way to do this has been to alter class names based on the outlook we want. Now we can adjust the properties we want directly.
 
 We have lost something in process, though. Now all of our styling is tied to our JavaScript code. It is going to be difficult to perform large, sweeping changes to our codebase as we need to tweak a lot of components to achieve that.
 
-We can try to work against this by injecting a part of styling through props. A component could provide patch its style based on provided one. This can be improved further by coming up with conventions that allow parts of style configuration mapped to some specific part. We just reinvented selectors on a small scale.
+We can try to work against this by injecting a part of styling through props. A component could patch its style based on a provided one. This can be improved further by coming up with conventions that allow parts of style configuration to be mapped to some specific part. We just reinvented selectors on a small scale.
 
 How about things like media queries? This naïve approach won't quite cut it. Fortunately, people have come up with libraries to solve these tough problems for us.
 
 According to Michele Bertoli basic features of these libraries are
 
-* Autoprefixing - for `border`, `animation`, `flex`, ...
-* Pseudo classes - `:hover`, `:active`, ...
-* Media queries - `@media (max-width: 200px)`, ...
-* Styles as Object Literals - See example above
+* Autoprefixing - for `border`, `animation`, `flex`, etc.
+* Pseudo classes - `:hover`, `:active`, etc.
+* Media queries - `@media (max-width: 200px)`, etc.
+* Styles as Object Literals - See example above.
 * CSS style extraction - It is useful to be able to extract separate CSS files as that helps with the initial loading of the page. Back to start!
 
-I will cover some of the available libraries to give you a better idea how they work. See [Michele's list](https://github.com/MicheleBertoli/css-in-js) for more a comprehensive outlook of the situation.
+I will cover some of the available libraries to give you a better idea how they work. See [Michele's list](https://github.com/MicheleBertoli/css-in-js) for a more a comprehensive outlook of the situation.
 
 ### Radium
 
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
 <button styles={[styles.button, styles.primary]}>Confirm</button>
 ```
 
-As you can see we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (e.g., `:hover`) through JavaScript. Also CSS animations won't work. Instead, it's preferred to use some other solution for that.
+As you can see, we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (e.g., `:hover`) through JavaScript. Also CSS animations won't work. Instead, it's preferred to use some other solution for that.
 
 Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to, but without cascades. We also have our style declarations on component level.
 
@@ -298,15 +298,15 @@ css.setClass('.warning', {
   primary: true
 })}>Confirm</button>
 
-// in addition you'll need to trigger at
+// in addition you'll need to trigger at a
 // higher level after the elements you are using
 // have been injected to the DOM
 SmartCSS.injectStyles();
 ```
 
-The approach supports pseudoselectors. I.e., you could define a selector such as `.button:hover` and it would just work.
+The approach supports pseudoselectors, i.e., you could define a selector such as `.button:hover` and it would just work.
 
-There are plans to introduce autoprefixing, better ways to deal with measurements, better APIs for complex properties and for a Webpack plugin to extract the CSS into an external file.
+There are plans to introduce autoprefixing, better ways to deal with measurements, better APIs for complex properties, and for a Webpack plugin to extract the CSS into an external file.
 
 ### React Inline
 
@@ -326,11 +326,11 @@ class ConfirmButton extends React.Component {
 }
 ```
 
-Unlike React Style, the approach supports browser states (e.g., `:hover`). Unfortunately, it relies on its own custom tooling to generate React code and CSS it needs to work. As of yet, there's no Webpack loader available.
+Unlike React Style, the approach supports browser states (e.g., `:hover`). Unfortunately it relies on its own custom tooling to generate React code and CSS which it needs to work. As of the time of this writing, there's no Webpack loader available.
 
 ### jsxstyle
 
-Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate some problems of React Style's approach. As you saw in previous examples we still have style definitions separate from the component markup. jsxstyle merges these two concepts. Consider the following example:
+Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate some problems of React Style's approach. As you saw in previous examples, we still have style definitions separate from the component markup. jsxstyle merges these two concepts. Consider the following example:
 
 ```javascript
 // PrimaryButton component
@@ -340,9 +340,9 @@ Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate so
 >Confirm</button>
 ```
 
-The approach is still in its early days. For instance, support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
+The approach is still in its early days. For instance support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
 
-Just like React Style, also jsxstyle comes with a Webpack loader that can extract CSS into a separate file.
+Just like React Style, jsxstyle comes with a Webpack loader that can extract CSS into a separate file.
 
 ## CSS Modules
 
