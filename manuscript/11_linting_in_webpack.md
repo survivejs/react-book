@@ -196,7 +196,7 @@ If you execute `npm start` now and break some linting rule while developing, you
 
 ## Customizing ESLint
 
-Even though you can get very far with vanilla ESLint there are several techniques you should be aware of. For instance, sometimes you might want to skip some particular rules per file. You might even want to implement rules of your own. We'll cover these cases briefly next.
+Even though you can get very far with vanilla ESLint, there are several techniques you should be aware of. For instance, sometimes you might want to skip some particular rules per file. You might even want to implement rules of your own. We'll cover these cases briefly next.
 
 ### Skipping ESLint Rules
 
@@ -230,9 +230,9 @@ Note that the rule specific examples assume you have the rules in your configura
 
 ### Setting Environment
 
-Sometimes you may want to run ESLint in a specific environment, such as Node.js or Mocha. These environments have certain conventions of their own. For instance, Mocha relies on a custom keywords (e.g., `describe`, `it`) and its good if the linter doesn't choke on those.
+Sometimes you may want to run ESLint in a specific environment, such as Node.js or Mocha. These environments have certain conventions of their own. For instance, Mocha relies on custom keywords (e.g., `describe`, `it`) and it's good if the linter doesn't choke on those.
 
-ESLint provides two ways to deal with this - local and global. If you want to set it per file, you can use a declaration at the beginning of a file:
+ESLint provides two ways to deal with this: local and global. If you want to set it per file, you can use a declaration at the beginning of a file:
 
 ```javascript
 /*eslint-env node, mocha */
@@ -255,9 +255,9 @@ Global configuration is possible as well. In this case you can use `env` key lik
 
 ### Writing Your Own Rules
 
-ESLint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools such as [recast](https://github.com/benjamn/recast) that allow you perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
+ESLint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools such as [recast](https://github.com/benjamn/recast) that allow you to perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
 
-To get a better idea of how AST works and what it looks like you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [JS AST Explorer by Felix Kling](http://felix-kling.de/esprima_ast_explorer/). Alternatively, you can install `recast` and examine the output it gives. That is the structure we'll be working with at ESLint rules.
+To get a better idea of how AST works and what it looks like, you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [JS AST Explorer by Felix Kling](http://felix-kling.de/esprima_ast_explorer/). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with for ESLint rules.
 
 In ESLint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
@@ -283,11 +283,11 @@ module.exports = {
 
 In this case, we just report for every identifier found. In practice, you'll likely want to do something more complex than this, but this is a good starting point.
 
-Next, you need to hit `npm link` within `eslint-plugin-custom`. This will make your plugin visible within your system. `npm link` allows you to consume easily a development version of a library you are developing. To reverse the link you can hit `npm unlink` when you feel like it.
+Next, you need to hit `npm link` within `eslint-plugin-custom`. This will make your plugin visible within your system. `npm link` allows you to easily consume a development version of a library you are developing. To reverse the link you can hit `npm unlink` when you feel like it.
 
 T> If you want to do something serious, you should point to your plugin through *package.json*.
 
-We need to alter our project configuration to make it to find the plugin and the rule within.
+We need to alter our project configuration to make it find the plugin and the rule within.
 
 **.eslintrc**
 
@@ -303,7 +303,7 @@ We need to alter our project configuration to make it to find the plugin and the
 
 If you invoke ESLint now, you should see a bunch of warnings. Mission accomplished!
 
-Of course the rule doesn't do anything useful yet. To get forward I recommend checking out the official documentation about [plugins](http://eslint.org/docs/developer-guide/working-with-plugins.html) and [rules](http://eslint.org/docs/developer-guide/working-with-rules.html).
+Of course the rule doesn't do anything useful yet. To move forward, I recommend checking out the official documentation about [plugins](http://eslint.org/docs/developer-guide/working-with-plugins.html) and [rules](http://eslint.org/docs/developer-guide/working-with-rules.html).
 
 You can also check out some of the existing rules and plugins for inspiration to see how they achieve certain things. ESLint allows you to [extend these rulesets](http://eslint.org/docs/user-guide/configuring.html#extending-configuration-files) through `extends` property. It accepts either a path to it (`"extends": "./node_modules/coding-standard/.eslintrc"`) or an array of paths. The entries are applied in the given order and later ones override former.
 
@@ -311,12 +311,12 @@ You can also check out some of the existing rules and plugins for inspiration to
 
 Besides the official documentation available at [eslint.org](http://eslint.org/), you should check out the following blog posts:
 
-* [Lint Like It's 2015](https://medium.com/@dan_abramov/lint-like-it-s-2015-6987d44c5b48) - This post by Dan Abramov shows how to get ESLint work well with Sublime Text.
+* [Lint Like It's 2015](https://medium.com/@dan_abramov/lint-like-it-s-2015-6987d44c5b48) - This post by Dan Abramov shows how to get ESLint to work well with Sublime Text.
 * [Detect Problems in JavaScript Automatically with ESLint](http://davidwalsh.name/eslint) - A good tutorial on the topic.
 * [Understanding the Real Advantages of Using ESLint](http://rangle.io/blog/understanding-the-real-advantages-of-using-eslint/) - Evan Schultz's post digs into details.
 * [eslint-plugin-smells](https://github.com/elijahmanor/eslint-plugin-smells) - This plugin by Elijah Manor allows you to lint against various JavaScript smells. Recommended.
 
-If you just want some starting point, you can pick one of [eslint-config- packages](https://www.npmjs.com/search?q=eslint-config) or go with [standard](https://www.npmjs.com/package/standard) style. By the looks of it, `standard` has [some issues with JSX](https://github.com/feross/standard/issues/138) so be careful with that.
+If you just want some starting point, you can pick one of [eslint-config- packages](https://www.npmjs.com/search?q=eslint-config) or go with the [standard](https://www.npmjs.com/package/standard) style. By the looks of it, `standard` has [some issues with JSX](https://github.com/feross/standard/issues/138) so be careful with that.
 
 ## Linting CSS
 
