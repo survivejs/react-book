@@ -86,11 +86,11 @@ Lane.propTypes = {
     name: React.PropTypes.string,
     notes: React.PropTypes.array
   }).isRequired,
-  connectDropSource: React.PropTypes.func
+  connectDropTarget: React.PropTypes.func
 };
 Lane.defaultProps = {
   name: '',
-  notes: ''
+  notes: []
 };
 
 export default Lane;
