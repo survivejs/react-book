@@ -651,6 +651,8 @@ class LaneStore {
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
+W> If a lane is deleted, it would be a good idea to get rid of the associated notes as well. In the current implementation they are left hanging in the `NoteStore`. It doesn't hurt the functionality but it's one of those details that you may want to be aware of.
+
 Now that we have resolved actions and store, we need to adjust our component to take these changes into account:
 
 **app/components/Lane.jsx**
