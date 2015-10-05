@@ -2,13 +2,13 @@
 
 You can get pretty far by keeping everything in components. Eventually that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications.
 
-Flux will allow us to separate data and application state from our Views. This helps us to keep them clean and the application maintainable. Flux was designed with large teams in mind. As a result, you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
+Flux will allow us to separate data and application state from our views. This helps us to keep them clean and the application maintainable. Flux was designed with large teams in mind. As a result, you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
 
 ## Introduction to Flux
 
 ![Unidirectional Flux dataflow](images/flux_linear.png)
 
-So far we've been dealing only with Views. Flux architecture introduces a couple of new concepts to the mix. These are Actions, Dispatcher, and Stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient, they come with a cost. It can be hard to deduce what's going on and why.
+So far we've been dealing only with views. Flux architecture introduces a couple of new concepts to the mix. These are actions, dispatcher, and stores. Flux implements unidirectional flow in contrast to popular frameworks such as Angular or Ember. Even though two-directional bindings can be convenient, they come with a cost. It can be hard to deduce what's going on and why.
 
 Flux isn't entirely simple to understand as there are many concepts to worry about. In our case, we will model `NoteActions` and `NoteModel`. `NoteActions` provide concrete operations we can perform over our data. For instance, we can have `NoteActions.create({task: 'Learn React'})`.
 
@@ -16,9 +16,9 @@ When we trigger the action, the dispatcher will get notified. The dispatcher wil
 
 At the simplest level, actions can just pass the message to dispatcher as is. They can also trigger asynchronous queries and hit dispatcher based on the result eventually. This allows us to deal with received data and possible errors.
 
-Once the dispatcher has dealt with the action, Stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
+Once the dispatcher has dealt with the action, stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
 
-This completes the basic unidirectional, yet linear, process flow of Flux. Usually, though, the unidirectional process has a cyclical flow and it doesn't necessarily end. The following diagram illustrates a more common flow. It is the same idea again, but with the addition of a returning cycle. Eventually the components depending our our Store data become refreshed through this looping process.
+This completes the basic unidirectional, yet linear, process flow of Flux. Usually, though, the unidirectional process has a cyclical flow and it doesn't necessarily end. The following diagram illustrates a more common flow. It is the same idea again, but with the addition of a returning cycle. Eventually the components depending our our store data become refreshed through this looping process.
 
 This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow is always in a single direction, it is easy to trace and debug. If there's something wrong, it's somewhere within the cycle.
 
@@ -26,7 +26,7 @@ This sounds like a lot of steps for achieving something simple as creating a new
 
 ### Advantages of Flux
 
-Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching, and i18n outside of our Views. This way they stay clean of logic while keeping the application easier to understand.
+Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching, and i18n outside of our views. This way they stay clean of logic while keeping the application easier to understand.
 
 Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand: minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say, "explicit is better than implicit".
 
@@ -42,11 +42,11 @@ When choosing a library it comes down to your own personal preferences. You will
 
 In this chapter we'll be using a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed with isomorphic rendering in mind.
 
-In Alt you'll deal with Actions and Stores. Dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and isomorphic rendering.
+In Alt you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and isomorphic rendering.
 
 ### Setting Up an Alt Instance
 
-Everything in Alt begins from an Alt instance. It keeps track of Actions and Stores and keeps communication going on. To get started, we should add Alt to our project:
+Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To get started, we should add Alt to our project:
 
 ```bash
 npm i alt --save
@@ -72,7 +72,7 @@ T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacke
 
 ### Defining CRUD API for Notes
 
-Next we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as Actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
+Next we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
 
 **app/actions/NoteActions.js**
 
@@ -84,13 +84,13 @@ export default alt.generateActions('create', 'update', 'delete');
 
 ## Defining a Store for `Notes`
 
-A Store is a single source of truth for a part of your application state. In this case, we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
+A store is a single source of truth for a part of your application state. In this case, we need one to maintain the state of the notes. We will connect all the actions we defined above using the `bindActions` function.
 
 We have the logic we need for our store already at `App`. We will move that logic to `NoteStore`.
 
 ### Setting Up a Skeleton
 
-As a first step, we can set up a skeleton for our Store. We can fill in the methods we need after that. Alt uses standard ES6 classes, so it's the same syntax as we saw earlier with React components. Here's a starting point:
+As a first step, we can set up a skeleton for our store. We can fill in the methods we need after that. Alt uses standard ES6 classes, so it's the same syntax as we saw earlier with React components. Here's a starting point:
 
 **app/stores/NoteStore.js**
 
@@ -119,7 +119,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method based on that. Finally we connect the Store with Alt using `alt.createStore`.
+We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method based on that. Finally we connect the store with Alt using `alt.createStore`.
 
 Note that assigning a label to a store (`NoteStore` in this case) isn't required. It is a good practice as it protects the code against minification and possible collisions. These labels become important when we persist the data.
 
@@ -151,7 +151,7 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-To keep the implementation clean, we are using `this.setState`. It is a feature of Alt that allows us to signify that we are going to alter the Store state. Alt will signal the change to possible listeners.
+To keep the implementation clean, we are using `this.setState`. It is a feature of Alt that allows us to signify that we are going to alter the store state. Alt will signal the change to possible listeners.
 
 ### Implementing `update`
 
@@ -229,17 +229,17 @@ Instead of slicing and concatenating data, it would be possible to operate direc
 
 It is recommended that you use `setState` with Alt to keep things clean and easy to understand. Manipulating `this.notes` directly would work but that would miss the intent. `setState` provides a nice analogue to the way React works so it's worth using.
 
-We have almost integrated Flux with our application now. We have a set of Actions that provide an API for manipulating `Notes` data. We also have a Store for actual data manipulation. We are missing one final bit, integration with our View. It will have to listen to the Store and be able to trigger Actions to complete the cycle.
+We have almost integrated Flux with our application now. We have a set of actions that provide an API for manipulating `Notes` data. We also have a store for actual data manipulation. We are missing one final bit, integration with our view. It will have to listen to the store and be able to trigger actions to complete the cycle.
 
 T> The current implementation is naïve in that it doesn't validate parameters in any way. It would be a very good idea to validate the object shape to avoid incidents during development. [Flow](http://flowtype.org/) based gradual typing provides one way to do this. Alternatively you could write nice tests. That's a good idea regardless.
 
 ## Gluing It All Together
 
-Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with Actions is going to be easy. For instance, to create a Note, we would need to trigger `NoteActions.create({task: 'New task'})`. That would cause the associated Store to change and, as a result, all the components listening to it.
+Gluing this all together is a little complicated as there are multiple concerns to take care of. Dealing with actions is going to be easy. For instance, to create a Note, we would need to trigger `NoteActions.create({task: 'New task'})`. That would cause the associated store to change and, as a result, all the components listening to it.
 
-Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. They will allow Views to subscribe to the state changes.
+Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. They will allow views to subscribe to the state changes.
 
-As you might remember from the earlier chapters, React provides a set of lifecycle hooks. We can subscribe to `NoteStore` within our View at `componentDidMount` and `componentWillUnmount`. By unsubscribing, we avoid possible memory leaks.
+As you might remember from the earlier chapters, React provides a set of lifecycle hooks. We can subscribe to `NoteStore` within our view at `componentDidMount` and `componentWillUnmount`. By unsubscribing, we avoid possible memory leaks.
 
 Based on these ideas we can connect `App` with `NoteStore` and `NoteActions`:
 
@@ -300,7 +300,7 @@ Even though integrating Alt took a lot of effort, it was not all in vain. Consid
 
 1. Suppose we wanted to persist the notes within `localStorage`. Where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
 2. What if we had many components relying on the data? We would just consume `NoteStore` and display it, however we want.
-3. What if we had many, separate Note lists for different types of tasks? We could set up another Store for tracking these lists. That Store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
+3. What if we had many, separate Note lists for different types of tasks? We could set up another store for tracking these lists. That store could refer to actual Notes by id. We'll do something like this in the next chapter as we generalize the approach.
 
 This is what makes Flux a strong architecture when used with React. It isn't hard to find answers to questions like these. Even though there is more code, it is easier to reason about. Given we are dealing with a unidirectional flow we have something that is simple to debug and test.
 
@@ -312,10 +312,10 @@ We will modify our implementation of `NoteStore` to persist the data on change. 
 
 `localStorage` has a sibling known as `sessionStorage`. Whereas `sessionStorage` loses its data when the browser is closed, `localStorage` retains its data. They both share [the same API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API) as discussed below:
 
-* `storage.getItem(k)` - Returns stored string value for given key
-* `storage.removeItem(k)` - Removes data matching key
-* `storage.setItem(k, v)` - Stores given value using given key
-* `storage.clear()` - Empties storage contents
+* `storage.getItem(k)` - Returns the stored string value for the given key.
+* `storage.removeItem(k)` - Removes the data matching the key.
+* `storage.setItem(k, v)` - Stores the given value using the given key.
+* `storage.clear()` - Empties the storage contents.
 
 Note that it is convenient to operate on the API using your browser developer tools. For instance in Chrome, you can see the state of the storages through the *Resources* tab. *Console* tab allows you to perform direct operations on the data. You can even use `storage.key` and `storage.key = 'value'` shorthands for quick modifications.
 
@@ -624,11 +624,11 @@ Integrating the `AltContainer` actually grew our component a little bit. It also
 
 Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`.
 
-You can use the same mechanism on the Store level. In that case you would trigger `this.dispatcher.register(...)` at the constructor. These mechanisms allow you to implement effective logging to your system.
+You can use the same mechanism on the store level. In that case you would trigger `this.dispatcher.register(...)` at the constructor. These mechanisms allow you to implement effective logging to your system.
 
 ## Relay?
 
-Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) improves on the data fetching department. It allows you to push data requirements to the View level. It can be used standalone or with Flux depending on your needs.
+Facebook's [Relay](https://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html) improves on the data fetching department. It allows you to push data requirements to the view level. It can be used standalone or with Flux depending on your needs.
 
 Given it's still largely untested technology, we won't be covering it in this book yet. Relay comes with special requirements of its own (GraphQL compatible API). Only time will tell how it gets adopted by the community.
 

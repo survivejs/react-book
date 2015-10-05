@@ -817,4 +817,4 @@ This can be useful in a team environment. It decreases the amount of friction wh
 
 ## Conclusion
 
-You can get quite far just with vanilla React. The problem is that we are starting to mix data related concerns and logic with our View components. We'll improve the architecture of our application by introducing Flux to it.
+You can get quite far just with vanilla React. The problem is that we are starting to mix data related concerns and logic with our view components. We'll improve the architecture of our application by introducing Flux to it.
