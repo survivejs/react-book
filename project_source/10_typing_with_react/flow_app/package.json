@@ -4,6 +4,7 @@
   "description": "Webpack demo app",
   "main": "index.js",
   "scripts": {
+    "stats": "webpack --profile --json > stats.json",
     "build": "webpack",
     "start": "webpack-dev-server",
     "test": "karma start",

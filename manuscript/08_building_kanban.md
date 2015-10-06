@@ -456,6 +456,42 @@ T> If you have a complex project with a lot of dependencies, it is likely a good
 
 W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! That is, if you change your application code, the hash for `vendor` will change!
 
+## Analyzing Build Statistics
+
+Analyzing build statistics is a good step towards understanding Webpack better. We can get statistics from it easily and we can visualize them using a tool. This shows us the composition of our bundles.
+
+In order to get suitable output we'll need to do a couple of tweaks to our configuration:
+
+**package.js**
+
+```json
+{
+  ...
+  "scripts": {
+    "stats": "webpack --profile --json > stats.json",
+    ...
+  },
+  ...
+}
+```
+
+**webpack.config.js**
+
+```javascript
+...
+
+//if(TARGET === 'build') {
+if(TARGET === 'build' || TARGET === 'stats') {
+  ...
+}
+
+...
+```
+
+If you hit `npm run stats` now, you should find *stats.json* at your project root after it has finished processing. We can take this file and pass it to [the online tool](http://webpack.github.io/analyse/). Note that the tool works only over HTTP! If your data is sensitive, consider using [the standalone version]((https://github.com/webpack/analyse) instead.
+
+Besides helping you to understand your bundle composition, the tool can help you to optimize your output further.
+
 ## Conclusion
 
 Beyond the features discussed Webpack allows you to [lazy load](https://webpack.github.io/docs/code-splitting.html) content through `require.ensure`. This is handy if you happen to have a specific dependency on some view and want to load it when you need it.
