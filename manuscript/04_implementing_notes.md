@@ -417,14 +417,7 @@ import React from 'react';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    ...
-
-    this.addNote = this.addNote.bind(this);
-    this.editNote = this.editNote.bind(this);
-  }
+  ...
   render() {
     const notes = this.state.notes;
 
