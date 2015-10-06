@@ -214,6 +214,8 @@ We can extend the approach to work with CSS. Webpack allows us to change CSS wit
 npm i css-loader style-loader --save-dev
 ```
 
+T> If you are using Node.js 0.10, this is a good time to get a [ES6 Promise polyfill](https://github.com/jakearchibald/es6-promise#auto-polyfill) set up.
+
 Now that we have the loaders we need, we'll need to make sure Webpack is aware of them. Configure as follows.
 
 **webpack.config.js**
