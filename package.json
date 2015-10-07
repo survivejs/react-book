@@ -1,7 +1,7 @@
 {
   "name": "survivejs-webpack",
   "private": true,
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "SurviveJS - Webpack and React",
   "author": "Juho Vepsalainen <bebraw@gmail.com>",
   "scripts": {
