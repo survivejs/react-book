@@ -413,11 +413,7 @@ W> Our `persist` implementation isn't without its flaws. It is easy to end up in
 
 ## Extracting Connection Decorator
 
-![Decorators are like matryoshkas](images/matryoshka.jpg)
-
-Even though the application is starting to look a little better now, there's still work to be done. For instance, `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage.
-
-One way to achieve this is to push the logic to a decorator. Decorators are a bit like matryoshkas. These Russian dolls can contain dolls inside them. We can achieve the same with decorators.
+Even though the application is starting to look a little better now, there's still work to be done. For instance, `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage. We can achieve this using decorators.
 
 ### What Are Decorators?
 
