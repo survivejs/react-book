@@ -1,13 +1,12 @@
-import React from 'react/addons';
-import assert from 'assert';
-import Editable from 'app/components/Editable.jsx';
-
-const {
+import React from 'react';
+import {
   renderIntoDocument,
   findRenderedDOMComponentWithClass,
   findRenderedDOMComponentWithTag,
   Simulate
-} = React.addons.TestUtils;
+} from 'react-addons-test-utils';
+import assert from 'assert';
+import Editable from 'app/components/Editable.jsx';
 
 describe('Editable', () => {
   it('renders value', () => {
@@ -18,7 +17,7 @@ describe('Editable', () => {
 
     const valueComponent = findRenderedDOMComponentWithClass(component, 'value');
 
-    assert.equal(valueComponent.getDOMNode().textContent, value);
+    assert.equal(valueComponent.textContent, value);
   });
 
   it('enters edit mode', () => {
@@ -32,7 +31,7 @@ describe('Editable', () => {
 
     const input = findRenderedDOMComponentWithTag(component, 'input');
 
-    assert.equal(input.getDOMNode().value, value);
+    assert.equal(input.value, value);
   });
 
   it('triggers onEdit', () => {

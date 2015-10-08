@@ -1,10 +1,11 @@
-import React from 'react/addons';
+import React from 'react';
+import {
+  renderIntoDocument
+} from 'react-addons-test-utils';
 import TestBackend from 'react-dnd/modules/backends/Test';
 import {DragDropContext} from 'react-dnd';
 import assert from 'assert';
 import Note from 'app/components/Note.jsx';
-
-const {renderIntoDocument} = React.addons.TestUtils;
 
 describe('Note', () => {
   it('renders children', () => {

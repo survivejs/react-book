@@ -184,10 +184,12 @@ This setup provides you more control over Babel's behavior depending on the envi
 It is time to add a first application level dependency to our project. Hit
 
 ```bash
-npm i react --save
+npm i react react-dom --save
 ```
 
-to get React installed. This will save React to `dependencies` section of *package.json*. Later on we'll use this to generate a vendor build for the production version. It's a good practice to separate application and development level dependencies this way.
+to get React installed. This will save React to the `dependencies` section of *package.json*. Later on we'll use this information to generate a vendor build for the production version. It's a good practice to separate application and development level dependencies this way.
+
+*react-dom* is needed as React can be used to target multiple systems (DOM, mobile, terminal, i.e.,). Given we're dealing with the browser, *react-dom* is the correct choice here.
 
 Now that we got that out of the way, we can start to develop our Kanban application. First we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire app.
 
@@ -238,6 +240,7 @@ We'll need to adjust our `index.js` to render the component correctly. Note that
 import './main.css';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
 
 main();
@@ -247,7 +250,7 @@ function main() {
 
   document.body.appendChild(app);
 
-  React.render(<App />, app);
+  ReactDOM.render(<App />, app);
 }
 ```
 

@@ -1,17 +1,18 @@
-import React from 'react/addons';
+import React from 'react';
+import {
+  renderIntoDocument
+} from 'react-addons-test-utils';
 import TestBackend from 'react-dnd/modules/backends/Test';
 import {DragDropContext} from 'react-dnd';
 import assert from 'assert';
 import Note from 'app/components/Note.jsx';
-
-const {renderIntoDocument} = React.addons.TestUtils;
 
 describe('Note', () => {
   it('renders children', () => {
     const test = 'test';
     const NoteContent = wrapInTestContext(Note);
     const component = renderIntoDocument(
-      <NoteContent id="test">{test}</NoteContent>
+      <NoteContent>{test}</NoteContent>
     );
 
     assert.equal(component.props.children, test);
