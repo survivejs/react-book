@@ -1,7 +1,8 @@
 [ignore]
-.*/node_modules
+./build/
 
 [include]
+./app/
 
 [libs]
 

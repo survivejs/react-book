@@ -6,16 +6,21 @@ import LaneActions from '../actions/LaneActions';
 
 export default class Notes extends React.Component {
   props: {
-    items?: Array = [],
-    onEdit?: Function = () => {},
-    onDelete?: Function = () => {}
+    items: Array<Object>,
+    onEdit: Function,
+    onDelete: Function
   };
-  render() {
+  static defaultProps: {
+    items: [],
+    onEdit: () => {},
+    onDelete: () => {}
+  };
+  render(): any {
     const notes = this.props.items;
 
     return <ul className="notes">{notes.map(this.renderNote, this)}</ul>;
   }
-  renderNote(note) {
+  renderNote(note: Object) {
     return (
       <Note className="note" onMove={LaneActions.move}
         id={note.id} key={note.id}>

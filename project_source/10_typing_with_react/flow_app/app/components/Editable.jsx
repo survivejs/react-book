@@ -2,7 +2,7 @@
 import React from 'react';
 
 export default class Editable extends React.Component {
-  render() {
+  render(): any {
     const {value, onEdit, onValueClick, editing, ...props} = this.props;
 
     return (
@@ -31,12 +31,12 @@ export default class Editable extends React.Component {
   renderDelete = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
   }
-  checkEnter = (e) => {
+  checkEnter = (e: Object) => {
     if(e.key === 'Enter') {
       this.finishEdit(e);
     }
   }
-  finishEdit = (e) => {
+  finishEdit = (e: Object) => {
     this.props.onEdit(e.target.value);
   }
 }
