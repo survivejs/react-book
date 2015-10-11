@@ -56,8 +56,6 @@ I've annotated *package.json* of my [React component boilerplate](https://github
     "dist-min": "webpack",
     "dist-modules": "babel ./src --out-dir ./dist-modules",
     "lint": "eslint . --ext .js --ext .jsx",
-    "check-style": "jscs .",
-    "replace-meta": "node scripts/replace_meta.js",
     "preversion": "npm run test && npm run dist && npm run dist-modules && git commit --allow-empty -am \"Update dist\"",
     "postpublish": "npm run gh-pages && npm run deploy-gh-pages"
   },
