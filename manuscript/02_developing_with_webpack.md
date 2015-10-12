@@ -277,17 +277,19 @@ Open up *main.css* and change the background color to something like `lime` (`ba
 
 ## Making the Configuration Extensible
 
-To make room for later production configuration we can prepare our current one for it. There are many ways to approach the problem. Some people prefer to write a separate configuration file per target. They write factory functions to share configuration. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
+Our current configuration is enough as long as we're interested in just developing our application. But what if we want to deploy it to the production or test our application? We need to define separate **build targets** for these purposes. Given Webpack uses a module based format for its configuration, there are multiple possible approaches. At least the following are feasible:
 
-This approach can be taken even further. [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack) is an example of a Webpack based library that wraps common scenarios into an easier to use format. When using a library like this you don't have to worry about specific configuration as much. You will lose some power in the process, but sometimes that can be acceptable.
+* Maintain configuration in multiple files and point Webpack to each through `--config` parameter. Share configuration through module imports. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
+* Push configuration to a library which you then consume. Example: [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack).
+* Maintain configuration within a single file and branch based on npm lifecycle event. That is set when we trigger a script through *npm* (i.e., `npm run test`). I prefer this approach as it allows me to understand what's going on easily. We'll be using this approach.
+
+The idea is that we extract configuration that's common to each target into a structure of its own. When defining the targets, we use a variant of `merge` function that overrides objects and concatenates arrays. This convention works well with Webpack as we'll soon see.
 
 T> Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon Webpack and React and hides a lot of the complexity from the user.
 
-I have settled with a single configuration file based approach. The idea is that there's a smart `merge` function. It overrides objects and concatenates arrays. This works well with Webpack configuration given that's what you want to do most of the time. In this approach the configuration block to use is determined based on npm environment. This approach is that it allows you to see all relevant configuration at one glance.
-
 ### Setting Up Configuration Target for `npm start`
 
-As discussed we'll be using a custom `merge` function for sharing configuration between targets. Hit
+To keep things simple, I've pushed the `merge` function to a package of its own. Hit
 
 ```bash
 npm i webpack-merge --save-dev
@@ -295,7 +297,7 @@ npm i webpack-merge --save-dev
 
 to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch and merge based on that. We'll expand these in the coming chapters.
 
-To improve debuggability of the application, we can set up sourcemaps while we are at it. They allow you to see exactly where an error was raised. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
+To improve the debuggability of the application, we can set up sourcemaps while we are at it. They allow you to see exactly where an error was raised. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
 
 **webpack.config.js**
 
