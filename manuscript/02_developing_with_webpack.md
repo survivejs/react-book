@@ -236,6 +236,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlwebpackPlugin({
       title: 'Kanban app'
     })
@@ -326,8 +327,14 @@ var common = {
         include: APP_PATH
       }
     ]
-  }
-  ...
+  },
+  plugins: [
+    // important! move HotModuleReplacementPlugin below
+    //new webpack.HotModuleReplacementPlugin(),
+    new HtmlwebpackPlugin({
+      title: 'Kanban app'
+    })
+  ]
 };
 
 if(TARGET === 'start' || !TARGET) {
@@ -349,6 +356,8 @@ if(TARGET === 'start' || !TARGET) {
 `if(TARGET === 'start' || !TARGET) {` provides a default in case we're running Webpack outside of npm.
 
 If you run the development build now using `npm start`, Webpack will generate sourcemaps. Webpack provides many different ways to generate them as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). In this case, we're using `eval-source-map`. It builds slowly initially, but it provides fast rebuild speed and yields real files.
+
+W> If `new webpack.HotModuleReplacementPlugin()` is added twice to the plugins declaration, Webpack will return `Uncaught RangeError: Maximum call stack size exceeded` while hot loading!
 
 Faster development specific options such as `cheap-module-eval-source-map` and `eval` produce lower quality sourcemaps. Especially `eval` is fast and is the most suitable for large projects.
 
