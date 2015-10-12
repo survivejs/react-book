@@ -97,20 +97,30 @@ Here's the relevant configuration we need to make Babel work:
 
 var common = {
   entry: APP_PATH,
+  /* add resolve.extensions */
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-  ...
+  output: {
+    path: BUILD_PATH,
+    filename: 'bundle.js'
+  },
   module: {
     loaders: [
       ...
+      /* set up jsx */
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
         include: APP_PATH
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlwebpackPlugin({
+      title: 'Kanban app'
+    })
+  ]
 };
 
 ...
