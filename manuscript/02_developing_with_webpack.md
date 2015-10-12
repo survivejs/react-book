@@ -17,11 +17,11 @@ npm init
 # hit return a few times till you have gone through the questions
 ```
 
-As a result, you should have *package.json* at your project root. You can still tweak it manually to make further changes. We'll be doing some changes through `npm` tool, but it's fine to tweak the file to your liking. The official documentation explains various [package.json options](https://docs.npmjs.com/files/package.json) in more detail. I also cover some useful library authoring related tricks later in this book.
+As a result, you should have *package.json* at your project root. You can still tweak it manually to make further changes. We'll be doing some changes through *npm* tool, but it's fine to tweak the file to your liking. The official documentation explains various [package.json options](https://docs.npmjs.com/files/package.json) in more detail. I also cover some useful library authoring related tricks later in this book.
 
 If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
 
-If you are using git, I recommend setting up a `.gitignore` to the project root:
+If you are using git, I recommend setting up a *.gitignore* to the project root:
 
 **.gitignore**
 
@@ -29,9 +29,9 @@ If you are using git, I recommend setting up a `.gitignore` to the project root:
 node_modules
 ```
 
-At the very least you should have `node_modules` here as you probably don't want that to end up in the source control. The problem with that is that as some modules need to be compiled per platform, it gets rather messy to collaborate. Ideally your `git status` should look clean. You can extend `.gitignore` as you go.
+At the very least you should have *node_modules* here as you probably don't want that to end up in the source control. The problem with that is that as some modules need to be compiled per platform, it gets rather messy to collaborate. Ideally your `git status` should look clean. You can extend *.gitignore* as you go.
 
-T> You can push operating level ignore rules such as `.DS_Store` and `*.log` to `~/.gitignore`. This will keep your project level rules simpler.
+T> You can push operating system level ignore rules such as *.DS_Store* and *\*.log* to *~/.gitignore*. This will keep your project level rules simpler.
 
 ## Installing Webpack
 
@@ -56,13 +56,10 @@ As projects with just *package.json* are boring, we should set up something more
 - /app
   - index.js
   - component.js
-- /build (automatically generated, no need to create this)
-  - bundle.js
-  - index.html
 - package.json
 - webpack.config.js
 
-In this case, we'll generate *bundle.js* using Webpack based on our `/app`. To make this possible, we should set up some assets and `webpack.config.js`.
+In this case, we'll generate *bundle.js* using Webpack based on our */app*. To make this possible, we should set up some assets and *webpack.config.js*.
 
 ## Setting Up Assets
 
@@ -95,9 +92,9 @@ app.appendChild(component());
 
 ## Setting Up Webpack Configuration
 
-We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll build `webpack.config.js`. Webpack and its development server will be able to discover this file through convention.
+We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll build *webpack.config.js*. Webpack and its development server will be able to discover this file through convention.
 
-To keep things simple, we'll generate an entry point to our application using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. `html-webpack-plugin` is able to create links to our assets keeping our life simple. Hit
+To keep things simple, we'll generate an entry point to our application using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. *html-webpack-plugin* is able to create links to our assets keeping our life simple. Hit
 
 ```bash
 npm i html-webpack-plugin --save-dev
@@ -137,13 +134,13 @@ If you hit `node_modules/.bin/webpack` now you should see a Webpack build. You c
 
 Even though this is nice, it's not useful for development. We can set up something better for development usage.
 
-T> Note that you can pass a custom template to `html-webpack-plugin`. In our case, the default template it uses is fine for our purposes for now.
+T> Note that you can pass a custom template to *html-webpack-plugin*. In our case, the default template it uses is fine for our purposes for now.
 
 T> There are other little plugins, such as `html-webpack-plugin`, that you may find useful. For example [open-browser-webpack-plugin](https://www.npmjs.com/package/open-browser-webpack-plugin) allows you to open a browser automatically after Webpack is running.
 
-## Setting Up `webpack-dev-server`
+## Setting Up *webpack-dev-server*
 
-Now that we have the basic building blocks together, we can set up a development server. `webpack-dev-server` is a development server that automatically refreshes content in the browser while you develop your application.
+Now that we have the basic building blocks together, we can set up a development server. *webpack-dev-server* is a development server that automatically refreshes content in the browser while you develop your application.
 
 This makes it roughly equivalent to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through React.
 
@@ -192,7 +189,7 @@ module.exports = {
 };
 ```
 
-Hit `npm start` and surf to **localhost:8080**. You should see something familiar there. Try modifying `app/component.js` while the server is running and see what happens. Quite neat, huh?
+Hit `npm start` and surf to **localhost:8080**. You should see something familiar there. Try modifying *app/component.js* while the server is running and see what happens. Quite neat, huh?
 
 ![Hello world](images/hello_01.png)
 
