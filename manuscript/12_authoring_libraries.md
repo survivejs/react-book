@@ -138,10 +138,21 @@ In addition, I generate so called *distribution bundles*: `.js` and `.min.js`. T
 
 UMD makes it possible to consume them from various environments including global, AMD, and CommonJS (Node.js format). You can refresh your memory with these by checking the Getting Started chapter for examples.
 
-It is surprisingly easy to generate the aforementioned bundles using Webpack. In the case of my boilerplate, the configuration is as follows:
+It is surprisingly easy to generate the aforementioned bundles using Webpack. The following example should give you the basic idea:
+
+**webpack.config.js**
 
 ```javascript
 ...
+
+var config = {
+  paths: {
+    dist: '...',
+    src: '...',
+  },
+  filename: 'demo',
+  library: 'Demo'
+};
 
 var commonDist = {
   devtool: 'source-map',
@@ -150,7 +161,7 @@ var commonDist = {
     libraryTarget: 'umd',
     library: config.library
   },
-  entry: config.paths.lib,
+  entry: config.paths.src,
   externals: {
     react: 'react'
     /* more complicated mapping for lodash */
@@ -168,7 +179,7 @@ var commonDist = {
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
-        include: config.paths.lib
+        include: config.paths.src
       }
     ]
   }
