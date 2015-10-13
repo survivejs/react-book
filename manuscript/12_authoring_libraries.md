@@ -62,7 +62,7 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   "bin": "./index.js",
   /* Entry point (defaults to index.js) */
   "main": "dist-modules",
-  /* Package dependencies (small if possible) */
+  /* Package dependencies */
   "dependencies": {
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
