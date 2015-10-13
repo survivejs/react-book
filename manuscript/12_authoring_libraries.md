@@ -1,19 +1,19 @@
 # Authoring Libraries
 
-[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. It has become the package manager for JavaScript. Initially it was used mostly for managing back-end packages. It has become increasingly popular in front-end development. As you have seen so far, it is easy to consume npm packages using webpack.
+[npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. Even though it was used initially for managing back-end packages, it has become increasingly popular for front-end usage as well. As you saw in the earlier chapters, it is easy to consume npm packages through Webpack.
 
-Eventually you might want to publish your own packages. You can consider our demo application a package of its own, sort of. We could even design applications to be pluggable so that you could glue them into a bigger whole. This would take some careful thought. In theory you could split everything up in smaller sections which you then knit together.
+Eventually you may want to author packages of your own. Publishing one is relatively easy. There are a lot of smaller details to know, though. This chapter goes through those so that you can avoid some of the common problems.
 
 ## Anatomy of a npm Package
 
-Most of npm packages are small and include just a select few files such as:
+Most of the available npm packages are small and include just a select few files such as:
 
 * *index.js* - On small projects it's enough to have the code at the root. On larger ones you may want to start splitting it up further.
 * *package.json* - npm metadata in JSON format
 * *README.md* - README is the most important document of your project. It is written in Markdown format and provides an overview. For simple projects the whole documentation can fit there. It will be shown at the package page at *npmjs.com*.
 * *LICENSE* - You should include licensing information within your project. You can refer to it from *package.json*.
 
-In bigger projects you may find the following:
+In larger projects you may find the following:
 
 * *CONTRIBUTING.md* - A guide for potential contributors. How should the code be developed and so on.
 * *CHANGELOG.md* - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history, provided you write nice enough commits.
@@ -31,7 +31,7 @@ In addition, you'll likely have various directories for source, tests, demos, do
 
 All packages come with a *package.json* that describes metadata related to them. This includes information about the author, various links, dependencies, and so on. The [official documentation](https://docs.npmjs.com/files/package.json) covers them in detail.
 
-I've annotated *package.json* of my [React component boilerplate](https://github.com/survivejs/react-component-boilerplate) below.
+I've annotated a part of *package.json* of my [React component boilerplate](https://github.com/survivejs/react-component-boilerplate) below.
 
 ```json
 {
@@ -39,10 +39,8 @@ I've annotated *package.json* of my [React component boilerplate](https://github
   "name": "react-component-boilerplate",
   /* Brief description */
   "description": "Boilerplate for React.js components",
-  /* Who is the author + optional email */
-  "author": "Juho Vepsalainen <email goes here>",
-  /* This is boilerplate specific (not used by npm) */
-  "user": "bebraw",
+  /* Who is the author + optional email + optional site */
+  "author": "Juho Vepsalainen <email goes here> (site goes here)",
   /* Version of the package */
   "version": "0.0.0",
   /* `npm run <name>` */
@@ -80,7 +78,7 @@ I've annotated *package.json* of my [React component boilerplate](https://github
     "webpack-dev-server": "^1.12.0",
     "webpack-merge": "^0.2.0"
   },
-  /* Links to repository, homepage and so on */
+  /* Links to repository, homepage, and issue tracker */
   "repository": {
     "type": "git",
     "url": "https://github.com/bebraw/react-component-boilerplate.git"
@@ -90,7 +88,7 @@ I've annotated *package.json* of my [React component boilerplate](https://github
     "url": "https://github.com/bebraw/react-component-boilerplate/issues"
   },
   /* Keywords related to package,
-   * fill this well to make the package findable */
+   * fill this well to make the package searchable */
   "keywords": [
     "react",
     "reactjs",
@@ -101,37 +99,43 @@ I've annotated *package.json* of my [React component boilerplate](https://github
 }
 ```
 
-As you can see *package.json* can contain a lot of information. You can attach non-npm specific metadata there that can be used by tooling.
+As you can see *package.json* can contain a lot of information. You can attach non-npm specific metadata there that can be used by tooling. Given this can bloat *package.json*, it may be preferable to keep metadata at files of their own.
 
 ## npm Workflow
 
-Working with npm is surprisingly simple. [npm adduser](https://docs.npmjs.com/cli/adduser), aliased to `npm login`, allows you to set up an account. After this process, it will set up `~/.npmrc` and use that data for authentication. There's also [npm logout](https://docs.npmjs.com/cli/logout) that will clear the credentials.
+Working with npm is surprisingly simple. To get started, you need to use [npm adduser](https://docs.npmjs.com/cli/adduser) (aliased to `npm login`). It allows you to set up an account. After this process has completed, it will create `~/.npmrc` and use that data for authentication. There's also [npm logout](https://docs.npmjs.com/cli/logout) that will clear the credentials.
 
-Provided you have logged in, creating new packages is just a matter of hitting `npm publish`. Given that the package name is still available and everything goes fine, you should have something out there!
+### Publishing a Package
 
-T> Before starting to develop it can be a good idea to spend a little bit of time on that naming issue. It's not very fun to write a great package just to notice the name has been taken. Save some time and nerves by doing a little bit of research. With some luck you could find something fitting your purposes and avoid the chore of writing a library.
+Provided you have logged in, creating new packages is just a matter of hitting `npm publish`. Given that the package name is still available and everything goes fine, you should have something out there! After this you can install your package through `npm install` or `npm i` as we've done so many times before in this book.
 
-T> As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that format when naming your project.
+An alternative way to consume a library is to point at it directly in *package.json*. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
+
+Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
+
+T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node.js will resolve to the linked version unless local `node_modules` happens to contain a version.
+
+### Respect the SemVer
+
+Even though it is simple to publish new versions out there, it is important to respect the SemVer. Roughly it states that you should not break backwards compatibility given certain rules are met. For example, if your current version is `0.1.4` and you do a breaking change, you should bump to `0.2.0` and document the changes. You can understand SemVer much better by studying [the online tool](http://semver.npmjs.com/) and how it behaves.
+
+### On Naming Packages
+
+Before starting to develop it can be a good idea to spend a little bit of time on figuring out a good name for your package. It's not very fun to write a great package just to notice the name has been taken. A good name is easy to find through a search engine, and most importantly, is available at npm.
+
+As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that format when naming your project.
+
+### Bumping a Version
 
 Bumping a version is simple too. You'll just need to invoke `npm version <x.y.z>`. That will update *package.json* and create a version commit automatically. If you hit `npm publish`, you should have something new out there.
 
 Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case.
 
-T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node.js will resolve to the linked version unless local `node_modules` happens to contain a version.
-
-Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
-
-An alternative way to consume a library is to point at it directly in *package.json*. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
-
-## Respect the SemVer
-
-Even though it is simple to publish new versions out there, it is important to respect the SemVer. Roughly it states that you should not break backwards compatibility given certain rules are met. For example, if your current version is `0.1.4` and you do a breaking change, you should bump to `0.2.0` and document the changes. You can understand SemVer much better by studying [the online tool](http://semver.npmjs.com/) and how it behaves.
-
 ## Library Formats
 
 I output my React component in various formats at my boilerplate. I generate a version that's convenient to consume from Node.js by processing my component code through Babel. That will convert ES6 and other goodies to a format which is possible to consume from vanilla Node.js. This allows the user to refer to some specific module within the whole if needed.
 
-In addition, I generate so called *distribution bundles*: `.js` and `.min.js`. There's a sourcemap (`.map`) for both. That is useful for debugging. It is possible to consume these bundles standalone. They come with an [UMD](https://github.com/umdjs/umd) wrapper.
+In addition, I generate so called *distribution bundles*: `.js` and `.min.js`. There's a sourcemap (`.map`) useful for debugging for both. It is possible to consume these bundles standalone as they come with an [UMD](https://github.com/umdjs/umd) wrapper.
 
 UMD makes it possible to consume them from various environments including global, AMD, and CommonJS (Node.js format). You can refresh your memory with these by checking the Getting Started chapter for examples.
 
@@ -140,52 +144,64 @@ It is surprisingly easy to generate the aforementioned bundles using Webpack. In
 ```javascript
 ...
 
-var mergeDist = merge.bind(null, {
-    devtool: 'source-map',
-    output: {
-        path: config.paths.dist,
-        libraryTarget: 'umd',
-        library: config.library
-    },
-    entry: config.paths.lib,
-    externals: {
-        react: 'react',
-        'react/addons': 'react/addons'
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                loaders: ['babel'],
-                include: config.paths.lib
-            }
-        ]
+var commonDist = {
+  devtool: 'source-map',
+  output: {
+    path: config.paths.dist,
+    libraryTarget: 'umd',
+    library: config.library
+  },
+  entry: config.paths.lib,
+  externals: {
+    react: 'react'
+    /* more complicated mapping for lodash */
+    /* we need to access it differently depending */
+    /* on the environment */
+    lodash: {
+      commonjs: 'lodash',
+      commonjs2: 'lodash',
+      amd: '_',
+      root: '_'
     }
-});
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel'],
+        include: config.paths.lib
+      }
+    ]
+  }
+};
 
-exports.dist = mergeDist({
+if(TARGET === 'dist') {
+  module.exports = merge(commonDist, {
     output: {
-        filename: config.filename + '.js'
+      filename: config.filename + '.js'
     },
-});
+  });
+}
 
-exports.distMin = mergeDist({
+if(TARGET === 'dist-min') {
+  module.exports = merge(commonDist, {
     output: {
-        filename: config.filename + '.min.js'
+      filename: config.filename + '.min.js'
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        })
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      })
     ]
-});
+  });
+}
 ```
 
-T> The example uses the same `merge` utility we defined earlier on. You should check [the boilerplate](https://github.com/bebraw/react-component-boilerplate) itself for exact configuration.
+T> The example uses the same `merge` utility we defined earlier on. You should check [the boilerplate](https://github.com/bebraw/react-component-boilerplate) itself for the exact configuration.
 
-Most of the magic happens thanks to `devtool` and `output` declarations. In addition, I have set up `externals` as I want to avoid bundling React into my library. Instead, it will be loaded as an external dependency using the naming defined in the mapping.
+Most of the magic happens thanks to `devtool` and `output` declarations. In addition, I have set up `externals` as I want to avoid bundling React and lodash into my library. Instead, both will be loaded as external dependencies using the naming defined in the mapping.
 
 ## npm Lifecycle Hooks
 
@@ -217,7 +233,7 @@ dist-modules/
 ...
 ```
 
-Besides `prepublish`, npm provides a set of other hooks. The naming is always the same and follows pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`, or `version`.
+Besides `prepublish`, npm provides a set of other hooks. The naming is always the same and follows the pattern `pre<hook>`, `<hook>`, `post<hook>` where `<hook>` can be `publish`, `install`, `test`, `stop`, `start`, `restart`, or `version`.
 
 Even though npm will trigger scripts bound to these automatically, you can trigger them explicitly through `npm run` for testing (i.e., `npm run prepublish`). The idea here is that we want to make our package as easy to consume as possible. We can take one for our library users.
 
@@ -225,9 +241,7 @@ There are plenty of smaller tricks to learn for advanced usage. Those are better
 
 ## Keeping Dependencies Up to Date
 
-An important part of maintaining npm packages is keeping their dependencies up to date. How to do this depends a lot on the maturity of your package. Ideally you have a nice set of tests covering the functionality. If not, things can get a little hairier.
-
-There are a few ways to approach dependency updates:
+An important part of maintaining npm packages is keeping their dependencies up to date. How to do this depends a lot on the maturity of your package. Ideally you have a nice set of tests covering the functionality. If not, things can get a little hairier. There are a few ways to approach dependency updates:
 
 * You can update all dependencies at once and hope for the best. Tools such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) can do this for you. Remember to invoke `npm i` afterward to make sure you have the right dependencies installed for testing the changes.
 * Install the newest version of some specific dependency, e.g., `npm i lodash@* --save`. This is a more controlled way to approach the problem.
