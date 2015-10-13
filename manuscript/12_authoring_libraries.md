@@ -47,42 +47,38 @@ I've annotated *package.json* of my [React component boilerplate](https://github
   "version": "0.0.0",
   /* `npm run <name>` */
   "scripts": {
-    "start": "node dev-server/server.js",
-    "test": "jest && npm run check-style && npm run lint",
-    "gh-pages": "webpack --config ./config",
-    "deploy-gh-pages": "node ./config/deploy-gh-pages.js",
-    "dist-all": "npm run dist && npm run dist-min",
+    "start": "webpack-dev-server",
+    "test": "karma start",
+    "tdd": "karma start --auto-watch --no-single-run",
+    "gh-pages": "webpack",
+    "deploy-gh-pages": "node ./lib/deploy_gh_pages.js",
     "dist": "webpack",
     "dist-min": "webpack",
     "dist-modules": "babel ./src --out-dir ./dist-modules",
     "lint": "eslint . --ext .js --ext .jsx",
-    "preversion": "npm run test && npm run dist && npm run dist-modules && git commit --allow-empty -am \"Update dist\"",
+    "preversion": "npm run test && npm run dist && npm run dist-min && git commit --allow-empty -am \"Update dist\"",
+    "prepublish": "npm run dist-modules",
     "postpublish": "npm run gh-pages && npm run deploy-gh-pages"
   },
   /* Entry point for terminal (i.e., <package name>) */
   /* Don't set this unless you intend to allow CLI usage */
   "bin": "./index.js",
   /* Entry point (defaults to index.js) */
-  "main": "dist-modules/index.js",
+  "main": "dist-modules",
   /* Package dependencies (small if possible) */
-  "dependencies": {},
+  "dependencies": {
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  },
   /* Package development dependencies */
   "devDependencies": {
-    "babel": "^5.1.10",
-    "babel-eslint": "^3.0.1",
-    "babel-loader": "^5.0.0",
+    "babel": "^5.8.23",
+    "babel-core": "^5.8.25",
+    "babel-eslint": "^4.1.3",
     ...
-    "webpack": "^1.8.4",
-    "webpack-dev-server": "^1.8.0"
-  },
-  /* You may want to give a rough dependency hint for things
-   * like React components. The idea is to avoid depending
-   * directly and let user deal with it instead.
-   *
-   * If the rule is too strict, that will cause problems for
-   * the user. */
-  "peerDependencies": {
-    "react": ">=0.11.2 <1.0.0"
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.0",
+    "webpack-merge": "^0.2.0"
   },
   /* Links to repository, homepage and so on */
   "repository": {
@@ -101,14 +97,7 @@ I've annotated *package.json* of my [React component boilerplate](https://github
     "boilerplate"
   ],
   /* Which license to use */
-  "license": "MIT",
-  /* Jest specific metadata */
-  "jest": {
-    "scriptPreprocessor": "./config/preprocessor.js",
-    "unmockedModulePathPatterns": [
-      "./node_modules/react"
-    ]
-  }
+  "license": "MIT"
 }
 ```
 
