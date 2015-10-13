@@ -42,7 +42,13 @@
         "source": "https://www.flickr.com/photos/73635318@N00/2663422833",
         "license": "CC BY-NC-SA",
         "image": "notes.jpg",
-        "demo": "04_implementing_notes"
+        "demo": "04_implementing_notes",
+        "resources": [
+            {
+                "name": "The land of undocumented react.js: The Context",
+                "url": "https://medium.com/@skwee357/the-land-of-undocumented-react-js-the-context-99b3f931ff73"
+            }
+        ]
     },
     {
         "author": "jeremyg3030",
