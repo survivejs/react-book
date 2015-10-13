@@ -2,9 +2,9 @@
 
 ![Kanban board](images/kanban_05.png)
 
-So far we have managed to set up a nice little development environment. We have developed an application for keeping track of notes in `localStorage`. We still have work to do to turn this into a real Kanban as pictured above.
+So far we have managed to set up a nice little development environment. We have developed an application for keeping track of notes in `localStorage`. We still have work to do to turn this into a real Kanban as pictured above. Most importantly our system is missing the concept of `Lane`.
 
-Most importantly our system is missing the concept of `Lane`. A `Lane` is something that should be able to contain many `Notes` within itself. In the current system that is implicit. We'll need to extract that into a component of its own.
+A `Lane` is something that should be able to contain many `Notes` within itself and track their order. One way to model this is simply to make a `Lane` to point at `Notes` through an array if `Note` ids. This relation could be reversed. A `Note` could point at a `Lane` using an id and maintain information about its position within a `Lane`. In this case we are going to stick with the former design as that works well with re-ordering later on.
 
 ## Extracting `Lanes`
 
