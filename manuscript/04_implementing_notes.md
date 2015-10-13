@@ -474,7 +474,7 @@ It would be nice to push the state to `Notes`. The problem is that doing this wo
 
 We are missing one final bit, the actual logic. Our state consists of `Notes` each of which has an id (string) and a task (string) attached to it. Our callback receives both of these. In order to edit a `Note` it should find the `Note` to edit and patch its task using the new data.
 
-T> Some of the prop related logic could be potentially extracted to a *context*. That would help us to avoid some of the prop passing. It is especially useful for implementing features such as internationalization (i18n) or [feature detection](https://github.com/casesandberg/react-context/). A component interested in it may simply query for a translator instance. Although this aspect hasn't been documented well yet, Dmitry Kudryavtsev goes into [a good detail in his article about the context](https://medium.com/@skwee357/the-land-of-undocumented-react-js-the-context-99b3f931ff73).
+T> Some of the prop related logic could be potentially extracted to a [context](https://facebook.github.io/react/docs/context.html). That would help us to avoid some of the prop passing. It is especially useful for implementing features such as internationalization (i18n) or [feature detection](https://github.com/casesandberg/react-context/). A component interested in it may simply query for a translator instance.
 
 ### Understanding `findIndex`
 
