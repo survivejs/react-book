@@ -20,8 +20,8 @@ In bigger projects you may find the following:
 * *.travis.yml* - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course, but Travis is very popular.
 * *bower.json* - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for the front-end. That said, just providing npm support is often enough.
 * *.gitignore* - Ignore patterns for Git, i.e., which files shouldn't go under version control.
-* *.eslintignore* - Ignore patterns for ESLint. Again, tool specific.
 * *.npmignore* - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
+* *.eslintignore* - Ignore patterns for ESLint. Again, tool specific.
 * *.eslintrc* - Linting rules. You can use *.jshintrc* and such based on your preferences.
 * *webpack.config.js* - If you are using a simple setup, you might as well have the configuration at project root.
 
