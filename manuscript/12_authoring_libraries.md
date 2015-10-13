@@ -247,9 +247,7 @@ An important part of maintaining npm packages is keeping their dependencies up t
 * Install the newest version of some specific dependency, e.g., `npm i lodash@* --save`. This is a more controlled way to approach the problem.
 * Patch version information by hand by modifying *package.json* directly.
 
-It is important to remember that your dependencies may introduce backwards incompatible changes. It can be useful to remember how SemVer works and study dependency release notes. They might not always exist, so you may have to go through the project commit history.
-
-There are a few services that can help you to keep track of your project dependencies:
+It is important to remember that your dependencies may introduce backwards incompatible changes. It can be useful to remember how SemVer works and study dependency release notes. They might not always exist, so you may have to go through the project commit history. There are a few services that can help you to keep track of your project dependencies:
 
 * [David](https://david-dm.org/)
 * [versioneye](https://www.versioneye.com/)
