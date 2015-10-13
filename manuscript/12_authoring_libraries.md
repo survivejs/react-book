@@ -86,8 +86,8 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   "bugs": {
     "url": "https://github.com/bebraw/react-component-boilerplate/issues"
   },
-  /* Keywords related to package,
-   * fill this well to make the package searchable */
+  /* Keywords related to package. */
+  /* Fill this well to make the package findable. */
   "keywords": [
     "react",
     "reactjs",
