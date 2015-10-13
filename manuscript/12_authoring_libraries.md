@@ -18,7 +18,6 @@ In larger projects you may find the following:
 * *CONTRIBUTING.md* - A guide for potential contributors. How should the code be developed and so on.
 * *CHANGELOG.md* - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history, provided you write nice enough commits.
 * *.travis.yml* - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course, but Travis is very popular.
-* *bower.json* - [Bower](http://bower.io/) specific metadata. Bower is a popular package manager for the front-end. That said, just providing npm support is often enough.
 * *.gitignore* - Ignore patterns for Git, i.e., which files shouldn't go under version control.
 * *.npmignore* - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
 * *.eslintignore* - Ignore patterns for ESLint. Again, tool specific.
