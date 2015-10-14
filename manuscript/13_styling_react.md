@@ -1,12 +1,12 @@
 # Styling React
 
-Traditionally web pages have been split up into markup (HTML), styling (CSS), and logic (JavaScript). Even though this sounds simple in practice, there are overlaps. You might trigger CSS animations through JavaScript. As seen earlier React provides a component oriented way of development. This in turn allows us to question some of our earlier beliefs.
+Traditionally web pages have been split up into markup (HTML), styling (CSS), and logic (JavaScript). Thanks to React and similar approaches, we've begun to question this split. We still may want to separate our concerns. The separation will happen on a different level instead.
 
-With React styling is still in bit of a flux and we're still figuring out the best ways to deal with it. Some patterns have begun to emerge, however. Perhaps some of the ideas will stick. It is hard to give any specific recommendations as it is dependent on the use case and the way you like to work.
+This change in the mindset has lead to new ways to think about styling. With React we're still figuring out the best ways to deal with it. Some early patterns have begun to emerge. However, it is difficult to provide any definite recommendations. You will have to choose an approach that makes sense for you.
 
 ## Old School Styling
 
-The old school approach to styling was to sprinkle some ids and classes around, set up rules, and hope for the best. Although this can work up to an extent, it gets more complicated as development goes on. By default everything is global in CSS. Furthermore, nesting definitions (e.g., `.main .sidebar .button`) creates implicit logic to your styling.
+The old school approach to styling is to sprinkle some ids and classes around, set up CSS rules, and hope for the best. Although this can work up to an extent, it gets more complicated as development goes on. There are fundamental problems, such as the fact that everything is global in CSS by default. Furthermore, nesting definitions (e.g., `.main .sidebar .button`) creates implicit logic to your styling.
 
 ### Webpack Configuration for Vanilla CSS
 
@@ -188,11 +188,11 @@ How about things like media queries? This naïve approach won't quite cut it. Fo
 
 According to Michele Bertoli basic features of these libraries are
 
-* Autoprefixing - for `border`, `animation`, `flex`, etc.
-* Pseudo classes - `:hover`, `:active`, etc.
-* Media queries - `@media (max-width: 200px)`, etc.
-* Styles as Object Literals - See example above.
-* CSS style extraction - It is useful to be able to extract separate CSS files as that helps with the initial loading of the page. Back to start!
+* Autoprefixing - e.g., for `border`, `animation`, `flex`.
+* Pseudo classes - e.g., `:hover`, `:active`.
+* Media queries - e.g., `@media (max-width: 200px)`.
+* Styles as Object Literals - See the example above.
+* CSS style extraction - It is useful to be able to extract separate CSS files as that helps with the initial loading of the page. This will avoid a flash of unstyled content (FOUC).
 
 I will cover some of the available libraries to give you a better idea how they work. See [Michele's list](https://github.com/MicheleBertoli/css-in-js) for a more a comprehensive outlook of the situation.
 
