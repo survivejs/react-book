@@ -394,13 +394,17 @@ Thanks to the Webpack configuration we did, you should get output during `npm st
 
 ![JSCS](images/jscs.png)
 
-Especially in a team environment, it can be annoying if one guy uses tabs and another uses spaces. There can also be discrepancies between space usage. Some like to use two spaces, and some like four for indentation. In short, it can get pretty messy without any discipline. Fortunately there is a tool known as JSCS. It will allow you to define a style guide for your project. We won't use the tool in this project, but it's good to be aware of it. You can install it through
+Especially in a team environment, it can be annoying if one guy uses tabs and another uses spaces. There can also be discrepancies between space usage. Some like to use two spaces, and some like four for indentation. In short, it can get pretty messy without any discipline. To solve this issue, JSCS allows you to define a style guide for your project.
+
+T> Just like ESLint, also JSCS has autofixing capabilities. To fix certain issues, you can invoke `jscs --fix` and it will modify your code.
+
+JSCS can be installed through
 
 ```bash
 npm i jscs jscs-loader --save-dev
 ```
 
-[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define `.jscsrc` with your style guide rules and use configuration like this:
+[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define a `.jscsrc` with your style guide rules and use configuration like this:
 
 ```javascript
 module: {
@@ -414,13 +418,13 @@ module: {
 }
 ```
 
-To make it work with JSX, you'll need to point it to `esprima-fb` parser through `.jscsrc`. There are also various other options and even some presets. Consider the example below:
+Here's a sample configuration:
 
 **.jscsrc**
 
 ```json
 {
-  "esprima": "esprima-fb",
+  "esnext": true,
   "preset": "google",
 
   "fileExtensions": [".js", ".jsx"],
@@ -445,9 +449,9 @@ To make it work with JSX, you'll need to point it to `esprima-fb` parser through
 }
 ```
 
-JSCS supports *package.json* based configuration. In this case you would write it to `jscsConfig` field there.
+JSCS supports *package.json* based configuration through `jscsConfig` field.
 
-T> ESLint implements a large part of the functionality provided by JSCS. It is possible you can skip JSCS altogether provided you configure ESLint correctly. There's a large amount of presets available.
+T> ESLint implements a large part of the functionality provided by JSCS. It is possible you can skip JSCS altogether provided you configure ESLint correctly. There's a large amount of presets available for both.
 
 ## EditorConfig
 
