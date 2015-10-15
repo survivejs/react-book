@@ -55,8 +55,6 @@ Note that [postcss-bem-linter](https://www.npmjs.com/package/postcss-bem-linter)
 
 Just like BEM, both OOCSS and SMACSS come with their own conventions and methodologies. As of this writing, no React specific helper libraries exist for OOCSS and SMACSS.
 
-csslint rules `Disallow qualified headings` and `Headings should only be defined once` allow you to check your CSS against OOCSS principles.
-
 ### Pros and Cons
 
 The primary benefit of adopting a methodology is that it brings certain structure to your project. Rather than writing ad hoc rules and hoping everything works, you will have something stronger to fall back onto. The methodologies overcome some of the basic issues and help you develop good software over the long term. The conventions they bring to a project help with maintenance and are less prone to lead to a mess.

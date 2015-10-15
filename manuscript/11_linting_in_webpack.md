@@ -320,10 +320,10 @@ If you just want some starting point, you can pick one of [eslint-config- packag
 
 ## Linting CSS
 
-[csslint](https://www.npmjs.com/package/csslint) allows us to lint CSS. [csslint-loader](https://www.npmjs.com/package/csslint-loader) makes it possible to integrate it into our project. To get started, hit
+[stylelint](http://stylelint.io/) allows us to lint CSS. It can be used with Webpack through [postcss-loader](https://www.npmjs.com/package/postcss-loader).
 
 ```bash
-npm i csslint csslint-loader --save-dev
+npm i stylelint postcss-loader --save-dev
 ```
 
 Next, we'll need to integrate it with our configuration:
@@ -331,64 +331,46 @@ Next, we'll need to integrate it with our configuration:
 **webpack.config.js**
 
 ```javascript
+...
+var stylelint = require('stylelint');
+
+...
+
 var common = {
   ...
   module: {
     preLoaders: [
       {
         test: /\.css$/,
-        loaders: ['csslint'],
+        loaders: ['postcss'],
         include: APP_PATH
       },
       ...
     ],
     ...
-  }
-}
-```
-
-To keep things nice and tidy I put it into the `preLoaders` section of configuration. In addition we are going to need some basic configuration. The following has been borrowed from Twitter Bootstrap and seems like a good starting point:
-
-**.csslintrc**
-
-```json
-{
-  "adjoining-classes": false,
-  "box-sizing": false,
-  "box-model": false,
-  "compatible-vendor-prefixes": false,
-  "floats": false,
-  "font-sizes": false,
-  "gradients": false,
-  "important": false,
-  "known-properties": false,
-  "outline-none": false,
-  "qualified-headings": false,
-  "regex-selectors": false,
-  "shorthand": false,
-  "text-indent": false,
-  "unique-headings": false,
-  "universal-selector": false,
-  "unqualified-attributes": false
-}
-```
-
-We should also tweak *package.json* targets so that we can lint what we want outside of Webpack:
-
-**package.json**
-
-```json
-"scripts": {
+  },
+  postcss: function () {
+    return [stylelint({
+      rules: {
+        'color-hex-case': 2
+      }
+    })];
+  },
   ...
-  "lint": "npm run lint-js && npm run lint-css",
-  "lint-js": "eslint . --ext .js --ext .jsx",
-  "lint-css": "csslint app --quiet"
 }
 ```
 
-That `--quiet` flag is there to keep the tool silent unless there are errors. If you hit `npm run lint-css` now, you might see some errors or not depending on whether the process passes. If you want to trigger a failure, try overqualifying a selector, e.g., do something like `body.lane`, and you should get a warning.
+If you define a CSS rule, such as `background-color: #EFEFEF;`, you should see a warning at your terminal. See stylelint documentation for a full list of rules. npm lists [possible stylelint rulesets](https://www.npmjs.com/search?q=stylelint-config). You consume them as your project dependency like this:
 
-Thanks to the Webpack configuration we did, you should get output during `npm start` process as well. In addition, you should consider setting up csslint with your editor. That way you get more integrated development experience.
+```javascript
+var configSuitcss = require('stylelint-config-suitcss');
+
+...
+
+stylelint(configSuitcss)
+```
+
+Given stylelint is still under development, there's no CLI tool available yet. `.stylelintrc` type functionality is planned.
 
 ## Checking JavaScript Style with JSCS
 
