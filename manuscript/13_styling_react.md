@@ -88,7 +88,7 @@ Note how we pipe cssnext output to css-loader and then to style-loader. This is 
 
 The advantage of this approach is that you will literally be coding in the future. As browsers get better and adopt the standards, you don't have to worry about porting.
 
-If that sounds a little too much, or you are just interested in a particular feature such as autoprefixing, you can check out [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader) and [postcss-loader](https://www.npmjs.com/package/postcss-loader). cssnext relies on postcss. It provides you with a more granular level of control of CSS plugins. You can even implement your own using a bit of JavaScript.
+If that sounds a little too much, or you are just interested in a particular feature such as autoprefixing, you can check out [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader) and [postcss-loader](https://www.npmjs.com/package/postcss-loader). cssnext relies on PostCSS. It provides you with a more granular level of control of CSS plugins. You can even implement your own using a bit of JavaScript.
 
 ### Less
 
@@ -137,7 +137,7 @@ You can also use Stylus plugins with it by setting `stylus.use: [plugin()]`. Che
 
 ### Pros and Cons
 
-Compared to vanilla CSS, preprocessors bring a lot to the table. They deal with certain annoyances (e.g., autoprefixing) and provide useful features. Particularly cssnext and postcss seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
+Compared to vanilla CSS, preprocessors bring a lot to the table. They deal with certain annoyances (e.g., autoprefixing) and provide useful features. Particularly cssnext and PostCSS seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
 
 In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing, rounded corners of our lanes would look good even in legacy browsers. In addition, we could parameterize styling thanks to variables.
 
