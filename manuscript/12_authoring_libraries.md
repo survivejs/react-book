@@ -53,7 +53,7 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
     "dist-min": "webpack",
     "dist-modules": "babel ./src --out-dir ./dist-modules",
     "lint": "eslint . --ext .js --ext .jsx",
-    "preversion": "npm run test && npm run dist && npm run dist-min && git commit --allow-empty -am \"Update dist\"",
+    "preversion": "npm run test && npm run lint && npm run dist && npm run dist-min && git commit --allow-empty -am \"Update dist\"",
     "prepublish": "npm run dist-modules",
     "postpublish": "npm run gh-pages && npm run deploy-gh-pages"
   },
@@ -110,21 +110,39 @@ Provided you have logged in, creating new packages is just a matter of hitting `
 
 An alternative way to consume a library is to point at it directly in *package.json*. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
 
-Sometimes you might want to publish something preliminary for other people to test. In that case you can hit `npm publish --tag beta`. After that your users can install the tagged version using `npm i <your package name>@beta`.
+### Bumping a Version
 
-T> It can be useful to use `npm link` during development. That will allow you to use a development version of your library from some other context. Node.js will resolve to the linked version unless local `node_modules` happens to contain a version.
+In order to bump your package version, you'll just need to invoke `npm version <x.y.z>`. That will update *package.json* and create a version commit to git automatically. If you hit `npm publish`, you should have something new out there.
+
+Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case.
+
+### Publishing a Prerelease Version
+
+Sometimes you might want to publish something preliminary for other people to test. There are certain conventions for this. You rarely see *alpha* releases at npm. *beta* and *rc (release candidate) are common, though. For example, a package might have versions like this:
+
+* v0.5.0-alpha1
+* v0.5.0-beta1
+* v0.5.0-beta2
+* v0.5.0-rc1
+* v0.5.0-rc2
+* v0.5.0
+
+The initial alpha release will allow the users to try out the upcoming functionality and provide feedback. The beta releases can be considered more stable. The release candidates (rc) are close to an actual release and won't introduce any new functionality. They are all about refining the release till it's suitable for general consumption.
+
+The workflow in this case is straight-forward:
+
+1. `npm version 0.5.0-alpha1` - Update *package.json* as discussed earlier.
+2. `npm publish --tag alpha1` - Publish the package under *alpha1* tag.
+
+In order to consume the test version, your users will have to use `npm i <your package name>@alpha1`.
+
+T> It can be useful to utilize `npm link` during development. That will allow you to use a development version of your library from some other context. Node.js will resolve to the linked version unless local `node_modules` happens to contain a version. If you want to remove the link, use `npm unlink`.
 
 ### On Naming Packages
 
 Before starting to develop, it can be a good idea to spend a little bit of time on figuring out a good name for your package. It's not very fun to write a great package just to notice the name has been taken. A good name is easy to find through a search engine, and most importantly, is available at npm.
 
 As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that when naming your project.
-
-### Bumping a Version
-
-Bumping a version is simple too. You'll just need to invoke `npm version <x.y.z>`. That will update *package.json* and create a version commit automatically. If you hit `npm publish`, you should have something new out there.
-
-Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case.
 
 ### Respect the SemVer
 
