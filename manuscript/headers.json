@@ -76,7 +76,13 @@
         "source": "https://www.flickr.com/photos/7870246@N03/481256246",
         "license": "CC BY",
         "image": "boots.jpg",
-        "demo": "08_building_kanban"
+        "demo": "08_building_kanban",
+        "resources": [
+            {
+                "name": "Webpack Visualizer",
+                "url": "https://chrisbateman.github.io/webpack-visualizer/"
+            }
+        ]
     },
     {
         "author": "skeeze",
