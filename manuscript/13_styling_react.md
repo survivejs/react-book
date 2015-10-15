@@ -149,9 +149,7 @@ There are various approaches for React that allow us to push styling to the comp
 
 ### Inline Styles to Rescue
 
-Ironically the way solutions based on React solve this is through inline styles. Getting rid of inline styles was one of the main reasons for using separate CSS files in the first place. Now we are back there.
-
-This means that instead of something like this:
+Ironically the way solutions based on React solve this is through inline styles. Getting rid of inline styles was one of the main reasons for using separate CSS files in the first place. Now we are back there. This means that instead of something like this:
 
 ```javascript
 render(props, context) {
@@ -198,9 +196,7 @@ I will cover some of the available libraries to give you a better idea how they 
 
 ### Radium
 
-[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth highlighting. Most importantly it provides abstractions required to deal with media queries and pseudo classes (e.g., `:hover`).
-
-It expands the basic syntax as follows:
+[Radium](http://projects.formidablelabs.com/radium/) has certain valuable ideas that are worth highlighting. Most importantly it provides abstractions required to deal with media queries and pseudo classes (e.g., `:hover`). It expands the basic syntax as follows:
 
 ```javascript
 const styles = {
@@ -266,47 +262,50 @@ const styles = StyleSheet.create({
 
 As you can see, we can use individual fragments to get the same effect as Radium modifiers. Also media queries are supported. React Style expects that you manipulate browser states (e.g., `:hover`) through JavaScript. Also CSS animations won't work. Instead, it's preferred to use some other solution for that.
 
-Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to, but without cascades. We also have our style declarations on component level.
+Interestingly there is a [React Style plugin for Webpack](https://github.com/js-next/react-style-webpack-plugin). It can extract CSS declarations into a separate bundle. Now we are closer to the world we're used to, but without cascades. We also have our style declarations on the component level.
 
-### smart-css
+### JSS
 
-[smart-css](https://github.com/hackhat/smart-css) takes a similar approach except this time we are operating based on classes. To give you a better idea, consider the example below:
+[JSS](https://github.com/jsstyles/jss) is a JSON to StyleSheet compiler. It can be convenient to represent styling using JSON structures as this gives us easy namespacing. Furthermore it is possible to perform transformations over the JSON to gain features such as autoprefixing. JSS provides a plugin interface just for this.
+
+JSS can be used with React through [react-jss](https://www.npmjs.com/package/react-jss). There's also an experimental [jss-loader](https://www.npmjs.com/package/jss-loader) for Webpack. You can use JSS through *react-jss* like this:
 
 ```javascript
-import SmartCSS from 'smart-css';
-const css = new SmartCSS();
-
-css.setClass('.button', {
-    padding: '1em'
-});
-css.setClass('.button', {
-    width: '100%'
-}, {
-    media: 'max-width: 200px'
-});
-css.setClass('.primary', {
-    background: 'green'
-});
-css.setClass('.warning', {
-    background: 'yellow'
-});
-
 ...
+import classNames from 'classnames';
+import useSheet from 'react-jss';
 
-<button className={css.getClasses({
-  button: true,
-  primary: true
-})}>Confirm</button>
+const styles = {
+  button: {
+    padding: '1em'
+  },
+  'media (max-width: 200px)': {
+    button: {
+      width: '100%'
+    }
+  },
+  primary: {
+    background: 'green'
+  },
+  warning: {
+    background: 'yellow'
+  }
+};
 
-// in addition you'll need to trigger at a
-// higher level after the elements you are using
-// have been injected to the DOM
-SmartCSS.injectStyles();
+@useSheet(styles)
+export default class ConfirmButton extends React.Component {
+  render() {
+    const {classes} = this.props.sheet;
+
+    return <button
+      className={classNames(classes.button, classes.primary)}>
+        Confirm
+      </button>;
+  }
+}
 ```
 
-The approach supports pseudoselectors, i.e., you could define a selector such as `.button:hover` and it would just work.
-
-There are plans to introduce autoprefixing, better ways to deal with measurements, better APIs for complex properties, and for a Webpack plugin to extract the CSS into an external file.
+The approach supports pseudoselectors, i.e., you could define a selector within such as `&:hover` within a definition and it would just work.
 
 ### React Inline
 
