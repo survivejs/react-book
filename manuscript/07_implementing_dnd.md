@@ -7,7 +7,7 @@ Our Kanban application is almost usable now. It looks alright and there's some b
 Before going further hit
 
 ```bash
-npm i react-dnd --save
+npm i react-dnd react-dnd-html5-backend --save
 ```
 
 to add React DnD to the project.
@@ -19,7 +19,7 @@ As a first step we'll need to connect it with our project. Currently it provides
 ```javascript
 ...
 import {DragDropContext} from 'react-dnd';
-import HTML5Backend from 'react-dnd/modules/backends/HTML5';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 @DragDropContext(HTML5Backend)
 export default class App extends React.Component {

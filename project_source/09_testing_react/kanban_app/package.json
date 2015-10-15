@@ -35,6 +35,7 @@
     "phantomjs": "^1.9.18",
     "phantomjs-polyfill": "0.0.1",
     "react-addons-test-utils": "^0.14.0",
+    "react-dnd-test-backend": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "style-loader": "^0.12.3",
     "webpack": "^1.10.1",
@@ -46,7 +47,8 @@
     "array.prototype.findindex": "^1.0.0",
     "node-uuid": "^1.4.3",
     "react": "^0.14.0",
-    "react-dnd": "^1.1.4",
+    "react-dnd": "^2.0.0",
+    "react-dnd-html5-backend": "^2.0.0",
     "react-dom": "^0.14.0"
   }
 }
