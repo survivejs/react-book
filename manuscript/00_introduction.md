@@ -60,7 +60,7 @@ As no book is perfect, you will likely come by issues and might have some questi
 * [GitHub Issue Tracker](https://github.com/survivejs/webpack_react/issues)
 * [Gitter Chat](https://gitter.im/survivejs/webpack_react)
 * Twitter - [@survivejs](https://twitter.com/survivejs) or poke me through [@bebraw](https://twitter.com/bebraw)
-* Email - [bebraw@gmail.com](mailto:bebraw@gmail.com)
+* Email - [info@survivejs.com](mailto:info@survivejs.com)
 
 If you post questions to Stack Overflow, tag them using `survivejs` so I will get notified of them.
 
