@@ -130,7 +130,7 @@ Note that `resolve.extensions` setting will allow you to refer to JSX files with
 
 T> As `resolve.extensions` gets evaluated from left to right, we can use it to control which code gets loaded for given configuration. For instance, you could have `.web.js` to define web specific parts and then have something like `['', '.web.js', '.js', '.jsx']`. If a "web" version of the file is found, Webpack would use that instead of the default.
 
-Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint.
+Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint. Set it up as follows:
 
 **.babelrc**
 
@@ -142,42 +142,7 @@ Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/).
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could, for instance, enable the features you want to use explicitly.
 
-### Advanced Babel Setup
-
-Babel is a powerful tool. You can even use it to process your Webpack configuration. We won't be doing this yet, but it's a good technique to be aware of.
-
-First you will need to make sure Babel is included into your project as a dependency. After that you can rename your `webpack.config.js` as `webpack.config.babel.js`. Webpack will process configuration through Babel after that. It picks up `.babelrc` settings.
-
-Sometimes you might want to perform advanced Babel configuration. Currently Babel allows you to control `.babelrc` through env. To quote [the documentation](https://babeljs.io/docs/usage/babelrc/), you could do something like this:
-
-**.babelrc**
-
-```json
-{
-  "stage": 1,
-  "env": {
-    "build": {
-      "optional": ["optimisation", "minification"]
-    }
-  }
-}
-```
-
-This would enable production build specific Babel optimizations. You can also enable specific language features this way. You have to check out the official documentation for the exact flags to use. Some may be considered experimental and might be better avoided for now.
-
-Doing the aforementioned configuration isn't enough. Babel determines `env` like this:
-
-1. Use the value of `BABEL_ENV` if set
-2. Use the value of `NODE_ENV` if set
-3. Default to `development`
-
-In this case we could set `BABEL_ENV` based on npm lifecycle event given we're triggering it through npm. The following line would work:
-
-```javascript
-process.env.BABEL_ENV = process.env.npm_lifecycle_event;
-```
-
-This setup provides you more control over Babel's behavior depending on the environment.
+T> It is possible to use Babel features at your Webpack configuration. Simply rename *webpack.config.js* as *webpack.config.babel.js* and Webpack will pick it up provided Babel has been set up with your project. It will respect the contents of *.babelrc*.
 
 ## Developing the First React View
 
@@ -286,6 +251,10 @@ var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 process.env.BABEL_ENV = TARGET;
 
+var common = {
+  ...
+};
+
 ...
 ```
 
@@ -318,6 +287,12 @@ In addition we need to expand Babel configuration to include the plugin we need 
 ```
 
 Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things such as this add up and make you more effective.
+
+Note that Babel determines the value of `env` like this:
+
+1. Use the value of `BABEL_ENV` if set.
+2. Use the value of `NODE_ENV` if set.
+3. Default to `development`.
 
 T> If you want to show errors directly in the browser, you can configure [react-transform-catch-errors](https://github.com/gaearon/react-transform-catch-errors). At the time of writing it works reliable only with `devtool: 'eval'`, but regardless it may be worth a look.
 
