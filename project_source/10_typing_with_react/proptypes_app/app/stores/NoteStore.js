@@ -55,8 +55,8 @@ class NoteStore {
 
     return noteIndex;
   }
-  get(ids) {
-    return (ids || []).map((id) => this.notes[this.findNote(id)]);
+  get(ids = []) {
+    return ids.map((id) => this.notes[this.findNote(id)]);
   }
 }
 
