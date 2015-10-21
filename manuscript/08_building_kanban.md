@@ -488,7 +488,7 @@ if(TARGET === 'build' || TARGET === 'stats') {
 ...
 ```
 
-If you hit `npm run stats` now, you should find *stats.json* at your project root after it has finished processing. We can take this file and pass it to [the online tool](http://webpack.github.io/analyse/). Note that the tool works only over HTTP! If your data is sensitive, consider using [the standalone version]((https://github.com/webpack/analyse) instead.
+If you hit `npm run stats` now, you should find *stats.json* at your project root after it has finished processing. We can take this file and pass it to [the online tool](http://webpack.github.io/analyse/). Note that the tool works only over HTTP! If your data is sensitive, consider using [the standalone version](https://github.com/webpack/analyse) instead.
 
 Besides helping you to understand your bundle composition, the tool can help you to optimize your output further.
 
