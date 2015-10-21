@@ -189,9 +189,11 @@ We also need to define the `Note` component. In this case, we will just want to 
 ```javascript
 import React from 'react';
 
-export default () => {
-  return <div>Learn Webpack</div>;
-};
+export default class Note extends React.Component {
+  render() {
+    return <div>Learn Webpack</div>;
+  }
+}
 ```
 
 T> Note that we're using *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
