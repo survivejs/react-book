@@ -1,3 +1,24 @@
 {
-  "stage": 1
+  "optional": [
+    "es7.decorators",
+    "es7.objectRestSpread"
+  ],
+  "env": {
+    "start": {
+      "plugins": [
+        "react-transform"
+      ],
+      "extra": {
+        "react-transform": {
+          "transforms": [
+            {
+              "transform": "react-transform-hmr",
+              "imports": ["react"],
+              "locals": ["module"]
+            }
+          ]
+        }
+      }
+    }
+  }
 }

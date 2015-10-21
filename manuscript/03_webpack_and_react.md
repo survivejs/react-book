@@ -130,15 +130,20 @@ Note that `resolve.extensions` setting will allow you to refer to JSX files with
 
 T> As `resolve.extensions` gets evaluated from left to right, we can use it to control which code gets loaded for given configuration. For instance, you could have `.web.js` to define web specific parts and then have something like `['', '.web.js', '.js', '.jsx']`. If a "web" version of the file is found, Webpack would use that instead of the default.
 
-Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint. Set it up as follows:
+Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint. Set it up as follows to enable support for decorators and object rest spread. We'll be using both features in our project.
 
 **.babelrc**
 
 ```json
 {
-  "stage": 1
+  "optional": [
+    "es7.decorators",
+    "es7.objectRestSpread"
+  ]
 }
 ```
+
+Alternatively we could have a declaration such as `"stage": 1`. The problem is that this doesn't document well which experimental features we are using at our code base. It might work for small projects. Documenting your Babel usage this way will help in maintenance.
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could, for instance, enable the features you want to use explicitly.
 
@@ -264,7 +269,10 @@ In addition we need to expand Babel configuration to include the plugin we need 
 
 ```json
 {
-  "stage": 1,
+  "optional": [
+    "es7.decorators",
+    "es7.objectRestSpread"
+  ],
   "env": {
     "start": {
       "plugins": [

@@ -1,5 +1,8 @@
 {
-  "stage": 1,
+  "optional": [
+    "es7.decorators",
+    "es7.objectRestSpread"
+  ],
   "env": {
     "start": {
       "plugins": [
