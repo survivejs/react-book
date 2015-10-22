@@ -79,6 +79,10 @@
         "demo": "08_building_kanban",
         "resources": [
             {
+                "name": "Webpack Chart",
+                "url": "https://alexkuz.github.io/webpack-chart/"
+            },
+            {
                 "name": "Webpack Visualizer",
                 "url": "https://chrisbateman.github.io/webpack-visualizer/"
             }
