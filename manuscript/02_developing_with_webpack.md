@@ -193,6 +193,8 @@ Hit `npm start` and surf to **localhost:8080**. You should see something familia
 
 ![Hello world](images/hello_01.png)
 
+T> In case the amount of console output annoys you, you can set `quiet: true` at `devServer` configuration to keep it minimal.
+
 Or we can run the application from **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar. It indicates the status of the rebundling process.
 
 T> If you want to use some other port than `8080`, you can pass `port` parameter (e.g., `port: 4000`) to *devServer*.
