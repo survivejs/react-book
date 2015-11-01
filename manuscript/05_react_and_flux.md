@@ -413,14 +413,18 @@ W> Our `persist` implementation isn't without its flaws. It is easy to end up in
 
 ## Using the `AltContainer`
 
-The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper does the same thing and more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes.
+The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper does the same thing and more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes. To include it into our project, hit
+
+```bash
+npm i alt-container --save
+```
 
 The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use the `AltContainer`. After these changes we are good to go.
 
 **app/components/App.jsx**
 
 ```javascript
-import AltContainer from 'alt/AltContainer';
+import AltContainer from 'alt-container';
 import React from 'react';
 import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';

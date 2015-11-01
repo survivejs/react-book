@@ -1,4 +1,4 @@
-import AltContainer from 'alt/AltContainer';
+import AltContainer from 'alt-container';
 import React from 'react';
 import Lanes from './Lanes.jsx';
 import LaneActions from '../actions/LaneActions';

@@ -73,7 +73,7 @@ Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` r
 **app/components/App.jsx**
 
 ```javascript
-import AltContainer from 'alt/AltContainer';
+import AltContainer from 'alt-container';
 import React from 'react';
 import Lanes from './Lanes.jsx';
 import LaneActions from '../actions/LaneActions';
@@ -130,7 +130,7 @@ We are also going to need a `Lane` component to make this work. It will render t
 **app/components/Lane.jsx**
 
 ```javascript
-import AltContainer from 'alt/AltContainer';
+import AltContainer from 'alt-container';
 import React from 'react';
 import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
