@@ -642,7 +642,7 @@ class LaneStore {
       lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
     });
   }
-  attachToLane({laneId}) {
+  attachToLane({laneId, noteId}) {
     ...
   }
   ...
