@@ -104,3 +104,5 @@ if(TARGET === 'build' || TARGET === 'stats') {
     ]
   });
 }
+
+module.exports = common;

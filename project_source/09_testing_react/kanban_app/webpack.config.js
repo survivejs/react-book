@@ -134,3 +134,5 @@ if(TARGET === 'test' || TARGET === 'tdd') {
     }
   });
 }
+
+module.exports = common;

@@ -492,6 +492,62 @@ If you hit `npm run stats` now, you should find *stats.json* at your project roo
 
 Besides helping you to understand your bundle composition, the tool can help you to optimize your output further.
 
+## Deployment
+
+There's no one right way to deploy our application. `npm run build` provides us something static to host. If you drop that on a suitable server, it will just work. One neat way to deal with it for small demos is to piggyback on GitHub Pages.
+
+### Hosting on GitHub Pages
+
+A package known as [gh-pages](https://www.npmjs.com/package/gh-pages) allows us to achieve this easily. You point it to your build directory first. It will then pick up the contents and push them to the `gh-pages` branch. To get started, hit
+
+```bash
+npm i gh-pages --save-dev
+```
+
+We are also going to need an entry point at *package.json*:
+
+**package.json**
+
+```json
+{
+  ...
+  "scripts": {
+    "deploy": "node ./lib/deploy.js",
+    ...
+  },
+  ...
+}
+```
+
+In order to get access to our build path, we need to expose something useful for `deploy` case. We could either match for it or just return some sane defaults from Webpack configuration. I'm opting for the latter here to keep it simple:
+
+**webpack.config.js**
+
+```javascript
+...
+
+module.exports = common;
+```
+
+If you import Webpack configuration without a matching target now, you'll get the common configuration out of it.
+
+To glue it all together, we need a deployment script like this:
+
+**lib/deploy.js**
+
+```javascript
+var ghpages = require('gh-pages');
+var config = require('../webpack.config');
+
+main();
+
+function main() {
+  ghpages.publish(config.output.path, console.error.bind(console));
+}
+```
+
+If you hit `npm run deploy` now and everything goes fine, you should have your application hosted through GitHub Pages. You should find it at `https://<name>.github.io/<project>` assuming it worked.
+
 ## Conclusion
 
 Beyond the features discussed Webpack allows you to [lazy load](https://webpack.github.io/docs/code-splitting.html) content through `require.ensure`. This is handy if you happen to have a specific dependency on some view and want to load it when you need it.
