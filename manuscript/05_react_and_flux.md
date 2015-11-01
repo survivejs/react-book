@@ -255,6 +255,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    // We have to bind the context of `storeChanged`
+    // explicitly so that `this` will point at the `App`
+    // instance. You'll be seeing this pattern a lot.
     this.storeChanged = this.storeChanged.bind(this);
     this.state = NoteStore.getState();
   }
@@ -265,6 +268,9 @@ export default class App extends React.Component {
     NoteStore.unlisten(this.storeChanged);
   }
   storeChanged(state) {
+    // Without proper `bind`, `this` wouldn't
+    // point at the right context (defaults to `window`
+    // in browser environment)
     this.setState(state);
   }
   render() {
