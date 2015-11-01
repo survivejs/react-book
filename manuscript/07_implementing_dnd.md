@@ -29,6 +29,8 @@ export default class App extends React.Component {
 
 After this change the application should look exactly the same as before. We are now ready to add some sweet functionality to it.
 
+T> Decorators provide us simple means to annotate our components. Alternatively we could use syntax such as `DragDropContext(HTML5Backend)(App)` but this would get rather unwieldy when we want to apply multiple decorators. It's a valid alternative, though. See the decorator appendix to understand in detail how they work and how to implement them yourself.
+
 T> Back-ends allow us to customize React DnD behavior. For instance we can add [support for touch](https://github.com/gaearon/react-dnd/pull/240) to our application using one. There's also a testing specific one available.
 
 ## Preparing Notes to Be Sorted

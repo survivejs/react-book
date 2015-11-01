@@ -411,173 +411,7 @@ You could, for instance, pass the initial payload as a part of your HTML (isomor
 
 W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless, this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
 
-## Extracting Connection Decorator
-
-Even though the application is starting to look a little better now, there's still work to be done. For instance, `App` contains plenty of store connection related logic. This isn't nice. We should extract that so it's easier to manage. We can achieve this using decorators.
-
-### What Are Decorators?
-
-If you have used languages such as Java or Python before, you might be familiar with the idea. Decorators are syntactic sugar that allow us to wrap and annotate classes and functions. In their [current proposal](https://github.com/wycats/javascript-decorators) (stage 1) only class and method level wrapping is supported. Functions may become supported later on.
-
-### Implementing Logging Decorator
-
-Sometimes it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's a more controllable way to deal with it. Consider the example below:
-
-```javascript
-class Math {
-  @log
-  add(a, b) {
-    return a + b;
-  }
-}
-
-function log(target, name, descriptor) {
-  var oldValue = descriptor.value;
-
-  descriptor.value = function() {
-    console.log(`Calling "${name}" with`, arguments);
-
-    return oldValue.apply(null, arguments);
-  };
-
-  return descriptor;
-}
-
-const math = new Math();
-
-// passed parameters should get logged now
-math.add(2, 4);
-```
-
-This logger could be pushed to a separate module. After that we could use it across our application whenever we want to log some methods. Once implemented decorators become powerful building blocks.
-
-The decorator receives three parameters:
-
-* `target` maps to the instance of the class.
-* `name` contains the name of the method being decorated.
-* `descriptor` is the most interesting piece as it allows us to annotate the method and manipulate its behavior. It could look for example like this:
-
-```javascript
-const descriptor = {
-  value: () => {...},
-  enumerable: false,
-  configurable: true,
-  writable: true
-};
-```
-
-As you saw above, `value` makes it possible to shape the behavior. The rest allows you to modify behavior on method level. For instance a `@readonly` decorator could limit access. `@memoize` is another interesting example as that allows you to implement easy caching for methods.
-
-### Implementing `@connect`
-
-`@connect` will wrap our component in another component. That in turn will deal with the connection logic (`listen/unlisten/setState`). It will maintain the store state internally and then pass it to the child component that we are wrapping. During this process it will pass the state through props. The implementation below illustrates the idea:
-
-**app/decorators/connect.js**
-
-```javascript
-import React from 'react';
-
-const connect = (Component, store) => {
-  return class Connect extends React.Component {
-    constructor(props) {
-      super(props);
-
-      this.storeChanged = this.storeChanged.bind(this);
-      this.state = store.getState();
-
-      store.listen(this.storeChanged);
-    }
-    componentWillUnmount() {
-      store.unlisten(this.storeChanged);
-    }
-    storeChanged() {
-      this.setState(store.getState());
-    }
-    render() {
-      return <Component {...this.props} {...this.state} />;
-    }
-  };
-};
-
-export default (store) => {
-  return (target) => connect(target, store);
-};
-```
-
-Can you see the wrapping idea? Our decorator tracks store state. After that it passes the state to the component contained through props.
-
-T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
-
-You can connect our new decorator with `App` like this:
-
-**app/components/App.jsx**
-
-```javascript
-...
-import connect from '../decorators/connect';
-
-...
-
-@connect(NoteStore)
-export default class App extends React.Component {
-  /*
-  these lines can be removed now
-  constructor(props) {
-    super(props);
-
-    this.storeChanged = this.storeChanged.bind(this);
-    this.state = NoteStore.getState();
-  }
-  componentDidMount() {
-    NoteStore.listen(this.storeChanged);
-  }
-  componentWillUnmount() {
-    NoteStore.unlisten(this.storeChanged);
-  }
-  storeChanged(state) {
-    this.setState(state);
-  }
-   */
-  render() {
-    const notes = this.props.notes;
-
-    ...
-  }
-  ...
-}
-```
-
-Note how much code this simple decorator removes from our `App`. If we wanted to add more stores to the system and connect them to components, it would be trivial now. Even better we could connect multiple stores to a single component easily.
-
-### Decorator Ideas
-
-We can build new decorators for various functionalities, such as undo, in this manner. They allow us to keep our components tidy and push common logic elsewhere out of sight. Well designed decorators can be used across projects.
-
-### Alt's `@connectToStores`
-
-Alt provides a similar decorator known as `@connectToStores`. It relies on static methods.  Rather than normal methods that are bound to a specific instance, these are bound on class level. This means you can call them through the class itself (i.e., `App.getStores()`). The example below shows how we might integrate `@connectToStores` into our application.
-
-```javascript
-...
-import connectToStores from 'alt/utils/connectToStores';
-
-@connectToStores
-export default class App extends React.Component {
-  static getStores(props) {
-    return [NoteStore];
-  }
-  static getPropsFromStores(props) {
-    return NoteStore.getState();
-  }
-  ...
-}
-```
-
-This more verbose approach is roughly equivalent to our implementation. It actually does more as it allows you to connect to multiple stores at once. It also provides more control over the way you can shape store state to props.
-
-To get familiar with more approaches we'll be using the `AltContainer` in this project. Using the decorator is completely acceptable. It comes down to your personal preferences.
-
-## Using the `AltContainer` Instead of a Decorator
+## Using the `AltContainer`
 
 The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper does the same thing and more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes.
 
@@ -612,7 +446,7 @@ export default class App extends React.Component {
 }
 ```
 
-The `AltContainer` allows us to bind data to its immediate children. In this case it injects the `items` property in to `Notes`. It is the same idea as for decorators earlier, but now it's closer to the code. The pattern allows us to set up arbitrary connections to multiple stores and manage them.
+The `AltContainer` allows us to bind data to its immediate children. In this case it injects the `items` property in to `Notes`. The pattern allows us to set up arbitrary connections to multiple stores and manage them. You can find another possible approach at the appendix about decorators.
 
 Integrating the `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
 
@@ -630,4 +464,4 @@ Given it's still largely untested technology, we won't be covering it in this bo
 
 ## Conclusion
 
-In this chapter you saw how to port our simple application to use Flux architecture. In the process we learned about basic concepts of Flux. We also learned to extract logic into decorators. Now we are ready to start adding more functionality to our application.
+In this chapter you saw how to port our simple application to use Flux architecture. In the process we learned about basic concepts of Flux. Now we are ready to start adding more functionality to our application.

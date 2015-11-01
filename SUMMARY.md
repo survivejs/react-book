@@ -11,4 +11,5 @@
 * [Linting in Webpack](manuscript/11_linting_in_webpack.md)
 * [Authoring Libraries](manuscript/12_authoring_libraries.md)
 * [Styling React](manuscript/13_styling_react.md)
-* [Troubleshooting](manuscript/14_troubleshooting.md)
+* [Understanding Decorators](manuscript/14_understanding_decorators.md)
+* [Troubleshooting](manuscript/15_troubleshooting.md)
