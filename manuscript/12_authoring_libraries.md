@@ -102,7 +102,9 @@ As you can see *package.json* can contain a lot of information. You can attach n
 
 ## npm Workflow
 
-Working with npm is surprisingly simple. To get started, you need to use [npm adduser](https://docs.npmjs.com/cli/adduser) (aliased to `npm login`). It allows you to set up an account. After this process has completed, it will create `~/.npmrc` and use that data for authentication. There's also [npm logout](https://docs.npmjs.com/cli/logout) that will clear the credentials.
+Working with npm is surprisingly simple. To get started, you need to use [npm adduser](https://docs.npmjs.com/cli/adduser) (aliased to `npm login`). It allows you to set up an account. After this process has completed, it will create *~/.npmrc* and use that data for authentication. There's also [npm logout](https://docs.npmjs.com/cli/logout) that will clear the credentials.
+
+T> `npm init` respects the values set at *~/.npmrc*. Hence it may be worth your while to set reasonable defaults there to save some time.
 
 ### Publishing a Package
 
