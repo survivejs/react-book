@@ -81,10 +81,8 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 You can use Babel with Webpack easily through [babel-loader](https://www.npmjs.com/package/babel-loader). It takes our ES6 module definition based code and turn it into ES5 bundles. Install *babel-loader* with
 
 ```bash
-npm i babel-loader@5.x --save-dev
+npm i babel-loader --save-dev
 ```
-
-W> We're using Babel 5 here for now as *babel-plugin-react-transform* still needs to receive its Babel 6 fixes. The configuration will change considerably with Babel 6!
 
 Besides, we need to add a loader declaration to the *loaders* section of configuration. It matches against `.js` and `.jsx` using a regular expression (`/\.jsx?$/`).
 
