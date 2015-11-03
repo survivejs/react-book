@@ -164,7 +164,7 @@ at the project root to get the server installed. We will be invoking our develop
 ...
 ```
 
-We also need to do some configuration work.
+We also need to do some configuration work. We are going to use a simplified setup here. Beyond defaults we will enable Hot Module Replacement (HMR) and HTML5 History API fallback. The former will come in handy when we discuss React in detail. The latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up more `entry` paths. Here's the setup:
 
 **webpack.config.js**
 
@@ -200,17 +200,21 @@ Hit `npm start` and surf to **localhost:8080**. You should see something familia
 
 ![Hello world](images/hello_01.png)
 
+You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
+
 T> In case the amount of console output annoys you, you can set `quiet: true` at `devServer` configuration to keep it minimal.
 
-Or we can run the application from **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar. It indicates the status of the rebundling process.
+### Alternative Ways to Use *webpack-dev-server*
 
-T> If you want to use some other port than `8080`, you can pass `port` parameter (e.g., `port: 4000`) to *devServer*.
-
-In addition to **webpack.config.js** it is possible to set *webpack-dev-server* configuration through a command line interface (CLI). For additional configuration options, refer to the WebpackDevServer's [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api) documentation.
+We could have passed *webpack-dev-server* options through the command line interface (CLI). I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy. Alternatively we could have set up an Express server of our own and used *webpack-dev-server* as a [middleware](https://webpack.github.io/docs/webpack-dev-middleware.html). There's also a [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api).
 
 W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and Node.js API and they may behave slightly differently at times. This is the reason why some prefer to use solely Node.js API.
 
-We are using a somewhat basic setup here. Beyond defaults we've enabled Hot Module Replacement (HMR) and HTML5 History API fallback. The former will come in handy when we discuss React in detail. The latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up more `entry` paths.
+### Customizing Server *host* and *port*
+
+It is possible to customize host and port settings through the environment in our setup (i.e., `export PORT=3000` on Unix or `SET PORT=3000` on Windows). This can be useful if you want to access your server within the same network. The default settings are enough on most platforms.
+
+To access your server, you'll need to figure out the ip of your machine. On Unix this can be achieved using `ifconfig`. On Windows `ipconfig` can be used. A npm package, such as [node-ip](https://www.npmjs.com/package/node-ip) may come in handy as well. Especially on Windows you may need to set your `HOST` to match your ip to make it accessible.
 
 ## Refreshing CSS
 
