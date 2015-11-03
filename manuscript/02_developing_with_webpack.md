@@ -182,7 +182,12 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     inline: true,
-    progress: true
+    progress: true,
+
+    // parse host and port from env so this is easy
+    // to customize
+    host: process.env.HOST,
+    port: process.env.PORT
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
