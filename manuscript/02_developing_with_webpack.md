@@ -19,6 +19,8 @@ npm init
 
 As a result, you should have *package.json* at your project root. You can still tweak it manually to make further changes. We'll be doing some changes through *npm* tool, but it's fine to tweak the file to your liking. The official documentation explains various [package.json options](https://docs.npmjs.com/files/package.json) in more detail. I also cover some useful library authoring related tricks later in this book.
 
+T> You can set those `npm init` defaults at *~/.npmrc*. See the "Authoring Libraries" for more information about npm and its usage.
+
 If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
 
 If you are using git, I recommend setting up a *.gitignore* to the project root:
