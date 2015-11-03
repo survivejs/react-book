@@ -86,9 +86,9 @@ export default class App extends React.Component {
         <button className="add-lane" onClick={this.addItem}>+</button>
         <AltContainer
           stores={[LaneStore]}
-          inject={ {
+          inject={{
             items: () => LaneStore.getState().lanes || []
-          } }
+          }}
         >
           <Lanes />
         </AltContainer>
@@ -150,9 +150,9 @@ export default class Lane extends React.Component {
         </div>
         <AltContainer
           stores={[NoteStore]}
-          inject={ {
+          inject={{
             items: () => NoteStore.getState().notes || []
-          } }
+          }}
         >
           <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
         </AltContainer>
@@ -424,9 +424,9 @@ export default class Lane extends React.Component {
         </div>
         <AltContainer
           stores={[NoteStore]}
-          inject={ {
+          inject={{
             items: () => NoteStore.get(lane.notes)
-          } }
+          }}
         >
           <Notes
             onEdit={this.editNote}
