@@ -42,13 +42,7 @@
         "source": "https://www.flickr.com/photos/73635318@N00/2663422833",
         "license": "CC BY-NC-SA",
         "image": "notes.jpg",
-        "demo": "04_implementing_notes",
-        "resources": [
-            {
-                "name": "The land of undocumented react.js: The Context",
-                "url": "https://medium.com/@skwee357/the-land-of-undocumented-react-js-the-context-99b3f931ff73"
-            }
-        ]
+        "demo": "04_implementing_notes"
     },
     {
         "author": "jeremyg3030",
@@ -76,17 +70,7 @@
         "source": "https://www.flickr.com/photos/7870246@N03/481256246",
         "license": "CC BY",
         "image": "boots.jpg",
-        "demo": "08_building_kanban",
-        "resources": [
-            {
-                "name": "Webpack Chart",
-                "url": "https://alexkuz.github.io/webpack-chart/"
-            },
-            {
-                "name": "Webpack Visualizer",
-                "url": "https://chrisbateman.github.io/webpack-visualizer/"
-            }
-        ]
+        "demo": "08_building_kanban"
     },
     {
         "author": "skeeze",
@@ -127,25 +111,7 @@
         "author": "Andrea Williams",
         "source": "https://www.flickr.com/photos/82405581@N00/3173065446",
         "license": "CC BY-NC-ND",
-        "image": "taxi.jpg",
-        "resources": [
-          {
-            "name": "Atomic CSS",
-            "url": "http://acss.io/"
-          },
-          {
-            "name": "react-styling",
-            "url": "https://github.com/halt-hammerzeit/react-styling"
-          },
-          {
-            "name": "react-classnames",
-            "url": "https://www.npmjs.com/package/react-classnames"
-          },
-          {
-            "name": "react-classtree",
-            "url": "https://www.npmjs.com/package/react-classtree"
-          }
-        ]
+        "image": "taxi.jpg"
     },
     {
         "author": "Ana_J",
