@@ -2,7 +2,7 @@
 
 If you have used languages such as Java or Python before, you might be familiar with the idea. Decorators are syntactic sugar that allow us to wrap and annotate classes and functions. In their [current proposal](https://github.com/wycats/javascript-decorators) (stage 1) only class and method level wrapping is supported. Functions may become supported later on.
 
-### Implementing Logging Decorator
+## Implementing Logging Decorator
 
 Sometimes it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's a more controllable way to deal with it. Consider the example below:
 
@@ -55,7 +55,7 @@ const descriptor = {
 
 As you saw above, `value` makes it possible to shape the behavior. The rest allows you to modify behavior on method level. For instance a `@readonly` decorator could limit access. `@memoize` is another interesting example as that allows you to implement easy caching for methods.
 
-### Implementing `@connect`
+## Implementing `@connect`
 
 `@connect` will wrap our component in another component. That in turn will deal with the connection logic (`listen/unlisten/setState`). It will maintain the store state internally and then pass it to the child component that we are wrapping. During this process it will pass the state through props. The implementation below illustrates the idea:
 
@@ -118,7 +118,7 @@ export default class App extends React.Component {
 
 Pushing the logic to a decorator allows us to keep our components simple. If we wanted to add more stores to the system and connect them to components, it would be trivial now. Even better we could connect multiple stores to a single component easily.
 
-### Decorator Ideas
+## Decorator Ideas
 
 We can build new decorators for various functionalities, such as undo, in this manner. They allow us to keep our components tidy and push common logic elsewhere out of sight. Well designed decorators can be used across projects.
 
