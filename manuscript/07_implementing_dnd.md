@@ -484,7 +484,7 @@ const noteTarget = {
 
 If you refresh your browser and drag around now, the log should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
 
-### Trigger `move` Logic
+### Triggering `move` Logic
 
 Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is ideal for this purpose. Adjust `Lane` as follows:
 
