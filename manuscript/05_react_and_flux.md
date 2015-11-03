@@ -464,7 +464,7 @@ Integrating the `AltContainer` actually grew our component a little bit. It also
 
 Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet such as `alt.dispatcher.register(console.log.bind(console))`.
 
-You can use the same mechanism on the store level. In that case you would trigger `this.dispatcher.register(...)` at the constructor. These mechanisms allow you to implement effective logging to your system.
+The same mechanism can be used on the store level. Then you would trigger `this.dispatcher.register(...)` at the constructor. These mechanisms allow you to implement effective logging.
 
 ## Relay?
 
