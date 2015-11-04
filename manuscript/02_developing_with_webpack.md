@@ -295,7 +295,7 @@ Our current configuration is enough as long as we're interested in just developi
 
 * Maintain configuration in multiple files and point Webpack to each through `--config` parameter. Share configuration through module imports. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
 * Push configuration to a library which you then consume. Example: [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack).
-* Maintain configuration within a single file and branch based on npm lifecycle event. That is set when we trigger a script through *npm* (i.e., `npm run test`). I prefer this approach as it allows me to understand what's going on easily. We'll be using this approach.
+* Maintain configuration within a single file and branch there. If we trigger a script through *npm* (i.e., `npm run test`), npm sets this information to an environment variable. We can match against it and return the configuration we want. I prefer this approach as it allows me to understand what's going on easily. We'll be using this approach.
 
 The idea is that we extract configuration that's common to each target into a structure of its own. When defining the targets, we use a variant of `merge` function that overrides objects and concatenates arrays. This convention works well with Webpack as we'll soon see.
 
