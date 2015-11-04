@@ -91,7 +91,7 @@ export default class App extends React.Component {
   }
   renderNote(note) {
     return (
-      <li key={`note${note.id}`}>
+      <li key={note.id}>
         <Note task={note.task} />
       </li>
     );
@@ -102,7 +102,7 @@ export default class App extends React.Component {
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
 
 * `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
-* ``<li key={`note${note.id}`}>`` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
+* `<li key={note.id}>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
 T> You can import portions from `react` using syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. You may find this alternative a little neater.
 
@@ -158,7 +158,7 @@ export default class Notes extends React.Component {
   }
   renderNote(note) {
     return (
-      <li className="note" key={`note${note.id}`}>
+      <li className="note" key={note.id}>
         <Note task={note.task} />
       </li>
     );
@@ -460,7 +460,7 @@ export default class Notes extends React.Component {
   }
   renderNote(note) {
     return (
-      <li className="note" key={`note${note.id}`}>
+      <li className="note" key={note.id}>
         <Note
           task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)} />
@@ -618,7 +618,7 @@ export default class Notes extends React.Component {
   ...
   renderNote(note) {
     return (
-      <li className="note" key={`note${note.id}`}>
+      <li className="note" key={note.id}>
         <Note
           task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}

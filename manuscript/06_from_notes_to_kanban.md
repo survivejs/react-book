@@ -120,7 +120,7 @@ export default class Lanes extends React.Component {
     return <div className="lanes">{lanes.map(this.renderLane)}</div>;
   }
   renderLane(lane) {
-    return <Lane className="lane" key={`lane${lane.id}`} lane={lane} />;
+    return <Lane className="lane" key={lane.id} lane={lane} />;
   }
 }
 ```
@@ -541,7 +541,7 @@ export default class Notes extends React.Component {
   ...
   renderNote(note) {
     return (
-      <li className="note" key={`note${note.id}`}>
+      <li className="note" key={note.id}>
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
@@ -758,14 +758,14 @@ export default class Lanes extends React.Component {
   renderLane(lane) {
     // new
     return (
-      <Lane className="lane" key={`lane${lane.id}`}>
+      <Lane className="lane" key={lane.id}>
         <Lane.Header id={lane.id} name={lane.name} />
         <Lane.Notes id={lane.id} notes={lane.notes} />
       </Lane>
     );
 
     // old
-    // return <Lane className="lane" key={`lane${lane.id}`} lane={lane} />;
+    // return <Lane className="lane" key={lane.id} lane={lane} />;
   }
 }
 ```

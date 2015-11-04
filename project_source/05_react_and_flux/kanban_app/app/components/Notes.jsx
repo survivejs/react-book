@@ -14,7 +14,7 @@ export default class Notes extends React.Component {
   }
   renderNote(note) {
     return (
-      <li className="note" key={`note${note.id}`}>
+      <li className="note" key={note.id}>
         <Note
           task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
