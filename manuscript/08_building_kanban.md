@@ -182,6 +182,10 @@ if(TARGET === 'build') {
       app: APP_PATH,
       vendor: Object.keys(pkg.dependencies)
     },
+    output: {
+      path: BUILD_PATH,
+      filename: 'bundle.js'
+    },
     devtool: 'source-map',
     ...
   });
@@ -363,10 +367,6 @@ var common = {
   entry: APP_PATH,
   resolve: {
     extensions: ['', '.js', '.jsx']
-  },
-  output: {
-    path: BUILD_PATH,
-    filename: 'bundle.js'
   },
   module: {
     loaders: [

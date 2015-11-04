@@ -309,7 +309,7 @@ To keep things simple, I've pushed the `merge` function to a package of its own.
 npm i webpack-merge --save-dev
 ```
 
-to add it to the project. Add `merge` stub as below. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch and merge based on that. We'll expand these in the coming chapters.
+to add it to the project. The idea is that we detect npm lifecycle event (`start`, `build`, ...) and then branch and merge based on that. We'll expand these in the coming chapters.
 
 To improve the debuggability of the application, we can set up sourcemaps while we are at it. They allow you to see exactly where an error was raised. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
 
@@ -324,14 +324,9 @@ var merge = require('webpack-merge');
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 var common = {
   entry: APP_PATH,
-  output: {
-    path: BUILD_PATH,
-    filename: 'bundle.js'
-  },
   module: {
     loaders: [
       {

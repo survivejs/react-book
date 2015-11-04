@@ -20,10 +20,6 @@ var common = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-  output: {
-    path: BUILD_PATH,
-    filename: 'bundle.js'
-  },
   module: {
     loaders: [
       {

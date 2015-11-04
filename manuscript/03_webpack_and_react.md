@@ -103,10 +103,6 @@ var common = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-  output: {
-    path: BUILD_PATH,
-    filename: 'bundle.js'
-  },
   module: {
     loaders: [
       ...
@@ -256,7 +252,6 @@ We also need to make Babel aware of HMR. First we should pass target environment
 
 ```javascript
 ...
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 process.env.BABEL_ENV = TARGET;
 
