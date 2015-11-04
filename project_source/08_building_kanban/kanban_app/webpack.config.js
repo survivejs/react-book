@@ -68,7 +68,7 @@ if(TARGET === 'start' || !TARGET) {
   });
 }
 
-if(TARGET === 'build' || TARGET === 'stats') {
+if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
   module.exports = merge(common, {
     entry: {
       app: APP_PATH,
@@ -109,5 +109,3 @@ if(TARGET === 'build' || TARGET === 'stats') {
     ]
   });
 }
-
-module.exports = common;

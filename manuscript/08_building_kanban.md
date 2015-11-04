@@ -519,17 +519,18 @@ We are also going to need an entry point at *package.json*:
 }
 ```
 
-In order to get access to our build path, we need to expose something useful for `deploy` case. We could either match for it or just return some sane defaults from Webpack configuration. I'm opting for the latter here to keep it simple:
+In order to get access to our build path, we need to expose something useful for `deploy` case. We can match for the case like this so we get useful configuration:
 
 **webpack.config.js**
 
 ```javascript
 ...
 
-module.exports = common;
-```
+//if(TARGET === 'build' || TARGET === 'stats') {
+if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
 
-If you import Webpack configuration without a matching target now, you'll get the common configuration out of it.
+...
+```
 
 To glue it all together, we need a deployment script like this:
 
