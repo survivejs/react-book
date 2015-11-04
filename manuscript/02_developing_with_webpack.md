@@ -142,7 +142,7 @@ T> There are other little plugins, such as `html-webpack-plugin`, that you may f
 
 ## Setting Up *webpack-dev-server*
 
-Now that we have the basic building blocks together, we can set up a development server. *webpack-dev-server* is a development server that automatically refreshes content in the browser while you develop your application. You should use *webpack-dev-server* strictly for development. If you want to host your application, consider other, standard solutions such as Apache or Nginx.
+Now that we have the basic building blocks together, we can set up a development server. *webpack-dev-server* is a development server running in-memory that automatically refreshes content in the browser while you develop the application. You should use *webpack-dev-server* strictly for development. If you want to host your application, consider other, standard solutions such as Apache or Nginx.
 
 This makes it roughly equivalent to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through React.
 
