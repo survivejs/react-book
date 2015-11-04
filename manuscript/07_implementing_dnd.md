@@ -264,7 +264,7 @@ The logic of drag and drop is quite simple. Suppose we have a list A, B, C. In c
 
 In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note`, we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`:
 
-**app/actions/LaneActions.jsx**
+**app/actions/LaneActions.js**
 
 ```javascript
 import alt from '../libs/alt';
@@ -302,7 +302,7 @@ export default class Notes extends React.Component {
 
 We should also define a stub at `LaneStore` to see that we wired it up correctly:
 
-**app/stores/LaneStore.jsx**
+**app/stores/LaneStore.js**
 
 ```javascript
 ...
@@ -325,7 +325,7 @@ Moving within a lane itself is more complicated. When you are operating based on
 
 It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
 
-**app/stores/LaneStore.jsx**
+**app/stores/LaneStore.js**
 
 ```javascript
 ...
@@ -512,7 +512,7 @@ Earlier we resolved this using `detachFromLane`. The problem is that we don't kn
 
 We could resolve this on store level instead by implementing an invariant at `attachToLane` that makes sure any possible earlier references get removed. This can be achieved by implementing `this.removeNote(noteId)` check:
 
-**app/stores/LaneStore.jsx**
+**app/stores/LaneStore.js**
 
 ```javascript
 ...
