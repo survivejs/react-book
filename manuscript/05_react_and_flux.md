@@ -419,13 +419,13 @@ W> Our `persist` implementation isn't without its flaws. It is easy to end up in
 
 ## Using the `AltContainer`
 
-The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper does the same thing and more. It provides a greater degree of customizability than our own solution. It's officially supported by Alt protecting us from possible API changes. To include it into our project, hit
+The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper allows us to simplify connection logic greatly and cut down the amount of logic needed. To get started, install it using:
 
 ```bash
 npm i alt-container --save
 ```
 
-The implementation below illustrates how to bind it all together. We'll drop `@connect` from the project altogether and expand `render()` to use the `AltContainer`. After these changes we are good to go.
+The implementation below illustrates how to bind it all together. Note how much code we can remove!
 
 **app/components/App.jsx**
 
@@ -458,7 +458,7 @@ export default class App extends React.Component {
 
 The `AltContainer` allows us to bind data to its immediate children. In this case it injects the `items` property in to `Notes`. The pattern allows us to set up arbitrary connections to multiple stores and manage them. You can find another possible approach at the appendix about decorators.
 
-Integrating the `AltContainer` actually grew our component a little bit. It also tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
+Integrating the `AltContainer` tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
 
 ## Dispatching in Alt
 
