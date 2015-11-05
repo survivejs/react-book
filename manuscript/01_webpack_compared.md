@@ -198,7 +198,7 @@ Using JSPM is quite different than earlier tools. It comes with a little CLI too
 
 Given JSPM is still a young project there might be rough spots. That said, it may be worth a look if you are adventurous. As you know by now, tooling tends to change quite often in front-end development and JSPM is definitely a worthy contender.
 
-## Why to Use Webpack?
+## Why Use Webpack?
 
 Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
 
