@@ -2,6 +2,8 @@
 
 Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application. It will have basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures such as Flux are needed.
 
+W> Hot loading isn't fool proof always. Given it operates by swapping methods dynamically, it won't catch every change. This is particularly true when we use `bind` at our code later in this chapter. This means you may need to force a manual refresh at the browser for some changes to show up!
+
 ## Initial Data Model
 
 Often a good way to begin designing an application is to start with the data. We could model a list of notes as follows:
