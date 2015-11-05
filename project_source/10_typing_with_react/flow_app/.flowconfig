@@ -1,5 +1,6 @@
 [ignore]
-./build/
+.*/node_modules/*
+.*/build/*
 
 [include]
 ./app/
