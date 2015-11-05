@@ -132,13 +132,11 @@ module.exports = {
 
 Given Webpack expects absolute paths we have some good options here. I like to use `path.resolve`, but `path.join` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
-If you hit `node_modules/.bin/webpack` now you should see a Webpack build. You can serve */build* through a dummy server such as *serve* (`npm i serve -g`). Examine the results in a browser.
+If you hit `node_modules/.bin/webpack`, you should see a Webpack build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open index.html` to see the result.
 
-Even though this is nice, it's not useful for development. We can set up something better for development usage.
+Another way to achieve this would be to serve the contents of the directory through a server such as *serve* (`npm i serve -g`). In this case you would execute `serve` at the output directory and head to `localhost:3000` at your browser. You can configure the port through the `--port` parameter if you want to use some other port.
 
 T> Note that you can pass a custom template to *html-webpack-plugin*. In our case, the default template it uses is fine for our purposes for now.
-
-T> There are other little plugins, such as `html-webpack-plugin`, that you may find useful. For example [open-browser-webpack-plugin](https://www.npmjs.com/package/open-browser-webpack-plugin) allows you to open a browser automatically after Webpack is running.
 
 ## Setting Up *webpack-dev-server*
 
