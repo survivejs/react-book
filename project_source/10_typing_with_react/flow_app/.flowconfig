@@ -6,6 +6,7 @@
 ./app/
 
 [libs]
+interfaces/
 
 [options]
 esproposal.decorators=ignore
