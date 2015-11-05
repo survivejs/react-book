@@ -12,8 +12,8 @@ export default class Notes extends React.Component {
   };
   static defaultProps: {
     items: [],
-    onEdit: () => {},
-    onDelete: () => {}
+    onEdit: () => any,
+    onDelete: () => any
   };
   render(): any {
     const notes = this.props.items;
