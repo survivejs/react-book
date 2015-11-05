@@ -4,15 +4,21 @@ Front-end development moves forward fast. In this book we'll discuss  [Webpack](
 
 ## What is Webpack?
 
-Webpack solves the fundamental problem of web development, namely module bundling. Webpack collects and processes a variety of web assets and packs them into a bundle that you can serve to your client. Even though this sounds simple, it is in fact a difficult problem that becomes more complex as your web application grows.
+Web browsers have been designed to consume HTML, JavaScript, and CSS. The simplest way to develop is simply to write files that the browser understands directly. The problem is that this becomes unwieldy eventually. This is particularly true when you are developing web applications.
 
-Suppose you have a form with a date input. Then you want to use jQuery plugins for a date picker and validation but you only want to include those plugins on specific pages. Webpack manages this module bundling scenario through configuration. This makes Webpack daunting to approach, yet powerful to use. This book helps you to get through that initial learning curve.
+There are multiple ways to approach this problem. You can start splitting up your JavaScript and CSS to separate files for example. You could load dependencies through `script` tags. Even though better, it is still a little problematic. If you want to use technologies that compile to these target formats, you will need to introduce preprocessing steps. Task runners, such as Grunt and Gulp, allow you to achieve this but even then you need to write a lot of configuration by hand.
+
+Webpack takes another route. It allows you to treat your project as a dependency graph. You could have a *index.js* in your project that pulls in the dependencies the project needs through standard `import` statements. You can refer to your style files and other assets the same way.
+
+Webpack does all the preprocessing for you and gives you the bundles you specify through configuration. This declarative approach is powerful but a little difficult to learn. Once you begin to understand how Webpack works, it becomes an indispensable tool. This book has been designed to get through that initial learning curve.
 
 ## What is React?
 
 Facebook's React, a JavaScript library, is a component based view abstraction. A component could be a form input, button, or any other element in your user interface. This provides an interesting contrast to earlier approaches as React isn't bound to the DOM by design. You can use it to implement mobile applications for example.
 
 Given React focuses only on the view you'll likely have to complement it with other libraries to give you the missing bits. This provides an interesting contrast to framework based approaches as they give you a lot more out of the box.
+
+Both framework and library based approaches have their merits. You may even use React with a framework so it's not an either-or proposition. Ideas introduced by React have influenced the development of the frameworks so you can find familiar concepts there. Most importantly it has helped us to understand how well component based thinking fits web applications.
 
 ## How is This Book Organized?
 
