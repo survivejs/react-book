@@ -267,7 +267,9 @@ Adding new items to the notes list is a good starting point. To get started, we 
 ...
 
 export default class App extends React.Component {
-  ...
+  constructor(props) {
+    ...
+  }
   render() {
     const notes = this.state.notes;
 
@@ -307,7 +309,9 @@ export default class App extends React.Component {
 
     this.addNote = this.addNote.bind(this);
   }
-  ...
+  render() {
+    ...
+  }
   addNote() {
     this.setState({
       notes: this.state.notes.concat([{
@@ -421,7 +425,9 @@ import React from 'react';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
-  ...
+  constructor(props) {
+    ...
+  }
   render() {
     const notes = this.state.notes;
 
@@ -581,6 +587,7 @@ import Notes from './Notes.jsx';
 export default class App extends React.Component {
   constructor(props) {
     ...
+
     this.editNote = this.editNote.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
   }
@@ -617,7 +624,12 @@ In addition to `App` level logic, we'll need to trigger `onDelete` logic at `Not
 
 ```javascript
 export default class Notes extends React.Component {
-  ...
+  constructor(props) {
+    ...
+  }
+  render() {
+    ...
+  }
   renderNote(note) {
     return (
       <li className="note" key={note.id}>
@@ -639,7 +651,12 @@ In order to invoke the previous `onDelete` callback we need to connect it with `
 ...
 
 export default class Note extends React.Component {
-  ...
+  constructor(props) {
+    ...
+  }
+  render() {
+    ...
+  }
   renderTask() {
     const onDelete = this.props.onDelete;
 
@@ -732,7 +749,7 @@ To make individual `Notes` stand out we can apply a couple of rules.
 }
 ```
 
-Now notes stand out a bit:
+Now the notes stand out a bit:
 
 ![Styling notes](images/react_10.png)
 
