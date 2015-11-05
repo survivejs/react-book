@@ -794,7 +794,7 @@ To quote [the official documentation](https://facebook.github.io/react/docs/comp
 * `displayName` - It is preferable to set `displayName` as that will improve debug information. For ES6 classes this is derived automatically based on the class name.
 * `getInitialState()` - In class based approach the same can be achieved through `constructor`.
 * `getDefaultProps()` - In classes you can set these in `constructor`.
-* `propTypes` - As seen above, you can use Flow to deal with prop types. In `React.createClass` you would build a complex looking declaration as seen in [the propType documentation](https://facebook.github.io/react/docs/reusable-components.html).
+* `propTypes` - `propTypes` allow you to document your props and catch potential issues during development. To dig deeper, read the *Typing with React* chapter.
 * `mixins` - `mixins` contains an array of mixins to apply to components.
 * `statics` - `statics` contains static properties and method for a component. In ES6 you would assign them to the class like below:
 
