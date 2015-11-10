@@ -469,10 +469,7 @@ import React from 'react';
 
 export default class Editable extends React.Component {
   constructor(props) {
-    ...
-
-    // this.renderTask = this.renderTask.bind(this);
-    this.renderValue = this.renderValue.bind(this);
+    super(props);
 
     this.state = {
       editing: false
@@ -488,14 +485,14 @@ export default class Editable extends React.Component {
       </div>
     );
   }
-  renderEdit() {
+  renderEdit = () => {
     return <input type="text"
       autoFocus={true}
       defaultValue={this.props.value}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
-  renderValue() { // drop renderTask
+  renderValue = () => { // drop renderTask
     const onDelete = this.props.onDelete;
 
     return (
@@ -505,13 +502,16 @@ export default class Editable extends React.Component {
       </div>
     );
   }
+  renderDelete = () => {
+    return <button className="delete" onClick={this.props.onDelete}>x</button>;
+  }
   ...
 }
 ```
 
 There are a couple of important changes:
 
-* `this.renderValue = this.renderValue.bind(this);` - Previously we had `Task`. Now we are using the term `Value` as that's more generic.
+* `{editing ? this.renderEdit() : this.renderValue()}` - This ternary selects what to render based on the editing state. Previously we had `Task`. Now we are using the term `Value` as that's more generic.
 * `const {value, onEdit, ...props} = this.props;` - We changed task to value here as well.
 * `renderValue()` - Formerly this was known as `renderTask()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
 
@@ -526,6 +526,8 @@ Because the class name changes, `main.css` needs a small tweak:
   display: inline-block;
 }
 ```
+
+T> Our current implementation of `Editable` encapsulates its `editing` state. This makes it impossible to control outside of the component. One way to resolve this issue would be to eliminate the internal state and provide enough API to control it. This would mean controlling `editing` state through a prop and allowing the consumer to react to the editing states through hooks such as `onBeginEdit` and `onFinishEdit`.
 
 ### Pointing `Notes` to `Editable`
 

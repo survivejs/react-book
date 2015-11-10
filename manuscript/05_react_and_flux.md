@@ -125,7 +125,9 @@ Note that assigning a label to a store (`NoteStore` in this case) isn't required
 
 ### Implementing `create`
 
-Compared to the earlier logic, `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store.
+Compared to the earlier logic, `create` will generate an id for a `Note` automatically. This is a detail that can be hidden within the store:
+
+**app/stores/NoteStore.js**
 
 ```javascript
 import uuid from 'node-uuid';
@@ -156,6 +158,8 @@ To keep the implementation clean, we are using `this.setState`. It is a feature 
 ### Implementing `update`
 
 `update` follows the earlier logic apart from some renaming. Most importantly we commit the new state through `this.setState`:
+
+**app/stores/NoteStore.js**
 
 ```javascript
 ...
@@ -199,6 +203,8 @@ T> `{notes}` is known as a an ES6 feature known as [property shorthand](https://
 ### Implementing `delete`
 
 `delete` is straightforward. Seek and destroy, as earlier, and remember to commit the change:
+
+**app/stores/NoteStore.js**
 
 ```javascript
 ...
@@ -255,10 +261,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    // We have to bind the context of `storeChanged`
-    // explicitly so that `this` will point at the `App`
-    // instance. You'll be seeing this pattern a lot.
-    this.storeChanged = this.storeChanged.bind(this);
     this.state = NoteStore.getState();
   }
   componentDidMount() {
@@ -267,10 +269,9 @@ export default class App extends React.Component {
   componentWillUnmount() {
     NoteStore.unlisten(this.storeChanged);
   }
-  storeChanged(state) {
-    // Without proper `bind`, `this` wouldn't
-    // point at the right context (defaults to `window`
-    // in browser environment)
+  storeChanged = (state) => {
+    // Without a property initializer `this` wouldn't
+    // point at the right context (defaults to `window`).
     this.setState(state);
   }
   render() {

@@ -22,11 +22,6 @@ export default class App extends React.Component {
         }
       ]
     };
-
-    this.findNote = this.findNote.bind(this);
-    this.addNote = this.addNote.bind(this);
-    this.editNote = this.editNote.bind(this);
-    this.deleteNote = this.deleteNote.bind(this);
   }
   render() {
     const notes = this.state.notes;
@@ -39,7 +34,7 @@ export default class App extends React.Component {
       </div>
     );
   }
-  deleteNote(id) {
+  deleteNote = (id) => {
     const notes = this.state.notes;
     const noteIndex = this.findNote(id);
 
@@ -51,7 +46,7 @@ export default class App extends React.Component {
       notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
     });
   }
-  addNote() {
+  addNote = () => {
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
@@ -59,7 +54,7 @@ export default class App extends React.Component {
       }])
     });
   }
-  editNote(id, task) {
+  editNote = (id, task) => {
     let notes = this.state.notes;
     const noteIndex = this.findNote(id);
 
@@ -71,7 +66,7 @@ export default class App extends React.Component {
 
     this.setState({notes});
   }
-  findNote(id) {
+  findNote = (id) => {
     const notes = this.state.notes;
     const noteIndex = notes.findIndex((note) => note.id === id);
 

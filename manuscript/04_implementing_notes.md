@@ -2,7 +2,7 @@
 
 Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application. It will have basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures such as Flux are needed.
 
-W> Hot loading isn't fool proof always. Given it operates by swapping methods dynamically, it won't catch every change. This is particularly true when we use `bind` at our code later in this chapter. This means you may need to force a manual refresh at the browser for some changes to show up!
+W> Hot loading isn't fool proof always. Given it operates by swapping methods dynamically, it won't catch every change. This is problematic with property initializers and `bind`. This means you may need to force a manual refresh at the browser for some changes to show up!
 
 ## Initial Data Model
 
@@ -294,7 +294,7 @@ If you click the plus button now, you should see something in your browser conso
 
 React provides one simple way to change the state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and an optional callback. The callback is triggered after the process has completed.
 
-It is best to think of state as immutable and alter it always through `setState`. In our case, adding a new note can be done through a `concat` operation as below.
+It is best to think of state as immutable and alter it always through `setState`. In our case, adding a new note can be done through a `concat` operation as below:
 
 **app/components/App.jsx**
 
@@ -303,16 +303,18 @@ It is best to think of state as immutable and alter it always through `setState`
 
 export default class App extends React.Component {
   constructor(props) {
-    super(props);
-
     ...
-
-    this.addNote = this.addNote.bind(this);
   }
   render() {
     ...
   }
-  addNote() {
+  // We are using an experimental feature known as property
+  // initializer here. It allows us to bind the method `this`
+  // to point at our *App* instance.
+  //
+  // Alternatively we could `bind` at `constructor` using
+  // a line such as this.addNote = this.addNote.bind(this);
+  addNote = () => {
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
@@ -331,12 +333,6 @@ If you hit the button a few times now, you should see new items. It might not be
 
 ![Notes with a new item](images/react_05.png)
 
-We additionally had to set up a binding for `this.addNote`. Without it `this` of `addNote()` would point at the wrong context and wouldn't work. It is a little annoying, but it is necessary to bind nonetheless.
-
-Using `bind` at `constructor` gives us a small performance benefit as opposed to binding at `render()`. I'll be using this convention unless it would take additional effort through lifecycle hooks. In the future [property initializers](https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#es7-property-initializers) may solve this issue with a neat syntax.
-
-T> Besides allowing you to set context, [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) makes it possible to fix parameters to certain values. You will see an example of this shortly.
-
 ## Editing Notes
 
 Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect a click event on a `Note`, and then show an input containing its state. Then when the editing has been confirmed, we can return it back to normal.
@@ -354,12 +350,6 @@ export default class Note extends React.Component {
   constructor(props) {
     super(props);
 
-    this.finishEdit = this.finishEdit.bind(this);
-    this.checkEnter = this.checkEnter.bind(this);
-    this.edit = this.edit.bind(this);
-    this.renderEdit = this.renderEdit.bind(this);
-    this.renderTask = this.renderTask.bind(this);
-
     this.state = {
       editing: false
     };
@@ -373,27 +363,27 @@ export default class Note extends React.Component {
       </div>
     );
   }
-  renderEdit() {
+  renderEdit = () => {
     return <input type="text"
       autoFocus={true}
       defaultValue={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
-  renderTask() {
+  renderTask = () => {
     return <div onClick={this.edit}>{this.props.task}</div>;
   }
-  edit() {
+  edit = () => {
     this.setState({
       editing: true
     });
   }
-  checkEnter(e) {
+  checkEnter = (e) => {
     if(e.key === 'Enter') {
       this.finishEdit(e);
     }
   }
-  finishEdit(e) {
+  finishEdit = (e) => {
     this.props.onEdit(e.target.value);
 
     this.setState({
@@ -456,17 +446,12 @@ import React from 'react';
 import Note from './Note.jsx';
 
 export default class Notes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.renderNote = this.renderNote.bind(this);
-  }
   render() {
     const notes = this.props.items;
 
     return <ul className="notes">{notes.map(this.renderNote)}</ul>;
   }
-  renderNote(note) {
+  renderNote = (note) => {
     return (
       <li className="note" key={note.id}>
         <Note
@@ -479,6 +464,8 @@ export default class Notes extends React.Component {
 ```
 
 If you edit a `Note` now, you should see a log at the console.
+
+T> Besides allowing you to set context, [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) makes it possible to fix parameters to certain values. Here we fix the first parameter to the value of `note.id`.
 
 It would be nice to push the state to `Notes`. The problem is that doing this would break the encapsulation. We would still need to wire up the "add note" button with the same state. This would mean we would have to communicate the changes to `Notes` somehow. We'll discuss a better way to solve this very issue in the next chapter.
 
@@ -534,15 +521,8 @@ import React from 'react';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
-  constructor(props) {
-    ...
-
-    this.findNote = this.findNote.bind(this);
-    this.addNote = this.addNote.bind(this);
-    this.editNote = this.editNote.bind(this);
-  }
   ...
-  editNote(id, task) {
+  editNote = (id, task) => {
     let notes = this.state.notes;
     const noteIndex = this.findNote(id);
 
@@ -554,7 +534,7 @@ export default class App extends React.Component {
 
     this.setState({notes});
   }
-  findNote(id) {
+  findNote = (id) => {
     const notes = this.state.notes;
     const noteIndex = notes.findIndex((note) => note.id === id);
 
@@ -585,12 +565,7 @@ import React from 'react';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
-  constructor(props) {
-    ...
-
-    this.editNote = this.editNote.bind(this);
-    this.deleteNote = this.deleteNote.bind(this);
-  }
+  ...
   render() {
     const notes = this.state.notes;
 
@@ -602,7 +577,7 @@ export default class App extends React.Component {
       </div>
     );
   }
-  deleteNote(id) {
+  deleteNote = (id) => {
     const notes = this.state.notes;
     const noteIndex = this.findNote(id);
 
@@ -624,13 +599,10 @@ In addition to `App` level logic, we'll need to trigger `onDelete` logic at `Not
 
 ```javascript
 export default class Notes extends React.Component {
-  constructor(props) {
-    ...
-  }
   render() {
     ...
   }
-  renderNote(note) {
+  renderNote = (note) => {
     return (
       <li className="note" key={note.id}>
         <Note
@@ -651,13 +623,8 @@ In order to invoke the previous `onDelete` callback we need to connect it with `
 ...
 
 export default class Note extends React.Component {
-  constructor(props) {
-    ...
-  }
-  render() {
-    ...
-  }
-  renderTask() {
+  ...
+  renderTask = () => {
     const onDelete = this.props.onDelete;
 
     return (
@@ -667,7 +634,7 @@ export default class Note extends React.Component {
       </div>
     );
   }
-  renderDelete() {
+  renderDelete = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
   }
   ...

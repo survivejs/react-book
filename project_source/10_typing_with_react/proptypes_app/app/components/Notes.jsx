@@ -4,17 +4,12 @@ import Note from './Note.jsx';
 import LaneActions from '../actions/LaneActions';
 
 class Notes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.renderNote = this.renderNote.bind(this);
-  }
   render() {
     const notes = this.props.items;
 
     return <ul className="notes">{notes.map(this.renderNote)}</ul>;
   }
-  renderNote(note) {
+  renderNote = (note) => {
     return (
       <Note className="note" onMove={LaneActions.move}
         id={note.id} key={note.id}>
