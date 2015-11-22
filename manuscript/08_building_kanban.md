@@ -25,9 +25,16 @@ We'll also need some build specific configuration to make Webpack pick up our JS
 
 ```javascript
 ...
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+
+...
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    output: {
+      path: BUILD_PATH,
+      filename: 'bundle.js'
+    },
     devtool: 'source-map'
   });
 }
@@ -65,6 +72,10 @@ The easiest way to enable minification is to call `webpack -p` (`-p` as in `prod
 ```javascript
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    output: {
+      path: BUILD_PATH,
+      filename: 'bundle.js'
+    },
     devtool: 'source-map',
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
@@ -109,6 +120,10 @@ In Webpack terms, you can add the following snippet to the `plugins` section of 
 ```javascript
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    output: {
+      path: BUILD_PATH,
+      filename: 'bundle.js'
+    },
     devtool: 'source-map',
     plugins: [
       new webpack.DefinePlugin({
