@@ -96,10 +96,8 @@ if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
         '[name].[chunkhash].js'
       ),
       new webpack.DefinePlugin({
-        'process.env': {
-          // This affects react lib size
-          'NODE_ENV': JSON.stringify('production')
-        }
+        // This affects react lib size
+        'process.env.NODE_ENV': JSON.stringify('production')
       }),
       new webpack.optimize.UglifyJsPlugin({
         compress: {

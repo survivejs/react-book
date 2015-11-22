@@ -127,10 +127,8 @@ if(TARGET === 'build') {
     devtool: 'source-map',
     plugins: [
       new webpack.DefinePlugin({
-        'process.env': {
           // This affects react lib size
-          'NODE_ENV': JSON.stringify('production')
-        }
+        'process.env.NODE_ENV': JSON.stringify('production')
       }),
       ...
     ]
@@ -138,13 +136,19 @@ if(TARGET === 'build') {
 }
 ```
 
-This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from build completely. You can attach debugging specific utilities and such to your code easily this way. For instance, you could build a powerful logging system just for development. Here's a small example of what that could look like:
+This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from the build completely.
+
+T> It can be useful to set `'process.env.NODE_ENV': JSON.stringify('development')` for your development target to force it to build in *development* environment no matter what.
+
+You can attach debugging specific utilities and such to your code easily this way. For instance, you could build a powerful logging system just for development. Here's a small example of what that could look like:
 
 ```javascript
-if(process.env.NODE_ENV !== 'production') {
+if(process.env.NODE_ENV === 'development') {
   console.log('developing like an ace');
 }
 ```
+
+If you prefer something more terse, you could use `__DEV__ === 'dev'` kind of syntax instead.
 
 T> That `JSON.stringify` is needed, as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the double quotation marks (").
 
