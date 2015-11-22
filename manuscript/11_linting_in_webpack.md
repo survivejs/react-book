@@ -33,7 +33,7 @@ var common = {
         test: /\.js?$/,
         loaders: ['jshint'],
         // define an include so we check just the files we need
-        include: APP_PATH
+        include: PATHS.app
       }
     ]
   },
@@ -183,7 +183,7 @@ var common = {
       {
         test: /\.jsx?$/,
         loaders: ['eslint'],
-        include: APP_PATH
+        include: PATHS.app
       }
     ]
   },
@@ -343,7 +343,7 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['postcss'],
-        include: APP_PATH
+        include: PATHS.app
       },
       ...
     ],
@@ -394,7 +394,7 @@ module: {
     {
       test: /\.jsx?$/,
       loaders: ['eslint', 'jscs'],
-      include: APP_PATH
+      include: PATHS.app
     }
   ]
 }
