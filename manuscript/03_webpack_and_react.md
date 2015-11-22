@@ -98,7 +98,7 @@ Here's the relevant configuration we need to make Babel work:
 ...
 
 var common = {
-  entry: APP_PATH,
+  entry: PATHS.app,
   /* add resolve.extensions */
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -110,7 +110,7 @@ var common = {
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
-        include: APP_PATH
+        include: PATHS.app
       }
     ]
   },

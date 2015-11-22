@@ -3,14 +3,16 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 
-var TARGET = process.env.npm_lifecycle_event;
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
+const TARGET = process.env.npm_lifecycle_event;
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build')
+};
 
 process.env.BABEL_ENV = TARGET;
 
 var common = {
-  entry: APP_PATH,
+  entry: PATHS.app,
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -19,12 +21,12 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: APP_PATH
+        include: PATHS.app
       },
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
-        include: APP_PATH
+        include: PATHS.app
       }
     ]
   },

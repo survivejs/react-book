@@ -112,14 +112,15 @@ To map our application to *build/bundle.js* and generate *build/index.html* we n
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build')
+};
 
 module.exports = {
-  entry: APP_PATH,
+  entry: PATHS.app,
   output: {
-    path: BUILD_PATH,
+    path: PATHS.build,
     filename: 'bundle.js'
   },
   plugins: [
@@ -130,7 +131,7 @@ module.exports = {
 };
 ```
 
-Given Webpack expects absolute paths we have some good options here. I like to use `path.resolve`, but `path.join` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
+Given Webpack expects absolute paths we have some good options here. I like to use `path.join`, but `path.resolve` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
 If you hit `node_modules/.bin/webpack`, you should see a Webpack build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open index.html` to see the result.
 
@@ -170,9 +171,10 @@ We also need to do some configuration work. We are going to use a simplified set
 ...
 var webpack = require('webpack');
 
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build')
+};
 
 module.exports = {
   ...
@@ -235,9 +237,9 @@ Now that we have the loaders we need, we'll need to make sure Webpack is aware o
 ...
 
 module.exports = {
-  entry: APP_PATH,
+  entry: PATHS.app,
   output: {
-    path: BUILD_PATH,
+    path: PATHS.build,
     filename: 'bundle.js'
   },
   module: {
@@ -245,7 +247,7 @@ module.exports = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: APP_PATH
+        include: PATHS.app
       }
     ]
   },
@@ -334,18 +336,20 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 
-var TARGET = process.env.npm_lifecycle_event;
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
+const TARGET = process.env.npm_lifecycle_event;
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build')
+};
 
 var common = {
-  entry: APP_PATH,
+  entry: PATHS.app,
   module: {
     loaders: [
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: APP_PATH
+        include: PATHS.app
       }
     ]
   },
