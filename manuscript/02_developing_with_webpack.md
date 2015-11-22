@@ -182,6 +182,9 @@ module.exports = {
     inline: true,
     progress: true,
 
+    // display only errors to reduce the amount of output
+    stats: 'errors-only',
+
     // parse host and port from env so this is easy
     // to customize
     host: process.env.HOST,
@@ -251,6 +254,9 @@ module.exports = {
     hot: true,
     inline: true,
     progress: true,
+
+    // display only errors to reduce the amount of output
+    stats: 'errors-only',
 
     // parse host and port from env so this is easy
     // to customize
@@ -360,6 +366,9 @@ if(TARGET === 'start' || !TARGET) {
       hot: true,
       inline: true,
       progress: true,
+
+      // display only errors to reduce the amount of output
+      stats: 'errors-only',
 
       // parse host and port from env so this is easy
       // to customize

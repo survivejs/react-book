@@ -34,6 +34,9 @@ if(TARGET === 'start' || !TARGET) {
       inline: true,
       progress: true,
 
+      // display only errors to reduce the amount of output
+      stats: 'errors-only',
+
       // parse host and port from env so this is easy
       // to customize
       host: process.env.HOST,
