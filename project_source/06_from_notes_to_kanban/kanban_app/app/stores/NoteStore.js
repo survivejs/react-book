@@ -22,7 +22,7 @@ class NoteStore {
     });
   }
   update({id, task}) {
-    let notes = this.notes;
+    const notes = this.notes;
     const noteIndex = this.findNote(id);
 
     if(noteIndex < 0) {

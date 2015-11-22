@@ -167,7 +167,7 @@ To keep the implementation clean, we are using `this.setState`. It is a feature 
 class NoteStore {
   ...
   update({id, task}) {
-    let notes = this.notes;
+    const notes = this.notes;
     const noteIndex = this.findNote(id);
 
     if(noteIndex < 0) {

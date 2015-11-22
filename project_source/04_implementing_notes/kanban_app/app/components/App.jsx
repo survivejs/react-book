@@ -55,7 +55,7 @@ export default class App extends React.Component {
     });
   }
   editNote = (id, task) => {
-    let notes = this.state.notes;
+    const notes = this.state.notes;
     const noteIndex = this.findNote(id);
 
     if(noteIndex < 0) {
