@@ -260,7 +260,7 @@ If you drag a `Note` around now, you should see logs like `source <id> target <i
 
 ## Adding Action and Store Method for Moving
 
-The logic of drag and drop is quite simple. Suppose we have a list A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
+The logic of drag and drop is quite simple. Suppose we have a lane containing notes A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
 In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note`, we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`:
 
