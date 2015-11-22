@@ -532,6 +532,7 @@ export default class App extends React.Component {
 
     notes[noteIndex].task = task;
 
+    // shorthand - {notes} is the same as {notes: notes}
     this.setState({notes});
   }
   findNote = (id) => {
