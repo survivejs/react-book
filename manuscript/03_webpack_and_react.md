@@ -316,8 +316,6 @@ Also, ES6 class based components won't bind their methods to `this` context by d
 
 The class based approach decreases the amount of concepts you have to worry about. `constructor` helps to keep things simpler than in `React.createClass` based approach. There you need to define separate methods to achieve the same result.
 
-In the future property initializers (likely `tick = () => { ... }`) will solve this neatly. The proposed feature is available through Babel's **stage 0**. Enabling that may lead to other problems later on in case the features change.
-
 ## Conclusion
 
 You should understand how to set up React with Webpack now. Hot loading is one of those features that sets Webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter you will see how to implement a little note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
