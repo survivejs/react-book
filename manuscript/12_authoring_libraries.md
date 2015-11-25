@@ -70,7 +70,6 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   /* Package development dependencies */
   "devDependencies": {
     "babel": "^5.8.23",
-    "babel-core": "^5.8.25",
     "babel-eslint": "^4.1.3",
     ...
     "webpack": "^1.12.2",
