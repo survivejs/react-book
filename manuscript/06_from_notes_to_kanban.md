@@ -542,6 +542,7 @@ import Editable from './Editable.jsx';
 export default class Notes extends React.Component {
   ...
   renderNote(note) {
+    // note that we pass task to Editable through `value` prop now!
     return (
       <li className="note" key={note.id}>
         <Editable
