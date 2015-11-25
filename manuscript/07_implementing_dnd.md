@@ -67,7 +67,7 @@ import Note from './Note.jsx';
 
 export default class Notes extends React.Component {
   ...
-  renderNote(note) {
+  renderNote = (note) => {
     return (
       <Note className="note" id={note.id} key={note.id}>
         <Editable
@@ -239,7 +239,7 @@ If you run the application now, you'll likely get a bunch of `onMove` related er
 
 export default class Notes extends React.Component {
   ...
-  renderNote(note) {
+  renderNote = (note) => {
     return (
       <Note className="note" onMove={this.onMoveNote}
         id={note.id} key={note.id}>
@@ -286,7 +286,7 @@ import LaneActions from '../actions/LaneActions';
 
 export default class Notes extends React.Component {
   ...
-  renderNote(note) {
+  renderNote = (note) => {
     return (
       <Note className="note" onMove={LaneActions.move}
         id={note.id} key={note.id}>
