@@ -1,6 +1,6 @@
 var path = require('path');
-var webpack = require('webpack');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 var merge = require('webpack-merge');
 var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -40,15 +40,6 @@ var common = {
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval-source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
-          include: PATHS.app
-        }
-      ]
-    },
     devServer: {
       historyApiFallback: true,
       hot: true,
@@ -63,6 +54,16 @@ if(TARGET === 'start' || !TARGET) {
       host: process.env.HOST,
       port: process.env.PORT
     },
+    module: {
+      loaders: [
+        // Define development specific CSS setup
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+          include: PATHS.app
+        }
+      ]
+    },
     plugins: [
       new webpack.HotModuleReplacementPlugin()
     ]
@@ -71,17 +72,21 @@ if(TARGET === 'start' || !TARGET) {
 
 if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
   module.exports = merge(common, {
+    // Define entry points needed for splitting
     entry: {
       app: PATHS.app,
       vendor: Object.keys(pkg.dependencies)
     },
     output: {
       path: PATHS.build,
-      filename: '[name].[chunkhash].js'
+      // Output using entry name
+      filename: '[name].[chunkhash].js',
+      chunkFilename: '[chunkhash].js'
     },
     devtool: 'source-map',
     module: {
       loaders: [
+        // Extract CSS during build
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
@@ -90,14 +95,15 @@ if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
       ]
     },
     plugins: [
-      new Clean(['build']),
+      new Clean([PATHS.build]),
+      // Output extracted CSS to a file
       new ExtractTextPlugin('styles.[chunkhash].css'),
-      new webpack.optimize.CommonsChunkPlugin(
-        'vendor',
-        '[name].[chunkhash].js'
-      ),
+      // Extract vendor and manifest files
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor', 'manifest']
+      }),
+      // Setting DefinePlugin affects React library size!
       new webpack.DefinePlugin({
-        // This affects react lib size
         'process.env.NODE_ENV': JSON.stringify('production')
       }),
       new webpack.optimize.UglifyJsPlugin({

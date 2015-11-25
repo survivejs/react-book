@@ -40,19 +40,17 @@ if(TARGET === 'build') {
 After these changes, `npm run build` should yield something like the following:
 
 ```bash
-> webpack
-
-Hash: bd3b549c6c712233167f
-Version: webpack 1.10.1
-Time: 4903ms
+Hash: 109cade2bfe58cda116f
+Version: webpack 1.12.9
+Time: 5424ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js    1.09 MB       0  [emitted]  main
-bundle.js.map    1.28 MB       0  [emitted]  main
+    bundle.js    1.12 MB       0  [emitted]  main
+bundle.js.map    1.31 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-    + 345 hidden modules
+    + 334 hidden modules
 ```
 
-1.09 MB is quite a lot. We should do something about that.
+1.12 MB is quite a lot. We should do something about that.
 
 ## Optimizing Build Size
 
@@ -90,16 +88,14 @@ T> Uglify warnings can help you to understand how it processes the code. Therefo
 If you hit `npm run build` now, you should see better results:
 
 ```bash
-> webpack
-
-Hash: d3508663532b5b3565cc
-Version: webpack 1.10.1
-Time: 12221ms
+Hash: 30b18807737f5bc0e462
+Version: webpack 1.12.9
+Time: 12451ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js     324 kB       0  [emitted]  main
-bundle.js.map    2.66 MB       0  [emitted]  main
+    bundle.js     370 kB       0  [emitted]  main
+bundle.js.map    2.77 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-    + 345 hidden modules
+    + 334 hidden modules
 ```
 
 Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
@@ -123,8 +119,8 @@ if(TARGET === 'build') {
     },
     devtool: 'source-map',
     plugins: [
+      // Setting DefinePlugin affects React library size!
       new webpack.DefinePlugin({
-          // This affects react lib size
         'process.env.NODE_ENV': JSON.stringify('production')
       }),
       ...
@@ -152,19 +148,16 @@ T> That `JSON.stringify` is needed, as Webpack will perform string replace "as i
 Hit `npm run build` again, and you should see improved results:
 
 ```bash
-> TARGET=build webpack
-
-Hash: 37ebe639517bfeb72ff6
-Version: webpack 1.10.1
-Time: 10930ms
+Version: webpack 1.12.9
+Time: 11983ms
         Asset       Size  Chunks             Chunk Names
-    bundle.js     264 kB       0  [emitted]  main
-bundle.js.map    2.53 MB       0  [emitted]  main
+    bundle.js     309 kB       0  [emitted]  main
+bundle.js.map    2.68 MB       0  [emitted]  main
    index.html  184 bytes          [emitted]
-    + 339 hidden modules
+    + 330 hidden modules
 ```
 
-So we went from 1.09 MB to 324 kB, and finally to 264 kB. The final build is a little faster than the previous one. As that 264k can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
+So we went from 1.12 MB to 370 kB, and finally to 309 kB. The final build is a little faster than the previous one. As that 309 kB can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
@@ -181,39 +174,100 @@ To get started, we need to define a `vendor` entry point:
 **webpack.config.js**
 
 ```javascript
-...
+var path = require('path');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
+var merge = require('webpack-merge');
 
+// Load *package.json* so we can use `dependencies` from there
 var pkg = require('./package.json');
-
-const TARGET = process.env.npm_lifecycle_event;
-const PATHS = {
-  app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
-};
 
 ...
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    // Define entry points needed for splitting
     entry: {
       app: PATHS.app,
       vendor: Object.keys(pkg.dependencies)
     },
     output: {
       path: PATHS.build,
-      filename: 'bundle.js'
+      // Output using entry name
+      filename: '[name].js'
     },
-    devtool: 'source-map',
     ...
   });
 }
 ```
 
-This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies. Webpack provides multiple ways to define chunks. Each chunk will contain a part of your application code. For example it's possible to set up chunks that are loaded dynamically.
+This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies. Beyond this, it's possible to define chunks that are loaded dynamically. This can be achieved through [require.ensure](https://webpack.github.io/docs/code-splitting.html).
+
+If you trigger the build now using `npm run build`, you should see something along this:
+
+```bash
+Hash: a9866869773710dead0f
+Version: webpack 1.12.9
+Time: 18362ms
+        Asset       Size  Chunks             Chunk Names
+       app.js     309 kB       0  [emitted]  app
+    vendor.js     285 kB       1  [emitted]  vendor
+   app.js.map    2.68 MB       0  [emitted]  app
+vendor.js.map    2.55 MB       1  [emitted]  vendor
+   index.html  224 bytes          [emitted]
+   [0] multi vendor 112 bytes {1} [built]
+    + 330 hidden modules
+```
+
+Now we have separate *app*  and *vendor* bundles. There's something wrong, however. If you examine the files, you'll see that *app.js* contains *vendor* dependencies. We need to do something to tell Webpack to avoid this situation. This is where `CommonsChunkPlugin` comes in.
+
+### Setting Up `CommonsChunkPlugin`
+
+`CommonsChunkPlugin` allows us to extract the code we need for the `vendor` bundle. In addition we will use it to extract a *manifest*. It is a file that tells Webpack how to map each module to each file. We will need this in the next step for setting up long term caching. Here's the setup:
+
+**webpack.config.js**
+
+```javascript
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    ...
+    module: {
+      ...
+    },
+    plugins: [
+      // Extract vendor and manifest files
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor', 'manifest']
+      }),
+      ...
+    ]
+  });
+}
+```
+
+If you run `npm run build` now, you should see output as below:
+
+```bash
+Hash: 0a6856bc6ac50a758aba
+Version: webpack 1.12.9
+Time: 12045ms
+          Asset       Size  Chunks             Chunk Names
+         app.js    24.6 kB    0, 2  [emitted]  app
+      vendor.js     285 kB    1, 2  [emitted]  vendor
+    manifest.js  780 bytes       2  [emitted]  manifest
+     app.js.map     127 kB    0, 2  [emitted]  app
+  vendor.js.map    2.55 MB    1, 2  [emitted]  vendor
+manifest.js.map    8.72 kB       2  [emitted]  manifest
+     index.html  269 bytes          [emitted]
+   [0] multi vendor 112 bytes {1} [built]
+    + 330 hidden modules
+```
+
+The situation is far better now. Note how small `app` bundle compared to the `vendor` bundle. In order to really benefit from this split, we should set up caching. This can be achieved by adding cache busting hashes to filenames.
 
 ### Adding Hashes to Filenames
 
-To make sure client-side caching works, we'll need to attach hashes to filenames. Webpack provides placeholders that are useful for this. The most useful ones are:
+Webpack provides placeholders that can be used to access different types of hashes and entry name as we saw before. The most useful ones are:
 
 * `[name]` - Returns entry name.
 * `[hash]` - Returns build hash.
@@ -226,11 +280,9 @@ app.d587bbd6e38337f5accd.js
 vendor.dc746a5db4ed650296e1.js
 ```
 
-If the file contents are different, the hash will change as well, thus invalidating the cache, or more accurately the browser will send a new request for the new file.
+If the file contents are different, the hash will change as well, thus invalidating the cache, or more accurately the browser will send a new request for the new file. This means if only `app` bundle gets updated, only that file needs to be requested again.
 
-An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e., `app.js?d587bbd6e38337f5accd`). The part behind the question mark will invalidate the cache. This method is not recommended. According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
-
-It's just as easy to include the hash in the filename itself, and I find this convention to be cleaner.
+T> An alternative way to achieve the same would be to generate static filenames and invalidate the cache through a querystring (i.e., `app.js?d587bbd6e38337f5accd`). The part behind the question mark will invalidate the cache. This method is not recommended. According to [Steve Souders](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/), attaching the hash to the filename is a more performant way to go.
 
 We can use the placeholder idea within our configuration like this:
 
@@ -246,7 +298,8 @@ if(TARGET === 'build') {
     /* important! */
     output: {
       path: PATHS.build,
-      filename: '[name].[chunkhash].js?'
+      filename: '[name].[chunkhash].js',
+      chunkFilename: '[chunkhash].js'
     },
     ...
   });
@@ -256,69 +309,24 @@ if(TARGET === 'build') {
 If you hit `npm run build` now, you should see output like this.
 
 ```bash
-> webpack
-
-Hash: 93b7068ed91340e3f5ac
-Version: webpack 1.12.0
-Time: 16398ms
-                             Asset       Size  Chunks             Chunk Names
-       app.d9e6f800dcb46e3638b9.js     263 kB       0  [emitted]  app
-    vendor.f6e6ad0dd8123b64e914.js     208 kB       1  [emitted]  vendor
-   app.d9e6f800dcb46e3638b9.js.map    2.51 MB       0  [emitted]  app
-vendor.f6e6ad0dd8123b64e914.js.map    2.13 MB       1  [emitted]  vendor
-                        index.html  266 bytes          [emitted]
-   [0] multi vendor 76 bytes {1} [built]
-    + 316 hidden modules
+Hash: 60db5ab202527c9b3f25
+Version: webpack 1.12.9
+Time: 12067ms
+                               Asset       Size  Chunks             Chunk Names
+         app.61448a510c24c28317d0.js    24.6 kB    0, 2  [emitted]  app
+      vendor.edadb6384837b591ae83.js     285 kB    1, 2  [emitted]  vendor
+    manifest.39215342321849b1f4e1.js  821 bytes       2  [emitted]  manifest
+     app.61448a510c24c28317d0.js.map     127 kB    0, 2  [emitted]  app
+  vendor.edadb6384837b591ae83.js.map    2.55 MB    1, 2  [emitted]  vendor
+manifest.39215342321849b1f4e1.js.map    8.78 kB       2  [emitted]  manifest
+                          index.html  332 bytes          [emitted]
+   [0] multi vendor 112 bytes {1} [built]
+    + 330 hidden modules
 ```
 
-This isn't quite what we expected. Both our `app` and `vendor` bundles are big. The problem is that Webpack will include all the required files in the `app` bundle. This includes the `vendor` modules.
+Our files have neat hashes now. To prove that it works, you could try altering *app/index.jsx* and include a `console.log` there. After you build, only `app` and `manifest` related bundles should change.
 
-### Setting Up `CommonsChunkPlugin`
-
-To fix our problem, we can use `CommonsChunkPlugin`. It can extract the code we need. We can tell it what *entry chunk* to extract and how to output it. Consider the configuration:
-
-**webpack.config.js**
-
-```javascript
-if(TARGET === 'build') {
-  module.exports = merge(common, {
-    ...
-    module: {
-      ...
-    },
-    plugins: [
-      /* important! */
-      new webpack.optimize.CommonsChunkPlugin(
-        'vendor',
-        '[name].[chunkhash].js'
-      ),
-      ...
-    ]
-  });
-}
-```
-
-If you run `npm run build` now, you should see output as below:
-
-```bash
-> webpack
-
-Hash: 5a0cf7711f1d3fc5c930
-Version: webpack 1.12.0
-Time: 10565ms
-                             Asset       Size  Chunks             Chunk Names
-       app.bf777bbb05bec4070276.js      55 kB       0  [emitted]  app
-    vendor.f33176572a7ad31551ee.js     209 kB       1  [emitted]  vendor
-   app.bf777bbb05bec4070276.js.map     389 kB       0  [emitted]  app
-vendor.f33176572a7ad31551ee.js.map    2.13 MB       1  [emitted]  vendor
-                        index.html  266 bytes          [emitted]
-   [0] multi vendor 76 bytes {1} [built]
-    + 316 hidden modules
-```
-
-Note how small `app` bundle is in comparison. If we update the application now and deploy it, the users that have used it before will have to reload only 55 kB.
-
-One more way to push the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
+One more way to improve the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
 
 ## Cleaning the Build
 
@@ -342,7 +350,7 @@ if(TARGET === 'build') {
   module.exports = merge(common, {
     ...
     plugins: [
-      new Clean(['build']),
+      new Clean([PATHS.build]),
       ...
     ]
   });
@@ -355,7 +363,7 @@ T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that
 
 ## Separating CSS
 
-Even though we have a nice build set up now, where did all the CSS go? As per our configuration it has been inlined to JavaScript! Even though this can be convenient during development, it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from a flash of unstyled content (FOUC).
+Even though we have a nice build set up now, where did all the CSS go? As per our configuration, it has been inlined to JavaScript! Even though this can be convenient during development, it doesn't sound ideal. The current solution doesn't allow us to cache CSS. In some cases we might suffer from a flash of unstyled content (FOUC).
 
 It just so happens that Webpack provides a means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with overhead during the compilation phase, and it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
 
@@ -373,13 +381,7 @@ to get started. Next we need to get rid of our current CSS related declaration a
 ...
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var pkg = require('./package.json');
-
-const TARGET = process.env.npm_lifecycle_event;
-const PATHS = {
-  app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
-};
+...
 
 var common = {
   entry: PATHS.app,
@@ -388,6 +390,7 @@ var common = {
   },
   module: {
     loaders: [
+      // Remove CSS specific section here
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
@@ -407,6 +410,7 @@ if(TARGET === 'start' || !TARGET) {
     ...
     module: {
       loaders: [
+        // Define development specific CSS setup
         {
           test: /\.css$/,
           loaders: ['style', 'css'],
@@ -424,6 +428,7 @@ if(TARGET === 'build') {
     devtool: 'source-map',
     module: {
       loaders: [
+        // Extract CSS during build
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
@@ -433,6 +438,7 @@ if(TARGET === 'build') {
     },
     plugins: [
       new Clean(['build']),
+      // Output extracted CSS to a file
       new ExtractTextPlugin('styles.[chunkhash].css'),
       ...
     ]
@@ -449,30 +455,30 @@ W> If you want to pass more loaders to the `ExtractTextPlugin`, you should use `
 After running `npm run build` you should see output similar to the following:
 
 ```bash
-> webpack
-
-Hash: 27584124a5659a941eea
-Version: webpack 1.12.0
-Time: 10589ms
-                              Asset       Size  Chunks             Chunk Names
-        app.4a3890cdb2f12f6bd4d5.js    54.3 kB       0  [emitted]  app
-     vendor.876083b45225c03d8a74.js     208 kB       1  [emitted]  vendor
-    styles.bf777bbb05bec4070276.css  557 bytes       0  [emitted]  app
-    app.4a3890cdb2f12f6bd4d5.js.map     389 kB       0  [emitted]  app
-styles.bf777bbb05bec4070276.css.map   87 bytes       0  [emitted]  app
- vendor.876083b45225c03d8a74.js.map    2.12 MB       1  [emitted]  vendor
-                         index.html  317 bytes          [emitted]
-   [0] multi vendor 64 bytes {1} [built]
-    + 316 hidden modules
+Hash: 556e021fe98b76e5d9b6
+Version: webpack 1.12.9
+Time: 12692ms
+                               Asset       Size  Chunks             Chunk Names
+         app.ed9ad1145fde9e21cf79.js    20.4 kB    0, 2  [emitted]  app
+      vendor.edadb6384837b591ae83.js     285 kB    1, 2  [emitted]  vendor
+    manifest.7b4188b1b91c2e708662.js  821 bytes       2  [emitted]  manifest
+     styles.ed9ad1145fde9e21cf79.css  937 bytes    0, 2  [emitted]  app
+     app.ed9ad1145fde9e21cf79.js.map    98.9 kB    0, 2  [emitted]  app
+ styles.ed9ad1145fde9e21cf79.css.map  108 bytes    0, 2  [emitted]  app
+  vendor.edadb6384837b591ae83.js.map    2.55 MB    1, 2  [emitted]  vendor
+manifest.7b4188b1b91c2e708662.js.map    8.78 kB       2  [emitted]  manifest
+                          index.html  404 bytes          [emitted]
+   [0] multi vendor 112 bytes {1} [built]
+    + 330 hidden modules
 Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
 
-This means we have separate app and vendor bundles. In addition, styles have been pushed to a separate file. And on top of this, we have sourcemaps and an automatically generated *index.html*.
+T> If you are getting `Module build failed: CssSyntaxError:` error, make sure your `common` configuration doesn't have CSS related section set up!
+
+Now our styling has been pushed to a separate CSS file. As a result, our JavaScript bundles have become slightly smaller. If we modify only our CSS now, those bundles shouldn't become invalidated anymore.
 
 T> If you have a complex project with a lot of dependencies, it is likely a good idea to use the `DedupePlugin`. It will find possible duplicate files and deduplicate them. Use `new webpack.optimize.DedupePlugin()` in your plugins definition to enable it.
-
-W> Note that there's [a bug](https://github.com/webpack/webpack/issues/1315) in Webpack preventing this feature from working correctly at the moment! That is, if you change your application code, the hash for `vendor` will change!
 
 ## Analyzing Build Statistics
 
@@ -546,6 +552,8 @@ In order to get access to our build path, we need to expose something useful for
 
 //if(TARGET === 'build' || TARGET === 'stats') {
 if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
+  ...
+}
 
 ...
 ```
