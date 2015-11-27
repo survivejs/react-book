@@ -312,6 +312,9 @@ export default class App extends React.Component {
   // initializer here. It allows us to bind the method `this`
   // to point at our *App* instance.
   //
+  // In Babel 5 this is enabled using `es7.classProperties` key
+  // at `optional` array of *.babelrc*.
+  //
   // Alternatively we could `bind` at `constructor` using
   // a line such as this.addNote = this.addNote.bind(this);
   addNote = () => {
