@@ -321,7 +321,11 @@ You should see the same logs as earlier. Next, we'll need to add some logic to m
 
 ## Implementing Note Drag and Drop Logic
 
-Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
+Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass. It is included in a separate package. To get started, install it using:
+
+```bash
+npm i react-addons-update --save
+```
 
 It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
 
@@ -329,7 +333,7 @@ It is possible to solve the lane to lane case using [splice](https://developer.m
 
 ```javascript
 ...
-import update from 'react/lib/update';
+import update from 'react-addons-update';
 
 export default class LaneStore {
   ...

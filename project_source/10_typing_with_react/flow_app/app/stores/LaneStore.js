@@ -1,8 +1,8 @@
 import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
-import update from 'react/lib/update';
 import NoteStore from './NoteStore';
+import update from 'react-addons-update';
 
 class LaneStore {
   constructor() {
