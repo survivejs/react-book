@@ -573,7 +573,7 @@ function main() {
 }
 ```
 
-If you hit `npm run deploy` now and everything goes fine, you should have your application hosted through GitHub Pages. You should find it at `https://<name>.github.io/<project>` assuming it worked.
+If you hit `npm run deploy` now and everything goes fine, you should have your application hosted through GitHub Pages. You should find it at `https://<name>.github.io/<project>` (*github.com/<name>/<project>* at GitHub) assuming it worked.
 
 ## Conclusion
 
