@@ -72,7 +72,7 @@ Babel provides support for certain [experimental features](https://babeljs.io/do
 * **Stage 3** - Candidate
 * **Stage 4** - Finished
 
-I would be careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk. In our project we'll enable **stage 1**. This allows us to use decorators and property spreading. These features will make our code a little tidier.
+I would be careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk.
 
 T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of code it generates.
 
