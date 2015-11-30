@@ -99,14 +99,14 @@ Here's the relevant configuration we need to make Babel work:
 
 var common = {
   entry: PATHS.app,
-  /* add resolve.extensions */
+  // Add resolve.extensions. '' is needed to allow imports an extension
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   module: {
     loaders: [
       ...
-      /* set up jsx */
+      // Set up jsx. This accepts js too thanks to regex.
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
