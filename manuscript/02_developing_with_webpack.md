@@ -344,6 +344,13 @@ const PATHS = {
 
 var common = {
   entry: PATHS.app,
+  // Given webpack-dev-server runs in-memory, we can drop
+  // `output`. We'll look into it again once we get to the
+  // build chapter.
+  /*output: {
+    path: PATHS.build,
+    filename: 'bundle.js'
+  },*/
   module: {
     loaders: [
       {
@@ -354,7 +361,7 @@ var common = {
     ]
   },
   plugins: [
-    // important! move HotModuleReplacementPlugin below
+    // Important! move HotModuleReplacementPlugin below
     //new webpack.HotModuleReplacementPlugin(),
     new HtmlwebpackPlugin({
       title: 'Kanban app'
