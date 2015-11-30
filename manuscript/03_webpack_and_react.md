@@ -270,6 +270,7 @@ In addition we need to expand Babel configuration to include the plugin we need 
 ```json
 {
   "optional": [
+    "es7.classProperties",
     "es7.decorators",
     "es7.objectRestSpread"
   ],
