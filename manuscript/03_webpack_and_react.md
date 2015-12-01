@@ -100,6 +100,7 @@ Here's the relevant configuration we need to make Babel work:
 var common = {
   entry: PATHS.app,
   // Add resolve.extensions. '' is needed to allow imports an extension
+  // Note the .'s before extensions!!! Without those matching will fail
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
