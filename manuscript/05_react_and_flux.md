@@ -167,29 +167,18 @@ To keep the implementation clean, we are using `this.setState`. It is a feature 
 class NoteStore {
   ...
   update({id, task}) {
-    const notes = this.notes;
-    const noteIndex = this.findNote(id);
+    const notes = this.notes.map((note) => {
+      if(note.id === id) {
+        note.task = task;
+      }
 
-    if(noteIndex < 0) {
-      return;
-    }
-
-    notes[noteIndex].task = task;
+      return note;
+    });
 
     this.setState({notes});
   }
   delete(id) {
 
-  }
-  findNote(id) {
-    const notes = this.notes;
-    const noteIndex = notes.findIndex((note) => note.id === id);
-
-    if(noteIndex < 0) {
-      console.warn('Failed to find note', notes, id);
-    }
-
-    return noteIndex;
   }
 }
 
@@ -212,19 +201,9 @@ T> `{notes}` is known as a an ES6 feature known as [property shorthand](https://
 class NoteStore {
   ...
   delete(id) {
-    const notes = this.notes;
-    const noteIndex = this.findNote(id);
-
-    if(noteIndex < 0) {
-      return;
-    }
-
     this.setState({
-      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
+      notes: this.notes.filter((note) => note.id !== id)
     });
-  }
-  findNote(id) {
-    ...
   }
 }
 

@@ -476,42 +476,6 @@ We are missing one final bit, the actual logic. Our state consists of `Notes` ea
 
 T> Some of the prop related logic could be potentially extracted to a [context](https://facebook.github.io/react/docs/context.html). That would help us to avoid some of the prop passing. It is especially useful for implementing features such as internationalization (i18n) or [feature detection](https://github.com/casesandberg/react-context/). A component interested in it may simply query for a translator instance.
 
-### Understanding `findIndex`
-
-We'll be using an ES6 function known as [findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex). It accepts an array and a callback. The function will return either -1 (no match) or the zero-based index number (match) depending on the result.
-
-Babel provides an easy way to polyfill this feature using `import 'babel-core/polyfill';`. The problem is that it bloats our final bundle somewhat as it enables all [core-js](https://github.com/zloirock/core-js) features. As we need just one shim, we'll be using a specific shim for this instead. Hit
-
-```bash
-npm i array.prototype.findindex --save
-```
-
-You can see how it behaves through Node.js cli. Here's a sample session:
-
-```javascript
-> require('array.prototype.findindex')
-{}
-> a = [12, 412, 30]
-[ 12, 412, 30 ]
-> a.findIndex(function(v) {return v === 12;})
-0
-> a.findIndex(function(v) {return v === 121;})
--1
-```
-
-T> [es5-shim](https://www.npmjs.com/package/es5-shim), [es6-shim](https://www.npmjs.com/package/es6-shim) and [es7-shim](https://www.npmjs.com/package/es7-shim) are good alternatives to `core-js`. At the moment they don't allow you to import the exact shims you need in a granular way. That said, using a whole library at once can be worth the convenience.
-
-We also need to attach the polyfill to our application.
-
-**app/index.jsx**
-
-```javascript
-import 'array.prototype.findindex';
-...
-```
-
-After this you can use `findIndex` against arrays at your code. Note that this will bloat our final bundle a tiny bit (around 4 kB), but the convenience is worth it.
-
 ### Implementing `onEdit` Logic
 
 The only thing that remains is gluing this all together. We'll need to take the data and find the specific `Note` by its indexed value. Finally, we need to modify and commit the `Note`'s data to the component state through `setState`.
@@ -526,27 +490,15 @@ import Notes from './Notes.jsx';
 export default class App extends React.Component {
   ...
   editNote = (id, task) => {
-    const notes = this.state.notes;
-    const noteIndex = this.findNote(id);
+    const notes = this.state.notes.map((note) => {
+      if(note.id === id) {
+        note.task = task;
+      }
 
-    if(noteIndex < 0) {
-      return;
-    }
+      return note;
+    });
 
-    notes[noteIndex].task = task;
-
-    // shorthand - {notes} is the same as {notes: notes}
     this.setState({notes});
-  }
-  findNote = (id) => {
-    const notes = this.state.notes;
-    const noteIndex = notes.findIndex((note) => note.id === id);
-
-    if(noteIndex < 0) {
-      console.warn('Failed to find note', notes, id);
-    }
-
-    return noteIndex;
   }
 }
 ```
@@ -582,15 +534,8 @@ export default class App extends React.Component {
     );
   }
   deleteNote = (id) => {
-    const notes = this.state.notes;
-    const noteIndex = this.findNote(id);
-
-    if(noteIndex < 0) {
-      return;
-    }
-
     this.setState({
-      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
+      notes: this.state.notes.filter(note => note.id !== id)
     });
   }
   ...

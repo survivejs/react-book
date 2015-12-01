@@ -524,11 +524,10 @@ We could resolve this on store level instead by implementing an invariant at `at
 class LaneStore {
   ...
   attachToLane({laneId, noteId}) {
-    const lanes = this.lanes;
-    const targetId = this.findLane(laneId);
+    if(!noteId) {
+      this.waitFor(NoteStore);
 
-    if(targetId < 0) {
-      return;
+      noteId = NoteStore.getState().notes.slice(-1)[0].id;
     }
 
     this.removeNote(noteId);

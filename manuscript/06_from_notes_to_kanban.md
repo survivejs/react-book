@@ -227,26 +227,20 @@ class LaneStore {
       noteId = NoteStore.getState().notes.slice(-1)[0].id;
     }
 
-    const lanes = this.lanes;
-    const targetId = this.findLane(laneId);
+    const lanes = this.lanes.map((lane) => {
+      if(lane.id === laneId) {
+        if(lane.notes.indexOf(noteId) === -1) {
+          lane.notes.push(noteId);
+        }
+        else {
+          console.warn('Already attached note to lane', lanes);
+        }
+      }
 
-    if(targetId < 0) {
-      return;
-    }
+      return lane;
+    });
 
-    const lane = lanes[targetId];
-
-    if(lane.notes.indexOf(noteId) === -1) {
-      lane.notes.push(noteId);
-
-      this.setState({lanes});
-    }
-    else {
-      console.warn('Already attached note to lane', lanes);
-    }
-  }
-  findLane(id) {
-
+    this.setState({lanes});
   }
 }
 
@@ -291,29 +285,23 @@ class LaneStore {
     ...
   }
   detachFromLane({laneId, noteId}) {
-    const lanes = this.lanes;
-    const targetId = this.findLane(laneId);
+    const lanes = this.lanes.map((lane) => {
+      if(lane.id === laneId) {
+        const notes = lane.notes;
+        const removeIndex = notes.indexOf(noteId);
 
-    if(targetId < 0) {
-      return;
-    }
+        if(removeIndex !== -1) {
+          lane.notes = notes.filter((note) => note.id !== removeIndex);
+        }
+        else {
+          console.warn('Failed to remove note from a lane as it didn\'t exist', lanes);
+        }
+      }
 
-    const lane = lanes[targetId];
-    const notes = lane.notes;
-    const removeIndex = notes.indexOf(noteId);
+      return lane;
+    });
 
-    if(removeIndex !== -1) {
-      lane.notes = notes.slice(0, removeIndex).
-        concat(notes.slice(removeIndex + 1));
-
-      this.setState({lanes});
-    }
-    else {
-      console.warn('Failed to remove note from a lane as it didn\'t exist', lanes);
-    }
-  }
-  findLane(id) {
-
+    this.setState({lanes});
   }
 }
 
@@ -321,40 +309,6 @@ export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 Again, the implementation has been coded with drag and drop in mind. Later on we'll want to pass `noteId` explicitly, so it doesn't hurt to have it there. You've seen the rest of the code earlier in different contexts.
-
-### Implementing `findLane`
-
-Both `attachToLane` and `detachFromLane` depend on a helper method known as `findLane`. It will return a `Lane` index if found:
-
-**app/stores/LaneStore.js**
-
-```javascript
-import uuid from 'node-uuid';
-import alt from '../libs/alt';
-import LaneActions from '../actions/LaneActions';
-import NoteStore from './NoteStore';
-
-class LaneStore {
-  ...
-  detachFromLane({laneId, noteId}) {
-    ...
-  }
-  findLane(id) {
-    const lanes = this.lanes;
-    const laneIndex = lanes.findIndex((lane) => lane.id === id);
-
-    if(laneIndex < 0) {
-      console.warn('Failed to find lane', lanes, id);
-    }
-
-    return laneIndex;
-  }
-}
-
-export default alt.createStore(LaneStore, 'LaneStore');
-```
-
-`findLane` has been coded defensively to warn if a `Lane` is not found. It relies on `findIndex` discussed earlier.
 
 ### Implementing a Getter for `NoteStore`
 
@@ -382,8 +336,10 @@ class NoteStore {
     });
   }
   ...
-  get(ids = []) {
-    return ids.map((id) => this.notes[this.findNote(id)]).filter((a) => a);
+  get(ids) {
+    return (ids || []).map(
+      (id) => this.notes.filter((note) => note.id === id)
+    ).filter((a) => a).map((a) => a[0]);
   }
 }
 
@@ -622,27 +578,19 @@ We are also going to need `LaneStore` level implementations for these. They can 
 class LaneStore {
   ...
   update({id, name}) {
-    const lanes = this.lanes;
-    const targetId = this.findLane(id);
+    const lanes = this.lanes.map((lane) => {
+      if(lane.id === id) {
+        lane.name = name;
+      }
 
-    if(targetId < 0) {
-      return;
-    }
-
-    lanes[targetId].name = name;
+      return note;
+    });
 
     this.setState({lanes});
   }
   delete(id) {
-    const lanes = this.lanes;
-    const targetId = this.findLane(id);
-
-    if(targetId < 0) {
-      return;
-    }
-
     this.setState({
-      lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
+      lanes: this.lanes.filter((lane) => lane.id !== id)
     });
   }
   attachToLane({laneId, noteId}) {

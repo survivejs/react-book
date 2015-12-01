@@ -1,4 +1,3 @@
-import 'array.prototype.findindex';
 import './main.css';
 
 import React from 'react';
