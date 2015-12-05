@@ -362,7 +362,7 @@ export default class Note extends React.Component {
       return this.renderEdit();
     }
 
-    return this.renderTask();
+    return this.renderNote();
   }
   renderEdit = () => {
     return <input type="text"
@@ -371,7 +371,7 @@ export default class Note extends React.Component {
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
-  renderTask = () => {
+  renderNote = () => {
     return <div onClick={this.edit}>{this.props.task}</div>;
   }
   edit = () => {
@@ -571,7 +571,7 @@ In order to invoke the previous `onDelete` callback we need to connect it with `
 
 export default class Note extends React.Component {
   ...
-  renderTask = () => {
+  renderNote = () => {
     const onDelete = this.props.onDelete;
 
     return (

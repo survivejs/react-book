@@ -13,7 +13,7 @@ export default class Note extends React.Component {
       return this.renderEdit();
     }
 
-    return this.renderTask();
+    return this.renderNote();
   }
   renderEdit = () => {
     return <input type="text"
@@ -22,7 +22,7 @@ export default class Note extends React.Component {
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
-  renderTask = () => {
+  renderNote = () => {
     const onDelete = this.props.onDelete;
 
     return (

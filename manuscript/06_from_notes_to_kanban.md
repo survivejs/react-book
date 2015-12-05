@@ -448,7 +448,7 @@ export default class Editable extends React.Component {
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
-  renderValue = () => { // drop renderTask
+  renderValue = () => { // drop renderNote
     const onDelete = this.props.onDelete;
 
     return (
@@ -469,7 +469,7 @@ There are a couple of important changes:
 
 * `{editing ? this.renderEdit() : this.renderValue()}` - This ternary selects what to render based on the editing state. Previously we had `Task`. Now we are using the term `Value` as that's more generic.
 * `const {value, onEdit, ...props} = this.props;` - We changed task to value here as well.
-* `renderValue()` - Formerly this was known as `renderTask()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
+* `renderValue()` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
 
 Because the class name changes, `main.css` needs a small tweak:
 
