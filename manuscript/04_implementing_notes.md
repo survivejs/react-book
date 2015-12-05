@@ -358,13 +358,11 @@ export default class Note extends React.Component {
     };
   }
   render() {
-    const editing = this.state.editing;
+    if(this.state.editing) {
+      return this.renderEdit();
+    }
 
-    return (
-      <div>
-        {editing ? this.renderEdit() : this.renderTask()}
-      </div>
-    );
+    return this.renderTask();
   }
   renderEdit = () => {
     return <input type="text"
