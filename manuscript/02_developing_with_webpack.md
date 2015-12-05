@@ -247,6 +247,7 @@ module.exports = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
+        // include accepts either a path or an array of paths
         include: PATHS.app
       }
     ]
