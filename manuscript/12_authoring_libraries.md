@@ -232,6 +232,8 @@ Most of the magic happens thanks to `devtool` and `output` declarations. In addi
 
 T> The example uses the same `merge` utility we defined earlier on. You should check [the boilerplate](https://github.com/bebraw/react-component-boilerplate) itself for the exact configuration.
 
+T> If your library is using ES6 exclusively, [rollup](https://www.npmjs.com/package/rollup) can be a valid, simple alternative to Webpack.
+
 ## npm Lifecycle Hooks
 
 npm provides various lifecycle hooks that can be useful. Suppose you are authoring a React component using Babel and some of its goodies. You could let the *package.json* `main` field point at the UMD version as generated above. This won't be ideal for those consuming the library through npm, though.
