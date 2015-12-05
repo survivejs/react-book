@@ -245,6 +245,7 @@ module.exports = {
   module: {
     loaders: [
       {
+        // test expects a RegExp! Note the slashes!
         test: /\.css$/,
         loaders: ['style', 'css'],
         // include accepts either a path or an array of paths
