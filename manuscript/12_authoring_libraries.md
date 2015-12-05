@@ -18,7 +18,7 @@ In larger projects you may find the following:
 * *CONTRIBUTING.md* - A guide for potential contributors. How should the code be developed and so on.
 * *CHANGELOG.md* - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history, provided you write nice enough commits.
 * *.travis.yml* - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course, but Travis is very popular.
-* *.gitignore* - Ignore patterns for Git, i.e., which files shouldn't go under version control.
+* *.gitignore* - Ignore patterns for Git, i.e., which files shouldn't go under version control. It can be useful to ignore npm distribution files here so they don't clutter your repository.
 * *.npmignore* - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
 * *.eslintignore* - Ignore patterns for ESLint. Again, tool specific.
 * *.eslintrc* - Linting rules. You can use *.jshintrc* and such based on your preferences.
@@ -55,7 +55,9 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
     "lint": "eslint . --ext .js --ext .jsx",
     "preversion": "npm run test && npm run lint && npm run dist && npm run dist-min && git commit --allow-empty -am \"Update dist\"",
     "prepublish": "npm run dist-modules",
-    "postpublish": "npm run gh-pages && npm run deploy-gh-pages"
+    "postpublish": "npm run gh-pages && npm run deploy-gh-pages",
+    /* If your library is installed through Git, you may want to transpile it */
+    "postinstall": "node lib/post_install.js"
   },
   /* Entry point for terminal (i.e., <package name>) */
   /* Don't set this unless you intend to allow CLI usage */
@@ -144,6 +146,58 @@ T> It can be useful to utilize `npm link` during development. That will allow yo
 Before starting to develop, it can be a good idea to spend a little bit of time on figuring out a good name for your package. It's not very fun to write a great package just to notice the name has been taken. A good name is easy to find through a search engine, and most importantly, is available at npm.
 
 As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that when naming your project.
+
+### Dealing with Preprocessing
+
+It is possible to consume a library directly through Git. This can be problematic for library authors. One way to solve this is to set up a `postinstall` script that will generate a local npm version of your library in case it doesn't exist. This can be achieved through a `postinstall` script like this:
+
+**package.json**
+
+```json
+{
+  ...
+  "scripts": {
+    ...
+    "postinstall": "node lib/post_install.js"
+  },
+  "devDependencies": {
+    ...
+    /* You should install sync-exec through `npm i` to get a recent version */
+    "sync-exec": "^0.6.2"
+  }
+}
+```
+
+In addition we need to define a little script to do the work for us. It will check whether our package contains the directory we expect and will then act based on that. If it doesn't exist, we'll generate it. You may need to tweak the script to fit your exact purposes. The idea is the same, though:
+
+**lib/post_install.js**
+
+```javascript
+// adapted based on rackt/history (MIT)
+// Node 0.10+
+var execSync = require('child_process').execSync;
+var stat = require('fs').stat;
+
+// Node 0.10 check
+if (!execSync) {
+  execSync = require('sync-exec');
+}
+
+function exec(command) {
+  execSync(command, {
+    stdio: [0, 1, 2]
+  });
+}
+
+stat('dist-modules', function(error, stat) {
+  if (error || !stat.isDirectory()) {
+    exec('npm i babel@5.x');
+    exec('npm run dist-modules');
+  }
+});
+```
+
+Even though setting up a script like this takes some time, it can be beneficial as it will make it a little easier to consume your library. After this you can point at your library directly through Git. If you are into shorthands, you could use a dependency declaration such as `"my-project": "<name>/<project>#reference"`. *reference* can be a commit id or a tag name for instance.
 
 ### Respect the SemVer
 
