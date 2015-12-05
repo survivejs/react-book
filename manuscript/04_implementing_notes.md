@@ -535,7 +535,7 @@ export default class App extends React.Component {
   }
   deleteNote = (id) => {
     this.setState({
-      notes: this.state.notes.filter(note => note.id !== id)
+      notes: this.state.notes.filter((note) => note.id !== id)
     });
   }
   ...
