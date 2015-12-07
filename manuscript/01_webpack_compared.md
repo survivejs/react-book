@@ -8,9 +8,9 @@ The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package
 
 Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the best known, and is still a viable option. In the front-end world, [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) have particularly gained popularity. Plugins made available through npm make both approaches powerful.
 
-[Browserify](http://browserify.org/) took one step further. It provides powerful npm based bundling. You can complement it with many smaller utilities. This is a nice contrast to the approach Webpack uses.
+[Browserify](http://browserify.org/) takes another step by providing powerful npm based bundling. Plus, you can complement it with many smaller utilities. This is a nice contrast to the approach Webpack uses.
 
-[JSPM](http://jspm.io/) goes one step further and pushes package management directly to the browser. It relies on [System.js](https://github.com/systemjs/systemjs), a dynamic module loader. Unlike Browserify and Webpack it skips the bundling step altogether during development. You can generate a production bundle using it, however. Glen Maddern goes into good detail at his [video about JSPM](https://www.youtube.com/watch?t=33&v=iukBMY4apvI).
+Continuing further on this path, [JSPM](http://jspm.io/) pushes package management directly to the browser. It relies on [System.js](https://github.com/systemjs/systemjs), a dynamic module loader. Unlike Browserify and Webpack, it skips the bundling step altogether during development. You can generate a production bundle using it, however. Glen Maddern goes into good detail at his [video about JSPM](https://www.youtube.com/watch?t=33&v=iukBMY4apvI).
 
 ## Make
 
