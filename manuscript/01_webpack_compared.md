@@ -266,7 +266,7 @@ define(['./MyModule.js'], function (MyModule) {
 });
 ```
 
-Incidentally it is possible to use `require` within the wrapper like this:
+Incidentally, it is possible to use `require` within the wrapper like this:
 
 ```javascript
 define(['require'], function (require) {
