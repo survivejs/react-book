@@ -49,7 +49,7 @@ clean:
     rm -rf build
 ```
 
-With Make you will model your tasks using some Make specific syntax and terminal commands. This allows to use it with Webpack easily.
+With Make, you model your tasks using Make-specific syntax and terminal commands. This allows it to integrate easily with Webpack.
 
 ## Grunt
 
