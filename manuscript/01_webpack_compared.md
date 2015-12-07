@@ -143,7 +143,7 @@ T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use 
 
 ![Browserify](images/browserify.png)
 
-Dealing with JavaScript modules has always been a bit of a problem. The language actually didn't have the concept of modules till ES6. Ergo we are stuck in the '90s when it comes to browser environments. Various solutions, including [AMD](http://requirejs.org/docs/whyamd.html), have been proposed.
+Dealing with JavaScript modules has always been a bit of a problem. The language itself actually didn't have the concept of modules till ES6. Ergo we have been stuck in the '90s when it comes to browser environments. Various solutions, including [AMD](http://requirejs.org/docs/whyamd.html), have been proposed.
 
 In practice it can be useful just to use CommonJS, the Node.js format, and let the tooling deal with the rest. The advantage is that you can often hook into npm and avoid reinventing the wheel.
 
