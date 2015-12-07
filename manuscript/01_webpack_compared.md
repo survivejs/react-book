@@ -55,7 +55,7 @@ With Make, you model your tasks using Make-specific syntax and terminal commands
 
 ![Grunt](images/grunt.png)
 
-Grunt went mainstream before Gulp. Its plugin architecture especially contributed towards its popularity. At the same time this is the Achilles' heel of Grunt. I know from experience that you **don't** want to end up having to maintain a 300-line `Gruntfile`. Here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
+Grunt went mainstream before Gulp. Its plugin architecture, especially, contributed towards its popularity. At the same time, this architecture is the Achilles' heel of Grunt. I know from experience that you **don't** want to end up having to maintain a 300-line `Gruntfile`. Here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
 
 ```javascript
 module.exports = function(grunt) {
