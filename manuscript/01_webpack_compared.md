@@ -194,9 +194,9 @@ The configuration model may make Webpack feel a bit opaque at times. It can be d
 
 ![JSPM](images/jspm.png)
 
-Using JSPM is quite different than earlier tools. It comes with a little CLI tool of its own that is used to install new packages to the project, create production bundle and so on. It supports [SystemJS plugins](https://github.com/systemjs/systemjs#plugins) that allow you to load various formats to your project.
+Using JSPM is quite different than earlier tools. It comes with a little CLI tool of its own that is used to install new packages to the project, create a production bundle, and so on. It supports [SystemJS plugins](https://github.com/systemjs/systemjs#plugins) that allow you to load various formats to your project.
 
-Given JSPM is still a young project there might be rough spots. That said, it may be worth a look if you are adventurous. As you know by now, tooling tends to change quite often in front-end development and JSPM is definitely a worthy contender.
+Given JSPM is still a young project, there might be rough spots. That said, it may be worth a look if you are adventurous. As you know by now, tooling tends to change quite often in front-end development, and JSPM is definitely a worthy contender.
 
 ## Why Use Webpack?
 
