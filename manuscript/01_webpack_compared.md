@@ -159,7 +159,7 @@ You could say Webpack (or just *webpack*) takes a more monolithic approach than 
 
 Webpack will traverse through the `require` statements of your project and will generate the bundles you want. You can even load your dependencies in a dynamic manner using a custom `require.ensure` statement. The loader mechanism works for CSS as well and `@import` is supported. There are also plugins for specific tasks, such as minification, localization, hot loading, and so on.
 
-All this is relies on configuration. It can be difficult to understand what's going on if you haven't seen it before. Fortunately there's certain logic involved. Here is a sample configuration adapted from [the official webpack tutorial](http://webpack.github.io/docs/tutorials/getting-started/):
+All this relies on configuration. It can be difficult to understand what's going on if you haven't seen it before. Fortunately there's certain logic involved. Here is a sample configuration adapted from [the official webpack tutorial](http://webpack.github.io/docs/tutorials/getting-started/):
 
 **webpack.config.js**
 
