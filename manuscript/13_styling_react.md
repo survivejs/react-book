@@ -337,7 +337,7 @@ Pete Hunt's [jsxstyle](https://github.com/petehunt/jsxstyle) aims to mitigate so
 >Confirm</button>
 ```
 
-The approach is still in its early days. For instance support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
+The approach is still in its early days. For instance, support for media queries is missing. Instead of defining modifiers as above, you'll end up defining more components to support your use cases.
 
 Just like React Style, jsxstyle comes with a Webpack loader that can extract CSS into a separate file.
 

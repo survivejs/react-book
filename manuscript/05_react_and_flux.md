@@ -303,7 +303,7 @@ We will modify our implementation of `NoteStore` to persist the data on change. 
 * `storage.setItem(k, v)` - Stores the given value using the given key.
 * `storage.clear()` - Empties the storage contents.
 
-Note that it is convenient to operate on the API using your browser developer tools. For instance in Chrome, you can see the state of the storages through the *Resources* tab. *Console* tab allows you to perform direct operations on the data. You can even use `storage.key` and `storage.key = 'value'` shorthands for quick modifications.
+Note that it is convenient to operate on the API using your browser developer tools. For instance, in Chrome you can see the state of the storages through the *Resources* tab. *Console* tab allows you to perform direct operations on the data. You can even use `storage.key` and `storage.key = 'value'` shorthands for quick modifications.
 
 `localStorage` and `sessionStorage` can use up to 10 MB of data combined. Even though they are well supported, there are certain corner cases with interesting failures. These include running out of memory in Internet Explorer (fails silently) and failing altogether in Safari's private mode. It is possible to work around these glitches, though.
 

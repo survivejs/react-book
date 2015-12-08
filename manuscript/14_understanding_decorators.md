@@ -53,7 +53,7 @@ const descriptor = {
 };
 ```
 
-As you saw above, `value` makes it possible to shape the behavior. The rest allows you to modify behavior on method level. For instance a `@readonly` decorator could limit access. `@memoize` is another interesting example as that allows you to implement easy caching for methods.
+As you saw above, `value` makes it possible to shape the behavior. The rest allows you to modify behavior on method level. For instance, a `@readonly` decorator could limit access. `@memoize` is another interesting example as that allows you to implement easy caching for methods.
 
 ## Implementing `@connect`
 
