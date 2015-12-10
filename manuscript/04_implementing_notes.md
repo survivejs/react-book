@@ -1,6 +1,6 @@
 # Implementing a Basic Note Application
 
-Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application. It will have basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures such as Flux are needed.
+Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application. It will have basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures, such as Flux, are needed.
 
 W> Hot loading isn't fool proof always. Given it operates by swapping methods dynamically, it won't catch every change. This is problematic with property initializers and `bind`. This means you may need to force a manual refresh at the browser for some changes to show up!
 
@@ -318,6 +318,15 @@ export default class App extends React.Component {
   // Alternatively we could `bind` at `constructor` using
   // a line such as this.addNote = this.addNote.bind(this);
   addNote = () => {
+    // It would be possible to write this in an imperative style.
+    // I.e., through `this.state.notes.push`.
+    //
+    // I tend to favor functional style whenever that makes sense.
+    // Even though it might take more code sometimes, I feel
+    // the benefits (easy to reason about, no side effects)
+    // more than make up for it.
+    //
+    // Libraries, such as Immutable.js, go one notch further.
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
