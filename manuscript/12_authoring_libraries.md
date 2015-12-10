@@ -43,6 +43,7 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   /* Version of the package */
   "version": "0.0.0",
   /* `npm run <name>` */
+  /* You can namespace these if you want. Example: build:dist, build:gh-pages */
   "scripts": {
     "start": "webpack-dev-server",
     "test": "karma start",
