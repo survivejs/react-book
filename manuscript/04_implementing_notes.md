@@ -253,7 +253,7 @@ export default class App extends React.Component {
 
 After this change our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
 
-W> Note that *react-hot-loader* doesn't pick the change made to the constructor. Technically it just replaces methods. As a result the constructor won't get invoked. You will have to force a refresh in this case!
+W> Note that *babel-plugin-react-transform* doesn't pick the change made to the constructor. Technically it just replaces methods. As a result the constructor won't get invoked. You will have to force a refresh in this case!
 
 T> In earlier versions of React you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
@@ -459,9 +459,12 @@ export default class Notes extends React.Component {
   render() {
     const notes = this.props.items;
 
-    return <ul className="notes">{notes.map(this.renderNote)}</ul>;
+    // We are setting the context (`this`) of `this.renderNote` to `this`
+    // explicitly! Alternatively we could use a property initializer here,
+    // but this will work as well while being compatible with hot loading.
+    return <ul className="notes">{notes.map(this.renderNote, this)}</ul>;
   }
-  renderNote = (note) => {
+  renderNote(note) {
     return (
       <li className="note" key={note.id}>
         <Note
@@ -710,16 +713,23 @@ After these few steps we have an application that looks passable. We'll be impro
 
 ## Understanding React Components
 
-Understanding how `props` and `state` work is important. Component lifecycle is another key concept. We already touched on it earlier, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application.
+Understanding how `props` and `state` work is important. Component lifecycle is another key concept. We already touched on it earlier, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application. React provides the following lifecycle hooks:
 
-To quote [the official documentation](https://facebook.github.io/react/docs/component-specs.html), React provides the following `React.createClass` component specifications:
+* `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
+* `componentDidMount()` gets triggered after initial rendering. You have access to the DOM here. You could use this hook to wrap a jQuery plugin within a component, for instance.
+* `componentWillReceiveProps(object nextProps)` triggers when the component receives new props. You could, for instance, modify your component state based on the received props.
+* `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize the rendering. If you check the props and state and see that there's no need to update, return `false`.
+* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here, but you can set class properties, for instance.
+* `componentDidUpdate()` is triggered after rendering. You can modify the DOM here. This can be useful for adapting other code to work with React.
+* `componentWillUnmount()` is triggered just before a component is unmounted from the DOM. This is the ideal place to perform cleanup (e.g., remove running timers, custom DOM elements, and so on).
+
+Beyond the lifecycle methods, there are a variety of [properties and methods](https://facebook.github.io/react/docs/component-specs.html) you should be aware of if you are going to use `React.createClass`:
 
 * `displayName` - It is preferable to set `displayName` as that will improve debug information. For ES6 classes this is derived automatically based on the class name.
 * `getInitialState()` - In class based approach the same can be achieved through `constructor`.
 * `getDefaultProps()` - In classes you can set these in `constructor`.
-* `propTypes` - `propTypes` allow you to document your props and catch potential issues during development. To dig deeper, read the *Typing with React* chapter.
 * `mixins` - `mixins` contains an array of mixins to apply to components.
-* `statics` - `statics` contains static properties and method for a component. In ES6 you would assign them to the class like below:
+* `statics` - `statics` contains static properties and method for a component. In ES6 you can assign them to the class as below:
 
 ```javascript
 class Note {
@@ -734,17 +744,9 @@ export default Note;
 
 Some libraries such as `react-dnd` rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
 
-Both component types support `render()`. As seen above, this is the workhorse of React. It describes what the component should look like. In case you don't want to render anything, return either `null` or `false`.
+Both class and `React.createClass` based components allow you to document the interface of your component using `propTypes`. To dig deeper, read the *Typing with React* chapter.
 
-In addition React provides the following lifecycle hooks:
-
-* `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
-* `componentDidMount()` gets triggered after initial rendering. You have access to the DOM here. You could use this hook to wrap a jQuery plugin within a component, for instance.
-* `componentWillReceiveProps(object nextProps)` triggers when the component receives new props. You could, for instance, modify your component state based on the received props.
-* `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize the rendering. If you check the props and state and see that there's no need to update, return `false`.
-* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here, but you can set class properties, for instance.
-* `componentDidUpdate` is triggered after rendering. You can modify the DOM here. This can be useful for adapting other code to work with React.
-* `componentWillUnmount` is triggered just before a component is unmounted from the DOM. This is the ideal place to perform cleanup (e.g., remove running timers, custom DOM elements, and so on).
+Both support `render()`, the workhorse of React. In function based definition `render()` is the function itself. `render()` simply describes what the component should look like. In case you don't want to render anything, return either `null` or `false`.
 
 ## React Component Conventions
 

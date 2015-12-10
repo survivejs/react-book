@@ -212,7 +212,7 @@ export default alt.createStore(NoteStore, 'NoteStore');
 
 Instead of slicing and concatenating data, it would be possible to operate directly on it. For example a mutable variant such as `this.notes.splice(targetId, 1)` would work. We could also use a shorthand, such as `[...notes.slice(0, noteIndex), ...notes.slice(noteIndex + 1)]`. The exact solution depends on your preferences. I prefer to avoid mutable solutions (i.e., `splice`) myself.
 
-It is recommended that you use `setState` with Alt to keep things clean and easy to understand. Manipulating `this.notes` directly would work but that would miss the intent. `setState` provides a nice analogue to the way React works so it's worth using.
+It is recommended that you use `setState` with Alt to keep things clean and easy to understand. Manipulating `this.notes` directly would work, but that would miss the intent and could become problematic in larger scale as mutation is difficult to debug. `setState` provides a nice analogue to the way React works so it's worth using.
 
 We have almost integrated Flux with our application now. We have a set of actions that provide an API for manipulating `Notes` data. We also have a store for actual data manipulation. We are missing one final bit, integration with our view. It will have to listen to the store and be able to trigger actions to complete the cycle.
 
@@ -250,7 +250,7 @@ export default class App extends React.Component {
   }
   storeChanged = (state) => {
     // Without a property initializer `this` wouldn't
-    // point at the right context (defaults to `window`).
+    // point at the right context (defaults to `undefined` in strict mode).
     this.setState(state);
   }
   render() {
@@ -394,6 +394,8 @@ function main() {
 If you try refreshing the browser now, the application should retain its state. The solution should scale with minimal effort if we add more stores to the system. Integrating a real back-end wouldn't be a problem. There are hooks in place for that now.
 
 You could, for instance, pass the initial payload as a part of your HTML (isomorphic rendering), load it up, and then persist the data to the back-end. You have a great deal of control over how to do this, and you can use `localStorage` as a backup if you want.
+
+Isomorphic rendering is a powerful technique that allows you to use React to improve the performance of your application while gaining SEO benefits. Rather than leaving all rendering to the front-end, we perform a part of it at the back-end side. We render the initial application markup at back-end and provide it to the user. React will pick that up. This can also include data that can be loaded to your application without having to perform extra queries.
 
 W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless, this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
 

@@ -135,7 +135,7 @@ module.exports = {
 
 Given Webpack expects absolute paths we have some good options here. I like to use `path.join`, but `path.resolve` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
-If you hit `node_modules/.bin/webpack`, you should see a Webpack build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open index.html` to see the result.
+If you hit `node_modules/.bin/webpack`, you should see a Webpack build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open build/index.html` to see the result.
 
 Another way to achieve this would be to serve the contents of the directory through a server such as *serve* (`npm i serve -g`). In this case you would execute `serve` at the output directory and head to `localhost:3000` at your browser. You can configure the port through the `--port` parameter if you want to use some other port.
 
@@ -204,7 +204,7 @@ Hit `npm start` and surf to **localhost:8080**. You should see something familia
 
 ![Hello world](images/hello_01.png)
 
-You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
+You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
 
 T> Note that the current setup won't output a bundle at all given the development setup runs in-memory. We will set up a proper bundle at the build chapter.
 
