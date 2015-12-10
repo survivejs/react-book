@@ -129,7 +129,17 @@ Note that `resolve.extensions` setting will allow you to refer to JSX files with
 
 T> As `resolve.extensions` gets evaluated from left to right, we can use it to control which code gets loaded for given configuration. For instance, you could have `.web.js` to define web specific parts and then have something like `['', '.web.js', '.js', '.jsx']`. If a "web" version of the file is found, Webpack would use that instead of the default.
 
-Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools such as ESLint. Set it up as follows to enable support for [class properties](https://github.com/jeffmo/es-class-static-properties-and-fields), [decorators](https://github.com/wycats/javascript-decorators), and [object rest spread](https://github.com/sebmarkbage/ecmascript-rest-spread). We'll be using these features in our project. Set up `.babelrc` to your project root as follows:
+### Setting Up *.babelrc*
+
+Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools, such as ESLint.
+
+We are going to enable three specific features as these will allow us to keep our project neat:
+
+* [class properties](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `renderNote = (note) => {`. This binds `renderNote` method to instances automatically. The feature makes more sense as we get to use it.
+* [decorators](https://github.com/wycats/javascript-decorators) - Example: `@DragDropContext(HTML5Backend)`. These annotation allow us to attach functionality to classes and their methods.
+* [object rest spread](https://github.com/sebmarkbage/ecmascript-rest-spread) - Example: ``const {a, b, ...props} = this.props`. This syntax allows us to extract specific properties from an object easily.
+
+Set up a *.babelrc* to your project root as follows in order to enable the features:
 
 **.babelrc**
 
@@ -143,9 +153,9 @@ Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/).
 }
 ```
 
-Alternatively we could have a declaration such as `"stage": 1`. The problem is that this doesn't document well which experimental features we are using at our code base. It might work for small projects. Documenting your Babel usage this way will help in maintenance.
+Alternatively we could have used a declaration such as `"stage": 1`. The problem is that this doesn't document well which additional features we are using at our code base. It might work for small projects but I do not suggest this for production grade code. Documenting your Babel usage this way will help in the maintenance effort.
 
-There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). Now we are just keeping it simple. You could, for instance, enable the features you want to use explicitly.
+There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). For now we are keeping it simple.
 
 T> It is possible to use Babel features at your Webpack configuration. Simply rename *webpack.config.js* as *webpack.config.babel.js* and Webpack will pick it up provided Babel has been set up with your project. It will respect the contents of *.babelrc*.
 
