@@ -118,6 +118,8 @@ const PATHS = {
 };
 
 module.exports = {
+  // Entry accepts a path or an object of entries.
+  // The build chapter contains an example of the latter.
   entry: PATHS.app,
   output: {
     path: PATHS.build,
@@ -184,11 +186,10 @@ module.exports = {
     inline: true,
     progress: true,
 
-    // display only errors to reduce the amount of output
+    // Display only errors to reduce the amount of output.
     stats: 'errors-only',
 
-    // parse host and port from env so this is easy
-    // to customize
+    // Parse host and port from env so this is easy to customize.
     host: process.env.HOST,
     port: process.env.PORT
   },
@@ -245,10 +246,10 @@ module.exports = {
   module: {
     loaders: [
       {
-        // test expects a RegExp! Note the slashes!
+        // Test expects a RegExp! Note the slashes!
         test: /\.css$/,
         loaders: ['style', 'css'],
-        // include accepts either a path or an array of paths
+        // Include accepts either a path or an array of paths.
         include: PATHS.app
       }
     ]
@@ -259,11 +260,10 @@ module.exports = {
     inline: true,
     progress: true,
 
-    // display only errors to reduce the amount of output
+    // Display only errors to reduce the amount of output.
     stats: 'errors-only',
 
-    // parse host and port from env so this is easy
-    // to customize
+    // Parse host and port from env so this is easy to customize.
     host: process.env.HOST,
     port: process.env.PORT
   },
@@ -380,11 +380,10 @@ if(TARGET === 'start' || !TARGET) {
       inline: true,
       progress: true,
 
-      // display only errors to reduce the amount of output
+      // Display only errors to reduce the amount of output.
       stats: 'errors-only',
 
-      // parse host and port from env so this is easy
-      // to customize
+      // Parse host and port from env so this is easy to customize.
       host: process.env.HOST,
       port: process.env.PORT
     },
