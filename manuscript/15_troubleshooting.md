@@ -6,7 +6,7 @@ I've tried to cover some common issues here. This chapter will be expanded as co
 
 It is possible you may see a message like this:
 
-```
+```bash
 npm WARN package.json kanban_app@0.0.0 No repository field.
 npm WARN package.json kanban_app@0.0.0 No README data
 npm WARN peerDependencies The peer dependency eslint@0.21 - 0.23 included from eslint-loader will no
@@ -38,6 +38,17 @@ There are a couple of ways to work around this:
 3. Fork the package, fix the version range, and point at your custom version. In this case, you would have a `"<package>": "<github user>/<project>#<reference>"` kind of declaration for your dependencies.
 
 T> Note that peer dependencies will be dealt with differently starting with npm 3. After that it's up to the package consumer (i.e., you) to deal with it. This particular error will go away.
+
+## `Module parse failed`
+
+When using Webpack, an error like this might come up:
+
+```bash
+ERROR in ./app/components/Demo.jsx
+Module parse failed: .../app/components/Demo.jsx Line 16: Unexpected token <
+```
+
+This means there is something preventing Webpack to interpret the file correctly. You should check out your `loader` configuration carefully. Make sure the right loaders are applied to the right files. If you are using `include`, you should verify that the file is included within `include` paths.
 
 ## Project Fails to Compile
 
