@@ -206,6 +206,8 @@ Hit `npm start` and surf to **localhost:8080**. You should see something familia
 
 You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/bundle** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
 
+T> Note that the current setup won't output a bundle at all given the development setup runs in-memory. We will set up a proper bundle at the build chapter.
+
 T> In case the amount of console output annoys you, you can set `quiet: true` at `devServer` configuration to keep it minimal.
 
 ### Alternative Ways to Use *webpack-dev-server*
