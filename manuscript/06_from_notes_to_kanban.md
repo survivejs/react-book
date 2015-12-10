@@ -416,7 +416,7 @@ After these changes, we now have a system that can maintain relations between `L
 
 ## Implementing Edit/Remove for `Lane`
 
-We are still missing some basic functionality such as editing and removing lanes. We are going to reuse the functionality we used with `Note`, so let's rename it to `Editable.jsx` and tweak the code a bit to make it generic:
+We are still missing some basic functionality such as editing and removing lanes. Copy *Note.jsx* as *Editable.jsx*. We'll get back to that original *Note.jsx* later in this project. For now, we just want to get `Editable` into a good condition. Tweak the code as follows to generalize the implementation:
 
 **app/components/Editable.jsx**
 
@@ -471,7 +471,7 @@ There are a couple of important changes:
 * `const {value, onEdit, ...props} = this.props;` - We changed task to value here as well.
 * `renderValue()` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
 
-Because the class name changes, `main.css` needs a small tweak:
+Because the class name changes, *main.css* needs a small tweak:
 
 **app/main.css**
 
@@ -487,7 +487,7 @@ T> Our current implementation of `Editable` encapsulates its `editing` state. Th
 
 ### Pointing `Notes` to `Editable`
 
-Next we need to make `Notes.jsx` point at the new component. We'll need to alter the import and the component name at `render()`:
+Next we need to make *Notes.jsx* point at the new component. We'll need to alter the import and the component name at `render()`:
 
 **app/components/Notes.jsx**
 
