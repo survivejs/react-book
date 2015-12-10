@@ -128,7 +128,7 @@ Alt provides a similar decorator known as `@connectToStores`. It relies on stati
 
 ```javascript
 ...
-import connectToStores from 'alt/utils/connectToStores';
+import connectToStores from 'alt-utils/lib/connectToStores';
 
 @connectToStores
 export default class App extends React.Component {
