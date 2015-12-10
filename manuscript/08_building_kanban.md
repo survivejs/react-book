@@ -580,3 +580,5 @@ If you hit `npm run deploy` now and everything goes fine, you should have your a
 Beyond the features discussed Webpack allows you to [lazy load](https://webpack.github.io/docs/code-splitting.html) content through `require.ensure`. This is handy if you happen to have a specific dependency on some view and want to load it when you need it.
 
 Our Kanban application is now ready to be served. We went from a chunky build to a slim one. Even better the production version can benefit from caching and it is able to invalidate it. You can also understand how isomorphic rendering works on a basic level.
+
+T> It can be a good idea to read the *Authoring Libraries* chapter for more ideas on how to improve your project. Although the chapter has been designed libraries in mind, understanding the fundamentals of npm doesn't hurt. A lot of the same concepts apply to both applications and libraries after all.
