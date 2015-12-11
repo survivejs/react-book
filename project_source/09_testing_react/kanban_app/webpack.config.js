@@ -75,7 +75,9 @@ if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
     // Define entry points needed for splitting
     entry: {
       app: PATHS.app,
-      vendor: Object.keys(pkg.dependencies)
+      vendor: Object.keys(pkg.dependencies).filter(function(v) {
+        return v !== 'alt-utils';
+      })
     },
     output: {
       path: PATHS.build,

@@ -189,7 +189,12 @@ if(TARGET === 'build') {
     // Define entry points needed for splitting
     entry: {
       app: PATHS.app,
-      vendor: Object.keys(pkg.dependencies)
+      vendor: Object.keys(pkg.dependencies).filter(function(v) {
+        // Exclude alt-utils as it won't work with this setup
+        // due to the way the package has been designed
+        // (no package.json main).
+        return v !== 'alt-utils';
+      })
     },
     output: {
       path: PATHS.build,
@@ -455,21 +460,21 @@ W> If you want to pass more loaders to the `ExtractTextPlugin`, you should use `
 After running `npm run build` you should see output similar to the following:
 
 ```bash
-Hash: 556e021fe98b76e5d9b6
+Hash: ae2c206e1c5c06e7b884
 Version: webpack 1.12.9
-Time: 12692ms
+Time: 12976ms
                                Asset       Size  Chunks             Chunk Names
-         app.ed9ad1145fde9e21cf79.js    20.4 kB    0, 2  [emitted]  app
-      vendor.edadb6384837b591ae83.js     285 kB    1, 2  [emitted]  vendor
-    manifest.7b4188b1b91c2e708662.js  821 bytes       2  [emitted]  manifest
-     styles.ed9ad1145fde9e21cf79.css  937 bytes    0, 2  [emitted]  app
-     app.ed9ad1145fde9e21cf79.js.map    98.9 kB    0, 2  [emitted]  app
- styles.ed9ad1145fde9e21cf79.css.map  108 bytes    0, 2  [emitted]  app
-  vendor.edadb6384837b591ae83.js.map    2.55 MB    1, 2  [emitted]  vendor
-manifest.7b4188b1b91c2e708662.js.map    8.78 kB       2  [emitted]  manifest
+         app.750beafbab82d440b285.js      19 kB    0, 2  [emitted]  app
+      vendor.c61cac7ff701f2733703.js     289 kB    1, 2  [emitted]  vendor
+    manifest.bc3f15afc68e28cfee64.js  821 bytes       2  [emitted]  manifest
+     styles.750beafbab82d440b285.css  937 bytes    0, 2  [emitted]  app
+     app.750beafbab82d440b285.js.map      85 kB    0, 2  [emitted]  app
+ styles.750beafbab82d440b285.css.map  108 bytes    0, 2  [emitted]  app
+  vendor.c61cac7ff701f2733703.js.map    2.62 MB    1, 2  [emitted]  vendor
+manifest.bc3f15afc68e28cfee64.js.map    8.78 kB       2  [emitted]  manifest
                           index.html  404 bytes          [emitted]
    [0] multi vendor 112 bytes {1} [built]
-    + 330 hidden modules
+    + 355 hidden modules
 Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
