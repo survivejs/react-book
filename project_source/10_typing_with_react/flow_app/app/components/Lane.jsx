@@ -48,8 +48,9 @@ class Lane extends React.Component {
     this.editName = this.editName.bind(this, id);
     this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
   }
-  render() {
+  render(): any {
     const {connectDropTarget, lane, ...props} = this.props;
+    const id = lane.id;
 
     return connectDropTarget(
       <div {...props}>
@@ -58,7 +59,7 @@ class Lane extends React.Component {
             value={lane.name} onEdit={this.editName}
             onValueClick={this.activateLaneEdit} />
           <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
+            <button onClick={this.addNote.bind(id)}>+</button>
           </div>
         </div>
         <AltContainer
@@ -70,30 +71,30 @@ class Lane extends React.Component {
           <Notes
             onValueClick={this.activateNoteEdit}
             onEdit={this.editNote}
-            onDelete={this.deleteNote} />
+            onDelete={this.deleteNote.bind(id)} />
         </AltContainer>
       </div>
     );
   }
-  addNote(laneId) {
+  addNote(laneId): void {
     NoteActions.create({task: 'New task'});
     LaneActions.attachToLane({laneId});
-  }
-  editNote(id, task) {
+  };
+  editNote(id, task): void {
     NoteActions.update({id, task, editing: false});
-  }
-  deleteNote(laneId, noteId) {
+  };
+  deleteNote(laneId, noteId): void {
     LaneActions.detachFromLane({laneId, noteId});
     NoteActions.delete(noteId);
-  }
-  editName(id, name) {
+  };
+  editName(id, name): void {
     if(name) {
       LaneActions.update({id, name, editing: false});
     }
     else {
       LaneActions.delete(id);
     }
-  }
+  };
   activateLaneEdit(id) {
     LaneActions.update({id, editing: true});
   }
