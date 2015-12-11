@@ -21,27 +21,19 @@ class LaneStore {
     });
   }
   update({id, name}) {
-    const lanes = this.lanes;
-    const targetId = this.findLane(id);
+    const lanes = this.lanes.map((lane) => {
+      if(lane.id === id) {
+        lane.name = name;
+      }
 
-    if(targetId < 0) {
-      return;
-    }
-
-    lanes[targetId].name = name;
+      return lane;
+    });
 
     this.setState({lanes});
   }
   delete(id) {
-    const lanes = this.lanes;
-    const targetId = this.findLane(id);
-
-    if(targetId < 0) {
-      return;
-    }
-
     this.setState({
-      lanes: lanes.slice(0, targetId).concat(lanes.slice(targetId + 1))
+      lanes: this.lanes.filter((lane) => lane.id !== id)
     });
   }
   attachToLane({laneId, noteId}) {

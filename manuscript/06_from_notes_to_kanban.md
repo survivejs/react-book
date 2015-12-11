@@ -583,7 +583,7 @@ class LaneStore {
         lane.name = name;
       }
 
-      return note;
+      return lane;
     });
 
     this.setState({lanes});
