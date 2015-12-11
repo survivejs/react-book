@@ -1,12 +1,12 @@
 # Styling React
 
-Traditionally web pages have been split up into markup (HTML), styling (CSS), and logic (JavaScript). Thanks to React and similar approaches, we've begun to question this split. We still may want to separate our concerns. The separation will happen on a different level instead.
+Traditionally web pages have been split up into markup (HTML), styling (CSS), and logic (JavaScript). Thanks to React and similar approaches, we've begun to question this split. We still may want to separate our concerns somehow. But the split can be different.
 
-This change in the mindset has lead to new ways to think about styling. With React we're still figuring out the best ways to deal with it. Some early patterns have begun to emerge. However, it is difficult to provide any definite recommendations. You will have to choose an approach that makes sense for you.
+This change in the mindset has lead to new ways to think about styling. With React we're still figuring out the best practices. Some early patterns have begun to emerge, however. It is difficult to provide any definite recommendations at the moment. Instead, I'm going through some common approaches so you can make up your mind based on your needs.
 
 ## Old School Styling
 
-The old school approach to styling is to sprinkle some ids and classes around, set up CSS rules, and hope for the best. Although this can work up to an extent, it gets more complicated as development goes on. There are fundamental problems, such as the fact that everything is global in CSS by default. Furthermore, nesting definitions (e.g., `.main .sidebar .button`) creates implicit logic to your styling.
+The old school approach to styling is to sprinkle some *ids* and *classes* around, set up CSS rules, and hope for the best. In CSS everything is global by default. Nesting definitions(e.g., `.main .sidebar .button`) creates implicit logic to your styling. Both features lead to a lot of complexity as your project grows. This approach can be acceptable when starting out, but as you develop, you most likely want to migrate away from it.
 
 ### Webpack Configuration for Vanilla CSS
 
@@ -29,7 +29,7 @@ var common = {
 };
 ```
 
-To recap, first [css-loader](https://www.npmjs.com/package/css-loader) goes through possible `@import` and `url()` statements within the matched files and treats them as regular `require`. This allows us to rely on various other loaders such as [file-loader](https://www.npmjs.com/package/file-loader) or [url-loader](https://www.npmjs.com/package/url-loader).
+First [css-loader](https://www.npmjs.com/package/css-loader) goes through possible `@import` and `url()` statements within the matched files and treats them as regular `require`. This allows us to rely on various other loaders such as [file-loader](https://www.npmjs.com/package/file-loader) or [url-loader](https://www.npmjs.com/package/url-loader).
 
 `file-loader` generates files, whereas `url-loader` can create inline data URLs for small resources. This can be useful for optimizing application loading. You avoid unnecessary requests while providing a slightly bigger payload. Small improvements can yield large benefits if you depend on a lot of small resources in your style definitions.
 
@@ -39,13 +39,13 @@ Finally `style-loader` picks up `css-loader` output and injects the CSS into the
 
 What happens when your application starts to expand and new concepts get added? Broad CSS selectors are like globals. The problem gets even worse if you have to deal with loading order. If selectors end up in a tie, the last declaration wins, unless there's `!important` somewhere. It gets complex very fast.
 
-We could battle this problem by making the selectors more specific, using some naming rules, and so on. Where do we draw the line? There are various alternative methodologies you can consider.
+We could battle this problem by making the selectors more specific, using some naming rules, and so on. That just delays the inevitable. As people have battled with this problem for a while, various methodologies have emerged.
 
 Particularly [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS), and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each of them solves problems of vanilla CSS in their own way.
 
 ### BEM
 
-BEM originates from Yandex. They realized the traditional way of dealing with CSS isn't enough. As a result, they decided to do something about it. The goal of BEM is to allow reusable components and code sharing through that. Sites such as [Get BEM](http://getbem.com/) help you to understand the methodology in more detail.
+BEM originates from Yandex. The goal of BEM is to allow reusable components and code sharing. Sites such as [Get BEM](http://getbem.com/) help you to understand the methodology in more detail.
 
 Maintaining long class names which BEM requires can be arduous. Thus various libraries have appeared to make this easier. For React, examples of these are [react-bem-helper](https://www.npmjs.com/package/react-bem-helper), [react-bem-render](https://www.npmjs.com/package/react-bem-render), and [bem-react](https://www.npmjs.com/package/bem-react).
 
@@ -57,42 +57,29 @@ Just like BEM, both OOCSS and SMACSS come with their own conventions and methodo
 
 ### Pros and Cons
 
-The primary benefit of adopting a methodology is that it brings certain structure to your project. Rather than writing ad hoc rules and hoping everything works, you will have something stronger to fall back onto. The methodologies overcome some of the basic issues and help you develop good software over the long term. The conventions they bring to a project help with maintenance and are less prone to lead to a mess.
+The primary benefit of adopting a methodology is that it brings structure to your project. Rather than writing ad hoc rules and hoping everything works, you will have something stronger to fall back onto. The methodologies overcome some of the basic issues and help you develop good software over the long term. The conventions they bring to a project help with maintenance and are less prone to lead to a mess.
 
-On the downside once you adopt one you are pretty much stuck with that on your project. But if you are willing to commit, there are benefits to gain.
+On the downside once you adopt one, you are pretty much stuck with that and it's going to be difficult to migrate. But if you are willing to commit, there are benefits to gain.
 
 The methodologies also bring their own quirks (e.g., complex naming schemes). This may make certain things more complicated than they have to be. They don't necessarily solve any of the bigger underlying issues. They rather provide patches around them.
 
-There are various approaches that go deeper and solve some of these fundamental problems. That said, it's not an either-or proposition. You may adopt a methodology even if you use some preprocessor.
+There are various approaches that go deeper and solve some of these fundamental problems. That said, it's not an either-or proposition. You may adopt a methodology even if you use some CSS processor.
 
-## cssnext, Less, Sass, Stylus
+## Less, Sass, Stylus, PostCSS, cssnext
 
-Vanilla CSS is missing some functionality that would make maintenance work easier. Consider something basic like variables, math or color functions, and so on. It would also be nice to be able to forget about browser specific prefixes. These are small things that add up quite fast and make it annoying to write vanilla CSS.
+![CSS Processors](images/css.png)
 
-### cssnext
+Vanilla CSS is missing some functionality that would make maintenance work easier. Consider something basic like variables, nesting, mixins, math or color functions, and so on. It would also be nice to be able to forget about browser specific prefixes. These are small things that add up quite fast and make it annoying to write vanilla CSS.
 
-![cssnext](images/cssnext.jpg)
+Sometimes you may see terms *preprocessor* or *postprocessor*. [Stefan Baumgartner](https://medium.com/@ddprrt/deconfusing-pre-and-post-processing-d68e3bd078a3) calls these tools simply *CSS processors*. The image above adapted based on Stefan's work gets to the point. The tooling operates both on authoring and optimization level. By authoring we mean features that make it easier to write CSS. Optimization features operate based on vanilla CSS and convert it into something more optimal for browsers to consume.
 
-[cssnext](https://cssnext.github.io/) is a project that allows us to experience the future now. There are some restrictions, but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case, you would end up with the following:
-
-```javascript
-{
-  test: /\.css$/,
-  loaders: ['style', 'css', 'cssnext']
-}
-```
-
-Note how we pipe cssnext output to css-loader and then to style-loader. This is generally the way you use these type of style loaders. You let them do their processing first and then defer to the default way of loading styling.
-
-The advantage of this approach is that you will literally be coding in the future. As browsers get better and adopt the standards, you don't have to worry about porting.
-
-If that sounds a little too much, or you are just interested in a particular feature such as autoprefixing, you can check out [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader) and [postcss-loader](https://www.npmjs.com/package/postcss-loader). cssnext relies on PostCSS. It provides you with a more granular level of control of CSS plugins. You can even implement your own using a bit of JavaScript.
+The interesting thing is that you may actually want to use multiple CSS processors. Stefan's image illustrates how you can author your code using Sass and still benefit from processing done through PostCSS. For example, it can *autoprefix* your CSS code so that you don't have to worry about prefixing per browser anymore.
 
 ### Less
 
 ![Less](images/less.png)
 
-Less is a popular CSS preprocessor that implements the functionality we talked about. It comes with a syntax of its own. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
+[Less](http://lesscss.org/) is a popular CSS processor that is packed with functionality. In Webpack using Less doesn't take a lot of effort. [less-loader](https://www.npmjs.com/package/less-loader) deals with the heavy lifting:
 
 ```javascript
 {
@@ -107,7 +94,7 @@ There is also support for Less plugins, sourcemaps, and so on. To understand how
 
 ![Sass](images/sass.png)
 
-Sass is a popular alternative to Less. You should use [sass-loader](https://www.npmjs.com/package/sass-loader) with it. Remember to install `node-sass` to your project as the loader has a peer dependency on that. Webpack doesn't take much configuration:
+[Sass](http://sass-lang.com/) is a popular alternative to Less. You should use [sass-loader](https://www.npmjs.com/package/sass-loader) with it. Remember to install `node-sass` to your project as the loader has a peer dependency on that. Webpack doesn't take much configuration:
 
 ```javascript
 {
@@ -122,7 +109,7 @@ Check out the loader for more advanced usage.
 
 ![Stylus](images/stylus.png)
 
-Stylus is a Python inspired way to write CSS. Besides providing an indentation based syntax, it is a full-featured preprocessor. When using Webpack, you can use [stylus-loader](https://www.npmjs.com/package/stylus-loader) to Stylus within your project. Configure as follows:
+[Stylus](https://learnboost.github.io/stylus/) is a Python inspired way to write CSS. Besides providing an indentation based syntax, it is a full-featured processor. When using Webpack, you can use [stylus-loader](https://www.npmjs.com/package/stylus-loader) to Stylus within your project. Configure as follows:
 
 ```javascript
 {
@@ -133,9 +120,50 @@ Stylus is a Python inspired way to write CSS. Besides providing an indentation b
 
 You can also use Stylus plugins with it by setting `stylus.use: [plugin()]`. Check out the loader for more information.
 
+### PostCSS
+
+[PostCSS](https://github.com/postcss/postcss) allows you to perform transformations over CSS through JavaScript plugins. You can even find plugins that provide you Sass-like features. PostCSS can be thought as the equivalent of Babel for styling. It can be used through [postcss-loader](https://www.npmjs.com/package/postcss-loader) with Webpack as below:
+
+```javascript
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
+
+module.exports = {
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css', 'postcss']
+      }
+    ]
+  },
+  // PostCSS plugins go here
+  postcss: function () {
+      return [autoprefixer, precss];
+  }
+};
+```
+
+### cssnext
+
+![cssnext](images/cssnext.jpg)
+
+[cssnext](https://cssnext.github.io/) is a PostCSS plugin that allows us to experience the future now. There are some restrictions, but it may be worth a go. In Webpack it is simply a matter of installing [cssnext-loader](https://www.npmjs.com/package/cssnext-loader) and attaching it to your CSS configuration. In our case, you would end up with the following:
+
+```javascript
+{
+  test: /\.css$/,
+  loaders: ['style', 'css', 'cssnext']
+}
+```
+
+Alternatively you could consume it through *postcss-loader* as a plugin if you need more control.
+
+The advantage of PostCSS and cssnext is that you will literally be coding in the future. As browsers get better and adopt the standards, you don't have to worry about porting.
+
 ### Pros and Cons
 
-Compared to vanilla CSS, preprocessors bring a lot to the table. They deal with certain annoyances (e.g., autoprefixing) and provide useful features. Particularly cssnext and PostCSS seem future proof alternatives to me. That said, I can see value in other preprocessors as they are established and well understood projects.
+Compared to vanilla CSS, processors bring a lot to the table. They deal with certain annoyances (e.g., autoprefixing) while improving your productivity. PostCSS is more granular by definition and allows you to use just the features you want. Processors, such as Less or Sass, are more involved. These approaches can be used together, though, so you could for instance author your styling in Sass and then apply some PostCSS plugins to it as you see necessary.
 
 In our project we could benefit from cssnext even if we didn't make any changes to our CSS. Thanks to autoprefixing, rounded corners of our lanes would look good even in legacy browsers. In addition, we could parameterize styling thanks to variables.
 
