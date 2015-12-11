@@ -486,7 +486,7 @@ Analyzing build statistics is a good step towards understanding Webpack better. 
 
 In order to get suitable output we'll need to do a couple of tweaks to our configuration:
 
-**package.js**
+**package.json**
 
 ```json
 {
