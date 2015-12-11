@@ -210,6 +210,8 @@ T> Note that the current setup won't output a bundle at all given the developmen
 
 T> In case the amount of console output annoys you, you can set `quiet: true` at `devServer` configuration to keep it minimal.
 
+T> If you are using an environment, such as Cloud9, you should set `HOST` to `0.0.0.0`. The default `localhost` isn't the best option always.
+
 ### Alternative Ways to Use *webpack-dev-server*
 
 We could have passed *webpack-dev-server* options through the command line interface (CLI). I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy. Alternatively we could have set up an Express server of our own and used *webpack-dev-server* as a [middleware](https://webpack.github.io/docs/webpack-dev-middleware.html). There's also a [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api).
