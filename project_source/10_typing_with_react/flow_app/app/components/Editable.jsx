@@ -2,7 +2,7 @@
 import React from 'react';
 
 export default class Editable extends React.Component {
-  render(): any {
+  render(): ReactElement {
     const {value, onEdit, onValueClick, editing, ...props} = this.props;
 
     return (
@@ -11,14 +11,14 @@ export default class Editable extends React.Component {
       </div>
     );
   }
-  renderEdit: () => any = () => {
+  renderEdit: () => ReactElement = () => {
     return <input type="text"
       autoFocus={true}
       defaultValue={this.props.value}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   };
-  renderValue: () => any = () => {
+  renderValue: () => ReactElement = () => {
     const onDelete = this.props.onDelete;
 
     return (
@@ -28,7 +28,7 @@ export default class Editable extends React.Component {
       </div>
     );
   };
-  renderDelete: () => any = () => {
+  renderDelete: () => ReactElement = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
   };
   checkEnter: (e: Object) => void = () => {

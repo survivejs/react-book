@@ -48,7 +48,7 @@ class Lane extends React.Component {
     this.editName = this.editName.bind(this, id);
     this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
   }
-  render(): any {
+  render(): ReactElement {
     const {connectDropTarget, lane, ...props} = this.props;
     const id = lane.id;
 

@@ -15,12 +15,12 @@ export default class Notes extends React.Component {
     onEdit: () => any,
     onDelete: () => any
   };
-  render(): any {
+  render(): ReactElement {
     const notes = this.props.items;
 
     return <ul className="notes">{notes.map(this.renderNote, this)}</ul>;
   }
-  renderNote(note: Object) {
+  renderNote(note: Object): ReactElement {
     return (
       <Note className="note" onMove={LaneActions.move}
         id={note.id} key={note.id}>
