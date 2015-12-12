@@ -561,7 +561,7 @@ export default class Notes extends React.Component {
   render() {
     ...
   }
-  renderNote = (note) => {
+  renderNote(note) {
     return (
       <li className="note" key={note.id}>
         <Note
