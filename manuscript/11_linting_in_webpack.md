@@ -352,7 +352,7 @@ var common = {
   postcss: function () {
     return [stylelint({
       rules: {
-        'color-hex-case': 2
+        'color-hex-case': 'lower'
       }
     })];
   },
