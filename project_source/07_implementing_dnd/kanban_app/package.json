@@ -15,23 +15,23 @@
   "devDependencies": {
     "babel-loader": "^5.3.2",
     "babel-plugin-react-transform": "^1.1.1",
-    "css-loader": "^0.15.5",
-    "html-webpack-plugin": "^1.6.0",
+    "css-loader": "^0.23.0",
+    "html-webpack-plugin": "^1.7.0",
     "react-transform-hmr": "^1.0.1",
-    "style-loader": "^0.12.3",
-    "webpack": "^1.10.1",
-    "webpack-dev-server": "^1.10.1",
-    "webpack-merge": "^0.1.2"
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0",
+    "webpack-merge": "^0.3.2"
   },
   "dependencies": {
     "alt": "^0.18.1",
     "alt-container": "^1.0.0",
     "alt-utils": "^1.0.0",
-    "node-uuid": "^1.4.3",
-    "react": "^0.14.0",
+    "node-uuid": "^1.4.7",
+    "react": "^0.14.3",
     "react-addons-update": "^0.14.3",
-    "react-dnd": "^2.0.0",
+    "react-dnd": "^2.0.2",
     "react-dnd-html5-backend": "^2.0.0",
-    "react-dom": "^0.14.0"
+    "react-dom": "^0.14.3"
   }
 }
