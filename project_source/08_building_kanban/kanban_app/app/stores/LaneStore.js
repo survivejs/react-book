@@ -78,15 +78,7 @@ class LaneStore {
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes.map((lane) => {
       if(lane.id === laneId) {
-        const notes = lane.notes;
-        const removeIndex = notes.indexOf(noteId);
-
-        if(removeIndex !== -1) {
-          lane.notes = notes.filter((note) => note.id !== removeIndex);
-        }
-        else {
-          console.warn('Failed to remove note from a lane as it didn\'t exist', lanes);
-        }
+        lane.notes = lane.notes.filter((note) => note !== noteId);
       }
 
       return lane;
