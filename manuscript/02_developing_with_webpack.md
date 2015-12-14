@@ -8,7 +8,7 @@ W> Before getting started, make sure you are using a recent version of Node.js. 
 
 ## Setting Up the Project
 
-Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and that you have `npm` available at your terminal. Set up a directory for your project, navigate there, hit `npm init` and fill in some details. You can just hit *return* for each and it will work. Here are the commands:
+Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Make sure you have it installed and that you have `npm` available at your terminal. Set up a directory for your project, navigate there, execute `npm init`, and fill in some details. You can just hit *return* for each and it will work. Here are the commands:
 
 ```bash
 mkdir kanban_app
@@ -37,13 +37,13 @@ T> You can push operating system level ignore rules such as *.DS_Store* and *\*.
 
 ## Installing Webpack
 
-Next, you should get Webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain Webpack's version per project. Hit
+Next, you should get Webpack installed. We'll do a local install and save it as a project dependency. This will allow us to maintain Webpack's version per project. Execute
 
 ```bash
 npm i webpack --save-dev
 ```
 
-This is a good opportunity to try to run Webpack for the first time. Hit `node_modules/.bin/webpack`. You should see a version log, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality if nothing else.
+This is a good opportunity to try to run Webpack for the first time. Trigger `node_modules/.bin/webpack`. You should see a version log, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality if nothing else.
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation). It is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler. This way you have direct control over the version you are running.
 
@@ -96,7 +96,7 @@ app.appendChild(component());
 
 We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll build *webpack.config.js*. Webpack and its development server will be able to discover this file through convention.
 
-To keep things simple, we'll generate an entry point to our application using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. *html-webpack-plugin* is able to create links to our assets keeping our life simple. Hit
+To keep things simple, we'll generate an entry point to our application using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. *html-webpack-plugin* is able to create links to our assets keeping our life simple. Execute
 
 ```bash
 npm i html-webpack-plugin --save-dev
@@ -135,7 +135,7 @@ module.exports = {
 
 Given Webpack expects absolute paths we have some good options here. I like to use `path.join`, but `path.resolve` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
-If you hit `node_modules/.bin/webpack`, you should see a Webpack build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open build/index.html` to see the result.
+If you trigger `node_modules/.bin/webpack`, you should see a Webpack build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open build/index.html` to see the result.
 
 Another way to achieve this would be to serve the contents of the directory through a server such as *serve* (`npm i serve -g`). In this case you would execute `serve` at the output directory and head to `localhost:3000` at your browser. You can configure the port through the `--port` parameter if you want to use some other port.
 
@@ -147,7 +147,7 @@ Now that we have the basic building blocks together, we can set up a development
 
 This makes it roughly equivalent to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through React.
 
-Hit
+Execute
 
 ```bash
 npm i webpack-dev-server --save-dev
@@ -200,7 +200,7 @@ module.exports = {
 };
 ```
 
-Hit `npm start` and surf to **localhost:8080**. You should see something familiar there. Try modifying *app/component.js* while the server is running and see what happens. Quite neat, huh?
+Execute `npm start` and surf to **localhost:8080**. You should see something familiar there. Try modifying *app/component.js* while the server is running and see what happens. Quite neat, huh?
 
 ![Hello world](images/hello_01.png)
 
@@ -306,7 +306,7 @@ require('./main.css');
 ...
 ```
 
-Hit `npm start` now. Point your browser to **localhost:8080** if you are using the default port.
+Execute `npm start` now. Point your browser to **localhost:8080** if you are using the default port.
 
 Open up *main.css* and change the background color to something like `lime` (`background: lime`). Develop styles as needed to make it look a little nicer.
 
@@ -324,7 +324,7 @@ T> Webpack works well as a basis for more advanced tools. I've helped to develop
 
 ### Setting Up Configuration Target for `npm start`
 
-To keep things simple, I've defined a custom `merge` function that concatenates arrays and merges objects. This is convenient with Webpack. Hit
+To keep things simple, I've defined a custom `merge` function that concatenates arrays and merges objects. This is convenient with Webpack. Execute
 
 ```bash
 npm i webpack-merge --save-dev

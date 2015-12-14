@@ -4,7 +4,7 @@ Our Kanban application is almost usable now. It looks alright and there's some b
 
 ## Setting Up React DnD
 
-Before going further hit
+Before going further, execute
 
 ```bash
 npm i react-dnd react-dnd-html5-backend --save

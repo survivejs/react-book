@@ -161,7 +161,7 @@ T> It is possible to use Babel features at your Webpack configuration. Simply re
 
 ## Developing the First React View
 
-It is time to add a first application level dependency to our project. Hit
+It is time to add a first application level dependency to our project. Execute
 
 ```bash
 npm i react react-dom --save
@@ -238,7 +238,7 @@ If I want something mutable, I'll use `let` instead. `let` is scoped to the code
 
 W> Avoid rendering directly to `document.body`. This can cause strange problems when relying on it. Instead give React a little sandbox of its own. That way everyone, including React, will stay happy.
 
-If you hit `npm start` now, you should see something familiar at **localhost:8080**.
+If you execute `npm start` now, you should see something familiar at **localhost:8080**.
 
 ![Hello React](images/react_01.png)
 
@@ -306,7 +306,7 @@ In addition we need to expand Babel configuration to include the plugin we need 
 }
 ```
 
-Try hitting `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things such as this add up and make you more effective.
+Try executing `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things such as this add up and make you more effective.
 
 Note that Babel determines the value of `env` like this:
 

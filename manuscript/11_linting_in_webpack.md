@@ -72,7 +72,7 @@ T> Since *v1.4.0* ESLint supports a feature known as [autofixing](http://eslint.
 
 ### Connecting ESlint with *package.json*
 
-In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. First we'll need to hit
+In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. First we'll need to execute
 
 ```bash
 npm i babel-eslint eslint eslint-plugin-react --save-dev
@@ -163,7 +163,7 @@ The problem with this approach is that if you invoke `lint` through some other c
 
 ### Connecting ESLint with Webpack
 
-We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step hit
+We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step execute
 
 ```bash
 npm i eslint-loader --save-dev
@@ -262,7 +262,7 @@ To get a better idea of how AST works and what it looks like, you can check [Esp
 In ESLint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
 1. Set up a new project named `eslint-plugin-custom`. You can replace `custom` with whatever you want. ESLint follows this naming convention.
-2. Hit `npm init` to create a dummy *package.json*
+2. Trigger `npm init` to create a dummy *package.json*
 3. Set up `index.js` in the project root with content like this:
 
 **eslint-plugin-custom/index.js**
@@ -283,7 +283,7 @@ module.exports = {
 
 In this case, we just report for every identifier found. In practice, you'll likely want to do something more complex than this, but this is a good starting point.
 
-Next, you need to hit `npm link` within `eslint-plugin-custom`. This will make your plugin visible within your system. `npm link` allows you to easily consume a development version of a library you are developing. To reverse the link you can hit `npm unlink` when you feel like it.
+Next, you need to execute `npm link` within `eslint-plugin-custom`. This will make your plugin visible within your system. `npm link` allows you to easily consume a development version of a library you are developing. To reverse the link you can execute `npm unlink` when you feel like it.
 
 T> If you want to do something serious, you should point to your plugin through *package.json*.
 

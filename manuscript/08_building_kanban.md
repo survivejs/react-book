@@ -85,7 +85,7 @@ if(TARGET === 'build') {
 
 T> Uglify warnings can help you to understand how it processes the code. Therefore it may be beneficial to have a peek at the output every once in a while.
 
-If you hit `npm run build` now, you should see better results:
+If you trigger `npm run build` now, you should see better results:
 
 ```bash
 Hash: 30b18807737f5bc0e462
@@ -145,7 +145,7 @@ If you prefer something more terse, you could use `__DEV__ === 'dev'` kind of sy
 
 T> That `JSON.stringify` is needed, as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the double quotation marks (").
 
-Hit `npm run build` again, and you should see improved results:
+Trigger `npm run build` again, and you should see improved results:
 
 ```bash
 Version: webpack 1.12.9
@@ -311,7 +311,7 @@ if(TARGET === 'build') {
 }
 ```
 
-If you hit `npm run build` now, you should see output like this.
+If you execute `npm run build` now, you should see output like this.
 
 ```bash
 Hash: 60db5ab202527c9b3f25
@@ -372,7 +372,7 @@ Even though we have a nice build set up now, where did all the CSS go? As per ou
 
 It just so happens that Webpack provides a means to generate a separate CSS bundle. We can achieve this using the `ExtractTextPlugin`. It comes with overhead during the compilation phase, and it won't work with Hot Module Replacement (HMR) by design. Given we are using it only for production, that won't be a problem.
 
-It will take some configuration to make it work. Hit
+It will take some configuration to make it work. Execute
 
 ```bash
 npm i extract-text-webpack-plugin --save-dev
@@ -517,7 +517,7 @@ if(TARGET === 'build' || TARGET === 'stats') {
 ...
 ```
 
-If you hit `npm run stats` now, you should find *stats.json* at your project root after it has finished processing. We can take this file and pass it to [the online tool](http://webpack.github.io/analyse/). Note that the tool works only over HTTP! If your data is sensitive, consider using [the standalone version](https://github.com/webpack/analyse) instead.
+If you trigger `npm run stats` now, you should find *stats.json* at your project root after it has finished processing. We can take this file and pass it to [the online tool](http://webpack.github.io/analyse/). Note that the tool works only over HTTP! If your data is sensitive, consider using [the standalone version](https://github.com/webpack/analyse) instead.
 
 Besides helping you to understand your bundle composition, the tool can help you to optimize your output further.
 
@@ -527,7 +527,7 @@ There's no one right way to deploy our application. `npm run build` provides us 
 
 ### Hosting on GitHub Pages
 
-A package known as [gh-pages](https://www.npmjs.com/package/gh-pages) allows us to achieve this easily. You point it to your build directory first. It will then pick up the contents and push them to the `gh-pages` branch. To get started, hit
+A package known as [gh-pages](https://www.npmjs.com/package/gh-pages) allows us to achieve this easily. You point it to your build directory first. It will then pick up the contents and push them to the `gh-pages` branch. To get started, execute
 
 ```bash
 npm i gh-pages --save-dev
@@ -578,7 +578,7 @@ function main() {
 }
 ```
 
-If you hit `npm run deploy` now and everything goes fine, you should have your application hosted through GitHub Pages. You should find it at `https://<name>.github.io/<project>` (*github.com/<name>/<project>* at GitHub) assuming it worked.
+If you trigger `npm run deploy` now and everything goes fine, you should have your application hosted through GitHub Pages. You should find it at `https://<name>.github.io/<project>` (*github.com/<name>/<project>* at GitHub) assuming it worked.
 
 ## Conclusion
 

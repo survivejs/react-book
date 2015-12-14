@@ -110,13 +110,13 @@ T> `npm init` respects the values set at *~/.npmrc*. Hence it may be worth your 
 
 ### Publishing a Package
 
-Provided you have logged in, creating new packages is just a matter of hitting `npm publish`. Given that the package name is still available and everything goes fine, you should have something out there! After this you can install your package through `npm install` or `npm i` as we've done so many times before in this book.
+Provided you have logged in, creating new packages is just a matter of executing `npm publish`. Given that the package name is still available and everything goes fine, you should have something out there! After this you can install your package through `npm install` or `npm i` as we've done so many times before in this book.
 
 An alternative way to consume a library is to point at it directly in *package.json*. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
 
 ### Bumping a Version
 
-In order to bump your package version, you'll just need to invoke `npm version <x.y.z>`. That will update *package.json* and create a version commit to git automatically. If you hit `npm publish`, you should have something new out there.
+In order to bump your package version, you'll just need to invoke `npm version <x.y.z>`. That will update *package.json* and create a version commit to git automatically. If you execute `npm publish` now, you should have something new out there.
 
 Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case.
 
@@ -322,7 +322,7 @@ Since we want to avoid having to run the command directly whenever we publish a 
 }
 ```
 
-Make sure you hit `npm i babel --save-dev` to include the tool into your project.
+Make sure you execute `npm i babel --save-dev` to include the tool into your project.
 
 You probably don't want the directory content to end up in your Git repository. In order to avoid this and to keep your `git status` clean, consider this sort of `.gitignore`:
 
