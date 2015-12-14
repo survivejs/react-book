@@ -153,7 +153,7 @@ Hit
 npm i webpack-dev-server --save-dev
 ```
 
-at the project root to get the server installed. We will be invoking our development server through npm. Npm allows us to define `scripts` in it's *package.json* configuration file. The following configuration is enough:
+at the project root to get the server installed. We will be invoking our development server through npm. npm allows us to define `scripts` in it's *package.json* configuration file. The following configuration is enough:
 
 **package.json**
 

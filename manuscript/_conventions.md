@@ -5,6 +5,8 @@
 
 ## npm
 
+* *npm* should be in lowercase even if it's in the beginning of a sentence.
+
 Use
 
 ```bash
