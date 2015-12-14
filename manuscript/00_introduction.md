@@ -82,6 +82,18 @@ I announce SurviveJS related news through a couple of channels:
 
 Feel free to subscribe.
 
+## Book Versioning
+
+Given this book receives a fair amount of maintenance and improvements, there's a rough versioning scheme in place. I maintain release notes for each new version at the [book blog](http://survivejs.com/blog/). That should give you a good idea of what has changed between versions. Also examining the GitHub repository may be beneficial. I recommend using the GitHub *compare* tool for this purpose. Example:
+
+```
+https://github.com/survivejs/webpack_react/compare/v1.9.10...v1.9.17
+```
+
+The page will show you the individual commits that went to the project between the given version range. You can also see the lines that have changed in the book. This excludes the private chapters, but it's enough to give you a good idea of the major changes made to the book.
+
+The current version of the book is **1.9.17**.
+
 ## Acknowledgments
 
 Big thanks to [Christian Alfoni](http://www.christianalfoni.com/) for starting the [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) with me. That work eventually lead to this book.
