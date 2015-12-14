@@ -171,7 +171,9 @@ We also need to do some configuration work. We are going to use a simplified set
 
 ```javascript
 ...
+leanpub-start-insert
 var webpack = require('webpack');
+leanpub-end-insert
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
@@ -180,6 +182,7 @@ const PATHS = {
 
 module.exports = {
   ...
+leanpub-start-insert
   devServer: {
     historyApiFallback: true,
     hot: true,
@@ -193,8 +196,11 @@ module.exports = {
     host: process.env.HOST,
     port: process.env.PORT
   },
+leanpub-end-insert
   plugins: [
+leanpub-start-insert
     new webpack.HotModuleReplacementPlugin(),
+leanpub-end-insert
     ...
   ]
 };
