@@ -153,7 +153,7 @@ Hit
 npm i webpack-dev-server --save-dev
 ```
 
-at the project root to get the server installed. We will be invoking our development server through npm. It allows us to set up `scripts` at *package.json*. The following configuration is enough:
+at the project root to get the server installed. We will be invoking our development server through npm. Npm allows us to define `scripts` in it's *package.json* configuration file. The following configuration is enough:
 
 **package.json**
 
@@ -206,27 +206,27 @@ Hit `npm start` and surf to **localhost:8080**. You should see something familia
 
 You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
 
-T> Note that the current setup won't output a bundle at all given the development setup runs in-memory. We will set up a proper bundle at the build chapter.
+T> Note that the current setup won't output a bundle to disk given the development setup runs in-memory. We will set up a proper bundle in the build chapter.
 
-T> In case the amount of console output annoys you, you can set `quiet: true` at `devServer` configuration to keep it minimal.
+T> In case the amount of console output annoys you, you can set `quiet: true` in the `devServer` configuration object to keep it minimal.
 
-T> If you are using an environment, such as Cloud9, you should set `HOST` to `0.0.0.0`. The default `localhost` isn't the best option always.
+T> If you are using an environment, such as Cloud9, you should set `HOST` to `0.0.0.0`. The default `localhost` isn't always the best option.
 
 ### Alternative Ways to Use *webpack-dev-server*
 
 We could have passed *webpack-dev-server* options through the command line interface (CLI). I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy. Alternatively we could have set up an Express server of our own and used *webpack-dev-server* as a [middleware](https://webpack.github.io/docs/webpack-dev-middleware.html). There's also a [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api).
 
-W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and Node.js API and they may behave slightly differently at times. This is the reason why some prefer to use solely Node.js API.
+W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and the Node.js API and they may behave slightly differently at times. This is the reason why some prefer to solely use the Node.js API.
 
 ### Customizing Server *host* and *port*
 
 It is possible to customize host and port settings through the environment in our setup (i.e., `export PORT=3000` on Unix or `SET PORT=3000` on Windows). This can be useful if you want to access your server within the same network. The default settings are enough on most platforms.
 
-To access your server, you'll need to figure out the ip of your machine. On Unix this can be achieved using `ifconfig`. On Windows `ipconfig` can be used. A npm package, such as [node-ip](https://www.npmjs.com/package/node-ip) may come in handy as well. Especially on Windows you may need to set your `HOST` to match your ip to make it accessible.
+To access your server, you'll need to figure out the ip of your machine. On Unix this can be achieved using `ifconfig`. On Windows `ipconfig` can be used. An npm package, such as [node-ip](https://www.npmjs.com/package/node-ip) may come in handy as well. Especially on Windows you may need to set your `HOST` to match your ip to make it accessible.
 
 ## Refreshing CSS
 
-We can extend the approach to work with CSS. Webpack allows us to change CSS without forcing a full refresh. To load CSS into a project, we'll need to use a couple of loaders. To get started, invoke
+We can extend this approach to work with CSS. Webpack allows us to change CSS without forcing a full refresh. To load CSS into a project, we'll need to use a couple of loaders. To get started, invoke
 
 ```bash
 npm i css-loader style-loader --save-dev
@@ -318,7 +318,7 @@ Our current configuration is enough as long as we're interested in just developi
 
 * Maintain configuration in multiple files and point Webpack to each through `--config` parameter. Share configuration through module imports. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
 * Push configuration to a library which you then consume. Example: [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack).
-* Maintain configuration within a single file and branch there. If we trigger a script through *npm* (i.e., `npm run test`), npm sets this information to an environment variable. We can match against it and return the configuration we want. I prefer this approach as it allows me to understand what's going on easily. We'll be using this approach.
+* Maintain configuration within a single file and branch there. If we trigger a script through *npm* (i.e., `npm run test`), npm sets this information in an environment variable. We can match against it and return the configuration we want. I prefer this approach as it allows me to understand what's going on easily. We'll be using this approach.
 
 T> Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon Webpack and React and hides a lot of the complexity from the user.
 
@@ -330,7 +330,9 @@ To keep things simple, I've defined a custom `merge` function that concatenates 
 npm i webpack-merge --save-dev
 ```
 
-to add it to the project. We will detect the npm lifecycle event (`start`, `build`, ...) and then return configuration for each case. We will define more of these later on as we expand the project.
+to add it to the project. 
+
+We will detect npm lifecycle events (`start`, `build`, ...) and then return a configuration for each case. We will define more of these later on as we expand the project.
 
 To improve the debuggability of the application, we can set up sourcemaps while we are at it. They allow you to see exactly where an error was raised. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
 
@@ -351,7 +353,7 @@ const PATHS = {
 var common = {
   entry: PATHS.app,
   // Given webpack-dev-server runs in-memory, we can drop
-  // `output`. We'll look into it again once we get to the
+  // `output`. We'll look into it again in the
   // build chapter.
   /*output: {
     path: PATHS.build,
@@ -406,14 +408,14 @@ W> If `new webpack.HotModuleReplacementPlugin()` is added twice to the plugins d
 
 Faster development specific options such as `cheap-module-eval-source-map` and `eval` produce lower quality sourcemaps. Especially `eval` is fast and is the most suitable for large projects.
 
-It is possible you may need to enable sourcemaps at your browser for this to work. See [Chrome](https://developer.chrome.com/devtools/docs/javascript-debugging) and [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) instructions for further details.
+It is possible you may need to enable sourcemaps in your browser for this to work. See [Chrome](https://developer.chrome.com/devtools/docs/javascript-debugging) and [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) instructions for further details.
 
-Configuration could contain more sections such as these based on your needs. Later on we'll develop another section to generate a production build.
+The configuration could contain more sections based on your needs. Later on we'll develop another section to generate a production build.
 
 ## Linting the Project
 
-I discuss linting in detail in the *Linting in Webpack* chapter. Consider integrating the setup to your project to save some time. It will allow you to pick certain categories of errors earlier.
+I discuss linting in detail in the *Linting in Webpack* chapter. Consider integrating that setup into your project to save some debugging time. It will allow you to pick up certain categories of errors earlier.
 
 ## Conclusion
 
-In this chapter you learned to build an effective development configuration using Webpack. Webpack deals with the heavy lifting for you now. The current setup can be expanded to support more scenarios. Next, we will see how to expand it to work with React.
+In this chapter you learned to build an effective development configuration using Webpack. With this configuration Webpack deals with the heavy lifting for you. The current setup can be expanded to support even more scenarios. Next, we will see how to expand it to work with React.
