@@ -139,6 +139,7 @@ class NoteStore {
     ...
   }
   create(note) {
+leanpub-start-insert
     const notes = this.notes;
 
     note.id = uuid.v4();
@@ -146,6 +147,7 @@ class NoteStore {
     this.setState({
       notes: notes.concat(note)
     });
+leanpub-end-insert
   }
   ...
 }
@@ -167,6 +169,7 @@ To keep the implementation clean, we are using `this.setState`. It is a feature 
 class NoteStore {
   ...
   update({id, task}) {
+leanpub-start-insert
     const notes = this.notes.map((note) => {
       if(note.id === id) {
         note.task = task;
@@ -176,6 +179,7 @@ class NoteStore {
     });
 
     this.setState({notes});
+leanpub-end-insert
   }
   delete(id) {
 
@@ -201,9 +205,11 @@ T> `{notes}` is known as a an ES6 feature known as [property shorthand](https://
 class NoteStore {
   ...
   delete(id) {
+leanpub-start-insert
     this.setState({
       notes: this.notes.filter((note) => note.id !== id)
     });
+leanpub-end-insert
   }
 }
 
@@ -231,17 +237,25 @@ Based on these ideas we can connect `App` with `NoteStore` and `NoteActions`:
 **app/components/App.jsx**
 
 ```javascript
+leanpub-start-delete
+import uuid from 'node-uuid';
+leanpub-end-delete
 import React from 'react';
 import Notes from './Notes.jsx';
+leanpub-start-insert
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
+leanpub-end-insert
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+leanpub-start-insert
     this.state = NoteStore.getState();
+leanpub-end-insert
   }
+leanpub-start-insert
   componentDidMount() {
     NoteStore.listen(this.storeChanged);
   }
@@ -253,6 +267,7 @@ export default class App extends React.Component {
     // point at the right context (defaults to `undefined` in strict mode).
     this.setState(state);
   }
+leanpub-end-insert
   render() {
     const notes = this.state.notes;
 
@@ -265,13 +280,19 @@ export default class App extends React.Component {
     );
   }
   addNote() {
+leanpub-start-insert
     NoteActions.create({task: 'New task'});
+leanpub-end-insert
   }
   editNote(id, task) {
+leanpub-start-insert
     NoteActions.update({id, task});
+leanpub-end-insert
   }
   deleteNote(id) {
+leanpub-start-insert
     NoteActions.delete(id);
+leanpub-end-insert
   }
 }
 ```
@@ -378,14 +399,18 @@ Finally, we need to trigger the persistency logic at initialization. We will nee
 
 ```javascript
 ...
+leanpub-start-insert
 import alt from './libs/alt';
 import storage from './libs/storage';
 import persist from './libs/persist';
+leanpub-end-insert
 
 main();
 
 function main() {
+leanpub-start-insert
   persist(alt, storage, 'app');
+leanpub-end-insert
 
   ...
 }
@@ -412,17 +437,38 @@ The implementation below illustrates how to bind it all together. Note how much 
 **app/components/App.jsx**
 
 ```javascript
+leanpub-start-insert
 import AltContainer from 'alt-container';
+leanpub-end-insert
 import React from 'react';
 import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class App extends React.Component {
+leanpub-delete-insert
+  constructor(props) {
+    super(props);
+
+    this.state = NoteStore.getState();
+  }
+  componentDidMount() {
+    NoteStore.listen(this.storeChanged);
+  }
+  componentWillUnmount() {
+    NoteStore.unlisten(this.storeChanged);
+  }
+  storeChanged = (state) => {
+    // Without a property initializer `this` wouldn't
+    // point at the right context (defaults to `undefined` in strict mode).
+    this.setState(state);
+  }
+leanpub-delete-end
   render() {
     return (
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
+leanpub-start-insert
         <AltContainer
           stores={[NoteStore]}
           inject={{
@@ -431,6 +477,7 @@ export default class App extends React.Component {
         >
           <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
         </AltContainer>
+leanpub-end-insert
       </div>
     );
   }
