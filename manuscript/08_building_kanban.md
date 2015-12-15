@@ -12,7 +12,9 @@ In our current setup, we always serve the application through `webpack-dev-serve
 {
   ...
   "scripts": {
+leanpub-start-insert
     "build": "webpack",
+leanpub-end-insert
     ...
   },
   ...
@@ -26,6 +28,7 @@ We'll also need some build specific configuration to make Webpack pick up our JS
 ```javascript
 ...
 
+leanpub-start-insert
 if(TARGET === 'build') {
   module.exports = merge(common, {
     output: {
@@ -35,6 +38,7 @@ if(TARGET === 'build') {
     devtool: 'source-map'
   });
 }
+leanpub-end-insert
 ```
 
 After these changes, `npm run build` should yield something like the following:
@@ -72,6 +76,7 @@ if(TARGET === 'build') {
       filename: 'bundle.js'
     },
     devtool: 'source-map',
+leanpub-start-insert
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -79,6 +84,7 @@ if(TARGET === 'build') {
         }
       })
     ]
+leanpub-end-insert
   });
 }
 ```
@@ -120,9 +126,11 @@ if(TARGET === 'build') {
     devtool: 'source-map',
     plugins: [
       // Setting DefinePlugin affects React library size!
+leanpub-start-insert
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production')
       }),
+leanpub-end-insert
       ...
     ]
   });
@@ -180,13 +188,16 @@ var webpack = require('webpack');
 var merge = require('webpack-merge');
 
 // Load *package.json* so we can use `dependencies` from there
+leanpub-start-insert
 var pkg = require('./package.json');
+leanpub-end-insert
 
 ...
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
     // Define entry points needed for splitting
+leanpub-start-insert
     entry: {
       app: PATHS.app,
       vendor: Object.keys(pkg.dependencies).filter(function(v) {
@@ -196,11 +207,20 @@ if(TARGET === 'build') {
         return v !== 'alt-utils';
       })
     },
+leanpub-end-insert
+leanpub-start-delete
+    output: {
+      path: PATHS.build,
+      filename: 'bundle.js'
+    },
+leanpub-end-delete
+leanpub-start-insert
     output: {
       path: PATHS.build,
       // Output using entry name
       filename: '[name].js'
     },
+leanpub-end-insert
     ...
   });
 }
@@ -241,9 +261,11 @@ if(TARGET === 'build') {
     },
     plugins: [
       // Extract vendor and manifest files
+leanpub-start-insert
       new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor', 'manifest']
       }),
+leanpub-end-insert
       ...
     ]
   });
@@ -297,15 +319,23 @@ We can use the placeholder idea within our configuration like this:
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: PATHS.app,
-      vendor: Object.keys(pkg.dependencies)
+      ...
     },
     /* important! */
+leanpub-start-delete
+    output: {
+      path: PATHS.build,
+      // Output using entry name
+      filename: '[name].js'
+    },
+leanpub-end-delete
+leanpub-start-insert
     output: {
       path: PATHS.build,
       filename: '[name].[chunkhash].js',
       chunkFilename: '[chunkhash].js'
     },
+leanpub-end-insert
     ...
   });
 }
@@ -347,7 +377,9 @@ to install the plugin. Change the build configuration as follows to integrate it
 
 ```javascript
 ...
+leanpub-start-insert
 var Clean = require('clean-webpack-plugin');
+leanpub-end-insert
 
 ...
 
@@ -355,7 +387,9 @@ if(TARGET === 'build') {
   module.exports = merge(common, {
     ...
     plugins: [
+leanpub-start-insert
       new Clean([PATHS.build]),
+leanpub-end-insert
       ...
     ]
   });
@@ -384,7 +418,9 @@ to get started. Next we need to get rid of our current CSS related declaration a
 
 ```javascript
 ...
+leanpub-start-insert
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+leanpub-end-insert
 
 ...
 
@@ -396,6 +432,13 @@ var common = {
   module: {
     loaders: [
       // Remove CSS specific section here
+leanpub-start-delete
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css'],
+        include: PATHS.app
+      },
+leanpub-end-delete
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
@@ -416,11 +459,13 @@ if(TARGET === 'start' || !TARGET) {
     module: {
       loaders: [
         // Define development specific CSS setup
+leanpub-start-insert
         {
           test: /\.css$/,
           loaders: ['style', 'css'],
           include: PATHS.app
         }
+leanpub-end-insert
       ]
     },
     ...
@@ -434,17 +479,21 @@ if(TARGET === 'build') {
     module: {
       loaders: [
         // Extract CSS during build
+leanpub-start-insert
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
           include: PATHS.app
         }
+leanpub-end-insert
       ]
     },
     plugins: [
       new Clean(['build']),
       // Output extracted CSS to a file
+leanpub-start-insert
       new ExtractTextPlugin('styles.[chunkhash].css'),
+leanpub-end-insert
       ...
     ]
   });
@@ -497,7 +546,9 @@ In order to get suitable output we'll need to do a couple of tweaks to our confi
 {
   ...
   "scripts": {
+leanpub-start-insert
     "stats": "webpack --profile --json > stats.json",
+leanpub-end-insert
     ...
   },
   ...
@@ -509,8 +560,12 @@ In order to get suitable output we'll need to do a couple of tweaks to our confi
 ```javascript
 ...
 
-//if(TARGET === 'build') {
+leanpub-start-delete
+if(TARGET === 'build') {
+leanpub-end-delete
+leanpub-start-insert
 if(TARGET === 'build' || TARGET === 'stats') {
+leanpub-end-insert
   ...
 }
 
@@ -541,7 +596,9 @@ We are also going to need an entry point at *package.json*:
 {
   ...
   "scripts": {
+leanpub-start-insert
     "deploy": "node ./lib/deploy.js",
+leanpub-end-insert
     ...
   },
   ...
@@ -555,8 +612,12 @@ In order to get access to our build path, we need to expose something useful for
 ```javascript
 ...
 
-//if(TARGET === 'build' || TARGET === 'stats') {
+leanpub-start-delete
+if(TARGET === 'build' || TARGET === 'stats') {
+leanpub-end-delete
+leanpub-start-insert
 if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
+leanpub-end-insert
   ...
 }
 
