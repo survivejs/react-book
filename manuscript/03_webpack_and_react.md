@@ -86,7 +86,7 @@ npm i babel-loader@5.x --save-dev
 
 W> We're using Babel 5 here for now as *babel-plugin-react-transform* still needs to receive its Babel 6 fixes. The configuration will change considerably with Babel 6!
 
-Besides, we need to add a loader declaration to the *loaders* section of configuration. It matches against `.js` and `.jsx` using a regular expression (`/\.jsx?$/`).
+We need to add a loader declaration for `babel-loader` to the *loaders* section of the configuration. It matches against both `.js` and `.jsx` using a regular expression (`/\.jsx?$/`).
 
 To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly. I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
@@ -99,8 +99,8 @@ Here's the relevant configuration we need to make Babel work:
 
 var common = {
   entry: PATHS.app,
-  // Add resolve.extensions. '' is needed to allow imports an extension
-  // Note the .'s before extensions!!! Without those matching will fail
+  // Add resolve.extensions. '' is needed to allow imports without an extension.
+  // Note the .'s before extensions!!! Without those matching will fail.
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -125,7 +125,7 @@ var common = {
 ...
 ```
 
-Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity, but for now you can omit it.
+Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity, but you can omit it.
 
 T> As `resolve.extensions` gets evaluated from left to right, we can use it to control which code gets loaded for given configuration. For instance, you could have `.web.js` to define web specific parts and then have something like `['', '.web.js', '.js', '.jsx']`. If a "web" version of the file is found, Webpack would use that instead of the default.
 
@@ -135,9 +135,9 @@ Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/).
 
 We are going to enable three specific features as these will allow us to keep our project neat:
 
-* [class properties](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `renderNote = (note) => {`. This binds `renderNote` method to instances automatically. The feature makes more sense as we get to use it.
-* [decorators](https://github.com/wycats/javascript-decorators) - Example: `@DragDropContext(HTML5Backend)`. These annotation allow us to attach functionality to classes and their methods.
-* [object rest spread](https://github.com/sebmarkbage/ecmascript-rest-spread) - Example: ``const {a, b, ...props} = this.props`. This syntax allows us to extract specific properties from an object easily.
+* [class properties](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `renderNote = (note) => {`. This binds the `renderNote` method to instances automatically. The feature makes more sense as we get to use it.
+* [decorators](https://github.com/wycats/javascript-decorators) - Example: `@DragDropContext(HTML5Backend)`. These annotations allow us to attach functionality to classes and their methods.
+* [object rest spread](https://github.com/sebmarkbage/ecmascript-rest-spread) - Example: ``const {a, b, ...props} = this.props`. This syntax allows us to easily extract specific properties from an object.
 
 Set up a *.babelrc* to your project root as follows in order to enable the features:
 
@@ -157,7 +157,7 @@ Alternatively we could have used a declaration such as `"stage": 1`. The problem
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). For now we are keeping it simple.
 
-T> It is possible to use Babel features at your Webpack configuration. Simply rename *webpack.config.js* as *webpack.config.babel.js* and Webpack will pick it up provided Babel has been set up with your project. It will respect the contents of *.babelrc*.
+T> It is possible to use Babel transpiled features in your Webpack configuration file. Simply rename *webpack.config.js* to *webpack.config.babel.js* and Webpack will pick it up provided Babel has been set up in your project. It will respect the contents of *.babelrc*.
 
 ## Developing the First React View
 
@@ -184,7 +184,7 @@ export default () => {
 };
 ```
 
-T> You can import portions from `react` using syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. It is important that you import `React` as well because that JSX will get converted to `React.createElement` calls. You may find this alternative a little neater regardless.
+T> You can import portions from `react` using the syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. It is important that you import `React` as well because that JSX will get converted to `React.createElement` calls. You may find this alternative a little neater regardless.
 
 T> It may be worth your while to install [React Developer Tools](https://github.com/facebook/react-devtools) extension to your browser. Currently Chrome and Firefox are supported. This will make it easier to understand what's going on while developing.
 
@@ -204,9 +204,9 @@ export default class Note extends React.Component {
 }
 ```
 
-T> Note that we're using *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
+T> Note that we're using the *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
 
-W> It is important to note that ES6 based class approach **doesn't** support autobinding behavior. Apart from that you may find ES6 classes neater than `React.createClass`. See the end of this chapter for a comparison.
+W> It is important to note that the ES6 based class approach **doesn't** support autobinding behavior. Apart from that you may find ES6 classes neater than `React.createClass`. See the end of this chapter for a comparison.
 
 ### Rendering Through `index.jsx`
 
@@ -242,7 +242,7 @@ If you execute `npm start` now, you should see something familiar at **localhost
 
 ![Hello React](images/react_01.png)
 
-Before moving on, this is a good chance to get rid of the old `component.js` file. It might be hanging around at `app` root.
+Before moving on, this is a good time to get rid of the old `component.js` file in the `app` root directory.
 
 ## Activating Hot Loading for Development
 
@@ -258,7 +258,7 @@ To enable hot loading for React, you should first install the packages using
 npm i babel-plugin-react-transform react-transform-hmr --save-dev
 ```
 
-We also need to make Babel aware of HMR. First we should pass target environment to Babel through our Webpack configuration:
+We also need to make Babel aware of HMR. First we should pass the target environment to Babel through our Webpack configuration:
 
 **webpack.config.js**
 
@@ -274,7 +274,7 @@ var common = {
 ...
 ```
 
-In addition we need to expand Babel configuration to include the plugin we need during development:
+In addition we need to expand our Babel configuration to include the plugin we need during development:
 
 **.babelrc**
 
@@ -306,7 +306,7 @@ In addition we need to expand Babel configuration to include the plugin we need 
 }
 ```
 
-Try executing `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things such as this add up and make you more effective.
+Try executing `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things like this add up and make you more productive.
 
 Note that Babel determines the value of `env` like this:
 
@@ -320,13 +320,13 @@ W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/
 
 ## React Component Styles
 
-Beyond ES6 classes, React allows you to construct components using `React.createClass()` and functions. `React.createClass()` was the original way to create components and it is still in use. The approaches aren't equivalent by default.
+Outside of ES6 classes, React allows you to construct components using `React.createClass()` and functions. `React.createClass()` was the original way to create components and it is still in use. The approaches aren't equivalent by default.
 
-When you are using `React.createClass` it is possible to inject functionality using mixins. This isn't possible in ES6 by default. Yet, you can use a helper such as [react-mixin](https://github.com/brigand/react-mixin). In later chapters we will go through various alternative approaches. They allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
+When you use `React.createClass` it is possible to inject functionality using mixins. Mixins aren't available in ES6 by default. Yet, you can use a helper such as [react-mixin](https://github.com/brigand/react-mixin) to provide some capabilities. In later chapters we will go through various alternative approaches. They allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
 
-Also, ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's good practice to bind the context at the component constructor. We will use this convention in this book. It leads to some extra code, but later on it is likely possible to refactor it out.
+Also, ES6 class based components won't bind their methods to `this` context by default. This is the reason why it's good practice to bind the context in the component constructor. We will use this convention in this book. It leads to some extra code, but later on it is often possible to refactor it out.
 
-The class based approach decreases the amount of concepts you have to worry about. `constructor` helps to keep things simpler than in `React.createClass` based approach. There you need to define separate methods to achieve the same result.
+The class based approach decreases the amount of concepts you have to worry about. `constructor` helps to keep things simpler than in the `React.createClass` based approach. There you need to define separate methods to achieve the same result.
 
 ## Conclusion
 
