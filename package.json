@@ -11,7 +11,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "gitbook-cli": "^0.3.3"
+    "gitbook-cli": "^1.0.1"
   },
   "repository": {
     "type": "git",
