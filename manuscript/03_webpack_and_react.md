@@ -101,25 +101,25 @@ var common = {
   entry: PATHS.app,
   // Add resolve.extensions. '' is needed to allow imports without an extension.
   // Note the .'s before extensions!!! Without those matching will fail.
+leanpub-start-insert
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
+leanpub-end-insert
   module: {
     loaders: [
       ...
       // Set up jsx. This accepts js too thanks to regex.
+leanpub-start-insert
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
         include: PATHS.app
       }
+leanpub-end-insert
     ]
   },
-  plugins: [
-    new HtmlwebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
+  ...
 };
 
 ...
@@ -265,7 +265,9 @@ We also need to make Babel aware of HMR. First we should pass the target environ
 ```javascript
 ...
 
+leanpub-start-insert
 process.env.BABEL_ENV = TARGET;
+leanpub-end-insert
 
 var common = {
   ...
