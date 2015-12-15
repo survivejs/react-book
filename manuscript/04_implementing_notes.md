@@ -64,10 +64,13 @@ Next, we need to connect our data model with `App`. The simplest way to achieve 
 **app/components/App.jsx**
 
 ```javascript
+leanpub-start-insert
 import uuid from 'node-uuid';
+leanpub-end-insert
 import React from 'react';
 import Note from './Note.jsx';
 
+leanpub-start-insert
 const notes = [
   {
     id: uuid.v4(),
@@ -99,6 +102,7 @@ export default class App extends React.Component {
     );
   }
 }
+leanpub-end-insert
 ```
 
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
@@ -125,7 +129,9 @@ import React from 'react';
 
 export default class Note extends React.Component {
   render() {
+leanpub-start-insert
     return <div>{this.props.task}</div>;
+leanpub-end-insert
   }
 }
 ```
@@ -177,7 +183,12 @@ We also need to replace the old `App` logic to use our new component. You should
 ```javascript
 import uuid from 'node-uuid';
 import React from 'react';
+leanpub-start-delete
+import Note from './Note.jsx';
+leanpub-end-delete
+leanpub-start-insert
 import Notes from './Notes.jsx';
+leanpub-end-insert
 
 const notes = [
   {
@@ -223,6 +234,7 @@ import React from 'react';
 import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
+leanpub-start-insert
   constructor(props) {
     super(props);
 
@@ -243,8 +255,11 @@ export default class App extends React.Component {
       ]
     };
   }
+leanpub-end-insert
   render() {
+leanpub-start-insert
     const notes = this.state.notes;
+leanpub-end-insert
 
     ...
   }
@@ -275,14 +290,18 @@ export default class App extends React.Component {
 
     return (
       <div>
+leanpub-start-insert
         <button className="add-note" onClick={this.addNote}>+</button>
+leanpub-end-insert
         <Notes items={notes} />
       </div>
     );
   }
+leanpub-start-insert
   addNote() {
     console.log('add note');
   }
+leanpub-end-insert
 }
 ```
 
@@ -308,6 +327,10 @@ export default class App extends React.Component {
   render() {
     ...
   }
+leanpub-start-delete
+  addNote() {
+leanpub-end-delete
+leanpub-start-insert
   // We are using an experimental feature known as property
   // initializer here. It allows us to bind the method `this`
   // to point at our *App* instance.
@@ -334,6 +357,7 @@ export default class App extends React.Component {
       }])
     });
   }
+leanpub-end-insert
 }
 ```
 
@@ -345,7 +369,7 @@ If you hit the button a few times now, you should see new items. It might not be
 
 ![Notes with a new item](images/react_05.png)
 
-## Editing Notes
+## Editing `Notes`
 
 Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect a click event on a `Note`, and then show an input containing its state. Then when the editing has been confirmed, we can return it back to normal.
 
@@ -359,6 +383,7 @@ We can achieve these goals using a callback and a ternary expression. Here's a s
 import React from 'react';
 
 export default class Note extends React.Component {
+leanpub-start-insert
   constructor(props) {
     super(props);
 
@@ -366,13 +391,17 @@ export default class Note extends React.Component {
       editing: false
     };
   }
+leanpub-end-insert
   render() {
+leanpub-start-insert
     if(this.state.editing) {
       return this.renderEdit();
     }
 
     return this.renderNote();
+leanpub-end-insert
   }
+leanpub-start-insert
   renderEdit = () => {
     return <input type="text"
       autoFocus={true}
@@ -400,6 +429,7 @@ export default class Note extends React.Component {
       editing: false
     });
   }
+leanpub-end-insert
 }
 ```
 
@@ -434,14 +464,18 @@ export default class App extends React.Component {
     return (
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
+leanpub-start-insert
         <Notes items={notes} onEdit={this.editNote} />
+leanpub-end-insert
       </div>
     );
   }
   ...
-  editNote(noteId, task) {
-    console.log('note edited', noteId, task);
+leanpub-start-insert
+  editNote(id, task) {
+    console.log('note edited', id, task);
   }
+leanpub-end-insert
 }
 ```
 
@@ -459,17 +493,21 @@ export default class Notes extends React.Component {
   render() {
     const notes = this.props.items;
 
+leanpub-start-insert
     // We are setting the context (`this`) of `this.renderNote` to `this`
     // explicitly! Alternatively we could use a property initializer here,
     // but this will work as well while being compatible with hot loading.
     return <ul className="notes">{notes.map(this.renderNote, this)}</ul>;
+leanpub-end-insert
   }
   renderNote(note) {
     return (
       <li className="note" key={note.id}>
+leanpub-start-insert
         <Note
           task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)} />
+leanpub-end-insert
       </li>
     );
   }
@@ -499,6 +537,10 @@ import Notes from './Notes.jsx';
 
 export default class App extends React.Component {
   ...
+leanpub-start-delete
+  editNote(id, task) {
+leanpub-end-delete
+leanpub-start-insert
   editNote = (id, task) => {
     const notes = this.state.notes.map((note) => {
       if(note.id === id) {
@@ -511,6 +553,7 @@ export default class App extends React.Component {
     this.setState({notes});
   }
 }
+leanpub-end-insert
 ```
 
 If you try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
@@ -538,16 +581,20 @@ export default class App extends React.Component {
     return (
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
+leanpub-start-insert
         <Notes items={notes}
           onEdit={this.editNote} onDelete={this.deleteNote} />
+leanpub-end-insert
       </div>
     );
   }
+leanpub-start-insert
   deleteNote = (id) => {
     this.setState({
       notes: this.state.notes.filter((note) => note.id !== id)
     });
   }
+leanpub-end-insert
   ...
 }
 ```
@@ -564,10 +611,12 @@ export default class Notes extends React.Component {
   renderNote(note) {
     return (
       <li className="note" key={note.id}>
+leanpub-start-insert
         <Note
           task={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
           onDelete={this.props.onDelete.bind(null, note.id)} />
+leanpub-end-insert
       </li>
     );
   }
@@ -584,6 +633,7 @@ In order to invoke the previous `onDelete` callback we need to connect it with `
 export default class Note extends React.Component {
   ...
   renderNote = () => {
+leanpub-start-insert
     const onDelete = this.props.onDelete;
 
     return (
@@ -596,6 +646,7 @@ export default class Note extends React.Component {
   renderDelete = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
   }
+leanpub-end-insert
   ...
 ```
 
