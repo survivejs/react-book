@@ -18,10 +18,14 @@ As a first step we'll need to connect it with our project. Currently it provides
 
 ```javascript
 ...
+leanpub-start-insert
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+leanpub-end-insert
 
+leanpub-start-insert
 @DragDropContext(HTML5Backend)
+leanpub-end-insert
 export default class App extends React.Component {
   ...
 }
@@ -50,9 +54,7 @@ import React from 'react';
 
 export default class Note extends React.Component {
   render() {
-    return (
-      <li {...this.props}>{this.props.children}</li>
-    );
+    return <li {...this.props}>{this.props.children}</li>;
   }
 }
 ```
@@ -63,18 +65,30 @@ We also need to tweak `Notes` to use our wrapper component. We will simply wrap 
 
 ```javascript
 ...
+leanpub-start-insert
 import Note from './Note.jsx';
+leanpub-end-insert
 
 export default class Notes extends React.Component {
   ...
   renderNote = (note) => {
     return (
+leanpub-start-delete
+      <li className="note" key={note.id}>
+leanpub-end-delete
+leanpub-start-insert
       <Note className="note" id={note.id} key={note.id}>
+leanpub-end-insert
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
           onDelete={this.props.onDelete.bind(null, note.id)} />
+leanpub-start-delete
+      </li>
+leanpub-end-delete
+leanpub-start-insert
       </Note>
+leanpub-end-insert
     );
   }
 }
@@ -106,9 +120,12 @@ Marking a component as a `@DragSource` simply means that it can be dragged. Set 
 
 ```javascript
 ...
+leanpub-start-insert
 import {DragSource} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
+leanpub-end-insert
 
+leanpub-start-insert
 const noteSource = {
   beginDrag(props) {
     console.log('begin dragging note', props);
@@ -116,17 +133,25 @@ const noteSource = {
     return {};
   }
 };
+leanpub-end-insert
 
+leanpub-start-insert
 @DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
   connectDragSource: connect.dragSource()
 }))
+leanpub-end-insert
 export default class Note extends React.Component {
   render() {
+leanpub-start-delete
+    return <li {...this.props}>{this.props.children}</li>;
+leanpub-end-delete
+leanpub-start-insert
     const {connectDragSource, id, onMove, ...props} = this.props;
 
     return connectDragSource(
       <li {...props}>{props.children}</li>
     );
+leanpub-end-insert
   }
 }
 ```
@@ -164,6 +189,7 @@ const noteSource = {
   }
 };
 
+leanpub-start-insert
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
@@ -171,21 +197,36 @@ const noteTarget = {
     console.log('dragging note', sourceProps, targetProps);
   }
 };
+leanpub-end-insert
 
 @DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
   connectDragSource: connect.dragSource()
 }))
+leanpub-start-insert
 @DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
+leanpub-end-insert
 export default class Note extends React.Component {
   render() {
+leanpub-start-delete
+    const {connectDragSource, id, onMove, ...props} = this.props;
+leanpub-end-delete
+leanpub-start-insert
     const {connectDragSource, connectDropTarget,
       id, onMove, ...props} = this.props;
+leanpub-end-insert
 
+leanpub-start-delete
+return connectDragSource(
+  <li {...props}>{props.children}</li>
+);
+leanpub-end-delete
+leanpub-start-insert
     return connectDragSource(connectDropTarget(
       <li {...props}>{props.children}</li>
     ));
+leanpub-end-insert
   }
 }
 ```
@@ -209,14 +250,27 @@ You can see how this translates to code below:
 
 const noteSource = {
   beginDrag(props) {
+leanpub-start-delete
+    console.log('begin dragging note', props);
+
+    return {};
+leanpub-end-delete
+leanpub-start-insert
     return {
       id: props.id
     };
+leanpub-end-insert
   }
 };
 
 const noteTarget = {
   hover(targetProps, monitor) {
+leanpub-start-delete
+    const sourceProps = monitor.getItem();
+
+    console.log('dragging note', sourceProps, targetProps);
+leanpub-end-delete
+leanpub-start-insert
     const targetId = targetProps.id;
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
@@ -224,6 +278,7 @@ const noteTarget = {
     if(sourceId !== targetId) {
       targetProps.onMove({sourceId, targetId});
     }
+leanpub-end-insert
   }
 };
 
@@ -241,8 +296,13 @@ export default class Notes extends React.Component {
   ...
   renderNote = (note) => {
     return (
+leanpub-start-delete
+      <Note className="note" id={note.id} key={note.id}>
+leanpub-end-delete
+leanpub-start-insert
       <Note className="note" onMove={this.onMoveNote}
         id={note.id} key={note.id}>
+leanpub-end-insert
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
@@ -250,9 +310,11 @@ export default class Notes extends React.Component {
       </Note>
     );
   }
+leanpub-start-insert
   onMoveNote({sourceId, targetId}) {
     console.log('source', sourceId, 'target', targetId);
   }
+leanpub-end-insert
 }
 ```
 
@@ -269,11 +331,19 @@ In our case, we'll get some extra complexity due to lane to lane dragging. When 
 ```javascript
 import alt from '../libs/alt';
 
+leanpub-start-delete
+export default alt.generateActions(
+  'create', 'update', 'delete',
+  'attachToLane', 'detachFromLane'
+);
+leanpub-end-delete
+leanpub-start-insert
 export default alt.generateActions(
   'create', 'update', 'delete',
   'attachToLane', 'detachFromLane',
   'move'
 );
+leanpub-end-insert
 ```
 
 We should connect this action with `onMove` hook we just defined:
@@ -282,14 +352,22 @@ We should connect this action with `onMove` hook we just defined:
 
 ```javascript
 ...
+leanpub-start-insert
 import LaneActions from '../actions/LaneActions';
+leanpub-end-insert
 
 export default class Notes extends React.Component {
   ...
   renderNote = (note) => {
     return (
+leanpub-start-delete
+      <Note className="note" onMove={this.onMoveNote}
+        id={note.id} key={note.id}>
+leanpub-end-delete
+leanpub-start-insert
       <Note className="note" onMove={LaneActions.move}
         id={note.id} key={note.id}>
+leanpub-end-insert
         <Editable
           value={note.task}
           onEdit={this.props.onEdit.bind(null, note.id)}
@@ -297,6 +375,11 @@ export default class Notes extends React.Component {
       </Note>
     );
   }
+leanpub-start-delete
+  onMoveNote({sourceId, targetId}) {
+    console.log('source', sourceId, 'target', targetId);
+  }
+leanpub-end-delete
 }
 ```
 
@@ -309,9 +392,11 @@ We should also define a stub at `LaneStore` to see that we wired it up correctly
 
 class LaneStore {
   ...
+leanpub-start-insert
   move({sourceId, targetId}) {
     console.log('source', sourceId, 'target', targetId);
   }
+leanpub-end-insert
 }
 
 export default alt.createStore(LaneStore, 'LaneStore');
@@ -338,6 +423,10 @@ import update from 'react-addons-update';
 export default class LaneStore {
   ...
   move({sourceId, targetId}) {
+leanpub-start-delete
+    console.log('source', sourceId, 'target', targetId);
+leanpub-end-delete
+leanpub-start-insert
     const lanes = this.lanes;
     const sourceLane = lanes.filter((lane) => {
       return lane.notes.indexOf(sourceId) >= 0;
@@ -367,6 +456,7 @@ export default class LaneStore {
 
     this.setState({lanes});
   }
+leanpub-end-insert
 }
 ```
 
@@ -385,21 +475,36 @@ React DnD provides a feature known as state monitors. We can use `monitor.isDrag
 
 @DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+leanpub-start-insert
   isDragging: monitor.isDragging() // map isDragging() state to isDragging prop
+leanpub-end-insert
 }))
 @DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 export default class Note extends React.Component {
   render() {
+leanpub-start-delete
+    const {connectDragSource, connectDropTarget,
+      id, onMove, ...props} = this.props;
+leanpub-end-delete
+leanpub-start-insert
     const {connectDragSource, connectDropTarget, isDragging,
       onMove, id, ...props} = this.props;
+leanpub-end-insert
 
+leanpub-start-delete
+    return connectDragSource(connectDropTarget(
+      <li {...props}>{props.children}</li>
+    ));
+leanpub-end-delete
+leanpub-start-insert
       return connectDragSource(connectDropTarget(
         <li style={{
           opacity: isDragging ? 0 : 1
         }} {...props}>{props.children}</li>
       ));
+leanpub-end-insert
   }
 }
 ```
@@ -419,9 +524,11 @@ const noteSource = {
       id: props.id
     };
   },
+leanpub-start-insert
   isDragging(props, monitor) {
     return props.id === monitor.getItem().id;
   }
+leanpub-end-insert
 };
 
 ...
@@ -439,9 +546,12 @@ To drag notes to an empty lane, we should allow lanes to receive notes. Just as 
 
 ```javascript
 ...
+leanpub-start-insert
 import {DropTarget} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
+leanpub-end-insert
 
+leanpub-start-insert
 const noteTarget = {
   hover(targetProps, monitor) {
     const targetId = targetProps.lane.id;
@@ -451,16 +561,29 @@ const noteTarget = {
     console.log('source', sourceId, 'target', targetId);
   }
 };
+leanpub-end-insert
 
+leanpub-start-insert
 @DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
+leanpub-end-insert
 export default class Lane extends React.Component {
   ...
   render() {
+leanpub-start-delete
+    const {lane, ...props} = this.props;
+leanpub-end-delete
+leanpub-start-insert
     const {connectDropTarget, lane, ...props} = this.props;
+leanpub-end-insert
 
+leanpub-start-delete
+    return (
+leanpub-end-delete
+leanpub-start-insert
     return connectDropTarget(
+leanpub-end-insert
       ...
     );
   }
@@ -476,12 +599,22 @@ This is a simple check to make. Given we know the target lane at our `noteTarget
 ```javascript
 const noteTarget = {
   hover(targetProps, monitor) {
+leanpub-start-delete
+    const targetId = targetProps.lane.id;
+    const sourceProps = monitor.getItem();
+    const sourceId = sourceProps.id;
+
+    console.log('source', sourceId, 'target', targetId);
+leanpub-end-delete
+
+leanpub-start-insert
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
     if(!targetProps.lane.notes.length) {
       console.log('source', sourceId, 'target', targetProps);
     }
+leanpub-end-insert
   }
 };
 ```
@@ -501,10 +634,15 @@ const noteTarget = {
     const sourceId = sourceProps.id;
 
     if(!targetProps.lane.notes.length) {
+leanpub-start-delete
+      console.log('source', sourceId, 'target', targetProps);
+leanpub-end-delete
+leanpub-start-insert
       LaneActions.attachToLane({
         laneId: targetProps.lane.id,
         noteId: sourceId
       });
+leanpub-end-insert
     }
   }
 };
@@ -530,10 +668,13 @@ class LaneStore {
       noteId = NoteStore.getState().notes.slice(-1)[0].id;
     }
 
+leanpub-start-insert
     this.removeNote(noteId);
+leanpub-end-insert
 
     ...
   }
+leanpub-start-insert
   removeNote(noteId) {
     const lanes = this.lanes;
     const removeLane = lanes.filter((lane) => {
@@ -549,6 +690,7 @@ class LaneStore {
     removeLane.notes = removeLane.notes.slice(0, removeNoteIndex).
       concat(removeLane.notes.slice(removeNoteIndex + 1));
   }
+leanpub-end-insert
   ...
 }
 ```
