@@ -20,7 +20,7 @@ Feedback is welcome. You can provide it through [the issue tracker](https://gith
 
 ## Generating PDF
 
-If you want a rough pdf version, you can generate one through Calibre. It won't look as pretty as [the official version](https://leanpub.com/survivejs_webpack) and will be missing some content. That said it's better than nothing if you cannot afford the full monty for a reason or another. I'm not blaming you. :)
+If you want a rough pdf version, you can generate one through Calibre. It won't look as pretty as [the official version](https://leanpub.com/survivejs_webpack_react) and will be missing some content. That said it's better than nothing if you cannot afford the full monty for a reason or another. I'm not blaming you. :)
 
 Make sure you have Calibre installed before trying the generation script. You can get it from [Calibre site](http://calibre-ebook.com/download) or alternatively you can use the package manager of your operating system (Homebrew-cask for Mac, `sudo apt-get install calibre calibre-bin` for Ubuntu). If you use Homebrew-cask, you may need to add the Calibre CLI to your PATH (e.g., `export PATH=$PATH://opt/homebrew-cask/Caskroom/calibre/2.31.0/calibre.app/Contents/MacOS`).
 
