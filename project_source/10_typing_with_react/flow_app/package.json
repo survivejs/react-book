@@ -4,6 +4,7 @@
   "description": "Webpack demo app",
   "main": "index.js",
   "scripts": {
+    "deploy": "node ./lib/deploy.js",
     "stats": "webpack --profile --json > stats.json",
     "build": "webpack",
     "start": "webpack-dev-server",

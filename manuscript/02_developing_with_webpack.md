@@ -20,6 +20,8 @@ As a result, you should have *package.json* at your project root. You can still 
 
 T> You can set those `npm init` defaults at *~/.npmrc*. See the "Authoring Libraries" for more information about npm and its usage.
 
+### Setting Up Git
+
 If you are into version control, as you should, this would be a good time to set up your repository. You can create commits as you progress with the project.
 
 If you are using git, I recommend setting up a *.gitignore* to the project root:
@@ -95,7 +97,7 @@ app.appendChild(component());
 
 We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll build *webpack.config.js*. Webpack and its development server will be able to discover this file through convention.
 
-To keep things simple, we'll generate an entry point to our application using [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin). We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. *html-webpack-plugin* is able to create links to our assets keeping our life simple. Execute
+We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin) is able to generate an *index.html* for us and create links to our assets keeping our life simple. Execute
 
 ```bash
 npm i html-webpack-plugin --save-dev
@@ -140,31 +142,160 @@ Another way to achieve this would be to serve the contents of the directory thro
 
 T> Note that you can pass a custom template to *html-webpack-plugin*. In our case, the default template it uses is fine for our purposes for now.
 
-## Setting Up *webpack-dev-server*
+## Adding Build Shortcut
 
-Now that we have the basic building blocks together, we can set up a development server. *webpack-dev-server* is a development server running in-memory that automatically refreshes content in the browser while you develop the application. You should use *webpack-dev-server* strictly for development. If you want to host your application, consider other, standard solutions such as Apache or Nginx.
-
-This makes it roughly equivalent to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/). The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through React.
-
-Execute
-
-```bash
-npm i webpack-dev-server --save-dev
-```
-
-at the project root to get the server installed. We will be invoking our development server through npm. npm allows us to define `scripts` in it's *package.json* configuration file. The following configuration is enough:
+Given executing `node_modules/.bin/webpack` is a little verbose, we should do something about it. npm and *package.json* doubles as a task runner with some configuration. Adjust it as follows:
 
 **package.json**
 
 ```json
 ...
 "scripts": {
-  "start": "webpack-dev-server"
+  "build": "webpack"
 },
 ...
 ```
 
-We also need to do some configuration work. We are going to use a simplified setup here. Beyond defaults we will enable Hot Module Replacement (HMR) and HTML5 History API fallback. The former will come in handy when we discuss React in detail. The latter allows HTML5 History API routes to work. *inline* setting embeds the *webpack-dev-server* runtime into the bundle allowing HMR to work easily. Otherwise we would have to set up more `entry` paths. Here's the setup:
+You can execute the scripts defined this way through *npm run*. If you trigger *npm run build* now, you should get a build at your output directory.
+
+This scheme can be expanded further. Task runners, such as Grunt or Gulp, allow you to achieve pretty much the same. The advantage of those tools is that they will operate in a cross-platform manner without a second thought. If you operate through *package.json* like this, you may have to be more careful. On the plus side, this is a very light approach. To keep things simple we'll be relying on it.
+
+## Setting Up *webpack-dev-server*
+
+As developing your application through a build script like this will get boring eventually, Webpack provides neater means for development in particular. *webpack-dev-server* is a development server running in-memory. It refreshes content automatically in the browser while you develop your application. This makes it roughly equivalent to tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/).
+
+The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through the React setup. You'll see there how to get a better setup than you might have gotten used to.
+
+W> You should use *webpack-dev-server* strictly for development. If you want to host your application, consider other, standard solutions such as Apache or Nginx.
+
+To get started with *webpack-dev-server*, execute
+
+```bash
+npm i webpack-dev-server --save-dev
+```
+
+at the project root to get the server installed.
+
+Just like above, we'll need to define an entry point to the `scripts` section of *package.json*:
+
+**package.json**
+
+```json
+...
+"scripts": {
+leanpub-start-delete
+  "build": "webpack"
+leanpub-end-delete
+leanpub-start-insert
+  "build": "webpack",
+  "start": "webpack-dev-server"
+leanpub-end-insert
+},
+...
+```
+
+If you trigger either *npm run start* or *npm start* now, you should see something like this at the terminal:
+
+```bash
+> webpack-dev-server
+
+http://localhost:8080/webpack-dev-server/
+webpack result is served from /
+content is served from .../kanban_app
+Hash: 2dad8c1de918274667eb
+Version: webpack 1.12.9
+Time: 120ms
+     Asset       Size  Chunks             Chunk Names
+ bundle.js    1.75 kB       0  [emitted]  main
+index.html  184 bytes          [emitted]
+chunk    {0} bundle.js (main) 280 bytes [rendered]
+    [0] ./app/index.js 144 bytes {0} [built]
+    [1] ./app/component.js 136 bytes {0} [built]
+webpack: bundle is now VALID.
+webpack: bundle is now INVALID.
+Hash: 8cdf5c4fa2d5afa613e0
+Version: webpack 1.12.9
+```
+
+This means the development server is running. If you open *http://localhost:8080/* at your browser, you should see something. You can try modifying *app/component.js*. The problem is that nothing happens in the browser. You'll need to force a refresh. This is a little better than before, but not ideal. Some configuration is needed.
+
+![Hello world](images/hello_01.png)
+
+### Splitting Up Configuration
+
+As the development setup has certain requirements of its own, we'll need to split our Webpack configuration. Given Webpack configuration is just JavaScript, there are many ways to achieve this. At least the following ways are feasible:
+
+* Maintain configuration in multiple files and point Webpack to each through `--config` parameter. Share configuration through module imports. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
+* Push configuration to a library which you then consume. Example: [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack).
+* Maintain configuration within a single file and branch there. If we trigger a script through *npm* (i.e., `npm run test`), npm sets this information in an environment variable. We can match against it and return the configuration we want.
+
+I prefer the last approach as it allows me to understand what's going on easily. It is ideal for small projects, such as this.
+
+To keep things simple and help with the approach, I've defined a custom `merge` function that concatenates arrays and merges objects. This is convenient with Webpack as we'll soon see. Execute
+
+```bash
+npm i webpack-merge --save-dev
+```
+
+to add it to the project.
+
+Next we need to define some split points to our configuration so we can customize it per npm script. Here's the basic idea:
+
+**webpack.config.js**
+
+```javascript
+...
+leanpub-start-insert
+var merge = require('webpack-merge');
+leanpub-end-insert
+
+leanpub-start-insert
+const TARGET = process.env.npm_lifecycle_event;
+leanpub-end-insert
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build')
+};
+
+leanpub-start-delete
+module.exports = {
+leanpub-end-delete
+leanpub-start-insert
+const common = {
+leanpub-end-insert
+  // Entry accepts a path or an object of entries.
+  // The build chapter contains an example of the latter.
+  entry: PATHS.app,
+  output: {
+    path: PATHS.build,
+    filename: 'bundle.js'
+  },
+  plugins: [
+    new HtmlwebpackPlugin({
+      title: 'Kanban app'
+    })
+  ]
+};
+
+leanpub-start-insert
+// Default configuration
+if(TARGET === 'start' || !TARGET) {
+  module.exports = merge(common, {});
+}
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {});
+}
+leanpub-end-insert
+```
+
+Now that we have room for expansion, we can hook up Hot Module Replacement and make the development mode more useful.
+
+### Configuring Hot Module Replacement (HMR)
+
+Hot Module Replacement gives us simple means to refresh the browser automatically as we make changes. The idea is that if we change our *app/component.js*, the browser will refresh itself. The same goes for possible CSS changes. That doesn't require a full refresh even.
+
+In order to make this work, we'll need to connect the generated bundle running in-memory to the development server. Webpack uses WebSocket based communication to achieve this. To keep things simple, we'll let Webpack to generate the client portion for us through the development server *inline* option. Beyond this we'll need to enable `HotModuleReplacementPlugin` to make the setup work. In addition I am going to enable HTML5 History API fallback as that is convenient default to have especially if you are dealing with advanced routing. Here's the setup:
 
 **webpack.config.js**
 
@@ -174,48 +305,38 @@ leanpub-start-insert
 var webpack = require('webpack');
 leanpub-end-insert
 
-const PATHS = {
-  app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
-};
+...
 
-module.exports = {
-  ...
+if(TARGET === 'start' || !TARGET) {
+leanpub-start-delete
+  module.exports = merge(common, {});
+leanpub-end-delete
 leanpub-start-insert
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true,
+  module.exports = merge(common, {
+    devServer: {
+      historyApiFallback: true,
+      hot: true,
+      inline: true,
+      progress: true,
 
-    // Display only errors to reduce the amount of output.
-    stats: 'errors-only',
+      // Display only errors to reduce the amount of output.
+      stats: 'errors-only',
 
-    // Parse host and port from env so this is easy to customize.
-    host: process.env.HOST,
-    port: process.env.PORT
-  },
-leanpub-end-insert
-  plugins: [
-leanpub-start-insert
-    new webpack.HotModuleReplacementPlugin(),
-leanpub-end-insert
-    ...
-  ]
-};
+      // Parse host and port from env so this is easy to customize.
+      host: process.env.HOST,
+      port: process.env.PORT
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ]
+  });
+leanpub-end-start
+}
 ```
 
-Execute `npm start` and surf to **localhost:8080**. You should see something familiar there. Try modifying *app/component.js* while the server is running and see what happens. Quite neat, huh?
+Execute `npm start` and surf to **localhost:8080**. Try modifying *app/component.js*. It should refresh the browser.
 
-![Hello world](images/hello_01.png)
-
-You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. It provides an iframe showing a status bar that indicates the status of the rebundling process.
-
-T> Note that the current setup won't output a bundle to disk given the development setup runs in-memory. We will set up a proper bundle in the build chapter.
-
-T> In case the amount of console output annoys you, you can set `quiet: true` in the `devServer` configuration object to keep it minimal.
-
-T> If you are using an environment, such as Cloud9, you should set `HOST` to `0.0.0.0`. The default `localhost` isn't always the best option.
+You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. You can see all the files the development server is serving there.
 
 ### Alternative Ways to Use *webpack-dev-server*
 
@@ -228,6 +349,8 @@ W> Note that there are [slight differences](https://github.com/webpack/webpack-d
 It is possible to customize host and port settings through the environment in our setup (i.e., `export PORT=3000` on Unix or `SET PORT=3000` on Windows). This can be useful if you want to access your server within the same network. The default settings are enough on most platforms.
 
 To access your server, you'll need to figure out the ip of your machine. On Unix this can be achieved using `ifconfig`. On Windows `ipconfig` can be used. An npm package, such as [node-ip](https://www.npmjs.com/package/node-ip) may come in handy as well. Especially on Windows you may need to set your `HOST` to match your ip to make it accessible.
+
+T> If you are using an environment, such as Cloud9, you should set `HOST` to `0.0.0.0`. The default `localhost` isn't always the best option.
 
 ## Refreshing CSS
 
@@ -246,13 +369,10 @@ Now that we have the loaders we need, we'll need to make sure Webpack is aware o
 ```javascript
 ...
 
-module.exports = {
-  entry: PATHS.app,
-  output: {
-    path: PATHS.build,
-    filename: 'bundle.js'
-  },
+const common = {
+  ...
   module: {
+leanpub-start-insert
     loaders: [
       {
         // Test expects a RegExp! Note the slashes!
@@ -262,34 +382,19 @@ module.exports = {
         include: PATHS.app
       }
     ]
+leanpub-end-insert
   },
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true,
+  ...
+}
 
-    // Display only errors to reduce the amount of output.
-    stats: 'errors-only',
-
-    // Parse host and port from env so this is easy to customize.
-    host: process.env.HOST,
-    port: process.env.PORT
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlwebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
-};
+...
 ```
 
 The configuration we added means that files ending with `.css` should invoke given loaders. `test` matches against a JavaScript style regular expression. The loaders are evaluated from right to left. In this case, *css-loader* gets evaluated first, then *style-loader*. *css-loader* will resolve `@import` and `url` statements in our CSS files. *style-loader* deals with `require` statements in our JavaScript. A similar approach works with CSS preprocessors, like Sass and Less, and their loaders.
 
 T> Loaders are transformations that are applied to source files, and return the new source. Loaders can be chained together, like using a pipe in Unix. See Webpack's [What are loaders?](http://webpack.github.io/docs/using-loaders.html) and [list of loaders](http://webpack.github.io/docs/list-of-loaders.html).
 
-W> If `include` isn't set, Webpack will traverse all files within the base directory. This can hurt performance! It is a good idea to set up `include` always. There's also `exclude` option that may come in handy.
+W> If `include` isn't set, Webpack will traverse all files within the base directory. This can hurt performance! It is a good idea to set up `include` always. There's also `exclude` option that may come in handy. Prefer `include`, however.
 
 We are missing just one bit, the actual CSS itself:
 
@@ -306,7 +411,9 @@ Also, we'll need to make Webpack aware of this file:
 **app/index.js**
 
 ```javascript
+leanpub-start-insert
 require('./main.css');
+leanpub-end-insert
 
 ...
 ```
@@ -317,110 +424,37 @@ Open up *main.css* and change the background color to something like `lime` (`ba
 
 ![Hello cornsilk world](images/hello_02.png)
 
-## Making the Configuration Extensible
+## Enabling Sourcemaps
 
-Our current configuration is enough as long as we're interested in just developing our application. But what if we want to deploy it to the production or test our application? We need to define separate **build targets** for these purposes. Given Webpack uses a module based format for its configuration, there are multiple possible approaches. At least the following are feasible:
-
-* Maintain configuration in multiple files and point Webpack to each through `--config` parameter. Share configuration through module imports. You can see this approach in action at [webpack/react-starter](https://github.com/webpack/react-starter).
-* Push configuration to a library which you then consume. Example: [HenrikJoreteg/hjs-webpack](https://github.com/HenrikJoreteg/hjs-webpack).
-* Maintain configuration within a single file and branch there. If we trigger a script through *npm* (i.e., `npm run test`), npm sets this information in an environment variable. We can match against it and return the configuration we want. I prefer this approach as it allows me to understand what's going on easily. We'll be using this approach.
-
-T> Webpack works well as a basis for more advanced tools. I've helped to develop a static site generator known as [Antwar](https://antwarjs.github.io/). It builds upon Webpack and React and hides a lot of the complexity from the user.
-
-### Setting Up Configuration Target for `npm start`
-
-To keep things simple, I've defined a custom `merge` function that concatenates arrays and merges objects. This is convenient with Webpack. Execute
-
-```bash
-npm i webpack-merge --save-dev
-```
-
-to add it to the project.
-
-We will detect npm lifecycle events (`start`, `build`, ...) and then return a configuration for each case. We will define more of these later on as we expand the project.
-
-To improve the debuggability of the application, we can set up sourcemaps while we are at it. They allow you to see exactly where an error was raised. In Webpack this is controlled through the `devtool` setting. We can use decent defaults as follows:
+To improve the debuggability of the application, we can set up sourcemaps. They allow you to see exactly where an error was raised. In Webpack this is controlled through the `devtool` setting. We can use a decent default as follows:
 
 **webpack.config.js**
 
 ```javascript
-var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
-var merge = require('webpack-merge');
-
-const TARGET = process.env.npm_lifecycle_event;
-const PATHS = {
-  app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
-};
-
-var common = {
-  entry: PATHS.app,
-  // Given webpack-dev-server runs in-memory, we can drop
-  // `output`. We'll look into it again in the
-  // build chapter.
-  /*output: {
-    path: PATHS.build,
-    filename: 'bundle.js'
-  },*/
-  module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-        include: PATHS.app
-      }
-    ]
-  },
-  plugins: [
-    // Important! move HotModuleReplacementPlugin below
-    //new webpack.HotModuleReplacementPlugin(),
-    new HtmlwebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
-};
+...
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
+leanpub-start-insert
     devtool: 'eval-source-map',
-    devServer: {
-      historyApiFallback: true,
-      hot: true,
-      inline: true,
-      progress: true,
-
-      // Display only errors to reduce the amount of output.
-      stats: 'errors-only',
-
-      // Parse host and port from env so this is easy to customize.
-      host: process.env.HOST,
-      port: process.env.PORT
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin()
-    ]
+leanpub-end-insert
+    ...
   });
 }
+
+...
 ```
 
-`if(TARGET === 'start' || !TARGET) {` provides a default in case we're running Webpack outside of npm.
-
 If you run the development build now using `npm start`, Webpack will generate sourcemaps. Webpack provides many different ways to generate them as discussed in the [official documentation](https://webpack.github.io/docs/configuration.html#devtool). In this case, we're using `eval-source-map`. It builds slowly initially, but it provides fast rebuild speed and yields real files.
-
-W> If `new webpack.HotModuleReplacementPlugin()` is added twice to the plugins declaration, Webpack will return `Uncaught RangeError: Maximum call stack size exceeded` while hot loading!
 
 Faster development specific options such as `cheap-module-eval-source-map` and `eval` produce lower quality sourcemaps. Especially `eval` is fast and is the most suitable for large projects.
 
 It is possible you may need to enable sourcemaps in your browser for this to work. See [Chrome](https://developer.chrome.com/devtools/docs/javascript-debugging) and [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) instructions for further details.
 
-The configuration could contain more sections based on your needs. Later on we'll develop another section to generate a production build.
-
 ## Linting the Project
 
-I discuss linting in detail in the *Linting in Webpack* chapter. Consider integrating that setup into your project to save some debugging time. It will allow you to pick up certain categories of errors earlier.
+I discuss linting in detail in the *Linting in Webpack* chapter. Consider integrating that setup into your project now as that will save some debugging time. It will allow you to pick up certain categories of errors earlier.
 
 ## Conclusion
 
-In this chapter you learned to build an effective development configuration using Webpack. With this configuration Webpack deals with the heavy lifting for you. The current setup can be expanded to support even more scenarios. Next, we will see how to expand it to work with React.
+In this chapter you learned to build and develop using Webpack. I will return to the build topic at "Building Kanban". The current setup is not ideal. At this point it's the development configuration that matters. In the next chapter we will see how to expand the approach to work with React.

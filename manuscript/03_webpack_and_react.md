@@ -97,7 +97,7 @@ Here's the relevant configuration we need to make Babel work:
 ```javascript
 ...
 
-var common = {
+const common = {
   entry: PATHS.app,
   // Add resolve.extensions. '' is needed to allow imports without an extension.
   // Note the .'s before extensions!!! Without those matching will fail.
@@ -106,10 +106,11 @@ leanpub-start-insert
     extensions: ['', '.js', '.jsx']
   },
 leanpub-end-insert
+  ...
   module: {
     loaders: [
       ...
-      // Set up jsx. This accepts js too thanks to regex.
+      // Set up jsx. This accepts js too thanks to RegExp
 leanpub-start-insert
       {
         test: /\.jsx?$/,
@@ -269,7 +270,7 @@ leanpub-start-insert
 process.env.BABEL_ENV = TARGET;
 leanpub-end-insert
 
-var common = {
+const common = {
   ...
 };
 

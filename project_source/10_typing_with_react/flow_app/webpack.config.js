@@ -1,7 +1,7 @@
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
 var merge = require('webpack-merge');
+var webpack = require('webpack');
 var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -16,10 +16,14 @@ const PATHS = {
 
 process.env.BABEL_ENV = TARGET;
 
-var common = {
+const common = {
   entry: PATHS.app,
   resolve: {
     extensions: ['', '.js', '.jsx']
+  },
+  output: {
+    path: PATHS.build,
+    filename: '[name].js'
   },
   module: {
     loaders: [
@@ -85,7 +89,6 @@ if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
       filename: '[name].[chunkhash].js',
       chunkFilename: '[chunkhash].js'
     },
-    devtool: 'source-map',
     module: {
       loaders: [
         // Extract CSS during build

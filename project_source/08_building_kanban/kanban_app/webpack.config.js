@@ -1,11 +1,10 @@
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
 var merge = require('webpack-merge');
+var webpack = require('webpack');
 var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-// Load *package.json* so we can use `dependencies` from there
 var pkg = require('./package.json');
 
 const TARGET = process.env.npm_lifecycle_event;
@@ -16,10 +15,14 @@ const PATHS = {
 
 process.env.BABEL_ENV = TARGET;
 
-var common = {
+const common = {
   entry: PATHS.app,
   resolve: {
     extensions: ['', '.js', '.jsx']
+  },
+  output: {
+    path: PATHS.build,
+    filename: '[name].js'
   },
   module: {
     loaders: [
@@ -72,20 +75,20 @@ if(TARGET === 'start' || !TARGET) {
 
 if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
   module.exports = merge(common, {
-    // Define entry points needed for splitting
     entry: {
       app: PATHS.app,
       vendor: Object.keys(pkg.dependencies).filter(function(v) {
+        // Exclude alt-utils as it won't work with this setup
+        // due to the way the package has been designed
+        // (no package.json main).
         return v !== 'alt-utils';
       })
     },
     output: {
       path: PATHS.build,
-      // Output using entry name
       filename: '[name].[chunkhash].js',
       chunkFilename: '[chunkhash].js'
     },
-    devtool: 'source-map',
     module: {
       loaders: [
         // Extract CSS during build
