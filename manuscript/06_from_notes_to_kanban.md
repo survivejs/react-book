@@ -75,29 +75,69 @@ Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` r
 ```javascript
 import AltContainer from 'alt-container';
 import React from 'react';
+leanpub-start-delete
+import Notes from './Notes.jsx';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
+leanpub-end-delete
+leanpub-start-insert
 import Lanes from './Lanes.jsx';
 import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
+leanpub-end-insert
 
 export default class App extends React.Component {
   render() {
     return (
       <div>
+leanpub-start-delete
+        <button className="add-note" onClick={this.addNote}>+</button>
+leanpub-end-delete
+leanpub-start-insert
         <button className="add-lane" onClick={this.addItem}>+</button>
+leanpub-end-insert
         <AltContainer
+leanpub-start-delete
+          stores={[NoteStore]}
+leanpub-end-delete
+leanpub-start-insert
           stores={[LaneStore]}
+leanpub-end-insert
           inject={{
+leanpub-start-delete
+            items: () => NoteStore.getState().notes
+leanpub-end-delete
+leanpub-start-insert
             items: () => LaneStore.getState().lanes || []
+leanpub-end-insert
           }}
         >
+leanpub-start-delete
+          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
+leanpub-end-delete
+leanpub-start-insert
           <Lanes />
+leanpub-end-insert
         </AltContainer>
       </div>
     );
   }
+leanpub-start-insert
   addItem() {
     LaneActions.create({name: 'New lane'});
   }
+leanpub-end-insert
+leanpub-start-delete
+  addNote() {
+    NoteActions.create({task: 'New task'});
+  }
+  editNote(id, task) {
+    NoteActions.update({id, task});
+  }
+  deleteNote(id) {
+    NoteActions.delete(id);
+  }
+leanpub-end-delete
 }
 ```
 
@@ -220,6 +260,7 @@ import NoteStore from './NoteStore';
 
 class LaneStore {
   ...
+leanpub-start-insert
   attachToLane({laneId, noteId}) {
     if(!noteId) {
       this.waitFor(NoteStore);
@@ -242,6 +283,7 @@ class LaneStore {
 
     this.setState({lanes});
   }
+leanpub-end-insert
 }
 
 export default alt.createStore(LaneStore, 'LaneStore');
@@ -267,7 +309,12 @@ Again, we should set up an action:
 ```javascript
 import alt from '../libs/alt';
 
+leanpub-start-delete
+export default alt.generateActions('create', 'attachToLane');
+leanpub-end-delete
+leanpub-start-insert
 export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
+leanpub-end-insert
 ```
 
 The implementation will resemble `attachToLane`. In this case we'll remove the possibly found `Note` instead:
@@ -284,6 +331,7 @@ class LaneStore {
   attachToLane({laneId, noteId}) {
     ...
   }
+leanpub-start-insert
   detachFromLane({laneId, noteId}) {
     const lanes = this.lanes.map((lane) => {
       if(lane.id === laneId) {
@@ -295,6 +343,7 @@ class LaneStore {
 
     this.setState({lanes});
   }
+leanpub-end-insert
 }
 
 export default alt.createStore(LaneStore, 'LaneStore');
@@ -323,16 +372,20 @@ class NoteStore {
 
     this.notes = [];
 
+leanpub-start-insert
     this.exportPublicMethods({
       get: this.get.bind(this)
     });
+leanpub-end-insert
   }
   ...
+leanpub-start-insert
   get(ids) {
     return (ids || []).map(
       (id) => this.notes.filter((note) => note.id === id)
     ).filter((a) => a).map((a) => a[0]);
   }
+leanpub-end-insert
 }
 
 export default alt.createStore(NoteStore, 'NoteStore');
@@ -348,9 +401,12 @@ Now that we have the logical bits together, we can integrate it with `Lane`. We'
 
 ```javascript
 ...
+leanpub-start-insert
 import LaneActions from '../actions/LaneActions';
+leanpub-end-insert
 
 export default class Lane extends React.Component {
+leanpub-start-insert
   constructor(props) {
     super(props);
 
@@ -359,6 +415,7 @@ export default class Lane extends React.Component {
     this.addNote = this.addNote.bind(this, id);
     this.deleteNote = this.deleteNote.bind(this, id);
   }
+leanpub-end-insert
   render() {
     const {lane, ...props} = this.props;
 
@@ -373,26 +430,46 @@ export default class Lane extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={{
+leanpub-start-delete
+            items: () => NoteStore.getState().notes || []
+leanpub-end-delete
+leanpub-start-insert
             items: () => NoteStore.get(lane.notes)
+leanpub-end-insert
           }}
         >
-          <Notes
-            onEdit={this.editNote}
-            onDelete={this.deleteNote} />
+          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
         </AltContainer>
       </div>
     );
   }
+leanpub-start-delete
+  addNote() {
+leanpub-end-delete
+leanpub-start-insert
   addNote(laneId) {
+leanpub-end-insert
     NoteActions.create({task: 'New task'});
+leanpub-start-insert
     LaneActions.attachToLane({laneId});
+leanpub-end-insert
   }
   editNote(id, task) {
     NoteActions.update({id, task});
   }
+leanpub-start-delete
+  deleteNote(id) {
+leanpub-end-delete
+leanpub-start-insert
   deleteNote(laneId, noteId) {
+leanpub-end-insert
+leanpub-start-delete
+    NoteActions.delete(id);
+leanpub-end-delete
+leanpub-start-insert
     LaneActions.detachFromLane({laneId, noteId});
     NoteActions.delete(noteId);
+leanpub-end-insert
   }
 }
 ```
@@ -485,7 +562,12 @@ Next we need to make *Notes.jsx* point at the new component. We'll need to alter
 
 ```javascript
 import React from 'react';
+leanpub-start-delete
+import Note from './Note.jsx';
+leanpub-end-delete
+leanpub-start-insert
 import Editable from './Editable.jsx';
+leanpub-end-insert
 
 export default class Notes extends React.Component {
   ...
@@ -493,8 +575,14 @@ export default class Notes extends React.Component {
     // note that we pass task to Editable through `value` prop now!
     return (
       <li className="note" key={note.id}>
+leanpub-start-delete
+        <Note
+          task={note.task}
+leanpub-end-delete
+leanpub-start-insert
         <Editable
           value={note.task}
+leanpub-end-insert
           onEdit={this.props.onEdit.bind(null, note.id)}
           onDelete={this.props.onDelete.bind(null, note.id)} />
       </li>
@@ -511,12 +599,17 @@ Next we can use this generic component to allow a `Lane`'s name to be modified. 
 
 ```javascript
 ...
+leanpub-start-insert
 import Editable from './Editable.jsx';
+leanpub-end-insert
 
 export default class Lane extends React.Component {
   constructor(props) {
     ...
+
+leanpub-start-insert
     this.editName = this.editName.bind(this, id);
+leanpub-end-insert
   }
   render() {
     const {lane, ...props} = this.props;
@@ -524,8 +617,13 @@ export default class Lane extends React.Component {
     return (
       <div {...props}>
         <div className="lane-header">
+leanpub-start-delete
+          <div className="lane-name">{lane.name}</div>
+leanpub-end-delete
+leanpub-start-insert
           <Editable className="lane-name" value={lane.name}
             onEdit={this.editName} />
+leanpub-end-insert
           <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
@@ -535,9 +633,11 @@ export default class Lane extends React.Component {
     )
   }
   ...
+leanpub-start-insert
   editName(id, name) {
     console.log('edited lane name', id, name);
   }
+leanpub-end-insert
 }
 ```
 
@@ -554,10 +654,15 @@ We will need to define some logic to make this work. To follow the same idea as 
 ```javascript
 import alt from '../libs/alt';
 
+leanpub-start-delete
+export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
+leanpub-end-delete
+leanpub-start-insert
 export default alt.generateActions(
   'create', 'update', 'delete',
   'attachToLane', 'detachFromLane'
 );
+leanpub-end-insert
 ```
 
 We are also going to need `LaneStore` level implementations for these. They can be modeled based on what we have seen in `NoteStore` earlier:
@@ -569,6 +674,7 @@ We are also going to need `LaneStore` level implementations for these. They can 
 
 class LaneStore {
   ...
+leanpub-start-insert
   update({id, name}) {
     const lanes = this.lanes.map((lane) => {
       if(lane.id === id) {
@@ -585,6 +691,7 @@ class LaneStore {
       lanes: this.lanes.filter((lane) => lane.id !== id)
     });
   }
+leanpub-end-insert
   attachToLane({laneId, noteId}) {
     ...
   }
@@ -605,12 +712,17 @@ Now that we have resolved actions and store, we need to adjust our component to 
 export default class Lane extends React.Component {
   ...
   editName(id, name) {
+leanpub-start-delete
+    console.log('edited lane name', id, name);
+leanpub-end-delete
+leanpub-start-insert
     if(name) {
       LaneActions.update({id, name});
     }
     else {
       LaneActions.delete(id);
     }
+leanpub-end-insert
   }
 }
 ```
