@@ -336,7 +336,7 @@ To keep things simple, I've defined a custom `merge` function that concatenates 
 npm i webpack-merge --save-dev
 ```
 
-to add it to the project. 
+to add it to the project.
 
 We will detect npm lifecycle events (`start`, `build`, ...) and then return a configuration for each case. We will define more of these later on as we expand the project.
 
