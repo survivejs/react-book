@@ -142,6 +142,8 @@ Another way to achieve this would be to serve the contents of the directory thro
 
 T> Note that you can pass a custom template to *html-webpack-plugin*. In our case, the default template it uses is fine for our purposes for now.
 
+T> Sometimes it may make sense to define `context: <some absolute path>`. After this you can write entries relative to the [context](https://webpack.github.io/docs/configuration.html#context) path rather than using an absolute path for each entry. This is useful especially in more complicated scenarios.
+
 ## Adding Build Shortcut
 
 Given executing `node_modules/.bin/webpack` is a little verbose, we should do something about it. npm and *package.json* doubles as a task runner with some configuration. Adjust it as follows:
