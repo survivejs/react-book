@@ -158,7 +158,9 @@ Given executing `node_modules/.bin/webpack` is a little verbose, we should do so
 
 You can execute the scripts defined this way through *npm run*. If you trigger *npm run build* now, you should get a build at your output directory.
 
-This scheme can be expanded further. Task runners, such as Grunt or Gulp, allow you to achieve pretty much the same. The advantage of those tools is that they will operate in a cross-platform manner without a second thought. If you operate through *package.json* like this, you may have to be more careful. On the plus side, this is a very light approach. To keep things simple we'll be relying on it.
+This works because npm adds `node_modules/.bin` temporarily to the path. As a result ather than having to write `"build": "node_modules/.bin/webpack"`, we can do just `"build": "webpack"`. Unless Webpack is installed to the project, this can point to a possible global install. That can be potentially dangerous as it's a good idea to have control over the version of tools you are using.
+
+The scheme can be expanded further. Task runners, such as Grunt or Gulp, allow you to achieve the same. The advantage of task runners is that they will operate in a cross-platform manner without a second thought. If you operate through *package.json* like this, you may have to be more careful. On the plus side, this is a very light approach. To keep things simple we'll be relying on it.
 
 ## Setting Up *webpack-dev-server*
 
