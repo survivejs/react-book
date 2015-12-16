@@ -1,16 +1,8 @@
 import React from 'react';
 
 export default class Editable extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      editing: false
-    };
-  }
   render() {
-    const {value, onEdit, ...props} = this.props;
-    const editing = this.state.editing;
+    const {value, onEdit, onValueClick, editing, ...props} = this.props;
 
     return (
       <div {...props}>
@@ -29,7 +21,7 @@ export default class Editable extends React.Component {
     const onDelete = this.props.onDelete;
 
     return (
-      <div onClick={this.edit}>
+      <div onClick={this.props.onValueClick}>
         <span className="value">{this.props.value}</span>
         {onDelete ? this.renderDelete() : null }
       </div>
@@ -38,11 +30,6 @@ export default class Editable extends React.Component {
   renderDelete = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
   }
-  edit = () => {
-    this.setState({
-      editing: true
-    });
-  }
   checkEnter = (e) => {
     if(e.key === 'Enter') {
       this.finishEdit(e);
@@ -50,9 +37,5 @@ export default class Editable extends React.Component {
   }
   finishEdit = (e) => {
     this.props.onEdit(e.target.value);
-
-    this.setState({
-      editing: false
-    });
   }
 }

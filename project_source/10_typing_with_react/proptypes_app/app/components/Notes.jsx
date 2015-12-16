@@ -14,7 +14,9 @@ class Notes extends React.Component {
       <Note className="note" onMove={LaneActions.move}
         id={note.id} key={note.id}>
         <Editable
+          editing={note.editing}
           value={note.task}
+          onValueClick={this.props.onValueClick.bind(null, note.id)}
           onEdit={this.props.onEdit.bind(null, note.id)}
           onDelete={this.props.onDelete.bind(null, note.id)} />
       </Note>
@@ -24,7 +26,8 @@ class Notes extends React.Component {
 Notes.propTypes = {
   items: React.PropTypes.array,
   onEdit: React.PropTypes.func,
-  onDelete: React.PropTypes.func
+  onDelete: React.PropTypes.func,
+  onValueClick: React.PropTypes.func
 };
 Notes.defaultProps = {
   items: [],

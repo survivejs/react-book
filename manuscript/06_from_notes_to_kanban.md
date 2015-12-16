@@ -26,6 +26,7 @@ In addition, we are going to need a `LaneStore` and a method matching to `create
 
 ```javascript
 import uuid from 'node-uuid';
+import assign from 'object-assign';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 
@@ -493,16 +494,8 @@ We are still missing some basic functionality such as editing and removing lanes
 import React from 'react';
 
 export default class Editable extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      editing: false
-    };
-  }
   render() {
-    const {value, onEdit, ...props} = this.props;
-    const editing = this.state.editing;
+    const {value, onEdit, onValueClick, editing, ...props} = this.props;
 
     return (
       <div {...props}>
@@ -517,11 +510,11 @@ export default class Editable extends React.Component {
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
-  renderValue = () => { // drop renderNote
+  renderValue = () => {
     const onDelete = this.props.onDelete;
 
     return (
-      <div onClick={this.edit}>
+      <div onClick={this.props.onValueClick}>
         <span className="value">{this.props.value}</span>
         {onDelete ? this.renderDelete() : null }
       </div>
@@ -530,14 +523,21 @@ export default class Editable extends React.Component {
   renderDelete = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
   }
-  ...
+  checkEnter = (e) => {
+    if(e.key === 'Enter') {
+      this.finishEdit(e);
+    }
+  }
+  finishEdit = (e) => {
+    this.props.onEdit(e.target.value);
+  }
 }
 ```
 
 There are a couple of important changes:
 
 * `{editing ? this.renderEdit() : this.renderValue()}` - This ternary selects what to render based on the editing state. Previously we had `Task`. Now we are using the term `Value` as that's more generic.
-* `const {value, onEdit, ...props} = this.props;` - We changed task to value here as well.
+* `const {value, onEdit, onValueClick, editing, ...props} = this.props;` - We changed task to value here as well.
 * `renderValue()` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
 
 Because the class name changes, *main.css* needs a small tweak:
@@ -581,7 +581,9 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
         <Editable
+          editing={note.editing}
           value={note.task}
+          onValueClick={this.props.onValueClick.bind(null, note.id)}
 leanpub-end-insert
           onEdit={this.props.onEdit.bind(null, note.id)}
           onDelete={this.props.onDelete.bind(null, note.id)} />
@@ -609,6 +611,7 @@ export default class Lane extends React.Component {
 
 leanpub-start-insert
     this.editName = this.editName.bind(this, id);
+    this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
 leanpub-end-insert
   }
   render() {
@@ -621,14 +624,27 @@ leanpub-start-delete
           <div className="lane-name">{lane.name}</div>
 leanpub-end-delete
 leanpub-start-insert
-          <Editable className="lane-name" value={lane.name}
-            onEdit={this.editName} />
+          <Editable className="lane-name" editing={lane.editing}
+            value={lane.name} onEdit={this.editName}
+            onValueClick={this.activateLaneEdit} />
 leanpub-end-insert
           <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
         </div>
-        ...
+        <AltContainer
+          stores={[NoteStore]}
+          inject={{
+            items: () => NoteStore.get(lane.notes)
+          }}
+        >
+          <Notes
+leanpub-start-insert
+            onValueClick={this.activateNoteEdit}
+leanpub-end-insert
+            onEdit={this.editNote}
+            onDelete={this.deleteNote} />
+        </AltContainer>
       </div>
     )
   }
@@ -636,6 +652,12 @@ leanpub-end-insert
 leanpub-start-insert
   editName(id, name) {
     console.log('edited lane name', id, name);
+  }
+  activateLaneEdit(id) {
+    console.log('edit lane name', id);
+  }
+  activateNoteEdit(id) {
+    console.log('edit note task', id);
   }
 leanpub-end-insert
 }
@@ -675,10 +697,10 @@ We are also going to need `LaneStore` level implementations for these. They can 
 class LaneStore {
   ...
 leanpub-start-insert
-  update({id, name}) {
+  update(updatedLane) {
     const lanes = this.lanes.map((lane) => {
-      if(lane.id === id) {
-        lane.name = name;
+      if(lane.id === updatedLane.id) {
+        lane = assign({}, lane, updatedLane);
       }
 
       return lane;
@@ -711,17 +733,42 @@ Now that we have resolved actions and store, we need to adjust our component to 
 ...
 export default class Lane extends React.Component {
   ...
+  editNote(id, task) {
+leanpub-start-delete
+    NoteActions.update({id, task});
+leanpub-end-delete
+leanpub-start-insert
+    NoteActions.update({id, task, editing: false});
+leanpub-end-insert
+  }
+  ...
   editName(id, name) {
 leanpub-start-delete
     console.log('edited lane name', id, name);
 leanpub-end-delete
 leanpub-start-insert
     if(name) {
-      LaneActions.update({id, name});
+      LaneActions.update({id, name, editing: false});
     }
     else {
       LaneActions.delete(id);
     }
+leanpub-end-insert
+  }
+  activateLaneEdit(id) {
+leanpub-start-delete
+    console.log('edit lane name', id);
+leanpub-end-delete
+leanpub-start-insert
+    LaneActions.update({id, editing: true});
+leanpub-end-insert
+  }
+  activateNoteEdit(id) {
+leanpub-start-delete
+    console.log('edit note task', id);
+leanpub-end-delete
+leanpub-start-insert
+    NoteActions.update({id, editing: true});
 leanpub-end-insert
   }
 }
@@ -730,6 +777,8 @@ leanpub-end-insert
 Try modifying a lane name now. Modifications now should get saved the same way as they do for notes. Deleting lanes should be possible as well.
 
 ![Editing a lane name](images/kanban_04.png)
+
+T> If you want that lanes and notes are editable after they are created, set `lane.editing = true;` or `note.editing = true;` when creating them.
 
 ## Styling Kanban Board
 

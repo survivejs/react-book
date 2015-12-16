@@ -29,6 +29,7 @@
     "alt-container": "^1.0.0",
     "alt-utils": "^1.0.0",
     "node-uuid": "^1.4.7",
+    "object-assign": "^4.0.1",
     "react": "^0.14.3",
     "react-addons-update": "^0.14.3",
     "react-dnd": "^2.0.2",

@@ -1,4 +1,5 @@
 import uuid from 'node-uuid';
+import assign from 'object-assign';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 import NoteStore from './NoteStore';
@@ -19,10 +20,10 @@ class LaneStore {
       lanes: lanes.concat(lane)
     });
   }
-  update({id, name}) {
+  update(updatedLane) {
     const lanes = this.lanes.map((lane) => {
-      if(lane.id === id) {
-        lane.name = name;
+      if(lane.id === updatedLane.id) {
+        lane = assign({}, lane, updatedLane);
       }
 
       return lane;

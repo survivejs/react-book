@@ -20,18 +20,18 @@ describe('Editable', () => {
     assert.equal(valueComponent.textContent, value);
   });
 
-  it('enters edit mode', () => {
+  it('triggers onValueClick', () => {
+    let triggered = false;
     const value = 'value';
+    const onValueClick = () => triggered = true;
     const component = renderIntoDocument(
-      <Editable value={value} />
+      <Editable value={value} onValueClick={onValueClick} />
     );
 
     const valueComponent = findRenderedDOMComponentWithClass(component, 'value');
     Simulate.click(valueComponent);
 
-    const input = findRenderedDOMComponentWithTag(component, 'input');
-
-    assert.equal(input.value, value);
+    assert.equal(triggered, true);
   });
 
   it('triggers onEdit', () => {
@@ -42,11 +42,8 @@ describe('Editable', () => {
       assert.equal(val, newValue);
     };
     const component = renderIntoDocument(
-      <Editable value={'value'} onEdit={onEdit} />
+      <Editable editing={true} value={'value'} onEdit={onEdit} />
     );
-
-    let valueComponent = findRenderedDOMComponentWithClass(component, 'value');
-    Simulate.click(valueComponent);
 
     const input = findRenderedDOMComponentWithTag(component, 'input');
     input.value = newValue;
