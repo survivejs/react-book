@@ -58,6 +58,8 @@ I expect that you have a basic knowledge of JavaScript and Node.js. You should b
 
 If you know Webpack or React well already, there still might be something in it for you. Especially the early chapters will likely be trivial to you. That said, if you follow along, you can see how I evolve the application architecture. Especially the last part contains material you might find useful as reference. The main chapters themselves contain some reference as well even though they are primarily tutorial driven.
 
+Given the book relies on a variety of new language features, I've gathered the most important ones used in the book to a separate *Language Features* appendix that provides a quick look at them. If you want to understand the features in isolation or feel unsure of something, that's a good place to look.
+
 ## Extra Material
 
 The book content and source are available at [book's repository at GitHub](https://github.com/survivejs/webpack_react). You can find a lot of other material below the [survivejs organization](https://github.com/survivejs/) that complements the book. The book repository contains code per chapter. This means you can start from anywhere you want without having to type it all through yourself.

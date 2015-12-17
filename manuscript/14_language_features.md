@@ -1,3 +1,275 @@
 # Language Features
 
-TODO
+ES6 (or ES2015) was arguably the biggest change to JavaScript in a long time. As a result we received a wide variety of new functionality. The purpose of this appendix is to illustrate the features used in the book in isolation to make it clearer to understand how they work. Rather than going through [the entire specification](http://www.ecma-international.org/ecma-262/6.0/index.html), I will just focus on the subset of features used in the book.
+
+## Modules
+
+ES6 introduced proper module declarations. Earlier this was somewhat ad hoc and we used formats such as AMD or CommonJS. See *Webpack Compared* for descriptions of those. Both formats are still in use, but it's always better to have something standard in place.
+
+ES6 module declarations are statically analyzable. This is highly useful for tool authors. Effectively this means we can gain features like tree shaking. This allows the tooling to skip unused code easily simply by analyzing the import structure.
+
+To give you an example of the module format, consider the code below:
+
+```javascript
+import {combineReducers} from 'redux';
+import * as types from '../actions/notes';
+import persist from './libs/persist';
+
+// export at module root
+export default function () { ... };
+
+// or export as module function,
+// you can have multiple of these per module
+export function hello() {...};
+```
+
+Especially `export default` is useful if you prefer to keep your modules focused. In the example `persist` function is an example of such. Regular `export` is useful for collecting multiple functions below the same umbrella. In this case we use `import {combineReducers} from 'redux';` to access a module defined in a such way.
+
+Bundlers, such as Webpack, can provide some features beyond this. You could define a `resolve.alias` for some of your module directories for example. This would allow you to use an import such as `import persist from 'libs/persist';` regardless of where you import. A simple `resolve.alias` could look like this:
+
+```javascript
+...
+resolve: {
+  alias: {
+    libs: path.join(__dirname, 'libs')
+  }
+}
+```
+
+The official documentation describes [possible variants](https://webpack.github.io/docs/configuration.html#resolve-alias) in fuller detail.
+
+## Classes
+
+Unlike many other languages out there, JavaScript uses prototype based inheritance instead of class based one. Both approaches have their merits. In fact, you can mimic a class based model through a prototype based one. ES6 classes are about providing syntactical sugar above the basic mechanisms of JavaScript. Internally it still uses the same old system. It just looks a little different to the programmer.
+
+These days React supports class based component definitions. Not all agree that it's a good thing. That said, the definition can be quite neat as long as you don't abuse it. To give you a simple example, consider the code below:
+
+```javascript
+import React from 'react';
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // This is a regular property outside of React's machinery.
+    // If you don't need to trigger render() when it's changed,
+    // this can work.
+    this.privateProperty = 'private';
+
+    // React specific state. Commits to it go through
+    // `this.setState`. That will eventually trigger render()
+    this.state = {
+      name: 'Class demo'
+    };
+  }
+  render() {
+    // use the properties somehow
+    const privateProperty = this.privateProperty;
+    const name = this.state.name
+    const notes = this.props.notes;
+
+    ...
+  }
+}
+```
+
+Perhaps the biggest advantage of the class based approach is the fact that it cuts down some complexity, especially when it comes to React lifecycle hooks. It is important to note that class methods won't get by default, though! This is why the book relies on an experimental feature known as property initializers.
+
+## Property Initializers
+
+ES6 classes won't bind their methods by default. This can be problematic sometimes as you still may want to be able to access the instance properties. Without property initializers we might write something like this:
+
+```javascript
+import React from 'react';
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.renderNote = this.renderNote.bind(this);
+  }
+  render() {
+    // Use `renderNote` here somehow.
+    ...
+
+    return this.renderNote();
+  }
+  renderNote() {
+    // Given renderNote was bound, we can access `this` as expected
+    return <div>{this.props.note}</div>;
+  }
+}
+```
+
+Using property initializers we could write something tidier instead:
+
+```javascript
+import React from 'react';
+
+export default class App extends React.Component {
+  render() {
+    // Use `renderNote` here somehow.
+    ...
+
+    return this.renderNote();
+  }
+  renderNote = () => {
+    // Given renderNote was bound, we can access `this` as expected
+    return <div>{this.props.note}</div>;
+  }
+}
+```
+
+Now we've pushed the declaration to method level. This reads better. I decided to use the feature in this book primarily for this reason. There is simply less to worry about.
+
+## Functions
+
+Traditionally JavaScript has been very flexible with its functions. To give you a better idea, see the implementation of `map` below:
+
+```javascript
+function map(cb, values) {
+  var ret = [];
+  var i, len;
+
+  for(i = 0, len = values.length; i < len; i++) {
+    ret.push(cb(values[i]));
+  }
+
+  return ret;
+}
+
+map(function(v) {
+  return v * 2;
+}, [34, 2, 5]); // yields [68, 4, 10]
+```
+
+In ES6 we could write it as follows:
+
+```javascript
+function map(cb, values) {
+  const ret = [];
+  const i, len;
+
+  for(i = 0, len = values.length; i < len; i++) {
+    ret.push(cb(values[i]));
+  }
+
+  return ret;
+}
+
+map((v) => v * 2, [34, 2, 5]); // yields [68, 4, 10]
+```
+
+The implementation of `map` is more or less the same still. The interesting bit is at the way we call it. Especially that `(v) => v * 2` part is intriguing. Rather than having to write `function` everywhere, the fat arrow syntax provides us a handy little shorthand. To give you further examples of usage, consider below:
+
+```javascript
+// These are the same
+v => v * 2;
+(v) => v * 2; // I prefer this variant for short functions
+(v) => { // Use this if you need multiple statements
+  return v * 2;
+}
+
+// We can bind these to a variable
+const double = (v) => v * 2;
+
+console.log(double(2));
+```
+
+### Fat Arrow Context
+
+There is one important feature in the fat arrow syntax you should be aware of. Here's a little example to illustrate it:
+
+```javascript
+var obj = {
+  context: function() {
+    return this;
+  },
+  name: 'demo object'
+};
+
+var obj2 = {
+  context: () => this,
+  name: 'demo object'
+};
+
+console.log(obj.context()); // { context: [Function], name: 'demo object' }
+console.log(obj2.context()); // {}
+```
+
+It is very important to understand that `() => this` is actually equivalent to `function() {return this;}.bind(this)`. In other words, fat arrow functions `bind` to their parent context!
+
+Even though this might seem a little weird, this is actually useful. In the past, if you wanted to access parent context, you either needed to `bind` it or attach the parent context to a variable `var that = this;`. The introduction of fat arrows has mitigated this problem.
+
+### Function Parameters
+
+Historically dealing with function parameters has been somewhat limited. There are various hacks, such as `values = values || [];`, but they aren't particularly nice and they are prone to errors. For example, using `||` can cause problems with zeros. ES6 solves this problem by introducing default parameters. We can simply write `function map(cb, values=[])` now.
+
+There is more to that and the default values can even depend on each other. You can also pass an arbitrary amount of parameters through `function map(cb, values...)`. In this case you would call the function through `map((a) => a * 2, 1, 2, 3, 4)`. The API might not be perfect for `map`, but it might make more sense in some other scenario.
+
+There are also convenient means to extract values out of passed objects. This is highly useful with React component defined using the function syntax:
+
+```javascript
+export default ({name}) => {
+  // ES6 string interpolation. Note the backticks!
+  return <div>{`Hello ${name}!`}</div>;
+};
+```
+
+## Destructuring
+
+That `...` is related to the idea of destructuring. For example `const {lane, ...props} = this.props;` would extract `lane` out of `this.props` while the rest of the object would go to `props`. This object based syntax is still experimental. ES6 specifies an official way to perform the same for arrays like this:
+
+```javascript
+const [lane, ...rest] = ['foo', 'bar', 'baz'];
+
+console.log(lane, rest); // 'foo', ['bar', 'baz']
+```
+
+The spread operator (`...`) is useful for concatenating. You see syntax like this in Redux examples often:
+
+```javascript
+[...state, action.lane];
+
+// This is equal to
+state.concat([action.lane])
+```
+
+The same idea applies to React components:
+
+```javascript
+...
+
+render() {
+  const {value, onEdit, ...props} = this.props;
+
+  return <div {...props}>Spread demo</div>;
+}
+
+...
+```
+
+## String Interpolation
+
+Earlier dealing with strings was somewhat painful in JavaScript. Usually you just ended up using a syntax like `'Hello' + name + '!'`. Overloading `+` for this purpose wasn't perhaps the smartest move. There also was no proper support for multi-line strings. Fortunately that has been fixed. Consider the examples below:
+
+```javascript
+const hello = `\`Hello ${name}!\``;
+const multiline = `
+multiple
+lines of
+awesomeness
+`;
+```
+
+The backtick syntax may take a while to get used to, but it's powerful and less prone to mistakes.
+
+## `const`, `let`, `var`
+
+In JavaScript variables are global by default. `var` binds them on *function level*. This is in contrast to many other languages that implement *block level* binding. ES6 introduces block level binding through `let`. There's also support for `const`, which guarantees the reference to the variable itself cannot change. This doesn't mean, however, that you cannot modify the contents of the variable. So if you are pointing at an object, you are still allowed to tweak it!
+
+I tend to favor to default to `const` whenever possible. If I need something mutable, `let` will do fine. It is hard to find any good use for `var` anymore as `const` and `let` cover the need in a more understandable manner. In fact, all of the book's code, apart from this appendix, relies on `const`. That just shows you how far you can get with it.
+
+## Conclusion
+
+There's a lot more to ES6 and the upcoming specifications than this. If you want to understand the specification better, [ES6 Katas](http://es6katas.org/) is a good starting point for learning more. Just having a good idea of the basics will take you far.
