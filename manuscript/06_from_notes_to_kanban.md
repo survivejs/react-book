@@ -407,25 +407,16 @@ import LaneActions from '../actions/LaneActions';
 leanpub-end-insert
 
 export default class Lane extends React.Component {
-leanpub-start-insert
-  constructor(props) {
-    super(props);
-
-    const id = props.lane.id;
-
-    this.addNote = this.addNote.bind(this, id);
-    this.deleteNote = this.deleteNote.bind(this, id);
-  }
-leanpub-end-insert
   render() {
     const {lane, ...props} = this.props;
+    const id = lane.id;
 
     return (
       <div {...props}>
         <div className="lane-header">
           <div className="lane-name">{lane.name}</div>
           <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
+            <button onClick={this.addNote.bind(this, id)}>+</button>
           </div>
         </div>
         <AltContainer
@@ -439,7 +430,9 @@ leanpub-start-insert
 leanpub-end-insert
           }}
         >
-          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
+          <Notes
+            onEdit={this.editNote}
+            onDelete={this.deleteNote.bind(this, id)} />
         </AltContainer>
       </div>
     );
@@ -606,16 +599,9 @@ import Editable from './Editable.jsx';
 leanpub-end-insert
 
 export default class Lane extends React.Component {
-  constructor(props) {
-    ...
-
-leanpub-start-insert
-    this.editName = this.editName.bind(this, id);
-    this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
-leanpub-end-insert
-  }
   render() {
     const {lane, ...props} = this.props;
+    const id = lane.id;
 
     return (
       <div {...props}>
@@ -625,11 +611,11 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
           <Editable className="lane-name" editing={lane.editing}
-            value={lane.name} onEdit={this.editName}
-            onValueClick={this.activateLaneEdit} />
+            value={lane.name} onEdit={this.editName.bind(this, id)}
+            onValueClick={this.activateLaneEdit.bind(this, id)} />
 leanpub-end-insert
           <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
+            <button onClick={this.addNote.bind(this, id)}>+</button>
           </div>
         </div>
         <AltContainer
@@ -643,7 +629,7 @@ leanpub-start-insert
             onValueClick={this.activateNoteEdit}
 leanpub-end-insert
             onEdit={this.editNote}
-            onDelete={this.deleteNote} />
+            onDelete={this.deleteNote.bind(this, id)} />
         </AltContainer>
       </div>
     )

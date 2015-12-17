@@ -583,6 +583,7 @@ leanpub-end-delete
 leanpub-start-insert
     const {connectDropTarget, lane, ...props} = this.props;
 leanpub-end-insert
+    const id = lane.id;
 
 leanpub-start-delete
     return (

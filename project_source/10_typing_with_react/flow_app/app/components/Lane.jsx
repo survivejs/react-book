@@ -47,10 +47,10 @@ class Lane extends React.Component {
       <div {...props}>
         <div className="lane-header">
           <Editable className="lane-name" editing={lane.editing}
-            value={lane.name} onEdit={this.editName.bind(id)}
-            onValueClick={this.activateLaneEdit} />
+            value={lane.name} onEdit={this.editName.bind(this, id)}
+            onValueClick={this.activateLaneEdit.bind(this, id)} />
           <div className="lane-add-note">
-            <button onClick={this.addNote.bind(id)}>+</button>
+            <button onClick={this.addNote.bind(this, id)}>+</button>
           </div>
         </div>
         <AltContainer
@@ -60,9 +60,9 @@ class Lane extends React.Component {
           }}
         >
           <Notes
-            onValueClick={this.activateNoteEdit.bind(id)}
+            onValueClick={this.activateNoteEdit}
             onEdit={this.editNote}
-            onDelete={this.deleteNote.bind(id)} />
+            onDelete={this.deleteNote.bind(this, id)} />
         </AltContainer>
       </div>
     );
@@ -86,10 +86,10 @@ class Lane extends React.Component {
       LaneActions.delete(id);
     }
   };
-  activateLaneEdit(id) {
+  activateLaneEdit(id): void {
     LaneActions.update({id, editing: true});
   }
-  activateNoteEdit(id) {
+  activateNoteEdit(id): void {
     NoteActions.update({id, editing: true});
   }
 }
