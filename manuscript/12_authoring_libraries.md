@@ -126,6 +126,8 @@ In order to bump your package version, you'll just need to invoke `npm version <
 
 Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case.
 
+T> Consider using [semantic-release](https://www.npmjs.com/package/semantic-release) if you prefer more structured approach. It can take some pain out of the release process while automating a part of it. For instance, it is able to detect possible breaking changes and generate changelogs.
+
 ### Publishing a Prerelease Version
 
 Sometimes you might want to publish something preliminary for other people to test. There are certain conventions for this. You rarely see *alpha* releases at npm. *beta* and *rc (release candidate) are common, though. For example, a package might have versions like this:
