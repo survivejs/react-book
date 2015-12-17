@@ -8,12 +8,14 @@ export default class Notes extends React.Component {
   props: {
     items: Array<Object>,
     onEdit: Function,
-    onDelete: Function
+    onDelete: Function,
+    onValueClick: Function
   };
   static defaultProps: {
     items: [],
     onEdit: () => any,
-    onDelete: () => any
+    onDelete: () => any,
+    onValueClick: () => any
   };
   render(): ReactElement {
     const notes = this.props.items;
