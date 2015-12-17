@@ -28,7 +28,8 @@ class Lane extends React.Component {
     lane: {
       id: string,
       name?: string,
-      notes?: Array<Object>
+      notes?: Array<Object>,
+      editing?: boolean
     },
     connectDropTarget: Function
   };
