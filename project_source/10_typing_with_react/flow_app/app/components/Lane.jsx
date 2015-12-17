@@ -39,16 +39,6 @@ class Lane extends React.Component {
       notes: []
     }
   };
-  constructor(props) {
-    super(props);
-
-    const id = props.lane.id;
-
-    this.addNote = this.addNote.bind(this, id);
-    this.deleteNote = this.deleteNote.bind(this, id);
-    this.editName = this.editName.bind(this, id);
-    this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
-  }
   render(): ReactElement {
     const {connectDropTarget, lane, ...props} = this.props;
     const id = lane.id;
@@ -57,7 +47,7 @@ class Lane extends React.Component {
       <div {...props}>
         <div className="lane-header">
           <Editable className="lane-name" editing={lane.editing}
-            value={lane.name} onEdit={this.editName}
+            value={lane.name} onEdit={this.editName.bind(id)}
             onValueClick={this.activateLaneEdit} />
           <div className="lane-add-note">
             <button onClick={this.addNote.bind(id)}>+</button>
@@ -70,7 +60,7 @@ class Lane extends React.Component {
           }}
         >
           <Notes
-            onValueClick={this.activateNoteEdit}
+            onValueClick={this.activateNoteEdit.bind(id)}
             onEdit={this.editNote}
             onDelete={this.deleteNote.bind(id)} />
         </AltContainer>
