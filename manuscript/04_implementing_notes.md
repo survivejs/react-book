@@ -373,9 +373,7 @@ If you hit the button a few times now, you should see new items. It might not be
 
 Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect a click event on a `Note`, and then show an input containing its state. Then when the editing has been confirmed, we can return it back to normal.
 
-This means we'll need to extend `Note` somehow and communicate possible changes to `App`. That way it knows to update the data model. Additionally, `Note` needs to keep track of its edit state. It has to show the correct element (div or input) based on its state.
-
-We can achieve these goals using a callback and a ternary expression. Here's a sample implementation of the idea:
+This means we'll need to extend `Note` somehow and communicate possible changes to `App`. That way it knows to update the data model. Additionally, `Note` needs to keep track of its edit state. It has to show the correct element (div or input) based on its state. Here's a sample implementation of the idea:
 
 **app/components/Note.jsx**
 
