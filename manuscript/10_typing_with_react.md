@@ -1,6 +1,6 @@
 # Typing with React
 
-In order to encourage people to support my work I've decided to publish a TL;DR version of this chapter to the community. This will allow me to develop more content, so it's a win-win really.
+In order to encourage people to support my work, I've decided to publish a TL;DR version of this chapter for the community. This will allow me to develop more content, so it's a win-win really.
 
 You can access the full chapter by buying a copy through [Leanpub](https://leanpub.com/survivejs_webpack_react). It goes into detail, whereas the following should give you a rough idea of the chapter contents.
 

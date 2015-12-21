@@ -29,7 +29,7 @@ npm ERR! Please include the following file with any support request:
 ...
 ```
 
-In human terms it means that some package, `eslint-loader` in this case, has a too strict `peerDependency` requirement. Our project has a newer version installed already. Given the required peer dependency is older than our version, we get this particular error.
+In human terms, it means that some package, `eslint-loader` in this case, has a too strict `peerDependency` requirement. Our project has a newer version installed already. Given the required peer dependency is older than our version, we get this particular error.
 
 There are a couple of ways to work around this:
 
@@ -37,7 +37,7 @@ There are a couple of ways to work around this:
 2. Resolve the conflict by settling to a version that satisfies the peer dependency. In this case, we could pin `eslint` to version `0.23` (`"eslint": "0.23"`), and everyone should be happy.
 3. Fork the package, fix the version range, and point at your custom version. In this case, you would have a `"<package>": "<github user>/<project>#<reference>"` kind of declaration for your dependencies.
 
-T> Note that peer dependencies will be dealt with differently starting with npm 3. After that it's up to the package consumer (i.e., you) to deal with it. This particular error will go away.
+T> Note that peer dependencies will be dealt with differently starting with npm 3. After that, it's up to the package consumer (i.e., you) to deal with it. This particular error will go away.
 
 ## `Module parse failed`
 
@@ -56,6 +56,6 @@ Even though everything should work in theory, sometimes version ranges can bite 
 
 A good first step is to trigger `npm update`. This will check out your dependencies and pull the newest matching versions into your semver declarations. If this doesn't fix the issue, you can try to nuke `node_modules` (`rm -rf node_modules`) from the project directory and reinstall the dependencies (`npm i`). Alternatively you can try to explicitly pin some of your dependencies to specific versions.
 
-Often you are not alone with your problem. Therefore it may be worth your while to check out the project issue trackers to see what's going on. You can likely find a good workaround or a proposed fix there. These issues tend to get fixed fast for popular projects.
+Often you are not alone with your problem. Therefore, it may be worth your while to check out the project issue trackers to see what's going on. You can likely find a good workaround or a proposed fix there. These issues tend to get fixed fast for popular projects.
 
 In a production environment, it may be preferable to lock production dependencies using `npm shrinkwrap`. [The official documentation](https://docs.npmjs.com/cli/shrinkwrap) goes into more detail on the topic.

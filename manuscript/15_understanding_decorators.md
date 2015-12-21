@@ -4,7 +4,7 @@ If you have used languages such as Java or Python before, you might be familiar 
 
 ## Implementing Logging Decorator
 
-Sometimes it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's a more controllable way to deal with it. Consider the example below:
+Sometimes, it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's a more controllable way to deal with it. Consider the example below:
 
 ```javascript
 class Math {
@@ -32,17 +32,17 @@ const math = new Math();
 math.add(2, 4);
 ```
 
-The idea is that our `log` decorator wraps the original function, triggers a `console.log`, and finally calls it again while passing the original [arguments](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments) to it. Especially if you haven't seen `arguments` or `apply` before, it might seem a little strange.
+The idea is that our `log` decorator wraps the original function, triggers a `console.log`, and finally, calls it again while passing the original [arguments](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments) to it. Especially if you haven't seen `arguments` or `apply` before, it might seem a little strange.
 
 `apply` can be thought as an another way to invoke a function while passing its context (`this`) and parameters as an array. `arguments` receives function parameters implicitly so it's ideal for this case.
 
-This logger could be pushed to a separate module. After that we could use it across our application whenever we want to log some methods. Once implemented decorators become powerful building blocks.
+This logger could be pushed to a separate module. After that, we could use it across our application whenever we want to log some methods. Once implemented decorators become powerful building blocks.
 
 The decorator receives three parameters:
 
 * `target` maps to the instance of the class.
 * `name` contains the name of the method being decorated.
-* `descriptor` is the most interesting piece as it allows us to annotate the method and manipulate its behavior. It could look for example like this:
+* `descriptor` is the most interesting piece as it allows us to annotate the method and manipulate its behavior. It could look like this:
 
 ```javascript
 const descriptor = {
@@ -57,7 +57,7 @@ As you saw above, `value` makes it possible to shape the behavior. The rest allo
 
 ## Implementing `@connect`
 
-`@connect` will wrap our component in another component. That in turn will deal with the connection logic (`listen/unlisten/setState`). It will maintain the store state internally and then pass it to the child component that we are wrapping. During this process it will pass the state through props. The implementation below illustrates the idea:
+`@connect` will wrap our component in another component. That, in turn, will deal with the connection logic (`listen/unlisten/setState`). It will maintain the store state internally and then pass it to the child component that we are wrapping. During this process, it will pass the state through props. The implementation below illustrates the idea:
 
 **app/decorators/connect.js**
 
@@ -91,11 +91,11 @@ export default (store) => {
 };
 ```
 
-Can you see the wrapping idea? Our decorator tracks store state. After that it passes the state to the component contained through props.
+Can you see the wrapping idea? Our decorator tracks store state. After that, it passes the state to the component contained through props.
 
 T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
 
-You can connect the decorator with `App` like this for example:
+You can connect the decorator with `App` like this:
 
 **app/components/App.jsx**
 
@@ -116,7 +116,7 @@ export default class App extends React.Component {
 }
 ```
 
-Pushing the logic to a decorator allows us to keep our components simple. If we wanted to add more stores to the system and connect them to components, it would be trivial now. Even better we could connect multiple stores to a single component easily.
+Pushing the logic to a decorator allows us to keep our components simple. If we wanted to add more stores to the system and connect them to components, it would be trivial now. Even better, we could connect multiple stores to a single component easily.
 
 ## Decorator Ideas
 
@@ -143,8 +143,6 @@ export default class App extends React.Component {
 ```
 
 This more verbose approach is roughly equivalent to our implementation. It actually does more as it allows you to connect to multiple stores at once. It also provides more control over the way you can shape store state to props.
-
-To get familiar with more approaches we'll be using the `AltContainer` in this project. Using the decorator is completely acceptable. It comes down to your personal preferences.
 
 ## Conclusion
 

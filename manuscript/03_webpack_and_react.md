@@ -1,8 +1,8 @@
 # Webpack and React
 
-Combined with Webpack, React becomes a joy to work with. Even though you can use React with other build tools, Webpack is a good fit and quite straightforward to set up. In this chapter we'll expand our configuration. After that we have a good starting point for developing our application further.
+Combined with Webpack, React becomes a joy to work with. Even though you can use React with other build tools, Webpack is a good fit and quite straightforward to set up. In this chapter, we'll expand our configuration. After that, we have a good starting point for developing our application further.
 
-T> Common editors (Sublime Text, Visual Studio Code, vim, emacs, Atom and such) have good support for React. Even IDEs such as [WebStorm](https://www.jetbrains.com/webstorm/) support it up to an extent. [Nuclide](http://nuclide.io/), an Atom based IDE, has been developed with React in mind.
+T> Common editors (Sublime Text, Visual Studio Code, vim, emacs, Atom and such) have good support for React. Even IDEs, such as [WebStorm](https://www.jetbrains.com/webstorm/), support it up to an extent. [Nuclide](http://nuclide.io/), an Atom based IDE, has been developed with React in mind.
 
 ## What is React?
 
@@ -14,7 +14,7 @@ React isn't a framework like Angular.js or Ember. Frameworks tend to provide a l
 
 React introduced a concept known as virtual DOM to web developers. React maintains a DOM of its own unlike all the libraries and frameworks before it. As changes are made to virtual DOM, React will batch the changes to the actual DOM as it sees best.
 
-T> Libraries such as [Matt-Esch/virtual-dom](https://github.com/Matt-Esch/virtual-dom) focus entirely on Virtual DOM. If you are interested in the theory, check it out.
+T> Libraries, such as [Matt-Esch/virtual-dom](https://github.com/Matt-Esch/virtual-dom), focus entirely on Virtual DOM. If you are interested in the theory, check it out.
 
 ### JSX and Virtual DOM
 
@@ -40,7 +40,7 @@ function render() {
 }
 ```
 
-If you haven't seen JSX before it will likely look strange. It isn't uncommon to experience "JSX shock" until you start to understand it. After that it all makes sense.
+If you haven't seen JSX before it will likely look strange. It isn't uncommon to experience "JSX shock" until you start to understand it. After that, it all makes sense.
 
 Cory House goes into more detail [about the shock](https://medium.com/@housecor/react-s-jsx-the-other-side-of-the-coin-2ace7ab62b98). Briefly summarized, JSX gives us a level of validation we haven't encountered earlier. It takes a while to grasp, but once you get it, it's hard to go back.
 
@@ -158,7 +158,7 @@ Set up a *.babelrc* to your project root as follows in order to enable the featu
 }
 ```
 
-Alternatively we could have used a declaration such as `"stage": 1`. The problem is that this doesn't document well which additional features we are using at our code base. It might work for small projects but I do not suggest this for production grade code. Documenting your Babel usage this way will help in the maintenance effort.
+Alternatively we could have used a declaration, such as `"stage": 1`. The problem is that this doesn't document well which additional features we are using at our code base. It might work for small projects but I do not suggest this for production grade code. Documenting your Babel usage this way will help in the maintenance effort.
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). For now we are keeping it simple.
 
@@ -176,7 +176,7 @@ to get React installed. This will save React to the `dependencies` section of *p
 
 *react-dom* is needed as React can be used to target multiple systems (DOM, mobile, terminal, i.e.,). Given we're dealing with the browser, *react-dom* is the correct choice here.
 
-Now that we got that out of the way, we can start to develop our Kanban application. First we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire app. We can get started by using React's function based component definition syntax:
+Now that we got that out of the way, we can start to develop our Kanban application. First, we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire app. We can get started by using React's function based component definition syntax:
 
 **app/components/App.jsx**
 
@@ -191,7 +191,7 @@ export default () => {
 
 T> You can import portions from `react` using the syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. It is important that you import `React` as well because that JSX will get converted to `React.createElement` calls. You may find this alternative a little neater regardless.
 
-T> It may be worth your while to install [React Developer Tools](https://github.com/facebook/react-devtools) extension to your browser. Currently Chrome and Firefox are supported. This will make it easier to understand what's going on while developing.
+T> It may be worth your while to install [React Developer Tools](https://github.com/facebook/react-devtools) extension to your browser. Currently, Chrome and Firefox are supported. This will make it easier to understand what's going on while developing.
 
 ### Setting Up `Note`
 
@@ -215,7 +215,7 @@ W> It is important to note that the ES6 based class approach **doesn't** support
 
 ### Rendering Through `index.jsx`
 
-We'll need to adjust our `index.js` to render the component correctly. Note that I've renamed it as `index.jsx` given we have JSX content there. First the rendering logic creates a DOM element where it will render. Then it renders our application through React.
+We'll need to adjust our `index.js` to render the component correctly. Note that I've renamed it as `index.jsx` given we have JSX content there. First, the rendering logic creates a DOM element where it will render. Then it renders our application through React.
 
 **app/index.jsx**
 
@@ -263,7 +263,7 @@ To enable hot loading for React, you should first install the packages using
 npm i babel-plugin-react-transform react-transform-hmr --save-dev
 ```
 
-We also need to make Babel aware of HMR. First we should pass the target environment to Babel through our Webpack configuration:
+We also need to make Babel aware of HMR. First, we should pass the target environment to Babel through our Webpack configuration:
 
 **webpack.config.js**
 
@@ -329,7 +329,7 @@ W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/
 
 Outside of ES6 classes, React allows you to construct components using `React.createClass()` and functions. `React.createClass()` was the original way to create components and it is still in use. The approaches aren't equivalent by default.
 
-When you use `React.createClass` it is possible to inject functionality using mixins. Mixins aren't available in ES6 by default. Yet, you can use a helper such as [react-mixin](https://github.com/brigand/react-mixin) to provide some capabilities. In later chapters we will go through various alternative approaches. They allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
+When you use `React.createClass` it is possible to inject functionality using mixins. Mixins aren't available in ES6 by default. Yet, you can use a helper, such as [react-mixin](https://github.com/brigand/react-mixin), to provide some capabilities. In later chapters we will go through various alternative approaches. They allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
 
 Also, ES6 class based components won't bind their methods to `this` context by default. This is the reason why can be a good practice to bind the context in the component constructor. Another way to solve the problem is to use property initializers. We'll be using that approach as it cuts down the amount of code nicely and makes it easier to follow what's going on.
 
@@ -337,4 +337,4 @@ The class based approach decreases the amount of concepts you have to worry abou
 
 ## Conclusion
 
-You should understand how to set up React with Webpack now. Hot loading is one of those features that sets Webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter you will see how to implement a little note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
+You should understand how to set up React with Webpack now. Hot loading is one of those features that sets Webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter, you will see how to implement a little note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.

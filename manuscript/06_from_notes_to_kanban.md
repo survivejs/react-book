@@ -2,9 +2,9 @@
 
 ![Kanban board](images/kanban_05.png)
 
-So far we have managed to set up a nice little development environment. We have developed an application for keeping track of notes in `localStorage`. We still have work to do to turn this into a real Kanban as pictured above. Most importantly our system is missing the concept of `Lane`.
+So far, we have managed to set up a nice little development environment. We have developed an application for keeping track of notes in `localStorage`. We still have work to do to turn this into a real Kanban as pictured above. Most importantly our system is missing the concept of `Lane`.
 
-A `Lane` is something that should be able to contain many `Notes` within itself and track their order. One way to model this is simply to make a `Lane` point at `Notes` through an array of `Note` ids. This relation could be reversed. A `Note` could point at a `Lane` using an id and maintain information about its position within a `Lane`. In this case we are going to stick with the former design as that works well with re-ordering later on.
+A `Lane` is something that should be able to contain many `Notes` within itself and track their order. One way to model this is simply to make a `Lane` point at `Notes` through an array of `Note` ids. This relation could be reversed. A `Note` could point at a `Lane` using an id and maintain information about its position within a `Lane`. In this case, we are going to stick with the former design as that works well with re-ordering later on.
 
 ## Extracting `Lanes`
 
@@ -20,7 +20,7 @@ import alt from '../libs/alt';
 export default alt.generateActions('create');
 ```
 
-In addition, we are going to need a `LaneStore` and a method matching to `create`. The idea is pretty much the same as for `NoteStore` earlier. `create` will concatenate a new lane to the list of lanes. After that the change will propagate to the listeners (i.e., `FinalStore` and components).
+In addition, we are going to need a `LaneStore` and a method matching to `create`. The idea is pretty much the same as for `NoteStore` earlier. `create` will concatenate a new lane to the list of lanes. After that, the change will propagate to the listeners (i.e., `FinalStore` and components).
 
 **app/stores/LaneStore.js**
 
@@ -69,7 +69,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-Next we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions, and store as needed:
+Next, we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions, and store as needed:
 
 **app/components/App.jsx**
 
@@ -166,7 +166,7 @@ export default class Lanes extends React.Component {
 }
 ```
 
-We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane including its name and associated notes:
+We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane, including its name and associated notes:
 
 **app/components/Lane.jsx**
 
@@ -222,13 +222,13 @@ The reason why this happens is simple. Our `NoteStore` is a singleton. This mean
 
 ## Making `Lanes` Responsible of `Notes`
 
-Currently our `Lane` model is simple. We are just storing an array of objects. Each of the objects knows its *id* and *name*. We'll need something more. Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it.
+Currently, our `Lane` model is simple. We are just storing an array of objects. Each of the objects knows its *id* and *name*. We'll need something more. Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it.
 
 ### Setting Up `attachToLane`
 
-When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method such as `LaneActions.attachToLane({laneId: <id>})`. As a `Note` needs to exist before this association can be made, this method needs to trigger `waitFor`.
+When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method, such as `LaneActions.attachToLane({laneId: <id>})`. As a `Note` needs to exist before this association can be made, this method needs to trigger `waitFor`.
 
-`waitFor` tells the dispatcher that it should wait before going on. A line such as `this.waitFor(NoteStore);` at `LaneStore` would make the operation wait. It will resume only after `NoteStore` has finished its work. Here's an example of how it would work:
+`waitFor` tells the dispatcher that it should wait before going on. A line, such as `this.waitFor(NoteStore);` at `LaneStore`, would make the operation wait. It will resume only after `NoteStore` has finished its work. Here's an example of how it would work:
 
 ```javascript
 NoteActions.create({task: 'New task'});
@@ -292,7 +292,7 @@ export default alt.createStore(LaneStore, 'LaneStore');
 
 `attachToLane` has been coded defensively to guard against possible problems. Unless we pass `noteId`, we `waitFor` one. Passing one explicitly becomes useful when we implement drag and drop, so it's good to have it in place.
 
-The rest of the code deals with the logic. First we try to find a matching lane. If found, we attach the note id to it unless it has been attached already.
+The rest of the code deals with the logic. First, we try to find a matching lane. If found, we attach the note id to it unless it has been attached already.
 
 ### Setting Up `detachFromLane`
 
@@ -318,7 +318,7 @@ export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
 leanpub-end-insert
 ```
 
-The implementation will resemble `attachToLane`. In this case we'll remove the possibly found `Note` instead:
+The implementation will resemble `attachToLane`. In this case, we'll remove the possibly found `Note` instead:
 
 **app/stores/LaneStore.js**
 
@@ -356,9 +356,9 @@ Again, the implementation has been coded with drag and drop in mind. Later on we
 
 Given our lanes contain references to notes through ids, we are going to need some way to resolve those ids to actual notes. One neat way to do this is to implement a public method `NoteStore.get(notes)` for the purpose. It accepts an array of `Note` ids, and returns corresponding objects.
 
-This can be achieved using the `map` operation. First we need to get the ids of all notes to match against. After that, we can perform a lookup for each note id passed in using `indexOf`.
+This can be achieved using the `map` operation. First, we need to get the ids of all notes to match against. After that, we can perform a lookup for each note id passed in using `indexOf`.
 
-Just implementing the method isn't enough. We also need to make it public. In Alt this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question. Consider the implementation below:
+Just implementing the method isn't enough. We also need to make it public. In Alt, this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question. Consider the implementation below:
 
 **app/stores/NoteStore.jsx**
 
@@ -479,7 +479,7 @@ After these changes, we now have a system that can maintain relations between `L
 
 ## Implementing Edit/Remove for `Lane`
 
-We are still missing some basic functionality such as editing and removing lanes. Copy *Note.jsx* as *Editable.jsx*. We'll get back to that original *Note.jsx* later in this project. For now, we just want to get `Editable` into a good condition. Tweak the code as follows to generalize the implementation:
+We are still missing some basic functionality, such as editing and removing lanes. Copy *Note.jsx* as *Editable.jsx*. We'll get back to that original *Note.jsx* later in this project. For now, we just want to get `Editable` into a good condition. Tweak the code as follows to generalize the implementation:
 
 **app/components/Editable.jsx**
 
@@ -545,11 +545,11 @@ Because the class name changes, *main.css* needs a small tweak:
 }
 ```
 
-T> Our current implementation of `Editable` encapsulates its `editing` state. This makes it impossible to control outside of the component. One way to resolve this issue would be to eliminate the internal state and provide enough API to control it. This would mean controlling `editing` state through a prop and allowing the consumer to react to the editing states through hooks such as `onBeginEdit` and `onFinishEdit`.
+T> Our current implementation of `Editable` encapsulates its `editing` state. This makes it impossible to control outside of the component. One way to resolve this issue would be to eliminate the internal state and provide enough API to control it. This would mean controlling `editing` state through a prop and allowing the consumer to react to the editing states through hooks, such as `onBeginEdit` and `onFinishEdit`.
 
 ### Pointing `Notes` to `Editable`
 
-Next we need to make *Notes.jsx* point at the new component. We'll need to alter the import and the component name at `render()`:
+Next, we need to make *Notes.jsx* point at the new component. We'll need to alter the import and the component name at `render()`:
 
 **app/components/Notes.jsx**
 
@@ -588,7 +588,7 @@ leanpub-end-insert
 
 ### Connecting `Lane` with `Editable`
 
-Next we can use this generic component to allow a `Lane`'s name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
+Next, we can use this generic component to allow a `Lane`'s name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
 
 **app/components/Lane.jsx**
 
@@ -832,7 +832,7 @@ Besides keeping things nice and tidy, Webpack's lazy loading machinery can pick 
 
 ## On Namespacing Components
 
-So far we've been defining a component per file. That's not the only way. It may be handy to treat a file as a namespace and expose multiple components from it. React provides [namespaces components](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components) just for this purpose. In this case we could apply namespacing to the concept of `Lane` or `Note`. This would add some flexibility to our system while keeping it simple to manage. By using namespacing we could do something like this:
+So far, we've been defining a component per file. That's not the only way. It may be handy to treat a file as a namespace and expose multiple components from it. React provides [namespaces components](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components) just for this purpose. In this case, we could apply namespacing to the concept of `Lane` or `Note`. This would add some flexibility to our system while keeping it simple to manage. By using namespacing, we could do something like this:
 
 **app/components/Lanes.jsx**
 
@@ -879,7 +879,7 @@ Lane.Notes = class LaneNotes extends React.Component {
 export default Lane;
 ```
 
-Now we have pushed the control over `Lane` formatting to a higher level. In this case the change isn't worth it, but it can make sense in a more complex case.
+Now we have pushed the control over `Lane` formatting to a higher level. In this case, the change isn't worth it, but it can make sense in a more complex case.
 
 You can use a similar approach for more generic components as well. Consider something like `Form`. You could easily have `Form.Label`, `Form.Input`, `Form.Textarea` and so on. Each would contain your custom formatting and logic as needed.
 
@@ -889,6 +889,6 @@ The current design has been optimized with drag and drop operations in mind. Mov
 
 There isn't always a clear cut way to model data and relations. In other scenarios, we could push the references elsewhere. For instance, the note to lane relation could be inversed and pushed to `Note` level. We would still need to track their order within a lane somehow. We would be pushing the complexity elsewhere by doing this.
 
-Currently `NoteStore` is treated as a singleton. Another way to deal with it would be to create `NoteStore` per `Notes` dynamically. Even though this simplifies dealing with the relations somewhat, this is a Flux anti-pattern better avoided.
+Currently, `NoteStore` is treated as a singleton. Another way to deal with it would be to create `NoteStore` per `Notes` dynamically. Even though this simplifies dealing with the relations somewhat, this is a Flux anti-pattern better avoided.
 
-We still cannot move notes between lanes or within a lane. We will solve that in the next chapter as we implement drag and drop.
+We still cannot move notes between lanes or within a lane. We will solve that in the next chapter, as we implement drag and drop.

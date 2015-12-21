@@ -16,7 +16,7 @@ Besides linting for issues, it can be useful to manage the code style on some le
 
 ## Webpack and JSHint
 
-Interestingly no JSLint loader seems to exist for Webpack yet. Fortunately there's one for JSHint. You could set it up on a legacy project easily. Install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project first:
+Interestingly, no JSLint loader seems to exist for Webpack yet. Fortunately, there's one for JSHint. You could set it up on a legacy project easily. Install [jshint-loader](https://www.npmjs.com/package/jshint-loader) to your project first:
 
 ```bash
 npm i jshint jshint-loader --save-dev
@@ -200,7 +200,7 @@ Even though you can get very far with vanilla ESLint, there are several techniqu
 
 ### Skipping ESLint Rules
 
-Sometimes you'll want to skip certain rules per file or per line. This can be useful when you happen to have some exceptional case in your code where some particular rule doesn't make sense. As usual exception confirms the rule. Consider the following examples:
+Sometimes, you'll want to skip certain rules per file or per line. This can be useful when you happen to have some exceptional case in your code where some particular rule doesn't make sense. As usual, exception confirms the rule. Consider the following examples:
 
 ```javascript
 // everything
@@ -226,11 +226,11 @@ Sometimes you'll want to skip certain rules per file or per line. This can be us
 alert('foo'); // eslint-disable-line no-alert
 ```
 
-Note that the rule specific examples assume you have the rules in your configuration in the first place! You cannot specify new rules here. Instead you can modify the behavior of existing rules.
+Note that the rule specific examples assume you have the rules in your configuration in the first place! You cannot specify new rules here. Instead, you can modify the behavior of existing rules.
 
 ### Setting Environment
 
-Sometimes you may want to run ESLint in a specific environment, such as Node.js or Mocha. These environments have certain conventions of their own. For instance, Mocha relies on custom keywords (e.g., `describe`, `it`) and it's good if the linter doesn't choke on those.
+Sometimes, you may want to run ESLint in a specific environment, such as Node.js or Mocha. These environments have certain conventions of their own. For instance, Mocha relies on custom keywords (e.g., `describe`, `it`) and it's good if the linter doesn't choke on those.
 
 ESLint provides two ways to deal with this: local and global. If you want to set it per file, you can use a declaration at the beginning of a file:
 
@@ -238,7 +238,7 @@ ESLint provides two ways to deal with this: local and global. If you want to set
 /*eslint-env node, mocha */
 ```
 
-Global configuration is possible as well. In this case you can use `env` key like this:
+Global configuration is possible as well. In this case, you can use `env` key like this:
 
 **.eslintrc**
 
@@ -255,7 +255,7 @@ Global configuration is possible as well. In this case you can use `env` key lik
 
 ### Writing Your Own Rules
 
-ESLint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools such as [recast](https://github.com/benjamn/recast) that allow you to perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
+ESLint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools, such as [recast](https://github.com/benjamn/recast), that allow you to perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
 
 To get a better idea of how AST works and what it looks like, you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [JS AST Explorer by Felix Kling](http://felix-kling.de/esprima_ast_explorer/). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with for ESLint rules.
 
@@ -437,7 +437,7 @@ T> ESLint implements a large part of the functionality provided by JSCS. It is p
 
 ## EditorConfig
 
-[EditorConfig](http://editorconfig.org/) allows you to maintain a consistent coding style across different IDEs and editors. Some even come with built-in support. For others you have to install a separate plugin. In addition to this you'll need to set up a `.editorconfig` file like this:
+[EditorConfig](http://editorconfig.org/) allows you to maintain a consistent coding style across different IDEs and editors. Some even come with built-in support. For others, you have to install a separate plugin. In addition to this you'll need to set up a `.editorconfig` file like this:
 
 **.editorconfig**
 
@@ -465,4 +465,4 @@ indent_size = 2
 
 ## Conclusion
 
-In this chapter you learned how to lint your code using Webpack in various ways. It is one of those techniques that yields benefits over the long term. You can fix possible problems before they become actual issues.
+In this chapter, you learned how to lint your code using Webpack in various ways. It is one of those techniques that yields benefits over the long term. You can fix possible problems before they become actual issues.

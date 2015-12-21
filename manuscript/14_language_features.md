@@ -1,12 +1,12 @@
 # Language Features
 
-ES6 (or ES2015) was arguably the biggest change to JavaScript in a long time. As a result we received a wide variety of new functionality. The purpose of this appendix is to illustrate the features used in the book in isolation to make it clearer to understand how they work. Rather than going through [the entire specification](http://www.ecma-international.org/ecma-262/6.0/index.html), I will just focus on the subset of features used in the book.
+ES6 (or ES2015) was arguably the biggest change to JavaScript in a long time. As a result, we received a wide variety of new functionality. The purpose of this appendix is to illustrate the features used in the book in isolation to make it clearer to understand how they work. Rather than going through [the entire specification](http://www.ecma-international.org/ecma-262/6.0/index.html), I will just focus on the subset of features used in the book.
 
 ## Modules
 
-ES6 introduced proper module declarations. Earlier this was somewhat ad hoc and we used formats such as AMD or CommonJS. See *Webpack Compared* for descriptions of those. Both formats are still in use, but it's always better to have something standard in place.
+ES6 introduced proper module declarations. Earlier, this was somewhat ad hoc and we used formats, such as AMD or CommonJS. See *Webpack Compared* for descriptions of those. Both formats are still in use, but it's always better to have something standard in place.
 
-ES6 module declarations are statically analyzable. This is highly useful for tool authors. Effectively this means we can gain features like tree shaking. This allows the tooling to skip unused code easily simply by analyzing the import structure.
+ES6 module declarations are statically analyzable. This is highly useful for tool authors. Effectively, this means we can gain features like tree shaking. This allows the tooling to skip unused code easily simply by analyzing the import structure.
 
 To give you an example of the module format, consider the code below:
 
@@ -23,9 +23,9 @@ export default function () { ... };
 export function hello() {...};
 ```
 
-Especially `export default` is useful if you prefer to keep your modules focused. In the example `persist` function is an example of such. Regular `export` is useful for collecting multiple functions below the same umbrella. In this case we use `import {combineReducers} from 'redux';` to access a module defined in a such way.
+Especially `export default` is useful if you prefer to keep your modules focused. In the example `persist` function is an example of such. Regular `export` is useful for collecting multiple functions below the same umbrella. In this case, we use `import {combineReducers} from 'redux';` to access a module defined in a such way.
 
-Bundlers, such as Webpack, can provide some features beyond this. You could define a `resolve.alias` for some of your module directories for example. This would allow you to use an import such as `import persist from 'libs/persist';` regardless of where you import. A simple `resolve.alias` could look like this:
+Bundlers, such as Webpack, can provide some features beyond this. You could define a `resolve.alias` for some of your module directories for example. This would allow you to use an import, such as `import persist from 'libs/persist';`, regardless of where you import. A simple `resolve.alias` could look like this:
 
 ```javascript
 ...
@@ -77,7 +77,7 @@ Perhaps the biggest advantage of the class based approach is the fact that it cu
 
 ## Property Initializers
 
-ES6 classes won't bind their methods by default. This can be problematic sometimes as you still may want to be able to access the instance properties. Without property initializers we might write something like this:
+ES6 classes won't bind their methods by default. This can be problematic sometimes, as you still may want to be able to access the instance properties. Without property initializers we might write something like this:
 
 ```javascript
 import React from 'react';
@@ -124,7 +124,7 @@ Now we've pushed the declaration to method level. This reads better. I decided t
 
 ## Functions
 
-Traditionally JavaScript has been very flexible with its functions. To give you a better idea, see the implementation of `map` below:
+Traditionally, JavaScript has been very flexible with its functions. To give you a better idea, see the implementation of `map` below:
 
 ```javascript
 function map(cb, values) {
@@ -203,9 +203,9 @@ Even though this might seem a little weird, this is actually useful. In the past
 
 ### Function Parameters
 
-Historically dealing with function parameters has been somewhat limited. There are various hacks, such as `values = values || [];`, but they aren't particularly nice and they are prone to errors. For example, using `||` can cause problems with zeros. ES6 solves this problem by introducing default parameters. We can simply write `function map(cb, values=[])` now.
+Historically, dealing with function parameters has been somewhat limited. There are various hacks, such as `values = values || [];`, but they aren't particularly nice and they are prone to errors. For example, using `||` can cause problems with zeros. ES6 solves this problem by introducing default parameters. We can simply write `function map(cb, values=[])` now.
 
-There is more to that and the default values can even depend on each other. You can also pass an arbitrary amount of parameters through `function map(cb, values...)`. In this case you would call the function through `map((a) => a * 2, 1, 2, 3, 4)`. The API might not be perfect for `map`, but it might make more sense in some other scenario.
+There is more to that and the default values can even depend on each other. You can also pass an arbitrary amount of parameters through `function map(cb, values...)`. In this case, you would call the function through `map((a) => a * 2, 1, 2, 3, 4)`. The API might not be perfect for `map`, but it might make more sense in some other scenario.
 
 There are also convenient means to extract values out of passed objects. This is highly useful with React component defined using the function syntax:
 
@@ -218,7 +218,7 @@ export default ({name}) => {
 
 ## Destructuring
 
-That `...` is related to the idea of destructuring. For example `const {lane, ...props} = this.props;` would extract `lane` out of `this.props` while the rest of the object would go to `props`. This object based syntax is still experimental. ES6 specifies an official way to perform the same for arrays like this:
+That `...` is related to the idea of destructuring. For example, `const {lane, ...props} = this.props;` would extract `lane` out of `this.props` while the rest of the object would go to `props`. This object based syntax is still experimental. ES6 specifies an official way to perform the same for arrays like this:
 
 ```javascript
 const [lane, ...rest] = ['foo', 'bar', 'baz'];
@@ -251,7 +251,7 @@ render() {
 
 ## String Interpolation
 
-Earlier dealing with strings was somewhat painful in JavaScript. Usually you just ended up using a syntax like `'Hello' + name + '!'`. Overloading `+` for this purpose wasn't perhaps the smartest move. There also was no proper support for multi-line strings. Fortunately that has been fixed. Consider the examples below:
+Earlier, dealing with strings was somewhat painful in JavaScript. Usually you just ended up using a syntax like `'Hello' + name + '!'`. Overloading `+` for this purpose wasn't perhaps the smartest move. There also was no proper support for multi-line strings. Fortunately, that has been fixed. Consider the examples below:
 
 ```javascript
 const hello = `\`Hello ${name}!\``;
@@ -266,7 +266,7 @@ The backtick syntax may take a while to get used to, but it's powerful and less 
 
 ## `const`, `let`, `var`
 
-In JavaScript variables are global by default. `var` binds them on *function level*. This is in contrast to many other languages that implement *block level* binding. ES6 introduces block level binding through `let`. There's also support for `const`, which guarantees the reference to the variable itself cannot change. This doesn't mean, however, that you cannot modify the contents of the variable. So if you are pointing at an object, you are still allowed to tweak it!
+In JavaScript, variables are global by default. `var` binds them on *function level*. This is in contrast to many other languages that implement *block level* binding. ES6 introduces block level binding through `let`. There's also support for `const`, which guarantees the reference to the variable itself cannot change. This doesn't mean, however, that you cannot modify the contents of the variable. So if you are pointing at an object, you are still allowed to tweak it!
 
 I tend to favor to default to `const` whenever possible. If I need something mutable, `let` will do fine. It is hard to find any good use for `var` anymore as `const` and `let` cover the need in a more understandable manner. In fact, all of the book's code, apart from this appendix, relies on `const`. That just shows you how far you can get with it.
 

@@ -6,7 +6,7 @@ This problem has escalated with the rise of single page applications (SPAs). The
 
 The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package manager, provides more context. Before npm it was difficult to consume dependencies. Now that npm has become popular for front-end development, the situation has changed. Now we have nice ways to manage the dependencies of our projects.
 
-Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the best known, and is still a viable option. To make things easier, specialized *task runners*, such as [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) appeared. Plugins available through npm made both task runners powerful.
+Historically speaking there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the best known, and is still a viable option. To make things easier, specialized *task runners*, such as [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) appeared. Plugins available through npm, made both task runners powerful.
 
 Task runners are great tools on a high level. They allow you to perform operations in a cross-platform manner. The problems begin when you need to splice various assets together and produce bundles. This is the reason we have *bundlers*, such as [Browserify](http://browserify.org/) or [Webpack](https://webpack.github.io/).
 
@@ -155,11 +155,11 @@ The Browserify ecosystem is composed of a lot of small modules. In this way, Bro
 
 ![webpack](images/webpack.png)
 
-You could say Webpack (or just *webpack*) takes a more monolithic approach than Browserify. You simply get more out of the box. Webpack extends `require` and allows you to customize its behavior using loaders. For example, `require('html!./file.html')` loads the contents of *file.html* and processes it through an HTML loader. It is a good idea to keep loader declarations such as this out of your source, though. Instead, use Webpack configuration to deal with it.
+You could say Webpack (or just *webpack*) takes a more monolithic approach than Browserify. You simply get more out of the box. Webpack extends `require` and allows you to customize its behavior using loaders. For example, `require('html!./file.html')` loads the contents of *file.html* and processes it through an HTML loader. It is a good idea to keep loader declarations, such as this, out of your source, though. Instead, use Webpack configuration to deal with it.
 
 Webpack will traverse through the `require` statements of your project and will generate the bundles you want. You can even load your dependencies in a dynamic manner using a custom `require.ensure` statement. The loader mechanism works for CSS as well and `@import` is supported. There are also plugins for specific tasks, such as minification, localization, hot loading, and so on.
 
-All this relies on configuration. It can be difficult to understand what's going on if you haven't seen it before. Fortunately there's certain logic involved. Here is a sample configuration adapted from [the official webpack tutorial](http://webpack.github.io/docs/tutorials/getting-started/):
+All this relies on configuration. It can be difficult to understand what's going on if you haven't seen it before. Fortunately, there's certain logic involved. Here is a sample configuration adapted from [the official webpack tutorial](http://webpack.github.io/docs/tutorials/getting-started/):
 
 **webpack.config.js**
 
@@ -202,7 +202,7 @@ Given JSPM is still a young project, there might be rough spots. That said, it m
 
 Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
 
-You might be familiar with tools such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/) already. These tools refresh the browser automatically as you make changes. HMR takes things one step further. In the case of React, it allows the application to maintain its state. This sounds simple, but it makes a big difference in practice.
+You might be familiar with tools, such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/), already. These tools refresh the browser automatically as you make changes. HMR takes things one step further. In the case of React, it allows the application to maintain its state. This sounds simple, but it makes a big difference in practice.
 
 Aside from the HMR feature, Webpack's bundling capabilities are extensive. It allows you to split bundles in various ways. You can even load them dynamically as your application gets executed. This sort of lazy loading comes in handy, especially for larger applications. You can load dependencies as you need them.
 

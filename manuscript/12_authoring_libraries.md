@@ -2,18 +2,18 @@
 
 [npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. Even though it was used initially for managing back-end packages, it has become increasingly popular for front-end usage as well. As you saw in the earlier chapters, it is easy to consume npm packages through Webpack.
 
-Eventually you may want to author packages of your own. Publishing one is relatively easy. There are a lot of smaller details to know, though. This chapter goes through those so that you can avoid some of the common problems.
+Eventually, you may want to author packages of your own. Publishing one is relatively easy. There are a lot of smaller details to know, though. This chapter goes through those so that you can avoid some of the common problems.
 
 ## Anatomy of a npm Package
 
-Most of the available npm packages are small and include just a select few files such as:
+Most of the available npm packages are small and include just a select few files, such as:
 
 * *index.js* - On small projects it's enough to have the code at the root. On larger ones you may want to start splitting it up further.
 * *package.json* - npm metadata in JSON format
 * *README.md* - README is the most important document of your project. It is written in Markdown format and provides an overview. For simple projects the whole documentation can fit there. It will be shown at the package page at *npmjs.com*.
 * *LICENSE* - You should include licensing information within your project. You can refer to it from *package.json*.
 
-In larger projects you may find the following:
+In larger projects, you may find the following:
 
 * *CONTRIBUTING.md* - A guide for potential contributors. How should the code be developed and so on.
 * *CHANGELOG.md* - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history, provided you write nice enough commits.
@@ -106,7 +106,7 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
 }
 ```
 
-As you can see *package.json* can contain a lot of information. You can attach non-npm specific metadata there that can be used by tooling. Given this can bloat *package.json*, it may be preferable to keep metadata at files of their own.
+As you can see, *package.json* can contain a lot of information. You can attach non-npm specific metadata there that can be used by tooling. Given this can bloat *package.json*, it may be preferable to keep metadata at files of their own.
 
 ## npm Workflow
 
@@ -116,9 +116,9 @@ T> `npm init` respects the values set at *~/.npmrc*. Hence it may be worth your 
 
 ### Publishing a Package
 
-Provided you have logged in, creating new packages is just a matter of executing `npm publish`. Given that the package name is still available and everything goes fine, you should have something out there! After this you can install your package through `npm install` or `npm i` as we've done so many times before in this book.
+Provided you have logged in, creating new packages is just a matter of executing `npm publish`. Given that the package name is still available and everything goes fine, you should have something out there! After this, you can install your package through `npm install` or `npm i` as we've done so many times before in this book.
 
-An alternative way to consume a library is to point at it directly in *package.json*. In that case you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
+An alternative way to consume a library is to point at it directly in *package.json*. In that case, you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
 
 ### Bumping a Version
 
@@ -130,7 +130,7 @@ T> Consider using [semantic-release](https://www.npmjs.com/package/semantic-rele
 
 ### Publishing a Prerelease Version
 
-Sometimes you might want to publish something preliminary for other people to test. There are certain conventions for this. You rarely see *alpha* releases at npm. *beta* and *rc (release candidate) are common, though. For example, a package might have versions like this:
+Sometimes, you might want to publish something preliminary for other people to test. There are certain conventions for this. You rarely see *alpha* releases at npm. *beta* and *rc (release candidate) are common, though. For example, a package might have versions like this:
 
 * v0.5.0-alpha1
 * v0.5.0-beta1
@@ -177,7 +177,7 @@ It is possible to consume a library directly through Git. This can be problemati
 }
 ```
 
-In addition we need to define a little script to do the work for us. It will check whether our package contains the directory we expect and will then act based on that. If it doesn't exist, we'll generate it. You may need to tweak the script to fit your exact purposes. The idea is the same, though:
+In addition, we need to define a little script to do the work for us. It will check whether our package contains the directory we expect and will then act based on that. If it doesn't exist, we'll generate it. You may need to tweak the script to fit your exact purposes. The idea is the same, though:
 
 **lib/post_install.js**
 
@@ -206,11 +206,11 @@ stat('dist-modules', function(error, stat) {
 });
 ```
 
-Even though setting up a script like this takes some time, it can be beneficial as it will make it a little easier to consume your library. After this you can point at your library directly through Git. If you are into shorthands, you could use a dependency declaration such as `"my-project": "<name>/<project>#reference"`. *reference* can be a commit id or a tag name for instance.
+Even though setting up a script like this takes some time, it can be beneficial as it will make it a little easier to consume your library. After this, you can point at your library directly through Git. If you are into shorthands, you could use a dependency declaration, such as `"my-project": "<name>/<project>#reference"`. *reference* can be a commit id or a tag name for instance.
 
 ### Respect the SemVer
 
-Even though it is simple to publish new versions out there, it is important to respect the SemVer. Roughly it states that you should not break backwards compatibility, given certain rules are met. For example, if your current version is `0.1.4` and you do a breaking change, you should bump to `0.2.0` and document the changes. You can understand SemVer much better by studying [the online tool](http://semver.npmjs.com/) and how it behaves.
+Even though it is simple to publish new versions out there, it is important to respect the SemVer. Roughly, it states that you should not break backwards compatibility, given certain rules are met. For example, if your current version is `0.1.4` and you do a breaking change, you should bump to `0.2.0` and document the changes. You can understand SemVer much better by studying [the online tool](http://semver.npmjs.com/) and how it behaves.
 
 ### Version Ranges
 
@@ -223,7 +223,7 @@ npm supports multiple version ranges. I've listed the common ones below:
 
 You can set the default range using `npm config set save-prefix='^'` in case you prefer something else than caret. Alternatively you can modify *~/.npmrc* directly.
 
-T> Sometimes using version ranges can feel a little dangerous. What if some future version is broken? [npm shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap) allows you to fix your project versions and have stricter control over the versions you are using in a production environment.
+T> Sometimes, using version ranges can feel a little dangerous. What if some future version is broken? [npm shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap) allows you to fix your project versions and have stricter control over the versions you are using in a production environment.
 
 ## Library Formats
 
@@ -346,9 +346,9 @@ There are plenty of smaller tricks to learn for advanced usage. Those are better
 
 ## Keeping Dependencies Up to Date
 
-An important part of maintaining npm packages is keeping their dependencies up to date. How to do this depends a lot on the maturity of your package. Ideally you have a nice set of tests covering the functionality. If not, things can get a little hairier. There are a few ways to approach dependency updates:
+An important part of maintaining npm packages is keeping their dependencies up to date. How to do this depends a lot on the maturity of your package. Ideally, you have a nice set of tests covering the functionality. If not, things can get a little hairier. There are a few ways to approach dependency updates:
 
-* You can update all dependencies at once and hope for the best. Tools such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) can do this for you.
+* You can update all dependencies at once and hope for the best. Tools, such as [npm-check-updates](https://www.npmjs.com/package/npm-check-updates), can do this for you.
 * Install the newest version of some specific dependency, e.g., `npm i lodash@* --save`. This is a more controlled way to approach the problem.
 * Patch version information by hand by modifying *package.json* directly.
 
@@ -360,15 +360,15 @@ It is important to remember that your dependencies may introduce backwards incom
 
 These services provide badges you can integrate into your project *README.md*. These services may email you about important changes. They can also point out possible security issues that have been fixed.
 
-For testing your projects you can consider solutions such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). [Coveralls](https://coveralls.io/) gives you code coverage information and a badge.
+For testing your projects you can consider solutions, such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). [Coveralls](https://coveralls.io/) gives you code coverage information and a badge.
 
 These services are valuable as they allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems.
 
 ## Sharing Authorship
 
-As packages evolve you may want to start developing with others. You could become the new maintainer of some project, or pass the torch to someone else. These things happen as packages evolve.
+As packages evolve, you may want to start developing with others. You could become the new maintainer of some project, or pass the torch to someone else. These things happen as packages evolve.
 
-npm provides a few commands for these purposes. It's all behind `npm owner` namespace. More specifically you'll find `ls <package name>`, `add <user> <package name>` and `rm <user> <package name>` there (i.e., `npm owner ls`). That's about it.
+npm provides a few commands for these purposes. It's all behind `npm owner` namespace. More specifically, you'll find `ls <package name>`, `add <user> <package name>` and `rm <user> <package name>` there (i.e., `npm owner ls`). That's about it.
 
 See [npm documentation](https://docs.npmjs.com/cli/owner) for the most up to date information about the topic.
 

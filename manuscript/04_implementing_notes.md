@@ -2,7 +2,7 @@
 
 Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note taking application. It will have basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures, such as Flux, are needed.
 
-W> Hot loading isn't fool proof always. Given it operates by swapping methods dynamically, it won't catch every change. This is problematic with property initializers and `bind`. This means you may need to force a manual refresh at the browser for some changes to show up!
+W> Hot loading isn't foolproof always. Given it operates by swapping methods dynamically, it won't catch every change. This is problematic with property initializers and `bind`. This means you may need to force a manual refresh at the browser for some changes to show up!
 
 ## Initial Data Model
 
@@ -144,11 +144,11 @@ T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
 ## Extracting `Notes`
 
-If we keep on growing `App` like this we'll end up in trouble soon. Currently `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier, we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to be moved out.
+If we keep on growing `App` like this, we'll end up in trouble soon. Currently, `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier, we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to be moved out.
 
 T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At higher levels, you will just worry about layout and connecting data. As you go lower in the architecture, you start to see more concrete structures.
 
-A good first step towards a neater `App` is to define `Notes`. It will rely on the rendering logic we already set up. We are just moving it to a component of its own. Specifically we'll want to perform `<Notes items={notes} />` at `render()` method of `App`. That's just nice.
+A good first step towards a neater `App` is to define `Notes`. It will rely on the rendering logic we already set up. We are just moving it to a component of its own. Specifically, we'll want to perform `<Notes items={notes} />` at `render()` method of `App`. That's just nice.
 
 You probably have the skills to implement `Notes` by now. Extract the logic from `App` and push it to a component of its own. Remember to attach `this.props.items` to the rendering logic. This way our interface works as expected. I've included complete implementation below for reference:
 
@@ -222,9 +222,9 @@ Even though we improved `render()` and reduced the amount of markup, it's still 
 
 ## Pushing `notes` to the `App` `state`
 
-As seen earlier React components can accept props. In addition, they may have a state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case, pushing `notes` to the state makes sense. We'll want to tweak them through the user interface.
+As seen earlier, React components can accept props. In addition, they may have a state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case, pushing `notes` to the state makes sense. We'll want to tweak them through the user interface.
 
-In ES6's class syntax the initial state can be defined at the constructor. We'll assign the state we want to `this.state`. After that we can refer to it. The example below illustrates how to convert our notes into state.
+In ES6's class syntax the initial state can be defined at the constructor. We'll assign the state we want to `this.state`. After that, we can refer to it. The example below illustrates how to convert our notes into state.
 
 **app/components/App.jsx**
 
@@ -266,11 +266,11 @@ leanpub-end-insert
 }
 ```
 
-After this change our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
+After this change, our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
 
-W> Note that *babel-plugin-react-transform* doesn't pick the change made to the constructor. Technically it just replaces methods. As a result the constructor won't get invoked. You will have to force a refresh in this case!
+W> Note that *babel-plugin-react-transform* doesn't pick the change made to the constructor. Technically it just replaces methods. As a result, the constructor won't get invoked. You will have to force a refresh in this case!
 
-T> In earlier versions of React you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
+T> In the earlier versions of React, you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
 ## Adding New Items to `Notes` list
 
@@ -339,7 +339,7 @@ leanpub-start-insert
   // at `optional` array of *.babelrc*.
   //
   // Alternatively we could `bind` at `constructor` using
-  // a line such as this.addNote = this.addNote.bind(this);
+  // a line, such as this.addNote = this.addNote.bind(this);
   addNote = () => {
     // It would be possible to write this in an imperative style.
     // I.e., through `this.state.notes.push`.
@@ -520,7 +520,7 @@ It would be nice to push the state to `Notes`. The problem is that doing this wo
 
 We are missing one final bit, the actual logic. Our state consists of `Notes` each of which has an id (string) and a task (string) attached to it. Our callback receives both of these. In order to edit a `Note` it should find the `Note` to edit and patch its task using the new data.
 
-T> Some of the prop related logic could be potentially extracted to a [context](https://facebook.github.io/react/docs/context.html). That would help us to avoid some of the prop passing. It is especially useful for implementing features such as internationalization (i18n) or [feature detection](https://github.com/casesandberg/react-context/). A component interested in it may simply query for a translator instance.
+T> Some of the prop related logic could be potentially extracted to a [context](https://facebook.github.io/react/docs/context.html). That would help us to avoid some of the prop passing. It is especially useful for implementing features, such as internationalization (i18n) or [feature detection](https://github.com/casesandberg/react-context/). A component interested in it may simply query for a translator instance.
 
 ### Implementing `onEdit` Logic
 
@@ -562,7 +562,7 @@ If you try to edit a `Note` now, the modification should stick. The same idea ca
 
 We are still missing one vital function. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
 
-As before we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove, we can construct a new state without it.
+As before, we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove, we can construct a new state without it.
 
 **app/components/App.jsx**
 
@@ -621,7 +621,7 @@ leanpub-end-insert
 }
 ```
 
-In order to invoke the previous `onDelete` callback we need to connect it with `onClick` for `Note`. If the callback doesn't exist, it makes sense to avoid rendering the delete button. An alternative way to solve this would be to push it to a component of its own.
+In order to invoke the previous `onDelete` callback, we need to connect it with `onClick` for `Note`. If the callback doesn't exist, it makes sense to avoid rendering the delete button. An alternative way to solve this would be to push it to a component of its own.
 
 **app/components/Note.jsx**
 
@@ -652,13 +652,13 @@ After these changes you should be able to delete notes as you like.
 
 ![Deleted a note](images/react_07.png)
 
-We have a fairly well working little application now. We can create, update and delete `Notes` now. During this process we learned something about props and state. There's more than that to React, though.
+We have a fairly well-working little application now. We can create, update and delete `Notes` now. During this process, we learned something about props and state. There's more than that to React, though.
 
 T> Now delete is sort of blunt. One interesting way to develop this further would be to add confirmation. One simple way to achieve this would be to show yes/no buttons before performing the action. The logic would be more or less the same as for editing. This behavior could be extracted into a component of its own.
 
 ## Styling Notes
 
-Aesthetically our current application is very barebones. As pretty applications are more fun to use, we can do a little something about that. The first step is to get rid of that horrible *serif* font.
+Aesthetically, our current application is very barebones. As pretty applications are more fun to use, we can do a little something about that. The first step is to get rid of that horrible *serif* font.
 
 **app/main.css**
 
@@ -758,7 +758,7 @@ No more of those pesky delete buttons:
 
 ![Delete on hover](images/react_11.png)
 
-After these few steps we have an application that looks passable. We'll be improving its appearance as we add functionality, but at least it's somewhat visually appealing.
+After these few steps, we have an application that looks passable. We'll be improving its appearance as we add functionality, but at least it's somewhat visually appealing.
 
 ## Understanding React Components
 
@@ -791,7 +791,7 @@ Note.willTransitionTo = () => {...};
 export default Note;
 ```
 
-Some libraries such as `react-dnd` rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
+Some libraries, such as `react-dnd`, rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
 
 Both class and `React.createClass` based components allow you to document the interface of your component using `propTypes`. To dig deeper, read the *Typing with React* chapter.
 
@@ -799,9 +799,9 @@ Both support `render()`, the workhorse of React. In function based definition `r
 
 ## React Component Conventions
 
-I prefer to have the `constructor` first, followed by lifecycle hooks, `render()`, and finally methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers, too.
+I prefer to have the `constructor` first, followed by lifecycle hooks, `render()`, and finally, methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers, too.
 
-In the end you will have to find conventions that you like and which work the best for you. I go into more detail about this topic in the linting chapter where I introduce various code quality related tools. Through the use of these tools, it is possible to enforce coding style to some extent.
+In the end, you will have to find conventions that you like and which work the best for you. I go into more detail about this topic in the linting chapter, where I introduce various code quality related tools. Through the use of these tools, it is possible to enforce coding style to some extent.
 
 This can be useful in a team environment. It decreases the amount of friction when working on code written by others. Even on personal projects, using tools to verify syntax and standards for you can be useful. It lessens the amount and severity of mistakes.
 

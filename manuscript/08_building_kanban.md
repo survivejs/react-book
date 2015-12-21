@@ -20,7 +20,7 @@ index.html  184 bytes          [emitted]
 
 ### Minification
 
-Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
+Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes, this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
 The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). As Uglify will output a lot of warnings and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
 
@@ -102,7 +102,7 @@ if(process.env.NODE_ENV === 'development') {
 
 If you prefer something more terse, you could use `__DEV__ === 'dev'` kind of syntax instead.
 
-T> That `JSON.stringify` is needed, as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string such as `'"production"'`. Note the double quotation marks (").
+T> That `JSON.stringify` is needed, as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string, such as `'"production"'`. Note the double quotation marks (").
 
 Trigger `npm run build` again, and you should see improved results:
 
@@ -116,7 +116,7 @@ index.html  184 bytes          [emitted]
     + 331 hidden modules
 ```
 
-So we went from 1.11 MB to 369 kB, and finally to 308 kB. The final build is a little faster than the previous one. As that 308 kB can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
+So we went from 1.11 MB to 369 kB, and finally, to 308 kB. The final build is a little faster than the previous one. As that 308 kB can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
@@ -205,7 +205,7 @@ Now we have separate *app*  and *vendor* bundles. There's something wrong, howev
 
 ### Setting Up `CommonsChunkPlugin`
 
-`CommonsChunkPlugin` allows us to extract the code we need for the `vendor` bundle. In addition we will use it to extract a *manifest*. It is a file that tells Webpack how to map each module to each file. We will need this in the next step for setting up long term caching. Here's the setup:
+`CommonsChunkPlugin` allows us to extract the code we need for the `vendor` bundle. In addition, we will use it to extract a *manifest*. It is a file that tells Webpack how to map each module to each file. We will need this in the next step for setting up long term caching. Here's the setup:
 
 **webpack.config.js**
 
@@ -253,7 +253,7 @@ Webpack provides placeholders that can be used to access different types of hash
 * `[hash]` - Returns build hash.
 * `[chunkhash]` - Returns a chunk specific hash.
 
-Using these placeholders you could end up with filenames such as:
+Using these placeholders you could end up with filenames, such as:
 
 ```bash
 app.d587bbd6e38337f5accd.js
@@ -336,7 +336,7 @@ leanpub-end-insert
 }
 ```
 
-After this change our `build` directory should remain nice and tidy when building. See [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin) for further options.
+After this change, our `build` directory should remain nice and tidy when building. See [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin) for further options.
 
 T> An alternative would be to use your terminal (`rm -rf ./build/`) and set that up in the `scripts` section of *package.json*.
 
@@ -352,7 +352,7 @@ It will take some configuration to make it work. Execute
 npm i extract-text-webpack-plugin --save-dev
 ```
 
-to get started. Next we need to get rid of our current CSS related declaration at `common` configuration. After that, we need to split it up between `build` and `dev` configuration sections as follows:
+to get started. Next, we need to get rid of our current CSS related declaration at `common` configuration. After that, we need to split it up between `build` and `dev` configuration sections as follows:
 
 **webpack.config.js**
 
@@ -440,9 +440,9 @@ leanpub-end-insert
 }
 ```
 
-Using this setup we can still benefit from the HMR during development. For a production build, we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
+Using this setup, we can still benefit from the HMR during development. For a production build, we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
 
-W> Definitions such as `loaders: [ExtractTextPlugin.extract('style', 'css')]` won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use the `loader` form instead.
+W> Definitions, such as `loaders: [ExtractTextPlugin.extract('style', 'css')]`, won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use the `loader` form instead.
 
 W> If you want to pass more loaders to the `ExtractTextPlugin`, you should use `!` syntax. Example: `ExtractTextPlugin.extract('style', 'css!autoprefixer-loader')`.
 

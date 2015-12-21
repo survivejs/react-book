@@ -1,6 +1,6 @@
 # Implementing Drag and Drop
 
-Our Kanban application is almost usable now. It looks alright and there's some basic functionality in place. In this chapter I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter you should be able to sort notes within a lane and drag them from one lane to another.
+Our Kanban application is almost usable now. It looks alright and there's some basic functionality in place. In this chapter, I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter, you should be able to sort notes within a lane and drag them from one lane to another.
 
 ## Setting Up React DnD
 
@@ -12,7 +12,7 @@ npm i react-dnd react-dnd-html5-backend --save
 
 to add React DnD to the project.
 
-As a first step we'll need to connect it with our project. Currently it provides an HTML5 Drag and Drop API specific back-end. There's no official support for touch yet, but it's possible to add later on. In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
+As a first step, we'll need to connect it with our project. Currently, it provides an HTML5 Drag and Drop API specific back-end. There's no official support for touch yet, but it's possible to add later on. In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
 
 **app/components/App.jsx**
 
@@ -31,17 +31,17 @@ export default class App extends React.Component {
 }
 ```
 
-After this change the application should look exactly the same as before. We are now ready to add some sweet functionality to it.
+After this change, the application should look exactly the same as before. We are now ready to add some sweet functionality to it.
 
-T> Decorators provide us simple means to annotate our components. Alternatively we could use syntax such as `DragDropContext(HTML5Backend)(App)` but this would get rather unwieldy when we want to apply multiple decorators. It's a valid alternative, though. See the decorator appendix to understand in detail how they work and how to implement them yourself.
+T> Decorators provide us simple means to annotate our components. Alternatively we could use syntax, such as `DragDropContext(HTML5Backend)(App)`, but this would get rather unwieldy when we want to apply multiple decorators. See the decorator appendix to understand in detail how they work and how to implement them yourself.
 
 T> Back-ends allow us to customize React DnD behavior. For instance, we can add [support for touch](https://github.com/gaearon/react-dnd/pull/240) to our application using one. There's also a testing specific one available.
 
 ## Preparing Notes to Be Sorted
 
-Next we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll need to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
+Next, we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll need to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
 
-Earlier we extracted editing functionality from `Note` and ended up dropping `Note`. It seems like we'll want to add that concept back to allow drag and drop.
+Earlier, we extracted editing functionality from `Note` and ended up dropping `Note`. It seems like we'll want to add that concept back to allow drag and drop.
 
 We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic in `Note`. This avoids having to duplicate any logic related to `Editable`.
 
@@ -96,7 +96,7 @@ leanpub-end-insert
 }
 ```
 
-After this change the application should look exactly the same as before. We have achieved nothing yet. Fortunately we can start adding functionality, now that we have the foundation in place.
+After this change, the application should look exactly the same as before. We have achieved nothing yet. Fortunately, we can start adding functionality, now that we have the foundation in place.
 
 ## Allowing Notes to Be Dragged
 
@@ -112,7 +112,7 @@ export default {
 
 This definition can be expanded later as we add new types to the system.
 
-Next we need to tell our `Note` that it's possible to drag and drop it. This is done through `@DragSource` and `@DropTarget` annotations.
+Next, we need to tell our `Note` that it's possible to drag and drop it. This is done through `@DragSource` and `@DropTarget` annotations.
 
 ### Setting Up `Note` `@DragSource`
 
@@ -233,11 +233,11 @@ leanpub-end-insert
 }
 ```
 
-Besides the initial debug log, we should see way more logs as we drag a `Note` around. Note that both decorators give us access to the `Note` props. In this case we are using `monitor.getItem()` to access them at `noteTarget`.
+Besides the initial debug log, we should see way more logs as we drag a `Note` around. Note that both decorators give us access to the `Note` props. In this case, we are using `monitor.getItem()` to access them at `noteTarget`.
 
 ## Developing `onMove` API for `Notes`
 
-Now that we can move notes around, we still need to define logic. The following steps are needed:
+Now, that we can move notes around, we still need to define logic. The following steps are needed:
 
 * Capture `Note` id on `beginDrag`.
 * Capture target `Note` id on `hover`.
@@ -418,7 +418,7 @@ Moving within a lane itself is more complicated. When you are operating based on
 npm i react-addons-update --save
 ```
 
-It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
+It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First, we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
 
 **app/stores/LaneStore.js**
 
@@ -517,7 +517,7 @@ leanpub-end-insert
 
 If you drag a note within a lane, you should see the behavior we expect. The target should be shown as blank. If you try moving the note to another lane and move it there, you will see this doesn't quite work.
 
-The problem is that our note component gets unmounted during this process. This makes it lose `isDragging` state. Fortunately we can override the default behavior by implementing a `isDragging` check of our own to fix the issue. Perform the following addition:
+The problem is that our note component gets unmounted during this process. This makes it lose `isDragging` state. Fortunately, we can override the default behavior by implementing a `isDragging` check of our own to fix the issue. Perform the following addition:
 
 **app/components/Note.jsx**
 
@@ -546,7 +546,7 @@ There is one little problem in our system. We cannot drag notes to an empty lane
 
 ## Dragging Notes to an Empty Lanes
 
-To drag notes to an empty lane, we should allow lanes to receive notes. Just as above, we can set up `DropTarget` based logic for this. First we need to capture the drag on `Lane`:
+To drag notes to an empty lane, we should allow lanes to receive notes. Just as above, we can set up `DropTarget` based logic for this. First, we need to capture the drag on `Lane`:
 
 **app/components/Lane.jsx**
 
@@ -655,9 +655,9 @@ leanpub-end-insert
 };
 ```
 
-There is one problem, though. What happens to the old instance of the `Note`? In the current solution, the old lane will have an id pointing to it. As a result we have duplicate data in the system.
+There is one problem, though. What happens to the old instance of the `Note`? In the current solution, the old lane will have an id pointing to it. As a result, we have duplicate data in the system.
 
-Earlier we resolved this using `detachFromLane`. The problem is that we don't know to which lane the note belonged. We could pass this data through the component hierarchy, but that doesn't feel particularly nice.
+Earlier, we resolved this using `detachFromLane`. The problem is that we don't know to which lane the note belonged. We could pass this data through the component hierarchy, but that doesn't feel particularly nice.
 
 We could resolve this on store level instead by implementing an invariant at `attachToLane` that makes sure any possible earlier references get removed. This can be achieved by implementing `this.removeNote(noteId)` check:
 
@@ -702,14 +702,14 @@ leanpub-end-insert
 }
 ```
 
-`removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that we have a clean slate, and we can add a note to a lane. This change allows us to drop `detachFromLane` from the system entirely, but I'll leave that up to you.
+`removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that, we have a clean slate, and we can add a note to a lane. This change allows us to drop `detachFromLane` from the system entirely, but I'll leave that up to you.
 
 Now we have a Kanban table that is actually useful! We can create new lanes and notes, and edit and remove them. In addition we can move notes around. Mission accomplished!
 
 ## Conclusion
 
-In this chapter you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First you mark the lanes to be draggable and droppable, then you sort out their ids, and finally you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
+In this chapter, you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First, you mark the lanes to be draggable and droppable, then you sort out their ids, and finally, you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
 
 I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending the DnD implementation, you can try adding more data to the system.
 
-In the next chapter we'll set up a production level build for our application. You can use the same techniques in your own projects.
+In the next chapter, we'll set up a production level build for our application. You can use the same techniques in your own projects.
