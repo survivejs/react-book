@@ -155,7 +155,7 @@ The Browserify ecosystem is composed of a lot of small modules. In this way, Bro
 
 ![webpack](images/webpack.png)
 
-You could say Webpack (or just *webpack*) takes a more monolithic approach than Browserify. You simply get more out of the box. Webpack extends `require` and allows you to customize its behavior using loaders. For example, `require('html!./file.html')` loads the contents of *file.html* and processes it through an HTML loader. It is a good idea to keep loader declarations, such as this, out of your source, though. Instead, use Webpack configuration to deal with it.
+You could say Webpack (or just *webpack*) takes a more monolithic approach than Browserify. You simply get more out of the box. Webpack extends `require` and allows you to customize its behavior using loaders. For example, `require('html!./file.html')` loads the contents of *file.html* and processes it through an HTML loader. Given declarations, such as this, tie the source code to Webpack, it is preferable to set up the loaders at Webpack configuration. This is the approach we'll be using in the book.
 
 Webpack will traverse through the `require` statements of your project and will generate the bundles you want. You can even load your dependencies in a dynamic manner using a custom `require.ensure` statement. The loader mechanism works for CSS as well and `@import` is supported. There are also plugins for specific tasks, such as minification, localization, hot loading, and so on.
 
