@@ -257,7 +257,7 @@ Global configuration is possible as well. In this case, you can use `env` key li
 
 ESLint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is a data structure that describes JavaScript code after it has been lexically analyzed. There are tools, such as [recast](https://github.com/benjamn/recast), that allow you to perform transformations on JavaScript code by using AST transformations. The idea is that you match some structure, then transform it somehow and convert AST back to JavaScript.
 
-To get a better idea of how AST works and what it looks like, you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [JS AST Explorer by Felix Kling](http://felix-kling.de/esprima_ast_explorer/). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with for ESLint rules.
+To get a better idea of how AST works and what it looks like, you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [AST Explorer by Felix Kling](http://astexplorer.net/). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with for ESLint rules.
 
 In ESLint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
