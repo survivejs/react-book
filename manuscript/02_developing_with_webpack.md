@@ -225,6 +225,8 @@ This means the development server is running. If you open *http://localhost:8080
 
 ![Hello world](images/hello_01.png)
 
+W> If you fail to see anything at the browser, you may need to use a different port through *webpack-dev-server --port 3000* kind of invocation. The need of this may depend on the operating system you are using.
+
 ### Splitting Up Configuration
 
 As the development setup has certain requirements of its own, we'll need to split our Webpack configuration. Given Webpack configuration is just JavaScript, there are many ways to achieve this. At least the following ways are feasible:
