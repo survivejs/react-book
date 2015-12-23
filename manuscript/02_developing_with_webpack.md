@@ -342,6 +342,8 @@ Execute `npm start` and surf to **localhost:8080**. Try modifying *app/component
 
 You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. You can see all the files the development server is serving there.
 
+T> If you want to default to some other port than *8080*, you can use a declaration like `port: 3000 || process.env.PORT`.
+
 ### Alternative Ways to Use *webpack-dev-server*
 
 We could have passed *webpack-dev-server* options through the command line interface (CLI). I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy. Alternatively we could have set up an Express server of our own and used *webpack-dev-server* as a [middleware](https://webpack.github.io/docs/webpack-dev-middleware.html). There's also a [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api).
