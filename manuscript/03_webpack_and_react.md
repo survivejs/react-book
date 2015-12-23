@@ -14,7 +14,7 @@ React isn't a framework like Angular.js or Ember. Frameworks tend to provide a l
 
 React introduced a concept known as virtual DOM to web developers. React maintains a DOM of its own unlike all the libraries and frameworks before it. As changes are made to virtual DOM, React will batch the changes to the actual DOM as it sees best.
 
-T> Libraries, such as [Matt-Esch/virtual-dom](https://github.com/Matt-Esch/virtual-dom), focus entirely on Virtual DOM. If you are interested in the theory, check it out.
+T> Libraries, such as [Matt-Esch/virtual-dom](https://github.com/Matt-Esch/virtual-dom) or [paldepind/snabbdom](https://github.com/paldepind/snabbdom), focus entirely on Virtual DOM. If you are interested in the theory, check it out.
 
 ### JSX and Virtual DOM
 
