@@ -344,6 +344,8 @@ You should be able to access the application alternatively through **localhost:8
 
 T> If you want to default to some other port than *8080*, you can use a declaration like `port: 3000 || process.env.PORT`.
 
+T> [dotenv](https://www.npmjs.com/package/dotenv) allows you to define environment variables through a *.env* file. This can be somewhat convenient for development!
+
 ### Alternative Ways to Use *webpack-dev-server*
 
 We could have passed *webpack-dev-server* options through the command line interface (CLI). I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy. Alternatively we could have set up an Express server of our own and used *webpack-dev-server* as a [middleware](https://webpack.github.io/docs/webpack-dev-middleware.html). There's also a [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api).
