@@ -259,6 +259,8 @@ ESLint rules rely on Abstract Syntax Tree (AST) definition of JavaScript. It is 
 
 To get a better idea of how AST works and what it looks like, you can check [Esprima online JavaScript AST visualization](http://esprima.org/demo/parse.html) or [AST Explorer by Felix Kling](http://astexplorer.net/). Alternatively you can install `recast` and examine the output it gives. That is the structure we'll be working with for ESLint rules.
 
+T> [Codemod](https://github.com/facebook/codemod) allows you to perform large scale changes to your codebase through AST based transformations.
+
 In ESLint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
 1. Set up a new project named `eslint-plugin-custom`. You can replace `custom` with whatever you want. ESLint follows this naming convention.
