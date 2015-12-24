@@ -64,13 +64,10 @@ Next, we need to connect our data model with `App`. The simplest way to achieve 
 **app/components/App.jsx**
 
 ```javascript
-leanpub-start-insert
 import uuid from 'node-uuid';
-leanpub-end-insert
 import React from 'react';
 import Note from './Note.jsx';
 
-leanpub-start-insert
 const notes = [
   {
     id: uuid.v4(),
@@ -102,7 +99,6 @@ export default class App extends React.Component {
     );
   }
 }
-leanpub-end-insert
 ```
 
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
