@@ -85,14 +85,12 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 You can use Babel with Webpack easily through [babel-loader](https://www.npmjs.com/package/babel-loader). It takes our ES6 module definition based code and turn it into ES5 bundles. Install *babel-loader* with
 
 ```bash
-npm i babel-loader@5.x --save-dev
+npm i babel-loader --save-dev
 ```
-
-W> We're using Babel 5 here for now as *babel-plugin-react-transform* still needs to receive its Babel 6 fixes. The configuration will change considerably with Babel 6!
 
 We need to add a loader declaration for `babel-loader` to the *loaders* section of the configuration. It matches against both `.js` and `.jsx` using a regular expression (`/\.jsx?$/`).
 
-To keep everything performant we restrict the loader to operate within `./app` directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly. I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
+To keep everything performant we restrict the loader to operate within *./app* directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly. I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
 Here's the relevant configuration we need to make Babel work:
 
@@ -138,29 +136,51 @@ T> As `resolve.extensions` gets evaluated from left to right, we can use it to c
 
 Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools, such as ESLint.
 
-We are going to enable three specific features as these will allow us to keep our project neat:
+Babel 6 relies on *plugins*. There are two types of plugins: syntax and transform. Former allow Babel to parse additional syntax whereas latter apply transformations. This way the code that is using future syntax can get transformed back to JavaScript older environments can understand.
+
+To make it easier to consume plugins, Babel supports the concept of *presets*. Each preset comes with a set of plugins so you don't have to wire them up separately. In this case we'll be relying on ES2015 and JSX presets:
+
+```bash
+npm i babel-preset-es2015 babel-preset-react --save-dev
+```
+
+In addition we'll be enabling a couple of custom features to make the project more convenient to develop:
 
 * [class properties](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `renderNote = (note) => {`. This binds the `renderNote` method to instances automatically. The feature makes more sense as we get to use it.
 * [decorators](https://github.com/wycats/javascript-decorators) - Example: `@DragDropContext(HTML5Backend)`. These annotations allow us to attach functionality to classes and their methods.
 * [object rest spread](https://github.com/sebmarkbage/ecmascript-rest-spread) - Example: ``const {a, b, ...props} = this.props`. This syntax allows us to easily extract specific properties from an object.
 
-Set up a *.babelrc* to your project root as follows in order to enable the features:
+Install them through
+
+```bash
+npm i babel-plugin-syntax-class-properties babel-plugin-syntax-decorators babel-plugin-syntax-object-rest-spread babel-plugin-transform-class-properties babel-plugin-transform-decorators-legacy babel-plugin-transform-object-rest-spread --save-dev
+```
+
+Next we need to set up a *.babelrc* file to make this all work:
 
 **.babelrc**
 
 ```json
 {
-  "optional": [
-    "es7.classProperties",
-    "es7.decorators",
-    "es7.objectRestSpread"
+  "presets": [
+    "es2015",
+    "react"
+  ],
+  "plugins": [
+    "syntax-class-properties",
+    "syntax-decorators",
+    "syntax-object-rest-spread",
+
+    "transform-class-properties",
+    "transform-decorators-legacy",
+    "transform-object-rest-spread"
   ]
 }
 ```
 
-Alternatively we could have used a declaration, such as `"stage": 1`. The problem is that this doesn't document well which additional features we are using at our code base. It might work for small projects but I do not suggest this for production grade code. Documenting your Babel usage this way will help in the maintenance effort.
-
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). For now we are keeping it simple.
+
+T> Babel provides stage specific presets. It is clearer to rely directly on any custom features you might want to use. This documents your project well and keeps it maintainable.
 
 T> It is possible to use Babel transpiled features in your Webpack configuration file. Simply rename *webpack.config.js* to *webpack.config.babel.js* and Webpack will pick it up provided Babel has been set up in your project. It will respect the contents of *.babelrc*.
 
@@ -176,7 +196,7 @@ to get React installed. This will save React to the `dependencies` section of *p
 
 *react-dom* is needed as React can be used to target multiple systems (DOM, mobile, terminal, i.e.,). Given we're dealing with the browser, *react-dom* is the correct choice here.
 
-Now that we got that out of the way, we can start to develop our Kanban application. First, we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire app. We can get started by using React's function based component definition syntax:
+Now that we got that out of the way, we can start to develop our Kanban application. First, we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire app. We can get started by using React's class based component definition syntax:
 
 **app/components/App.jsx**
 
@@ -184,9 +204,11 @@ Now that we got that out of the way, we can start to develop our Kanban applicat
 import React from 'react';
 import Note from './Note.jsx';
 
-export default () => {
-  return <Note />;
-};
+export default class App extends React.Component {
+  render() {
+    return <Note />;
+  }
+}
 ```
 
 T> You can import portions from `react` using the syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. It is important that you import `React` as well because that JSX will get converted to `React.createElement` calls. You may find this alternative a little neater regardless.
@@ -202,11 +224,7 @@ We also need to define the `Note` component. In this case, we will just want to 
 ```javascript
 import React from 'react';
 
-export default class Note extends React.Component {
-  render() {
-    return <div>Learn Webpack</div>;
-  }
-}
+export default () => <div>Learn Webpack</div>;
 ```
 
 T> Note that we're using the *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
@@ -287,29 +305,41 @@ In addition we need to expand our Babel configuration to include the plugin we n
 
 ```json
 {
-  "optional": [
-    "es7.classProperties",
-    "es7.decorators",
-    "es7.objectRestSpread"
+  "presets": [
+    "es2015",
+    "react"
+  ],
+  "plugins": [
+    "syntax-class-properties",
+    "syntax-decorators",
+    "syntax-object-rest-spread",
+
+    "transform-class-properties",
+    "transform-decorators-legacy",
+    "transform-object-rest-spread"
+leanpub-start-delete
+  ]
+leanpub-end-delete
+leanpub-start-insert
   ],
   "env": {
     "start": {
       "plugins": [
-        "react-transform"
-      ],
-      "extra": {
-        "react-transform": {
-          "transforms": [
-            {
-              "transform": "react-transform-hmr",
-              "imports": ["react"],
-              "locals": ["module"]
-            }
-          ]
-        }
-      }
+        [
+          "react-transform", {
+            "transforms": [
+              {
+                "transform": "react-transform-hmr",
+                "imports": ["react"],
+                "locals": ["module"]
+              }
+            ]
+          }
+        ]
+      ]
     }
   }
+leanpub-end-insert
 }
 ```
 

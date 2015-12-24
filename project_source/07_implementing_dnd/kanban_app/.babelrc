@@ -1,25 +1,32 @@
 {
-  "optional": [
-    "es7.classProperties",
-    "es7.decorators",
-    "es7.objectRestSpread"
+  "presets": [
+    "es2015",
+    "react"
+  ],
+  "plugins": [
+    "syntax-class-properties",
+    "syntax-decorators",
+    "syntax-object-rest-spread",
+
+    "transform-class-properties",
+    "transform-decorators-legacy",
+    "transform-object-rest-spread"
   ],
   "env": {
     "start": {
       "plugins": [
-        "react-transform"
-      ],
-      "extra": {
-        "react-transform": {
-          "transforms": [
-            {
-              "transform": "react-transform-hmr",
-              "imports": ["react"],
-              "locals": ["module"]
-            }
-          ]
-        }
-      }
+        [
+          "react-transform", {
+            "transforms": [
+              {
+                "transform": "react-transform-hmr",
+                "imports": ["react"],
+                "locals": ["module"]
+              }
+            ]
+          }
+        ]
+      ]
     }
   }
 }

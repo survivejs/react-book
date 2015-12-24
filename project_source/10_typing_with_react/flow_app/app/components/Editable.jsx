@@ -31,12 +31,12 @@ export default class Editable extends React.Component {
   renderDelete: () => ReactElement = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
   };
-  checkEnter: (e: Object) => void = () => {
+  checkEnter: (e: Object) => void = (e) => {
     if(e.key === 'Enter') {
       this.finishEdit(e);
     }
   };
-  finishEdit: (e: Object) => void = () => {
+  finishEdit: (e: Object) => void = (e) => {
     this.props.onEdit(e.target.value);
   };
 }
