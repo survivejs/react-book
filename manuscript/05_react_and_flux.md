@@ -275,7 +275,7 @@ leanpub-end-insert
     return (
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
-        <Notes items={notes}
+        <Notes notes={notes}
           onEdit={this.editNote} onDelete={this.deleteNote} />
       </div>
     );
@@ -473,7 +473,7 @@ leanpub-start-insert
         <AltContainer
           stores={[NoteStore]}
           inject={{
-            items: () => NoteStore.getState().notes
+            notes: () => NoteStore.getState().notes
           }}
         >
           <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
@@ -486,7 +486,7 @@ leanpub-end-insert
 }
 ```
 
-The `AltContainer` allows us to bind data to its immediate children. In this case, it injects the `items` property in to `Notes`. The pattern allows us to set up arbitrary connections to multiple stores and manage them. You can find another possible approach at the appendix about decorators.
+The `AltContainer` allows us to bind data to its immediate children. In this case, it injects the `notes` property in to `Notes`. The pattern allows us to set up arbitrary connections to multiple stores and manage them. You can find another possible approach at the appendix about decorators.
 
 Integrating the `AltContainer` tied this component to Alt. If you wanted something forward-looking, you could push it into a component of your own. That facade would hide Alt and allow you to replace it with something else later on.
 

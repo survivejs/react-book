@@ -106,10 +106,10 @@ leanpub-start-insert
 leanpub-end-insert
           inject={{
 leanpub-start-delete
-            items: () => NoteStore.getState().notes
+            notes: () => NoteStore.getState().notes
 leanpub-end-delete
 leanpub-start-insert
-            items: () => LaneStore.getState().lanes || []
+            lanes: () => LaneStore.getState().lanes || []
 leanpub-end-insert
           }}
         >
@@ -154,15 +154,12 @@ The `Lanes` container will render each `Lane` separately. Each `Lane` in turn wi
 import React from 'react';
 import Lane from './Lane.jsx';
 
-export default class Lanes extends React.Component {
-  render() {
-    const lanes = this.props.items;
-
-    return <div className="lanes">{lanes.map(this.renderLane)}</div>;
-  }
-  renderLane(lane) {
-    return <Lane className="lane" key={lane.id} lane={lane} />;
-  }
+export default ({lanes}) => {
+  return (
+    <div className="lanes">{lanes.map((lane) =>
+      <Lane className="lane" key={lane.id} lane={lane} />
+    )}</div>
+  );
 }
 ```
 
@@ -192,7 +189,7 @@ export default class Lane extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={{
-            items: () => NoteStore.getState().notes || []
+            notes: () => NoteStore.getState().notes || []
           }}
         >
           <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
@@ -423,10 +420,10 @@ export default class Lane extends React.Component {
           stores={[NoteStore]}
           inject={{
 leanpub-start-delete
-            items: () => NoteStore.getState().notes || []
+            notes: () => NoteStore.getState().notes || []
 leanpub-end-delete
 leanpub-start-insert
-            items: () => NoteStore.get(lane.notes)
+            notes: () => NoteStore.get(lane.notes)
 leanpub-end-insert
           }}
         >
@@ -470,7 +467,7 @@ leanpub-end-insert
 
 There are two important changes:
 
-* `items: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
+* `notes: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified. Note that we trigger `detachFromLane` before `delete` at `deleteNote`. Otherwise we may try to render non-existent notes. You can try swapping the order to see warnings.
 
 After these changes, we now have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
@@ -621,7 +618,7 @@ leanpub-end-insert
         <AltContainer
           stores={[NoteStore]}
           inject={{
-            items: () => NoteStore.get(lane.notes)
+            notes: () => NoteStore.get(lane.notes)
           }}
         >
           <Notes
@@ -837,26 +834,23 @@ So far, we've been defining a component per file. That's not the only way. It ma
 **app/components/Lanes.jsx**
 
 ```javascript
-...
+import React from 'react';
+import Lane from './Lane.jsx';
 
-export default class Lanes extends React.Component {
-  render() {
-    const lanes = this.props.items;
-
-    return <div className="lanes">{lanes.map(this.renderLane)}</div>;
-  }
-  renderLane(lane) {
-    // new
-    return (
-      <Lane className="lane" key={lane.id}>
-        <Lane.Header id={lane.id} name={lane.name} />
-        <Lane.Notes id={lane.id} notes={lane.notes} />
+export default ({lanes}) => {
+  return (
+    <div className="lanes">{lanes.map((lane) =>
+leanpub-start-delete
+      <Lane className="lane" key={lane.id} lane={lane} />
+leanpub-end-delete
+leanpub-start-insert
+      <Lane className="lane" key={lane.id} lane={lane}>
+        <Lane.Header name={lane.name} />
+        <Lane.Notes notes={lane.notes} />
       </Lane>
-    );
-
-    // old
-    // return <Lane className="lane" key={lane.id} lane={lane} />;
-  }
+leanpub-start-insert
+    )}</div>
+  );
 }
 ```
 

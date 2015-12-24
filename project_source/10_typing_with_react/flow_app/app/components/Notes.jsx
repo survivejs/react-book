@@ -4,35 +4,27 @@ import Editable from './Editable.jsx';
 import Note from './Note.jsx';
 import LaneActions from '../actions/LaneActions';
 
-export default class Notes extends React.Component {
-  props: {
-    items: Array<Object>,
-    onEdit: Function,
-    onDelete: Function,
-    onValueClick: Function
-  };
-  static defaultProps: {
-    items: [],
-    onEdit: () => any,
-    onDelete: () => any,
-    onValueClick: () => any
-  };
-  render(): ReactElement {
-    const notes = this.props.items;
+export default (props: {
+  notes: Array<Object>,
+  onValueClick: Function,
+  onEdit: Function,
+  onDelete: Function
+}): ReactElement => {
+  const {notes, onValueClick, onEdit, onDelete} = props;
 
-    return <ul className="notes">{notes.map(this.renderNote, this)}</ul>;
-  }
-  renderNote(note: Object): ReactElement {
-    return (
-      <Note className="note" onMove={LaneActions.move}
-        id={note.id} key={note.id}>
-        <Editable
-          editing={note.editing}
-          value={note.task}
-          onValueClick={this.props.onValueClick.bind(null, note.id)}
-          onEdit={this.props.onEdit.bind(null, note.id)}
-          onDelete={this.props.onDelete.bind(null, note.id)} />
-      </Note>
-    );
-  }
+  return (
+    <ul className="notes">{notes.map((note) => {
+      return (
+        <Note className="note" id={note.id} key={note.id} onMove={LaneActions.move}>
+          <Editable
+            editing={note.editing}
+            value={note.task}
+            onValueClick={onValueClick.bind(null, note.id)}
+            onEdit={onEdit.bind(null, note.id)}
+            onDelete={onDelete.bind(null, note.id)} />
+        </Note>
+      );
+    })}
+    </ul>
+  );
 }

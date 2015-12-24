@@ -1,21 +1,18 @@
 import React from 'react';
 import Lane from './Lane.jsx';
 
-class Lanes extends React.Component {
-  render() {
-    const lanes = this.props.items;
-
-    return <div className="lanes">{lanes.map(this.renderLane)}</div>;
-  }
-  renderLane(lane) {
-    return <Lane className="lane" key={lane.id} lane={lane} />;
-  }
-}
+const Lanes = ({lanes}) => {
+  return (
+    <div className="lanes">{lanes.map((lane) =>
+      <Lane className="lane" key={lane.id} lane={lane} />
+    )}</div>
+  );
+};
 Lanes.propTypes = {
-  items: React.PropTypes.array
+  lanes: React.PropTypes.array
 };
 Lanes.defaultProps = {
-  items: []
+  lanes: []
 };
 
 export default Lanes;

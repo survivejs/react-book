@@ -64,35 +64,38 @@ We also need to tweak `Notes` to use our wrapper component. We will simply wrap 
 **app/components/Notes.jsx**
 
 ```javascript
-...
+import React from 'react';
+import Editable from './Editable.jsx';
 leanpub-start-insert
 import Note from './Note.jsx';
 leanpub-end-insert
 
-export default class Notes extends React.Component {
-  ...
-  renderNote = (note) => {
-    return (
+export default ({notes, onValueClick, onEdit, onDelete}) => {
+  return (
+    <ul className="notes">{notes.map((note) => {
+      return (
 leanpub-start-delete
-      <li className="note" key={note.id}>
+        <li className="note" key={note.id}>
 leanpub-end-delete
 leanpub-start-insert
-      <Note className="note" id={note.id} key={note.id}>
+        <Note className="note" id={note.id} key={note.id}>
 leanpub-end-insert
-        <Editable
-          editing={note.editing}
-          value={note.task}
-          onValueClick={this.props.onValueClick.bind(null, note.id)}
-          onEdit={this.props.onEdit.bind(null, note.id)}
-          onDelete={this.props.onDelete.bind(null, note.id)} />
+          <Editable
+            editing={note.editing}
+            value={note.task}
+            onValueClick={onValueClick.bind(null, note.id)}
+            onEdit={onEdit.bind(null, note.id)}
+            onDelete={onDelete.bind(null, note.id)} />
 leanpub-start-delete
-      </li>
+        </li>
 leanpub-end-delete
 leanpub-start-insert
-      </Note>
-leanpub-end-insert
-    );
-  }
+        </Note>
+leanpub-end-delete
+      );
+    })}
+    </ul>
+  );
 }
 ```
 
@@ -292,33 +295,34 @@ If you run the application now, you'll likely get a bunch of `onMove` related er
 **app/components/Notes.jsx**
 
 ```javascript
-...
+import React from 'react';
+import Editable from './Editable.jsx';
+import Note from './Note.jsx';
 
-export default class Notes extends React.Component {
-  ...
-  renderNote = (note) => {
-    return (
+export default ({notes, onValueClick, onEdit, onDelete}) => {
+  return (
+    <ul className="notes">{notes.map((note) => {
+      return (
 leanpub-start-delete
-      <Note className="note" id={note.id} key={note.id}>
+        <Note className="note" id={note.id} key={note.id}>
 leanpub-end-delete
 leanpub-start-insert
-      <Note className="note" onMove={this.onMoveNote}
-        id={note.id} key={note.id}>
+        <Note className="note" id={note.id} key={note.id}
+          onMove={({sourceId, targetId}) =>
+            console.log('source', sourceId, 'target', targetId);
+        }>
 leanpub-end-insert
-      <Editable
-        editing={note.editing}
-        value={note.task}
-        onValueClick={this.props.onValueClick.bind(null, note.id)}
-        onEdit={this.props.onEdit.bind(null, note.id)}
-        onDelete={this.props.onDelete.bind(null, note.id)} />
-      </Note>
-    );
-  }
-leanpub-start-insert
-  onMoveNote({sourceId, targetId}) {
-    console.log('source', sourceId, 'target', targetId);
-  }
-leanpub-end-insert
+          <Editable
+            editing={note.editing}
+            value={note.task}
+            onValueClick={onValueClick.bind(null, note.id)}
+            onEdit={onEdit.bind(null, note.id)}
+            onDelete={onDelete.bind(null, note.id)} />
+        </Note>
+      );
+    })}
+    </ul>
+  );
 }
 ```
 
@@ -355,37 +359,37 @@ We should connect this action with `onMove` hook we just defined:
 **app/components/Notes.jsx**
 
 ```javascript
-...
+import React from 'react';
+import Editable from './Editable.jsx';
+import Note from './Note.jsx';
 leanpub-start-insert
 import LaneActions from '../actions/LaneActions';
 leanpub-end-insert
 
-export default class Notes extends React.Component {
-  ...
-  renderNote = (note) => {
-    return (
+export default ({notes, onValueClick, onEdit, onDelete}) => {
+  return (
+    <ul className="notes">{notes.map((note) => {
+      return (
 leanpub-start-delete
-      <Note className="note" onMove={this.onMoveNote}
-        id={note.id} key={note.id}>
+        <Note className="note" id={note.id} key={note.id}
+          onMove={({sourceId, targetId}) =>
+            console.log('source', sourceId, 'target', targetId);
+        }>
 leanpub-end-delete
 leanpub-start-insert
-      <Note className="note" onMove={LaneActions.move}
-        id={note.id} key={note.id}>
+        <Note className="note" id={note.id} key={note.id} onMove={LaneActions.move}>
 leanpub-end-insert
-      <Editable
-        editing={note.editing}
-        value={note.task}
-        onValueClick={this.props.onValueClick.bind(null, note.id)}
-        onEdit={this.props.onEdit.bind(null, note.id)}
-        onDelete={this.props.onDelete.bind(null, note.id)} />
-      </Note>
-    );
-  }
-leanpub-start-delete
-  onMoveNote({sourceId, targetId}) {
-    console.log('source', sourceId, 'target', targetId);
-  }
-leanpub-end-delete
+          <Editable
+            editing={note.editing}
+            value={note.task}
+            onValueClick={onValueClick.bind(null, note.id)}
+            onEdit={onEdit.bind(null, note.id)}
+            onDelete={onDelete.bind(null, note.id)} />
+        </Note>
+      );
+    })}
+    </ul>
+  );
 }
 ```
 

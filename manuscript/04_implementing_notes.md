@@ -143,13 +143,11 @@ T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
 ## Extracting `Notes`
 
-If we keep on growing `App` like this, we'll end up in trouble soon. Currently, `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier, we'll want something that will accept a prop, say `items`, and is able to render them in a list. We already have logic for that in `App`. It needs to be moved out.
+If we keep on growing `App` like this, we'll end up in trouble soon. Currently, `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier, we'll want something that will accept a prop, say `notes`, and is able to render them in a list. We already have logic for that in `App`. It needs to be moved out.
 
 T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At higher levels, you will just worry about layout and connecting data. As you go lower in the architecture, you start to see more concrete structures.
 
-A good first step towards a neater `App` is to define `Notes`. It will rely on the rendering logic we already set up. We are just moving it to a component of its own. Specifically, we'll want to perform `<Notes items={notes} />` at `render()` method of `App`. That's just nice.
-
-You probably have the skills to implement `Notes` by now. Extract the logic from `App` and push it to a component of its own. Remember to attach `this.props.items` to the rendering logic. This way our interface works as expected. I've included complete implementation below for reference:
+A good first step towards a neater `App` is to define `Notes`. It will rely on the rendering logic we already set up. We are just moving it to a component of its own. Specifically, we'll want to perform `<Notes notes={notes} />` at `render()` method of `App`. That's just nice. I've included complete implementation below for reference:
 
 **app/components/Notes.jsx**
 
@@ -157,25 +155,23 @@ You probably have the skills to implement `Notes` by now. Extract the logic from
 import React from 'react';
 import Note from './Note.jsx';
 
-export default class Notes extends React.Component {
-  render() {
-    const notes = this.props.items;
-
-    return <ul className="notes">{notes.map(this.renderNote)}</ul>;
-  }
-  renderNote(note) {
-    return (
-      <li className="note" key={note.id}>
-        <Note task={note.task} />
-      </li>
-    );
-  }
+export default ({notes}) => {
+  return (
+    <ul className="notes">{notes.map((note) => {
+      return (
+        <li className="note" key={note.id}>
+          <Note task={note.task} />
+        </li>
+      );
+    })}
+    </ul>
+  );
 }
 ```
 
 It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I will discuss them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
 
-We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Notes`, and update `render()` to use it. Remember to pass `notes` through `items` prop and you might see something familiar. I have included the full solution below for completeness:
+We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Notes`, and update `render()` to use it. Remember to pass `notes` through the `notes` prop and you might see something familiar. I have included the full solution below for completeness:
 
 **app/components/App.jsx**
 
@@ -208,7 +204,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Notes items={notes} />
+        <Notes notes={notes} />
       </div>
     );
   }
@@ -292,7 +288,7 @@ export default class App extends React.Component {
 leanpub-start-insert
         <button className="add-note" onClick={this.addNote}>+</button>
 leanpub-end-insert
-        <Notes items={notes} />
+        <Notes notes={notes} />
       </div>
     );
   }
@@ -458,7 +454,7 @@ export default class App extends React.Component {
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
 leanpub-start-insert
-        <Notes items={notes} onEdit={this.editNote} />
+        <Notes notes={notes} onEdit={this.editNote} />
 leanpub-end-insert
       </div>
     );
@@ -482,34 +478,33 @@ We also need to make `Notes` work according to this idea. It will `bind` the id 
 import React from 'react';
 import Note from './Note.jsx';
 
-export default class Notes extends React.Component {
-  render() {
-    const notes = this.props.items;
-
+leanpub-start-delete
+export default ({notes}) => {
+leanpub-end-delete
 leanpub-start-insert
-    // We are setting the context (`this`) of `this.renderNote` to `this`
-    // explicitly! Alternatively we could use a property initializer here,
-    // but this will work as well while being compatible with hot loading.
-    return <ul className="notes">{notes.map(this.renderNote, this)}</ul>;
+export default ({notes, onEdit}) => {
 leanpub-end-insert
-  }
-  renderNote(note) {
-    return (
-      <li className="note" key={note.id}>
+  return (
+    <ul className="notes">{notes.map((note) => {
+      return (
+        <li className="note" key={note.id}>
+leanpub-start-delete
+          <Note task={note.task} />
+leanpub-end-delete
 leanpub-start-insert
-        <Note
-          task={note.task}
-          onEdit={this.props.onEdit.bind(null, note.id)} />
+          <Note
+            task={note.task}
+            onEdit={onEdit.bind(null, note.id)} />
 leanpub-end-insert
-      </li>
-    );
-  }
+        </li>
+      );
+    })}
+    </ul>
+  );
 }
 ```
 
-If you edit a `Note` now, you should see a log at the console.
-
-T> Besides allowing you to set context, [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) makes it possible to fix parameters to certain values. Here we fix the first parameter to the value of `note.id`.
+If you edit a `Note` now, you should see a message at the console.
 
 It would be nice to push the state to `Notes`. The problem is that doing this would break the encapsulation. We would still need to wire up the "add note" button with the same state. This would mean we would have to communicate the changes to `Notes` somehow. We'll discuss a better way to solve this very issue in the next chapter.
 
@@ -575,7 +570,7 @@ export default class App extends React.Component {
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
 leanpub-start-insert
-        <Notes items={notes}
+        <Notes notes={notes}
           onEdit={this.editNote} onDelete={this.deleteNote} />
 leanpub-end-insert
       </div>
@@ -597,22 +592,35 @@ In addition to `App` level logic, we'll need to trigger `onDelete` logic at `Not
 **app/components/Notes.jsx**
 
 ```javascript
-export default class Notes extends React.Component {
-  render() {
-    ...
-  }
-  renderNote(note) {
-    return (
-      <li className="note" key={note.id}>
+import React from 'react';
+import Note from './Note.jsx';
+
+leanpub-start-delete
+export default ({notes, onEdit}) => {
+leanpub-end-delete
 leanpub-start-insert
-        <Note
-          task={note.task}
-          onEdit={this.props.onEdit.bind(null, note.id)}
-          onDelete={this.props.onDelete.bind(null, note.id)} />
+export default ({notes, onEdit, onDelete}) => {
 leanpub-end-insert
-      </li>
-    );
-  }
+  return (
+    <ul className="notes">{notes.map((note) => {
+      return (
+        <li className="note" key={note.id}>
+leanpub-start-delete
+          <Note
+            task={note.task}
+            onEdit={onEdit.bind(null, note.id)} />
+leanpub-end-delete
+leanpub-start-insert
+          <Note
+            task={note.task}
+            onEdit={onEdit.bind(null, note.id)}
+            onDelete={onDelete.bind(null, note.id)} />
+leanpub-end-insert
+        </li>
+      );
+    })}
+    </ul>
+  );
 }
 ```
 

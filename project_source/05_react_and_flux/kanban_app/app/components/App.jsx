@@ -12,7 +12,7 @@ export default class App extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={{
-            items: () => NoteStore.getState().notes
+            notes: () => NoteStore.getState().notes
           }}
         >
           <Notes onEdit={this.editNote} onDelete={this.deleteNote} />

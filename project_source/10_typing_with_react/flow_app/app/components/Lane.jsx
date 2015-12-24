@@ -56,7 +56,7 @@ class Lane extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={{
-            items: () => NoteStore.get(lane.notes)
+            notes: () => NoteStore.get(lane.notes)
           }}
         >
           <Notes
