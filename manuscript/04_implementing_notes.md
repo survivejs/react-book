@@ -127,13 +127,12 @@ The problem is that we haven't taken `task` prop into account at `Note`. In Reac
 ```javascript
 import React from 'react';
 
-export default class Note extends React.Component {
-  render() {
+leanpub-start-delete
+export default () => <div>Learn Webpack</div>;
+leanpub-end-delete
 leanpub-start-insert
-    return <div>{this.props.task}</div>;
+export default ({task}) => <div>{task}</div>;
 leanpub-end-insert
-  }
-}
 ```
 
 If you check out the application now, you should see we're seeing results that are more like it. This is only the start, though. Our `App` is getting cramped. It feels like there's a component waiting to be extracted.
@@ -377,8 +376,11 @@ This means we'll need to extend `Note` somehow and communicate possible changes 
 ```javascript
 import React from 'react';
 
-export default class Note extends React.Component {
+leanpub-start-delete
+export default ({task}) => <div>{task}</div>;
+leanpub-end-delete
 leanpub-start-insert
+export default class Note extends React.Component {
   constructor(props) {
     super(props);
 
@@ -386,17 +388,13 @@ leanpub-start-insert
       editing: false
     };
   }
-leanpub-end-insert
   render() {
-leanpub-start-insert
     if(this.state.editing) {
       return this.renderEdit();
     }
 
     return this.renderNote();
-leanpub-end-insert
   }
-leanpub-start-insert
   renderEdit = () => {
     return <input type="text"
       autoFocus={true}
@@ -424,8 +422,8 @@ leanpub-start-insert
       editing: false
     });
   }
-leanpub-end-insert
 }
+leanpub-end-insert
 ```
 
 If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at the console. We'll fix this shortly.
