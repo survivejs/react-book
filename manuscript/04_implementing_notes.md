@@ -200,10 +200,24 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
+leanpub-start-delete
+        <ul>{notes.map(this.renderNote)}</ul>
+leanpub-end-delete
+leanpub-start-insert
         <Notes notes={notes} />
+leanpub-end-insert
       </div>
     );
   }
+leanpub-start-delete
+  renderNote(note) {
+    return (
+      <li key={note.id}>
+        <Note task={note.task} />
+      </li>
+    );
+  }
+leanpub-end-delete
 }
 ```
 
