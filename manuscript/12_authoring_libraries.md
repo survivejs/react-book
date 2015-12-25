@@ -19,7 +19,7 @@ In larger projects, you may find the following:
 * *CHANGELOG.md* - This document describes major changes per version. If you do major API changes, it can be a good idea to cover them here. It is possible to generate the file based on Git commit history, provided you write nice enough commits.
 * *.travis.yml* - [Travis CI](https://travis-ci.org/) is a popular continuous integration platform that is free for open source projects. You can run the tests of your package over multiple systems using it. There are other alternatives of course, but Travis is very popular.
 * *.gitignore* - Ignore patterns for Git, i.e., which files shouldn't go under version control. It can be useful to ignore npm distribution files here so they don't clutter your repository.
-* *.npmignore* - Ignore patterns for npm. This describes which files shouldn't go to your distribution version.
+* *.npmignore* - Ignore patterns for npm. This describes which files shouldn't go to your distribution version. A good alternative is to use the [files](https://docs.npmjs.com/files/package.json#files) field at *package.json*. It allows you to maintain a whitelist of files to include into your distribution version.
 * *.eslintignore* - Ignore patterns for ESLint. Again, tool specific.
 * *.eslintrc* - Linting rules. You can use *.jshintrc* and such based on your preferences.
 * *webpack.config.js* - If you are using a simple setup, you might as well have the configuration at project root.
