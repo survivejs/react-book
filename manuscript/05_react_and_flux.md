@@ -169,7 +169,7 @@ To keep the implementation clean, we are using `this.setState`. It is a feature 
 
 class NoteStore {
   ...
-  update({id, task}) {
+  update(updatedNote) {
 leanpub-start-insert
   const notes = this.notes.map((note) => {
     if(note.id === updatedNote.id) {
