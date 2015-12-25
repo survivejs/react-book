@@ -281,7 +281,9 @@ To enable hot loading for React, you should first install the packages using
 npm i babel-plugin-react-transform react-transform-hmr --save-dev
 ```
 
-We also need to make Babel aware of HMR. First, we should pass the target environment to Babel through our Webpack configuration:
+We also need to make Babel aware of HMR. First, we should pass the target environment to Babel through our Webpack configuration. This allows us to control environment specific functionality through *.babelrc*. In this case we want to enable HMR just for development. If you wanted to enable some specific plugins for a production build, you would use the same idea.
+
+An easy way to control *.babelrc* is to set `BABEL_ENV` environment variable as npm lifecycle event. This gives us a predictable mapping between *package.json* and *.babelrc*:
 
 **webpack.config.js**
 
@@ -299,7 +301,7 @@ const common = {
 ...
 ```
 
-In addition we need to expand our Babel configuration to include the plugin we need during development:
+In addition we need to expand our Babel configuration to include the plugin we need during development. Here we enable HMR transform in particular:
 
 **.babelrc**
 
