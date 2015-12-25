@@ -63,7 +63,7 @@ Given it needs to do more work, it took longer. But on the plus side the build i
 
 T> It is possible to push minification further by enabling variable name mangling. It comes with some extra complexity to worry about, but it may be worth it when you are pushing for minimal size. See [the official documentation](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) for details.
 
-### `process.env.NODE_ENV`
+### Setting `process.env.NODE_ENV`
 
 We can perform one more step to decrease build size further. React relies on `process.env.NODE_ENV` based optimizations. If we force it to `production`, React will get built in an optimized manner. This will disable some checks (e.g., property type checks). Most importantly it will give you a smaller build and improved performance.
 
@@ -80,6 +80,10 @@ if(TARGET === 'build') {
 leanpub-start-insert
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production')
+
+        // You can set this to JSON.stringify('development') for your
+        // development target to force NODE_ENV to development mode
+        // no matter what
       }),
 leanpub-end-insert
       ...
@@ -89,18 +93,6 @@ leanpub-end-insert
 ```
 
 This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from the build completely.
-
-T> It can be useful to set `'process.env.NODE_ENV': JSON.stringify('development')` for your development target to force it to build in *development* environment no matter what.
-
-You can attach debugging specific utilities and such to your code easily this way. For instance, you could build a powerful logging system just for development. Here's a small example of what that could look like:
-
-```javascript
-if(process.env.NODE_ENV === 'development') {
-  console.log('developing like an ace');
-}
-```
-
-If you prefer something more terse, you could use `__DEV__ === 'dev'` kind of syntax instead.
 
 T> That `JSON.stringify` is needed, as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string, such as `'"production"'`. Note the double quotation marks (").
 
@@ -119,6 +111,8 @@ index.html  184 bytes          [emitted]
 So we went from 1.11 MB to 369 kB, and finally, to 308 kB. The final build is a little faster than the previous one. As that 308 kB can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
+
+T> [babel-plugin-transform-inline-environment-variables](https://www.npmjs.com/package/babel-plugin-transform-inline-environment-variables) Babel plugin can be used to achieve the same effect. See [the official documentation](https://babeljs.io/docs/plugins/transform-inline-environment-variables/) for details.
 
 ## Splitting `app` and `vendor` Bundles
 
