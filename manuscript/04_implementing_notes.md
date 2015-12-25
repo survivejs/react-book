@@ -422,7 +422,11 @@ export default class Note extends React.Component {
     }
   }
   finishEdit = (e) => {
-    this.props.onEdit(e.target.value);
+    // A smarter way to deal with this would be to set `defaultProps`.
+    // See *Typing with React* chapter for more information.
+    if(this.props.onEdit) {
+      this.props.onEdit(e.target.value);
+    }
 
     this.setState({
       editing: false
@@ -432,7 +436,7 @@ export default class Note extends React.Component {
 leanpub-end-insert
 ```
 
-If you try to edit a `Note` now, you will see an error (`this.props.onEdit is not a function`) at the console. We'll fix this shortly.
+If you try to edit a `Note` now, you can see an input. In order to do something useful with the value, we'll need to define `onEdit`. We'll do this shortly.
 
 The rest of the code deals with events. If we click the component while it is in its initial state, we will enter the edit mode. If we confirm the editing, we hit the `onEdit` callback. As a result, we go back to the default state.
 
