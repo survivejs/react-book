@@ -249,12 +249,12 @@ var obj2 = {
 };
 
 console.log(obj.context()); // { context: [Function], name: 'demo object' }
-console.log(obj2.context()); // {}
+console.log(obj2.context()); // {} in Node.js, Window in browser
 ```
 
-It is very important to understand that `() => this` is actually equivalent to `function() {return this;}.bind(this)`. In other words, fat arrow functions `bind` to their parent context!
+It is very important to understand that fat arrow based functions are lexically bound! If we placed our logic inside a function, we would get slightly different results in Node.js environment as then it would point at Node.js global `this`. It is a good idea to spend some time with the [Babel REPL](https://babeljs.io/repl/) online to understand this behavior better.
 
-Even though this might seem a little weird, this is actually useful. In the past, if you wanted to access parent context, you either needed to `bind` it or attach the parent context to a variable `var that = this;`. The introduction of fat arrows has mitigated this problem.
+Even though the behavior might seem a little weird, it is actually useful. In the past, if you wanted to access parent context, you either needed to `bind` it or attach the parent context to a variable `var that = this;`. The introduction of the fat arrow syntax has mitigated this problem.
 
 ### Function Parameters
 
