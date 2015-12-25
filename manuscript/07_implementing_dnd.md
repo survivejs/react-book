@@ -673,12 +673,6 @@ We could resolve this on store level instead by implementing an invariant at `at
 class LaneStore {
   ...
   attachToLane({laneId, noteId}) {
-    if(!noteId) {
-      this.waitFor(NoteStore);
-
-      noteId = NoteStore.getState().notes.slice(-1)[0].id;
-    }
-
 leanpub-start-insert
     this.removeNote(noteId);
 leanpub-end-insert

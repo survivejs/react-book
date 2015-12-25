@@ -223,18 +223,16 @@ Currently, our `Lane` model is simple. We are just storing an array of objects. 
 
 ### Setting Up `attachToLane`
 
-When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method, such as `LaneActions.attachToLane({laneId: <id>})`. As a `Note` needs to exist before this association can be made, this method needs to trigger `waitFor`.
-
-`waitFor` tells the dispatcher that it should wait before going on. A line, such as `this.waitFor(NoteStore);` at `LaneStore`, would make the operation wait. It will resume only after `NoteStore` has finished its work. Here's an example of how it would work:
+When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method, such as `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`. Before calling this method we should create a note and gets its id. Here's an example of how we could glue it together:
 
 ```javascript
-NoteActions.create({task: 'New task'});
+const note = NoteActions.create({task: 'New task'});
 
-// triggers waitFor
-LaneActions.attachToLane({laneId});
+LaneActions.attachToLane({
+  noteId: note.id,
+  laneId
+});
 ```
-
-`waitFor` is a feature that should be used carefully. Always consider other alternatives before using it. In this particular case, there's no easy way around it.
 
 To get started we should add `attachToLane` to actions as before:
 
@@ -260,12 +258,6 @@ class LaneStore {
   ...
 leanpub-start-insert
   attachToLane({laneId, noteId}) {
-    if(!noteId) {
-      this.waitFor(NoteStore);
-
-      noteId = NoteStore.getState().notes.slice(-1)[0].id;
-    }
-
     const lanes = this.lanes.map((lane) => {
       if(lane.id === laneId) {
         if(lane.notes.indexOf(noteId) === -1) {
@@ -287,9 +279,65 @@ leanpub-end-insert
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-`attachToLane` has been coded defensively to guard against possible problems. Unless we pass `noteId`, we `waitFor` one. Passing one explicitly becomes useful when we implement drag and drop, so it's good to have it in place.
+`attachToLane` has been coded defensively to guard against possible problems. The rest of the code deals with the logic. First, we try to find a matching lane. If found, we attach the note id to it unless it has been attached already.
 
-The rest of the code deals with the logic. First, we try to find a matching lane. If found, we attach the note id to it unless it has been attached already.
+We also need to make sure `NoteActions.create` returns a note. Otherwise our scheme won't work:
+
+**app/stores/NoteStore.js**
+
+```javascript
+...
+
+class NoteStore {
+  ...
+  create(note) {
+    const notes = this.notes;
+
+    note.id = uuid.v4();
+
+    this.setState({
+      notes: notes.concat(note)
+    });
+
+leanpub-start-insert
+    return note;
+leanpub-end-insert
+  }
+  ...
+}
+
+...
+```
+
+### On Data Dependencies and `waitFor`
+
+The current setup works because our actions are synchronous. It would become more problematic if we dealt with a back-end. In that case, we would have to set up `waitFor` based code. [waitFor](http://alt.js.org/guide/wait-for/) allows us to deal with data dependencies. It tells the dispatcher that it should wait before going on. Here's an example of how this approach would work out:
+
+```javascript
+NoteActions.create({task: 'New task'});
+
+// Triggers waitFor
+LaneActions.attachToLane({laneId});
+```
+
+**app/stores/LaneStore.js**
+
+```javascript
+class LaneStore {
+  ...
+  attachToLane({laneId, noteId}) {
+    if(!noteId) {
+      this.waitFor(NoteStore);
+
+      noteId = NoteStore.getState().notes.slice(-1)[0].id;
+    }
+
+    ...
+  }
+}
+```
+
+Fortunately, we can avoid `waitFor` in this case. You should use it carefully. It becomes necessary when you need to deal with asynchronously fetched data that depends on each other.
 
 ### Setting Up `detachFromLane`
 
@@ -440,9 +488,16 @@ leanpub-end-delete
 leanpub-start-insert
   addNote(laneId) {
 leanpub-end-insert
+leanpub-start-delete
     NoteActions.create({task: 'New task'});
+leanpub-end-delete
 leanpub-start-insert
-    LaneActions.attachToLane({laneId});
+    const note = NoteActions.create({task: 'New task'});
+
+    LaneActions.attachToLane({
+      noteId: note.id,
+      laneId
+    });
 leanpub-end-insert
   }
   editNote(id, task) {

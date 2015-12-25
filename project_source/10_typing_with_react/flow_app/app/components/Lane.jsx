@@ -68,8 +68,12 @@ class Lane extends React.Component {
     );
   }
   addNote(laneId): void {
-    NoteActions.create({task: 'New task'});
-    LaneActions.attachToLane({laneId});
+    const note = NoteActions.create({task: 'New task'});
+
+    LaneActions.attachToLane({
+      noteId: note.id,
+      laneId
+    });
   };
   editNote(id, task): void {
     NoteActions.update({id, task, editing: false});

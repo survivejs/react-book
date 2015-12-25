@@ -38,12 +38,6 @@ class LaneStore {
     });
   }
   attachToLane({laneId, noteId}) {
-    if(!noteId) {
-      this.waitFor(NoteStore);
-
-      noteId = NoteStore.getState().notes.slice(-1)[0].id;
-    }
-
     this.removeNote(noteId);
 
     const lanes = this.lanes.map((lane) => {
