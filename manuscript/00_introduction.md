@@ -99,7 +99,7 @@ https://github.com/survivejs/webpack_react/compare/v1.9.10...v1.9.17
 
 The page will show you the individual commits that went to the project between the given version range. You can also see the lines that have changed in the book. This excludes the private chapters, but it's enough to give you a good idea of the major changes made to the book.
 
-The current version of the book is **1.9.17**.
+The current version of the book is **2.0.0-beta1**.
 
 ## Acknowledgments
 
