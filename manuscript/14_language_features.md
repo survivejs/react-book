@@ -8,22 +8,77 @@ ES6 introduced proper module declarations. Earlier, this was somewhat ad hoc and
 
 ES6 module declarations are statically analyzable. This is highly useful for tool authors. Effectively, this means we can gain features like tree shaking. This allows the tooling to skip unused code easily simply by analyzing the import structure.
 
-To give you an example of the module format, consider the code below:
+### `import` and `export` for Single
+
+To give you an example of exporting directly through a module, consider below:
+
+**persist.js**
 
 ```javascript
-import {combineReducers} from 'redux';
-import * as types from '../actions/notes';
-import persist from './libs/persist';
+import makeFinalStore from 'alt-utils/lib/makeFinalStore';
 
-// export at module root
-export default function () { ... };
-
-// or export as module function,
-// you can have multiple of these per module
-export function hello() {...};
+export default function(alt, storage, storeName) {
+  ...
+}
 ```
 
-Especially `export default` is useful if you prefer to keep your modules focused. In the example `persist` function is an example of such. Regular `export` is useful for collecting multiple functions below the same umbrella. In this case, we use `import {combineReducers} from 'redux';` to access a module defined in a such way.
+**index.js**
+
+```javascript
+import persist from './persist';
+
+...
+```
+
+### `import` and `export` for Multiple
+
+Sometimes it can be useful to use modules as a namespace for multiple functions:
+
+**math.js**
+
+```javascript
+export function add(a, b) {
+  return a + b;
+}
+
+export function multiply(a, b) {
+  return a * b;
+}
+```
+
+Alternatively we could write the module in a form like this:
+
+**math.js**
+
+```javascript
+const add = (a, b) => a + b;
+const multiple = (a, b) => a * b;
+
+export {add, multiple};
+
+// Equivalent to
+//export {add: add, multiple: multiple};
+```
+
+The example leverages fat arrow syntax and *property value shorthand*.
+
+This definition can be consumed through an import like this:
+
+**index.js**
+
+```javascript
+import {add} from './math';
+
+// Alternatively we could bind the math methods to a key
+// import * as math from './math';
+// math.add, math.multiply, ...
+
+...
+```
+
+Especially `export default` is useful if you prefer to keep your modules focused. The `persist` function is an example of such. Regular `export` is useful for collecting multiple functions below the same umbrella.
+
+### Webpack `resolve.alias`
 
 Bundlers, such as Webpack, can provide some features beyond this. You could define a `resolve.alias` for some of your module directories for example. This would allow you to use an import, such as `import persist from 'libs/persist';`, regardless of where you import. A simple `resolve.alias` could look like this:
 
