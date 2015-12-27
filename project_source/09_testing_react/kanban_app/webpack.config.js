@@ -11,7 +11,7 @@ const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   app: path.join(__dirname, 'app'),
   build: path.join(__dirname, 'build'),
-  test: path.join(__dirname, 'test')
+  test: path.join(__dirname, 'tests')
 };
 
 process.env.BABEL_ENV = TARGET;
