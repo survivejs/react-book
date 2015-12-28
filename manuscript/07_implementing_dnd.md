@@ -548,9 +548,9 @@ This tells React DnD to perform our custom check instead of relying on the defau
 
 There is one little problem in our system. We cannot drag notes to an empty lane yet.
 
-## Dragging Notes to an Empty Lanes
+## Dragging Notes to Empty Lanes
 
-To drag notes to an empty lane, we should allow lanes to receive notes. Just as above, we can set up `DropTarget` based logic for this. First, we need to capture the drag on `Lane`:
+To drag notes to empty lanes, we should allow them to receive notes. Just as above, we can set up `DropTarget` based logic for this. First, we need to capture the drag on `Lane`:
 
 **app/components/Lane.jsx**
 
