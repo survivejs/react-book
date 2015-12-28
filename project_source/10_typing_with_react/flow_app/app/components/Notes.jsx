@@ -1,17 +1,9 @@
-/* @flow */
 import React from 'react';
 import Editable from './Editable.jsx';
 import Note from './Note.jsx';
 import LaneActions from '../actions/LaneActions';
 
-export default (props: {
-  notes: Array<Object>,
-  onValueClick: Function,
-  onEdit: Function,
-  onDelete: Function
-}): ReactElement => {
-  const {notes, onValueClick, onEdit, onDelete} = props;
-
+const Notes = ({notes, onValueClick, onEdit, onDelete}) => {
   return (
     <ul className="notes">{notes.map((note) => {
       return (
@@ -28,3 +20,16 @@ export default (props: {
     </ul>
   );
 }
+Notes.propTypes = {
+  notes: React.PropTypes.array,
+  onEdit: React.PropTypes.func,
+  onDelete: React.PropTypes.func,
+  onValueClick: React.PropTypes.func
+};
+Notes.defaultProps = {
+  notes: [],
+  onEdit: () => {},
+  onDelete: () => {}
+};
+
+export default Notes;
