@@ -360,7 +360,7 @@ Alternatively, we could have set up an Express server of our own and used *webpa
 
 W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and the Node.js API and they may behave slightly differently at times. This is the reason why some prefer to solely use the Node.js API.
 
-### Customizing Server *host* and *port*
+### Customizing Server `host` and `port`
 
 It is possible to customize host and port settings through the environment in our setup (i.e., `export PORT=3000` on Unix or `SET PORT=3000` on Windows). This can be useful if you want to access your server within the same network. The default settings are enough on most platforms.
 
