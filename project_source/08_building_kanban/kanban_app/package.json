@@ -32,6 +32,7 @@
     "extract-text-webpack-plugin": "^0.9.1",
     "gh-pages": "^0.8.0",
     "html-webpack-plugin": "^1.7.0",
+    "html-webpack-template": "^2.5.1",
     "react-transform-hmr": "^1.0.1",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",

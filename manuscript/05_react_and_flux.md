@@ -406,15 +406,12 @@ import storage from './libs/storage';
 import persist from './libs/persist';
 leanpub-end-insert
 
-main();
 
-function main() {
 leanpub-start-insert
-  persist(alt, storage, 'app');
+persist(alt, storage, 'app');
 leanpub-end-insert
 
-  ...
-}
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
 If you try refreshing the browser now, the application should retain its state. The solution should scale with minimal effort if we add more stores to the system. Integrating a real back-end wouldn't be a problem. There are hooks in place for that now.

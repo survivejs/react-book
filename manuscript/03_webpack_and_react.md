@@ -235,7 +235,43 @@ W> It is important to note that the ES6 based class approach **doesn't** support
 
 ### Rendering Through `index.jsx`
 
-We'll need to adjust our `index.js` to render the component correctly. Note that I've renamed it as `index.jsx` given we have JSX content there. First, the rendering logic creates a DOM element where it will render. Then it renders our application through React.
+In order to get something to show up at the browser, we'll need to render our `App` through it. First, we need to set up an element for React to render into. After that, we need to render into it. Former can be achieved through JavaScript.
+
+Instead, in this case I'm going to use a package known as [html-webpack-template](https://www.npmjs.com/package/html-webpack-template). It provides a nice amount of customization. For example, you can set up Google Analytics, initial data to bootstrap, and the element into which to render. Get it installed through:
+
+```bash
+npm i html-webpack-template --save-dev
+```
+
+In order to hook it up with our project, we need to tweak Webpack configuration:
+
+**webpack.config.js**
+
+```javascript
+...
+
+const common = {
+  ...
+  plugins: [
+    new HtmlwebpackPlugin({
+leanpub-start-delete
+      title: 'Kanban app'
+leanpub-end-delete
+leanpub-start-insert
+      template: 'node_modules/html-webpack-template/index.html',
+      title: 'Kanban app',
+      appMountId: 'app'
+leanpub-end-delete
+    })
+  ]
+};
+
+...
+```
+
+After this it will render *index.html* that contains a div which we can find from the DOM by using the id `app`. If we needed something more custom, we would have to implement a template of our own, but this one will do just fine for this project.
+
+To make everything work, we'll need to adjust our `index.js` to render the component. Note that I've renamed it as `index.jsx` given we have JSX content there. First, the rendering logic creates a DOM element where it will render. Then it renders our application through React:
 
 **app/index.jsx**
 
@@ -246,28 +282,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
 
-main();
-
-function main() {
-  const app = document.createElement('div');
-
-  document.body.appendChild(app);
-
-  ReactDOM.render(<App />, app);
-}
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
-I'll be using `const` whenever possible. It will give me a guarantee that the reference to the object won't get changed inadvertently. It does allow you to change the object contents, though, in that you can still push new items to an array and so on.
-
-If I want something mutable, I'll use `let` instead. `let` is scoped to the code block and is another new feature introduced with ES6. These both are good safety measures.
-
-W> Avoid rendering directly to `document.body`. This can cause strange problems when relying on it. Instead give React a little sandbox of its own. That way everyone, including React, will stay happy.
-
-If you execute `npm start` now, you should see something familiar at **localhost:8080**.
+If you execute `npm start` now, you should see something familiar at **localhost:8080**:
 
 ![Hello React](images/react_01.png)
 
 Before moving on, this is a good time to get rid of the old `component.js` file in the `app` root directory.
+
+W> Avoid rendering directly to `document.body`. This can cause strange problems when relying on it and React will give you a warning about it.
 
 ## Activating Hot Loading for Development
 

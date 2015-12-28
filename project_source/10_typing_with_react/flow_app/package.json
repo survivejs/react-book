@@ -35,6 +35,7 @@
     "extract-text-webpack-plugin": "^0.9.1",
     "gh-pages": "^0.8.0",
     "html-webpack-plugin": "^1.7.0",
+    "html-webpack-template": "^2.5.1",
     "isparta-instrumenter-loader": "^1.0.0",
     "karma": "^0.13.15",
     "karma-coverage": "^0.5.3",
