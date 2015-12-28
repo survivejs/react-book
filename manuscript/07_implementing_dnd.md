@@ -223,9 +223,9 @@ leanpub-start-insert
 leanpub-end-insert
 
 leanpub-start-delete
-return connectDragSource(
-  <li {...props}>{props.children}</li>
-);
+    return connectDragSource(
+      <li {...props}>{props.children}</li>
+    );
 leanpub-end-delete
 leanpub-start-insert
     return connectDragSource(connectDropTarget(
