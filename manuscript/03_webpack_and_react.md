@@ -182,7 +182,7 @@ Next we need to set up a *.babelrc* file to make this all work:
 
 There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). For now we are keeping it simple.
 
-T> Babel provides stage specific presets. It is clearer to rely directly on any custom features you might want to use. This documents your project well and keeps it maintainable.
+T> Babel provides stage specific presets. It is clearer to rely directly on any custom features you might want to use. This documents your project well and keeps it maintainable. You could even drop *babel-preset-es2015* and enable the features you need one by one.
 
 T> It is possible to use Babel transpiled features in your Webpack configuration file. Simply rename *webpack.config.js* to *webpack.config.babel.js* and Webpack will pick it up provided Babel has been set up in your project. It will respect the contents of *.babelrc*.
 
