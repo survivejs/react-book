@@ -27,6 +27,16 @@ const noteTarget = {
 };
 
 class Note extends React.Component {
+  static props: {
+    id: string,
+    connectDragSource?: Function,
+    connectDropTarget?: Function,
+    isDragging?: boolean,
+    onMove?: Function
+  };
+  static defaultProps: {
+    onMove: () => {}
+  };
   render(): ReactElement {
     const {connectDragSource, connectDropTarget, isDragging,
       onMove, id, ...props} = this.props;
