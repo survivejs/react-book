@@ -336,7 +336,7 @@ leanpub-start-insert
       new webpack.HotModuleReplacementPlugin()
     ]
   });
-leanpub-end-start
+leanpub-end-insert
 }
 ```
 
