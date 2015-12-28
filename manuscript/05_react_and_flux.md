@@ -171,15 +171,15 @@ class NoteStore {
   ...
   update(updatedNote) {
 leanpub-start-insert
-  const notes = this.notes.map((note) => {
-    if(note.id === updatedNote.id) {
-      note = assign({}, note, updatedNote);
-    }
+    const notes = this.notes.map((note) => {
+      if(note.id === updatedNote.id) {
+        note = assign({}, note, updatedNote);
+      }
 
-    return note;
-  });
+      return note;
+    });
 
-  this.setState({notes});
+    this.setState({notes});
 leanpub-end-insert
   }
   delete(id) {
