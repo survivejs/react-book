@@ -37,7 +37,7 @@ class Note extends React.Component {
   static defaultProps: {
     onMove: () => {}
   };
-  render(): ReactElement {
+  render(): Object {
     const {connectDragSource, connectDropTarget, isDragging,
       onMove, id, ...props} = this.props;
 

@@ -14,7 +14,7 @@ export default class Editable extends React.Component {
     editing: false,
     onEdit: () => {}
   };
-  render(): ReactElement {
+  render(): Object {
     const {value, onEdit, onValueClick, editing, ...props} = this.props;
 
     return (
@@ -23,14 +23,14 @@ export default class Editable extends React.Component {
       </div>
     );
   }
-  renderEdit: () => ReactElement = () => {
+  renderEdit: () => Object = () => {
     return <input type="text"
       autoFocus={true}
       defaultValue={this.props.value}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   };
-  renderValue: () => ReactElement = () => {
+  renderValue: () => Object = () => {
     const onDelete = this.props.onDelete;
 
     return (
@@ -40,7 +40,7 @@ export default class Editable extends React.Component {
       </div>
     );
   };
-  renderDelete: () => ReactElement = () => {
+  renderDelete: () => Object = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
   };
   checkEnter: (e: Object) => void = (e) => {
