@@ -85,12 +85,14 @@ T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of 
 You can use Babel with Webpack easily through [babel-loader](https://www.npmjs.com/package/babel-loader). It takes our ES6 module definition based code and turn it into ES5 bundles. Install *babel-loader* with
 
 ```bash
-npm i babel-loader --save-dev
+npm i babel-loader babel-core --save-dev
 ```
 
-We need to add a loader declaration for `babel-loader` to the *loaders* section of the configuration. It matches against both `.js` and `.jsx` using a regular expression (`/\.jsx?$/`).
+*babel-core* contains the core logic of Babel so we need to install that as well.
 
-To keep everything performant we restrict the loader to operate within *./app* directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly. I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
+To make this work, we need to add a loader declaration for `babel-loader` to the *loaders* section of the configuration. It matches against both `.js` and `.jsx` using a regular expression (`/\.jsx?$/`).
+
+To keep everything performant we should restrict the loader to operate within *./app* directory. This way it won't traverse `node_modules`. An alternative would be to set up an `exclude` rule against `node_modules` explicitly. I find it more useful to `include` instead as that's more explicit. You never know what files might be in the structure after all.
 
 Here's the relevant configuration we need to make Babel work:
 

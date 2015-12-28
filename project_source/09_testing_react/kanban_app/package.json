@@ -18,6 +18,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^6.3.26",
     "babel-loader": "^6.2.0",
     "babel-plugin-react-transform": "^2.0.0",
     "babel-plugin-syntax-class-properties": "^6.3.13",
