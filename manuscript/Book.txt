@@ -18,6 +18,7 @@ Advanced.md
 12_authoring_libraries.md
 13_styling_react.md
 Backmatter.txt
+Appendices.md
 14_language_features.md
 15_understanding_decorators.md
 16_troubleshooting.md
