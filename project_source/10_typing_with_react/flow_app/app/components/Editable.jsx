@@ -2,6 +2,18 @@
 import React from 'react';
 
 export default class Editable extends React.Component {
+  props: {
+    value?: string,
+    editing?: boolean,
+    onEdit?: Function,
+    onDelete?: Function,
+    onValueClick?: Function
+  };
+  static defaultProps: {
+    value: '',
+    editing: false,
+    onEdit: () => {}
+  };
   render(): ReactElement {
     const {value, onEdit, onValueClick, editing, ...props} = this.props;
 
