@@ -381,8 +381,8 @@ Now that we have the loaders we need, we'll need to make sure Webpack is aware o
 
 const common = {
   ...
-  module: {
 leanpub-start-insert
+  module: {
     loaders: [
       {
         // Test expects a RegExp! Note the slashes!
@@ -392,8 +392,8 @@ leanpub-start-insert
         include: PATHS.app
       }
     ]
-leanpub-end-insert
   },
+leanpub-end-insert
   ...
 }
 
