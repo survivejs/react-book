@@ -1,14 +1,12 @@
 [ignore]
-.*/node_modules/*
-.*/build/*
+.*/node_modules
 
 [include]
-./app/
+./app
 
 [libs]
-interfaces/
+./interfaces
 
 [options]
 esproposal.decorators=ignore
 esproposal.class_instance_fields=ignore
-esproposal.class_static_fields=ignore
