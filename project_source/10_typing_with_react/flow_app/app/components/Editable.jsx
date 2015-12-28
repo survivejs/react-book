@@ -2,7 +2,7 @@
 import React from 'react';
 
 export default class Editable extends React.Component {
-  props: {
+  static props: {
     value?: string,
     editing?: boolean,
     onEdit?: Function,
