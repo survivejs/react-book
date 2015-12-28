@@ -13,7 +13,7 @@ Webpack is one of those tools that depends on [Node.js](http://nodejs.org/). Mak
 ```bash
 mkdir kanban_app
 cd kanban_app
-npm init -y # -y gives you default *package.json*, skip it if you want more control
+npm init -y # -y gives you default *package.json*, skip for more control
 ```
 
 As a result, you should have *package.json* at your project root. You can still tweak it manually to make further changes. We'll be doing some changes through *npm* tool, but it's fine to tweak the file to your liking. The official documentation explains various [package.json options](https://docs.npmjs.com/files/package.json) in more detail. I also cover some useful library authoring related tricks later in this book.
