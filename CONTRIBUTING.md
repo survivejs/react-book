@@ -4,7 +4,7 @@ One of the unique aspects of this book is that its development happens mostly in
 
 I welcome PRs (typo fixes and such). If you have some bigger changes in mind, I recommend you open an issue first. That way we'll avoid wasting time.
 
-Note that I maintain a stable branch (`master`) and a development branch (`dev`). `master` is synced only during a release. If possible, please create your PRs against `dev` as that will keep things tidier.
+Create your PRs against `dev` (default branch).
 
 ## Issues
 
