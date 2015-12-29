@@ -14,9 +14,30 @@ The repository has been split in two main parts: `manuscript` and `project_sourc
 
 There is no single right way to approach the book. It depends on your experience level and interest. You can build the project from scratch by following the book or you can start from a specific stage. Just pick the source from previous chapter as your starting point.
 
+## Getting Support
+
+As no book is perfect, you will likely come by issues and might have some questions related to the content. There are a couple of options to deal with this:
+
+* Contact me through [GitHub Issue Tracker](https://github.com/survivejs/webpack_react/issues)
+* Join me at [Gitter Chat](https://gitter.im/survivejs/webpack_react)
+* Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
+* Send me email at [info@survivejs.com](mailto:info@survivejs.com)
+
+If you post questions to Stack Overflow, tag them using **survivejs** so I will get notified of them. You can use the hashtag **#survivejs** at Twitter.
+
+## Announcements
+
+I announce SurviveJS related news through a couple of channels:
+
+* [Mailing list](http://eepurl.com/bth1v5)
+* [Twitter](https://twitter.com/survivejs)
+* [Blog RSS](http://survivejs.com/atom.xml)
+
+Feel free to subscribe.
+
 ## Contributing
 
-Feedback is welcome. You can provide it through [the issue tracker](https://github.com/survivejs/webpack_react/issues).
+Feedback and PRs are welcome! See *CONTRIBUTING.md* for more information.
 
 ## Generating PDF
 
