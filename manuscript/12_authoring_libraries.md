@@ -219,7 +219,7 @@ npm supports multiple version ranges. I've listed the common ones below:
 * `~` - Tilde matches only patch versions. For example, `~1.2` would be equal to `1.2.x`.
 * `^` - Caret is the default you get using `--save` or `--save-dev`. It matches to It matches minor versions. This means `^0.2.0` would be equal to `0.2.x`.
 * `*` - Asterisk matches major releases. This is the most dangerous of the ranges. Using this recklessly can easily break your project in the future and I would advise against using it.
-* ` >= 1.3.0 < 2.0.0` - Range between versions. This can be particularly useful if you are using `peerDependencies`.
+* `>= 1.3.0 < 2.0.0` - Range between versions. This can be particularly useful if you are using `peerDependencies`.
 
 You can set the default range using `npm config set save-prefix='^'` in case you prefer something else than caret. Alternatively you can modify *~/.npmrc* directly.
 
