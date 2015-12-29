@@ -346,7 +346,7 @@ Execute `npm start` and surf to **localhost:8080**. Try modifying *app/component
 
 You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. You can see all the files the development server is serving there.
 
-T> If you want to default to some other port than *8080*, you can use a declaration like `port: 3000 || process.env.PORT`.
+T> If you want to default to some other port than *8080*, you can use a declaration like `port: process.env.PORT || 3000`.
 
 T> [dotenv](https://www.npmjs.com/package/dotenv) allows you to define environment variables through a *.env* file. This can be somewhat convenient for development!
 
