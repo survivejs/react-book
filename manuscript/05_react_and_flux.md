@@ -444,7 +444,7 @@ import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
 export default class App extends React.Component {
-leanpub-delete-insert
+leanpub-start-delete
   constructor(props) {
     super(props);
 
@@ -461,7 +461,7 @@ leanpub-delete-insert
     // point at the right context (defaults to `undefined` in strict mode).
     this.setState(state);
   }
-leanpub-delete-end
+leanpub-end-delete
   render() {
     return (
       <div>
