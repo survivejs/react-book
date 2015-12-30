@@ -135,26 +135,31 @@ As stated above, the ES6 modules allow `export` and `import` single and multiple
 
 To export and import a single class you can use `export default class` to export an anonymous class and call it whatever you want at import time:
 
+**Note.jsx**
 ```javascript
-//------ Note.jsx ------
 export default class extends React.Component { ... };
+```
 
-//------ Notes.jsx ------
+**Notes.jsx**
+```javascript
 import Note from './Note.jsx';
 ...
 ```
 
 Or use `export class className` to export several named classes from a single module:
 
+**Components.jsx**
 ```javascript
-//------ Components.jsx ------
 export class Note extends React.Component { ... };
 
 export class Notes extends React.Component { ... };
+```
 
-//------ App.jsx ------
+**App.jsx**
+```javascript
 import Notes from './Components.jsx';
 import Note from './Components.jsx';
+
 ...
 ```
 
