@@ -659,7 +659,7 @@ leanpub-start-insert
     );
   }
   renderDelete = () => {
-    return <button className="delete" onClick={this.props.onDelete}>x</button>;
+    return <button className="delete-note" onClick={this.props.onDelete}>x</button>;
   }
 leanpub-end-insert
   ...
@@ -754,7 +754,7 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 ```css
 ...
 
-.note .delete {
+.note .delete-note {
   float: right;
 
   padding: 0;
@@ -766,7 +766,7 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 
   visibility: hidden;
 }
-.note:hover .delete {
+.note:hover .delete-note {
   visibility: visible;
 }
 ```
