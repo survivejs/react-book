@@ -311,7 +311,7 @@ leanpub-end-insert
 leanpub-start-delete
   editNote = (id, task) => {
     const notes = this.state.notes.map((note) => {
-      if(note.id === id) {
+      if(note.id === id  && task) {
         note.task = task;
       }
 
