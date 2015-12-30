@@ -13,7 +13,7 @@ export default class Editable extends React.Component {
   renderEdit = () => {
     return <input type="text"
       autoFocus={true}
-      defaultValue={this.props.value}
+      placeholder={this.props.value}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }

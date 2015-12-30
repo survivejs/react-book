@@ -441,7 +441,6 @@ export default class Note extends React.Component {
     // Deal with blur and input handlers. These map to DOM events.
     return <input type="text"
       autoFocus={true}
-      defaultValue=""
       placeholder={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
@@ -780,7 +779,6 @@ export default class Note extends React.Component {
   renderEdit = () => {
     return <input type="text"
       autoFocus={true}
-      defaultValue=""
       placeholder={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
