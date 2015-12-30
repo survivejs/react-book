@@ -103,9 +103,10 @@ Here's the relevant configuration we need to make Babel work:
 
 const common = {
   entry: PATHS.app,
-  // Add resolve.extensions. '' is needed to allow imports without an extension.
-  // Note the .'s before extensions!!! Without those matching will fail.
 leanpub-start-insert
+  // Add resolve.extensions. '' is needed to allow imports
+  // without an extension. Note the .'s before extensions!!!
+  // The matching will fail without!
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -113,9 +114,13 @@ leanpub-end-insert
   ...
   module: {
     loaders: [
-      ...
-      // Set up jsx. This accepts js too thanks to RegExp
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css'],
+        include: PATHS.app
+      },
 leanpub-start-insert
+      // Set up jsx. This accepts js too thanks to RegExp
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
