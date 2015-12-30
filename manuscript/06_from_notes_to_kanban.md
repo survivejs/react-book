@@ -640,27 +640,25 @@ leanpub-start-insert
 import Editable from './Editable.jsx';
 leanpub-end-insert
 
-export default class Notes extends React.Component {
-  ...
-  renderNote = (note) => {
-    // note that we pass task to Editable through `value` prop now!
-    return (
-      <li className="note" key={note.id}>
+export default ({notes, onEdit, onDelete}) => {
+  return (
+    <ul className="notes">{notes.map((note) =>
 leanpub-start-delete
-        <Note
-          task={note.task}
+      <li className="note" key={note.id}><Note
+        task={note.task}
+        onEdit={onEdit.bind(null, note.id)}
+        onDelete={onDelete.bind(null, note.id)} /></li>
 leanpub-end-delete
 leanpub-start-insert
-        <Editable
-          editing={note.editing}
-          value={note.task}
-          onValueClick={this.props.onValueClick.bind(null, note.id)}
+      <li className="note" key={note.id}><Editable
+        editing={note.editing}
+        value={note.task}
+        onValueClick={onValueClick.bind(null, note.id)}
+        onEdit={onEdit.bind(null, note.id)}
+        onDelete={onDelete.bind(null, note.id)} /></li>
 leanpub-end-insert
-          onEdit={this.props.onEdit.bind(null, note.id)}
-          onDelete={this.props.onDelete.bind(null, note.id)} />
-      </li>
-    );
-  }
+    )}</ul>
+  );
 }
 ```
 

@@ -30,7 +30,8 @@ export default class App extends React.Component {
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
         <Notes notes={notes}
-          onEdit={this.editNote} onDelete={this.deleteNote} />
+          onEdit={this.editNote}
+          onDelete={this.deleteNote} />
       </div>
     );
   }

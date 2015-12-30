@@ -5,19 +5,16 @@ import LaneActions from '../actions/LaneActions';
 
 const Notes = ({notes, onValueClick, onEdit, onDelete}) => {
   return (
-    <ul className="notes">{notes.map((note) => {
-      return (
-        <Note className="note" id={note.id} key={note.id} onMove={LaneActions.move}>
-          <Editable
-            editing={note.editing}
-            value={note.task}
-            onValueClick={onValueClick.bind(null, note.id)}
-            onEdit={onEdit.bind(null, note.id)}
-            onDelete={onDelete.bind(null, note.id)} />
-        </Note>
-      );
-    })}
-    </ul>
+    <ul className="notes">{notes.map((note) =>
+      <Note className="note" id={note.id} key={note.id}
+        onMove={LaneActions.move}><Editable
+          editing={note.editing}
+          value={note.task}
+          onValueClick={onValueClick.bind(null, note.id)}
+          onEdit={onEdit.bind(null, note.id)}
+          onDelete={onDelete.bind(null, note.id)} />
+      </Note>
+    )}</ul>
   );
 }
 Notes.propTypes = {

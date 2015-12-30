@@ -22,6 +22,11 @@ export default class Note extends React.Component {
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
+  renderDelete = () => {
+    return <button
+      className="delete-note"
+      onClick={this.props.onDelete}>x</button>;
+  }
   renderNote = () => {
     const onDelete = this.props.onDelete;
 
@@ -31,9 +36,6 @@ export default class Note extends React.Component {
         {onDelete ? this.renderDelete() : null }
       </div>
     );
-  }
-  renderDelete = () => {
-    return <button className="delete-note" onClick={this.props.onDelete}>x</button>;
   }
   edit = () => {
     this.setState({

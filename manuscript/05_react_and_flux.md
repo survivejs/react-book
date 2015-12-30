@@ -276,25 +276,56 @@ leanpub-end-insert
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
         <Notes notes={notes}
-          onEdit={this.editNote} onDelete={this.deleteNote} />
+          onEdit={this.editNote}
+          onDelete={this.deleteNote} />
       </div>
     );
   }
-  addNote() {
+leanpub-start-delete
+deleteNote = (id) => {
+  this.setState({
+    notes: this.state.notes.filter((note) => note.id !== id)
+  });
+}
+leanpub-end-delete
 leanpub-start-insert
-    NoteActions.create({task: 'New task'});
-leanpub-end-insert
-  }
-  editNote(id, task) {
-leanpub-start-insert
-    NoteActions.update({id, task});
-leanpub-end-insert
-  }
   deleteNote(id) {
-leanpub-start-insert
     NoteActions.delete(id);
-leanpub-end-insert
   }
+leanpub-end-insert
+leanpub-start-delete
+  addNote = () => {
+    this.setState({
+      notes: this.state.notes.concat([{
+        id: uuid.v4(),
+        task: 'New task'
+      }])
+    });
+  }
+leanpub-end-delete
+leanpub-start-insert
+  addNote() {
+    NoteActions.create({task: 'New task'});
+  }
+leanpub-end-insert
+leanpub-start-delete
+  editNote = (id, task) => {
+    const notes = this.state.notes.map((note) => {
+      if(note.id === id) {
+        note.task = task;
+      }
+
+      return note;
+    });
+
+    this.setState({notes});
+  }
+leanpub-end-delete
+leanpub-start-insert
+  editNote(id, task) {
+    NoteActions.update({id, task});
+  }
+leanpub-end-insert
 }
 ```
 
@@ -466,6 +497,11 @@ leanpub-end-delete
     return (
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
+leanpub-start-delete
+        <Notes notes={notes}
+          onEdit={this.editNote}
+          onDelete={this.deleteNote} />
+leanpub-end-delete
 leanpub-start-insert
         <AltContainer
           stores={[NoteStore]}

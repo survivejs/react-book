@@ -53,9 +53,11 @@ If you open up the Node.js CLI (`node`) and try the following, you can see what 
 '1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
 ```
 
-`uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed to return a unique id with a high probability. If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule.
-
 T> You can exit Node.js CLI by hitting **CTRL-D** once.
+
+`uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed to return a unique id with a high probability.
+
+If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule and something we don't have to worry about.
 
 ## Connecting Data with `App`
 
@@ -64,179 +66,72 @@ Next, we need to connect our data model with `App`. The simplest way to achieve 
 **app/components/App.jsx**
 
 ```javascript
+leanpub-start-insert
 import uuid from 'node-uuid';
+leanpub-end-insert
 import React from 'react';
+leanpub-start-delete
 import Note from './Note.jsx';
-
-const notes = [
-  {
-    id: uuid.v4(),
-    task: 'Learn Webpack'
-  },
-  {
-    id: uuid.v4(),
-    task: 'Learn React'
-  },
-  {
-    id: uuid.v4(),
-    task: 'Do laundry'
-  }
-];
+leanpub-end-delete
 
 export default class App extends React.Component {
   render() {
+leanpub-start-insert
+    const notes = [
+      {
+        id: uuid.v4(),
+        task: 'Learn Webpack'
+      },
+      {
+        id: uuid.v4(),
+        task: 'Learn React'
+      },
+      {
+        id: uuid.v4(),
+        task: 'Do laundry'
+      }
+    ];
+leanpub-end-insert
+
+leanpub-start-delete
+    return <Note />;
+leanpub-end-delete
+leanpub-start-insert
     return (
       <div>
-        <ul>{notes.map(this.renderNote)}</ul>
+        <ul>{notes.map((note) =>
+          <li key={note.id}>{note.task}</li>
+        )}</ul>
       </div>
     );
-  }
-  renderNote(note) {
-    return (
-      <li key={note.id}>
-        <Note task={note.task} />
-      </li>
-    );
+leanpub-end-insert
   }
 }
 ```
 
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
 
-* `<ul>{notes.map(this.renderNote)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
-* `<li key={note.id}>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
+* `<ul>{notes.map((note) => ...}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
+* `<li key={note.id}>{note.task}</li>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
 T> You can import portions from `react` using syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. You may find this alternative a little neater.
 
-If you run the application now, you can see it almost works. There's a small glitch, but we'll fix that next.
+If you run the application now, you can see a list of notes. It's not particularly pretty, but it's something:
 
-![Almost done](images/react_02.png)
-
-T> If you want to examine your application state, it can be useful to attach a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement to the place you want to study. It has to be placed on a line that will get executed for the browser to pick it up! The statement will cause the browser debugging tools to trigger and allow you to study the current call stack and scope. You can attach breakpoints like this through browser, but this is a good alternative.
-
-## Fixing `Note`
-
-The problem is that we haven't taken `task` prop into account at `Note`. In React terms *props* is a data structure that's passed to a component from outside. It is up to the component how it uses this data. In the code below I extract the value of a prop and render it.
-
-**app/components/Note.jsx**
-
-```javascript
-import React from 'react';
-
-leanpub-start-delete
-export default () => <div>Learn Webpack</div>;
-leanpub-end-delete
-leanpub-start-insert
-export default ({task}) => <div>{task}</div>;
-leanpub-end-insert
-```
-
-If you check out the application now, you should see we're seeing results that are more like it. This is only the start, though. Our `App` is getting cramped. It feels like there's a component waiting to be extracted.
-
-![Notes render now](images/react_03.png)
+![A list of notes](images/react_03.png)
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
-## Extracting `Notes`
+T> If you want to examine your application further, it can be useful to attach a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement to the place you want to study. It has to be placed on a line that will get executed for the browser to pick it up! The statement will cause the browser debugging tools to trigger and allow you to study the current call stack and scope. You can attach breakpoints like this through browser, but this is a good alternative.
 
-If we keep on growing `App` like this, we'll end up in trouble soon. Currently, `App` deals with too many concerns. It shouldn't have to know what `Notes` look like. That's a perfect candidate for a component. As earlier, we'll want something that will accept a prop, say `notes`, and is able to render them in a list. We already have logic for that in `App`. It needs to be moved out.
+## Adding New Items to the List
 
-T> Recognizing components is an important skill when working with React. There's small overhead to creating them and it allows you to model your problems in exact terms. At higher levels, you will just worry about layout and connecting data. As you go lower in the architecture, you start to see more concrete structures.
-
-A good first step towards a neater `App` is to define `Notes`. It will rely on the rendering logic we already set up. We are just moving it to a component of its own. Specifically, we'll want to perform `<Notes notes={notes} />` at `render()` method of `App`. That's just nice. I've included complete implementation below for reference:
-
-**app/components/Notes.jsx**
-
-```javascript
-import React from 'react';
-import Note from './Note.jsx';
-
-export default ({notes}) => {
-  return (
-    <ul className="notes">{notes.map((note) => {
-      return (
-        <li className="note" key={note.id}>
-          <Note task={note.task} />
-        </li>
-      );
-    })}
-    </ul>
-  );
-}
-```
-
-It is a good idea to attach some CSS classes to components to make it easier to style them. React provides other styling approaches beyond this. I will discuss them later in this book. There's no single right way to style and you'll have to adapt based on your preferences. In this case, we'll just focus on keeping it simple.
-
-We also need to replace the old `App` logic to use our new component. You should remove the old rendering logic, import `Notes`, and update `render()` to use it. Remember to pass `notes` through the `notes` prop and you might see something familiar. I have included the full solution below for completeness:
+Adding more items to the list would be a good starting point for further development. Currently the state of our application is tied to `render()`. In order to make it possible to modify it, we'll need to convert it into component *state*. After that, we can define operations to alter it. As the state changes, React will update the list automatically for us. In React terms, state definition looks like this:
 
 **app/components/App.jsx**
 
 ```javascript
-import uuid from 'node-uuid';
-import React from 'react';
-leanpub-start-delete
-import Note from './Note.jsx';
-leanpub-end-delete
-leanpub-start-insert
-import Notes from './Notes.jsx';
-leanpub-end-insert
-
-const notes = [
-  {
-    id: uuid.v4(),
-    task: 'Learn Webpack'
-  },
-  {
-    id: uuid.v4(),
-    task: 'Learn React'
-  },
-  {
-    id: uuid.v4(),
-    task: 'Do laundry'
-  }
-];
-
-export default class App extends React.Component {
-  render() {
-    return (
-      <div>
-leanpub-start-delete
-        <ul>{notes.map(this.renderNote)}</ul>
-leanpub-end-delete
-leanpub-start-insert
-        <Notes notes={notes} />
-leanpub-end-insert
-      </div>
-    );
-  }
-leanpub-start-delete
-  renderNote(note) {
-    return (
-      <li key={note.id}>
-        <Note task={note.task} />
-      </li>
-    );
-  }
-leanpub-end-delete
-}
-```
-
-Logically, we have exactly the same `App` as earlier. There's one great difference. Our application is more flexible. You could render multiple `Notes` with data of their own easily.
-
-Even though we improved `render()` and reduced the amount of markup, it's still not neat. We can push the data to the `App`'s state. Besides making the code neater, this will allow us to implement logic related to it.
-
-## Pushing `notes` to the `App` `state`
-
-As seen earlier, React components can accept props. In addition, they may have a state of their own. This is something that exists within the component itself and can be modified. You can think of these two in terms of immutability. As you should not modify props you can treat them as immutable. The state, however, is mutable and you are free to alter it. In our case, pushing `notes` to the state makes sense. We'll want to tweak them through the user interface.
-
-In ES6's class syntax the initial state can be defined at the constructor. We'll assign the state we want to `this.state`. After that, we can refer to it. The example below illustrates how to convert our notes into state.
-
-**app/components/App.jsx**
-
-```javascript
-import uuid from 'node-uuid';
-import React from 'react';
-import Notes from './Notes.jsx';
+...
 
 export default class App extends React.Component {
 leanpub-start-insert
@@ -262,6 +157,22 @@ leanpub-start-insert
   }
 leanpub-end-insert
   render() {
+leanpub-start-delete
+    const notes = [
+      {
+        id: uuid.v4(),
+        task: 'Learn Webpack'
+      },
+      {
+        id: uuid.v4(),
+        task: 'Learn React'
+      },
+      {
+        id: uuid.v4(),
+        task: 'Do laundry'
+      }
+    ];
+leanpub-end-delete
 leanpub-start-insert
     const notes = this.state.notes;
 leanpub-end-insert
@@ -273,13 +184,13 @@ leanpub-end-insert
 
 After this change, our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
 
-W> Note that *babel-plugin-react-transform* doesn't pick the change made to the constructor. Technically it just replaces methods. As a result, the constructor won't get invoked. You will have to force a refresh in this case!
+In the earlier versions of React, you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
-T> In the earlier versions of React, you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
+W> Note that *babel-plugin-react-transform* doesn't pick up changes made to the constructor. Technically it just replaces methods. As a result, the constructor won't get invoked. You will have to force a refresh in this case!
 
-## Adding New Items to `Notes` list
+### Defining `addNote` Handler
 
-Adding new items to the notes list is a good starting point. To get started, we could render a button element and attach a dummy `onClick` handler to it. We will expand the actual logic into that.
+Now that we have state, we can begin to modify it. A good way to achieve this is to add a simple button to `App` and then trigger `this.setState` to force React to alter the state and trigger `render()`. This method is asynchronous. React deals with the virtual DOM related details for you:
 
 **app/components/App.jsx**
 
@@ -296,45 +207,14 @@ export default class App extends React.Component {
     return (
       <div>
 leanpub-start-insert
-        <button className="add-note" onClick={this.addNote}>+</button>
+        <button onClick={this.addNote}>+</button>
 leanpub-end-insert
-        <Notes notes={notes} />
+        <ul>{notes.map((note) =>
+          <li key={note.id}>{note.task}</li>
+        )}</ul>
       </div>
     );
   }
-leanpub-start-insert
-  addNote() {
-    console.log('add note');
-  }
-leanpub-end-insert
-}
-```
-
-If you click the plus button now, you should see something in your browser console. The next step is to connect this stub with our data model.
-
-![Notes with plus](images/react_04.png)
-
-### Connecting `addNote` with Data Model
-
-React provides one simple way to change the state, namely `this.setState(data, cb)`. It is an asynchronous method that updates `this.state` and triggers `render()` eventually. It accepts data and an optional callback. The callback is triggered after the process has completed.
-
-It is best to think of state as immutable and alter it always through `setState`. In our case, adding a new note can be done through a `concat` operation as below:
-
-**app/components/App.jsx**
-
-```javascript
-...
-
-export default class App extends React.Component {
-  constructor(props) {
-    ...
-  }
-  render() {
-    ...
-  }
-leanpub-start-delete
-  addNote() {
-leanpub-end-delete
 leanpub-start-insert
   // We are using an experimental feature known as property
   // initializer here. It allows us to bind the method `this`
@@ -351,7 +231,7 @@ leanpub-start-insert
     // the benefits (easy to reason about, no side effects)
     // more than make up for it.
     //
-    // Libraries, such as Immutable.js, go one notch further.
+    // Libraries, such as Immutable.js, go a notch further.
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
@@ -365,17 +245,171 @@ leanpub-end-insert
 
 If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
 
+If you click the plus button now, you should see a new item at the list:
+
+![Notes with plus](images/react_05.png)
+
+We are still missing two crucial features: editing and deletion. Before moving onto these, it's a good idea to make room for them by expanding our component hierarchy. It will become easier to deal with the features after that. Working with React is like this. You develop a component for a while until you realize it could be split up further.
+
+T> `this.setState` accepts a second parameter like this: `this.setState({...}, () => console.log('set state!'))`. This is handy to know if you want to trigger some behavior right after `setState` has completed.
+
 T> You could use `[...this.state.notes, {id: uuid.v4(), task: 'New task'}]` to achieve the same result. This [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) can be used with function parameters as well.
 
-If you hit the button a few times now, you should see new items. It might not be pretty yet, but it works.
+## Improving Component Hierarchy
 
-![Notes with a new item](images/react_05.png)
+Our current, one component based setup isn't going to take us far. By looking at our application, we can see there's a component hierarchy like this:
+
+* `App` - `App` retains application state and deals with the high level logic.
+* `Notes` - `Notes` acts as an intermediate in between and renders individual `Note` components.
+* `Note` - `Note` is the workhorse of our application. Editing and deletion will be triggered here. That logic will cascade to `App` through wiring.
+
+The interesting side benefit of this arrangement is that it allows us to create multiple `Notes` lists per `App`. Earlier, this would have become messy. Later on we can introduce the concepts of `Lane` and `Lanes` to the hierarchy.
+
+### Extracting `Note`
+
+A good first step towards the hierarchy we want is to extract `Note`. `Note` is a component which will need to receive `task` as a *prop* and render it as below:
+
+**app/components/Note.jsx**
+
+```javascript
+import React from 'react';
+
+leanpub-start-delete
+export default () => <div>Learn Webpack</div>;
+leanpub-end-delete
+leanpub-start-insert
+export default ({task}) => <div>{task}</div>;
+leanpub-end-insert
+```
+
+T> `{task}` allows us to extract the specific prop we want from the passed props easily. We'll be using the same [destructuring syntax](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring) in other places as well.
+
+We should tweak `App` to connect the component with it:
+
+**app/components/App.jsx**
+
+```javascript
+import uuid from 'node-uuid';
+import React from 'react';
+leanpub-start-insert
+import Note from './Note.jsx';
+leanpub-end-insert
+
+export default class App extends React.Component {
+  constructor(props) {
+    ...
+  }
+  render() {
+    const notes = this.state.notes;
+
+    return (
+      <div>
+        <button onClick={this.addNote}>+</button>
+        <ul>{notes.map((note) =>
+leanpub-start-delete
+          <li key={note.id}>{note.task}</li>
+leanpub-end-delete
+leanpub-start-insert
+          <li key={note.id}><Note task={note.task} /></li>
+leanpub-end-insert
+        )}</ul>
+      </div>
+    );
+  }
+  addNote = () => {
+    this.setState({
+      notes: this.state.notes.concat([{
+        id: uuid.v4(),
+        task: 'New task'
+      }])
+    });
+  }
+}
+```
+
+The application should still look the same. To achieve the structure we are after, we should perform one more tweak and extract `Notes`.
+
+### Extracting `Notes`
+
+Extracting `Notes` is a similar operation. We need to understand what portion of `App` belongs to the component and then write a definition for it:
+
+**app/components/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note.jsx';
+
+export default ({notes}) => {
+  return (
+    <ul>{notes.map((note) =>
+      <li key={note.id}><Note task={note.task} /></li>
+    )}</ul>
+  );
+}
+```
+
+In addition, we need to connect `App` with the new definition:
+
+**app/components/App.jsx**
+
+```javascript
+import uuid from 'node-uuid';
+import React from 'react';
+leanpub-start-delete
+import Note from './Note.jsx';
+leanpub-end-delete
+leanpub-start-insert
+import Notes from './Notes.jsx';
+leanpub-end-insert
+
+export default class App extends React.Component {
+  constructor(props) {
+    ...
+  }
+  render() {
+    const notes = this.state.notes;
+
+    return (
+      <div>
+        <button onClick={this.addNote}>+</button>
+leanpub-start-delete
+        <ul>{notes.map((note) =>
+          <li key={note.id}><Note task={note.task} /></li>
+        )}</ul>
+leanpub-end-delete
+leanpub-start-insert
+        <Notes notes={notes} />
+leanpub-end-insert
+      </div>
+    );
+  }
+  addNote = () => {
+    this.setState({
+      notes: this.state.notes.concat([{
+        id: uuid.v4(),
+        task: 'New task'
+      }])
+    });
+  }
+}
+```
+
+The application should still behave the same way. Structurally we are far better off than before. Now we can begin to worry about adding new functionality to the system.
 
 ## Editing `Notes`
 
-Our `Notes` list is almost useful now. We just need to implement editing and we're almost there. One simple way to achieve this is to detect a click event on a `Note`, and then show an input containing its state. Then when the editing has been confirmed, we can return it back to normal.
+In order to edit individual `Note`s, we should set up some hooks for that. Logically the following could happen:
 
-This means we'll need to extend `Note` somehow and communicate possible changes to `App`. That way it knows to update the data model. Additionally, `Note` needs to keep track of its edit state. It has to show the correct element (div or input) based on its state. Here's a sample implementation of the idea:
+1. The user clicks a `Note`.
+2. `Note` renders itself as input showing its current value.
+3. The user confirms the modification (`blur` event or *enter* key is pressed).
+4. `Note` renders the new value.
+
+This means `Note` will need to track its `editing` state somehow. In addition, we need to communicate that value (`task`) has changed so that `App` knows to update its state. Resolving these two problems gives us something functional.
+
+### Tracking `Note` `editing` State
+
+Just as earlier with `App`, we need to deal with state again. This means a function based component won't be enough anymore. Instead, we need to convert it to a heavier format. For the sake of consistency I'll be using the same component definition style as with `App`. In addition, we need to alter the `editing` state based on the user behavior, and finally render the right element based on it. Here's what this means in terms of React:
 
 **app/components/Note.jsx**
 
@@ -386,6 +420,347 @@ leanpub-start-delete
 export default ({task}) => <div>{task}</div>;
 leanpub-end-delete
 leanpub-start-insert
+export default class Note extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // Track `editing` state.
+    this.state = {
+      editing: false
+    };
+  }
+  render() {
+    // Render the component differently based on state.
+    if(this.state.editing) {
+      return this.renderEdit();
+    }
+
+    return this.renderNote();
+  }
+  renderEdit = () => {
+    // Deal with blur and input handlers. These map to DOM events.
+    return <input type="text"
+      autoFocus={true}
+      defaultValue={this.props.task}
+      onBlur={this.finishEdit}
+      onKeyPress={this.checkEnter} />;
+  }
+  renderNote = () => {
+    // If the user clicks a normal note, trigger editing logic.
+    return <div onClick={this.edit}>{this.props.task}</div>;
+  }
+  edit = () => {
+    // Enter edit mode.
+    this.setState({
+      editing: true
+    });
+  }
+  checkEnter = (e) => {
+    // The user hit *enter*, let's finish up.
+    if(e.key === 'Enter') {
+      this.finishEdit(e);
+    }
+  }
+  finishEdit = (e) => {
+    // `Note` will trigger an optional `onEdit` callback once it
+    // has a new value. We will use this to communicate the change to
+    // `App`.
+    //
+    // A smarter way to deal with the default value would be to set
+    // it through `defaultProps`.
+    //
+    // See *Typing with React* chapter for more information.
+    if(this.props.onEdit) {
+      this.props.onEdit(e.target.value);
+    }
+
+    // Exit edit mode.
+    this.setState({
+      editing: false
+    });
+  }
+}
+leanpub-end-insert
+```
+
+If you try to edit a `Note` now, you should see an input. In order to do something useful with the value, we'll need to define `onEdit` so that we can update `App` state and actually commit the changes to memory.
+
+T> It is a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them from other props and keep your code a little tidier.
+
+### Communicating `Note` State Changes
+
+Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. We will need to trigger this callback at `Note` and delegate the result to `App` level. The diagram below illustrates the idea:
+
+![`onEdit` flow](images/bind.png)
+
+A good first step towards this behavior is to create a stub. As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work, changes in two files are needed. Here's what it should look like for `App`:
+
+**app/components/App.jsx**
+
+```javascript
+import uuid from 'node-uuid';
+import React from 'react';
+import Notes from './Notes.jsx';
+
+export default class App extends React.Component {
+  constructor(props) {
+    ...
+  }
+  render() {
+    const notes = this.state.notes;
+
+    return (
+      <div>
+        <button onClick={this.addNote}>+</button>
+leanpub-start-delete
+        <Notes notes={notes} />
+leanpub-end-delete
+leanpub-start-insert
+        <Notes notes={notes} onEdit={this.editNote} />
+leanpub-end-insert
+      </div>
+    );
+  }
+  addNote = () => {
+  ...
+  }
+leanpub-start-insert
+  editNote = (id, task) => {
+    const notes = this.state.notes.map((note) => {
+      if(note.id === id) {
+        note.task = task;
+      }
+
+      return note;
+    });
+
+    this.setState({notes});
+  }
+leanpub-end-insert
+}
+```
+
+The idea is that `Notes` will return via our callback the id of the note being modified and the new state of the task. We'll then patch the state of the application through `setState` as before.
+
+To make the scheme work as designed, we need to modify `Notes` to work according to the idea. It will `bind` the id of the note in question. When the callback is triggered, the remaining parameter receives a value and the callback gets called:
+
+**app/components/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note.jsx';
+
+leanpub-start-delete
+export default ({notes}) => {
+leanpub-end-delete
+leanpub-start-insert
+export default ({notes, onEdit}) => {
+leanpub-end-insert
+  return (
+    <ul>{notes.map((note) =>
+leanpub-start-delete
+      <li key={note.id}><Note task={note.task} /></li>
+leanpub-end-delete
+leanpub-start-insert
+      <li key={note.id}><Note
+        task={note.task}
+        onEdit={onEdit.bind(null, note.id)} /></li>
+leanpub-end-insert
+    )}</ul>
+  );
+}
+```
+
+If you try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
+
+![Edited a note](images/react_06.png)
+
+## Removing `Notes`
+
+We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
+
+As before, we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove, we can construct a new state without it.
+
+Just like earlier, it will take three changes. We need to define logic at `App` level, bind the `id` at `Notes`, and then finally trigger the logic at `Note` through its user interface. To get started, `App` logic can be defined in terms of `filter`:
+
+**app/components/App.jsx**
+
+```javascript
+import uuid from 'node-uuid';
+import React from 'react';
+import Notes from './Notes.jsx';
+
+export default class App extends React.Component {
+  ...
+  render() {
+    const notes = this.state.notes;
+
+    return (
+      <div>
+        <button onClick={this.addNote}>+</button>
+leanpub-start-delete
+        <Notes notes={notes} onEdit={this.editNote} />
+leanpub-end-delete
+leanpub-start-insert
+        <Notes notes={notes}
+          onEdit={this.editNote}
+          onDelete={this.deleteNote} />
+leanpub-end-insert
+      </div>
+    );
+  }
+leanpub-start-insert
+  deleteNote = (id) => {
+    this.setState({
+      notes: this.state.notes.filter((note) => note.id !== id)
+    });
+  }
+leanpub-end-insert
+  ...
+}
+```
+
+`Notes` will work similarly as earlier:
+
+**app/components/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note.jsx';
+
+leanpub-start-delete
+export default ({notes, onEdit}) => {
+leanpub-end-delete
+leanpub-start-insert
+export default ({notes, onEdit, onDelete}) => {
+leanpub-end-insert
+  return (
+    <ul>{notes.map((note) =>
+leanpub-start-delete
+      <li key={note.id}><Note
+        task={note.task}
+        onEdit={onEdit.bind(null, note.id)} /></li>
+leanpub-end-delete
+leanpub-start-insert
+      <li key={note.id}><Note
+        task={note.task}
+        onEdit={onEdit.bind(null, note.id)}
+        onDelete={onDelete.bind(null, note.id)} /></li>
+leanpub-end-insert
+    )}</ul>
+  );
+}
+```
+
+Finally, we need to attach a delete button to each `Note` and then trigger `onDelete` when those are clicked:
+
+**app/components/Note.jsx**
+
+```javascript
+...
+
+export default class Note extends React.Component {
+  ...
+  renderNote = () => {
+leanpub-start-delete
+    return <div onClick={this.edit}>{this.props.task}</div>;
+leanpub-end-delete
+leanpub-start-insert
+    const onDelete = this.props.onDelete;
+
+    return (
+      <div onClick={this.edit}>
+        <span>{this.props.task}</span>
+        {onDelete ? this.renderDelete() : null }
+      </div>
+    );
+    leanpub-end-insert
+  }
+leanpub-start-insert
+  renderDelete = () => {
+    return <button onClick={this.props.onDelete}>x</button>;
+  }
+leanpub-end-insert
+  ...
+```
+
+After these changes you should be able to delete notes as you like.
+
+![Deleted a note](images/react_07.png)
+
+T> You may need to trigger a refresh at the browser to make these changes show up. Hit *CTRL/CMD-R*.
+
+## Styling Application
+
+Aesthetically, our current application is very barebones. As pretty applications are more fun to use, we can do a little something about that. In this case we'll be sticking to an old skool way of styling. In other words, we'll sprinkle some CSS classes around and then apply CSS selectors based on those. The *Styling React* chapter discusses various other approaches in greater detail.
+
+### Attaching Classes to Components
+
+In order to make our application styleable, we will need to attach some classes to various parts of it:
+
+**app/components/App.jsx**
+
+```javascript
+import uuid from 'node-uuid';
+import React from 'react';
+import Notes from './Notes.jsx';
+
+export default class App extends React.Component {
+  ...
+  render() {
+    const notes = this.state.notes;
+
+    return (
+      <div>
+leanpub-start-delete
+        <button onClick={this.addNote}>+</button>
+leanpub-end-delete
+leanpub-start-insert
+        <button className="add-note" onClick={this.addNote}>+</button>
+leanpub-end-insert
+        <Notes notes={notes}
+          onEdit={this.editNote}
+          onDelete={this.deleteNote} />
+      </div>
+    );
+  }
+  ...
+}
+```
+
+**app/components/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note.jsx';
+
+export default ({notes, onEdit, onDelete}) => {
+  return (
+leanpub-start-delete
+    <ul>{notes.map((note) =>
+leanpub-end-delete
+leanpub-start-insert
+    <ul className="notes">{notes.map((note) =>
+leanpub-end-insert
+leanpub-start-delete
+      <li key={note.id}><Note
+leanpub-end-delete
+leanpub-start-insert
+      <li className="note" key={note.id}><Note
+leanpub-end-insert
+        task={note.task}
+        onEdit={onEdit.bind(null, note.id)}
+        onDelete={onDelete.bind(null, note.id)} /></li>
+    )}</ul>
+  );
+}
+```
+
+**app/components/Note.jsx**
+
+```javascript
+import React from 'react';
+
 export default class Note extends React.Component {
   constructor(props) {
     super(props);
@@ -408,274 +783,38 @@ export default class Note extends React.Component {
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
+  renderDelete = () => {
+leanpub-start-delete
+    return <button onClick={this.props.onDelete}>x</button>;
+leanpub-end-delete
+leanpub-start-insert
+    return <button
+      className="delete-note"
+      onClick={this.props.onDelete}>x</button>;
+leanpub-end-insert
+  }
   renderNote = () => {
-    return <div onClick={this.edit}>{this.props.task}</div>;
-  }
-  edit = () => {
-    this.setState({
-      editing: true
-    });
-  }
-  checkEnter = (e) => {
-    if(e.key === 'Enter') {
-      this.finishEdit(e);
-    }
-  }
-  finishEdit = (e) => {
-    // A smarter way to deal with this would be to set `defaultProps`.
-    // See *Typing with React* chapter for more information.
-    if(this.props.onEdit) {
-      this.props.onEdit(e.target.value);
-    }
-
-    this.setState({
-      editing: false
-    });
-  }
-}
-leanpub-end-insert
-```
-
-If you try to edit a `Note` now, you can see an input. In order to do something useful with the value, we'll need to define `onEdit`. We'll do this shortly.
-
-The rest of the code deals with events. If we click the component while it is in its initial state, we will enter the edit mode. If we confirm the editing, we hit the `onEdit` callback. As a result, we go back to the default state.
-
-T> It is a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them from other props and keep your code a little tidier.
-
-### Adding `onEdit` Stub
-
-Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. We will need to trigger this callback at `Note` and delegate the result to `App` level. The diagram below illustrates the idea:
-
-![`onEdit` flow](images/bind.png)
-
-A good first step towards this behavior is to create a stub. As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work, changes in two files are needed. Here's what it should look like for `App`.
-
-**app/components/App.jsx**
-
-```javascript
-import uuid from 'node-uuid';
-import React from 'react';
-import Notes from './Notes.jsx';
-
-export default class App extends React.Component {
-  constructor(props) {
-    ...
-  }
-  render() {
-    const notes = this.state.notes;
-
-    return (
-      <div>
-        <button className="add-note" onClick={this.addNote}>+</button>
-leanpub-start-insert
-        <Notes notes={notes} onEdit={this.editNote} />
-leanpub-end-insert
-      </div>
-    );
-  }
-  ...
-leanpub-start-insert
-  editNote(id, task) {
-    console.log('note edited', id, task);
-  }
-leanpub-end-insert
-}
-```
-
-The idea is that `Notes` will return via our callback the id of the note being modified and the new state of the task. We'll need to use this data soon in order to patch the state.
-
-We also need to make `Notes` work according to this idea. It will `bind` the id of the note in question. When the callback is triggered, the remaining parameter receives a value and the callback gets called.
-
-**app/components/Notes.jsx**
-
-```javascript
-import React from 'react';
-import Note from './Note.jsx';
-
-leanpub-start-delete
-export default ({notes}) => {
-leanpub-end-delete
-leanpub-start-insert
-export default ({notes, onEdit}) => {
-leanpub-end-insert
-  return (
-    <ul className="notes">{notes.map((note) => {
-      return (
-        <li className="note" key={note.id}>
-leanpub-start-delete
-          <Note task={note.task} />
-leanpub-end-delete
-leanpub-start-insert
-          <Note
-            task={note.task}
-            onEdit={onEdit.bind(null, note.id)} />
-leanpub-end-insert
-        </li>
-      );
-    })}
-    </ul>
-  );
-}
-```
-
-If you edit a `Note` now, you should see a message at the console.
-
-It would be nice to push the state to `Notes`. The problem is that doing this would break the encapsulation. We would still need to wire up the "add note" button with the same state. This would mean we would have to communicate the changes to `Notes` somehow. We'll discuss a better way to solve this very issue in the next chapter.
-
-We are missing one final bit, the actual logic. Our state consists of `Notes` each of which has an id (string) and a task (string) attached to it. Our callback receives both of these. In order to edit a `Note` it should find the `Note` to edit and patch its task using the new data.
-
-T> Some of the prop related logic could be potentially extracted to a [context](https://facebook.github.io/react/docs/context.html). That would help us to avoid some of the prop passing. It is especially useful for implementing features, such as internationalization (i18n) or [feature detection](https://github.com/casesandberg/react-context/). A component interested in it may simply query for a translator instance.
-
-### Implementing `onEdit` Logic
-
-The only thing that remains is gluing this all together. We'll need to take the data and find the specific `Note` by its indexed value. Finally, we need to modify and commit the `Note`'s data to the component state through `setState`.
-
-**app/components/App.jsx**
-
-```javascript
-import uuid from 'node-uuid';
-import React from 'react';
-import Notes from './Notes.jsx';
-
-export default class App extends React.Component {
-  ...
-leanpub-start-delete
-  editNote(id, task) {
-leanpub-end-delete
-leanpub-start-insert
-  editNote = (id, task) => {
-    const notes = this.state.notes.map((note) => {
-      if(note.id === id) {
-        note.task = task;
-      }
-
-      return note;
-    });
-
-    this.setState({notes});
-  }
-}
-leanpub-end-insert
-```
-
-If you try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
-
-![Edited a note](images/react_06.png)
-
-## Removing `Notes`
-
-We are still missing one vital function. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
-
-As before, we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove, we can construct a new state without it.
-
-**app/components/App.jsx**
-
-```javascript
-import uuid from 'node-uuid';
-import React from 'react';
-import Notes from './Notes.jsx';
-
-export default class App extends React.Component {
-  ...
-  render() {
-    const notes = this.state.notes;
-
-    return (
-      <div>
-        <button className="add-note" onClick={this.addNote}>+</button>
-leanpub-start-insert
-        <Notes notes={notes}
-          onEdit={this.editNote} onDelete={this.deleteNote} />
-leanpub-end-insert
-      </div>
-    );
-  }
-leanpub-start-insert
-  deleteNote = (id) => {
-    this.setState({
-      notes: this.state.notes.filter((note) => note.id !== id)
-    });
-  }
-leanpub-end-insert
-  ...
-}
-```
-
-In addition to `App` level logic, we'll need to trigger `onDelete` logic at `Note` level. The idea is the same as before. We'll bind the id of the `Note` at `Notes`. A `Note` will simply trigger the callback when the user triggers the behavior.
-
-**app/components/Notes.jsx**
-
-```javascript
-import React from 'react';
-import Note from './Note.jsx';
-
-leanpub-start-delete
-export default ({notes, onEdit}) => {
-leanpub-end-delete
-leanpub-start-insert
-export default ({notes, onEdit, onDelete}) => {
-leanpub-end-insert
-  return (
-    <ul className="notes">{notes.map((note) => {
-      return (
-        <li className="note" key={note.id}>
-leanpub-start-delete
-          <Note
-            task={note.task}
-            onEdit={onEdit.bind(null, note.id)} />
-leanpub-end-delete
-leanpub-start-insert
-          <Note
-            task={note.task}
-            onEdit={onEdit.bind(null, note.id)}
-            onDelete={onDelete.bind(null, note.id)} />
-leanpub-end-insert
-        </li>
-      );
-    })}
-    </ul>
-  );
-}
-```
-
-In order to invoke the previous `onDelete` callback, we need to connect it with `onClick` for `Note`. If the callback doesn't exist, it makes sense to avoid rendering the delete button. An alternative way to solve this would be to push it to a component of its own.
-
-**app/components/Note.jsx**
-
-```javascript
-...
-
-export default class Note extends React.Component {
-  ...
-  renderNote = () => {
-leanpub-start-insert
     const onDelete = this.props.onDelete;
 
     return (
       <div onClick={this.edit}>
+leanpub-start-delete
+        <span>{this.props.task}</span>
+leanpub-end-delete
+leanpub-start-insert
         <span className="task">{this.props.task}</span>
+leanpub-end-insert
         {onDelete ? this.renderDelete() : null }
       </div>
     );
   }
-  renderDelete = () => {
-    return <button className="delete-note" onClick={this.props.onDelete}>x</button>;
-  }
-leanpub-end-insert
   ...
+}
 ```
 
-After these changes you should be able to delete notes as you like.
+### Styling Components
 
-![Deleted a note](images/react_07.png)
-
-We have a fairly well-working little application now. We can create, update and delete `Notes` now. During this process, we learned something about props and state. There's more than that to React, though.
-
-T> Now delete is sort of blunt. One interesting way to develop this further would be to add confirmation. One simple way to achieve this would be to show yes/no buttons before performing the action. The logic would be more or less the same as for editing. This behavior could be extracted into a component of its own.
-
-## Styling Notes
-
-Aesthetically, our current application is very barebones. As pretty applications are more fun to use, we can do a little something about that. The first step is to get rid of that horrible *serif* font.
+The first step is to get rid of that horrible *serif* font.
 
 **app/main.css**
 
