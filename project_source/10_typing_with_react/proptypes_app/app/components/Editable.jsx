@@ -28,7 +28,7 @@ class Editable extends React.Component {
     );
   }
   renderDelete = () => {
-    return <button className="delete-note" onClick={this.props.onDelete}>x</button>;
+    return <button className="delete" onClick={this.props.onDelete}>x</button>;
   }
   checkEnter = (e) => {
     if(e.key === 'Enter') {

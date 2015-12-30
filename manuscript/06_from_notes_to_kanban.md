@@ -566,7 +566,7 @@ export default class Editable extends React.Component {
     );
   }
   renderDelete = () => {
-    return <button className="delete-note" onClick={this.props.onDelete}>x</button>;
+    return <button className="delete" onClick={this.props.onDelete}>x</button>;
   }
   checkEnter = (e) => {
     if(e.key === 'Enter') {
@@ -585,17 +585,41 @@ There are a couple of important changes:
 
 * `{editing ? this.renderEdit() : this.renderValue()}` - This ternary selects what to render based on the editing state. Previously we had `Task`. Now we are using the term `Value` as that's more generic.
 * `const {value, onEdit, onValueClick, editing, ...props} = this.props;` - We changed task to value here as well.
-* `renderValue()` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
+* `renderValue` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
+* `renderDelete` - Instead of using `delete-note` class, it uses more generic `delete` now.
 
-Because the class name changes, *main.css* needs a small tweak:
+Because the class name changes, *main.css* needs small tweaks:
 
 **app/main.css**
 
 ```css
-/*.note .task {*/
+...
+
+leanpub-start-delete
+.note .task {
+leanpub-end-delete
+leanpub-start-insert
 .note .value {
+leanpub-end-insert
   /* force to use inline-block so that it gets minimum height */
   display: inline-block;
+}
+
+leanpub-start-delete
+.note .delete-note {
+leanpub-end-delete
+leanpub-start-insert
+.note .delete {
+leanpub-end-insert
+  ...
+}
+leanpub-start-delete
+.note:hover .delete-note {
+leanpub-end-delete
+leanpub-start-insert
+.note:hover .delete {
+leanpub-end-insert
+  visibility: visible;
 }
 ```
 
