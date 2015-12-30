@@ -40,9 +40,9 @@ When choosing a library, it comes down to your own personal preferences. You wil
 
 ![Alt](images/alt.png)
 
-In this chapter, we'll be using a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed with isomorphic rendering in mind.
+In this chapter, we'll be using a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed with universal (isomorphic) rendering in mind.
 
-In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and isomorphic rendering.
+In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and universal rendering.
 
 ### Setting Up an Alt Instance
 
@@ -416,9 +416,9 @@ ReactDOM.render(<App />, document.getElementById('app'));
 
 If you try refreshing the browser now, the application should retain its state. The solution should scale with minimal effort if we add more stores to the system. Integrating a real back-end wouldn't be a problem. There are hooks in place for that now.
 
-You could, for instance, pass the initial payload as a part of your HTML (isomorphic rendering), load it up, and then persist the data to the back-end. You have a great deal of control over how to do this, and you can use `localStorage` as a backup if you want.
+You could, for instance, pass the initial payload as a part of your HTML (universal rendering), load it up, and then persist the data to the back-end. You have a great deal of control over how to do this, and you can use `localStorage` as a backup if you want.
 
-Isomorphic rendering is a powerful technique that allows you to use React to improve the performance of your application while gaining SEO benefits. Rather than leaving all rendering to the front-end, we perform a part of it at the back-end side. We render the initial application markup at back-end and provide it to the user. React will pick that up. This can also include data that can be loaded to your application without having to perform extra queries.
+Universal rendering is a powerful technique that allows you to use React to improve the performance of your application while gaining SEO benefits. Rather than leaving all rendering to the front-end, we perform a part of it at the back-end side. We render the initial application markup at back-end and provide it to the user. React will pick that up. This can also include data that can be loaded to your application without having to perform extra queries.
 
 W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. There are no easy solutions. Regardless, this is something to keep in mind when developing something more sophisticated. The lesson here is that the more you inject state to your application, the more complicated it gets.
 
