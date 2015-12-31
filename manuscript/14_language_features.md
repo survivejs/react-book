@@ -131,16 +131,19 @@ export default class App extends React.Component {
 Perhaps the biggest advantage of the class based approach is the fact that it cuts down some complexity, especially when it comes to React lifecycle hooks. It is important to note that class methods won't get by default, though! This is why the book relies on an experimental feature known as property initializers.
 
 ### Classes and Modules
+
 As stated above, the ES6 modules allow `export` and `import` single and multiple objects, functions, or even classes. In the latter, you can use `export default class` to export an anonymous class or export multiple classes from the same module using `export class className`.
 
 To export and import a single class you can use `export default class` to export an anonymous class and call it whatever you want at import time:
 
 **Note.jsx**
+
 ```javascript
 export default class extends React.Component { ... };
 ```
 
 **Notes.jsx**
+
 ```javascript
 import Note from './Note.jsx';
 ...
@@ -149,6 +152,7 @@ import Note from './Note.jsx';
 Or use `export class className` to export several named classes from a single module:
 
 **Components.jsx**
+
 ```javascript
 export class Note extends React.Component { ... };
 
@@ -156,6 +160,7 @@ export class Notes extends React.Component { ... };
 ```
 
 **App.jsx**
+
 ```javascript
 import Notes from './Components.jsx';
 import Note from './Components.jsx';
@@ -163,7 +168,7 @@ import Note from './Components.jsx';
 ...
 ```
 
-Nevertheless is always recommended keep your classes separated in different modules.
+It is recommended to keep your classes separated in different modules.
 
 ## Property Initializers
 
