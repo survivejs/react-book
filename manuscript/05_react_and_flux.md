@@ -172,7 +172,7 @@ class NoteStore {
   update(updatedNote) {
 leanpub-start-insert
     const notes = this.notes.map((note) => {
-      if(note.id === updatedNote.id) {
+      if(note.id === updatedNote.id && updatedNote.task) {
         note = assign({}, note, updatedNote);
       }
 
@@ -311,7 +311,7 @@ leanpub-end-insert
 leanpub-start-delete
   editNote = (id, task) => {
     const notes = this.state.notes.map((note) => {
-      if(note.id === id) {
+      if(note.id === id  && task) {
         note.task = task;
       }
 

@@ -26,7 +26,7 @@ class NoteStore {
   }
   update(updatedNote) {
     const notes = this.notes.map((note) => {
-      if(note.id === updatedNote.id) {
+      if(note.id === updatedNote.id && updatedNote.task) {
         note = assign({}, note, updatedNote);
       }
 

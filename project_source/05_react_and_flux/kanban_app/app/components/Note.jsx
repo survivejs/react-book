@@ -18,7 +18,7 @@ export default class Note extends React.Component {
   renderEdit = () => {
     return <input type="text"
       autoFocus={true}
-      defaultValue={this.props.task}
+      placeholder={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }

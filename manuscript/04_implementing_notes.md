@@ -441,7 +441,7 @@ export default class Note extends React.Component {
     // Deal with blur and input handlers. These map to DOM events.
     return <input type="text"
       autoFocus={true}
-      defaultValue={this.props.task}
+      placeholder={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
@@ -527,7 +527,7 @@ leanpub-end-insert
 leanpub-start-insert
   editNote = (id, task) => {
     const notes = this.state.notes.map((note) => {
-      if(note.id === id) {
+      if(note.id === id && task) {
         note.task = task;
       }
 
@@ -779,7 +779,7 @@ export default class Note extends React.Component {
   renderEdit = () => {
     return <input type="text"
       autoFocus={true}
-      defaultValue={this.props.task}
+      placeholder={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
