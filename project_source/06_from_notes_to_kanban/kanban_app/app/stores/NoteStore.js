@@ -43,7 +43,7 @@ class NoteStore {
   get(ids) {
     return (ids || []).map(
       (id) => this.notes.filter((note) => note.id === id)
-    ).filter((a) => a).map((a) => a[0]);
+    ).filter((a) => a.length).map((a) => a[0]);
   }
 }
 
