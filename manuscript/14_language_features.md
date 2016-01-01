@@ -271,30 +271,38 @@ const double = (v) => v * 2;
 console.log(double(2));
 ```
 
-### Fat Arrow Context
+### Arrow Function Context
 
-There is one important feature in the fat arrow syntax you should be aware of. Here's a little example to illustrate it:
+There's a widely spread misconception about how the arrow functions scope or context works. Many books and blog posts states that the new ES6 arrow functions has a lexical scope, but the choking true is that arrow functions don't have `this` at all.
 
 ```javascript
 var obj = {
   context: function() {
     return this;
   },
-  name: 'demo object'
+  name: 'demo object 1'
 };
 
 var obj2 = {
   context: () => this,
-  name: 'demo object'
+  name: 'demo object 2'
 };
 
-console.log(obj.context()); // { context: [Function], name: 'demo object' }
+console.log(obj.context()); // { context: [Function], name: 'demo object 1' }
 console.log(obj2.context()); // {} in Node.js, Window in browser
 ```
 
-It is very important to understand that fat arrow based functions are lexically bound! If we placed our logic inside a function, we would get slightly different results in Node.js environment as then it would point at Node.js global `this`. It is a good idea to spend some time with the [Babel REPL](https://babeljs.io/repl/) online to understand this behavior better.
+As you can notice in the snippet above, the anonymous function has a `this` pointing to the `context` function in the `obj` object, in other words, is binding the scope of the caller object `obj` to the `context` function.
 
-Even though the behavior might seem a little weird, it is actually useful. In the past, if you wanted to access parent context, you either needed to `bind` it or attach the parent context to a variable `var that = this;`. The introduction of the fat arrow syntax has mitigated this problem.
+This happens because `this` doesn't point to the object scopes that contains it, but the caller object scopes, as you can see it in the next snippet of code:
+
+```javascript
+console.log(obj.context.call(obj2)); // { context: [Function], name: 'demo object 2' }
+```
+
+On the other hand, the arrow function in the object `obj2` doesn't bind any object to its context, following the normal lexical scoping rules resolving the reference to the nearest outer scope, in this case, the Node's `global` object.
+
+Even though the behavior might seem a little weird, it is actually useful. In the past, if you wanted to access parent context, you either needed to `bind` it or attach the parent context to a variable `var that = this;`. The introduction of the arrow function syntax has mitigated this problem.
 
 ### Function Parameters
 
