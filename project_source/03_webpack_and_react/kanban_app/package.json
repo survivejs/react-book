@@ -32,10 +32,10 @@
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
-    "webpack-merge": "^0.4.0"
+    "webpack-merge": "^0.7.0"
   },
   "dependencies": {
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "react": "^0.14.5",
+    "react-dom": "^0.14.5"
   }
 }

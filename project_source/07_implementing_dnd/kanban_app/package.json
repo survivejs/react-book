@@ -32,7 +32,7 @@
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
-    "webpack-merge": "^0.4.0"
+    "webpack-merge": "^0.7.0"
   },
   "dependencies": {
     "alt": "^0.18.1",
@@ -40,10 +40,10 @@
     "alt-utils": "^1.0.0",
     "node-uuid": "^1.4.7",
     "object-assign": "^4.0.1",
-    "react": "^0.14.3",
-    "react-addons-update": "^0.14.3",
+    "react": "^0.14.5",
+    "react-addons-update": "^0.14.5",
     "react-dnd": "^2.0.2",
-    "react-dnd-html5-backend": "^2.0.0",
-    "react-dom": "^0.14.3"
+    "react-dnd-html5-backend": "^2.0.2",
+    "react-dom": "^0.14.5"
   }
 }
