@@ -78,6 +78,18 @@ import {add} from './math';
 
 Especially `export default` is useful if you prefer to keep your modules focused. The `persist` function is an example of such. Regular `export` is useful for collecting multiple functions below the same umbrella.
 
+### Aliasing Imports
+
+Sometimes it can be handy to alias imports. Example:
+
+```javascript
+import {actions as TodoActions} from '../actions/todo'
+
+...
+```
+
+`as` allows you to avoid naming conflicts.
+
 ### Webpack `resolve.alias`
 
 Bundlers, such as Webpack, can provide some features beyond this. You could define a `resolve.alias` for some of your module directories for example. This would allow you to use an import, such as `import persist from 'libs/persist';`, regardless of where you import. A simple `resolve.alias` could look like this:
