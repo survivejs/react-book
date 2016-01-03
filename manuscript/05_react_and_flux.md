@@ -131,7 +131,9 @@ Compared to the earlier logic, `create` will generate an id for a `Note` automat
 
 ```javascript
 import uuid from 'node-uuid';
+leanpub-start-insert
 import assign from 'object-assign';
+leanpub-end-insert
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
