@@ -273,7 +273,7 @@ console.log(double(2));
 
 ### Arrow Function Context
 
-There's a widely spread misconception about how the arrow functions scope or context works. Many books and blog posts states that the new ES6 arrow functions has a lexical scope, but the choking true is that arrow functions don't have `this` at all.
+Arrow functions are special in that they don't have `this` at all. Rather, `this` will point at the caller object scope. Consider the example below:
 
 ```javascript
 var obj = {
@@ -292,7 +292,7 @@ console.log(obj.context()); // { context: [Function], name: 'demo object 1' }
 console.log(obj2.context()); // {} in Node.js, Window in browser
 ```
 
-As you can notice in the snippet above, the anonymous function has a `this` pointing to the `context` function in the `obj` object, in other words, is binding the scope of the caller object `obj` to the `context` function.
+As you can notice in the snippet above, the anonymous function has a `this` pointing to the `context` function in the `obj` object. In other words, it is binding the scope of the caller object `obj` to the `context` function.
 
 This happens because `this` doesn't point to the object scopes that contains it, but the caller object scopes, as you can see it in the next snippet of code:
 
@@ -300,7 +300,7 @@ This happens because `this` doesn't point to the object scopes that contains it,
 console.log(obj.context.call(obj2)); // { context: [Function], name: 'demo object 2' }
 ```
 
-On the other hand, the arrow function in the object `obj2` doesn't bind any object to its context, following the normal lexical scoping rules resolving the reference to the nearest outer scope, in this case, the Node's `global` object.
+The arrow function in the object `obj2` doesn't bind any object to its context, following the normal lexical scoping rules resolving the reference to the nearest outer scope. In this case it happens to be Node.js `global` object.
 
 Even though the behavior might seem a little weird, it is actually useful. In the past, if you wanted to access parent context, you either needed to `bind` it or attach the parent context to a variable `var that = this;`. The introduction of the arrow function syntax has mitigated this problem.
 
