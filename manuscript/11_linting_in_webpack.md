@@ -90,13 +90,17 @@ This will add ESLint and the plugin we want to use as our project development de
 ...
 ```
 
-This will trigger ESLint against all JS and JSX files of our project. That's definitely too much, so we'll need to restrict it to avoid going through a possible production build. Set up *.eslintignore* to the project root like this:
+This will trigger ESLint against all JS and JSX files of our project. That will lint a bit too much. Set up *.eslintignore* to the project root like this to skip *build/*:
 
 **.eslintignore**
 
 ```bash
 build/
 ```
+
+T> ESLint supports custom formatters through `--format` parameter. [eslint-friendly-formatter](https://www.npmjs.com/package/eslint-friendly-formatter) is an example of a formatter that provides terminal friendly output. This way you can jump conveniently straight to the warnings and errors from there.
+
+### Connecting ESLint with Babel
 
 Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. For details see the official [ESLint rules documentation](http://eslint.org/docs/rules/).
 
