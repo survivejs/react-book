@@ -273,7 +273,7 @@ var commonDist = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['babel?cacheDirectory''],
+        loaders: ['babel?cacheDirectory'],
         include: config.paths.src
       }
     ]
