@@ -379,7 +379,7 @@ leanpub-start-delete
 leanpub-end-delete
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
+        loaders: ['babel?cacheDirectory'],
         include: PATHS.app
       }
     ]

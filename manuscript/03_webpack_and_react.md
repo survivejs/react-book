@@ -123,7 +123,10 @@ leanpub-start-insert
       // Set up jsx. This accepts js too thanks to RegExp
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
+        // Enable caching for improved performance during development
+        // It uses default OS directory by default. If you need something
+        // more custom, pass a path to it. I.e., babel?cacheDirectory=<path>
+        loaders: ['babel?cacheDirectory'],
         include: PATHS.app
       }
 leanpub-end-insert
@@ -141,7 +144,7 @@ T> As `resolve.extensions` gets evaluated from left to right, we can use it to c
 
 ### Setting Up *.babelrc*
 
-Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?stage=1`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools, such as ESLint.
+Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?presets[]=react,presets[]=es2015`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools, such as ESLint.
 
 Babel 6 relies on *plugins*. There are two types of plugins: syntax and transform. Former allow Babel to parse additional syntax whereas latter apply transformations. This way the code that is using future syntax can get transformed back to JavaScript older environments can understand.
 

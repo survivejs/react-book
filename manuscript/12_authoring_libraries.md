@@ -72,12 +72,12 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   },
   /* Package development dependencies */
   "devDependencies": {
-    "babel": "^5.8.23",
-    "babel-eslint": "^4.1.3",
+    "babel": "^6.3.17",
+    "babel-eslint": "^5.0.0-beta6",
     ...
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0",
-    "webpack-merge": "^0.2.0"
+    "webpack-merge": "^0.7.0"
   },
   /* Package peer dependencies. The consumer will fix exact versions. */
   /* In npm3 these won't get installed automatically and it's up to the */
@@ -200,7 +200,7 @@ function exec(command) {
 
 stat('dist-modules', function(error, stat) {
   if (error || !stat.isDirectory()) {
-    exec('npm i babel@5.x');
+    exec('npm i babel');
     exec('npm run dist-modules');
   }
 });
@@ -273,7 +273,7 @@ var commonDist = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
+        loaders: ['babel?cacheDirectory''],
         include: config.paths.src
       }
     ]

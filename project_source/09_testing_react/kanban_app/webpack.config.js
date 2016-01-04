@@ -29,7 +29,7 @@ const common = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
+        loaders: ['babel?cacheDirectory'],
         include: PATHS.app
       }
     ]
@@ -143,7 +143,7 @@ if(TARGET === 'test' || TARGET === 'tdd') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['babel'],
+          loaders: ['babel?cacheDirectory'],
           include: PATHS.test
         }
       ]
