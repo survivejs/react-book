@@ -122,7 +122,9 @@ This scheme won't load as fast as a single bundle initially due to the extra req
 
 ### Defining a `vendor` Entry Point
 
-To get started, we need to define a `vendor` entry point:
+While developing the application, we made sure to separate our `dependencies` and `devDependencies`. This split will come in handy now. It allows us to push `dependencies` to a bundle of its own. It is very important you don't have any development related bits, such as Webpack, in that definition as then the build won't work as you might expect.
+
+To get started, we need to define a `vendor` entry point. Given *alt-utils* is problematic for this kind of setup, I've simply excluded it from the `vendor` bundle. You can use a similar idea with other problematic dependencies. Here's the setup:
 
 **webpack.config.js**
 
@@ -132,8 +134,8 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 
-// Load *package.json* so we can use `dependencies` from there
 leanpub-start-insert
+// Load *package.json* so we can use `dependencies` from there
 var pkg = require('./package.json');
 leanpub-end-insert
 
@@ -179,7 +181,9 @@ leanpub-end-insert
 }
 ```
 
-This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies. Beyond this, it's possible to define chunks that are loaded dynamically. This can be achieved through [require.ensure](https://webpack.github.io/docs/code-splitting.html).
+This tells Webpack that we want a separate *entry chunk* for our project `vendor` level dependencies.
+
+Beyond this, it's possible to define chunks that are loaded dynamically. This can be achieved through [require.ensure](https://webpack.github.io/docs/code-splitting.html).
 
 If you trigger the build now using `npm run build`, you should see something along this:
 
