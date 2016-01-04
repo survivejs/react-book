@@ -44,7 +44,9 @@ Next, you should get Webpack installed. We'll do a local install and save it as 
 npm i webpack --save-dev
 ```
 
-This is a good opportunity to try to run Webpack for the first time. Trigger `node_modules/.bin/webpack`. You should see a version log, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality if nothing else.
+npm maintains a directory where it installs possible executables of packages. You can display the exact path using `npm bin`. Most likely it points at `.../node_modules/.bin`. Try triggering Webpack from there using `node_modules/.bin/webpack` or a similar command.
+
+You should see a version log, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality, if nothing else.
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation). It is preferred to keep it as a project dependency like this. The arrangement helps to keep your life simpler. This way you have direct control over the version you are running.
 
