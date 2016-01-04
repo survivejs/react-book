@@ -306,10 +306,10 @@ We can work around this problem using hot loading. [babel-plugin-react-transform
 
 *react-transform-hmr* will swap React components one by one as they change without forcing a full refresh. Given it just replaces methods, it won't catch every possible change. This includes changes made to class constructors. There will be times when you will need to force a refresh, but it will work most of the time.
 
-To enable hot loading for React, you should first install the packages using
+A Babel preset known as *babel-preset-react-hmre* will keep our setup simple. It comes with reasonable defaults and cuts down the amount of configuration you need to maintain. Install it through:
 
 ```bash
-npm i babel-plugin-react-transform react-transform-hmr --save-dev
+npm i babel-preset-react-hmre --save-dev
 ```
 
 We also need to make Babel aware of HMR. First, we should pass the target environment to Babel through our Webpack configuration. This allows us to control environment specific functionality through *.babelrc*. In this case we want to enable HMR just for development. If you wanted to enable some specific plugins for a production build, you would use the same idea.
@@ -332,7 +332,7 @@ const common = {
 ...
 ```
 
-In addition we need to expand our Babel configuration to include the plugin we need during development. Here we enable HMR transform in particular:
+In addition we need to expand our Babel configuration to include the plugin we need during development. Here we enable the preset in particular:
 
 **.babelrc**
 
@@ -357,18 +357,8 @@ leanpub-start-insert
   ],
   "env": {
     "start": {
-      "plugins": [
-        [
-          "react-transform", {
-            "transforms": [
-              {
-                "transform": "react-transform-hmr",
-                "imports": ["react"],
-                "locals": ["module"]
-              }
-            ]
-          }
-        ]
+      "presets": [
+        "react-hmre"
       ]
     }
   }
