@@ -189,7 +189,7 @@ ES6 classes won't bind their methods by default. This can be problematic sometim
 ```javascript
 import React from 'react';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -206,6 +206,14 @@ export default class App extends React.Component {
     return <div>{this.props.note}</div>;
   }
 }
+App.propTypes = {
+  value: React.PropTypes.string
+};
+App.defaultProps = {
+  value: ''
+};
+
+export default App;
 ```
 
 Using property initializers we could write something tidier instead:
@@ -214,6 +222,13 @@ Using property initializers we could write something tidier instead:
 import React from 'react';
 
 export default class App extends React.Component {
+  // propType definition through property initializers
+  static propTypes = {
+    value: React.PropTypes.string
+  }
+  static defaultProps = {
+    value: ''
+  }
   render() {
     // Use `renderNote` here somehow.
     ...
