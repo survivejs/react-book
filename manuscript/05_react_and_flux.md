@@ -46,11 +46,13 @@ In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you w
 
 ### Setting Up an Alt Instance
 
-Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To get started, we should add Alt to our project. We'll also install *alt-utils* as it contains some special functionality we'll need later on. Also *object-assign* is installed to ponyfill `Object.assign`.
+Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To get started, we should add Alt to our project. We'll also install *alt-utils* as it contains some special functionality we'll need later on. Also *object-assign* is installed to *ponyfill* `Object.assign`.
 
 ```bash
 npm i alt alt-utils object-assign --save
 ```
+
+T> Compared to *polyfills*, *ponyfills* do **not** overwrite native methods. With a ponyfills you lose out on API. On the plus side, their behavior clear to understand. There is less magic going on. Both approaches have their merits.
 
 To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 
