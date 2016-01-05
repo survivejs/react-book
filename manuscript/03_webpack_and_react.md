@@ -111,7 +111,10 @@ leanpub-start-insert
     extensions: ['', '.js', '.jsx']
   },
 leanpub-end-insert
-  ...
+  output: {
+    path: PATHS.build,
+    filename: 'bundle.js'
+  },
   module: {
     loaders: [
       {
