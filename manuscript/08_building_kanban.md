@@ -583,6 +583,4 @@ Beyond the features discussed, Webpack allows you to [lazy load](https://webpack
 
 Our Kanban application is now ready to be served. We went from a chunky build to a slim one. Even better the production version can benefit from caching and it is able to invalidate it.
 
-If you wanted to develop the project further, it could be a good idea to rethink the project structure. There are [multiple ways](https://reactjsnews.com/structuring-react-projects/) to achieve this. You should be pragmatic about structuring. I believe the right structure for a given project depends on the stage it is in. You should evolve the structure as the project grows and develops.
-
-T> It can be a good idea to read the *Authoring Libraries* chapter for more ideas on how to improve your project. Although the chapter has been designed libraries in mind, understanding the fundamentals of npm doesn't hurt. A lot of the same concepts apply to both applications and libraries after all.
+If you wanted to develop the project further, it could be a good idea to rethink the project structure. I've discussed the topic in *Structuring React Projects* appendix. It can be beneficial to read the *Authoring Libraries* chapter for more ideas on how to improve the npm setup of your project.
