@@ -36,7 +36,7 @@ We will start by building a Webpack based configuration. After that, we will dev
 
 We will generalize from there and put in place [Flux architecture](https://facebook.github.io/flux/docs/overview.html). We will apply some [Drag and Drop (DnD) magic](https://gaearon.github.io/react-dnd/) and start dragging things around. Finally, we will get a production grade build done.
 
-The final, theoretical part of the book covers more advanced topic. If you are reading the commercial edition of this book, there's something extra in it for you. I will show you how to deal with typing in React in order to produce higher quality code. You will also learn to test your components and logic.
+The final, theoretical part of the book covers more advanced topics. If you are reading the commercial edition of this book, there's something extra in it for you. I will show you how to deal with typing in React in order to produce higher quality code. You will also learn to test your components and logic.
 
 I will also show you how to lint your code effectively using [ESLint](http://eslint.org/) and various other tools. There is a chapter in which you learn to author libraries at [npm](https://www.npmjs.com/). The lessons learned there will come in handy for applications as well. Finally, you will learn to style your React application in various emerging ways.
 
