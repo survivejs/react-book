@@ -48,7 +48,9 @@ module.exports = function(o) {
     },
     plugins: [
       new HtmlwebpackPlugin({
-        title: 'Kanban app'
+        template: 'node_modules/html-webpack-template/index.html',
+        title: 'Kanban app',
+        appMountId: 'app'
       }),
       new ExtractTextPlugin('styles.css'),
       new Clean(['.'], o.outputPath),

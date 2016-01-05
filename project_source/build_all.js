@@ -14,6 +14,11 @@ function main() {
   var io = files.filter(function(file) {
     var stat = fs.statSync(file);
 
+    // skip typing with react
+    if(file.indexOf('10') === 0) {
+      return false;
+    }
+
     return stat.isDirectory();
   }).filter(function(file) {
     return parseInt(file.split('_')[0], 10);
