@@ -129,14 +129,14 @@ To get started, we need to define a `vendor` entry point. Given *alt-utils* is p
 **webpack.config.js**
 
 ```javascript
-var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
-var merge = require('webpack-merge');
+const path = require('path');
+const HtmlwebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+const webpack = require('webpack');
 
 leanpub-start-insert
 // Load *package.json* so we can use `dependencies` from there
-var pkg = require('./package.json');
+const pkg = require('./package.json');
 leanpub-end-insert
 
 ...
@@ -316,7 +316,7 @@ to install the plugin. Change the build configuration as follows to integrate it
 ```javascript
 ...
 leanpub-start-insert
-var Clean = require('clean-webpack-plugin');
+const Clean = require('clean-webpack-plugin');
 leanpub-end-insert
 
 ...
@@ -357,7 +357,7 @@ to get started. Next, we need to get rid of our current CSS related declaration 
 ```javascript
 ...
 leanpub-start-insert
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 leanpub-end-insert
 
 ...
@@ -565,8 +565,8 @@ To glue it all together, we need a deployment script like this:
 **lib/deploy.js**
 
 ```javascript
-var ghpages = require('gh-pages');
-var config = require('../webpack.config');
+const ghpages = require('gh-pages');
+const config = require('../webpack.config');
 
 main();
 

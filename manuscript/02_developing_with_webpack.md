@@ -112,8 +112,8 @@ To map our application to *build/bundle.js* and generate *build/index.html* we n
 **webpack.config.js**
 
 ```javascript
-var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
@@ -138,17 +138,28 @@ module.exports = {
 
 Given Webpack expects absolute paths we have some good options here. I like to use `path.join`, but `path.resolve` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
-If you trigger `node_modules/.bin/webpack`, you should see a Webpack build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open build/index.html` to see the result.
+If you trigger `node_modules/.bin/webpack`, you should see output like this:
+
+```bash
+Hash: 8f40b51fb7f30d16fe6c
+Version: webpack 1.12.9
+Time: 84ms
+     Asset       Size  Chunks             Chunk Names
+ bundle.js    1.76 kB       0  [emitted]  main
+index.html  184 bytes          [emitted]
+   [0] ./app/index.js 144 bytes {0} [built]
+   [1] ./app/component.js 141 bytes {0} [built]
+```
+
+This means you have a build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open build/index.html` to see the result.
 
 Another way to achieve this would be to serve the contents of the directory through a server, such as *serve* (`npm i serve -g`). In this case, you would execute `serve` at the output directory and head to `localhost:3000` at your browser. You can configure the port through the `--port` parameter if you want to use some other port.
-
-T> Note that you can pass a custom template to *html-webpack-plugin*. In our case, the default template it uses is fine for our purposes for now.
 
 T> Sometimes, it may make sense to define `context: <some absolute path>`. After this, you can write entries relative to the [context](https://webpack.github.io/docs/configuration.html#context) path rather than using an absolute path for each entry. This is useful especially in more complicated scenarios.
 
 ## Adding a Build Shortcut
 
-Given executing `node_modules/.bin/webpack` is a little verbose, we should do something about it. npm and *package.json* doubles as a task runner with some configuration. Adjust it as follows:
+Given executing `node_modules/.bin/webpack` is a little verbose, we should do something about it. npm and *package.json* double as a task runner with some configuration. Adjust it as follows:
 
 **package.json**
 
@@ -160,17 +171,17 @@ Given executing `node_modules/.bin/webpack` is a little verbose, we should do so
 ...
 ```
 
-You can execute the scripts defined this way through *npm run*. If you trigger *npm run build* now, you should get a build at your output directory.
+You can execute the scripts defined this way through *npm run*. If you trigger *npm run build* now, you should get a build at your output directory like earlier.
 
 This works because npm adds `node_modules/.bin` temporarily to the path. As a result, rather than having to write `"build": "node_modules/.bin/webpack"`, we can do just `"build": "webpack"`. Unless Webpack is installed to the project, this can point to a possible global install. That can be potentially dangerous as it's a good idea to have control over the version of tools you are using.
 
-The scheme can be expanded further. Task runners, such as Grunt or Gulp, allow you to achieve the same. The advantage of task runners is that they will operate in a cross-platform manner without a second thought. If you operate through *package.json* like this, you may have to be more careful. On the plus side, this is a very light approach. To keep things simple we'll be relying on it.
+The scheme can be expanded further. Task runners, such as Grunt or Gulp, allow you to achieve the same while operating in a cross-platform manner. If you go through *package.json* like this, you may have to be more careful. On the plus side, this is a very light approach. To keep things simple, we'll be relying on it.
 
 ## Setting Up *webpack-dev-server*
 
 As developing your application through a build script like this will get boring eventually, Webpack provides neater means for development in particular. *webpack-dev-server* is a development server running in-memory. It refreshes content automatically in the browser while you develop your application. This makes it roughly equivalent to tools, such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/).
 
-The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it when we go through the React setup. You'll see there how to get a better setup than you might have gotten used to.
+The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it in more detail when we go through the React setup.
 
 W> You should use *webpack-dev-server* strictly for development. If you want to host your application, consider other, standard solutions, such as Apache or Nginx.
 
@@ -254,7 +265,7 @@ Next, we need to define some split points to our configuration so we can customi
 ```javascript
 ...
 leanpub-start-insert
-var merge = require('webpack-merge');
+const merge = require('webpack-merge');
 leanpub-end-insert
 
 leanpub-start-insert
@@ -312,7 +323,7 @@ Beyond this we'll need to enable `HotModuleReplacementPlugin` to make the setup 
 ```javascript
 ...
 leanpub-start-insert
-var webpack = require('webpack');
+const webpack = require('webpack');
 leanpub-end-insert
 
 ...
@@ -389,7 +400,11 @@ Now that we have the loaders we need, we'll need to make sure Webpack is aware o
 
 const common = {
   ...
+leanpub-start-delete
+  ]
+leanpub-end-delete
 leanpub-start-insert
+  ],
   module: {
     loaders: [
       {
@@ -400,9 +415,8 @@ leanpub-start-insert
         include: PATHS.app
       }
     ]
-  },
+  }
 leanpub-end-insert
-  ...
 }
 
 ...
@@ -475,4 +489,4 @@ I discuss linting in detail in the *Linting in Webpack* chapter. Consider integr
 
 ## Conclusion
 
-In this chapter, you learned to build and develop using Webpack. I will return to the build topic at "Building Kanban". The current setup is not ideal. At this point it's the development configuration that matters. In the next chapter, we will see how to expand the approach to work with React.
+In this chapter, you learned to build and develop using Webpack. I will return to the build topic at *Building Kanban*. The current setup is not ideal. At this point it's the development configuration that matters. In the next chapter, we will see how to expand the approach to work with React.
