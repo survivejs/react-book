@@ -95,7 +95,7 @@ leanpub-start-delete
         <button className="add-note" onClick={this.addNote}>+</button>
 leanpub-end-delete
 leanpub-start-insert
-        <button className="add-lane" onClick={this.addItem}>+</button>
+        <button className="add-lane" onClick={this.addLane}>+</button>
 leanpub-end-insert
         <AltContainer
 leanpub-start-delete
@@ -124,7 +124,7 @@ leanpub-end-insert
     );
   }
 leanpub-start-insert
-  addItem() {
+  addLane() {
     LaneActions.create({name: 'New lane'});
   }
 leanpub-end-insert

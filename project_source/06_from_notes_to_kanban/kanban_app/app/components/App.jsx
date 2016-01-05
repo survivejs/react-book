@@ -8,7 +8,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <button className="add-lane" onClick={this.addItem}>+</button>
+        <button className="add-lane" onClick={this.addLane}>+</button>
         <AltContainer
           stores={[LaneStore]}
           inject={{
@@ -20,7 +20,7 @@ export default class App extends React.Component {
       </div>
     );
   }
-  addItem() {
+  addLane() {
     LaneActions.create({name: 'New lane'});
   }
 }
