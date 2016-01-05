@@ -48,23 +48,33 @@ There are a couple of appendices at end. They are meant to give food for thought
 
 Kanban, originally developed at Toyota, allows you to track the status of tasks. It can be modeled in terms of `Lanes` and `Notes`. `Notes` move through `Lanes` representing stages from left to right as they become completed. `Notes` themselves can contain information about the task itself, its priority, and so on as required.
 
+The system can be extended in various ways. One simple way is to apply a Work In Progress (WIP) limit per lane. The effect of this is that you are forced to focus on getting tasks done. That is one of the good consequences of using Kanban. Moving those notes around is satisfying. As a bonus you get visibility and know what is yet to be done.
+
+### Where to Use Kanban?
+
+This system can be used for various purposes, including software and life management. You could use it to track your personal projects or life goals for instance. Even though it's a simple tool, it's quite powerful, and you can find use for it in many places.
+
+### How to build a Kanban?
+
 The simplest way to build a Kanban is to get a bunch of Post-it notes and find a wall. After that, you split it up into columns. These `Lanes` could consist of the following stages: Todo, Doing, Done. All `Notes` would go to Todo initially. As you begin working on them, you would move them to Doing, and finally, to Done when completed. This is the simplest way to get started.
 
-As the system gets more sophisticated you can start applying concepts, such as a limit on Work In Progress (WIP). The effect of this is that you are forced to focus on getting tasks done. That is one of the good consequences of using Kanban. Moving those notes around is satisfying. As a bonus you get visibility and know what is yet to be done.
+This is just one example of a lane configuration. The lanes can be configured to match your process. There can be approval steps for instance. If you are modeling a software development process, you could have separate lanes for testing and deployment for instance.
 
-A good example of Kanban in action on the web is [Trello](https://trello.com/). Sprintly has open sourced their [React implementation of Kanban](https://github.com/sprintly/sprintly-kanban). Meteor based [wekan](https://github.com/wekan/wekan) is another good example. Ours won't be as sophisticated, but it will be enough to get started.
+### Available Kanban Implementations
+
+[Trello](https://trello.com/) is perhaps the most known online implementation of Kanban. Sprintly has open sourced their [React implementation of Kanban](https://github.com/sprintly/sprintly-kanban). Meteor based [wekan](https://github.com/wekan/wekan) is another good example. Ours won't be as sophisticated as these, but it will be enough to get started.
 
 ## Who is This Book for?
 
-I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm although I expect you might learn something new about it. If you know something about Webpack or React, that's great. By reading this book you will deepen your understanding of these tools.
+I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about Webpack or React, that's great. By reading this book you will deepen your understanding of these tools.
 
-If you know Webpack or React well already, there still might be something in it for you. Especially the early chapters will likely be trivial to you. That said, if you follow along, you can see how I evolve the application architecture. Especially the last part contains material you might find useful as reference. The main chapters themselves contain some reference as well even though they are primarily tutorial driven.
+Even if you know Webpack or React well already, there still might be something in it for you still. Especially the early chapters will likely be trivial to you. That said, if you follow along, you can see how the application architecture evolves. Especially the last part contains material you might find useful as reference. The main chapters themselves contain some reference as well even though they are primarily tutorial driven.
 
 Given the book relies on a variety of new language features, I've gathered the most important ones used in the book to a separate *Language Features* appendix that provides a quick look at them. If you want to understand the features in isolation or feel unsure of something, that's a good place to look.
 
 ## Extra Material
 
-The book content and source are available at [book's repository at GitHub](https://github.com/survivejs/webpack_react). You can find a lot of other material below the [survivejs organization](https://github.com/survivejs/) that complements the book. The book repository contains code per chapter. This means you can start from anywhere you want without having to type it all through yourself.
+The book content and source are available at [book's repository at GitHub](https://github.com/survivejs/webpack_react). You can find a lot of complementary material below the [survivejs organization](https://github.com/survivejs/). The book repository itself contains code per chapter. This means you can start from anywhere you want without having to type it all through yourself. If you are unsure of something, you can always refer to that.
 
 There are alternative implementations of the application available written in [mobservable](https://github.com/survivejs/mobservable-demo), [Redux](https://github.com/survivejs/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
 
@@ -77,7 +87,7 @@ As no book is perfect, you will likely come by issues and might have some questi
 * Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
 * Send me email at [info@survivejs.com](mailto:info@survivejs.com)
 
-If you post questions to Stack Overflow, tag them using **survivejs** so I will get notified of them. You can use the hashtag **#survivejs** at Twitter.
+If you post questions to Stack Overflow, tag them using **survivejs** so I will get notified of them. You can use the hashtag **#survivejs** at Twitter for same effect.
 
 I have tried to cover some common issues at the *Troubleshooting* appendix. That will be expanded as common problems are found.
 
