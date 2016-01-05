@@ -640,26 +640,36 @@ leanpub-start-insert
 import Editable from './Editable.jsx';
 leanpub-end-insert
 
+leanpub-start-delete
 export default ({notes, onEdit, onDelete}) => {
   return (
     <ul className="notes">{notes.map((note) =>
-leanpub-start-delete
-      <li className="note" key={note.id}><Note
-        task={note.task}
-        onEdit={onEdit.bind(null, note.id)}
-        onDelete={onDelete.bind(null, note.id)} /></li>
-leanpub-end-delete
-leanpub-start-insert
-      <li className="note" key={note.id}><Editable
-        editing={note.editing}
-        value={note.task}
-        onValueClick={onValueClick.bind(null, note.id)}
-        onEdit={onEdit.bind(null, note.id)}
-        onDelete={onDelete.bind(null, note.id)} /></li>
-leanpub-end-insert
+      <li className="note" key={note.id}>
+        <Note
+          task={note.task}
+          onEdit={onEdit.bind(null, note.id)}
+          onDelete={onDelete.bind(null, note.id)} />
+      </li>
     )}</ul>
   );
 }
+leanpub-end-delete
+leanpub-start-insert
+export default ({notes, onValueClick, onEdit, onDelete}) => {
+  return (
+    <ul className="notes">{notes.map((note) =>
+      <li className="note" key={note.id}>
+        <Editable
+          editing={note.editing}
+          value={note.task}
+          onValueClick={onValueClick.bind(null, note.id)}
+          onEdit={onEdit.bind(null, note.id)}
+          onDelete={onDelete.bind(null, note.id)} />
+      </li>
+    )}</ul>
+  );
+}
+leanpub-end-insert
 ```
 
 ### Connecting `Lane` with `Editable`
