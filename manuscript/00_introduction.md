@@ -40,6 +40,8 @@ The final, theoretical part of the book covers more advanced topics. If you are 
 
 I will also show you how to lint your code effectively using [ESLint](http://eslint.org/) and various other tools. There is a chapter in which you learn to author libraries at [npm](https://www.npmjs.com/). The lessons learned there will come in handy for applications as well. Finally, you will learn to style your React application in various emerging ways.
 
+There are a couple of appendices at end. They are meant to give food for thought and explain aspects, such as language features, in greater detail. If there's a bit of syntax that seems weird to you in the book, you'll likely find more information there.
+
 ## What is Kanban?
 
 ![Kanban by Dennis Hamilton (CC BY)](images/kanban_intro.jpg)
