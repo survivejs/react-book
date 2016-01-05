@@ -182,7 +182,7 @@ leanpub-end-insert
 }
 ```
 
-After this change, our application works the same way as before. We have gained something in return, though. We can begin to alter the state.
+After this change and refreshing the browser, our application works the same way as before. We have gained something in return, though. We can now begin to alter the state.
 
 In the earlier versions of React, you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
@@ -245,7 +245,7 @@ leanpub-end-insert
 
 If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
 
-If you click the plus button now, you should see a new item at the list:
+If you refresh the browser and click the plus button now, you should see a new item at the list:
 
 ![Notes with plus](images/react_05.png)
 
@@ -416,10 +416,6 @@ Just as earlier with `App`, we need to deal with state again. This means a funct
 ```javascript
 import React from 'react';
 
-leanpub-start-delete
-export default ({task}) => <div>{task}</div>;
-leanpub-end-delete
-leanpub-start-insert
 export default class Note extends React.Component {
   constructor(props) {
     super(props);
@@ -480,7 +476,6 @@ export default class Note extends React.Component {
     });
   }
 }
-leanpub-end-insert
 ```
 
 If you try to edit a `Note` now, you should see an input. In order to do something useful with the value, we'll need to define `onEdit` so that we can update `App` state and actually commit the changes to memory.
@@ -571,7 +566,7 @@ leanpub-end-insert
 }
 ```
 
-If you try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
+If you refresh and try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
 
 ![Edited a note](images/react_06.png)
 
@@ -662,6 +657,7 @@ Finally, we need to attach a delete button to each `Note` and then trigger `onDe
 export default class Note extends React.Component {
   ...
   renderNote = () => {
+    // If the user clicks a normal note, trigger editing logic.
 leanpub-start-delete
     return <div onClick={this.edit}>{this.props.task}</div>;
 leanpub-end-delete
@@ -674,7 +670,7 @@ leanpub-start-insert
         {onDelete ? this.renderDelete() : null }
       </div>
     );
-    leanpub-end-insert
+leanpub-end-insert
   }
 leanpub-start-insert
   renderDelete = () => {
@@ -684,7 +680,7 @@ leanpub-end-insert
   ...
 ```
 
-After these changes you should be able to delete notes as you like.
+After these changes and refreshing you should be able to delete notes as you like.
 
 ![Deleted a note](images/react_07.png)
 
