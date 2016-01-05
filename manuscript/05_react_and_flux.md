@@ -10,13 +10,19 @@ Flux will allow us to separate data and application state from our views. This h
 
 So far, we've been dealing only with views. Flux architecture introduces a couple of new concepts to the mix. These are actions, dispatcher, and stores. Flux implements unidirectional flow in contrast to popular frameworks, such as Angular or Ember. Even though two-directional bindings can be convenient, they come with a cost. It can be hard to deduce what's going on and why.
 
-Flux isn't entirely simple to understand as there are many concepts to worry about. In our case, we will model `NoteActions` and `NoteModel`. `NoteActions` provide concrete operations we can perform over our data. For instance, we can have `NoteActions.create({task: 'Learn React'})`.
+### Actions and Stores
 
-When we trigger the action, the dispatcher will get notified. The dispatcher will be able to deal with possible store dependencies. It is possible that certain action needs to happen before another. Dispatcher allows us to achieve this.
+Flux isn't entirely simple to understand as there are many concepts to worry about. In our case, we will model `NoteActions` and `NoteStore`. `NoteActions` provide concrete operations we can perform over our data. For instance, we can have `NoteActions.create({task: 'Learn React'})`.
+
+### Dispatcher
+
+When we trigger the action, the dispatcher will get notified. The dispatcher will be able to deal with possible dependencies between stores. It is possible that certain action needs to happen before another. The dispatcher allows us to achieve this.
 
 At the simplest level, actions can just pass the message to dispatcher as is. They can also trigger asynchronous queries and hit dispatcher based on the result eventually. This allows us to deal with received data and possible errors.
 
 Once the dispatcher has dealt with the action, stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
+
+### Flux Dataflow
 
 This completes the basic unidirectional, yet linear, process flow of Flux. Usually, though, the unidirectional process has a cyclical flow and it doesn't necessarily end. The following diagram illustrates a more common flow. It is the same idea again, but with the addition of a returning cycle. Eventually, the components depending on our store data become refreshed through this looping process.
 
@@ -36,6 +42,8 @@ The library situation is constantly changing. There is no single right way to in
 
 When choosing a library, it comes down to your own personal preferences. You will have to consider factors, such as API, features, documentation, and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture, you are able to make choices that serve you better.
 
+T> [Redux](http://rackt.org/redux/) has taken the core ideas of Flux and pushed them into a tiny form (2 kB). Despite this, it's quite powerful approach and worth checking out.
+
 ## Porting to Alt
 
 ![Alt](images/alt.png)
@@ -46,7 +54,7 @@ In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you w
 
 ### Setting Up an Alt Instance
 
-Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To get started, we should add Alt to our project. We'll also install *alt-utils* as it contains some special functionality we'll need later on. Also *object-assign* is installed to *ponyfill* `Object.assign`.
+Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To get started, we should add Alt to our project. We'll also install *alt-utils* as it contains some special functionality we'll need later on. *object-assign* is installed in order to *ponyfill* `Object.assign`.
 
 ```bash
 npm i alt alt-utils object-assign --save
@@ -256,6 +264,24 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+leanpub-start-delete
+    this.state = {
+      notes: [
+        {
+          id: uuid.v4(),
+          task: 'Learn Webpack'
+        },
+        {
+          id: uuid.v4(),
+          task: 'Learn React'
+        },
+        {
+          id: uuid.v4(),
+          task: 'Do laundry'
+        }
+      ]
+    };
+leanpub-end-delete
 leanpub-start-insert
     this.state = NoteStore.getState();
 leanpub-end-insert
@@ -286,11 +312,11 @@ leanpub-end-insert
     );
   }
 leanpub-start-delete
-deleteNote = (id) => {
-  this.setState({
-    notes: this.state.notes.filter((note) => note.id !== id)
-  });
-}
+  deleteNote = (id) => {
+    this.setState({
+      notes: this.state.notes.filter((note) => note.id !== id)
+    });
+  }
 leanpub-end-delete
 leanpub-start-insert
   deleteNote(id) {
@@ -333,7 +359,7 @@ leanpub-end-insert
 }
 ```
 
-As we alter `NoteStore` through actions, this leads to a cascade that causes our `App` state to update through `setState`. This in turn will cause the component to `render`. That's Flux's unidirectional flow in practice.
+The application should work just like before now. As we alter `NoteStore` through actions, this leads to a cascade that causes our `App` state to update through `setState`. This in turn will cause the component to `render`. That's Flux's unidirectional flow in practice.
 
 We actually have more code now than before, but that's okay. `App` is a little neater and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application.
 
@@ -440,7 +466,6 @@ import alt from './libs/alt';
 import storage from './libs/storage';
 import persist from './libs/persist';
 leanpub-end-insert
-
 
 leanpub-start-insert
 persist(alt, storage, 'app');
