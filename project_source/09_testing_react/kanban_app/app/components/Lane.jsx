@@ -77,10 +77,10 @@ export default class Lane extends React.Component {
       LaneActions.delete(id);
     }
   }
-  activateLaneEdit(id) {console.log('activate lane edit');
+  activateLaneEdit(id) {
     LaneActions.update({id, editing: true});
   }
-  activateNoteEdit(id) {console.log('activate note edit');
+  activateNoteEdit(id) {
     NoteActions.update({id, editing: true});
   }
 }
