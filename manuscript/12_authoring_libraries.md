@@ -158,7 +158,9 @@ As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.co
 
 ### Dealing with Preprocessing
 
-It is possible to consume a library directly through Git. This can be problematic for library authors. One way to solve this is to set up a `postinstall` script that will generate a local npm version of your library in case it doesn't exist. This can be achieved through a `postinstall` script like this:
+Normally packages are consumed through npm. There are times when it can be handy to consume them through Git (`"depName": "<github user>/<project>#<reference>"`). This is true especially if you are experimenting with something, or need to patch things to work for now. If a package relies on preprocessing, making it consumable takes some extra effort.
+
+One way to solve this is to set up a `postinstall` script that will generate a local npm version of your library in case it doesn't exist. This can be achieved through a `postinstall` script like this:
 
 **package.json**
 
@@ -177,7 +179,7 @@ It is possible to consume a library directly through Git. This can be problemati
 }
 ```
 
-In addition, we need to define a little script to do the work for us. It will check whether our package contains the directory we expect and will then act based on that. If it doesn't exist, we'll generate it. You may need to tweak the script to fit your exact purposes. The idea is the same, though:
+In addition, we need to define a little script to do the work for us. It will check whether our package contains the directory we expect and will then act based on that. If it doesn't exist, we'll generate it:
 
 **lib/post_install.js**
 
@@ -211,7 +213,7 @@ stat('dist-modules', function(error, stat) {
 });
 ```
 
-Even though setting up a script like this takes some time, it can be beneficial as it will make it a little easier to consume your library. After this, you can point at your library directly through Git. If you are into shorthands, you could use a dependency declaration, such as `"my-project": "<name>/<project>#reference"`. *reference* can be a commit id or a tag name for instance.
+You may need to tweak the script to fit your exact purposes, but it gives you the basic idea.
 
 ### Respect the SemVer
 
