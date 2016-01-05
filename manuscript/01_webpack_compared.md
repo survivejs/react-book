@@ -2,9 +2,13 @@
 
 You can understand better why Webpack's approach is powerful by putting it into historical context. Back in the day, it was enough just to concatenate some scripts together. Times have changed, though, and now distributing your JavaScript code can be a complex endeavor.
 
+## The Rise of the SPAs
+
 This problem has escalated with the rise of single page applications (SPAs). They tend to rely on numerous hefty libraries. The last thing you want to do is to load them all at once. There are better solutions, and Webpack works with many of those.
 
 The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package manager, provides more context. Before npm it was difficult to consume dependencies. Now that npm has become popular for front-end development, the situation has changed. Now we have nice ways to manage the dependencies of our projects.
+
+## Task Runners and Bundlers
 
 Historically speaking, there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the best known, and is still a viable option. To make things easier, specialized *task runners*, such as [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) appeared. Plugins available through npm, made both task runners powerful.
 
@@ -55,7 +59,7 @@ With Make, you model your tasks using Make-specific syntax and terminal commands
 
 ![Grunt](images/grunt.png)
 
-Grunt went mainstream before Gulp. Its plugin architecture, especially, contributed towards its popularity. At the same time, this architecture is the Achilles' heel of Grunt. I know from experience that you **don't** want to end up having to maintain a 300-line `Gruntfile`. Here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
+Grunt went mainstream before Gulp. Its plugin architecture, especially, contributed towards its popularity. At the same time, this architecture is the Achilles' heel of Grunt. I know from experience that you **don't** want to end up having to maintain a 300-line *Gruntfile*. Here's an example from [Grunt documentation](http://gruntjs.com/sample-gruntfile):
 
 ```javascript
 module.exports = function(grunt) {
@@ -93,7 +97,7 @@ T> Note that the [grunt-webpack](https://www.npmjs.com/package/grunt-webpack) pl
 
 Gulp takes a different approach. Instead of relying on configuration per plugin, you deal with actual code. Gulp builds on top of the tried and true concept of piping. If you are familiar with Unix, it's the same idea here. You simply have sources, filters, and sinks.
 
-Sources match to files. Filters perform operations on sources (e.g., convert to JavaScript). Finally, the results get passed to sinks (e.g., your build directory). Here's a sample `Gulpfile` to give you a better idea of the approach, taken from the project's README. It has been abbreviated a bit:
+Sources match to files. Filters perform operations on sources (e.g., convert to JavaScript). Finally, the results get passed to sinks (e.g., your build directory). Here's a sample *Gulpfile* to give you a better idea of the approach, taken from the project's README. It has been abbreviated a bit:
 
 ```javascript
 var gulp = require('gulp');
@@ -135,7 +139,7 @@ gulp.task('watch', function() {
 gulp.task('default', ['watch', 'scripts']);
 ```
 
-Given the configuration is code, you can always just hack it if you run into troubles. You can wrap existing Node.js modules as Gulp plugins, and so on. Compared to Grunt, you have a clearer idea of what's going on. You still end up writing a lot of boilerplate for casual tasks, though. That is where some newer approaches come in.
+Given the configuration is code, you can always just hack it if you run into troubles. You can wrap existing Node.js packages as Gulp plugins, and so on. Compared to Grunt, you have a clearer idea of what's going on. You still end up writing a lot of boilerplate for casual tasks, though. That is where some newer approaches come in.
 
 T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use Webpack in a Gulp environment.
 
@@ -143,7 +147,7 @@ T> [gulp-webpack](https://www.npmjs.com/package/gulp-webpack) allows you to use 
 
 ![Browserify](images/browserify.png)
 
-Dealing with JavaScript modules has always been a bit of a problem. The language itself actually didn't have the concept of modules till ES6. Ergo we have been stuck in the '90s when it comes to browser environments. Various solutions, including [AMD](http://requirejs.org/docs/whyamd.html), have been proposed.
+Dealing with JavaScript modules has always been a bit of a problem. The language itself actually didn't have the concept of modules till ES6. Ergo, we have been stuck in the '90s when it comes to browser environments. Various solutions, including [AMD](http://requirejs.org/docs/whyamd.html), have been proposed.
 
 In practice, it can be useful just to use CommonJS, the Node.js format, and let the tooling deal with the rest. The advantage is that you can often hook into npm and avoid reinventing the wheel.
 
@@ -202,13 +206,21 @@ Given JSPM is still a young project, there might be rough spots. That said, it m
 
 Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
 
+### Hot Module Replacement
+
 You might be familiar with tools, such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/), already. These tools refresh the browser automatically as you make changes. HMR takes things one step further. In the case of React, it allows the application to maintain its state. This sounds simple, but it makes a big difference in practice.
+
+Note that HMR is available in Browserify via [livereactload](https://github.com/milankinen/livereactload), so it's not a feature that's exclusive to Webpack.
+
+### Bundle Splitting
 
 Aside from the HMR feature, Webpack's bundling capabilities are extensive. It allows you to split bundles in various ways. You can even load them dynamically as your application gets executed. This sort of lazy loading comes in handy, especially for larger applications. You can load dependencies as you need them.
 
+### Asset Hashing
+
 With Webpack, you can easily inject a hash to each bundle name (e.g., *app.d587bbd6e38337f5accd.js*). This allows you to invalidate bundles on the client side as changes are made. Bundle splitting allows the client to reload only a small part of the data in the ideal case.
 
-It is possible to achieve some of these tasks with other tools. The problem is that it would definitely take a lot more work to pull off. In Webpack, it's a matter of configuration. Note that HMR is available in Browserify via [livereactload](https://github.com/milankinen/livereactload), so it's not a feature that's exclusive to Webpack.
+### Loaders and Plugins
 
 All these smaller features add up. Surprisingly, you can get many things done out of the box. And if you are missing something, there are loaders and plugins available that allow you to go further. Webpack comes with a significant learning curve. Even still, it's a tool worth learning, given it saves so much time and effort over the long term.
 
@@ -218,7 +230,7 @@ To get a better idea how it compares to some other tools, check out [the officia
 
 Webpack allows you to use different module formats, but under the hood they all work the same way.
 
-**CommonJS**
+### CommonJS
 
 If you have used Node.js, it is likely that you are familiar with CommonJS already. Here's a brief example:
 
@@ -232,7 +244,7 @@ module.exports = function() { ... };
 exports.hello = function() {...};
 ```
 
-**ES6**
+### ES6
 
 ES6 is the format we all have been waiting for since 1995. As you can see, it resembles CommonJS a little bit and is quite clear!
 
@@ -247,7 +259,7 @@ export default function () { ... };
 export function hello() {...};
 ```
 
-**AMD**
+### AMD
 
 AMD, or asynchronous module definition, was invented as a workaround. It introduces a `define` wrapper:
 
@@ -278,7 +290,7 @@ define(['require'], function (require) {
 
 This approach definitely eliminates some of the clutter. You will still end up with some code that might feel redundant. Given there's ES6 now, it probably doesn't make much sense to use AMD anymore unless you really have to.
 
-**UMD**
+### UMD
 
 UMD, universal module definition, takes it all to the next level. It is a monster of a format that aims to make the aforementioned formats compatible with each other. I will spare your eyes from it. Never write it yourself, leave it to the tools. If that didn't scare you off, check out [the official definitions](https://github.com/umdjs/umd).
 
