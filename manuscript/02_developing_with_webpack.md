@@ -424,7 +424,7 @@ body {
 }
 ```
 
-Also, we'll need to make Webpack aware of this file:
+Also, we'll need to make Webpack aware of it. Without having a `require` pointing at it, Webpack won't be able to find the file:
 
 **app/index.js**
 
