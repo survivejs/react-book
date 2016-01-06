@@ -120,6 +120,8 @@ Provided you have logged in, creating new packages is just a matter of executing
 
 An alternative way to consume a library is to point at it directly in *package.json*. In that case, you can do `"depName": "<github user>/<project>#<reference>"` where `<reference>` can be either commit hash, tag, or branch. This can be useful, especially if you need to hack around something and cannot wait for a fix.
 
+T> If you want to see what files will be published to npm, consider using a tool known as [irish-pub](https://www.npmjs.com/package/irish-pub). It will give you a listing to review.
+
 ### Bumping a Version
 
 In order to bump your package version, you'll just need to invoke `npm version <x.y.z>`. That will update *package.json* and create a version commit to git automatically. If you execute `npm publish` now, you should have something new out there.
