@@ -353,17 +353,57 @@ leanpub-start-insert
   });
 leanpub-end-insert
 }
+
+...
 ```
 
 Execute `npm start` and surf to **localhost:8080**. Try modifying *app/component.js*. It should refresh the browser.
 
 You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. You can see all the files the development server is serving there.
 
+If you using Windows and it doesn't refresh, see the following section for an alternative setup.
+
+W> *webpack-dev-server* can be very particular about paths. If the given `include` paths don't match the system casing exactly, this can cause it to fail to work. Webpack [issue #675](https://github.com/webpack/webpack/issues/675) discusses this in more detail.
+
 T> If you want to default to some other port than *8080*, you can use a declaration like `port: process.env.PORT || 3000`.
 
 T> [dotenv](https://www.npmjs.com/package/dotenv) allows you to define environment variables through a *.env* file. This can be somewhat convenient for development!
 
-W> *webpack-dev-server* can be very particular about paths. If the given `include` paths don't match the system casing exactly, this can cause it to fail to work. Webpack [issue #675](https://github.com/webpack/webpack/issues/675) discusses this in more detail.
+### HMR on Windows
+
+The setup may be problematic on certain versions of Windows. Instead of using `devServer` and `plugins` configuration, implement it like this:
+
+**webpack.config.js**
+
+```javascript
+...
+
+if(TARGET === 'start' || !TARGET) {
+  module.exports = merge(common, {});
+}
+
+...
+```
+
+**package.json**
+
+```json
+...
+"scripts": {
+  "build": "webpack",
+leanpub-start-delete
+  "start": "webpack-dev-server"
+leanpub-end-delete
+leanpub-start-insert
+  "start": "webpack-dev-server --watch-poll --inline --hot"
+leanpub-end-insert
+},
+...
+```
+
+Given this setup polls the filesystem, it is going to be more resource intensive. It's worth giving a go if the default doesn't work, though.
+
+T> There are more details in *webpack-dev-server* issue [#155](https://github.com/webpack/webpack-dev-server/issues/155).
 
 ### Alternative Ways to Use *webpack-dev-server*
 
