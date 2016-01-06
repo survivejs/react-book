@@ -76,7 +76,7 @@ if(TARGET === 'start' || !TARGET) {
   });
 }
 
-if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
+if(TARGET === 'build' || TARGET === 'stats') {
   module.exports = merge(common, {
     // Define entry points needed for splitting
     entry: {

@@ -547,7 +547,7 @@ We are also going to need an entry point at *package.json*:
   ...
   "scripts": {
 leanpub-start-insert
-    "deploy": "node ./lib/deploy.js",
+    "deploy": "gh-pages -d build",
 leanpub-end-insert
     ...
   },
@@ -555,41 +555,9 @@ leanpub-end-insert
 }
 ```
 
-In order to get access to our build path, we need to expose something useful for `deploy` case. We can match for the case like this so we get useful configuration:
-
-**webpack.config.js**
-
-```javascript
-...
-
-leanpub-start-delete
-if(TARGET === 'build' || TARGET === 'stats') {
-leanpub-end-delete
-leanpub-start-insert
-if(TARGET === 'build' || TARGET === 'stats' || TARGET === 'deploy') {
-leanpub-end-insert
-  ...
-}
-
-...
-```
-
-To glue it all together, we need a deployment script like this:
-
-**lib/deploy.js**
-
-```javascript
-const ghpages = require('gh-pages');
-const config = require('../webpack.config');
-
-main();
-
-function main() {
-  ghpages.publish(config.output.path, console.error.bind(console));
-}
-```
-
 If you trigger `npm run deploy` now and everything goes fine, you should have your application hosted through GitHub Pages. You should find it at `https://<name>.github.io/<project>` (*github.com/<name>/<project>* at GitHub) assuming it worked.
+
+T> If you need a more elaborate setup, you can use the Node.js API that *gh-pages* provides. The default CLI tool it provides is often enough, though.
 
 ## Conclusion
 
