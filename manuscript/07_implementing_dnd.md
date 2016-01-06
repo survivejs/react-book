@@ -10,9 +10,9 @@ Before going further, execute
 npm i react-dnd react-dnd-html5-backend --save
 ```
 
-to add React DnD to the project.
+This will add React DnD to the project as a regular dependency.
 
-As a first step, we'll need to connect it with our project. Currently, it provides an HTML5 Drag and Drop API specific back-end. There's no official support for touch yet, but it's possible to add later on. In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
+As a first step, we'll need to connect it with our project. We are going to use the HTML5 Drag and Drop based backend. There are specific backends for testing and [touch](https://github.com/yahoo/react-dnd-touch-backend). In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
 
 **app/components/App.jsx**
 
@@ -34,8 +34,6 @@ export default class App extends React.Component {
 After this change, the application should look exactly the same as before. We are now ready to add some sweet functionality to it.
 
 T> Decorators provide us simple means to annotate our components. Alternatively we could use syntax, such as `DragDropContext(HTML5Backend)(App)`, but this would get rather unwieldy when we want to apply multiple decorators. See the decorator appendix to understand in detail how they work and how to implement them yourself.
-
-T> Back-ends allow us to customize React DnD behavior. For instance, we can add [support for touch](https://github.com/gaearon/react-dnd/pull/240) to our application using one. There's also a testing specific one available.
 
 ## Preparing Notes to Be Sorted
 
@@ -74,16 +72,18 @@ export default ({notes, onValueClick, onEdit, onDelete}) => {
   return (
     <ul className="notes">{notes.map((note) =>
 leanpub-start-delete
-      <li className="note" key={note.id}><Editable
-        editing={note.editing}
-        value={note.task}
-        onValueClick={onValueClick.bind(null, note.id)}
-        onEdit={onEdit.bind(null, note.id)}
-        onDelete={onDelete.bind(null, note.id)} /></li>
+      <li className="note" key={note.id}>
+        <Editable
+          editing={note.editing}
+          value={note.task}
+          onValueClick={onValueClick.bind(null, note.id)}
+          onEdit={onEdit.bind(null, note.id)}
+          onDelete={onDelete.bind(null, note.id)} />
+      </li>
 leanpub-end-delete
 leanpub-start-insert
-      <Note className="note" id={note.id} key={note.id}
-        onMove={LaneActions.move}><Editable
+      <Note className="note" id={note.id} key={note.id}>
+        <Editable
           editing={note.editing}
           value={note.task}
           onValueClick={onValueClick.bind(null, note.id)}
@@ -121,13 +121,11 @@ Marking a component as a `@DragSource` simply means that it can be dragged. Set 
 **app/components/Note.jsx**
 
 ```javascript
-...
+import React from 'react';
 leanpub-start-insert
 import {DragSource} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
-leanpub-end-insert
 
-leanpub-start-insert
 const noteSource = {
   beginDrag(props) {
     console.log('begin dragging note', props);
@@ -137,25 +135,27 @@ const noteSource = {
 };
 leanpub-end-insert
 
+leanpub-start-delete
+export default class Note extends React.Component {
+  render() {
+    return <li {...this.props}>{this.props.children}</li>;
+  }
+}
+leanpub-end-delete
 leanpub-start-insert
 @DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
   connectDragSource: connect.dragSource()
 }))
-leanpub-end-insert
 export default class Note extends React.Component {
   render() {
-leanpub-start-delete
-    return <li {...this.props}>{this.props.children}</li>;
-leanpub-end-delete
-leanpub-start-insert
     const {connectDragSource, id, onMove, ...props} = this.props;
 
     return connectDragSource(
       <li {...props}>{props.children}</li>
     );
-leanpub-end-insert
   }
 }
+leanpub-end-insert
 ```
 
 There are a couple of important changes:
@@ -166,11 +166,11 @@ There are a couple of important changes:
 * `id` and `onMove` props are extracted from `this.props`. We'll use these later on to set up a callback so that the parent of a `Note` can deal with the moving related logic.
 * Finally `connectDragSource` prop wraps the element at `render()`. It could be applied to a specific part of it. This would be handy for implementing handles for example.
 
-If you drag a `Note` now, you should see a debug log at the console.
+If you drag a `Note` now, you should see a debug message at the console.
 
 We still need to make sure `Note` works as a `@DropTarget`. Later on this will allow swapping them as we add logic in place.
 
-W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh the browser to see the logs you expect!
+W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh the browser to see the log messages you expect!
 
 ### Setting Up `Note` `@DropTarget`
 
@@ -179,8 +179,12 @@ W> Note that React DnD doesn't support hot loading perfectly. You may need to re
 **app/components/Note.jsx**
 
 ```javascript
-...
+import React from 'react';
+leanpub-start-delete
+leanpub-end-delete
+leanpub-start-insert
 import {DragSource, DropTarget} from 'react-dnd';
+leanpub-end-insert
 import ItemTypes from '../constants/itemTypes';
 
 const noteSource = {
@@ -210,38 +214,39 @@ leanpub-start-insert
 }))
 leanpub-end-insert
 export default class Note extends React.Component {
+leanpub-start-delete
   render() {
-leanpub-start-delete
     const {connectDragSource, id, onMove, ...props} = this.props;
-leanpub-end-delete
-leanpub-start-insert
-    const {connectDragSource, connectDropTarget,
-      id, onMove, ...props} = this.props;
-leanpub-end-insert
 
-leanpub-start-delete
     return connectDragSource(
       <li {...props}>{props.children}</li>
     );
+  }
 leanpub-end-delete
 leanpub-start-insert
+  render() {
+    const {connectDragSource, connectDropTarget,
+      id, onMove, ...props} = this.props;
+
     return connectDragSource(connectDropTarget(
       <li {...props}>{props.children}</li>
     ));
-leanpub-end-insert
   }
+leanpub-end-insert
 }
 ```
 
-Besides the initial debug log, we should see way more logs as we drag a `Note` around. Note that both decorators give us access to the `Note` props. In this case, we are using `monitor.getItem()` to access them at `noteTarget`.
+Refresh the browser and begin to drag a note. You should see way a lot of log messages.
+
+Note that both decorators give us access to the `Note` props. In this case, we are using `monitor.getItem()` to access them at `noteTarget`. This is the key to making this to work properly.
 
 ## Developing `onMove` API for `Notes`
 
 Now, that we can move notes around, we still need to define logic. The following steps are needed:
 
-* Capture `Note` id on `beginDrag`.
-* Capture target `Note` id on `hover`.
-* Trigger `onMove` callback on `hover` so that we can deal with the logic at a higher level.
+1. Capture `Note` id on `beginDrag`.
+2. Capture target `Note` id on `hover`.
+3. Trigger `onMove` callback on `hover` so that we can deal with the logic at a higher level.
 
 You can see how this translates to code below:
 
@@ -251,28 +256,32 @@ You can see how this translates to code below:
 ...
 
 const noteSource = {
-  beginDrag(props) {
 leanpub-start-delete
+  beginDrag(props) {
     console.log('begin dragging note', props);
 
     return {};
+  }
 leanpub-end-delete
 leanpub-start-insert
+  beginDrag(props) {
     return {
       id: props.id
     };
-leanpub-end-insert
   }
+leanpub-end-insert
 };
 
 const noteTarget = {
-  hover(targetProps, monitor) {
 leanpub-start-delete
+  hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
 
     console.log('dragging note', sourceProps, targetProps);
+  }
 leanpub-end-delete
 leanpub-start-insert
+  hover(targetProps, monitor) {
     const targetId = targetProps.id;
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
@@ -280,14 +289,14 @@ leanpub-start-insert
     if(sourceId !== targetId) {
       targetProps.onMove({sourceId, targetId});
     }
-leanpub-end-insert
   }
+leanpub-end-insert
 };
 
 ...
 ```
 
-If you run the application now, you'll likely get a bunch of `onMove` related errors. We should make `Notes` aware of that:
+If you run the application now, you'll likely get a bunch of `onMove` related errors. We should make `Notes` aware of it:
 
 **app/components/Notes.jsx**
 
@@ -306,7 +315,7 @@ leanpub-end-delete
 leanpub-start-insert
         <Note className="note" id={note.id} key={note.id}
           onMove={({sourceId, targetId}) =>
-            console.log('source', sourceId, 'target', targetId);
+            console.log('source', sourceId, 'target', targetId)
         }>
 leanpub-end-insert
           <Editable
@@ -327,7 +336,7 @@ If you drag a `Note` around now, you should see logs like `source <id> target <i
 
 ## Adding Action and Store Method for Moving
 
-The logic of drag and drop is quite simple. Suppose we have a lane containing notes A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
+The logic of drag and drop goes as follows. Suppose we have a lane containing notes A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
 In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note`, we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`:
 
@@ -374,7 +383,8 @@ leanpub-start-delete
         }>
 leanpub-end-delete
 leanpub-start-insert
-        <Note className="note" id={note.id} key={note.id} onMove={LaneActions.move}>
+        <Note className="note" id={note.id} key={note.id}
+          onMove={LaneActions.move}>
 leanpub-end-insert
           <Editable
             editing={note.editing}
@@ -390,6 +400,8 @@ leanpub-end-insert
 }
 ```
 
+T> It could be a good idea to refactor `onMove` as a prop to make the system more flexible. Now the `Notes` component is decoupled with `LaneActions`. This isn't particularly nice if you want to use it in some other context.
+
 We should also define a stub at `LaneStore` to see that we wired it up correctly:
 
 **app/stores/LaneStore.js**
@@ -399,6 +411,9 @@ We should also define a stub at `LaneStore` to see that we wired it up correctly
 
 class LaneStore {
   ...
+  detachFromLane({laneId, noteId}) {
+    ...
+  }
 leanpub-start-insert
   move({sourceId, targetId}) {
     console.log('source', sourceId, 'target', targetId);
@@ -409,11 +424,11 @@ leanpub-end-insert
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-You should see the same logs as earlier. Next, we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about. Moving within a lane itself and moving from lane to another.
+You should see the same log messages as earlier. Next, we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about: moving within a lane itself and moving from lane to another.
 
 ## Implementing Note Drag and Drop Logic
 
-Moving within a lane itself is more complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass. It is included in a separate package. To get started, install it using:
+Moving within a lane itself is complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass. It is included in a separate package. To get started, install it using:
 
 ```bash
 npm i react-addons-update --save
@@ -425,15 +440,19 @@ It is possible to solve the lane to lane case using [splice](https://developer.m
 
 ```javascript
 ...
+leanpub-start-insert
 import update from 'react-addons-update';
+leanpub-end-insert
 
-export default class LaneStore {
+class LaneStore {
   ...
-  move({sourceId, targetId}) {
 leanpub-start-delete
+  move({sourceId, targetId}) {
     console.log('source', sourceId, 'target', targetId);
+  }
 leanpub-end-delete
 leanpub-start-insert
+  move({sourceId, targetId}) {
     const lanes = this.lanes;
     const sourceLane = lanes.filter((lane) => {
       return lane.notes.indexOf(sourceId) >= 0;
@@ -465,6 +484,8 @@ leanpub-start-insert
   }
 leanpub-end-insert
 }
+
+export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 If you try out the application now, you can actually drag notes around and it should behave as you expect. The presentation could be better, though.
@@ -473,50 +494,54 @@ It would be better if indicated the note target better. We can do this by hiding
 
 ### Indicating Where to Move
 
-React DnD provides a feature known as state monitors. We can use `monitor.isDragging()` to detect which note we are currently dragging. It can be set up as follows:
+React DnD provides a feature known as state monitors. Through it we can use `monitor.isDragging()` to detect which `Note` we are currently dragging. It can be set up as follows:
 
 **app/components/Note.jsx**
 
 ```javascript
 ...
 
+leanpub-start-delete
+@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource()
+}))
+leanpub-end-delete
+leanpub-start-insert
 @DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
-leanpub-start-insert
   isDragging: monitor.isDragging() // map isDragging() state to isDragging prop
-leanpub-end-insert
 }))
+leanpub-end-insert
 @DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 export default class Note extends React.Component {
-  render() {
 leanpub-start-delete
+  render() {
     const {connectDragSource, connectDropTarget,
       id, onMove, ...props} = this.props;
-leanpub-end-delete
-leanpub-start-insert
-    const {connectDragSource, connectDropTarget, isDragging,
-      onMove, id, ...props} = this.props;
-leanpub-end-insert
 
-leanpub-start-delete
     return connectDragSource(connectDropTarget(
       <li {...props}>{props.children}</li>
     ));
+  }
 leanpub-end-delete
 leanpub-start-insert
-      return connectDragSource(connectDropTarget(
-        <li style={{
-          opacity: isDragging ? 0 : 1
-        }} {...props}>{props.children}</li>
-      ));
-leanpub-end-insert
+  render() {
+    const {connectDragSource, connectDropTarget, isDragging,
+      onMove, id, ...props} = this.props;
+
+    return connectDragSource(connectDropTarget(
+      <li style={{
+        opacity: isDragging ? 0 : 1
+      }} {...props}>{props.children}</li>
+    ));
   }
+leanpub-end-insert
 }
 ```
 
-If you drag a note within a lane, you should see the behavior we expect. The target should be shown as blank. If you try moving the note to another lane and move it there, you will see this doesn't quite work.
+If you drag a note within a lane, the drag target should be shown as blank. If you try moving the note to another lane and move it there, you will see this doesn't quite work, though.
 
 The problem is that our note component gets unmounted during this process. This makes it lose `isDragging` state. Fortunately, we can override the default behavior by implementing a `isDragging` check of our own to fix the issue. Perform the following addition:
 
@@ -525,18 +550,27 @@ The problem is that our note component gets unmounted during this process. This 
 ```javascript
 ...
 
+leanpub-start-delete
+const noteSource = {
+  beginDrag(props) {
+    return {
+      id: props.id
+    };
+  }
+};
+leanpub-end-delete
+leanpub-start-insert
 const noteSource = {
   beginDrag(props) {
     return {
       id: props.id
     };
   },
-leanpub-start-insert
   isDragging(props, monitor) {
     return props.id === monitor.getItem().id;
   }
-leanpub-end-insert
 };
+leanpub-end-insert
 
 ...
 ```
@@ -576,7 +610,9 @@ leanpub-start-insert
 }))
 leanpub-end-insert
 export default class Lane extends React.Component {
-  ...
+  constructor(props) {
+    ...
+  }
   render() {
 leanpub-start-delete
     const {lane, ...props} = this.props;
@@ -584,7 +620,6 @@ leanpub-end-delete
 leanpub-start-insert
     const {connectDropTarget, lane, ...props} = this.props;
 leanpub-end-insert
-    const id = lane.id;
 
 leanpub-start-delete
     return (
@@ -598,7 +633,7 @@ leanpub-end-insert
 }
 ```
 
-If you drag a note to a lane now, you should see logs at your console. The question is what to do with this data? Before actually moving the note to a lane, we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
+If you refresh your browser and drag a note to a lane now, you should see log messages at your console. The question is what to do with this data? Before actually moving the note to a lane, we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
 
 This is a simple check to make. Given we know the target lane at our `noteTarget` `hover` handler, we can check its `notes` array as follows:
 
@@ -606,28 +641,29 @@ This is a simple check to make. Given we know the target lane at our `noteTarget
 
 ```javascript
 const noteTarget = {
-  hover(targetProps, monitor) {
 leanpub-start-delete
+  hover(targetProps, monitor) {
     const targetId = targetProps.lane.id;
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
     console.log('source', sourceId, 'target', targetId);
+  }
 leanpub-end-delete
-
 leanpub-start-insert
+  hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
     if(!targetProps.lane.notes.length) {
       console.log('source', sourceId, 'target', targetProps);
     }
-leanpub-end-insert
   }
+leanpub-end-insert
 };
 ```
 
-If you refresh your browser and drag around now, the log should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
+If you refresh your browser and drag around now, the log message should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
 
 ### Triggering `move` Logic
 
@@ -637,26 +673,33 @@ Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is i
 
 ```javascript
 const noteTarget = {
+leanpub-start-delete
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
     if(!targetProps.lane.notes.length) {
-leanpub-start-delete
       console.log('source', sourceId, 'target', targetProps);
+    }
+  }
 leanpub-end-delete
 leanpub-start-insert
+  hover(targetProps, monitor) {
+    const sourceProps = monitor.getItem();
+    const sourceId = sourceProps.id;
+
+    if(!targetProps.lane.notes.length) {
       LaneActions.attachToLane({
         laneId: targetProps.lane.id,
         noteId: sourceId
       });
-leanpub-end-insert
     }
   }
+leanpub-end-insert
 };
 ```
 
-There is one problem, though. What happens to the old instance of the `Note`? In the current solution, the old lane will have an id pointing to it. As a result, we have duplicate data in the system.
+There is one problem, though. What happens to the old instance of the `Note`? In the current solution, the old lane will have an id pointing to it. As a result, we will have duplicate data in the system.
 
 Earlier, we resolved this using `detachFromLane`. The problem is that we don't know to which lane the note belonged. We could pass this data through the component hierarchy, but that doesn't feel particularly nice.
 
