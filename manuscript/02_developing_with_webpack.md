@@ -367,8 +367,6 @@ W> *webpack-dev-server* can be very particular about paths. If the given `includ
 
 T> If you want to default to some other port than *8080*, you can use a declaration like `port: process.env.PORT || 3000`.
 
-T> [dotenv](https://www.npmjs.com/package/dotenv) allows you to define environment variables through a *.env* file. This can be somewhat convenient for development!
-
 ### HMR on Windows
 
 The setup may be problematic on certain versions of Windows. Instead of using `devServer` and `plugins` configuration, implement it like this:
@@ -410,6 +408,8 @@ T> There are more details in *webpack-dev-server* issue [#155](https://github.co
 We could have passed *webpack-dev-server* options through the command line interface (CLI). I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy.
 
 Alternatively, we could have set up an Express server of our own and used *webpack-dev-server* as a [middleware](https://webpack.github.io/docs/webpack-dev-middleware.html). There's also a [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api).
+
+T> [dotenv](https://www.npmjs.com/package/dotenv) allows you to define environment variables through a *.env* file. This can be somewhat convenient for development!
 
 W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and the Node.js API and they may behave slightly differently at times. This is the reason why some prefer to solely use the Node.js API.
 
