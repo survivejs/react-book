@@ -523,7 +523,7 @@ leanpub-end-insert
     );
   }
   addNote = () => {
-  ...
+    ...
   }
 leanpub-start-insert
   editNote = (id, task) => {
