@@ -316,7 +316,7 @@ We can work around this problem using hot loading. [babel-plugin-react-transform
 
 *react-transform-hmr* will swap React components one by one as they change without forcing a full refresh. Given it just replaces methods, it won't catch every possible change. This includes changes made to class constructors. There will be times when you will need to force a refresh, but it will work most of the time.
 
-A Babel preset known as *babel-preset-react-hmre* will keep our setup simple. It comes with reasonable defaults and cuts down the amount of configuration you need to maintain. Install it through:
+A Babel preset known as [babel-preset-react-hmre](https://www.npmjs.com/package/babel-preset-react-hmre) will keep our setup simple. It comes with reasonable defaults and cuts down the amount of configuration you need to maintain. Install it through:
 
 ```bash
 npm i babel-preset-react-hmre --save-dev
