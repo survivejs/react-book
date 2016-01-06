@@ -146,7 +146,7 @@ The current implementation doesn't do much. It just shows a plus button and *lan
 
 ## Modeling `Lane`
 
-The `Lanes` container will render each `Lane` separately. Each `Lane` in turn will then render associated `Notes` just like our `App` did earlier. `Lanes` is analogous to `Notes` in this manner. The example below illustrates how to set this up:
+The `Lanes` container will render each `Lane` separately. Each `Lane` in turn will then render associated `Notes`, just like our `App` did earlier. `Lanes` is analogous to `Notes` in this manner. The example below illustrates how to set this up:
 
 **app/components/Lanes.jsx**
 
@@ -215,11 +215,13 @@ If you run the application, you can see there's something wrong. If you add new 
 
 ![Duplicate notes](images/kanban_01.png)
 
-The reason why this happens is simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem.
+The reason why this happens is simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem somehow.
 
 ## Making `Lanes` Responsible of `Notes`
 
-Currently, our `Lane` model is simple. We are just storing an array of objects. Each of the objects knows its *id* and *name*. We'll need something more. Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it.
+Currently, our `Lane` contains just an array of objects. Each of the objects knows its *id* and *name*. We'll need something more.
+
+In order to make this work, each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it. We'll implement a scheme to achieve this next.
 
 ### Setting Up `attachToLane`
 
@@ -244,7 +246,7 @@ import alt from '../libs/alt';
 export default alt.generateActions('create', 'attachToLane');
 ```
 
-The next step takes more code. We need to take care of attaching:
+The next step takes more code. There we need to find a lane matching to the given lane id and then attach note id to it. Given notes should be unique per lane, we can perform an extra check against that before attaching:
 
 **app/stores/LaneStore.js**
 
@@ -279,9 +281,7 @@ leanpub-end-insert
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-`attachToLane` has been coded defensively to guard against possible problems. The rest of the code deals with the logic. First, we try to find a matching lane. If found, we attach the note id to it unless it has been attached already.
-
-We also need to make sure `NoteActions.create` returns a note. Otherwise our scheme won't work:
+We also need to make sure `NoteActions.create` returns a note so the setup works just like in the code example above. The note is needed for creating an association between a lane and a note:
 
 **app/stores/NoteStore.js**
 
@@ -308,36 +308,6 @@ leanpub-end-insert
 
 ...
 ```
-
-### On Data Dependencies and `waitFor`
-
-The current setup works because our actions are synchronous. It would become more problematic if we dealt with a back-end. In that case, we would have to set up `waitFor` based code. [waitFor](http://alt.js.org/guide/wait-for/) allows us to deal with data dependencies. It tells the dispatcher that it should wait before going on. Here's an example of how this approach would work out (no need to change your code!):
-
-```javascript
-NoteActions.create({task: 'New task'});
-
-// Triggers waitFor
-LaneActions.attachToLane({laneId});
-```
-
-**app/stores/LaneStore.js**
-
-```javascript
-class LaneStore {
-  ...
-  attachToLane({laneId, noteId}) {
-    if(!noteId) {
-      this.waitFor(NoteStore);
-
-      noteId = NoteStore.getState().notes.slice(-1)[0].id;
-    }
-
-    ...
-  }
-}
-```
-
-Fortunately, we can avoid `waitFor` in this case. You should use it carefully. It becomes necessary when you need to deal with asynchronously fetched data that depends on each other.
 
 ### Setting Up `detachFromLane`
 
@@ -374,6 +344,7 @@ import LaneActions from '../actions/LaneActions';
 import NoteStore from './NoteStore';
 
 class LaneStore {
+  ...
   attachToLane({laneId, noteId}) {
     ...
   }
@@ -395,11 +366,11 @@ leanpub-end-insert
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-Again, the implementation has been coded with drag and drop in mind. Later on we'll want to pass `noteId` explicitly, so it doesn't hurt to have it there. You've seen the rest of the code earlier in different contexts.
+Just building an association between a lane and a note isn't enough. We are going to need some way to resolve the note references to data we can display through the user interface. For this purpose we need to implement a special getter that performs this particular step.
 
 ### Implementing a Getter for `NoteStore`
 
-Given our lanes contain references to notes through ids, we are going to need some way to resolve those ids to actual notes. One neat way to do this is to implement a public method `NoteStore.get(notes)` for the purpose. It accepts an array of `Note` ids, and returns corresponding objects.
+One neat way to resolve lane notes to actual data is to implement a public method `NoteStore.get(notes)`. It accepts an array of `Note` ids, and returns the corresponding objects.
 
 This can be achieved using the `map` operation. First, we need to get the ids of all notes to match against. After that, we can perform a lookup for each note id passed in using `indexOf`.
 
@@ -409,6 +380,7 @@ Just implementing the method isn't enough. We also need to make it public. In Al
 
 ```javascript
 import uuid from 'node-uuid';
+import assign from 'object-assign';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
@@ -452,16 +424,25 @@ import LaneActions from '../actions/LaneActions';
 leanpub-end-insert
 
 export default class Lane extends React.Component {
+leanpub-start-insert
+  constructor(props) {
+    super(props);
+
+    const id = props.lane.id;
+
+    this.addNote = this.addNote.bind(this, id);
+    this.deleteNote = this.deleteNote.bind(this, id);
+  }
+leanpub-end-insert
   render() {
     const {lane, ...props} = this.props;
-    const id = lane.id;
 
     return (
       <div {...props}>
         <div className="lane-header">
           <div className="lane-name">{lane.name}</div>
           <div className="lane-add-note">
-            <button onClick={this.addNote.bind(this, id)}>+</button>
+            <button onClick={this.addNote}>+</button>
           </div>
         </div>
         <AltContainer
@@ -475,59 +456,82 @@ leanpub-start-insert
 leanpub-end-insert
           }}
         >
-          <Notes
-            onEdit={this.editNote}
-            onDelete={this.deleteNote.bind(this, id)} />
+          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
         </AltContainer>
       </div>
     );
   }
 leanpub-start-delete
   addNote() {
+    NoteActions.create({task: 'New task'});
+  }
 leanpub-end-delete
 leanpub-start-insert
   addNote(laneId) {
-leanpub-end-insert
-leanpub-start-delete
-    NoteActions.create({task: 'New task'});
-leanpub-end-delete
-leanpub-start-insert
     const note = NoteActions.create({task: 'New task'});
 
     LaneActions.attachToLane({
       noteId: note.id,
       laneId
     });
-leanpub-end-insert
   }
+leanpub-end-insert
   editNote(id, task) {
     NoteActions.update({id, task});
   }
 leanpub-start-delete
   deleteNote(id) {
+    NoteActions.delete(id);
+  }
 leanpub-end-delete
 leanpub-start-insert
   deleteNote(laneId, noteId) {
-leanpub-end-insert
-leanpub-start-delete
-    NoteActions.delete(id);
-leanpub-end-delete
-leanpub-start-insert
     LaneActions.detachFromLane({laneId, noteId});
     NoteActions.delete(noteId);
-leanpub-end-insert
   }
+leanpub-end-insert
 }
 ```
 
-There are two important changes:
+There are three important changes:
 
+* `constructor` - The constructor binds `addNote` and `deleteNote` `laneId` when the component is created. An alternative way would be to handle this at `render()`. That would be a better alternative if the `id` could change.
 * `notes: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified. Note that we trigger `detachFromLane` before `delete` at `deleteNote`. Otherwise we may try to render non-existent notes. You can try swapping the order to see warnings.
 
 After these changes, we now have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
 
 ![Separate notes](images/kanban_02.png)
+
+### On Data Dependencies and `waitFor`
+
+The current setup works because our actions are synchronous. It would become more problematic if we dealt with a back-end. In that case, we would have to set up `waitFor` based code. [waitFor](http://alt.js.org/guide/wait-for/) allows us to deal with data dependencies. It tells the dispatcher that it should wait before going on. Here's an example of how this approach would work out (no need to change your code!):
+
+```javascript
+NoteActions.create({task: 'New task'});
+
+// Triggers waitFor
+LaneActions.attachToLane({laneId});
+```
+
+**app/stores/LaneStore.js**
+
+```javascript
+class LaneStore {
+  ...
+  attachToLane({laneId, noteId}) {
+    if(!noteId) {
+      this.waitFor(NoteStore);
+
+      noteId = NoteStore.getState().notes.slice(-1)[0].id;
+    }
+
+    ...
+  }
+}
+```
+
+Fortunately, we can avoid `waitFor` in this case. You should use it carefully. It becomes necessary when you need to deal with asynchronously fetched data that depends on each other.
 
 ## Implementing Edit/Remove for `Lane`
 
@@ -623,8 +627,6 @@ leanpub-end-insert
 }
 ```
 
-T> Our current implementation of `Editable` encapsulates its `editing` state. This makes it impossible to control outside of the component. One way to resolve this issue would be to eliminate the internal state and provide enough API to control it. This would mean controlling `editing` state through a prop and allowing the consumer to react to the editing states through hooks, such as `onBeginEdit` and `onFinishEdit`.
-
 ### Pointing `Notes` to `Editable`
 
 Next, we need to make *Notes.jsx* point at the new component. We'll need to alter the import and the component name at `render()`:
@@ -672,6 +674,8 @@ export default ({notes, onValueClick, onEdit, onDelete}) => {
 leanpub-end-insert
 ```
 
+If you refresh the browser, you should see `Uncaught TypeError: Cannot read property 'bind' of undefined`. This has to do with that `onValueClick` definition we added. *Typing with React* chapter discusses how to use `propTypes` to work around this problem. It's a feature that allows us to set good defaults for props while also checking their types during development.
+
 ### Connecting `Lane` with `Editable`
 
 Next, we can use this generic component to allow a `Lane`'s name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
@@ -685,9 +689,20 @@ import Editable from './Editable.jsx';
 leanpub-end-insert
 
 export default class Lane extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const id = props.lane.id;
+
+    this.addNote = this.addNote.bind(this, id);
+    this.deleteNote = this.deleteNote.bind(this, id);
+leanpub-start-insert
+    this.editName = this.editName.bind(this, id);
+    this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
+leanpub-end-insert
+  }
   render() {
     const {lane, ...props} = this.props;
-    const id = lane.id;
 
     return (
       <div {...props}>
@@ -697,11 +712,11 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
           <Editable className="lane-name" editing={lane.editing}
-            value={lane.name} onEdit={this.editName.bind(this, id)}
-            onValueClick={this.activateLaneEdit.bind(this, id)} />
+            value={lane.name} onEdit={this.editName}
+            onValueClick={this.activateLaneEdit} />
 leanpub-end-insert
           <div className="lane-add-note">
-            <button onClick={this.addNote.bind(this, id)}>+</button>
+            <button onClick={this.addNote}>+</button>
           </div>
         </div>
         <AltContainer
@@ -710,12 +725,15 @@ leanpub-end-insert
             notes: () => NoteStore.get(lane.notes)
           }}
         >
-          <Notes
+leanpub-start-delete
+          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
+leanpub-end-delete
 leanpub-start-insert
+          <Notes
             onValueClick={this.activateNoteEdit}
-leanpub-end-insert
             onEdit={this.editNote}
-            onDelete={this.deleteNote.bind(this, id)} />
+            onDelete={this.deleteNote} />
+leanpub-end-insert
         </AltContainer>
       </div>
     )
@@ -735,7 +753,7 @@ leanpub-end-insert
 }
 ```
 
-If you try to edit a lane name now, you should see a log at the console.
+If you try to edit a lane name now, you should see a log message at the console.
 
 ![Logging lane name editing](images/kanban_03.png)
 
@@ -768,6 +786,9 @@ We are also going to need `LaneStore` level implementations for these. They can 
 
 class LaneStore {
   ...
+  create(lane) {
+    ...
+  }
 leanpub-start-insert
   update(updatedLane) {
     const lanes = this.lanes.map((lane) => {
@@ -805,44 +826,52 @@ Now that we have resolved actions and store, we need to adjust our component to 
 ...
 export default class Lane extends React.Component {
   ...
+leanpub-start-delete
   editNote(id, task) {
-leanpub-start-delete
     NoteActions.update({id, task});
-leanpub-end-delete
-leanpub-start-insert
-    NoteActions.update({id, task, editing: false});
-leanpub-end-insert
   }
-  ...
-  editName(id, name) {
-leanpub-start-delete
-    console.log('edited lane name', id, name);
 leanpub-end-delete
 leanpub-start-insert
+  editNote(id, task) {
+    NoteActions.update({id, task, editing: false});
+  }
+leanpub-end-insert
+  ...
+leanpub-start-delete
+  editName(id, name) {
+    console.log('edited lane name', id, name);
+  }
+leanpub-end-delete
+leanpub-start-insert
+  editName(id, name) {
     if(name) {
       LaneActions.update({id, name, editing: false});
     }
     else {
       LaneActions.delete(id);
     }
-leanpub-end-insert
   }
+leanpub-end-insert
+leanpub-start-delete
   activateLaneEdit(id) {
-leanpub-start-delete
     console.log('edit lane name', id);
+  }
 leanpub-end-delete
 leanpub-start-insert
+  activateLaneEdit(id) {
     LaneActions.update({id, editing: true});
-leanpub-end-insert
   }
-  activateNoteEdit(id) {
+leanpub-end-insert
 leanpub-start-delete
+  activateNoteEdit(id) {
     console.log('edit note task', id);
+  }
 leanpub-end-delete
 leanpub-start-insert
+  activateNoteEdit(id) {
     NoteActions.update({id, editing: true});
-leanpub-end-insert
   }
+leanpub-end-insert
 }
 ```
 
@@ -861,10 +890,10 @@ As we added `Lanes` to the application, the styling went a bit off. Add the foll
 ```css
 body {
   background: cornsilk;
-
   font-family: sans-serif;
 }
 
+leanpub-start-insert
 .lane {
   display: inline-block;
 
@@ -904,6 +933,7 @@ body {
   background-color: #fdfdfd;
   border: 1px solid #ccc;
 }
+leanpub-end-insert
 
 ...
 ```
@@ -914,7 +944,7 @@ You should end up with a result like this:
 
 As this is a small project, we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple files. One way to do this is to extract CSS per component and then refer to it there (e.g., `require('./lane.css')` at `Lane.jsx`).
 
-Besides keeping things nice and tidy, Webpack's lazy loading machinery can pick this up. As a result, the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling.
+Besides keeping things nice and tidy, Webpack's lazy loading machinery can pick this up. As a result, the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling at *Styling React*.
 
 ## On Namespacing Components
 
