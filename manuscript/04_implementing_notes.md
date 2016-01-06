@@ -310,7 +310,9 @@ leanpub-start-delete
           <li key={note.id}>{note.task}</li>
 leanpub-end-delete
 leanpub-start-insert
-          <li key={note.id}><Note task={note.task} /></li>
+          <li key={note.id}>
+            <Note task={note.task} />
+          </li>
 leanpub-end-insert
         )}</ul>
       </div>
@@ -342,7 +344,9 @@ import Note from './Note.jsx';
 export default ({notes}) => {
   return (
     <ul>{notes.map((note) =>
-      <li key={note.id}><Note task={note.task} /></li>
+      <li key={note.id}>
+        <Note task={note.task} />
+      </li>
     )}</ul>
   );
 }
@@ -374,7 +378,9 @@ export default class App extends React.Component {
         <button onClick={this.addNote}>+</button>
 leanpub-start-delete
         <ul>{notes.map((note) =>
-          <li key={note.id}><Note task={note.task} /></li>
+          <li key={note.id}>
+            <Note task={note.task} />
+          </li>
         )}</ul>
 leanpub-end-delete
 leanpub-start-insert
@@ -554,12 +560,16 @@ leanpub-end-insert
   return (
     <ul>{notes.map((note) =>
 leanpub-start-delete
-      <li key={note.id}><Note task={note.task} /></li>
+      <li key={note.id}>
+        <Note task={note.task} />
+      </li>
 leanpub-end-delete
 leanpub-start-insert
-      <li key={note.id}><Note
-        task={note.task}
-        onEdit={onEdit.bind(null, note.id)} /></li>
+      <li key={note.id}>
+        <Note
+          task={note.task}
+          onEdit={onEdit.bind(null, note.id)} />
+      </li>
 leanpub-end-insert
     )}</ul>
   );
@@ -631,17 +641,19 @@ export default ({notes, onEdit, onDelete}) => {
 leanpub-end-insert
   return (
     <ul>{notes.map((note) =>
+      <li key={note.id}>
 leanpub-start-delete
-      <li key={note.id}><Note
-        task={note.task}
-        onEdit={onEdit.bind(null, note.id)} /></li>
+        <Note
+          task={note.task}
+          onEdit={onEdit.bind(null, note.id)} />
 leanpub-end-delete
 leanpub-start-insert
-      <li key={note.id}><Note
-        task={note.task}
-        onEdit={onEdit.bind(null, note.id)}
-        onDelete={onDelete.bind(null, note.id)} /></li>
+        <Note
+          task={note.task}
+          onEdit={onEdit.bind(null, note.id)}
+          onDelete={onDelete.bind(null, note.id)} />
 leanpub-end-insert
+      </li>
     )}</ul>
   );
 }
@@ -739,14 +751,16 @@ leanpub-start-insert
     <ul className="notes">{notes.map((note) =>
 leanpub-end-insert
 leanpub-start-delete
-      <li key={note.id}><Note
+      <li key={note.id}>
 leanpub-end-delete
 leanpub-start-insert
-      <li className="note" key={note.id}><Note
+      <li className="note" key={note.id}>
 leanpub-end-insert
-        task={note.task}
-        onEdit={onEdit.bind(null, note.id)}
-        onDelete={onDelete.bind(null, note.id)} /></li>
+        <Note
+          task={note.task}
+          onEdit={onEdit.bind(null, note.id)}
+          onDelete={onDelete.bind(null, note.id)} />
+      </li>
     )}</ul>
   );
 }
