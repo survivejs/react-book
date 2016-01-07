@@ -163,10 +163,10 @@ In addition, we'll be enabling a couple of custom features to make the project m
 * [Decorators](https://github.com/wycats/javascript-decorators) - Example: `@DragDropContext(HTML5Backend)`. These annotations allow us to attach functionality to classes and their methods.
 * [Object rest spread](https://github.com/sebmarkbage/ecmascript-rest-spread) - Example: ``const {a, b, ...props} = this.props`. This syntax allows us to easily extract specific properties from an object.
 
-Install them through
+In order to make it easier to set up the features, I created [a specific preset](https://github.com/survivejs/babel-preset-survivejs-kanban) containing them. A preset is simply a npm module exporting Babel configuration. Maintaining presets like this can be useful especially if you want to share the same set of functionality across multiple projects. Get the preset installed:
 
 ```bash
-npm i babel-plugin-syntax-class-properties babel-plugin-syntax-decorators babel-plugin-syntax-object-rest-spread babel-plugin-transform-class-properties babel-plugin-transform-decorators-legacy babel-plugin-transform-object-rest-spread --save-dev
+npm i babel-preset-survivejs-kanban --save-dev
 ```
 
 Next we need to set up a *.babelrc* file to make this all work:
@@ -177,23 +177,13 @@ Next we need to set up a *.babelrc* file to make this all work:
 {
   "presets": [
     "es2015",
-    "react"
-  ],
-  "plugins": [
-    "syntax-class-properties",
-    "syntax-decorators",
-    "syntax-object-rest-spread",
-
-    "transform-class-properties",
-    "transform-decorators-legacy",
-    "transform-object-rest-spread"
+    "react",
+    "survivejs-kanban"
   ]
 }
 ```
 
-There are other possible [.babelrc options](https://babeljs.io/docs/usage/babelrc/). For now we are keeping it simple.
-
-T> Babel provides stage specific presets. It is clearer to rely directly on any custom features you might want to use. This documents your project well and keeps it maintainable. You could even drop *babel-preset-es2015* and enable the features you need one by one.
+Babel provides stage specific presets. It is clearer to rely directly on any custom features you might want to use. This documents your project well and keeps it maintainable. You could even drop *babel-preset-es2015* and enable the features you need one by one. There are other possible [.babelrc options](https://babeljs.io/docs/usage/options/) beyond the ones covered here.
 
 ### Using Babel for Webpack Configuration
 
@@ -350,16 +340,8 @@ In addition we need to expand our Babel configuration to include the plugin we n
 {
   "presets": [
     "es2015",
-    "react"
-  ],
-  "plugins": [
-    "syntax-class-properties",
-    "syntax-decorators",
-    "syntax-object-rest-spread",
-
-    "transform-class-properties",
-    "transform-decorators-legacy",
-    "transform-object-rest-spread"
+    "react",
+    "survivejs-kanban"
 leanpub-start-delete
   ]
 leanpub-end-delete
