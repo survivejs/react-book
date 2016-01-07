@@ -224,7 +224,8 @@ leanpub-start-insert
   // a line, such as this.addNote = this.addNote.bind(this);
   addNote = () => {
     // It would be possible to write this in an imperative style.
-    // I.e., through `this.state.notes.push`.
+    // I.e., through `this.state.notes.push` and then
+    // `this.setState({notes: this.state.notes})` to commit.
     //
     // I tend to favor functional style whenever that makes sense.
     // Even though it might take more code sometimes, I feel
