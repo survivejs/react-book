@@ -39,7 +39,7 @@ export default class App extends React.Component {
     this.setState({
       notes: this.state.notes.filter((note) => note.id !== id)
     });
-  }
+  };
   addNote = () => {
     this.setState({
       notes: this.state.notes.concat([{
@@ -47,7 +47,7 @@ export default class App extends React.Component {
         task: 'New task'
       }])
     });
-  }
+  };
   editNote = (id, task) => {
     const notes = this.state.notes.map((note) => {
       if(note.id === id && task) {
@@ -58,5 +58,5 @@ export default class App extends React.Component {
     });
 
     this.setState({notes});
-  }
+  };
 }

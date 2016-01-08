@@ -316,7 +316,7 @@ leanpub-start-delete
     this.setState({
       notes: this.state.notes.filter((note) => note.id !== id)
     });
-  }
+  };
 leanpub-end-delete
 leanpub-start-insert
   deleteNote(id) {
@@ -331,7 +331,7 @@ leanpub-start-delete
         task: 'New task'
       }])
     });
-  }
+  };
 leanpub-end-delete
 leanpub-start-insert
   addNote() {
@@ -349,7 +349,7 @@ leanpub-start-delete
     });
 
     this.setState({notes});
-  }
+  };
 leanpub-end-delete
 leanpub-start-insert
   editNote(id, task) {

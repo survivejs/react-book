@@ -21,12 +21,12 @@ export default class Note extends React.Component {
       placeholder={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
-  }
+  };
   renderDelete = () => {
     return <button
       className="delete-note"
       onClick={this.props.onDelete}>x</button>;
-  }
+  };
   renderNote = () => {
     const onDelete = this.props.onDelete;
 
@@ -36,17 +36,17 @@ export default class Note extends React.Component {
         {onDelete ? this.renderDelete() : null }
       </div>
     );
-  }
+  };
   edit = () => {
     this.setState({
       editing: true
     });
-  }
+  };
   checkEnter = (e) => {
     if(e.key === 'Enter') {
       this.finishEdit(e);
     }
-  }
+  };
   finishEdit = (e) => {
     if(this.props.onEdit) {
       this.props.onEdit(e.target.value);
@@ -55,5 +55,5 @@ export default class Note extends React.Component {
     this.setState({
       editing: false
     });
-  }
+  };
 }

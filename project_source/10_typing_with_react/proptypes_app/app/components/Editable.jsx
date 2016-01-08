@@ -16,7 +16,7 @@ class Editable extends React.Component {
       placeholder={this.props.value}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
-  }
+  };
   renderValue = () => {
     const onDelete = this.props.onDelete;
 
@@ -26,18 +26,18 @@ class Editable extends React.Component {
         {onDelete ? this.renderDelete() : null }
       </div>
     );
-  }
+  };
   renderDelete = () => {
     return <button className="delete" onClick={this.props.onDelete}>x</button>;
-  }
+  };
   checkEnter = (e) => {
     if(e.key === 'Enter') {
       this.finishEdit(e);
     }
-  }
+  };
   finishEdit = (e) => {
     this.props.onEdit(e.target.value);
-  }
+  };
 }
 Editable.propTypes = {
   value: React.PropTypes.string,

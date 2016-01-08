@@ -326,7 +326,7 @@ leanpub-end-insert
         task: 'New task'
       }])
     });
-  }
+  };
 }
 ```
 
@@ -397,7 +397,7 @@ leanpub-end-insert
         task: 'New task'
       }])
     });
-  }
+  };
 }
 ```
 
@@ -447,23 +447,23 @@ export default class Note extends React.Component {
       placeholder={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
-  }
+  };
   renderNote = () => {
     // If the user clicks a normal note, trigger editing logic.
     return <div onClick={this.edit}>{this.props.task}</div>;
-  }
+  };
   edit = () => {
     // Enter edit mode.
     this.setState({
       editing: true
     });
-  }
+  };
   checkEnter = (e) => {
     // The user hit *enter*, let's finish up.
     if(e.key === 'Enter') {
       this.finishEdit(e);
     }
-  }
+  };
   finishEdit = (e) => {
     // `Note` will trigger an optional `onEdit` callback once it
     // has a new value. We will use this to communicate the change to
@@ -481,7 +481,7 @@ export default class Note extends React.Component {
     this.setState({
       editing: false
     });
-  }
+  };
 }
 ```
 
@@ -525,7 +525,7 @@ leanpub-end-insert
   }
   addNote = () => {
     ...
-  }
+  };
 leanpub-start-insert
   editNote = (id, task) => {
     const notes = this.state.notes.map((note) => {
@@ -537,7 +537,7 @@ leanpub-start-insert
     });
 
     this.setState({notes});
-  }
+  };
 leanpub-end-insert
 }
 ```
@@ -620,7 +620,7 @@ leanpub-start-insert
     this.setState({
       notes: this.state.notes.filter((note) => note.id !== id)
     });
-  }
+  };
 leanpub-end-insert
   ...
 }
@@ -684,11 +684,11 @@ leanpub-start-insert
       </div>
     );
 leanpub-end-insert
-  }
+  };
 leanpub-start-insert
   renderDelete = () => {
     return <button onClick={this.props.onDelete}>x</button>;
-  }
+  };
 leanpub-end-insert
   ...
 ```
@@ -793,7 +793,7 @@ export default class Note extends React.Component {
       placeholder={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
-  }
+  };
   renderDelete = () => {
 leanpub-start-delete
     return <button onClick={this.props.onDelete}>x</button>;
@@ -803,7 +803,7 @@ leanpub-start-insert
       className="delete-note"
       onClick={this.props.onDelete}>x</button>;
 leanpub-end-insert
-  }
+  };
   renderNote = () => {
     const onDelete = this.props.onDelete;
 
@@ -818,7 +818,7 @@ leanpub-end-insert
         {onDelete ? this.renderDelete() : null }
       </div>
     );
-  }
+  };
   ...
 }
 ```
