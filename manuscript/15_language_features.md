@@ -225,10 +225,10 @@ export default class App extends React.Component {
   // propType definition through property initializers
   static propTypes = {
     value: React.PropTypes.string
-  }
+  };
   static defaultProps = {
     value: ''
-  }
+  };
   render() {
     // Use `renderNote` here somehow.
     ...

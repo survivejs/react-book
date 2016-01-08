@@ -134,10 +134,10 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 export default class App extends React.Component {
   static getStores(props) {
     return [NoteStore];
-  }
+  };
   static getPropsFromStores(props) {
     return NoteStore.getState();
-  }
+  };
   ...
 }
 ```
