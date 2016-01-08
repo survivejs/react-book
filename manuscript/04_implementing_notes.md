@@ -239,7 +239,7 @@ leanpub-start-insert
         task: 'New task'
       }])
     });
-  }
+  };
 leanpub-end-insert
 }
 ```
