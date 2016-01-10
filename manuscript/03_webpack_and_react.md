@@ -193,7 +193,7 @@ It is possible to use Babel transpiled features in your Webpack configuration fi
 
 For this to work, you will need to have [babel-register](https://www.npmjs.com/package/babel-register) installed to your project. Webpack relies internally on [interpret](https://www.npmjs.com/package/interpret) to make this work.
 
-### Alternative Loader Declarations
+## Alternative Loader Declarations
 
 Webpack's loader declaration is somewhat flexible. To give you a better idea, consider the following examples. The first one shows how to pass parameters to a loader through a query string:
 
