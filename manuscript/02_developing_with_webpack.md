@@ -4,7 +4,9 @@ If you are not one of those people who likes to skip the introductions, you migh
 
 This sounds simple, but in practice, it can be a complicated and messy process. You definitely don't want to deal with all the details yourself. This is where Webpack fits in. Next, we'll get Webpack set up and your first project running in development mode.
 
-W> Before getting started, make sure you are using a recent version of Node.js. Especially Node.js 0.10 has [issues with css-loader](https://github.com/webpack/css-loader/issues/144). This will save you some trouble.
+W> Before getting started, make sure you are using a recent version of Node.js as that will save some trouble. Especially *css-loader* has [issues with Node 0.10](https://github.com/webpack/css-loader/issues/144) given it's missing native support for promises.
+
+T> If you still want to go ahead with Node.js 0.10, consider polyfilling `Promise` through `require('es6-promise').polyfill()` at the beginning of your Webpack configuration. This technique depends on [es6-promise](https://www.npmjs.com/package/es6-promise) package.
 
 ## Setting Up the Project
 
