@@ -193,6 +193,60 @@ It is possible to use Babel transpiled features in your Webpack configuration fi
 
 For this to work, you will need to have [babel-register](https://www.npmjs.com/package/babel-register) installed to your project. Webpack relies internally on [interpret](https://www.npmjs.com/package/interpret) to make this work.
 
+### Alternative Loader Declarations
+
+Webpack's loader declaration is somewhat flexible. To give you a better idea, consider the following examples. The first one shows how to pass parameters to a loader through a query string:
+
+```javascript
+{
+  test: /\.jsx?$/,
+  loaders: [
+    'babel?cacheDirectory,presets[]=react,presets[]=es2015,presets[]=survivejs-kanban'
+  ],
+  include: PATHS.app
+}
+```
+
+Given passing a query string like this isn't particularly readable, another way is to use the combination of `loader` and `query` fields:
+
+```javascript
+{
+  test: /\.jsx?$/,
+  loader: 'babel',
+  query: {
+    cacheDirectory: true,
+    presets: ['react', 'es2015', 'survivejs-kanban']
+  },
+  include: PATHS.app
+}
+```
+
+This approach becomes problematic with multiple loaders since it's limited just to one loader at a time. If you want to use this format with multiple, you need separate declarations.
+
+It's a good idea to keep in mind that Webpack `loaders` are always evaluates from right to left and from bottom to top (separate definitions). The following two declarations are equal based on this rule:
+
+```javascript
+{
+    test: /\.css$/,
+    loaders: ['style', 'css'],
+},
+```
+
+```javascript
+{
+    test: /\.css$/,
+    loaders: ['style'],
+},
+{
+    test: /\.css$/,
+    loaders: ['css'],
+},
+```
+
+The `loaders` of the latter definition could be rewritten in the query format discussed above after performing a split like this.
+
+Another way to deal with query parameters would be to rely on Node.js [querystring](https://nodejs.org/api/querystring.html) module and stringify structures through it so they can be passed through a `loaders` definition.
+
 ## Developing the First React View
 
 It is time to add a first application level dependency to our project. Execute
