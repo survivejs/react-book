@@ -240,7 +240,7 @@ This means the development server is running. If you open *http://localhost:8080
 
 ![Hello world](images/hello_01.png)
 
-W> If you fail to see anything at the browser, you may need to use a different port through *webpack-dev-server --port 3000* kind of invocation. The need of this may depend on the operating system you are using.
+W> If you fail to see anything at the browser, you may need to use a different port through *webpack-dev-server --port 3000* kind of invocation. One reason why the server might fail to run is simply because there's something else running in the port. You can verify this through a terminal command, such as `netstat -na | grep 8080`. If there's something running in the port 8080, it should display a message. The exact command may depend on your platform.
 
 ### Splitting Up Configuration
 
