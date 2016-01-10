@@ -185,7 +185,7 @@ class NoteStore {
 leanpub-start-insert
     const notes = this.notes.map((note) => {
       if(note.id === updatedNote.id) {
-        note = assign({}, note, updatedNote);
+        return assign({}, note, updatedNote);
       }
 
       return note;

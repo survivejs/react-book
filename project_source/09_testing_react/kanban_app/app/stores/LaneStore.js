@@ -24,7 +24,7 @@ class LaneStore {
   update(updatedLane) {
     const lanes = this.lanes.map((lane) => {
       if(lane.id === updatedLane.id) {
-        lane = assign({}, lane, updatedLane);
+        return assign({}, lane, updatedLane);
       }
 
       return lane;
