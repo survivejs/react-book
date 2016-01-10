@@ -93,7 +93,7 @@ export default (store) => {
 
 Can you see the wrapping idea? Our decorator tracks store state. After that, it passes the state to the component contained through props.
 
-T> `...` is known as [ES7 rest spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
+T> `...` is known as a [spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread). It expands the given object to separate key-value pairs, or props, as in this case.
 
 You can connect the decorator with `App` like this:
 

@@ -356,7 +356,7 @@ const [lane, ...rest] = ['foo', 'bar', 'baz'];
 console.log(lane, rest); // 'foo', ['bar', 'baz']
 ```
 
-The spread operator (`...`) is useful for concatenating. You see syntax like this in Redux examples often:
+The spread operator (`...`) is useful for concatenating. You see syntax like this in Redux examples often. They rely on experimental [Object rest/spread syntax](https://github.com/sebmarkbage/ecmascript-rest-spread):
 
 ```javascript
 [...state, action.lane];
