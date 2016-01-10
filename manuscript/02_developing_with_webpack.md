@@ -183,7 +183,7 @@ The scheme can be expanded further. Task runners, such as Grunt or Gulp, allow y
 
 As developing your application through a build script like this will get boring eventually, Webpack provides neater means for development in particular. *webpack-dev-server* is a development server running in-memory. It refreshes content automatically in the browser while you develop your application. This makes it roughly equivalent to tools, such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/).
 
-The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). We'll discuss it in more detail when we go through the React setup.
+The greatest advantage Webpack has over these tools is Hot Module Replacement (HMR). In short, it provides a way to patch the browser state without a full refresh. We'll discuss it in more detail when we go through the React setup.
 
 W> You should use *webpack-dev-server* strictly for development. If you want to host your application, consider other, standard solutions, such as Apache or Nginx.
 
