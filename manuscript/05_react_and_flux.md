@@ -523,6 +523,9 @@ leanpub-start-delete
   }
 leanpub-end-delete
   render() {
+    leanpub-start-delete
+      const notes = this.state.notes;
+    leanpub-end-delete
     return (
       <div>
         <button className="add-note" onClick={this.addNote}>+</button>
