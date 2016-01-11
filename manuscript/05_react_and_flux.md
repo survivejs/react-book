@@ -16,9 +16,9 @@ Flux isn't entirely simple to understand as there are many concepts to worry abo
 
 ### Dispatcher
 
-When we trigger the action, the dispatcher will get notified. The dispatcher will be able to deal with possible dependencies between stores. It is possible that certain action needs to happen before another. The dispatcher allows us to achieve this.
+When we trigger the action, the dispatcher will get notified. The dispatcher will be able to deal with possible dependencies between stores. It is possible that a certain action needs to happen before another. The dispatcher allows us to achieve this.
 
-At the simplest level, actions can just pass the message to dispatcher as is. They can also trigger asynchronous queries and hit dispatcher based on the result eventually. This allows us to deal with received data and possible errors.
+At the simplest level, actions can just pass the message to the dispatcher as is. They can also trigger asynchronous queries and hit the dispatcher based on the result eventually. This allows us to deal with received data and possible errors.
 
 Once the dispatcher has dealt with the action, stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
 
@@ -60,7 +60,7 @@ Everything in Alt begins from an Alt instance. It keeps track of actions and sto
 npm i alt alt-utils object-assign --save
 ```
 
-T> Compared to *polyfills*, *ponyfills* do **not** overwrite native methods. With a ponyfills you lose out on API. On the plus side, their behavior clear to understand. There is less magic going on. Both approaches have their merits.
+T> Compared to *polyfills*, *ponyfills* do **not** overwrite native methods. With a ponyfills you lose out on API. On the plus side, their behavior is clear to understand. There is less magic going on. Both approaches have their merits.
 
 To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 
@@ -425,6 +425,8 @@ T> We're operating with `localStorage` directly to keep the implementation simpl
 Besides this little utility, we'll need to adapt our application to use it. Alt provides a built-in store called `FinalStore` which is perfect for this purpose. We can persist the entire state of our application using `FinalStore`, bootstrapping, and snapshotting. `FinalStore` is a store that listens to all existing stores. Every time some store changes, `FinalStore` will know about it. This makes it ideal for persistency.
 
 We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part as `alt.bootstrap` allows us to set state of the all stores. In our case, we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere, through a WebSocket for instance.
+
+<!-- It might be worth pointing out that the bootstrap method doesn't emit events and hence should be called before components are rendered. -->
 
 T> An alternative way would be to take a snapshot only when the window gets closed. There's a Window level `beforeunload` hook that could be used. The problem with this approach is that it is brittle. What if something unexpected happens and the hook doesn't get triggered for some reason? You'll lose data.
 
