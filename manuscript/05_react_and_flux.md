@@ -297,7 +297,7 @@ leanpub-start-insert
     // Without a property initializer `this` wouldn't
     // point at the right context (defaults to `undefined` in strict mode).
     this.setState(state);
-  }
+  };
 leanpub-end-insert
   render() {
     const notes = this.state.notes;
