@@ -426,6 +426,8 @@ Besides this little utility, we'll need to adapt our application to use it. Alt 
 
 We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part as `alt.bootstrap` allows us to set state of the all stores. In our case, we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere, through a WebSocket for instance.
 
+<!-- It might be worth pointing out that the bootstrap method doesn't emit events and hence should be called before components are rendered. -->
+
 T> An alternative way would be to take a snapshot only when the window gets closed. There's a Window level `beforeunload` hook that could be used. The problem with this approach is that it is brittle. What if something unexpected happens and the hook doesn't get triggered for some reason? You'll lose data.
 
 In order to integrate this idea to our application, we will need to implement a little module to manage it. We take the possible initial data into account there and trigger the new logic.
