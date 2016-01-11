@@ -16,9 +16,9 @@ Flux isn't entirely simple to understand as there are many concepts to worry abo
 
 ### Dispatcher
 
-When we trigger the action, the dispatcher will get notified. The dispatcher will be able to deal with possible dependencies between stores. It is possible that certain action needs to happen before another. The dispatcher allows us to achieve this.
+When we trigger the action, the dispatcher will get notified. The dispatcher will be able to deal with possible dependencies between stores. It is possible that a certain action needs to happen before another. The dispatcher allows us to achieve this.
 
-At the simplest level, actions can just pass the message to dispatcher as is. They can also trigger asynchronous queries and hit dispatcher based on the result eventually. This allows us to deal with received data and possible errors.
+At the simplest level, actions can just pass the message to the dispatcher as is. They can also trigger asynchronous queries and hit the dispatcher based on the result eventually. This allows us to deal with received data and possible errors.
 
 Once the dispatcher has dealt with the action, stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
 
@@ -60,7 +60,7 @@ Everything in Alt begins from an Alt instance. It keeps track of actions and sto
 npm i alt alt-utils object-assign --save
 ```
 
-T> Compared to *polyfills*, *ponyfills* do **not** overwrite native methods. With a ponyfills you lose out on API. On the plus side, their behavior clear to understand. There is less magic going on. Both approaches have their merits.
+T> Compared to *polyfills*, *ponyfills* do **not** overwrite native methods. With a ponyfills you lose out on API. On the plus side, their behavior is clear to understand. There is less magic going on. Both approaches have their merits.
 
 To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 

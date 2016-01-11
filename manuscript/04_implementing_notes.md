@@ -122,7 +122,7 @@ If you run the application now, you can see a list of notes. It's not particular
 
 T> If you want to attach comments to your JSX, just use `{/* no comments */}`.
 
-T> If you want to examine your application further, it can be useful to attach a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement to the place you want to study. It has to be placed on a line that will get executed for the browser to pick it up! The statement will cause the browser debugging tools to trigger and allow you to study the current call stack and scope. You can attach breakpoints like this through browser, but this is a good alternative.
+T> If you want to examine your application further, it can be useful to attach a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement to the place you want to study. It has to be placed on a line that will get executed for the browser to pick it up! The statement will cause the browser debugging tools to trigger and allow you to study the current call stack and scope. You can attach breakpoints like this through the browser, but this is a good alternative.
 
 ## Adding New Items to the List
 
