@@ -520,7 +520,7 @@ leanpub-start-delete
     // Without a property initializer `this` wouldn't
     // point at the right context (defaults to `undefined` in strict mode).
     this.setState(state);
-  }
+  };
 leanpub-end-delete
   render() {
 leanpub-start-delete
