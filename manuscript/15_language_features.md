@@ -123,14 +123,14 @@ export default class App extends React.Component {
     // this can work.
     this.privateProperty = 'private';
 
-    // React specific state. Commits to it go through
-    // `this.setState`. That will eventually trigger render()
+    // React specific state. Alter this through `this.setState`. That
+    // will call `render()` eventually.
     this.state = {
       name: 'Class demo'
     };
   }
   render() {
-    // use the properties somehow
+    // Use the properties somehow.
     const privateProperty = this.privateProperty;
     const name = this.state.name
     const notes = this.props.notes;
