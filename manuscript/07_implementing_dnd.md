@@ -360,7 +360,7 @@ export default alt.generateActions(
 leanpub-end-insert
 ```
 
-We should connect this action with `onMove` hook we just defined:
+We should connect this action with the `onMove` hook we just defined:
 
 **app/components/Notes.jsx**
 
@@ -400,7 +400,7 @@ leanpub-end-insert
 }
 ```
 
-T> It could be a good idea to refactor `onMove` as a prop to make the system more flexible. Now the `Notes` component is decoupled with `LaneActions`. This isn't particularly nice if you want to use it in some other context.
+T> It could be a good idea to refactor `onMove` as a prop to make the system more flexible. In our implementation the `Notes` component is coupled with `LaneActions`. This isn't particularly nice if you want to use it in some other context.
 
 We should also define a stub at `LaneStore` to see that we wired it up correctly:
 
@@ -490,7 +490,7 @@ export default alt.createStore(LaneStore, 'LaneStore');
 
 If you try out the application now, you can actually drag notes around and it should behave as you expect. The presentation could be better, though.
 
-It would be better if indicated the note target better. We can do this by hiding the dragged note from the list. React DnD provides us the hooks we need.
+It would be better if we indicated the dragged note's location more clearly. We can do this by hiding the dragged note from the list. React DnD provides us the hooks we need.
 
 ### Indicating Where to Move
 
@@ -541,7 +541,7 @@ leanpub-end-insert
 }
 ```
 
-If you drag a note within a lane, the drag target should be shown as blank. If you try moving the note to another lane and move it there, you will see this doesn't quite work, though.
+If you drag a note within a lane, the dragged note should be shown as blank. If you try moving the note to another lane and move it there, you will see this doesn't quite work, though.
 
 The problem is that our note component gets unmounted during this process. This makes it lose `isDragging` state. Fortunately, we can override the default behavior by implementing a `isDragging` check of our own to fix the issue. Perform the following addition:
 
