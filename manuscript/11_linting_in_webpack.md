@@ -102,12 +102,13 @@ T> ESLint supports custom formatters through `--format` parameter. [eslint-frien
 
 ### Connecting ESLint with Babel
 
-Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. For details see the official [ESLint rules documentation](http://eslint.org/docs/rules/).
+Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. For details see the official [ESLint rules documentation](http://eslint.org/docs/rules/). Note that we are extending the recommended set of rules through the `extends` field:
 
 **.eslintrc**
 
 ```json
 {
+  "extends": "eslint:recommended",
   "parser": "babel-eslint",
   "env": {
     "browser": true,
@@ -117,6 +118,7 @@ Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-
     "react"
   ],
   "rules": {
+    "no-console": 0,
     "new-cap": 0,
     "strict": 0,
     "no-underscore-dangle": 0,
@@ -298,12 +300,23 @@ We need to alter our project configuration to make it find the plugin and the ru
 **.eslintrc**
 
 ```json
-"plugins": {
-  "custom"
-},
-"rules": {
-  "custom/demo": 1,
+{
   ...
+  "plugins": [
+leanpub-start-delete
+    "react",
+leanpub-end-delete
+leanpub-start-insert
+    "react",
+    "custom"
+leanpub-end-insert
+  ],
+  "rules": {
+leanpub-start-insert
+    "custom/demo": 1,
+leanpub-end-insert
+    ...
+  }
 }
 ```
 

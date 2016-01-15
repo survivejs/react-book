@@ -254,7 +254,6 @@ The next step takes more code. There we need to find a lane matching to the give
 import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
-import NoteStore from './NoteStore';
 
 class LaneStore {
   ...
@@ -341,7 +340,6 @@ The implementation will resemble `attachToLane`. In this case, we'll remove the 
 import uuid from 'node-uuid';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
-import NoteStore from './NoteStore';
 
 class LaneStore {
   ...

@@ -2,7 +2,6 @@ import uuid from 'node-uuid';
 import assign from 'object-assign';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
-import NoteStore from './NoteStore';
 
 class LaneStore {
   constructor() {
