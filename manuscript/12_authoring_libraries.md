@@ -112,7 +112,7 @@ As you can see, *package.json* can contain a lot of information. You can attach 
 
 Working with npm is surprisingly simple. To get started, you need to use [npm adduser](https://docs.npmjs.com/cli/adduser) (aliased to `npm login`). It allows you to set up an account. After this process has completed, it will create *~/.npmrc* and use that data for authentication. There's also [npm logout](https://docs.npmjs.com/cli/logout) that will clear the credentials.
 
-T> `npm init` respects the values set at *~/.npmrc*. Hence it may be worth your while to set reasonable defaults there to save some time.
+T> When creating a project, `npm init` respects the values set at *~/.npmrc*. Hence it may be worth your while to set reasonable defaults there to save some time.
 
 ### Publishing a Package
 
@@ -124,7 +124,13 @@ T> If you want to see what files will be published to npm, consider using a tool
 
 ### Bumping a Version
 
-In order to bump your package version, you'll just need to invoke `npm version <x.y.z>`. That will update *package.json* and create a version commit to git automatically. If you execute `npm publish` now, you should have something new out there.
+In order to bump your package version, you'll just need to invoke one of these commands:
+
+* `npm version <x.y.z>` - Define version yourself.
+* `npm version <major|minor|patch>` - Let npm bump the version for you based on SemVer.
+* `npm version <premajor|preminor|prepatch|prerelease>` - Same as previous expect this time it will generate `-<prerelease number>` suffix. Example: `v2.1.2-2`.
+
+Invoking any of these will update *package.json* and create a version commit to git automatically. If you execute `npm publish` after doing this, you should have something new out there.
 
 Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case.
 
@@ -158,9 +164,11 @@ Before starting to develop, it can be a good idea to spend a little bit of time 
 
 As of npm 2.7.0 it is possible to create [scoped packages](https://docs.npmjs.com/getting-started/scoped-packages). They follow format `@username/project-name`. Simply follow that when naming your project.
 
-### Dealing with Preprocessing
+### Dealing with npm Distribution Files
 
-Normally packages are consumed through npm. There are times when it can be handy to consume them through Git (`"depName": "<github user>/<project>#<reference>"`). This is true especially if you are experimenting with something, or need to patch things to work for now. If a package relies on preprocessing, making it consumable takes some extra effort.
+It's a good practice not to include npm specific distribution files to the version control. Normally you `.gitignore` them. The files will be included to the version uploaded to npm, though. The benefit of doing this is that it keeps your version history neat.
+
+This approach becomes problematic when you want to consume your package through Git instead of npm using `"depName": "<github user>/<project>#<reference>"`. This is true especially if you are experimenting with something, or need to patch things to work for now.
 
 One way to solve this is to set up a `postinstall` script that will generate a local npm version of your library in case it doesn't exist. This can be achieved through a `postinstall` script like this:
 
