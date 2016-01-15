@@ -157,7 +157,7 @@ This means you have a build at your output directory. You can open the `index.ht
 
 Another way to achieve this would be to serve the contents of the directory through a server, such as *serve* (`npm i serve -g`). In this case, you would execute `serve` at the output directory and head to `localhost:3000` at your browser. You can configure the port through the `--port` parameter if you want to use some other port.
 
-T> Sometimes, it may make sense to define `context: <some absolute path>`. After this, you can write entries relative to the [context](https://webpack.github.io/docs/configuration.html#context) path rather than using an absolute path for each entry. This is useful especially in more complicated scenarios.
+T> Sometimes, it may make sense to define `context: <some absolute path>`. After this, you can write entries relative to the [context](https://webpack.github.io/docs/configuration.html#context) path rather than using an absolute path for each entry. This is useful especially in more complicated scenarios. This won't, however, affect loader configuration. Paths used there need to be absolute still.
 
 ## Adding a Build Shortcut
 
