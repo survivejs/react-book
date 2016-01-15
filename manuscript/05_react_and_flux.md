@@ -424,7 +424,7 @@ T> We're operating with `localStorage` directly to keep the implementation simpl
 
 Besides this little utility, we'll need to adapt our application to use it. Alt provides a built-in store called `FinalStore` which is perfect for this purpose. We can persist the entire state of our application using `FinalStore`, bootstrapping, and snapshotting. `FinalStore` is a store that listens to all existing stores. Every time some store changes, `FinalStore` will know about it. This makes it ideal for persistency.
 
-We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part as `alt.bootstrap` allows us to set state of the all stores. In our case, we'll fetch the data from `localStorage` and invoke it to populate our stores. This is handy for other cases as well. The data can come from elsewhere, through a WebSocket for instance.
+We can take a snapshot of the entire app state and push it to `localStorage` every time `FinalStore` changes. That solves one part of the problem. Bootstrapping solves the remaining part as `alt.bootstrap` allows us to set state of the all stores. The method doesn't emit events. To make our stores populate with the right state, we will need to call it before the components are rendered. In our case, we'll fetch the data from `localStorage` and invoke it to populate our stores.
 
 <!-- It might be worth pointing out that the bootstrap method doesn't emit events and hence should be called before components are rendered. -->
 
