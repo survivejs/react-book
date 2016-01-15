@@ -4,9 +4,9 @@ If you are not one of those people who likes to skip the introductions, you migh
 
 This sounds simple, but in practice, it can be a complicated and messy process. You definitely don't want to deal with all the details yourself. This is where Webpack fits in. Next, we'll get Webpack set up and your first project running in development mode.
 
-W> Before getting started, make sure you are using a recent version of Node.js as that will save some trouble. Especially *css-loader* has [issues with Node 0.10](https://github.com/webpack/css-loader/issues/144) given it's missing native support for promises.
+W> Before getting started, make sure you are using a recent version of Node.js as that will save some trouble. There are [packages available for many platforms](https://nodejs.org/en/download/package-manager/). A good alternative is to set up a [Vagrant](https://www.vagrantup.com/) box and maintain your development environment there.
 
-T> If you still want to go ahead with Node.js 0.10, consider polyfilling `Promise` through `require('es6-promise').polyfill()` at the beginning of your Webpack configuration. This technique depends on [es6-promise](https://www.npmjs.com/package/es6-promise) package.
+T> Especially *css-loader* has [issues with Node 0.10](https://github.com/webpack/css-loader/issues/144) given it's missing native support for promises. Consider polyfilling `Promise` through `require('es6-promise').polyfill()` at the beginning of your Webpack configuration if you still want to use 0.10. This technique depends on [es6-promise](https://www.npmjs.com/package/es6-promise) package.
 
 ## Setting Up the Project
 
@@ -316,7 +316,7 @@ Now that we have room for expansion, we can hook up Hot Module Replacement and m
 
 Hot Module Replacement gives us simple means to refresh the browser automatically as we make changes. The idea is that if we change our *app/component.js*, the browser will refresh itself. The same goes for possible CSS changes. That doesn't require a full refresh even.
 
-In order to make this work, we'll need to connect the generated bundle running in-memory to the development server. Webpack uses WebSocket based communication to achieve this. To keep things simple, we'll let Webpack to generate the client portion for us through the development server *inline* option.
+In order to make this work, we'll need to connect the generated bundle running in-memory to the development server. Webpack uses WebSocket based communication to achieve this. To keep things simple, we'll let Webpack generate the client portion for us through the development server *inline* option. The option will include the client side scripts needed by HMR to the bundle that Webpack generates.
 
 Beyond this we'll need to enable `HotModuleReplacementPlugin` to make the setup work. In addition I am going to enable HTML5 History API fallback as that is convenient default to have especially if you are dealing with advanced routing. Here's the setup:
 
@@ -337,6 +337,9 @@ leanpub-end-delete
 leanpub-start-insert
   module.exports = merge(common, {
     devServer: {
+      // Enable history API fallback so HTML5 History API based
+      // routing works. This is a good default that will come
+      // in handy in more complicated setups.
       historyApiFallback: true,
       hot: true,
       inline: true,
@@ -421,7 +424,7 @@ It is possible to customize host and port settings through the environment in ou
 
 To access your server, you'll need to figure out the ip of your machine. On Unix this can be achieved using `ifconfig`. On Windows `ipconfig` can be used. An npm package, such as [node-ip](https://www.npmjs.com/package/node-ip) may come in handy as well. Especially on Windows you may need to set your `HOST` to match your ip to make it accessible.
 
-T> If you are using an environment, such as Cloud9, you should set `HOST` to `0.0.0.0`. The default `localhost` isn't always the best option.
+T> If you are using an environment, such as Cloud9, you should set `HOST` to `0.0.0.0`. The default `localhost` isn't always the best option as it's available only to the local machine itself. `0.0.0.0` is available for all network interfaces.
 
 ## Refreshing CSS
 
