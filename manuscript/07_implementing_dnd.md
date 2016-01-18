@@ -315,7 +315,7 @@ leanpub-end-delete
 leanpub-start-insert
         <Note className="note" id={note.id} key={note.id}
           onMove={({sourceId, targetId}) =>
-            console.log('source', sourceId, 'target', targetId)
+            console.log(`source: ${sourceId}, target: ${targetId}`)
         }>
 leanpub-end-insert
           <Editable
@@ -379,7 +379,7 @@ export default ({notes, onValueClick, onEdit, onDelete}) => {
 leanpub-start-delete
         <Note className="note" id={note.id} key={note.id}
           onMove={({sourceId, targetId}) =>
-            console.log('source', sourceId, 'target', targetId);
+            console.log(`source: ${sourceId}, target: ${targetId}`)
         }>
 leanpub-end-delete
 leanpub-start-insert
@@ -416,7 +416,7 @@ class LaneStore {
   }
 leanpub-start-insert
   move({sourceId, targetId}) {
-    console.log('source', sourceId, 'target', targetId);
+    console.log(`source: ${sourceId}, target: ${targetId}`);
   }
 leanpub-end-insert
 }
@@ -448,7 +448,7 @@ class LaneStore {
   ...
 leanpub-start-delete
   move({sourceId, targetId}) {
-    console.log('source', sourceId, 'target', targetId);
+    console.log(`source: ${sourceId}, target: ${targetId}`);
   }
 leanpub-end-delete
 leanpub-start-insert
@@ -599,7 +599,7 @@ const noteTarget = {
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
-    console.log('source', sourceId, 'target', targetId);
+    console.log(`source: ${sourceId}, target: ${targetId}`);
   }
 };
 leanpub-end-insert
@@ -647,7 +647,7 @@ leanpub-start-delete
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
-    console.log('source', sourceId, 'target', targetId);
+    console.log(`source: ${sourceId}, target: ${targetId}`);
   }
 leanpub-end-delete
 leanpub-start-insert

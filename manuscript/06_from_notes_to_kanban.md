@@ -746,13 +746,13 @@ leanpub-end-insert
   ...
 leanpub-start-insert
   editName(id, name) {
-    console.log('edited lane name', id, name);
+    console.log(`edit lane ${id} name using ${name}`);
   }
   activateLaneEdit(id) {
-    console.log('edit lane name', id);
+    console.log(`activate lane ${id} edit`);
   }
   activateNoteEdit(id) {
-    console.log('edit note task', id);
+    console.log(`activate note ${id} edit`);
   }
 leanpub-end-insert
 }
@@ -844,7 +844,7 @@ leanpub-end-insert
   ...
 leanpub-start-delete
   editName(id, name) {
-    console.log('edited lane name', id, name);
+    console.log(`edit lane ${id} name using ${name}`);
   }
 leanpub-end-delete
 leanpub-start-insert
@@ -859,7 +859,7 @@ leanpub-start-insert
 leanpub-end-insert
 leanpub-start-delete
   activateLaneEdit(id) {
-    console.log('edit lane name', id);
+    console.log(`activate lane ${id} edit`);
   }
 leanpub-end-delete
 leanpub-start-insert
@@ -869,7 +869,7 @@ leanpub-start-insert
 leanpub-end-insert
 leanpub-start-delete
   activateNoteEdit(id) {
-    console.log('edit note task', id);
+    console.log(`activate note ${id} edit`);
   }
 leanpub-end-delete
 leanpub-start-insert
