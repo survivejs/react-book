@@ -236,11 +236,11 @@ Hash: 8cdf5c4fa2d5afa613e0
 Version: webpack 1.12.9
 ```
 
-This means the development server is running. If you open *http://localhost:8080/* at your browser, you should see something. You can try modifying *app/component.js*. The problem is that nothing happens in the browser. You'll need to force a refresh. This is a little better than before, but not ideal. Some configuration is needed.
+This means the development server is running. If you open *http://localhost:8080/* at your browser, you should see something. If you try modifying the code, you should see output at your terminal. The problem is that the browser doesn't catch these changes without a hard refresh. That's something we need to resolve next.
 
 ![Hello world](images/hello_01.png)
 
-W> If you fail to see anything at the browser, you may need to use a different port through *webpack-dev-server --port 3000* kind of invocation. One reason why the server might fail to run is simply because there's something else running in the port. You can verify this through a terminal command, such as `netstat -na | grep 8080`. If there's something running in the port 8080, it should display a message. The exact command may depend on your platform.
+T> If you fail to see anything at the browser, you may need to use a different port through *webpack-dev-server --port 3000* kind of invocation. One reason why the server might fail to run is simply because there's something else running in the port. You can verify this through a terminal command, such as `netstat -na | grep 8080`. If there's something running in the port 8080, it should display a message. The exact command may depend on your platform.
 
 ### Splitting Up Configuration
 
@@ -310,11 +310,11 @@ if(TARGET === 'build') {
 leanpub-end-insert
 ```
 
-Now that we have room for expansion, we can hook up Hot Module Replacement and make the development mode more useful.
+Now that we have room for expansion, we can hook up Hot Module Replacement to make the browser refresh and make the development mode more useful.
 
 ### Configuring Hot Module Replacement (HMR)
 
-Hot Module Replacement gives us simple means to refresh the browser automatically as we make changes. The idea is that if we change our *app/component.js*, the browser will refresh itself. The same goes for possible CSS changes. That doesn't require a full refresh even.
+Hot Module Replacement gives us simple means to refresh the browser automatically as we make changes. The idea is that if we change our *app/component.js*, the browser will refresh itself. The same goes for possible CSS changes.
 
 In order to make this work, we'll need to connect the generated bundle running in-memory to the development server. Webpack uses WebSocket based communication to achieve this. To keep things simple, we'll let Webpack generate the client portion for us through the development server *inline* option. The option will include the client side scripts needed by HMR to the bundle that Webpack generates.
 
@@ -362,13 +362,13 @@ leanpub-end-insert
 ...
 ```
 
-Execute `npm start` and surf to **localhost:8080**. Try modifying *app/component.js*. It should refresh the browser.
-
-You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. You can see all the files the development server is serving there.
+Execute `npm start` and surf to **localhost:8080**. Try modifying *app/component.js*. It should refresh the browser. Note that this is hard refresh in case you modify JavaScript code. CSS modifications work in a neater manner and can be applied without a refresh. In the next chapter we discuss how to achieve something similar with React. This will provide us a little better development experience.
 
 If you using Windows and it doesn't refresh, see the following section for an alternative setup.
 
 W> *webpack-dev-server* can be very particular about paths. If the given `include` paths don't match the system casing exactly, this can cause it to fail to work. Webpack [issue #675](https://github.com/webpack/webpack/issues/675) discusses this in more detail.
+
+T> You should be able to access the application alternatively through **localhost:8080/webpack-dev-server/** instead of root. You can see all the files the development server is serving there.
 
 T> If you want to default to some other port than *8080*, you can use a declaration like `port: process.env.PORT || 3000`.
 
