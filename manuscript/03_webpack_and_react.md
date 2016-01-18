@@ -422,8 +422,6 @@ Note that Babel determines the value of `env` like this:
 2. Use the value of `NODE_ENV` if set.
 3. Default to `development`.
 
-T> If you want to show errors directly in the browser, you can configure [react-transform-catch-errors](https://github.com/gaearon/react-transform-catch-errors). At the time of writing it works reliable only with `devtool: 'eval'`, but regardless it may be worth a look.
-
 W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/chromium/issues/detail?id=492902) and Firefox due to browser level bugs! This may change in the future as the browsers get patched, though.
 
 ## React Component Styles
