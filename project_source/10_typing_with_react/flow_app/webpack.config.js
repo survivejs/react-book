@@ -102,7 +102,9 @@ if(TARGET === 'build' || TARGET === 'stats') {
       ]
     },
     plugins: [
-      new Clean([PATHS.build]),
+      new Clean([PATHS.build], {
+        verbose: false // don't write logs to console
+      }),
       // Output extracted CSS to a file
       new ExtractTextPlugin('styles.[chunkhash].css'),
       // Extract vendor and manifest files

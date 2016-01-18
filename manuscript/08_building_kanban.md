@@ -332,7 +332,9 @@ if(TARGET === 'build') {
     ...
     plugins: [
 leanpub-start-insert
-      new Clean([PATHS.build]),
+      new Clean([PATHS.build], {
+        verbose: false // don't write logs to console
+      }),
 leanpub-end-insert
       ...
     ]
@@ -443,7 +445,9 @@ leanpub-start-insert
     },
 leanpub-end-insert
     plugins: [
-      new Clean(['build']),
+      new Clean([PATHS.build], {
+        verbose: false // Don't write logs to console
+      }),
 leanpub-start-insert
       // Output extracted CSS to a file
       new ExtractTextPlugin('styles.[chunkhash].css'),
