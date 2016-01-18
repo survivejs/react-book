@@ -341,10 +341,27 @@ There are also convenient means to extract values out of passed objects. This is
 
 ```javascript
 export default ({name}) => {
-  // ES6 string interpolation. Note the backticks!
+  // ES6 string interpolation. Note the back-ticks!
   return <div>{`Hello ${name}!`}</div>;
 };
 ```
+
+## String Interpolation
+
+Earlier, dealing with strings was somewhat painful in JavaScript. Usually you just ended up using a syntax like `'Hello' + name + '!'`. Overloading `+` for this purpose wasn't perhaps the smartest move as it can lead to strange behavior due to type coercion. For example, `0 + ' world` would yield `0 world` string as a result.
+
+Besides being clearer, ES6 style string interpolation provides us multi-line strings. This is something the old syntax didn't support. Consider the examples below:
+
+```javascript
+const hello = `Hello ${name}!`;
+const multiline = `
+multiple
+lines of
+awesomeness
+`;
+```
+
+The back-tick syntax may take a while to get used to, but it's powerful and less prone to mistakes.
 
 ## Destructuring
 
@@ -378,21 +395,6 @@ render() {
 
 ...
 ```
-
-## String Interpolation
-
-Earlier, dealing with strings was somewhat painful in JavaScript. Usually you just ended up using a syntax like `'Hello' + name + '!'`. Overloading `+` for this purpose wasn't perhaps the smartest move. There also was no proper support for multi-line strings. Fortunately, that has been fixed. Consider the examples below:
-
-```javascript
-const hello = `\`Hello ${name}!\``;
-const multiline = `
-multiple
-lines of
-awesomeness
-`;
-```
-
-The backtick syntax may take a while to get used to, but it's powerful and less prone to mistakes.
 
 ## `const`, `let`, `var`
 
