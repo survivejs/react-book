@@ -54,7 +54,7 @@ The system can be extended in various ways. One simple way is to apply a Work In
 
 This system can be used for various purposes, including software and life management. You could use it to track your personal projects or life goals for instance. Even though it's a simple tool, it's quite powerful, and you can find use for it in many places.
 
-### How to build a Kanban?
+### How to Build a Kanban?
 
 The simplest way to build a Kanban is to get a bunch of Post-it notes and find a wall. After that, you split it up into columns. These `Lanes` could consist of the following stages: Todo, Doing, Done. All `Notes` would go to Todo initially. As you begin working on them, you would move them to Doing, and finally, to Done when completed. This is the simplest way to get started.
 
@@ -68,9 +68,18 @@ This is just one example of a lane configuration. The lanes can be configured to
 
 I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about Webpack or React, that's great. By reading this book you will deepen your understanding of these tools.
 
-Even if you know Webpack or React well already, there still might be something in it for you still. Especially the early chapters will likely be trivial to you. That said, if you follow along, you can see how the application architecture evolves. Especially the last part contains material you might find useful as reference. The main chapters themselves contain some reference as well even though they are primarily tutorial driven.
+## How to Approach the Book?
 
-Given the book relies on a variety of new language features, I've gathered the most important ones used in the book to a separate *Language Features* appendix that provides a quick look at them. If you want to understand the features in isolation or feel unsure of something, that's a good place to look.
+Although a natural way to read a book is to start from the first chapter and then read the chapters sequentially, that's not the only way to approach this book. The chapter order is just a reading suggestion. Depending on your background, you could consider the following orders or even skip some portions altogether:
+
+* From start to end - You can get the same experience by starting from React and studying Webpack after that if you want to delve straight to Kanban.
+* React first, Webpack after - Skip the early chapters on Webpack, download [a starting point](https://github.com/survivejs/webpack_react/tree/master/project_source/03_webpack_and_react/kanban_app) from the repository, and go through the Kanban demonstration first. Follow the Webpack chapters to understand what the configuration is doing and why. The *Advanced Techniques* part and appendices complement this content well.
+* Webpack only - If you know React very well, maybe it makes sense to go through the Webpack portions only. You can apply the same skills beyond React after all.
+* Advanced techniques only - Given React ecosystem is so vast, the *Advanced Techniques* part covers interesting niches you might miss otherwise. Pick up techniques like linting or learn to improve your npm setup. It may be worth your while to dig into various styling approaches discussed to find something that suits your purposes.
+
+The book doesn't cover everything you need to know in order to develop front-end applications. That's simply too much for a single book. I do believe, however, that it might be able to push you to the right direction. The ecosystem around Webpack and React is fairly large and I've done my best to cover a good chunk of it.
+
+Given the book relies on a variety of new language features, I've gathered the most important ones used to a separate *Language Features* appendix that provides a quick look at them. If you want to understand the features in isolation or feel unsure of something, that's a good place to look.
 
 ## Extra Material
 
