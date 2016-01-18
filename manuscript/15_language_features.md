@@ -396,6 +396,27 @@ render() {
 ...
 ```
 
+## Object Shorthands
+
+In order to make it easier to work with objects, ES6 provides a variety of features just for this. To quote [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer), consider the examples below:
+
+```javascript
+const a = 'demo';
+const shorthand = {a}; // Same as {a: a}
+
+// Shorthand methods
+const o = {
+  get property() {},
+  set property(value) {},
+  demo() {}
+};
+
+// Computed property names
+const computed = {
+  [a]: 'testing' // demo -> testing
+};
+```
+
 ## `const`, `let`, `var`
 
 In JavaScript, variables are global by default. `var` binds them on *function level*. This is in contrast to many other languages that implement *block level* binding. ES6 introduces block level binding through `let`. There's also support for `const`, which guarantees the reference to the variable itself cannot change. This doesn't mean, however, that you cannot modify the contents of the variable. So if you are pointing at an object, you are still allowed to tweak it!
