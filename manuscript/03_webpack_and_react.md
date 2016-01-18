@@ -159,7 +159,7 @@ npm i babel-preset-es2015 babel-preset-react --save-dev
 
 In addition, we'll be enabling a couple of custom features to make the project more convenient to develop:
 
-* [Class properties](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `renderNote = (note) => {`. This binds the `renderNote` method to instances automatically. The feature makes more sense as we get to use it.
+* [Property initializers](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `renderNote = (note) => {`. This binds the `renderNote` method to instances automatically. The feature makes more sense as we get to use it.
 * [Decorators](https://github.com/wycats/javascript-decorators) - Example: `@DragDropContext(HTML5Backend)`. These annotations allow us to attach functionality to classes and their methods.
 * [Object rest/spread](https://github.com/sebmarkbage/ecmascript-rest-spread) - Example: ``const {a, b, ...props} = this.props`. This syntax allows us to easily extract specific properties from an object.
 

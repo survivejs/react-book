@@ -296,7 +296,8 @@ leanpub-start-insert
   }
   storeChanged = (state) => {
     // Without a property initializer `this` wouldn't
-    // point at the right context (defaults to `undefined` in strict mode).
+    // point at the right context because it defaults to
+    // `undefined` in strict mode.
     this.setState(state);
   };
 leanpub-end-insert

@@ -182,9 +182,9 @@ import Note from './Components.jsx';
 
 It is recommended to keep your classes separated in different modules.
 
-## Property Initializers
+## Class Properties and Property Initializers
 
-ES6 classes won't bind their methods by default. This can be problematic sometimes, as you still may want to be able to access the instance properties. Without property initializers we might write something like this:
+ES6 classes won't bind their methods by default. This can be problematic sometimes, as you still may want to be able to access the instance properties. Experimental features known as [class properties and property initializers](https://github.com/jeffmo/es-class-static-properties-and-fields) solve this problem. Without them, we might write something like this:
 
 ```javascript
 import React from 'react';
@@ -216,13 +216,13 @@ App.defaultProps = {
 export default App;
 ```
 
-Using property initializers we could write something tidier instead:
+Using class properties and property initializers we could write something tidier instead:
 
 ```javascript
 import React from 'react';
 
 export default class App extends React.Component {
-  // propType definition through property initializers
+  // propType definition through static class properties
   static propTypes = {
     value: React.PropTypes.string
   };
@@ -235,6 +235,7 @@ export default class App extends React.Component {
 
     return this.renderNote();
   }
+  // Property initializer gets rid of the `bind`
   renderNote = () => {
     // Given renderNote was bound, we can access `this` as expected
     return <div>{this.props.note}</div>;
@@ -242,7 +243,7 @@ export default class App extends React.Component {
 }
 ```
 
-Now we've pushed the declaration to method level. This reads better. I decided to use the feature in this book primarily for this reason. There is simply less to worry about.
+Now that we've pushed the declaration to method level, the code reads better. I decided to use the feature in this book primarily for this reason. There is simply less to worry about.
 
 ## Functions
 
