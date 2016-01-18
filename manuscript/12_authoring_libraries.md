@@ -43,20 +43,24 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   /* Version of the package */
   "version": "0.0.0",
   /* `npm run <name>` */
-  /* You can namespace these if you want. Example: build:dist, build:gh-pages */
   "scripts": {
     "start": "webpack-dev-server",
+
     "test": "karma start",
-    "tdd": "karma start --auto-watch --no-single-run",
+    "test:tdd": "karma start --auto-watch --no-single-run",
+    "test:lint": "eslint . --ext .js --ext .jsx",
+
     "gh-pages": "webpack",
-    "deploy-gh-pages": "node ./lib/deploy_gh_pages.js",
+    "gh-pages:deploy": "gh-pages -d gh-pages",
+    "gh-pages:stats": "webpack --profile --json > stats.json",
+
     "dist": "webpack",
-    "dist-min": "webpack",
-    "dist-modules": "babel ./src --out-dir ./dist-modules",
-    "lint": "eslint . --ext .js --ext .jsx",
-    "preversion": "npm run test && npm run lint && npm run dist && npm run dist-min && git commit --allow-empty -am \"Update dist\"",
-    "prepublish": "npm run dist-modules",
-    "postpublish": "npm run gh-pages && npm run deploy-gh-pages",
+    "dist:min": "webpack",
+    "dist:modules": "babel ./src --out-dir ./dist-modules",
+
+    "preversion": "npm run test && npm run test:lint && npm run dist && npm run dist:min && git commit --allow-empty -am \"Update dist\"",
+    "prepublish": "npm run dist:modules",
+    "postpublish": "npm run gh-pages && npm run gh-pages:deploy",
     /* If your library is installed through Git, you may want to transpile it */
     "postinstall": "node lib/post_install.js"
   },
