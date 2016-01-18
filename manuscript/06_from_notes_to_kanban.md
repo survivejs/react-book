@@ -368,7 +368,7 @@ Just building an association between a lane and a note isn't enough. We are goin
 
 ### Implementing a Getter for `NoteStore`
 
-One neat way to resolve lane notes to actual data is to implement a public method `NoteStore.get(notes)`. It accepts an array of `Note` ids, and returns the corresponding objects.
+One neat way to resolve lane notes to actual data is to implement a public method `NoteStore.getNotesByIds(notes)`. It accepts an array of `Note` ids, and returns the corresponding objects.
 
 This can be achieved using the `map` operation. First, we need to get the ids of all notes to match against. After that, we can perform a lookup for each note id passed in using `indexOf`.
 
@@ -390,13 +390,13 @@ class NoteStore {
 
 leanpub-start-insert
     this.exportPublicMethods({
-      get: this.get.bind(this)
+      getNotesByIds: this.getNotesByIds.bind(this)
     });
 leanpub-end-insert
   }
   ...
 leanpub-start-insert
-  get(ids) {
+  getNotesByIds(ids) {
     // 1. Make sure we are operating on an array and
     // map over the ids
     // [id, id, id, ...] -> [[Note], [], [Note], ...]
@@ -457,7 +457,7 @@ leanpub-start-delete
             notes: () => NoteStore.getState().notes || []
 leanpub-end-delete
 leanpub-start-insert
-            notes: () => NoteStore.get(lane.notes)
+            notes: () => NoteStore.getNotesByIds(lane.notes)
 leanpub-end-insert
           }}
         >
@@ -501,7 +501,7 @@ leanpub-end-insert
 There are three important changes:
 
 * `constructor` - The constructor binds `addNote` and `deleteNote` `laneId` when the component is created. An alternative way would be to handle this at `render()`. That would be a better alternative if the `id` could change.
-* `notes: () => NoteStore.get(notes)` - Our new getter is used to filter `notes`.
+* `notes: () => NoteStore.getNotesByIds(notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified. Note that we trigger `detachFromLane` before `delete` at `deleteNote`. Otherwise we may try to render non-existent notes. You can try swapping the order to see warnings.
 
 After these changes, we now have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
@@ -727,7 +727,7 @@ leanpub-end-insert
         <AltContainer
           stores={[NoteStore]}
           inject={{
-            notes: () => NoteStore.get(lane.notes)
+            notes: () => NoteStore.getNotesByIds(lane.notes)
           }}
         >
 leanpub-start-delete
