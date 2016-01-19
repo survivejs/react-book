@@ -104,9 +104,9 @@ Here's the relevant configuration we need to make Babel work:
 const common = {
   entry: PATHS.app,
 leanpub-start-insert
-  // Add resolve.extensions. '' is needed to allow imports
-  // without an extension. Note the .'s before extensions!!!
-  // The matching will fail without!
+  // Add resolve.extensions.
+  // '' is needed to allow imports without an extension.
+  // Note the .'s before extensions as it will fail to match without!!!
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
