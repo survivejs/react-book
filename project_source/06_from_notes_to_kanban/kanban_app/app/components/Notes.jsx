@@ -3,7 +3,7 @@ import Editable from './Editable.jsx';
 
 export default ({notes, onValueClick, onEdit, onDelete}) => {
   return (
-    <ul className="notes">{notes.map((note) =>
+    <ul className="notes">{notes.map(note =>
       <li className="note" key={note.id}>
         <Editable
           editing={note.editing}

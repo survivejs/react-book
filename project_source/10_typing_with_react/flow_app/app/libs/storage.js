@@ -1,5 +1,5 @@
 export default {
-  get: function(k) {
+  get(k) {
     try {
       return JSON.parse(localStorage.getItem(k));
     }
@@ -7,7 +7,7 @@ export default {
       return null;
     }
   },
-  set: function(k, v) {
+  set(k, v) {
     localStorage.setItem(k, JSON.stringify(v));
   }
 };

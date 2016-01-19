@@ -178,7 +178,7 @@ class NoteStore {
   ...
   update(updatedNote) {
 leanpub-start-insert
-    const notes = this.notes.map((note) => {
+    const notes = this.notes.map(note => {
       if(note.id === updatedNote.id) {
         return Object.assign({}, note, updatedNote);
       }
@@ -216,7 +216,7 @@ class NoteStore {
   delete(id) {
 leanpub-start-insert
     this.setState({
-      notes: this.notes.filter((note) => note.id !== id)
+      notes: this.notes.filter(note => note.id !== id)
     });
 leanpub-end-insert
   }
@@ -311,7 +311,7 @@ leanpub-end-insert
 leanpub-start-delete
   deleteNote = (id) => {
     this.setState({
-      notes: this.state.notes.filter((note) => note.id !== id)
+      notes: this.state.notes.filter(note => note.id !== id)
     });
   };
 leanpub-end-delete
@@ -337,7 +337,7 @@ leanpub-start-insert
 leanpub-end-insert
 leanpub-start-delete
   editNote = (id, task) => {
-    const notes = this.state.notes.map((note) => {
+    const notes = this.state.notes.map(note => {
       if(note.id === id  && task) {
         note.task = task;
       }
@@ -399,7 +399,7 @@ As objects are convenient, we'll use `JSON.parse` and `JSON.stringify` for seria
 
 ```javascript
 export default {
-  get: function(k) {
+  get(k) {
     try {
       return JSON.parse(localStorage.getItem(k));
     }
@@ -407,13 +407,13 @@ export default {
       return null;
     }
   },
-  set: function(k, v) {
+  set(k, v) {
     localStorage.setItem(k, JSON.stringify(v));
   }
 };
 ```
 
-The implementation could be generalized further. You could convert it into a factory (`(storage) => {...}`) and make it possible to swap the storage. Now we are stuck with `localStorage` unless we change the code.
+The implementation could be generalized further. You could convert it into a factory (`storage => {...}`) and make it possible to swap the storage. Now we are stuck with `localStorage` unless we change the code.
 
 T> We're operating with `localStorage` directly to keep the implementation simple. An alternative would be to use [localForage](https://github.com/mozilla/localForage) to hide all the complexity. You could even integrate it behind our interface.
 

@@ -99,7 +99,7 @@ leanpub-end-delete
 leanpub-start-insert
     return (
       <div>
-        <ul>{notes.map((note) =>
+        <ul>{notes.map(note =>
           <li key={note.id}>{note.task}</li>
         )}</ul>
       </div>
@@ -111,7 +111,7 @@ leanpub-end-insert
 
 We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
 
-* `<ul>{notes.map((note) => ...}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
+* `<ul>{notes.map(note => ...}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
 * `<li key={note.id}>{note.task}</li>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
 T> You can import portions from `react` using syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. You may find this alternative a little neater.
@@ -209,7 +209,7 @@ export default class App extends React.Component {
 leanpub-start-insert
         <button onClick={this.addNote}>+</button>
 leanpub-end-insert
-        <ul>{notes.map((note) =>
+        <ul>{notes.map(note =>
           <li key={note.id}>{note.task}</li>
         )}</ul>
       </div>
@@ -306,7 +306,7 @@ export default class App extends React.Component {
     return (
       <div>
         <button onClick={this.addNote}>+</button>
-        <ul>{notes.map((note) =>
+        <ul>{notes.map(note =>
 leanpub-start-delete
           <li key={note.id}>{note.task}</li>
 leanpub-end-delete
@@ -344,7 +344,7 @@ import Note from './Note.jsx';
 
 export default ({notes}) => {
   return (
-    <ul>{notes.map((note) =>
+    <ul>{notes.map(note =>
       <li key={note.id}>
         <Note task={note.task} />
       </li>
@@ -378,7 +378,7 @@ export default class App extends React.Component {
       <div>
         <button onClick={this.addNote}>+</button>
 leanpub-start-delete
-        <ul>{notes.map((note) =>
+        <ul>{notes.map(note =>
           <li key={note.id}>
             <Note task={note.task} />
           </li>
@@ -528,7 +528,7 @@ leanpub-end-insert
   };
 leanpub-start-insert
   editNote = (id, task) => {
-    const notes = this.state.notes.map((note) => {
+    const notes = this.state.notes.map(note => {
       if(note.id === id && task) {
         note.task = task;
       }
@@ -559,7 +559,7 @@ leanpub-start-insert
 export default ({notes, onEdit}) => {
 leanpub-end-insert
   return (
-    <ul>{notes.map((note) =>
+    <ul>{notes.map(note =>
 leanpub-start-delete
       <li key={note.id}>
         <Note task={note.task} />
@@ -618,7 +618,7 @@ leanpub-end-insert
 leanpub-start-insert
   deleteNote = (id) => {
     this.setState({
-      notes: this.state.notes.filter((note) => note.id !== id)
+      notes: this.state.notes.filter(note => note.id !== id)
     });
   };
 leanpub-end-insert
@@ -641,7 +641,7 @@ leanpub-start-insert
 export default ({notes, onEdit, onDelete}) => {
 leanpub-end-insert
   return (
-    <ul>{notes.map((note) =>
+    <ul>{notes.map(note =>
       <li key={note.id}>
 leanpub-start-delete
         <Note
@@ -746,10 +746,10 @@ import Note from './Note.jsx';
 export default ({notes, onEdit, onDelete}) => {
   return (
 leanpub-start-delete
-    <ul>{notes.map((note) =>
+    <ul>{notes.map(note =>
 leanpub-end-delete
 leanpub-start-insert
-    <ul className="notes">{notes.map((note) =>
+    <ul className="notes">{notes.map(note =>
 leanpub-end-insert
 leanpub-start-delete
       <li key={note.id}>

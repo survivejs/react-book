@@ -31,7 +31,7 @@ function render() {
       <h2>Names</h2>
 
       <ul className="names">{
-        names.map((name) =>
+        names.map(name =>
           <li className="name">{name}</li>
         )
       }</ul>

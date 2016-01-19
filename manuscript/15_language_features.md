@@ -342,7 +342,7 @@ Even though the behavior might seem a little weird, it is actually useful. In th
 
 Historically, dealing with function parameters has been somewhat limited. There are various hacks, such as `values = values || [];`, but they aren't particularly nice and they are prone to errors. For example, using `||` can cause problems with zeros. ES6 solves this problem by introducing default parameters. We can simply write `function map(cb, values=[])` now.
 
-There is more to that and the default values can even depend on each other. You can also pass an arbitrary amount of parameters through `function map(cb, values...)`. In this case, you would call the function through `map((a) => a * 2, 1, 2, 3, 4)`. The API might not be perfect for `map`, but it might make more sense in some other scenario.
+There is more to that and the default values can even depend on each other. You can also pass an arbitrary amount of parameters through `function map(cb, values...)`. In this case, you would call the function through `map(a => a * 2, 1, 2, 3, 4)`. The API might not be perfect for `map`, but it might make more sense in some other scenario.
 
 There are also convenient means to extract values out of passed objects. This is highly useful with React component defined using the function syntax:
 

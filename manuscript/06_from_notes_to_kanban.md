@@ -155,7 +155,7 @@ import Lane from './Lane.jsx';
 
 export default ({lanes}) => {
   return (
-    <div className="lanes">{lanes.map((lane) =>
+    <div className="lanes">{lanes.map(lane =>
       <Lane className="lane" key={lane.id} lane={lane} />
     )}</div>
   );
@@ -258,7 +258,7 @@ class LaneStore {
   ...
 leanpub-start-insert
   attachToLane({laneId, noteId}) {
-    const lanes = this.lanes.map((lane) => {
+    const lanes = this.lanes.map(lane => {
       if(lane.id === laneId) {
         if(lane.notes.indexOf(noteId) === -1) {
           lane.notes.push(noteId);
@@ -347,9 +347,9 @@ class LaneStore {
   }
 leanpub-start-insert
   detachFromLane({laneId, noteId}) {
-    const lanes = this.lanes.map((lane) => {
+    const lanes = this.lanes.map(lane => {
       if(lane.id === laneId) {
-        lane.notes = lane.notes.filter((note) => note !== noteId);
+        lane.notes = lane.notes.filter(note => note !== noteId);
       }
 
       return lane;
@@ -401,10 +401,10 @@ leanpub-start-insert
     return (ids || []).map(
       // 2. Extract matching notes
       // [Note, Note, Note] -> [Note, ...] (match) or [] (no match)
-      (id) => this.notes.filter((note) => note.id === id)
+      id => this.notes.filter(note => note.id === id)
     // 3. Filter out possible empty arrays and get notes
     // [[Note], [], [Note]] -> [[Note], [Note]] -> [Note, Note]
-    ).filter((a) => a.length).map((a) => a[0]);
+    ).filter(a => a.length).map(a => a[0]);
   }
 leanpub-end-insert
 }
@@ -648,7 +648,7 @@ leanpub-end-insert
 leanpub-start-delete
 export default ({notes, onEdit, onDelete}) => {
   return (
-    <ul className="notes">{notes.map((note) =>
+    <ul className="notes">{notes.map(note =>
       <li className="note" key={note.id}>
         <Note
           task={note.task}
@@ -662,7 +662,7 @@ leanpub-end-delete
 leanpub-start-insert
 export default ({notes, onValueClick, onEdit, onDelete}) => {
   return (
-    <ul className="notes">{notes.map((note) =>
+    <ul className="notes">{notes.map(note =>
       <li className="note" key={note.id}>
         <Editable
           editing={note.editing}
@@ -794,7 +794,7 @@ class LaneStore {
   }
 leanpub-start-insert
   update(updatedLane) {
-    const lanes = this.lanes.map((lane) => {
+    const lanes = this.lanes.map(lane => {
       if(lane.id === updatedLane.id) {
         return Object.assign({}, lane, updatedLane);
       }
@@ -806,7 +806,7 @@ leanpub-start-insert
   }
   delete(id) {
     this.setState({
-      lanes: this.lanes.filter((lane) => lane.id !== id)
+      lanes: this.lanes.filter(lane => lane.id !== id)
     });
   }
 leanpub-end-insert
@@ -961,7 +961,7 @@ import Lane from './Lane.jsx';
 
 export default ({lanes}) => {
   return (
-    <div className="lanes">{lanes.map((lane) =>
+    <div className="lanes">{lanes.map(lane =>
 leanpub-start-delete
       <Lane className="lane" key={lane.id} lane={lane} />
 leanpub-end-delete

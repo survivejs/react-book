@@ -37,7 +37,7 @@ export default class App extends React.Component {
   }
   deleteNote = (id) => {
     this.setState({
-      notes: this.state.notes.filter((note) => note.id !== id)
+      notes: this.state.notes.filter(note => note.id !== id)
     });
   };
   addNote = () => {
@@ -49,7 +49,7 @@ export default class App extends React.Component {
     });
   };
   editNote = (id, task) => {
-    const notes = this.state.notes.map((note) => {
+    const notes = this.state.notes.map(note => {
       if(note.id === id && task) {
         note.task = task;
       }

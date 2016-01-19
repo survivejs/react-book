@@ -24,7 +24,7 @@ class NoteStore {
     return note;
   }
   update(updatedNote) {
-    const notes = this.notes.map((note) => {
+    const notes = this.notes.map(note => {
       if(note.id === updatedNote.id) {
         return Object.assign({}, note, updatedNote);
       }
@@ -36,13 +36,13 @@ class NoteStore {
   }
   delete(id) {
     this.setState({
-      notes: this.notes.filter((note) => note.id !== id)
+      notes: this.notes.filter(note => note.id !== id)
     });
   }
   getNotesByIds(ids) {
     return (ids || []).map(
-      (id) => this.notes.filter((note) => note.id === id)
-    ).filter((a) => a.length).map((a) => a[0]);
+      id => this.notes.filter(note => note.id === id)
+    ).filter(a => a.length).map(a => a[0]);
   }
 }
 

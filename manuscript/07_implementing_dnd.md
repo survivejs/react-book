@@ -70,7 +70,7 @@ leanpub-end-insert
 
 export default ({notes, onValueClick, onEdit, onDelete}) => {
   return (
-    <ul className="notes">{notes.map((note) =>
+    <ul className="notes">{notes.map(note =>
 leanpub-start-delete
       <li className="note" key={note.id}>
         <Editable
@@ -307,7 +307,7 @@ import Note from './Note.jsx';
 
 export default ({notes, onValueClick, onEdit, onDelete}) => {
   return (
-    <ul className="notes">{notes.map((note) => {
+    <ul className="notes">{notes.map(note => {
       return (
 leanpub-start-delete
         <Note className="note" id={note.id} key={note.id}>
@@ -374,7 +374,7 @@ leanpub-end-insert
 
 export default ({notes, onValueClick, onEdit, onDelete}) => {
   return (
-    <ul className="notes">{notes.map((note) => {
+    <ul className="notes">{notes.map(note => {
       return (
 leanpub-start-delete
         <Note className="note" id={note.id} key={note.id}
@@ -454,10 +454,10 @@ leanpub-end-delete
 leanpub-start-insert
   move({sourceId, targetId}) {
     const lanes = this.lanes;
-    const sourceLane = lanes.filter((lane) => {
+    const sourceLane = lanes.filter(lane => {
       return lane.notes.indexOf(sourceId) >= 0;
     })[0];
-    const targetLane = lanes.filter((lane) => {
+    const targetLane = lanes.filter(lane => {
       return lane.notes.indexOf(targetId) >= 0;
     })[0];
     const sourceNoteIndex = sourceLane.notes.indexOf(sourceId);
@@ -722,7 +722,7 @@ leanpub-end-insert
 leanpub-start-insert
   removeNote(noteId) {
     const lanes = this.lanes;
-    const removeLane = lanes.filter((lane) => {
+    const removeLane = lanes.filter(lane => {
       return lane.notes.indexOf(noteId) >= 0;
     })[0];
 
