@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlwebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 
@@ -33,20 +32,15 @@ const common = {
         include: PATHS.app
       }
     ]
-  },
-  plugins: [
-    new HtmlwebpackPlugin({
-      template: 'node_modules/html-webpack-template/index.html',
-      title: 'Kanban app',
-      appMountId: 'app'
-    })
-  ]
+  }
 };
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval-source-map',
     devServer: {
+      contentBase: PATHS.build,
+
       historyApiFallback: true,
       hot: true,
       inline: true,

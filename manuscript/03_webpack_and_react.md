@@ -134,8 +134,7 @@ leanpub-start-insert
       }
 leanpub-end-insert
     ]
-  },
-  ...
+  }
 };
 
 ...
@@ -297,40 +296,6 @@ T> Note that we're using the *jsx* extension here. It helps us to tell modules u
 W> It is important to note that the ES6 based class approach **doesn't** support autobinding behavior. Apart from that you may find ES6 classes neater than `React.createClass`. See the end of this chapter for a comparison.
 
 ### Rendering Through *index.jsx*
-
-In order to get something to show up at the browser, we'll need to render our `App` through it. In this case I'm going to use a package known as [html-webpack-template](https://www.npmjs.com/package/html-webpack-template) as it provides a nice amount of customization. For example, you can set up Google Analytics, initial data to bootstrap, and the element into which to render. Get it installed through:
-
-```bash
-npm i html-webpack-template --save-dev
-```
-
-In order to hook it up with our project, we need to tweak Webpack configuration:
-
-**webpack.config.js**
-
-```javascript
-...
-
-const common = {
-  ...
-  plugins: [
-    new HtmlwebpackPlugin({
-leanpub-start-delete
-      title: 'Kanban app'
-leanpub-end-delete
-leanpub-start-insert
-      template: 'node_modules/html-webpack-template/index.html',
-      title: 'Kanban app',
-      appMountId: 'app'
-leanpub-end-delete
-    })
-  ]
-};
-
-...
-```
-
-After this it will render *index.html* that contains a div which we can find from the DOM by using the id `app`. If we needed something more custom, we would have to implement a template of our own, but this one will do just fine for this project.
 
 To make everything work, we'll need to adjust our `index.js` to render the component. Note that I've renamed it as `index.jsx` given we have JSX content there. First, the rendering logic creates a DOM element where it will render. Then it renders our application through React:
 

@@ -63,6 +63,8 @@ As projects with just *package.json* are boring, we should set up something more
 - /app
   - index.js
   - component.js
+- /build
+  - index.html
 - package.json
 - webpack.config.js
 
@@ -97,25 +99,37 @@ document.body.appendChild(app);
 app.appendChild(component());
 ```
 
+We are also going to need some HTML so we can load the bundle:
+
+**build/index.html**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Kanban app</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="./bundle.js"></script>
+  </body>
+</html>
+```
+
+We'll generate this dynamically at the build chapter, but this is enough for now.
+
 ## Setting Up Webpack Configuration
 
 We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll build *webpack.config.js*. Webpack and its development server will be able to discover this file through convention.
 
-We could create *index.html* by hand. Maintaining that could become troublesome as the project grows, though. [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin) is able to generate an *index.html* for us and create links to our assets keeping our life simple. Execute
-
-```bash
-npm i html-webpack-plugin --save-dev
-```
-
-to install it to the project.
-
-To map our application to *build/bundle.js* and generate *build/index.html* we need configuration like this:
+To map our application to *build/bundle.js* we need configuration like this:
 
 **webpack.config.js**
 
 ```javascript
 const path = require('path');
-const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
@@ -129,35 +143,30 @@ module.exports = {
   output: {
     path: PATHS.build,
     filename: 'bundle.js'
-  },
-  plugins: [
-    new HtmlwebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
+  }
 };
 ```
 
-Given Webpack expects absolute paths we have some good options here. I like to use `path.join`, but `path.resolve` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
+The `entry` path could be given as a relative one. The [context](https://webpack.github.io/docs/configuration.html#context) field can be used to configure that lookup. Given plenty of places expect absolute paths, I prefer to use absolute paths everywhere to avoid confusion.
+
+I like to use `path.join`, but `path.resolve` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
 If you trigger `node_modules/.bin/webpack`, you should see output like this:
 
 ```bash
-Hash: 8f40b51fb7f30d16fe6c
-Version: webpack 1.12.9
-Time: 84ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js    1.76 kB       0  [emitted]  main
-index.html  184 bytes          [emitted]
-   [0] ./app/index.js 144 bytes {0} [built]
-   [1] ./app/component.js 141 bytes {0} [built]
+Hash: e7dd4bf8a294b5c93141
+Version: webpack 1.12.11
+Time: 734ms
+    Asset   Size  Chunks             Chunk Names
+bundle.js  12 kB       0  [emitted]  main
+   [0] ./app/index.js 169 bytes {0} [built]
+   [5] ./app/component.js 136 bytes {0} [built]
+    + 4 hidden modules
 ```
 
-This means you have a build at your output directory. You can open the `index.html` found there directly through a browser. On OS X you can use `open build/index.html` to see the result.
+This means you have a build at your output directory. You can open the `build/index.html` file directly through a browser to examine the results. On OS X `open ./build/index.html` works.
 
-Another way to achieve this would be to serve the contents of the directory through a server, such as *serve* (`npm i serve -g`). In this case, you would execute `serve` at the output directory and head to `localhost:3000` at your browser. You can configure the port through the `--port` parameter if you want to use some other port.
-
-T> Sometimes, it may make sense to define `context: <some absolute path>`. After this, you can write entries relative to the [context](https://webpack.github.io/docs/configuration.html#context) path rather than using an absolute path for each entry. This is useful especially in more complicated scenarios. This won't, however, affect loader configuration. Paths used there need to be absolute still.
+T> Another way to serve the contents of the directory through a server, such as *serve* (`npm i serve -g`). In this case, execute `serve` at the output directory and head to `localhost:3000` at your browser. You can configure the port through the `--port` parameter.
 
 ## Adding a Build Shortcut
 
@@ -195,7 +204,7 @@ npm i webpack-dev-server --save-dev
 
 at the project root to get the server installed.
 
-Just like above, we'll need to define an entry point to the `scripts` section of *package.json*:
+Just like above, we'll need to define an entry point to the `scripts` section of *package.json*. Given our *index.html* is below *./build*, we should let *webpack-dev-server* to serve the content from there. We'll move this to Webpack configuration later, but this will do for now:
 
 **package.json**
 
@@ -207,7 +216,7 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
   "build": "webpack",
-  "start": "webpack-dev-server"
+  "start": "webpack-dev-server --content-base build"
 leanpub-end-insert
 },
 ...
@@ -218,25 +227,15 @@ If you trigger either *npm run start* or *npm start* now, you should see somethi
 ```bash
 > webpack-dev-server
 
-http://localhost:8080/webpack-dev-server/
+http://localhost:8080/
 webpack result is served from /
-content is served from .../kanban_app
-Hash: 2dad8c1de918274667eb
-Version: webpack 1.12.9
-Time: 120ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js    1.75 kB       0  [emitted]  main
-index.html  184 bytes          [emitted]
-chunk    {0} bundle.js (main) 280 bytes [rendered]
-    [0] ./app/index.js 144 bytes {0} [built]
-    [1] ./app/component.js 136 bytes {0} [built]
+content is served from .../kanban_app/build
+404s will fallback to /index.html
+
 webpack: bundle is now VALID.
-webpack: bundle is now INVALID.
-Hash: 8cdf5c4fa2d5afa613e0
-Version: webpack 1.12.9
 ```
 
-This means the development server is running. If you open *http://localhost:8080/* at your browser, you should see something. If you try modifying the code, you should see output at your terminal. The problem is that the browser doesn't catch these changes without a hard refresh. That's something we need to resolve next.
+The output means that the development server is running. If you open *http://localhost:8080/* at your browser, you should see something. If you try modifying the code, you should see output at your terminal. The problem is that the browser doesn't catch these changes without a hard refresh. That's something we need to resolve next.
 
 ![Hello world](images/hello_01.png)
 
@@ -337,6 +336,8 @@ leanpub-end-delete
 leanpub-start-insert
   module.exports = merge(common, {
     devServer: {
+      contentBase: PATHS.build,
+
       // Enable history API fallback so HTML5 History API based
       // routing works. This is a good default that will come
       // in handy in more complicated setups.
@@ -359,6 +360,24 @@ leanpub-start-insert
 leanpub-end-insert
 }
 
+...
+```
+
+Given we pushed `contentBase` configuration to JavaScript, we can remove it from *package.json*:
+
+**package.json**
+
+```json
+...
+"scripts": {
+  "build": "webpack"
+leanpub-start-delete
+  "start": "webpack-dev-server --content-base build"
+leanpub-end-delete
+leanpub-start-insert
+  "start": "webpack-dev-server"
+leanpub-end-insert
+},
 ...
 ```
 
@@ -457,11 +476,8 @@ leanpub-start-insert
         include: PATHS.app
       }
     ]
-  },
+  }
 leanpub-end-insert
-  plugins: [
-    ...
-  ]
 }
 
 ...

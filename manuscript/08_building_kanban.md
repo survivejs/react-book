@@ -7,13 +7,14 @@ Now that we have a nice Kanban application up and running, we can worry about sh
 If you run `npm run build`, you can see we have a problem:
 
 ```bash
-Hash: 55671c0d72bc0df82283
-Version: webpack 1.12.9
-Time: 4001ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js    1.11 MB       0  [emitted]  main
-index.html  511 bytes          [emitted]
-    + 336 hidden modules
+> webpack
+
+Hash: 1d6630b6a72d918bb24b
+Version: webpack 1.12.11
+Time: 3964ms
+    Asset     Size  Chunks             Chunk Names
+bundle.js  1.11 MB       0  [emitted]  main
+    + 335 hidden modules
 ```
 
 1.11 MB is a lot! There are a couple of basic things we can do to slim down our build. We can apply some minification to it. We can also tell React to optimize itself. Doing both will result in significant size savings. Provided we apply gzip compression on the content when serving it, further gains may be made.
@@ -22,7 +23,7 @@ index.html  511 bytes          [emitted]
 
 Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes, this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
-The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). As Uglify will output a lot of warnings and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
+The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). Alternatively we an use a plugin directly as this provides us more control. By default Uglify will output a lot of warnings and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
 
 **webpack.config.js**
 
@@ -50,13 +51,14 @@ T> Uglify warnings can help you to understand how it processes the code. Therefo
 If you trigger `npm run build` now, you should see better results:
 
 ```bash
-Hash: f9c284fdcddb11010ae1
-Version: webpack 1.12.9
-Time: 8888ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js     367 kB       0  [emitted]  main
-index.html  511 bytes          [emitted]
-    + 336 hidden modules
+> webpack
+
+Hash: 9f52871e77451f9d6f29
+Version: webpack 1.12.11
+Time: 10342ms
+    Asset    Size  Chunks             Chunk Names
+bundle.js  366 kB       0  [emitted]  main
+    + 335 hidden modules
 ```
 
 Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
@@ -100,13 +102,14 @@ T> That `JSON.stringify` is needed, as Webpack will perform string replace "as i
 Trigger `npm run build` again, and you should see improved results:
 
 ```bash
-Hash: c6e0699d353a889156ac
-Version: webpack 1.12.9
-Time: 8052ms
-     Asset       Size  Chunks             Chunk Names
- bundle.js     306 kB       0  [emitted]  main
-index.html  511 bytes          [emitted]
-    + 332 hidden modules
+> webpack
+
+Hash: a08756deaf3ac92da810
+Version: webpack 1.12.11
+Time: 8936ms
+    Asset    Size  Chunks             Chunk Names
+bundle.js  306 kB       0  [emitted]  main
+    + 331 hidden modules
 ```
 
 So we went from 1.11 MB to 367 kB, and finally, to 306 kB. The final build is a little faster than the previous one. As that 306 kB can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
@@ -131,7 +134,6 @@ To get started, we need to define a `vendor` entry point. Given *alt-utils* is p
 
 ```javascript
 const path = require('path');
-const HtmlwebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 
@@ -140,7 +142,13 @@ leanpub-start-insert
 const pkg = require('./package.json');
 leanpub-end-insert
 
-...
+const TARGET = process.env.npm_lifecycle_event;
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build')
+};
+
+process.env.BABEL_ENV = TARGET;
 
 const common = {
   entry: PATHS.app,
@@ -188,15 +196,16 @@ Beyond this, it's possible to define chunks that are loaded dynamically. This ca
 If you trigger the build now using `npm run build`, you should see something along this:
 
 ```bash
-Hash: 60ad70a898d7a5f6eb63
-Version: webpack 1.12.9
-Time: 12328ms
-     Asset       Size  Chunks             Chunk Names
-    app.js     306 kB       0  [emitted]  app
- vendor.js     286 kB       1  [emitted]  vendor
-index.html  543 bytes          [emitted]
-   [0] multi vendor 124 bytes {1} [built]
-    + 332 hidden modules
+> webpack
+
+Hash: 4cebe8ce0c6daca5cfa1
+Version: webpack 1.12.11
+Time: 13510ms
+    Asset    Size  Chunks             Chunk Names
+   app.js  306 kB       0  [emitted]  app
+vendor.js  285 kB       1  [emitted]  vendor
+   [0] multi vendor 112 bytes {1} [built]
+    + 331 hidden modules
 ```
 
 Now we have separate *app*  and *vendor* bundles. There's something wrong, however. If you examine the files, you'll see that *app.js* contains *vendor* dependencies. We need to do something to tell Webpack to avoid this situation. This is where `CommonsChunkPlugin` comes in.
@@ -212,6 +221,7 @@ Now we have separate *app*  and *vendor* bundles. There's something wrong, howev
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    // Define entry points needed for splitting
     entry: {
       ...
     }
@@ -231,16 +241,17 @@ leanpub-end-insert
 If you run `npm run build` now, you should see output as below:
 
 ```bash
-Hash: 5ffb51edc6a097c70714
-Version: webpack 1.12.9
-Time: 8200ms
+> webpack
+
+Hash: 1a18381bce0dd20fe684
+Version: webpack 1.12.11
+Time: 8630ms
       Asset       Size  Chunks             Chunk Names
-     app.js    20.5 kB    0, 2  [emitted]  app
+     app.js    20.7 kB    0, 2  [emitted]  app
   vendor.js     285 kB    1, 2  [emitted]  vendor
 manifest.js  743 bytes       2  [emitted]  manifest
- index.html  580 bytes          [emitted]
-   [0] multi vendor 124 bytes {1} [built]
-    + 332 hidden modules
+   [0] multi vendor 112 bytes {1} [built]
+    + 331 hidden modules
 ```
 
 The situation is far better now. Note how small `app` bundle compared to the `vendor` bundle. In order to really benefit from this split, we should set up caching. This can be achieved by adding cache busting hashes to filenames.
@@ -271,6 +282,7 @@ We can use the placeholder idea within our configuration like this:
 ```javascript
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    // Define entry points needed for splitting
     entry: {
       ...
     }
@@ -291,31 +303,113 @@ leanpub-end-insert
 If you execute `npm run build` now, you should see output like this.
 
 ```bash
-Hash: 836f0043a232838b4e2f
-Version: webpack 1.12.9
-Time: 8377ms
+> webpack
+
+Hash: 1bedf99d8ce4cab9ca1b
+Version: webpack 1.12.11
+Time: 9871ms
                            Asset       Size  Chunks             Chunk Names
-     app.02b56f8ecdac65f64c5c.js    20.5 kB    0, 2  [emitted]  app
-  vendor.2c4fda887887a42ca52a.js     285 kB    1, 2  [emitted]  vendor
-manifest.741647f686fbc5d0f1ab.js  763 bytes       2  [emitted]  manifest
-                      index.html  643 bytes          [emitted]
-   [0] multi vendor 124 bytes {1} [built]
-    + 332 hidden modules
+     app.76f47b014429236ae8de.js    20.7 kB    0, 2  [emitted]  app
+  vendor.8727ee8bd7a21ec7e1fb.js     285 kB    1, 2  [emitted]  vendor
+manifest.3abf3112b70cde9b4d49.js  763 bytes       2  [emitted]  manifest
+   [0] multi vendor 112 bytes {1} [built]
+    + 331 hidden modules
 ```
 
 Our files have neat hashes now. To prove that it works, you could try altering *app/index.jsx* and include a `console.log` there. After you build, only `app` and `manifest` related bundles should change.
 
 One more way to improve the build further would be to load popular dependencies, such as React, through a CDN. That would decrease the size of the vendor bundle even further while adding an external dependency on the project. The idea is that if the user has hit the CDN earlier, caching can kick in just like here.
 
+## Generating *index.html* through *html-webpack-plugin*
+
+Even though we have fine bundles now, there's one problem. Our current *index.html* doesn't point to them correctly. We could write the script tags we need by hand, but fortunately there are better ways. One option would be to trigger Webpack through its [Node.js API](https://webpack.github.io/docs/node.js-api.html). The build output its API provides contains the asset names we need. After that we could apply those to some template.
+
+A good alternative is to use a Webpack plugin and a template that have been designed for this purpose. [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin) and [html-webpack-template](https://www.npmjs.com/package/html-webpack-template) work well together and can perform a lot of the heavy lifting for us. Install them first:
+
+```bash
+npm i html-webpack-plugin html-webpack-template --save-dev
+```
+
+In order to connect it with out project, we need to tweak the configuration a notch. While at it, get rid of *build/index.html* as we won't need that anymore. The system will generate it for us after this step:
+
+**webpack.config.js**
+
+```javascript
+const path = require('path');
+const merge = require('webpack-merge');
+const webpack = require('webpack');
+leanpub-start-insert
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+leanpub-end-insert
+
+...
+
+const common = {
+  ...
+  module: {
+    ...
+leanpub-start-delete
+  },
+leanpub-end-delete
+leanpub-start-insert
+  }
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'node_modules/html-webpack-template/index.html',
+      title: 'Kanban app',
+      appMountId: 'app'
+    })
+  ]
+leanpub-end-insert
+};
+
+if(TARGET === 'start' || !TARGET) {
+  module.exports = merge(common, {
+    devtool: 'eval-source-map',
+    devServer: {
+leanpub-start-delete
+      contentBase: PATHS.build,
+leanpub-end-delete
+
+      ...
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ]
+  });
+}
+
+...
+```
+
+If you trigger `npm run build` now, the output should include *index.html*:
+
+```bash
+> webpack
+
+Hash: 1bedf99d8ce4cab9ca1b
+Version: webpack 1.12.11
+Time: 10203ms
+                           Asset       Size  Chunks             Chunk Names
+     app.76f47b014429236ae8de.js    20.7 kB    0, 2  [emitted]  app
+  vendor.8727ee8bd7a21ec7e1fb.js     285 kB    1, 2  [emitted]  vendor
+manifest.3abf3112b70cde9b4d49.js  763 bytes       2  [emitted]  manifest
+                      index.html  643 bytes          [emitted]
+   [0] multi vendor 112 bytes {1} [built]
+    + 331 hidden modules
+```
+
+Even though this adds some configuration to our project, we don't have to worry about gluing things together now. If more flexibility is needed, it's possible to implement a custom template.
+
 ## Cleaning the Build
 
-Our current setup doesn't clean the `build` directory between builds. As this can get annoying if we change our setup, we can use a plugin to clean the directory for us. Execute
+Our current setup doesn't clean the `build` directory between builds. As this can get annoying if we change our setup, we can use a plugin to clean the directory for us. Install the plugin first:
 
 ```bash
 npm i clean-webpack-plugin --save-dev
 ```
 
-to install the plugin. Change the build configuration as follows to integrate it:
+Change the build configuration as follows to integrate it:
 
 **webpack.config.js**
 
@@ -467,8 +561,10 @@ W> If you want to pass more loaders to the `ExtractTextPlugin`, you should use `
 After running `npm run build`, you should see output similar to the following:
 
 ```bash
+> webpack
+
 Hash: b6b87447300880b09594
-Version: webpack 1.12.9
+Version: webpack 1.12.11
 Time: 9250ms
                            Asset       Size  Chunks             Chunk Names
      app.ec1ff5633cd6145ca3d1.js    15.9 kB    0, 2  [emitted]  app
