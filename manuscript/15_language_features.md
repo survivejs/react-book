@@ -297,6 +297,12 @@ v => v * 2;
 const double = (v) => v * 2;
 
 console.log(double(2));
+
+// If you want to use a shorthand and return an object,
+// you need to wrap the object.
+v => ({
+  foo: 'bar'
+});
 ```
 
 ### Arrow Function Context
