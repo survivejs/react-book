@@ -1,5 +1,4 @@
 import uuid from 'node-uuid';
-import assign from 'object-assign';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 import update from 'react-addons-update';
@@ -23,7 +22,7 @@ class LaneStore {
   update(updatedLane) {
     const lanes = this.lanes.map((lane) => {
       if(lane.id === updatedLane.id) {
-        return assign({}, lane, updatedLane);
+        return Object.assign({}, lane, updatedLane);
       }
 
       return lane;

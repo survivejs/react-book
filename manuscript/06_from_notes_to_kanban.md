@@ -26,7 +26,6 @@ In addition, we are going to need a `LaneStore` and a method matching to `create
 
 ```javascript
 import uuid from 'node-uuid';
-import assign from 'object-assign';
 import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 
@@ -378,7 +377,6 @@ Just implementing the method isn't enough. We also need to make it public. In Al
 
 ```javascript
 import uuid from 'node-uuid';
-import assign from 'object-assign';
 import alt from '../libs/alt';
 import NoteActions from '../actions/NoteActions';
 
@@ -798,7 +796,7 @@ leanpub-start-insert
   update(updatedLane) {
     const lanes = this.lanes.map((lane) => {
       if(lane.id === updatedLane.id) {
-        return assign({}, lane, updatedLane);
+        return Object.assign({}, lane, updatedLane);
       }
 
       return lane;
