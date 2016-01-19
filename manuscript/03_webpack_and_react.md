@@ -298,9 +298,7 @@ W> It is important to note that the ES6 based class approach **doesn't** support
 
 ### Rendering Through *index.jsx*
 
-In order to get something to show up at the browser, we'll need to render our `App` through it. First, we need to set up an element for React to render into. After that, we need to render into it. Former can be achieved through JavaScript.
-
-Instead, in this case I'm going to use a package known as [html-webpack-template](https://www.npmjs.com/package/html-webpack-template). It provides a nice amount of customization. For example, you can set up Google Analytics, initial data to bootstrap, and the element into which to render. Get it installed through:
+In order to get something to show up at the browser, we'll need to render our `App` through it. In this case I'm going to use a package known as [html-webpack-template](https://www.npmjs.com/package/html-webpack-template) as it provides a nice amount of customization. For example, you can set up Google Analytics, initial data to bootstrap, and the element into which to render. Get it installed through:
 
 ```bash
 npm i html-webpack-template --save-dev
