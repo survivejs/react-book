@@ -296,7 +296,7 @@ T> Note that we're using the *jsx* extension here. It helps us to tell modules u
 
 W> It is important to note that the ES6 based class approach **doesn't** support autobinding behavior. Apart from that you may find ES6 classes neater than `React.createClass`. See the end of this chapter for a comparison.
 
-### Rendering Through `index.jsx`
+### Rendering Through *index.jsx*
 
 In order to get something to show up at the browser, we'll need to render our `App` through it. First, we need to set up an element for React to render into. After that, we need to render into it. Former can be achieved through JavaScript.
 
