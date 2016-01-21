@@ -442,9 +442,18 @@ export default class Note extends React.Component {
   }
   renderEdit = () => {
     // Deal with blur and input handlers. These map to DOM events.
+    // We set selection to input end using a callback at ref. It gets
+    // triggered after the component is mounted.
+    //
+    // We could also use a string reference (i.e., `ref="input") and
+    // then refer to the element in question later in the code. This
+    // would allow us to use the underlying DOM API.
     return <input type="text"
+      ref={
+        (e) => e ? e.selectionStart = this.props.task.length : null
+      }
       autoFocus={true}
-      placeholder={this.props.task}
+      defaultValue={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   };
@@ -473,14 +482,16 @@ export default class Note extends React.Component {
     // it through `defaultProps`.
     //
     // See *Typing with React* chapter for more information.
-    if(this.props.onEdit) {
-      this.props.onEdit(e.target.value);
-    }
+    const value = e.target.value;
 
-    // Exit edit mode.
-    this.setState({
-      editing: false
-    });
+    if(this.props.onEdit && value) {
+      this.props.onEdit(value);
+
+      // Exit edit mode.
+      this.setState({
+        editing: false
+      });
+    }
   };
 }
 ```
@@ -789,8 +800,11 @@ export default class Note extends React.Component {
   }
   renderEdit = () => {
     return <input type="text"
+      ref={
+        (e) => e ? e.selectionStart = this.props.task.length : null
+      }
       autoFocus={true}
-      placeholder={this.props.task}
+      defaultValue={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   };

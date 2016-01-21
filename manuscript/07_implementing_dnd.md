@@ -640,6 +640,8 @@ This is a simple check to make. Given we know the target lane at our `noteTarget
 **app/components/Lane.jsx**
 
 ```javascript
+...
+
 const noteTarget = {
 leanpub-start-delete
   hover(targetProps, monitor) {
@@ -661,6 +663,8 @@ leanpub-start-insert
   }
 leanpub-end-insert
 };
+
+...
 ```
 
 If you refresh your browser and drag around now, the log message should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
@@ -672,6 +676,8 @@ Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is i
 **app/components/Lane.jsx**
 
 ```javascript
+...
+
 const noteTarget = {
 leanpub-start-delete
   hover(targetProps, monitor) {
@@ -697,6 +703,8 @@ leanpub-start-insert
   }
 leanpub-end-insert
 };
+
+...
 ```
 
 There is one problem, though. What happens to the old instance of the `Note`? In the current solution, the old lane will have an id pointing to it. As a result, we will have duplicate data in the system.

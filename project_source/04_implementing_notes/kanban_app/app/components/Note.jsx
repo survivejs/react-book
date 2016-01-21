@@ -17,8 +17,11 @@ export default class Note extends React.Component {
   }
   renderEdit = () => {
     return <input type="text"
+      ref={
+        (e) => e ? e.selectionStart = this.props.task.length : null
+      }
       autoFocus={true}
-      placeholder={this.props.task}
+      defaultValue={this.props.task}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   };
@@ -48,12 +51,15 @@ export default class Note extends React.Component {
     }
   };
   finishEdit = (e) => {
-    if(this.props.onEdit) {
-      this.props.onEdit(e.target.value);
-    }
+    const value = e.target.value;
 
-    this.setState({
-      editing: false
-    });
+    if(this.props.onEdit && value) {
+      this.props.onEdit(value);
+
+      // Exit edit mode.
+      this.setState({
+        editing: false
+      });
+    }
   };
 }

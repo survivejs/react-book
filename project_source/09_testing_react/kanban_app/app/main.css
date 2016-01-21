@@ -34,14 +34,37 @@ body {
 }
 
 .lane-add-note {
+  float: left;
+
+  margin-right: 0.5em;
+}
+
+.lane-delete {
   float: right;
 
   margin-left: 0.5em;
+
+  visibility: hidden;
+}
+.lane-header:hover .lane-delete {
+  visibility: visible;
 }
 
 .add-lane, .lane-add-note button {
+  cursor: pointer;
+
   background-color: #fdfdfd;
   border: 1px solid #ccc;
+}
+
+.lane-delete button {
+  padding: 0;
+
+  cursor: pointer;
+
+  color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
 }
 
 .notes {

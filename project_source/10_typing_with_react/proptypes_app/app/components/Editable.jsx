@@ -12,8 +12,11 @@ class Editable extends React.Component {
   }
   renderEdit = () => {
     return <input type="text"
+      ref={
+        (e) => e ? e.selectionStart = this.props.value.length : null
+      }
       autoFocus={true}
-      placeholder={this.props.value}
+      defaultValue={this.props.value}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   };
@@ -36,7 +39,11 @@ class Editable extends React.Component {
     }
   };
   finishEdit = (e) => {
-    this.props.onEdit(e.target.value);
+    const value = e.target.value;
+
+    if(value.trim()) {
+      this.props.onEdit(value);
+    }
   };
 }
 Editable.propTypes = {

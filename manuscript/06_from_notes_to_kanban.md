@@ -180,10 +180,10 @@ export default class Lane extends React.Component {
     return (
       <div {...props}>
         <div className="lane-header">
-          <div className="lane-name">{lane.name}</div>
           <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
+          <div className="lane-name">{lane.name}</div>
         </div>
         <AltContainer
           stores={[NoteStore]}
@@ -443,10 +443,10 @@ leanpub-end-insert
     return (
       <div {...props}>
         <div className="lane-header">
-          <div className="lane-name">{lane.name}</div>
           <div className="lane-add-note">
             <button onClick={this.addNote}>+</button>
           </div>
+          <div className="lane-name">{lane.name}</div>
         </div>
         <AltContainer
           stores={[NoteStore]}
@@ -470,7 +470,7 @@ leanpub-start-delete
   }
 leanpub-end-delete
 leanpub-start-insert
-  addNote(laneId) {
+  addNote(laneId, e) {
     const note = NoteActions.create({task: 'New task'});
 
     LaneActions.attachToLane({
@@ -557,8 +557,11 @@ export default class Editable extends React.Component {
   }
   renderEdit = () => {
     return <input type="text"
+      ref={
+        (e) => e ? e.selectionStart = this.props.value.length : null
+      }
       autoFocus={true}
-      placeholder={this.props.value}
+      defaultValue={this.props.value}
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   };
@@ -581,8 +584,10 @@ export default class Editable extends React.Component {
     }
   };
   finishEdit = (e) => {
-    if(this.props.onEdit) {
-      this.props.onEdit(e.target.value);
+    const value = e.target.value;
+
+    if(this.props.onEdit && value.trim()) {
+      this.props.onEdit(value);
     }
   };
 }
@@ -677,7 +682,9 @@ export default ({notes, onValueClick, onEdit, onDelete}) => {
 leanpub-end-insert
 ```
 
-If you refresh the browser, you should see `Uncaught TypeError: Cannot read property 'bind' of undefined`. This has to do with that `onValueClick` definition we added. *Typing with React* chapter discusses how to use `propTypes` to work around this problem. It's a feature that allows us to set good defaults for props while also checking their types during development.
+If you refresh the browser, you should see `Uncaught TypeError: Cannot read property 'bind' of undefined`. This has to do with that `onValueClick` definition we added. This is something we'll address next.
+
+T> *Typing with React* chapter discusses how to use `propTypes` to work around this problem. It's a feature that allows us to set good defaults for props while also checking their types during development.
 
 ### Connecting `Lane` with `Editable`
 
@@ -701,6 +708,7 @@ export default class Lane extends React.Component {
     this.deleteNote = this.deleteNote.bind(this, id);
 leanpub-start-insert
     this.editName = this.editName.bind(this, id);
+    this.deleteLane = this.deleteLane.bind(this, id);
     this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
 leanpub-end-insert
   }
@@ -709,18 +717,25 @@ leanpub-end-insert
 
     return (
       <div {...props}>
+leanpub-start-delete
         <div className="lane-header">
+leanpub-end-delete
+leanpub-start-insert
+        <div className="lane-header" onClick={this.activateLaneEdit}>
+leanpub-end-insert
+          <div className="lane-add-note">
+            <button onClick={this.addNote}>+</button>
+          </div>
 leanpub-start-delete
           <div className="lane-name">{lane.name}</div>
 leanpub-end-delete
 leanpub-start-insert
           <Editable className="lane-name" editing={lane.editing}
-            value={lane.name} onEdit={this.editName}
-            onValueClick={this.activateLaneEdit} />
-leanpub-end-insert
-          <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
+            value={lane.name} onEdit={this.editName} />
+          <div className="lane-delete">
+            <button onClick={this.deleteLane}>x</button>
           </div>
+leanpub-end-insert
         </div>
         <AltContainer
           stores={[NoteStore]}
@@ -741,10 +756,27 @@ leanpub-end-insert
       </div>
     )
   }
+  addNote(laneId, e) {
+leanpub-start-insert
+    // If note is added, avoid opening lane name edit by stopping
+    // event bubbling in this case.
+    e.stopPropagation();
+leanpub-end-insert
+
+    const note = NoteActions.create({task: 'New task'});
+
+    LaneActions.attachToLane({
+      noteId: note.id,
+      laneId
+    });
+  }
   ...
 leanpub-start-insert
   editName(id, name) {
     console.log(`edit lane ${id} name using ${name}`);
+  }
+  deleteLane(id) {
+    console.log(`delete lane ${id}`);
   }
   activateLaneEdit(id) {
     console.log(`activate lane ${id} edit`);
@@ -847,12 +879,17 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
   editName(id, name) {
-    if(name) {
-      LaneActions.update({id, name, editing: false});
-    }
-    else {
-      LaneActions.delete(id);
-    }
+    LaneActions.update({id, name, editing: false});
+  }
+leanpub-end-insert
+leanpub-start-delete
+  deleteLane(id) {
+    console.log(`delete lane ${id}`);
+  }
+leanpub-end-delete
+leanpub-start-insert
+  deleteLane(id) {
+    LaneActions.delete(id);
   }
 leanpub-end-insert
 leanpub-start-delete
@@ -927,14 +964,37 @@ leanpub-start-insert
 }
 
 .lane-add-note {
+  float: left;
+
+  margin-right: 0.5em;
+}
+
+.lane-delete {
   float: right;
 
   margin-left: 0.5em;
+
+  visibility: hidden;
+}
+.lane-header:hover .lane-delete {
+  visibility: visible;
 }
 
 .add-lane, .lane-add-note button {
+  cursor: pointer;
+
   background-color: #fdfdfd;
   border: 1px solid #ccc;
+}
+
+.lane-delete button {
+  padding: 0;
+
+  cursor: pointer;
+
+  color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
 }
 leanpub-end-insert
 
