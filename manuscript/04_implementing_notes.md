@@ -502,7 +502,7 @@ T> It is a good idea to name your callbacks using `on` prefix. This will allow y
 
 ### Communicating `Note` State Changes
 
-Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. We will need to trigger this callback at `Note` and delegate the result to `App` level. The diagram below illustrates the idea:
+Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. We will need to trigger this callback at `Note` and delegate the result to `App` level. The diagram below illustrates the idea and how we are going to bind the data:
 
 ![`onEdit` flow](images/bind.png)
 
