@@ -711,7 +711,7 @@ There is one problem, though. What happens to the old instance of the `Note`? In
 
 Earlier, we resolved this using `detachFromLane`. The problem is that we don't know to which lane the note belonged. We could pass this data through the component hierarchy, but that doesn't feel particularly nice.
 
-We could resolve this on store level instead by implementing an invariant at `attachToLane` that makes sure any possible earlier references get removed. This can be achieved by implementing `this.removeNote(noteId)` check:
+We can resolve this by adding a check against the case at `attachToLane`:
 
 **app/stores/LaneStore.js**
 
@@ -721,29 +721,27 @@ We could resolve this on store level instead by implementing an invariant at `at
 class LaneStore {
   ...
   attachToLane({laneId, noteId}) {
+    const lanes = this.lanes.map(lane => {
 leanpub-start-insert
-    this.removeNote(noteId);
+      if(lane.notes.indexOf(noteId) >= 0) {
+        lane.notes = lane.notes.filter(note => note !== noteId);
+      }
 leanpub-end-insert
 
-    ...
+      if(lane.id === laneId) {
+        if(lane.notes.indexOf(noteId) === -1) {
+          lane.notes.push(noteId);
+        }
+        else {
+          console.warn('Already attached note to lane', lanes);
+        }
+      }
+
+      return lane;
+    });
+
+    this.setState({lanes});
   }
-leanpub-start-insert
-  removeNote(noteId) {
-    const lanes = this.lanes;
-    const removeLane = lanes.filter(lane => {
-      return lane.notes.indexOf(noteId) >= 0;
-    })[0];
-
-    if(!removeLane) {
-      return;
-    }
-
-    const removeNoteIndex = removeLane.notes.indexOf(noteId);
-
-    removeLane.notes = removeLane.notes.slice(0, removeNoteIndex).
-      concat(removeLane.notes.slice(removeNoteIndex + 1));
-  }
-leanpub-end-insert
   ...
 }
 ```
