@@ -484,7 +484,7 @@ export default class Note extends React.Component {
     // See *Typing with React* chapter for more information.
     const value = e.target.value;
 
-    if(this.props.onEdit && value) {
+    if(this.props.onEdit && value.trim()) {
       this.props.onEdit(value);
 
       // Exit edit mode.
