@@ -327,7 +327,7 @@ Even though we have fine bundles now, there's one problem. Our current *index.ht
 A good alternative is to use a Webpack plugin and a template that have been designed for this purpose. [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin) and [html-webpack-template](https://www.npmjs.com/package/html-webpack-template) work well together and can perform a lot of the heavy lifting for us. Install them first:
 
 ```bash
-npm i html-webpack-plugin html-webpack-template --save-dev
+npm i html-webpack-plugin html-webpack-template@3 --save-dev
 ```
 
 In order to connect it with out project, we need to tweak the configuration a notch. While at it, get rid of *build/index.html* as we won't need that anymore. The system will generate it for us after this step:
@@ -357,7 +357,8 @@ leanpub-start-insert
     new HtmlWebpackPlugin({
       template: 'node_modules/html-webpack-template/index.html',
       title: 'Kanban app',
-      appMountId: 'app'
+      appMountId: 'app',
+      inject: false
     })
   ]
 leanpub-end-insert
