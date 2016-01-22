@@ -72,11 +72,11 @@ Babel provides support for certain [experimental features](https://babeljs.io/do
 
 * **Stage 0** - Strawman
 * **Stage 1** - Proposal
-* **Stage 2** - Draft - Features starting from *stage 2* have been enabled by default
+* **Stage 2** - Draft
 * **Stage 3** - Candidate
 * **Stage 4** - Finished
 
-I would be careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk.
+I would be very careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk.
 
 T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of code it generates.
 
