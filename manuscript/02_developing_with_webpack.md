@@ -289,12 +289,7 @@ leanpub-end-insert
   output: {
     path: PATHS.build,
     filename: 'bundle.js'
-  },
-  plugins: [
-    new HtmlwebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
+  }
 };
 
 leanpub-start-insert
