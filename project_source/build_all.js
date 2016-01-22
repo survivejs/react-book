@@ -14,8 +14,8 @@ function main() {
   var io = files.filter(function(file) {
     var stat = fs.statSync(file);
 
-    // skip typing with react
-    if(file.indexOf('10') === 0) {
+    // skip testing and typing with react
+    if(file.indexOf('09') === 0 || file.indexOf('10') === 0) {
       return false;
     }
 
