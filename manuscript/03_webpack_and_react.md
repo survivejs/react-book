@@ -224,7 +224,7 @@ Given passing a query string like this isn't particularly readable, another way 
 
 This approach becomes problematic with multiple loaders since it's limited just to one loader at a time. If you want to use this format with multiple, you need separate declarations.
 
-It's a good idea to keep in mind that Webpack `loaders` are always evaluates from right to left and from bottom to top (separate definitions). The following two declarations are equal based on this rule:
+It's a good idea to keep in mind that Webpack `loaders` are always evaluated from right to left and from bottom to top (separate definitions). The following two declarations are equal based on this rule:
 
 ```javascript
 {
