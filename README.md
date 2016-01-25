@@ -23,7 +23,7 @@ As no book is perfect, you will likely come by issues and might have some questi
 * Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
 * Send me email at [info@survivejs.com](mailto:info@survivejs.com)
 
-If you post questions to [Stack Overflow](http://stackoverflow.com/search?q=survivejs), tag them using **survivejs** so I will get notified of them. You can use the hashtag **#survivejs** at Twitter.
+If you post questions to [Stack Overflow](http://stackoverflow.com/search?q=survivejs), tag them using [**survivejs**](https://stackoverflow.com/questions/tagged/survivejs) so I will get notified of them. You can also use the hashtag **#survivejs** at Twitter.
 
 ## Announcements
 
