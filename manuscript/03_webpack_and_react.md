@@ -164,6 +164,8 @@ In addition, we'll be enabling a couple of custom features to make the project m
 
 In order to make it easier to set up the features, I created [a specific preset](https://github.com/survivejs/babel-preset-survivejs-kanban) containing them. It also contains [babel-plugin-transform-object-assign](https://www.npmjs.com/package/babel-plugin-transform-object-assign) plugin which allows us to use `Object.assign` without having to worry about shimming it for older environments.
 
+T> An alternative way to deal with `Object.assign` would be to consume the functionality through a ponyfill, such as [object-assign](https://www.npmjs.com/package/object-assign), or use a polyfill like [object.assign](https://www.npmjs.com/package/object.assign). Ponyfills don't override native methods and can be considered a safer option. Polyfills do exactly that so use them with care.
+
 A preset is simply a npm module exporting Babel configuration. Maintaining presets like this can be useful especially if you want to share the same set of functionality across multiple projects. Get the preset installed:
 
 ```bash
