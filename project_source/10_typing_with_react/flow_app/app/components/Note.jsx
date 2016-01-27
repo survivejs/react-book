@@ -29,6 +29,7 @@ const noteTarget = {
 class Note extends React.Component {
   static props: {
     id: string,
+    editing?: boolean,
     connectDragSource?: Function,
     connectDropTarget?: Function,
     isDragging?: boolean,
@@ -39,9 +40,11 @@ class Note extends React.Component {
   };
   render(): Object {
     const {connectDragSource, connectDropTarget, isDragging,
-      onMove, id, ...props} = this.props;
+      onMove, id, editing, ...props} = this.props;
+    // Pass through if we are editing
+    const dragSource = editing ? a => a : connectDragSource;
 
-    return connectDragSource(connectDropTarget(
+    return dragSource(connectDropTarget(
       <li style={{
         opacity: isDragging ? 0 : 1
       }} {...props}>{props.children}</li>

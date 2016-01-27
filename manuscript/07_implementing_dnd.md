@@ -748,6 +748,83 @@ leanpub-end-insert
 
 `removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that, we have a clean slate, and we can add a note to a lane. This change allows us to drop `detachFromLane` from the system entirely, but I'll leave that up to you.
 
+### Fixing Editing Behavior During Dragging
+
+The current implementation has a small glitch. If you edit a note, you can still drag it around while it's being edited. This isn't ideal as it overrides the default behavior most people are used to. You cannot for instance double-click on an input to select all the text.
+
+Fortunately this is simple to fix. We'll need to use the `editing` state per each `Note` to adjust its behavior. First we need to pass `editing` state to an individual `Note`:
+
+**app/components/Notes.js**
+
+```javascript
+...
+
+export default ({notes, onValueClick, onEdit, onDelete}) => {
+  return (
+    <ul className="notes">{notes.map(note =>
+leanpub-start-delete
+      <Note className="note" id={note.id} key={note.id}
+        onMove={LaneActions.move}>
+leanpub-end-delete
+leanpub-start-insert
+      <Note className="note" id={note.id} key={note.id}
+        editing={note.editing} onMove={LaneActions.move}>
+leanpub-end-insert
+        <Editable
+          editing={note.editing}
+          value={note.task}
+          onValueClick={onValueClick.bind(null, note.id)}
+          onEdit={onEdit.bind(null, note.id)}
+          onDelete={onDelete.bind(null, note.id)} />
+      </Note>
+    )}</ul>
+  );
+}
+```
+
+Next we need to take this into account while rendering:
+
+**app/components/Note.js**
+
+```javascript
+...
+
+@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
+}))
+@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+  connectDropTarget: connect.dropTarget()
+}))
+export default class Note extends React.Component {
+  render() {
+leanpub-start-delete
+    const {connectDragSource, connectDropTarget, isDragging,
+      onMove, id, ...props} = this.props;
+leanpub-end-delete
+leanpub-start-insert
+    const {connectDragSource, connectDropTarget, isDragging,
+      onMove, id, editing, ...props} = this.props;
+    // Pass through if we are editing
+    const dragSource = editing ? a => a : connectDragSource;
+leanpub-end-insert
+
+leanpub-start-delete
+    return connectDragSource(connectDropTarget(
+leanpub-end-delete
+leanpub-start-insert
+    return dragSource(connectDropTarget(
+leanpub-end-insert
+      <li style={{
+        opacity: isDragging ? 0 : 1
+      }} {...props}>{props.children}</li>
+    ));
+  }
+}
+```
+
+This small change gives us the behavior we want. If you try to edit a note now, the input should work as you might expect it to behave normally. Design-wise it was a good idea to keep `editing` state outside of `Editable`. If we hadn't done that, implementing this change would have been a lot harder as we would have had to extract the state outside of the component.
+
 Now we have a Kanban table that is actually useful! We can create new lanes and notes, and edit and remove them. In addition we can move notes around. Mission accomplished!
 
 ## Conclusion
