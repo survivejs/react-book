@@ -37,16 +37,16 @@ class LaneStore {
   }
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes.map(lane => {
-      if(lane.notes.indexOf(noteId) >= 0) {
+      if(lane.notes.includes(noteId)) {
         lane.notes = lane.notes.filter(note => note !== noteId);
       }
 
       if(lane.id === laneId) {
-        if(lane.notes.indexOf(noteId) === -1) {
-          lane.notes.push(noteId);
+        if(lane.notes.includes(noteId)) {
+          console.warn('Already attached note to lane', lanes);
         }
         else {
-          console.warn('Already attached note to lane', lanes);
+          lane.notes.push(noteId);
         }
       }
 
@@ -68,12 +68,8 @@ class LaneStore {
   }
   move({sourceId, targetId}) {
     const lanes = this.lanes;
-    const sourceLane = lanes.filter(lane => {
-      return lane.notes.indexOf(sourceId) >= 0;
-    })[0];
-    const targetLane = lanes.filter(lane => {
-      return lane.notes.indexOf(targetId) >= 0;
-    })[0];
+    const sourceLane = lanes.filter(lane => lane.notes.includes(sourceId))[0];
+    const targetLane = lanes.filter(lane => lane.notes.includes(targetId))[0];
     const sourceNoteIndex = sourceLane.notes.indexOf(sourceId);
     const targetNoteIndex = targetLane.notes.indexOf(targetId);
 

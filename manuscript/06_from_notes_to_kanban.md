@@ -260,11 +260,11 @@ leanpub-start-insert
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes.map(lane => {
       if(lane.id === laneId) {
-        if(lane.notes.indexOf(noteId) === -1) {
-          lane.notes.push(noteId);
+        if(lane.notes.includes(noteId)) {
+          console.warn('Already attached note to lane', lanes);
         }
         else {
-          console.warn('Already attached note to lane', lanes);
+          lane.notes.push(noteId);
         }
       }
 
@@ -368,8 +368,6 @@ Just building an association between a lane and a note isn't enough. We are goin
 ### Implementing a Getter for `NoteStore`
 
 One neat way to resolve lane notes to actual data is to implement a public method `NoteStore.getNotesByIds(notes)`. It accepts an array of `Note` ids, and returns the corresponding objects.
-
-This can be achieved using the `map` operation. First, we need to get the ids of all notes to match against. After that, we can perform a lookup for each note id passed in using `indexOf`.
 
 Just implementing the method isn't enough. We also need to make it public. In Alt, this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question. Consider the implementation below:
 
