@@ -156,6 +156,8 @@ To make it easier to consume plugins, Babel supports the concept of *presets*. E
 npm i babel-preset-es2015 babel-preset-react --save-dev
 ```
 
+T> Instead of typing it all out, we could use brace expansion. Example: `npm i babel-preset-{es2015,react} -D`. `-D` equals `--save-dev` as you might remember.
+
 In addition, we'll be enabling a couple of custom features to make the project more convenient to develop:
 
 * [Property initializers](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `renderNote = (note) => {`. This binds the `renderNote` method to instances automatically. The feature makes more sense as we get to use it.
