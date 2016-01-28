@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlwebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 const Clean = require('clean-webpack-plugin');
@@ -35,7 +35,7 @@ const common = {
     ]
   },
   plugins: [
-    new HtmlwebpackPlugin({
+    new HtmlWebpackPlugin({
       template: 'node_modules/html-webpack-template/index.ejs',
       title: 'Kanban app',
       appMountId: 'app',
