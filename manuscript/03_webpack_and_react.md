@@ -190,6 +190,35 @@ Babel provides stage specific presets. It is clearer to rely directly on any cus
 
 T> If you don't like to maintain a *.babelrc* file, another alternative is to write the configuration below `babel` field at *package.json*. Babel will pick it up from there.
 
+## Defining Your Own Babel Presets
+
+A Babel preset is simply a Node.js package that imports other presets and plugins. The idea is that the preset will pull the dependencies it needs and then expose them through standard Node.js interface. For example, we could define a preset like this:
+
+**index.js**
+
+```javascript
+module.exports = {
+  plugins: [
+    require('babel-plugin-syntax-class-properties'),
+    require('babel-plugin-syntax-decorators'),
+    require('babel-plugin-syntax-object-rest-spread'),
+
+    // You can pass parameters using an array syntax
+    [
+      require('babel-plugin-transform-regenerator'),
+      {
+        async: false,
+        asyncGenerators: false
+      }
+    ]
+  ]
+};
+```
+
+Assuming we named our package as *babel-preset-survivejs-kanban*, we could then install it to our project as above and connect it with Babel configuration. Note the *babel-preset* prefix. The great advantage of developing a package like this is that it allows us to maintain shared presets across multiple, similar projects.
+
+The *Authoring Libraries* chapter goes into greater detail when it comes to npm and dealing with packages. To make it easier for other people to find your preset, consider including `babel-preset` to your package keywords.
+
 ### Using Babel for Webpack Configuration
 
 It is possible to use Babel transpiled features in your Webpack configuration file. Simply rename *webpack.config.js* to *webpack.config.babel.js* and Webpack will pick it up provided Babel has been set up in your project. It will respect the contents of *.babelrc*.
