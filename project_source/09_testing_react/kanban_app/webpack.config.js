@@ -36,7 +36,7 @@ const common = {
   },
   plugins: [
     new HtmlwebpackPlugin({
-      template: 'node_modules/html-webpack-template/index.html',
+      template: 'node_modules/html-webpack-template/index.ejs',
       title: 'Kanban app',
       appMountId: 'app',
       inject: false
@@ -103,9 +103,7 @@ if(TARGET === 'build' || TARGET === 'stats') {
       ]
     },
     plugins: [
-      new Clean([PATHS.build], {
-        verbose: false // Don't write logs to console
-      }),
+      new Clean([PATHS.build]),
       // Output extracted CSS to a file
       new ExtractTextPlugin('styles.[chunkhash].css'),
       // Extract vendor and manifest files

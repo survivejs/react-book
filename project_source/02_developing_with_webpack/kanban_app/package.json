@@ -16,8 +16,8 @@
   "devDependencies": {
     "css-loader": "^0.23.1",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0",
-    "webpack-merge": "^0.7.0"
+    "webpack": "^1.12.12",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-merge": "^0.7.3"
   }
 }
