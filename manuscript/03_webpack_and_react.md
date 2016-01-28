@@ -279,7 +279,7 @@ export default class App extends React.Component {
 
 T> You can import portions from `react` using the syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. It is important that you import `React` as well because that JSX will get converted to `React.createElement` calls. I prefer `import React from 'react'` simply because it's easier to grep for `React.Component` than `Component` given it's more unique.
 
-T> It may be worth your while to install [React Developer Tools](https://github.com/facebook/react-devtools) extension to your browser. Currently, Chrome and Firefox are supported. This will make it easier to understand what's going on while developing.
+T> It may be worth your while to install [React Developer Tools](https://github.com/facebook/react-devtools) extension to your browser. Currently, Chrome and Firefox are supported. This will make it easier to understand what's going on while developing. Note that the developer tools won't work if you are using the iframe mode (`/webpack-dev-server/`) of *webpack-dev-server*!
 
 ### Setting Up `Note`
 
