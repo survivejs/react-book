@@ -58,7 +58,8 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
     "dist:min": "webpack",
     "dist:modules": "babel ./src --out-dir ./dist-modules",
 
-    "preversion": "npm run test && npm run test:lint && npm run dist && npm run dist:min && git commit --allow-empty -am \"Update dist\"",
+    "pretest": "npm run test:lint",
+    "preversion": "npm run test && npm run dist && npm run dist:min && git commit --allow-empty -am \"Update dist\"",
     "prepublish": "npm run dist:modules",
     "postpublish": "npm run gh-pages && npm run gh-pages:deploy",
     /* If your library is installed through Git, you may want to transpile it */
