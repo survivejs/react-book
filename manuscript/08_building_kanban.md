@@ -81,8 +81,10 @@ if(TARGET === 'build') {
     plugins: [
 leanpub-start-insert
       // Setting DefinePlugin affects React library size!
+      // DefinePlugin replaces content "as is" so we need some extra quotes
+      // for the generated code to make sense
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('production')
+        'process.env.NODE_ENV': '"production"'
 
         // You can set this to JSON.stringify('development') for your
         // development target to force NODE_ENV to development mode
@@ -96,8 +98,6 @@ leanpub-end-insert
 ```
 
 This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from the build completely.
-
-T> That `JSON.stringify` is needed, as Webpack will perform string replace "as is". In this case, we'll want to end up with strings, as that's what various comparisons expect, not just `production`. The latter would just cause an error. An alternative would be to use a string, such as `'"production"'`. Note the double quotation marks (").
 
 Trigger `npm run build` again, and you should see improved results:
 
