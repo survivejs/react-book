@@ -7,17 +7,6 @@ import LaneActions from '../actions/LaneActions';
 import Editable from './Editable.jsx';
 
 export default class Lane extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const id = props.lane.id;
-
-    this.addNote = this.addNote.bind(this, id);
-    this.deleteNote = this.deleteNote.bind(this, id);
-    this.editName = this.editName.bind(this, id);
-    this.deleteLane = this.deleteLane.bind(this, id);
-    this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
-  }
   render() {
     const {lane, ...props} = this.props;
 
@@ -64,15 +53,21 @@ export default class Lane extends React.Component {
     LaneActions.detachFromLane({laneId, noteId});
     NoteActions.delete(noteId);
   }
-  editName(id, name) {
-    LaneActions.update({id, name, editing: false});
-  }
-  deleteLane(id) {
-    LaneActions.delete(id);
-  }
-  activateLaneEdit(id) {
-    LaneActions.update({id, editing: true});
-  }
+  editName = (name) => {
+    const laneId = this.props.lane.id;
+
+    LaneActions.update({id: laneId, name, editing: false});
+  };
+  deleteLane = () => {
+    const laneId = this.props.lane.id;
+
+    LaneActions.delete(laneId);
+  };
+  activateLaneEdit = () => {
+    const laneId = this.props.lane.id;
+
+    LaneActions.update({id: laneId, editing: true});
+  };
   activateNoteEdit(id) {
     NoteActions.update({id, editing: true});
   }

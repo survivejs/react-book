@@ -606,9 +606,6 @@ leanpub-start-insert
 }))
 leanpub-end-insert
 export default class Lane extends React.Component {
-  constructor(props) {
-    ...
-  }
   render() {
 leanpub-start-delete
     const {lane, ...props} = this.props;
@@ -626,6 +623,7 @@ leanpub-end-insert
       ...
     );
   }
+  ...
 }
 ```
 

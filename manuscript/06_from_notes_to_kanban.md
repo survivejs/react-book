@@ -425,16 +425,6 @@ import LaneActions from '../actions/LaneActions';
 leanpub-end-insert
 
 export default class Lane extends React.Component {
-leanpub-start-insert
-  constructor(props) {
-    super(props);
-
-    const id = props.lane.id;
-
-    this.addNote = this.addNote.bind(this, id);
-    this.deleteNote = this.deleteNote.bind(this, id);
-  }
-leanpub-end-insert
   render() {
     const {lane, ...props} = this.props;
 
@@ -468,14 +458,15 @@ leanpub-start-delete
   }
 leanpub-end-delete
 leanpub-start-insert
-  addNote(laneId, e) {
+  addNote = (e) => {
+    const laneId = this.props.lane.id;
     const note = NoteActions.create({task: 'New task'});
 
     LaneActions.attachToLane({
       noteId: note.id,
       laneId
     });
-  }
+  };
 leanpub-end-insert
   editNote(id, task) {
     NoteActions.update({id, task});
@@ -486,10 +477,12 @@ leanpub-start-delete
   }
 leanpub-end-delete
 leanpub-start-insert
-  deleteNote(laneId, noteId) {
+  deleteNote = (noteId) => {
+    const laneId = this.props.lane.id;
+
     LaneActions.detachFromLane({laneId, noteId});
     NoteActions.delete(noteId);
-  }
+  };
 leanpub-end-insert
 }
 ```
@@ -697,19 +690,6 @@ import Editable from './Editable.jsx';
 leanpub-end-insert
 
 export default class Lane extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const id = props.lane.id;
-
-    this.addNote = this.addNote.bind(this, id);
-    this.deleteNote = this.deleteNote.bind(this, id);
-leanpub-start-insert
-    this.editName = this.editName.bind(this, id);
-    this.deleteLane = this.deleteLane.bind(this, id);
-    this.activateLaneEdit = this.activateLaneEdit.bind(this, id);
-leanpub-end-insert
-  }
   render() {
     const {lane, ...props} = this.props;
 
@@ -770,15 +750,21 @@ leanpub-end-insert
   }
   ...
 leanpub-start-insert
-  editName(id, name) {
-    console.log(`edit lane ${id} name using ${name}`);
-  }
-  deleteLane(id) {
-    console.log(`delete lane ${id}`);
-  }
-  activateLaneEdit(id) {
-    console.log(`activate lane ${id} edit`);
-  }
+  editName = (name) => {
+    const laneId = this.props.lane.id;
+
+    console.log(`edit lane ${laneId} name using ${name}`);
+  };
+  deleteLane = () => {
+    const laneId = this.props.lane.id;
+
+    console.log(`delete lane ${laneId}`);
+  };
+  activateLaneEdit = () => {
+    const laneId = this.props.lane.id;
+
+    console.log(`activate lane ${laneId} edit`);
+  };
   activateNoteEdit(id) {
     console.log(`activate note ${id} edit`);
   }
@@ -871,34 +857,46 @@ leanpub-start-insert
 leanpub-end-insert
   ...
 leanpub-start-delete
-  editName(id, name) {
-    console.log(`edit lane ${id} name using ${name}`);
-  }
+  editName = (name) => {
+    const laneId = this.props.lane.id;
+
+    console.log(`edit lane ${laneId} name using ${name}`);
+  };
 leanpub-end-delete
 leanpub-start-insert
-  editName(id, name) {
-    LaneActions.update({id, name, editing: false});
-  }
+  editName = (name) => {
+    const laneId = this.props.lane.id;
+
+    LaneActions.update({id: laneId, name, editing: false});
+  };
 leanpub-end-insert
 leanpub-start-delete
-  deleteLane(id) {
-    console.log(`delete lane ${id}`);
-  }
+  deleteLane = () => {
+    const laneId = this.props.lane.id;
+
+    console.log(`delete lane ${laneId}`);
+  };
 leanpub-end-delete
 leanpub-start-insert
-  deleteLane(id) {
-    LaneActions.delete(id);
-  }
+  deleteLane = () => {
+    const laneId = this.props.lane.id;
+
+    LaneActions.delete(laneId);
+  };
 leanpub-end-insert
 leanpub-start-delete
-  activateLaneEdit(id) {
-    console.log(`activate lane ${id} edit`);
-  }
+  activateLaneEdit = () => {
+    const laneId = this.props.lane.id;
+
+    console.log(`activate lane ${laneId} edit`);
+  };
 leanpub-end-delete
 leanpub-start-insert
-  activateLaneEdit(id) {
-    LaneActions.update({id, editing: true});
-  }
+  activateLaneEdit = () => {
+    const laneId = this.props.lane.id;
+
+    LaneActions.update({id: laneId, editing: true});
+  };
 leanpub-end-insert
 leanpub-start-delete
   activateNoteEdit(id) {
