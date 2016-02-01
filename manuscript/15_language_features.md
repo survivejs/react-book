@@ -430,6 +430,10 @@ In JavaScript, variables are global by default. `var` binds them on *function le
 
 I tend to favor to default to `const` whenever possible. If I need something mutable, `let` will do fine. It is hard to find any good use for `var` anymore as `const` and `let` cover the need in a more understandable manner. In fact, all of the book's code, apart from this appendix, relies on `const`. That just shows you how far you can get with it.
 
+## Decorators
+
+Given decorators are still an experimental feature and there's a lot to cover about them, there's an entire appendix dedicated to the topic. Read *Understanding Decorators* for more information.
+
 ## Conclusion
 
 There's a lot more to ES6 and the upcoming specifications than this. If you want to understand the specification better, [ES6 Katas](http://es6katas.org/) is a good starting point for learning more. Just having a good idea of the basics will take you far.
