@@ -150,7 +150,7 @@ Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/).
 
 Babel 6 relies on *plugins*. There are two types of plugins: syntax and transform. Former allow Babel to parse additional syntax whereas latter apply transformations. This way the code that is using future syntax can get transformed back to JavaScript older environments can understand.
 
-To make it easier to consume plugins, Babel supports the concept of *presets*. Each preset comes with a set of plugins so you don't have to wire them up separately. In this case we'll be relying on ES2015 and JSX presets:
+To make it easier to consume plugins, Babel supports the concept of *presets*. Each preset comes with a set of plugins so you don't have to wire them up separately. In this case we'll be relying on ES2015 and React presets:
 
 ```bash
 npm i babel-preset-es2015 babel-preset-react --save-dev
