@@ -488,6 +488,8 @@ T> Loaders are transformations that are applied to source files, and return the 
 
 W> If `include` isn't set, Webpack will traverse all files within the base directory. This can hurt performance! It is a good idea to set up `include` always. There's also `exclude` option that may come in handy. Prefer `include`, however.
 
+## Setting Up Initial CSS
+
 We are missing just one bit, the actual CSS itself:
 
 **app/main.css**
@@ -515,6 +517,8 @@ Execute `npm start` now. Point your browser to **localhost:8080** if you are usi
 Open up *main.css* and change the background color to something like `lime` (`background: lime`). Develop styles as needed to make it look a little nicer.
 
 ![Hello cornsilk world](images/hello_02.png)
+
+T> An alternative way to load CSS would be to define a separate entry through which we point at CSS. I discuss that at the *Building Kanban* chapter.
 
 ## Enabling Sourcemaps
 
