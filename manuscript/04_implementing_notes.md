@@ -256,6 +256,8 @@ T> `this.setState` accepts a second parameter like this: `this.setState({...}, (
 
 T> You could use `[...this.state.notes, {id: uuid.v4(), task: 'New task'}]` to achieve the same result. This [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) can be used with function parameters as well.
 
+T> Using [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) would be a valid alternative for property initializers. In this case we would use `@autobind` annotation either on class or method level. To learn more about decorators, read *Understanding Decorators*.
+
 ## Improving Component Hierarchy
 
 Our current, one component based setup isn't going to take us far. By looking at our application, we can see there's a component hierarchy like this:
