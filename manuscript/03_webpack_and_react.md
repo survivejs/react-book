@@ -326,6 +326,8 @@ import React from 'react';
 export default () => <div>Learn Webpack</div>;
 ```
 
+Even though we aren't referring to React directly here, it is good to remember that the JSX will get transformed into calls going through it. Hence if you remove the `import` statement, the code will break. Babel plugin known as [babel-plugin-react-require](https://www.npmjs.com/package/babel-plugin-react-require) is able to generate the `imports` for you automatically if you prefer to avoid the imports.
+
 T> Note that we're using the *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
 
 ### Rendering Through *index.jsx*
