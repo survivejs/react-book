@@ -489,7 +489,7 @@ leanpub-end-insert
 
 There are three important changes:
 
-* `constructor` - The constructor binds `addNote` and `deleteNote` `laneId` when the component is created. An alternative way would be to handle this at `render()`. That would be a better alternative if the `id` could change.
+* Methods where we need to refer to `this` have been bound using a property initializer. An alternative way to achieve this would have been to `bind` at `render` or at `constructor`.
 * `notes: () => NoteStore.getNotesByIds(notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified. Note that we trigger `detachFromLane` before `delete` at `deleteNote`. Otherwise we may try to render non-existent notes. You can try swapping the order to see warnings.
 
@@ -734,20 +734,21 @@ leanpub-end-insert
       </div>
     )
   }
-  addNote(laneId, e) {
+  addNote = (e) => {
 leanpub-start-insert
     // If note is added, avoid opening lane name edit by stopping
     // event bubbling in this case.
     e.stopPropagation();
 leanpub-end-insert
 
+    const laneId = this.props.lane.id;
     const note = NoteActions.create({task: 'New task'});
 
     LaneActions.attachToLane({
       noteId: note.id,
       laneId
     });
-  }
+  };
   ...
 leanpub-start-insert
   editName = (name) => {
