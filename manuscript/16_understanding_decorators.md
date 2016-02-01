@@ -2,7 +2,11 @@
 
 If you have used languages such as Java or Python before, you might be familiar with the idea. Decorators are syntactic sugar that allow us to wrap and annotate classes and functions. In their [current proposal](https://github.com/wycats/javascript-decorators) (stage 1) only class and method level wrapping is supported. Functions may become supported later on.
 
-## Implementing Logging Decorator
+In Babel 6 you can enable this behavior through [babel-plugin-syntax-decorators](https://www.npmjs.com/package/babel-plugin-syntax-decorators) and [babel-plugin-transform-decorators-legacy](https://www.npmjs.com/package/babel-plugin-transform-decorators-legacy) plugins. The former provides syntax level support whereas the latter gives the type of behavior we are going to discuss here.
+
+The greatest benefit of decorators is that they allow us to wrap behavior into simple, reusable chunks while cutting down the amount of noise. It is definitely possible to code without them. They just make certain tasks neater, as we saw with drag and drop related annotations.
+
+## Implementing a Logging Decorator
 
 Sometimes, it is useful to know how methods are being called. You could of course attach `console.log` there but it's more fun to implement `@log`. That's a more controllable way to deal with it. Consider the example below:
 
