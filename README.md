@@ -10,9 +10,13 @@ Webpack, a module bundler, solves a significant problem for web developers. It c
 
 ## How to Use This Repository?
 
-The repository has been split in two main parts: `manuscript` and `project_source`. You can find the book in its entirety under `manuscript` organized per chapter. `project_source` contains source associated to each chapter.
+The repository has been split in two main parts: `manuscript` and `project_source`. You can find the freely available chapters under `manuscript` organized per chapter. `project_source` contains source associated to each chapter.
 
 There is no single right way to approach the book. It depends on your experience level and interest. You can build the project from scratch by following the book or you can start from a specific stage. Just pick the source from previous chapter as your starting point.
+
+Please note that the repository defaults to the `dev` branch of the book. `master` contains the source of the most recent version. Each version has been tagged so that it's easy for you to find the source matching to the version of the book you are reading.
+
+<img align="left" width="306" height="149" src="manuscript/images/github.png" />
 
 ## Getting Support
 
@@ -22,6 +26,7 @@ As no book is perfect, you will likely come by issues and might have some questi
 * Join me at [Gitter Chat](https://gitter.im/survivejs/webpack_react)
 * Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
 * Send me email at [info@survivejs.com](mailto:info@survivejs.com)
+* Ask me anything about Webpack or React at [SurviveJS AmA](https://github.com/survivejs/ama/issues)
 
 If you post questions to [Stack Overflow](http://stackoverflow.com/search?q=survivejs), tag them using [**survivejs**](https://stackoverflow.com/questions/tagged/survivejs) so I will get notified of them. You can also use the hashtag **#survivejs** at Twitter.
 

@@ -81,11 +81,27 @@ The book doesn't cover everything you need to know in order to develop front-end
 
 Given the book relies on a variety of new language features, I've gathered the most important ones used to a separate *Language Features* appendix that provides a quick look at them. If you want to understand the features in isolation or feel unsure of something, that's a good place to look.
 
+## Book Versioning
+
+Given this book receives a fair amount of maintenance and improvements due to the pace of innovation, there's a rough versioning scheme in place. I maintain release notes for each new version at the [book blog](http://survivejs.com/blog/). That should give you a good idea of what has changed between versions. Also examining the GitHub repository may be beneficial. I recommend using the GitHub *compare* tool for this purpose. Example:
+
+```
+https://github.com/survivejs/webpack_react/compare/v1.9.10...v1.9.17
+```
+
+The page will show you the individual commits that went to the project between the given version range. You can also see the lines that have changed in the book. This excludes the private chapters, but it's enough to give you a good idea of the major changes made to the book.
+
+The current version of the book is **2.0.0-rc3**.
+
 ## Extra Material
 
-The book content and source are available at [book's repository at GitHub](https://github.com/survivejs/webpack_react). You can find a lot of complementary material below the [survivejs organization](https://github.com/survivejs/). The book repository itself contains code per chapter. This means you can start from anywhere you want without having to type it all through yourself. If you are unsure of something, you can always refer to that.
+The book content and source are available at [book's repository at GitHub](https://github.com/survivejs/webpack_react). Please note that the repository defaults to the `dev` branch of the project. This makes it convenient to contribute. To find source matching the version of the book you are reading, use the tag selector at GitHub's user interface as in the image below:
 
-There are alternative implementations of the application available written in [mobservable](https://github.com/survivejs/mobservable-demo), [Redux](https://github.com/survivejs/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
+![GitHub tag selector](images/github.png)
+
+The book repository contains code per chapter. This means you can start from anywhere you want without having to type it all through yourself. If you are unsure of something, you can always refer to that.
+
+You can find a lot of complementary material at the [survivejs organization](https://github.com/survivejs/). Examples of this are alternative implementations of the application available written in [mobservable](https://github.com/survivejs/mobservable-demo), [Redux](https://github.com/survivejs/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
 
 ## Getting Support
 
@@ -95,6 +111,7 @@ As no book is perfect, you will likely come by issues and might have some questi
 * Join me at [Gitter Chat](https://gitter.im/survivejs/webpack_react)
 * Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
 * Send me email at [info@survivejs.com](mailto:info@survivejs.com)
+* Ask me anything about Webpack or React at [SurviveJS AmA](https://github.com/survivejs/ama/issues)
 
 If you post questions to Stack Overflow, tag them using **survivejs** so I will get notified of them. You can use the hashtag **#survivejs** at Twitter for same effect.
 
@@ -109,18 +126,6 @@ I announce SurviveJS related news through a couple of channels:
 * [Blog RSS](http://survivejs.com/atom.xml)
 
 Feel free to subscribe.
-
-## Book Versioning
-
-Given this book receives a fair amount of maintenance and improvements due to the pace of innovation, there's a rough versioning scheme in place. I maintain release notes for each new version at the [book blog](http://survivejs.com/blog/). That should give you a good idea of what has changed between versions. Also examining the GitHub repository may be beneficial. I recommend using the GitHub *compare* tool for this purpose. Example:
-
-```
-https://github.com/survivejs/webpack_react/compare/v1.9.10...v1.9.17
-```
-
-The page will show you the individual commits that went to the project between the given version range. You can also see the lines that have changed in the book. This excludes the private chapters, but it's enough to give you a good idea of the major changes made to the book.
-
-The current version of the book is **2.0.0-rc3**.
 
 ## Acknowledgments
 
