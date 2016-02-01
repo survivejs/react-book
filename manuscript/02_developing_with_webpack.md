@@ -137,9 +137,11 @@ const PATHS = {
 };
 
 module.exports = {
-  // Entry accepts a path or an object of entries.
-  // The build chapter contains an example of the latter.
-  entry: PATHS.app,
+  // Entry accepts a path or an object of entries. We'll be using the
+  // latter form given it's convenient with more complex configurations.
+  entry: {
+    app: PATHS.app
+  },
   output: {
     path: PATHS.build,
     filename: 'bundle.js'
@@ -283,9 +285,11 @@ leanpub-end-delete
 leanpub-start-insert
 const common = {
 leanpub-end-insert
-  // Entry accepts a path or an object of entries.
-  // The build chapter contains an example of the latter.
-  entry: PATHS.app,
+  // Entry accepts a path or an object of entries. We'll be using the
+  // latter form given it's convenient with more complex configurations.
+  entry: {
+    app: PATHS.app
+  },
   output: {
     path: PATHS.build,
     filename: 'bundle.js'

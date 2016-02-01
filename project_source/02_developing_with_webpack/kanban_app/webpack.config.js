@@ -10,9 +10,9 @@ const PATHS = {
 };
 
 const common = {
-  // Entry accepts a path or an object of entries.
-  // The build chapter contains an example of the latter.
-  entry: PATHS.app,
+  entry: {
+    app: PATHS.app
+  },
   output: {
     path: PATHS.build,
     filename: 'bundle.js'

@@ -152,7 +152,9 @@ const PATHS = {
 process.env.BABEL_ENV = TARGET;
 
 const common = {
-  entry: PATHS.app,
+  entry: {
+    app: PATHS.app
+  },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -172,9 +174,8 @@ leanpub-end-insert
 if(TARGET === 'build') {
   module.exports = merge(common, {
 leanpub-start-insert
-    // Define entry points needed for splitting
+    // Define vendor entry point needed for splitting
     entry: {
-      app: PATHS.app,
       vendor: Object.keys(pkg.dependencies).filter(function(v) {
         // Exclude alt-utils as it won't work with this setup
         // due to the way the package has been designed
@@ -222,10 +223,10 @@ Now we have separate *app*  and *vendor* bundles. There's something wrong, howev
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    // Define entry points needed for splitting
+    // Define vendor entry point needed for splitting
     entry: {
       ...
-    }
+    },
     plugins: [
 leanpub-start-insert
       // Extract vendor and manifest files
@@ -283,10 +284,10 @@ We can use the placeholder idea within our configuration like this:
 ```javascript
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    // Define entry points needed for splitting
+    // Define vendor entry point needed for splitting
     entry: {
       ...
-    }
+    },
 leanpub-start-insert
     output: {
       path: PATHS.build,
@@ -460,7 +461,9 @@ leanpub-end-insert
 ...
 
 const common = {
-  entry: PATHS.app,
+  entry: {
+    app: PATHS.app
+  },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -539,7 +542,7 @@ leanpub-end-insert
       }),
 leanpub-start-insert
       // Output extracted CSS to a file
-      new ExtractTextPlugin('styles.[chunkhash].css'),
+      new ExtractTextPlugin('[name].[chunkhash].css'),
 leanpub-end-insert
       ...
     ]
@@ -565,7 +568,7 @@ Time: 9250ms
      app.ec1ff5633cd6145ca3d1.js    15.9 kB    0, 2  [emitted]  app
   vendor.226ca9faf3c5d6df7cf1.js     327 kB    1, 2  [emitted]  vendor
 manifest.c638f974fe3d9ced70f4.js  763 bytes       2  [emitted]  manifest
- styles.ec1ff5633cd6145ca3d1.css  888 bytes    0, 2  [emitted]  app
+    app.ec1ff5633cd6145ca3d1.css  888 bytes    0, 2  [emitted]  app
                       index.html  711 bytes          [emitted]
    [0] multi vendor 136 bytes {1} [built]
     + 362 hidden modules
@@ -575,9 +578,88 @@ Child extract-text-webpack-plugin:
 
 T> If you are getting `Module build failed: CssSyntaxError:` error, make sure your `common` configuration doesn't have a CSS related section set up!
 
-Now our styling has been pushed to a separate CSS file. As a result, our JavaScript bundles have become slightly smaller. If we modify only our CSS now, those bundles shouldn't become invalidated anymore. In addition we avoid the FOUC problem.
+Now our styling has been pushed to a separate CSS file. As a result, our JavaScript bundles have become slightly smaller. We also avoid the FOUC problem. The browser doesn't have to wait for JavaScript to load to get styling information. Instead, it can process CSS separately avoiding flash of unstyled content (FOUC).
 
 T> If you have a complex project with a lot of dependencies, it is likely a good idea to use the `DedupePlugin`. It will find possible duplicate files and deduplicate them. Use `new webpack.optimize.DedupePlugin()` in your plugins definition to enable it.
+
+### Improving Caching Behavior
+
+There is one slight problem with the current approach. The generated `app.js` and `app.css` belong to the same chunk. This means that if the contents associated JavaScript or CSS change, so do the hashes. This isn't ideal as it can invalidate our cache even if we don't want it to.
+
+One way to solve this issue is to push styling to a chunk of its own. This breaks the dependency and fixes caching. To achieve this we need to decouple styling from it current chunk and define a custom chunk for it through configuration:
+
+**app/index.jsx**
+
+```javascript
+leanpub-start-delete
+import './main.css';
+leanpub-end-delete
+
+...
+```
+
+**webpack.config.js**
+
+```javascript
+...
+
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+leanpub-start-delete
+  build: path.join(__dirname, 'build')
+leanpub-end-delete
+leanpub-start-insert
+  build: path.join(__dirname, 'build'),
+  style: path.join(__dirname, 'app/main.css')
+leanpub-end-insert
+};
+
+...
+
+const common = {
+  entry: {
+leanpub-start-delete
+    app: PATHS.app
+leanpub-end-delete
+leanpub-start-insert
+    app: PATHS.app,
+    style: PATHS.style
+leanpub-end-insert
+  },
+  ...
+}
+
+...
+```
+
+If you build the project now through `npm run build`, you should see something like this:
+
+```bash
+Hash: 8af45e9a086d5fb9ddc5
+Version: webpack 1.12.12
+Time: 9882ms
+                           Asset       Size  Chunks             Chunk Names
+     app.582c97a61e4a5232b7a9.js    16.4 kB    0, 3  [emitted]  app
+   style.64acd61995c3afbc43f1.js   38 bytes    1, 3  [emitted]  style
+  vendor.16a716f91eacbec298cb.js     285 kB    2, 3  [emitted]  vendor
+manifest.50950c0170b5e0b86e45.js  788 bytes       3  [emitted]  manifest
+  style.64acd61995c3afbc43f1.css     1.1 kB    1, 3  [emitted]  style
+                      index.html  770 bytes          [emitted]
+   [0] multi vendor 112 bytes {2} [built]
+    + 331 hidden modules
+Child html-webpack-plugin for "index.html":
+        + 3 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+```
+
+After this step we have managed to separate styling from JavaScript. Changes made to it shouldn't affect JavaScript chunk hashes or vice versa. The approach comes with a small glitch, though. If you look closely, you can see a file named *style.64acd61995c3afbc43f1.js*. It is a file generated by Webpack and it looks like this:
+
+```javascript
+webpackJsonp([1,3],[function(n,c){}]);
+```
+
+Technically it's redundant. It would be safe to exclude the file through a check at *HtmlWebpackPlugin* template. But this solution is good enough for the project. Ideally Webpack shouldn't generate these files at all.
 
 ## Analyzing Build Statistics
 

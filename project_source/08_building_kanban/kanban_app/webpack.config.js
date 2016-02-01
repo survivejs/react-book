@@ -11,13 +11,17 @@ const pkg = require('./package.json');
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
+  build: path.join(__dirname, 'build'),
+  style: path.join(__dirname, 'app/main.css')
 };
 
 process.env.BABEL_ENV = TARGET;
 
 const common = {
-  entry: PATHS.app,
+  entry: {
+    app: PATHS.app,
+    style: PATHS.style
+  },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -81,7 +85,6 @@ if(TARGET === 'start' || !TARGET) {
 if(TARGET === 'build' || TARGET === 'stats') {
   module.exports = merge(common, {
     entry: {
-      app: PATHS.app,
       vendor: Object.keys(pkg.dependencies).filter(function(v) {
         // Exclude alt-utils as it won't work with this setup
         // due to the way the package has been designed
@@ -107,7 +110,7 @@ if(TARGET === 'build' || TARGET === 'stats') {
     plugins: [
       new Clean([PATHS.build]),
       // Output extracted CSS to a file
-      new ExtractTextPlugin('styles.[chunkhash].css'),
+      new ExtractTextPlugin('[name].[chunkhash].css'),
       // Extract vendor and manifest files
       new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor', 'manifest']
