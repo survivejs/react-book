@@ -285,17 +285,7 @@ Another way to deal with query parameters would be to rely on Node.js [querystri
 
 ## Developing the First React View
 
-It is time to add a first application level dependency to our project. Execute
-
-```bash
-npm i react react-dom --save
-```
-
-to get React installed. This will save React to the `dependencies` section of *package.json*. Later on we'll use this information to generate a vendor build for the production version. It's a good practice to separate application and development level dependencies this way.
-
-*react-dom* is needed as React can be used to target multiple systems (DOM, mobile, terminal, i.e.,). Given we're dealing with the browser, *react-dom* is the correct choice here.
-
-Now that we got that out of the way, we can start to develop our Kanban application. First, we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire app. We can get started by using React's class based component definition syntax:
+First, we should define the `App`. This will be the core of our application. It represents the high level view of our app and works as an entry point. Later on it will orchestrate the entire execution. We can get started by using React's class based component definition syntax:
 
 **app/components/App.jsx**
 
@@ -332,7 +322,7 @@ T> Note that we're using the *jsx* extension here. It helps us to tell modules u
 
 ### Rendering Through *index.jsx*
 
-To make everything work, we'll need to adjust our `index.js` to render the component. Note that I've renamed it as `index.jsx` given we have JSX content there. First, the rendering logic creates a DOM element where it will render. Then it renders our application through React:
+To make everything work, we'll need to adjust our `index.js` to render the component. Note that I've renamed it as `index.jsx` given we have JSX content there. We will render the content through a package known as *react-dom*. Given we're dealing with the browser here, it's the right choice:
 
 **app/index.jsx**
 
@@ -346,7 +336,7 @@ import App from './components/App.jsx';
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
-If you execute `npm start` now, you should see something familiar at **localhost:8080**:
+If you are running the development server, you should see something familiar at **localhost:8080**:
 
 ![Hello React](images/react_01.png)
 

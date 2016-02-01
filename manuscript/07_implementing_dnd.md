@@ -4,15 +4,7 @@ Our Kanban application is almost usable now. It looks alright and there's some b
 
 ## Setting Up React DnD
 
-Before going further, execute
-
-```bash
-npm i react-dnd react-dnd-html5-backend --save
-```
-
-This will add React DnD to the project as a regular dependency.
-
-As a first step, we'll need to connect it with our project. We are going to use the HTML5 Drag and Drop based backend. There are specific backends for testing and [touch](https://github.com/yahoo/react-dnd-touch-backend). In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
+As a first step, we'll need to connect React DnD with our project. We are going to use the HTML5 Drag and Drop based backend. There are specific backends for testing and [touch](https://github.com/yahoo/react-dnd-touch-backend). In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
 
 **app/components/App.jsx**
 
@@ -428,11 +420,7 @@ You should see the same log messages as earlier. Next, we'll need to add some lo
 
 ## Implementing Note Drag and Drop Logic
 
-Moving within a lane itself is complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass. It is included in a separate package. To get started, install it using:
-
-```bash
-npm i react-addons-update --save
-```
+Moving within a lane itself is complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
 
 It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First, we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
 

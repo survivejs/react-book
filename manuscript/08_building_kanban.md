@@ -136,6 +136,7 @@ To get started, we need to define a `vendor` entry point. Given *alt-utils* is p
 const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
+const NpmInstallPlugin = require('npm-install-webpack-plugin');
 
 leanpub-start-insert
 // Load *package.json* so we can use `dependencies` from there
@@ -335,9 +336,7 @@ In order to connect it with out project, we need to tweak the configuration a no
 **webpack.config.js**
 
 ```javascript
-const path = require('path');
-const merge = require('webpack-merge');
-const webpack = require('webpack');
+...
 leanpub-start-insert
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 leanpub-end-insert
@@ -375,7 +374,8 @@ leanpub-end-delete
       ...
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new NpmInstallPlugin()
     ]
   });
 }
@@ -404,13 +404,7 @@ Even though this adds some configuration to our project, we don't have to worry 
 
 ## Cleaning the Build
 
-Our current setup doesn't clean the `build` directory between builds. As this can get annoying if we change our setup, we can use a plugin to clean the directory for us. Install the plugin first:
-
-```bash
-npm i clean-webpack-plugin --save-dev
-```
-
-Change the build configuration as follows to integrate it:
+Our current setup doesn't clean the `build` directory between builds. As this can get annoying if we change our setup, we can use a plugin to clean the directory for us. Change the build configuration as follows to integrate it:
 
 **webpack.config.js**
 

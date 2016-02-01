@@ -27,41 +27,19 @@ Often a good way to begin designing an application is to start with the data. We
 
 Each note is an object which will contain the data we need, including an `id` and a `task` we want to perform. Later on it is possible to extend this data definition to include things like the note color or the owner.
 
-## On Ids
-
-We could have skipped ids in our definition. This would become problematic as we grow our application, though. If you are referring to data based on array indices and the data changes, each reference has to change too. We can avoid that.
-
-Normally the problem is solved by a back-end. As we don't have one yet, we'll need to improvise something. A standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) allows us to generate unique ids. We'll be using a Node.js implementation known as *node-uuid*. Invoke
-
-```bash
-npm i node-uuid --save
-```
-
-at the project root to get it installed.
-
-If you open up the Node.js CLI (`node`) and try the following, you can see what kind of ids it outputs.
-
-```javascript
-> uuid = require('node-uuid')
-{ [Function: v4]
-  v1: [Function: v1],
-  v4: [Circular],
-  parse: [Function: parse],
-  unparse: [Function: unparse],
-  BufferClass: [Function: Array] }
-> uuid.v4()
-'1c8e7a12-0b4c-4f23-938c-00d7161f94fc'
-```
-
-T> You can exit Node.js CLI by hitting **CTRL-D** once.
-
-`uuid.v4()` will help us to generate the ids we need for the purposes of this project. It is guaranteed to return a unique id with a high probability.
-
-If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule and something we don't have to worry about.
-
 ## Connecting Data with `App`
 
-Next, we need to connect our data model with `App`. The simplest way to achieve that is to push the data directly to `render()` for now. This won't be efficient, but it will allow us to get started. The implementation below shows how this works out in React terms:
+We could have skipped ids in our definition. This would become problematic as we grow our application, though. If you are referring to data based on array indices and the data changes, each reference has to change too. We can avoid that easily by generating ids ourselves.
+
+### Generating Ids
+
+Normally the problem is solved by a back-end. As we don't have one yet, we'll use a standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) instead. It allows us to generate unique ids. We'll be using a Node.js implementation known as *node-uuid* and its `uuid.v4` variant. It will give us ids, such as `1c8e7a12-0b4c-4f23-938c-00d7161f94fc` and they are guaranteed to be unique with a very high probability.
+
+T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule and something we don't have to worry about.
+
+### Setting Up `App`
+
+Now that we know how to deal with ids and understand what kind of data model we want, we need to connect our data model with `App`. The simplest way to achieve that is to push the data directly to `render()` for now. This won't be efficient, but it will allow us to get started. The implementation below shows how this works out in React terms:
 
 **app/components/App.jsx**
 

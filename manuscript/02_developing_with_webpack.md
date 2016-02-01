@@ -539,6 +539,55 @@ Faster development specific options, such as `cheap-module-eval-source-map` and 
 
 It is possible you may need to enable sourcemaps in your browser for this to work. See [Chrome](https://developer.chrome.com/devtools/docs/javascript-debugging) and [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) instructions for further details.
 
+## Avoiding `npm i` by Using *npm-install-webpack-plugin*
+
+In order to avoid some typing, we can set up a Webpack plugin known as [npm-install-webpack-plugin](https://www.npmjs.com/package/npm-install-webpack-plugin). As we develop the project, it will detect changes made to Webpack configuration and the projects files and install the dependencies for us. It will modify *package.json* automatically as well.
+
+You can still install dependencies manually if you want. Any dependencies within `app` should be installed through `--save` (or `-S`). Root level dependencies (i.e. packages needed by Webpack), should be installed through `--save-dev` (or `-D`). This separation will become handy when we generate production bundles at *Building Kanban*.
+
+To get the plugin installed, execute:
+
+```bash
+npm i npm-install-webpack-plugin --save-dev
+```
+
+We also need to connect it with our configuration:
+
+**webpack.config.js**
+
+```javascript
+const path = require('path');
+const merge = require('webpack-merge');
+const webpack = require('webpack');
+leanpub-start-insert
+const NpmInstallPlugin = require('npm-install-webpack-plugin');
+leanpub-end-insert
+
+...
+
+// Default configuration
+if(TARGET === 'start' || !TARGET) {
+  module.exports = merge(common, {
+    ...
+    plugins: [
+leanpub-start-delete
+      new webpack.HotModuleReplacementPlugin(),
+leanpub-end-delete
+leanpub-start-insert
+      new webpack.HotModuleReplacementPlugin(),
+      new NpmInstallPlugin()
+leanpub-end-insert
+    ]
+  });
+}
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {});
+}
+```
+
+After this change we can save quite a bit of typing and context switches.
+
 ## Linting the Project
 
 I discuss linting in detail in the *Linting in Webpack* chapter. Consider integrating that setup into your project now as that will save some debugging time. It will allow you to pick up certain categories of errors earlier.

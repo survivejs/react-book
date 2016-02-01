@@ -54,13 +54,7 @@ In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you w
 
 ### Setting Up an Alt Instance
 
-Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To get started, we should add Alt to our project. We'll also install *alt-utils* as it contains some special functionality we'll need later on:
-
-```bash
-npm i alt alt-utils --save
-```
-
-To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
+Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
 
 **app/libs/alt.js**
 
@@ -481,13 +475,7 @@ W> Our `persist` implementation isn't without its flaws. It is easy to end up in
 
 ## Using the `AltContainer`
 
-The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper allows us to simplify connection logic greatly and cut down the amount of logic needed. To get started, install it using:
-
-```bash
-npm i alt-container --save
-```
-
-The implementation below illustrates how to bind it all together. Note how much code we can remove!
+The [AltContainer](http://alt.js.org/docs/components/altContainer/) wrapper allows us to simplify connection logic greatly and cut down the amount of logic needed. The implementation below illustrates how to bind it all together. Note how much code we can remove!
 
 **app/components/App.jsx**
 
