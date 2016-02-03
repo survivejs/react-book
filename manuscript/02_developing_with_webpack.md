@@ -48,11 +48,28 @@ npm i webpack --save-dev
 
 npm maintains a directory where it installs possible executables of packages. You can display the exact path using `npm bin`. Most likely it points at `.../node_modules/.bin`. Try triggering Webpack from there using `node_modules/.bin/webpack` or a similar command.
 
-You should see a version log, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality, if nothing else.
+You should see a version, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality, if nothing else.
 
-Webpack works using a global install as well (`-g` or `--global` flag during installation). It is preferred to keep it as a project dependency instead. This way you have direct control over the version you are running.
+```bash
+kanban_app $ node_modules/.bin/webpack
+webpack 1.12.12
+Usage: https://webpack.github.io/docs/cli.html
 
-We will be using `--save` and `--save-dev` to separate application and development dependencies. The separation keeps project dependencies more understandable. This will come in handy when we generate a vendor bundle later on.
+Options:
+  --help, -h, -?
+  --config
+  --context
+  --entry
+...
+  --display-cached-assets
+  --display-reasons, --verbose, -v
+
+Output filename not configured.
+```
+
+Webpack works using a global install as well (`-g` or `--global` flag during installation). It is preferred to keep it as a project dependency instead. This way you have direct control over the version you are running. This is a good practice overall as by keeping tools as your project dependencies means you have something that works standalone in other environments.
+
+We will be using `--save` and `--save-dev` to separate application and development dependencies. Former will install and write to *package.json* `dependencies` field whereas the latter will write to `devDependencies` instead. This separation keeps project dependencies more understandable. The separation will come in handy when we generate a vendor bundle later on at *Building Kanban*.
 
 T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save` and `-D` to `--save-dev`. So if you want to optimize for characters written, consider using these instead.
 
@@ -118,7 +135,7 @@ We are also going to need some HTML so we can load the bundle:
 </html>
 ```
 
-We'll generate this dynamically at the build chapter, but this is enough for now.
+We'll generate the file dynamically at *Building Kanban*, but this is good enough for now.
 
 ## Setting Up Webpack Configuration
 
