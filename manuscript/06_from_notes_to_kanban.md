@@ -593,7 +593,9 @@ There are a couple of important changes:
 * `renderValue` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
 * `renderDelete` - Instead of using `delete-note` class, it uses more generic `delete` now.
 
-Because the class name changes, *main.css* needs small tweaks:
+T> `Editable` uses **uncontrolled** design with its `input`. This means we pass the control over its state to DOM and capture it through event handlers. If you wanted to validate the input when the user is typing, it would be useful to convert it into a *controlled* design. In this case you would define a `onChange` handler and a `value` prop. It's more work, but also provides more control. React documentation discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
+
+Because the class name changed, *main.css* needs small tweaks:
 
 **app/main.css**
 
