@@ -3,7 +3,7 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const NpmInstallPlugin = require('npm-install-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Clean = require('clean-webpack-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const pkg = require('./package.json');
@@ -108,7 +108,7 @@ if(TARGET === 'build' || TARGET === 'stats') {
       ]
     },
     plugins: [
-      new Clean([PATHS.build]),
+      new CleanPlugin([PATHS.build]),
       // Output extracted CSS to a file
       new ExtractTextPlugin('[name].[chunkhash].css'),
       // Extract vendor and manifest files

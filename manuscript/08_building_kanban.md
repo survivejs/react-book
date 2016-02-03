@@ -412,7 +412,7 @@ Our current setup doesn't clean the `build` directory between builds. As this ca
 ```javascript
 ...
 leanpub-start-insert
-const Clean = require('clean-webpack-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
 leanpub-end-insert
 
 ...
@@ -422,7 +422,7 @@ if(TARGET === 'build') {
     ...
     plugins: [
 leanpub-start-insert
-      new Clean([PATHS.build]),
+      new CleanPlugin([PATHS.build]),
 leanpub-end-insert
       ...
     ]
@@ -537,7 +537,7 @@ leanpub-start-insert
     },
 leanpub-end-insert
     plugins: [
-      new Clean([PATHS.build], {
+      new CleanPlugin([PATHS.build], {
         verbose: false // Don't write logs to console
       }),
 leanpub-start-insert
@@ -702,8 +702,6 @@ leanpub-end-insert
 If you trigger `npm run stats` now, you should find *stats.json* at your project root after it has finished processing. We can take this file and pass it to [the online tool](http://webpack.github.io/analyse/). Note that the tool works only over HTTP! If your data is sensitive, consider using [the standalone version](https://github.com/webpack/analyse) instead.
 
 Besides helping you to understand your bundle composition, the tool can help you to optimize your output further.
-
-W> If any Webpack plugin or loader logs something, it will most likely end up in the stats output! This is why we are setting `verbose: false` for the `Clean` plugin.
 
 ## Deployment
 
