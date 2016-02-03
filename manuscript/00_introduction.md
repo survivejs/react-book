@@ -28,6 +28,8 @@ Ideas introduced by React have influenced the development of the frameworks. Mos
 
 ## What Will You Learn?
 
+![Kanban application](images/kanban_05.png)
+
 This book teaches you to build a [Kanban](https://en.wikipedia.org/wiki/Kanban) application. Beyond this, more theoretical aspects of web development are discussed. Completing the project gives you a good idea of how to implement something on your own. During the process you will learn why certain libraries are useful and will be able to justify your technology choices better.
 
 ## How is This Book Organized?
