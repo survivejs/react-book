@@ -92,9 +92,9 @@ We are using various important features of React in the snippet above. Understan
 * `<ul>{notes.map(note => ...}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
 * `<li key={note.id}>{note.task}</li>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
-T> You can import portions from `react` using syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. You may find this alternative a little neater.
+T> You can import portions from `react` using syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. You may find this alternative a little neater. I prefer `React.Component` given it's easier to search for.
 
-If you run the application now, you can see a list of notes. It's not particularly pretty, but it's something:
+If you run the application now, you can see a list of notes. It's not particularly pretty, but it's a start:
 
 ![A list of notes](images/react_03.png)
 
@@ -164,8 +164,6 @@ After this change and refreshing the browser, our application works the same way
 
 In the earlier versions of React, you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
-W> Note that *babel-plugin-react-transform* doesn't pick up changes made to the constructor. Technically it just replaces methods. As a result, the constructor won't get invoked. You will have to force a refresh in this case!
-
 ### Defining `addNote` Handler
 
 Now that we have state, we can begin to modify it. A good way to achieve this is to add a simple button to `App` and then trigger `this.setState` to force React to alter the state and trigger `render()`. This method is asynchronous. React deals with the virtual DOM related details for you:
@@ -226,7 +224,7 @@ If we were operating with a back-end, we would trigger a query here and capture 
 
 If you refresh the browser and click the plus button now, you should see a new item at the list:
 
-![Notes with plus](images/react_05.png)
+![Notes with a plus](images/react_05.png)
 
 We are still missing two crucial features: editing and deletion. Before moving onto these, it's a good idea to make room for them by expanding our component hierarchy. It will become easier to deal with the features after that. Working with React is like this. You develop a component for a while until you realize it could be split up further.
 
@@ -244,7 +242,7 @@ Our current, one component based setup isn't going to take us far. By looking at
 * `Notes` - `Notes` acts as an intermediate in between and renders individual `Note` components.
 * `Note` - `Note` is the workhorse of our application. Editing and deletion will be triggered here. That logic will cascade to `App` through wiring.
 
-The interesting side benefit of this arrangement is that it allows us to create multiple `Notes` lists per `App`. Earlier, this would have become messy. Later on we can introduce the concepts of `Lane` and `Lanes` to the hierarchy.
+The interesting side benefit of this arrangement is that it allows us to create multiple `Notes` lists per `App`. Earlier, this would have become messy as would have had to duplicate code. Later on we can expand the hierarchy by introducing the concepts of `Lane` and `Lanes` to it.
 
 ### Extracting `Note`
 
@@ -381,7 +379,7 @@ leanpub-end-insert
 }
 ```
 
-The application should still behave the same way. Structurally we are far better off than before. Now we can begin to worry about adding new functionality to the system.
+The application should still behave the same way. Structurally we are far better off than before, though. Now we can begin to worry about adding new functionality to the system.
 
 ## Editing `Notes`
 
@@ -392,7 +390,7 @@ In order to edit individual `Note`s, we should set up some hooks for that. Logic
 3. The user confirms the modification (`blur` event or *enter* key is pressed).
 4. `Note` renders the new value.
 
-This means `Note` will need to track its `editing` state somehow. In addition, we need to communicate that value (`task`) has changed so that `App` knows to update its state. Resolving these two problems gives us something functional.
+This means `Note` will need to track its `editing` state somehow. In addition, we need to communicate that the value (`task`) has changed so that `App` knows to update its state. Resolving these two problems gives us something functional.
 
 ### Tracking `Note` `editing` State
 
@@ -478,17 +476,19 @@ export default class Note extends React.Component {
 }
 ```
 
-If you try to edit a `Note` now, you should see an input. In order to do something useful with the value, we'll need to define `onEdit` so that we can update `App` state and actually commit the changes to memory.
+If you try to edit a `Note` now, you should see an input and be able to edit the data. Given we haven't set up `onEdit` handler, it doesn't do anything useful yet, though. We'll need to capture the edited data next and update `App` state so that the code works.
 
 T> It is a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them from other props and keep your code a little tidier.
 
 ### Communicating `Note` State Changes
 
-Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. We will need to trigger this callback at `Note` and delegate the result to `App` level. The diagram below illustrates the idea and how we are going to bind the data:
+Given we are currently dealing with the logic at `App`, we can deal with `onEdit` there as well. An alternative design might be to push the logic to `Notes` level. This would get problematic with `addNote` as it is functionality that doesn't belong within `Notes` domain. Therefore we'll keep the application state at `App` level.
+
+In order to make `onEdit` work, we will need to capture its output and delegate the result to `App`. Furthermore we will need to know which `Note` was modified so we can update the data accordingly. This can be achieved through data binding as illustrated by the diagram below:
 
 ![`onEdit` flow](images/bind.png)
 
-A good first step towards this behavior is to create a stub. As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work, changes in two files are needed. Here's what it should look like for `App`:
+As `onEdit` is defined on `App` level, we'll need to pass `onEdit` handler through `Notes`. So for the stub to work, changes in two files are needed. Here's what it should look like for `App`:
 
 **app/components/App.jsx**
 
@@ -535,8 +535,6 @@ leanpub-end-insert
 }
 ```
 
-The idea is that `Notes` will return via our callback the id of the note being modified and the new state of the task. We'll then patch the state of the application through `setState` as before.
-
 To make the scheme work as designed, we need to modify `Notes` to work according to the idea. It will `bind` the id of the note in question. When the callback is triggered, the remaining parameter receives a value and the callback gets called:
 
 **app/components/Notes.jsx**
@@ -571,6 +569,8 @@ leanpub-end-insert
 ```
 
 If you refresh and try to edit a `Note` now, the modification should stick. The same idea can be used to implement a lot of functionality and this is a pattern you will see a lot.
+
+The current design isn't flawless. What if we wanted to allow newly created notes to be editable straight from the start? Given `Note` encapsulated this state, we don't have simple means to access it from the outside. The current solution is enough for now. We'll address this issue properly in *From Notes to Kanban* chapter and extract the state there.
 
 ![Edited a note](images/react_06.png)
 
