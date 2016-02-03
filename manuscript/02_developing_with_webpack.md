@@ -349,6 +349,12 @@ leanpub-start-insert
       stats: 'errors-only',
 
       // Parse host and port from env so this is easy to customize.
+      //
+      // If you use Vagrant or Cloud9, set
+      // host: process.env.HOST || '0.0.0.0';
+      //
+      // 0.0.0.0 is available to all network devices unlike default
+      // localhost
       host: process.env.HOST,
       port: process.env.PORT
     },
@@ -426,6 +432,12 @@ Given this setup polls the filesystem, it is going to be more resource intensive
 
 T> There are more details in *webpack-dev-server* issue [#155](https://github.com/webpack/webpack-dev-server/issues/155).
 
+### Accessing Development Server from Network
+
+It is possible to customize host and port settings through the environment in our setup (i.e., `export PORT=3000` on Unix or `SET PORT=3000` on Windows). This can be useful if you want to access your server using some other device within the same network. The default settings are enough on most platforms.
+
+To access your server, you'll need to figure out the ip of your machine. On Unix this can be achieved using `ifconfig`. On Windows `ipconfig` can be used. An npm package, such as [node-ip](https://www.npmjs.com/package/node-ip) may come in handy as well. Especially on Windows you may need to set your `HOST` to match your ip to make it accessible.
+
 ### Alternative Ways to Use *webpack-dev-server*
 
 We could have passed *webpack-dev-server* options through the command line interface (CLI). I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy.
@@ -435,14 +447,6 @@ Alternatively, we could have set up an Express server of our own and used *webpa
 T> [dotenv](https://www.npmjs.com/package/dotenv) allows you to define environment variables through a *.env* file. This can be somewhat convenient for development!
 
 W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and the Node.js API and they may behave slightly differently at times. This is the reason why some prefer to solely use the Node.js API.
-
-### Customizing Server `host` and `port`
-
-It is possible to customize host and port settings through the environment in our setup (i.e., `export PORT=3000` on Unix or `SET PORT=3000` on Windows). This can be useful if you want to access your server within the same network. The default settings are enough on most platforms.
-
-To access your server, you'll need to figure out the ip of your machine. On Unix this can be achieved using `ifconfig`. On Windows `ipconfig` can be used. An npm package, such as [node-ip](https://www.npmjs.com/package/node-ip) may come in handy as well. Especially on Windows you may need to set your `HOST` to match your ip to make it accessible.
-
-T> If you are using an environment, such as Cloud9, you should set `HOST` to `0.0.0.0`. The default `localhost` isn't always the best option as it's available only to the local machine itself. `0.0.0.0` is available for all network interfaces.
 
 ## Refreshing CSS
 
