@@ -69,10 +69,14 @@ class Lane extends React.Component {
   editNote(id, task) {
     NoteActions.update({id, task, editing: false});
   }
-  deleteNote(laneId, noteId) {
+  deleteNote = (noteId, e) => {
+    e.stopPropagation();
+
+    const laneId = this.props.lane.id;
+
     LaneActions.detachFromLane({laneId, noteId});
     NoteActions.delete(noteId);
-  }
+  };
   editName = (name) => {
     const laneId = this.props.lane.id;
 

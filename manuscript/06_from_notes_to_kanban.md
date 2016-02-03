@@ -477,7 +477,9 @@ leanpub-start-delete
   }
 leanpub-end-delete
 leanpub-start-insert
-  deleteNote = (noteId) => {
+  deleteNote = (noteId, e) => {
+    e.stopPropagation();
+
     const laneId = this.props.lane.id;
 
     LaneActions.detachFromLane({laneId, noteId});
