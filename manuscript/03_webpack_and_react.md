@@ -430,4 +430,4 @@ The class based approach decreases the amount of concepts you have to worry abou
 
 ## Conclusion
 
-You should understand how to set up React with Webpack now. Hot loading is one of those features that sets Webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter, you will see how to implement a little note taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
+You should understand how to set up React with Webpack now. Hot loading is one of those features that sets Webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter, you will see how to implement a little note-taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
