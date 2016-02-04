@@ -352,7 +352,7 @@ W> Avoid rendering directly to `document.body`. This can cause strange problems 
 
 Note that every time you perform a modification, the browser updates with a flash. That's unfortunate because this means our application loses state. It doesn't matter yet, but as we keep on expanding the application this will become painful. It is annoying to manipulate the user interface back to the state in which it was to test something.
 
-We can work around this problem using hot loading. [babel-plugin-react-transform](https://github.com/gaearon/babel-plugin-react-transform) allow us to instrument React components in various ways. Hot loading is one of these. It is enabled through [react-transform-hmr](https://github.com/gaearon/react-transform-hmr).
+We can work around this problem using hot loading. [babel-plugin-react-transform](https://github.com/gaearon/babel-plugin-react-transform) allows us to instrument React components in various ways. Hot loading is one of these. It is enabled through [react-transform-hmr](https://github.com/gaearon/react-transform-hmr).
 
 *react-transform-hmr* will swap React components one by one as they change without forcing a full refresh. Given it just replaces methods, it won't catch every possible change. This includes changes made to class constructors. There will be times when you will need to force a refresh, but it will work most of the time.
 
@@ -382,7 +382,13 @@ const common = {
 ...
 ```
 
-In addition we need to expand our Babel configuration to include the plugin we need during development. Here we enable the preset in particular:
+In addition we need to expand our Babel configuration to include the plugin we need during development. This is where that `BABEL_ENV` comes in. Babel determines the value of `env` like this:
+
+1. Use the value of `BABEL_ENV` if set.
+2. Use the value of `NODE_ENV` if set.
+3. Default to `development`.
+
+To connect `BABEL_ENV='start'` with Babel, configure as follows:
 
 **.babelrc**
 
@@ -409,12 +415,6 @@ leanpub-end-insert
 ```
 
 Try executing `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things like this add up and make you more productive.
-
-Note that Babel determines the value of `env` like this:
-
-1. Use the value of `BABEL_ENV` if set.
-2. Use the value of `NODE_ENV` if set.
-3. Default to `development`.
 
 W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/chromium/issues/detail?id=492902) and Firefox due to browser level bugs! This may change in the future as the browsers get patched, though.
 
