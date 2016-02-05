@@ -332,7 +332,7 @@ A good alternative is to use a Webpack plugin and a template that have been desi
 npm i html-webpack-plugin html-webpack-template --save-dev
 ```
 
-In order to connect it with out project, we need to tweak the configuration a notch. While at it, get rid of *build/index.html* as we won't need that anymore. The system will generate it for us after this step:
+In order to connect it with our project, we need to tweak the configuration a notch. While at it, get rid of *build/index.html* as we won't need that anymore. The system will generate it for us after this step:
 
 **webpack.config.js**
 
