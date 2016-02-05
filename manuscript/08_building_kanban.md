@@ -352,7 +352,7 @@ leanpub-start-delete
   },
 leanpub-end-delete
 leanpub-start-insert
-  }
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'node_modules/html-webpack-template/index.ejs',
