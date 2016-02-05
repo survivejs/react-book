@@ -344,7 +344,9 @@ If you are running the development server, you should see something familiar at 
 
 ![Hello React](images/react_01.png)
 
-Before moving on, this is a good time to get rid of the old `component.js` file in the `app` root directory.
+In case you try to modify your React components, you can see Webpack forces a full refresh. This is something we are going to fix next by enabling hot loading.
+
+Before moving on, this is a good time to get rid of the old `component.js` file in the `app` root directory. We won't be needing that anymore.
 
 T> If you aren't seeing the correct result, make sure your *index.html* has `<div id="app"></div>` within its `body`. Alternatively you can create the element into which to render through the DOM API itself. I prefer to handle this on template level, though.
 
