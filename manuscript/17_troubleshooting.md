@@ -39,6 +39,10 @@ There are a couple of ways to work around this:
 
 T> Note that peer dependencies will be dealt with differently starting with npm 3. After that, it's up to the package consumer (i.e., you) to deal with it. This particular error will go away.
 
+## Warning: setState(...): Cannot update during an existing state transition
+
+You might get this warning while using React. An easy way to end up getting it is to trigger `setState()` within a method, such as `render()`. Sometimes this can happen indirectly. One way to cause the warning is call a method instead of binding it. Example: `<input onKeyPress={this.checkEnter()} />`. Assuming `this.checkEnter` uses `setState()`, this code will fail. Instead, you should use `<input onKeyPress={this.checkEnter} />` as that will bind the method correctly without calling it.
+
 ## `Module parse failed`
 
 When using Webpack, an error like this might come up:
