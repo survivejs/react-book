@@ -426,7 +426,9 @@ const computed = {
 
 ## `const`, `let`, `var`
 
-In JavaScript, variables are global by default. `var` binds them on *function level*. This is in contrast to many other languages that implement *block level* binding. ES6 introduces block level binding through `let`. There's also support for `const`, which guarantees the reference to the variable itself cannot change. This doesn't mean, however, that you cannot modify the contents of the variable. So if you are pointing at an object, you are still allowed to tweak it!
+In JavaScript, variables are global by default. `var` binds them on *function level*. This is in contrast to many other languages that implement *block level* binding. ES6 introduces block level binding through `let`.
+
+There's also support for `const`, which guarantees the reference to the variable itself cannot change. This doesn't mean, however, that you cannot modify the contents of the variable. So if you are pointing at an object, you are still allowed to tweak it!
 
 I tend to favor to default to `const` whenever possible. If I need something mutable, `let` will do fine. It is hard to find any good use for `var` anymore as `const` and `let` cover the need in a more understandable manner. In fact, all of the book's code, apart from this appendix, relies on `const`. That just shows you how far you can get with it.
 
