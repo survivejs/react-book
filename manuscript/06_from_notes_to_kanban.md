@@ -96,22 +96,22 @@ leanpub-end-delete
 leanpub-start-insert
         <button className="add-lane" onClick={this.addLane}>+</button>
 leanpub-end-insert
+leanpub-start-delete
         <AltContainer
-leanpub-start-delete
           stores={[NoteStore]}
-leanpub-end-delete
-leanpub-start-insert
-          stores={[LaneStore]}
-leanpub-end-insert
           inject={{
-leanpub-start-delete
             notes: () => NoteStore.getState().notes
-leanpub-end-delete
-leanpub-start-insert
-            lanes: () => LaneStore.getState().lanes || []
-leanpub-end-insert
           }}
         >
+leanpub-end-delete
+leanpub-start-insert
+        <AltContainer
+          stores={[LaneStore]}
+          inject={{
+            lanes: () => LaneStore.getState().lanes || []
+          }}
+        >
+leanpub-end-insert
 leanpub-start-delete
           <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
 leanpub-end-delete
@@ -122,11 +122,6 @@ leanpub-end-insert
       </div>
     );
   }
-leanpub-start-insert
-  addLane() {
-    LaneActions.create({name: 'New lane'});
-  }
-leanpub-end-insert
 leanpub-start-delete
   addNote() {
     NoteActions.create({task: 'New task'});
@@ -138,6 +133,11 @@ leanpub-start-delete
     NoteActions.delete(id);
   }
 leanpub-end-delete
+leanpub-start-insert
+  addLane() {
+    LaneActions.create({name: 'New lane'});
+  }
+leanpub-end-insert
 }
 ```
 
@@ -210,7 +210,7 @@ export default class Lane extends React.Component {
 
 I am using [Object rest/spread syntax (stage 2)](https://github.com/sebmarkbage/ecmascript-rest-spread) (`const {a, b, ...props} = this.props`) in the example. This allows us to attach a `className` to `Lane` and we avoid polluting it with HTML attributes we don't need. The syntax expands Object key value pairs as props so we don't have to write each prop we want separately.
 
-If you run the application, you can see there's something wrong. If you add new `Notes` to a `Lane`, the `Note` appears to each `Lane`. Also if you modify a `Note`, the other `Lanes` update, too.
+If you run the application and try adding new notes, you can see there's something wrong. Every note you add is shared by all lanes. If a note is modified, other lanes update too.
 
 ![Duplicate notes](images/kanban_01.png)
 
@@ -245,7 +245,7 @@ import alt from '../libs/alt';
 export default alt.generateActions('create', 'attachToLane');
 ```
 
-The next step takes more code. There we need to find a lane matching to the given lane id and then attach note id to it. Given notes should be unique per lane, we can perform an extra check against that before attaching:
+In order to implement `attachToLane`, we need to find a lane matching to the given lane id and then attach note id to it. Furthermore, each note should belong only to one lane at a time. We can perform a rough check against that:
 
 **app/stores/LaneStore.js**
 
@@ -287,7 +287,11 @@ We also need to make sure `NoteActions.create` returns a note so the setup works
 ...
 
 class NoteStore {
-  ...
+  constructor() {
+    this.bindActions(NoteActions);
+
+    this.notes = [];
+  }
   create(note) {
     const notes = this.notes;
 
@@ -363,7 +367,7 @@ leanpub-end-insert
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-Just building an association between a lane and a note isn't enough. We are going to need some way to resolve the note references to data we can display through the user interface. For this purpose we need to implement a special getter that performs this particular step.
+Just building an association between a lane and a note isn't enough. We are going to need some way to resolve the note references to data we can display through the user interface. For this purpose, we need to implement a special getter so we get just the data we want per each lane.
 
 ### Implementing a Getter for `NoteStore`
 
@@ -495,7 +499,9 @@ There are three important changes:
 * `notes: () => NoteStore.getNotesByIds(notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified. Note that we trigger `detachFromLane` before `delete` at `deleteNote`. Otherwise we may try to render non-existent notes. You can try swapping the order to see warnings.
 
-After these changes, we now have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
+After these changes, we have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
+
+If you try to add notes to a specific lane, they shouldn't be duplicated anymore. Also editing a note should behave as you might expect:
 
 ![Separate notes](images/kanban_02.png)
 
@@ -527,7 +533,7 @@ class LaneStore {
 }
 ```
 
-Fortunately, we can avoid `waitFor` in this case. You should use it carefully. It becomes necessary when you need to deal with asynchronously fetched data that depends on each other.
+Fortunately, we can avoid `waitFor` in this case. You should use it carefully. It becomes necessary when you need to deal with asynchronously fetched data that depends on each other, however.
 
 ## Implementing Edit/Remove for `Lane`
 
@@ -638,28 +644,8 @@ Next, we need to make *Notes.jsx* point at the new component. We'll need to alte
 
 ```javascript
 import React from 'react';
-leanpub-start-delete
-import Note from './Note.jsx';
-leanpub-end-delete
-leanpub-start-insert
 import Editable from './Editable.jsx';
-leanpub-end-insert
 
-leanpub-start-delete
-export default ({notes, onEdit, onDelete}) => {
-  return (
-    <ul className="notes">{notes.map(note =>
-      <li className="note" key={note.id}>
-        <Note
-          task={note.task}
-          onEdit={onEdit.bind(null, note.id)}
-          onDelete={onDelete.bind(null, note.id)} />
-      </li>
-    )}</ul>
-  );
-}
-leanpub-end-delete
-leanpub-start-insert
 export default ({notes, onValueClick, onEdit, onDelete}) => {
   return (
     <ul className="notes">{notes.map(note =>
@@ -674,7 +660,6 @@ export default ({notes, onValueClick, onEdit, onDelete}) => {
     )}</ul>
   );
 }
-leanpub-end-insert
 ```
 
 If you refresh the browser, you should see `Uncaught TypeError: Cannot read property 'bind' of undefined`. This has to do with that `onValueClick` definition we added. This is something we'll address next.
@@ -867,6 +852,19 @@ leanpub-start-delete
 
     console.log(`edit lane ${laneId} name using ${name}`);
   };
+  deleteLane = () => {
+    const laneId = this.props.lane.id;
+
+    console.log(`delete lane ${laneId}`);
+  };
+  activateLaneEdit = () => {
+    const laneId = this.props.lane.id;
+
+    console.log(`activate lane ${laneId} edit`);
+  };
+  activateNoteEdit(id) {
+    console.log(`activate note ${id} edit`);
+  }
 leanpub-end-delete
 leanpub-start-insert
   editName = (name) => {
@@ -874,41 +872,16 @@ leanpub-start-insert
 
     LaneActions.update({id: laneId, name, editing: false});
   };
-leanpub-end-insert
-leanpub-start-delete
-  deleteLane = () => {
-    const laneId = this.props.lane.id;
-
-    console.log(`delete lane ${laneId}`);
-  };
-leanpub-end-delete
-leanpub-start-insert
   deleteLane = () => {
     const laneId = this.props.lane.id;
 
     LaneActions.delete(laneId);
   };
-leanpub-end-insert
-leanpub-start-delete
-  activateLaneEdit = () => {
-    const laneId = this.props.lane.id;
-
-    console.log(`activate lane ${laneId} edit`);
-  };
-leanpub-end-delete
-leanpub-start-insert
   activateLaneEdit = () => {
     const laneId = this.props.lane.id;
 
     LaneActions.update({id: laneId, editing: true});
   };
-leanpub-end-insert
-leanpub-start-delete
-  activateNoteEdit(id) {
-    console.log(`activate note ${id} edit`);
-  }
-leanpub-end-delete
-leanpub-start-insert
   activateNoteEdit(id) {
     NoteActions.update({id, editing: true});
   }
