@@ -346,6 +346,8 @@ If you are running the development server, you should see something familiar at 
 
 Before moving on, this is a good time to get rid of the old `component.js` file in the `app` root directory.
 
+T> If you aren't seeing the correct result, make sure your *index.html* has `<div id="app"></div>` within its `body`. Alternatively you can create the element into which to render through the DOM API itself. I prefer to handle this on template level, though.
+
 W> Avoid rendering directly to `document.body`. This can cause strange problems when relying on it and React will give you a warning about it.
 
 ## Activating Hot Loading for Development
