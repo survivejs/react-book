@@ -128,6 +128,8 @@ This scheme won't load as fast as a single bundle initially due to the extra req
 
 While developing the application, we made sure to separate our `dependencies` and `devDependencies`. This split will come in handy now. It allows us to push `dependencies` to a bundle of its own. It is very important you don't have any development related bits, such as Webpack, in that definition as then the build won't work as you might expect.
 
+If you check *package.json*, the `dependencies` listed should be as follows: alt, alt-container, alt-utils, node-uuid, react, react-addons-update, react-dnd, react-dnd-html5-backend, and react-dom. In case you have some other dependencies there, move them below `devDependencies` before proceeding.
+
 To get started, we need to define a `vendor` entry point. Given *alt-utils* is problematic for this kind of setup, I've simply excluded it from the `vendor` bundle. You can use a similar idea with other problematic dependencies. Here's the setup:
 
 **webpack.config.js**
