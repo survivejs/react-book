@@ -51,7 +51,9 @@ if(TARGET === 'start' || !TARGET) {
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-      new NpmInstallPlugin()
+      new NpmInstallPlugin({
+        save: true // --save
+      })
     ]
   });
 }

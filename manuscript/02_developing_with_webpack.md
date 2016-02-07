@@ -604,7 +604,9 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
       new webpack.HotModuleReplacementPlugin(),
-      new NpmInstallPlugin()
+      new NpmInstallPlugin({
+        save: true // --save
+      })
 leanpub-end-insert
     ]
   });
