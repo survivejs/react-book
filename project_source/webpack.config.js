@@ -1,8 +1,8 @@
-var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
-var Clean = require('clean-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const HtmlwebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const Clean = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = function(o) {
   if(!o.inputPath) {
@@ -13,14 +13,16 @@ module.exports = function(o) {
     console.warn('missing output path');
   }
 
-  var appPath = path.resolve(o.inputPath, 'app');
+  const appPath = path.resolve(o.inputPath, 'app');
+  const stylePath = path.resolve(o.inputPath, 'app/main.css');
 
   //var pkg = require(path.resolve(o.inputPath, 'package.json'));
   //var deps = pkg.dependencies || {};
 
   return {
     entry: {
-      app: appPath
+      app: appPath,
+      style: stylePath
       //vendor: Object.keys(deps)
     },
     resolve: {
