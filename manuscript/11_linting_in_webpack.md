@@ -270,7 +270,7 @@ T> [Codemod](https://github.com/facebook/codemod) allows you to perform large sc
 In ESLint's case we just want to check the structure and report in case something is wrong. Getting a simple rule done is surprisingly simple:
 
 1. Set up a new project named `eslint-plugin-custom`. You can replace `custom` with whatever you want. ESLint follows this naming convention.
-2. Trigger `npm init` to create a dummy *package.json*
+2. Execute `npm init -y` to create a dummy *package.json*
 3. Set up `index.js` in the project root with content like this:
 
 **eslint-plugin-custom/index.js**

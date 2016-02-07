@@ -48,7 +48,7 @@ leanpub-end-insert
 
 T> Uglify warnings can help you to understand how it processes the code. Therefore it may be beneficial to have a peek at the output every once in a while.
 
-If you trigger `npm run build` now, you should see better results:
+If you execute `npm run build` now, you should see better results:
 
 ```bash
 > webpack
@@ -99,7 +99,7 @@ leanpub-end-insert
 
 This is a useful technique for your own code. If you have a section of code that evaluates as `false` after this process, the minifier will remove it from the build completely.
 
-Trigger `npm run build` again, and you should see improved results:
+Execute `npm run build` again, and you should see improved results:
 
 ```bash
 > webpack
@@ -197,7 +197,7 @@ This tells Webpack that we want a separate *entry chunk* for our project `vendor
 
 Beyond this, it's possible to define chunks that are loaded dynamically. This can be achieved through [require.ensure](https://webpack.github.io/docs/code-splitting.html).
 
-If you trigger the build now using `npm run build`, you should see something along this:
+If you execute the build now using `npm run build`, you should see something along this:
 
 ```bash
 > webpack
@@ -386,7 +386,7 @@ leanpub-end-delete
 ...
 ```
 
-If you trigger `npm run build` now, the output should include *index.html*:
+If you execute `npm run build` now, the output should include *index.html*:
 
 ```bash
 > webpack
@@ -701,7 +701,7 @@ leanpub-end-insert
 ...
 ```
 
-If you trigger `npm run stats` now, you should find *stats.json* at your project root after it has finished processing. We can take this file and pass it to [the online tool](http://webpack.github.io/analyse/). Note that the tool works only over HTTP! If your data is sensitive, consider using [the standalone version](https://github.com/webpack/analyse) instead.
+If you execute `npm run stats` now, you should find *stats.json* at your project root after it has finished processing. We can take this file and pass it to [the online tool](http://webpack.github.io/analyse/). Note that the tool works only over HTTP! If your data is sensitive, consider using [the standalone version](https://github.com/webpack/analyse) instead.
 
 Besides helping you to understand your bundle composition, the tool can help you to optimize your output further.
 
@@ -734,7 +734,7 @@ leanpub-end-insert
 }
 ```
 
-If you trigger `npm run deploy` now and everything goes fine, you should have your application hosted through GitHub Pages. You should find it at `https://<name>.github.io/<project>` (*github.com/<name>/<project>* at GitHub) assuming it worked.
+If you execute `npm run deploy` now and everything goes fine, you should have your application hosted through GitHub Pages. You should find it at `https://<name>.github.io/<project>` (*github.com/<name>/<project>* at GitHub) assuming it worked.
 
 T> If you need a more elaborate setup, you can use the Node.js API that *gh-pages* provides. The default CLI tool it provides is often enough, though.
 

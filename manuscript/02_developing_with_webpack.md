@@ -46,7 +46,7 @@ Next, you should get Webpack installed. We'll do a local install and save it as 
 npm i webpack --save-dev
 ```
 
-npm maintains a directory where it installs possible executables of packages. You can display the exact path using `npm bin`. Most likely it points at `.../node_modules/.bin`. Try triggering Webpack from there using `node_modules/.bin/webpack` or a similar command.
+npm maintains a directory where it installs possible executables of packages. You can display the exact path using `npm bin`. Most likely it points at `.../node_modules/.bin`. Try executing Webpack from there through terminal using `node_modules/.bin/webpack` or a similar command.
 
 You should see a version, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality, if nothing else.
 
@@ -170,7 +170,7 @@ The `entry` path could be given as a relative one. The [context](https://webpack
 
 I like to use `path.join`, but `path.resolve` would be a good alternative. `path.resolve` is equivalent to navigating the file system through *cd*. `path.join` gives you just that, a join. See [Node.js path API](https://nodejs.org/api/path.html) for the exact details.
 
-If you trigger `node_modules/.bin/webpack`, you should see output like this:
+If you execute `node_modules/.bin/webpack`, you should see output like this:
 
 ```bash
 Hash: e7dd4bf8a294b5c93141
@@ -201,7 +201,7 @@ Given executing `node_modules/.bin/webpack` is a little verbose, we should do so
 ...
 ```
 
-You can execute the scripts defined this way through *npm run*. If you trigger *npm run build* now, you should get a build at your output directory like earlier.
+You can execute the scripts defined this way through *npm run*. If you execute *npm run build* now, you should get a build at your output directory like earlier.
 
 This works because npm adds `node_modules/.bin` temporarily to the path. As a result, rather than having to write `"build": "node_modules/.bin/webpack"`, we can do just `"build": "webpack"`. Unless Webpack is installed to the project, this can point to a possible global install. That can be potentially dangerous as it's a good idea to have control over the version of tools you are using.
 
@@ -241,7 +241,7 @@ leanpub-end-insert
 ...
 ```
 
-If you trigger either *npm run start* or *npm start* now, you should see something like this at the terminal:
+If you execute either *npm run start* or *npm start* now, you should see something like this at the terminal:
 
 ```bash
 > webpack-dev-server
