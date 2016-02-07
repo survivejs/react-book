@@ -43,6 +43,13 @@ T> Note that peer dependencies will be dealt with differently starting with npm 
 
 You might get this warning while using React. An easy way to end up getting it is to trigger `setState()` within a method, such as `render()`. Sometimes this can happen indirectly. One way to cause the warning is call a method instead of binding it. Example: `<input onKeyPress={this.checkEnter()} />`. Assuming `this.checkEnter` uses `setState()`, this code will fail. Instead, you should use `<input onKeyPress={this.checkEnter} />` as that will bind the method correctly without calling it.
 
+## Warning: React attempted to reuse markup in a container but the checksum was invalid
+
+You can get this warning through multiple means. Common causes below:
+
+* You tried to mount React multiple times to the same container. Check your script loading and make sure your application is loaded only once.
+* The existing markup on your template doesn't match the one rendered by React. This can happen especially if you are rendering the initial markup through a server.
+
 ## `Module parse failed`
 
 When using Webpack, an error like this might come up:
