@@ -69,7 +69,7 @@ Output filename not configured.
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation). It is preferred to keep it as a project dependency instead. This way you have direct control over the version you are running. This is a good practice overall as by keeping tools as your project dependencies means you have something that works standalone in other environments.
 
-We can use `--save` and `--save-dev` to separate application and development dependencies. Former will install and write to *package.json* `dependencies` field whereas the latter will write to `devDependencies` instead. This separation keeps project dependencies more understandable. The separation will come in handy when we generate a vendor bundle later on at the *Building Kanban* chapter.
+We can use `--save` and `--save-dev` to separate application and development dependencies. The former will install and write to *package.json* `dependencies` field whereas the latter will write to `devDependencies` instead. This separation keeps project dependencies more understandable. The separation will come in handy when we generate a vendor bundle later on at the *Building Kanban* chapter.
 
 T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save` and `-D` to `--save-dev`. So if you want to optimize for characters written, consider using these instead.
 

@@ -155,7 +155,7 @@ T> As `resolve.extensions` gets evaluated from left to right, we can use it to c
 
 Also, we are going to need a [.babelrc](https://babeljs.io/docs/usage/babelrc/). You could pass Babel settings through Webpack (i.e., `babel?presets[]=react,presets[]=es2015`), but then it would be just for Webpack only. That's why we are going to push our Babel settings to this specific dotfile. The same idea applies for other tools, such as ESLint.
 
-Babel 6 relies on *plugins*. There are two types of plugins: syntax and transform. Former allow Babel to parse additional syntax whereas latter apply transformations. This way the code that is using future syntax can get transformed back to JavaScript older environments can understand.
+Babel 6 relies on *plugins*. There are two types of plugins: syntax and transform. The former allow Babel to parse additional syntax whereas latter apply transformations. This way the code that is using future syntax can get transformed back to JavaScript older environments can understand.
 
 To make it easier to consume plugins, Babel supports the concept of *presets*. Each preset comes with a set of plugins so you don't have to wire them up separately. In this case we'll be relying on ES2015 and React presets:
 
