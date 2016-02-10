@@ -48,6 +48,8 @@ npm i webpack --save-dev
 
 npm maintains a directory where it installs possible executables of packages. You can display the exact path using `npm bin`. Most likely it points at `.../node_modules/.bin`. Try executing Webpack from there through terminal using `node_modules/.bin/webpack` or a similar command.
 
+T> It's safe to skip this step as we will be running Webpack through npm. It is good to know where you can find these files, though.
+
 You should see a version, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality, if nothing else.
 
 ```bash
