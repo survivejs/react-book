@@ -1,6 +1,6 @@
 # React and Flux
 
-You can get pretty far by keeping everything in components. Eventually, that will become painful. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications.
+You can get pretty far by keeping everything in components. Eventually, that will become painful, though. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications. It's not the only solution, but it's a decent starting point.
 
 Flux will allow us to separate data and application state from our views. This helps us to keep them clean and the application maintainable. Flux was designed with large teams in mind. As a result, you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
 
@@ -16,11 +16,11 @@ Flux isn't entirely simple to understand as there are many concepts to worry abo
 
 ### Dispatcher
 
-When we trigger the action, the dispatcher will get notified. The dispatcher will be able to deal with possible dependencies between stores. It is possible that a certain action needs to happen before another. The dispatcher allows us to achieve this.
+When we trigger an action, the dispatcher will get notified. The dispatcher will be able to deal with possible dependencies between stores. It is possible that a certain action needs to happen before another. The dispatcher allows us to achieve this.
 
 At the simplest level, actions can just pass the message to the dispatcher as is. They can also trigger asynchronous queries and hit the dispatcher based on the result eventually. This allows us to deal with received data and possible errors.
 
-Once the dispatcher has dealt with the action, stores that are listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this it will notify possible listeners of the new state.
+Once the dispatcher has dealt with an action, the stores listening to it get triggered. In our case, `NoteStore` gets notified. As a result, it will be able to update its internal state. After doing this, it will notify possible listeners of the new state.
 
 ### Flux Dataflow
 
@@ -34,7 +34,7 @@ This sounds like a lot of steps for achieving something simple as creating a new
 
 Even though this sounds a little complicated, the arrangement gives our application flexibility. We can, for instance, implement API communication, caching, and i18n outside of our views. This way they stay clean of logic while keeping the application easier to understand.
 
-Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand: minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say, "explicit is better than implicit".
+Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand that minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say that explicit is better than implicit.
 
 ### Which Flux Implementation to Use?
 
@@ -42,7 +42,7 @@ The library situation is constantly changing. There is no single right way to in
 
 When choosing a library, it comes down to your own personal preferences. You will have to consider factors, such as API, features, documentation, and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture, you are able to make choices that serve you better.
 
-T> [Redux](http://rackt.org/redux/) has taken the core ideas of Flux and pushed them into a tiny form (2 kB). Despite this, it's quite powerful approach and worth checking out.
+T> [Redux](http://rackt.org/redux/) has taken the core ideas of Flux and pushed them into a tiny form (2 kB). Despite this, it's quite powerful approach and worth checking out. There's a [Redux implementation](https://github.com/survivejs/redux-demo) of the Kanban board. It can be interesting to compare it to the Alt one.
 
 ## Porting to Alt
 
@@ -50,7 +50,7 @@ T> [Redux](http://rackt.org/redux/) has taken the core ideas of Flux and pushed 
 
 In this chapter, we'll be using a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed with universal (isomorphic) rendering in mind.
 
-In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and universal rendering.
+In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations, Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and universal rendering.
 
 ### Setting Up an Alt Instance
 
@@ -123,9 +123,9 @@ class NoteStore {
 export default alt.createStore(NoteStore, 'NoteStore');
 ```
 
-We call `bindActions` to map each action to a method by name. We trigger the appropriate logic at each method based on that. Finally, we connect the store with Alt using `alt.createStore`.
+We call `bindActions` to map each action to a method by name. After that we trigger the appropriate logic at each method. Finally, we connect the store with Alt using `alt.createStore`.
 
-Note that assigning a label to a store (`NoteStore` in this case) isn't required. It is a good practice as it protects the code against minification and possible collisions. These labels become important when we persist the data.
+Note that assigning a label to a store (`NoteStore` in this case) isn't required. It is a good practice, though, as it protects the code against minification. These labels become important when we persist the data.
 
 ### Implementing `create`
 
@@ -367,7 +367,7 @@ We actually have more code now than before, but that's okay. `App` is a little n
 
 Even though integrating Alt took a lot of effort, it was not all in vain. Consider the following questions:
 
-1. Suppose we wanted to persist the notes within `localStorage`. Where would you implement that? It would be natural to plug that into our `NoteStore`. Alternatively we could do something more generic as we'll be doing next.
+1. Suppose we wanted to persist the notes within `localStorage`. Where would you implement that? One approach would be to handle that at application initialization.
 2. What if we had many components relying on the data? We would just consume `NoteStore` and display it, however we want.
 3. What if we had many, separate Note lists for different types of tasks? We could set up another store for tracking these lists. That store could refer to actual Notes by id. We'll do something like this in the next chapter, as we generalize the approach.
 
@@ -465,9 +465,7 @@ leanpub-start-insert
 import alt from './libs/alt';
 import storage from './libs/storage';
 import persist from './libs/persist';
-leanpub-end-insert
 
-leanpub-start-insert
 persist(alt, storage, 'app');
 leanpub-end-insert
 
@@ -552,7 +550,7 @@ Integrating the `AltContainer` tied this component to Alt. If you wanted somethi
 
 ## Dispatching in Alt
 
-Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet, such as `alt.dispatcher.register(console.log.bind(console))`. Alternatively you could trigger `this.dispatcher.register(...)` at a store constructor. These mechanisms allow you to implement effective logging.
+Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet, such as `alt.dispatcher.register(console.log.bind(console))`. Alternatively, you could trigger `this.dispatcher.register(...)` at a store constructor. These mechanisms allow you to implement effective logging.
 
 ## Alternative Implementations
 
