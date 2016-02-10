@@ -14,7 +14,7 @@ React isn't a framework like Angular.js or Ember. Frameworks tend to provide a l
 
 React introduced a concept known as virtual DOM to web developers. React maintains a DOM of its own unlike all the libraries and frameworks before it. As changes are made to virtual DOM, React will batch the changes to the actual DOM as it sees best.
 
-T> Libraries, such as [Matt-Esch/virtual-dom](https://github.com/Matt-Esch/virtual-dom) or [paldepind/snabbdom](https://github.com/paldepind/snabbdom), focus entirely on Virtual DOM. If you are interested in the theory, check it out.
+T> Libraries, such as [Matt-Esch/virtual-dom](https://github.com/Matt-Esch/virtual-dom) or [paldepind/snabbdom](https://github.com/paldepind/snabbdom), focus entirely on Virtual DOM. If you are interested in the theory, check these out.
 
 ### JSX and Virtual DOM
 
@@ -52,13 +52,15 @@ In JSX we are mixing something that looks a bit like HTML with JavaScript. Note 
 
 The developers of React have decoupled themselves from the limitations of the DOM. As a result, React is highly performant. This comes with a cost, though. The library isn't as small as you might expect. You can expect bundle sizes for small applications to be around 150-200k, React included. That is considerably less when gzipped over the wire, but it's still something.
 
-T> The interesting side benefit of this approach is that React doesn't depend on the DOM. In fact, React can use other targets, such as [mobile](https://facebook.github.io/react-native/), [canvas](https://github.com/Flipboard/react-canvas), or [terminal](https://github.com/Yomguithereal/react-blessed). The DOM just happens to be the most relevant one for web developers.
+T> Solutions such as [preact](https://developit.github.io/preact/) and [react-lite](https://github.com/Lucifier129/react-lite) allow you to reach far smaller bundle sizes while sacrificing some functionality. If you are size conscious, consider checking out these solutions.
+
+T> The interesting side benefit of React's approach is that it doesn't depend on the DOM. In fact, React can use other targets, such as [mobile](https://facebook.github.io/react-native/), [canvas](https://github.com/Flipboard/react-canvas), or [terminal](https://github.com/Yomguithereal/react-blessed). The DOM just happens to be the most relevant one for web developers.
 
 T> There is a semantic difference between React components, such as the one above, and React elements. In the example each of those JSX nodes would be converted into one. In short, components can have state whereas elements are simpler by nature. They are just pure objects. Dan Abramov goes into further detail in a [blog post](https://facebook.github.io/react/blog/2015/12/18/react-components-elements-and-instances.html) of his.
 
 ### Better with Friends
 
-React isn't the smallest library out there. It does manage to solve fundamental problems, though. It is a pleasure to develop thanks to its relative simplicity and a powerful API. You will need to complement it with a set of tools, but you can pick these based on actual need. It's far from a "one size fits all" type of solution which frameworks tend to be.
+React isn't the smallest library out there. It does manage to solve fundamental problems, though. It is a pleasure to develop thanks to its relative simplicity and a powerful API. You will need to complement it with a set of tools, but you can pick these based on actual need. It's far from a "one size fits all" type of solution, which frameworks tend to be.
 
 The approach used by React allowed Facebook to develop React Native on top of the same ideas. This time instead of the DOM, we are operating on mobile platform rendering. React Native provides abstraction over components and a layout system. It provides you the setup you already know from the web. This makes it a good gateway for web developers wanting to go mobile.
 
@@ -76,7 +78,7 @@ Babel provides support for certain [experimental features](https://babeljs.io/do
 * **Stage 3** - Candidate
 * **Stage 4** - Finished
 
-I would be very careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk.
+I would be very careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk, though.
 
 T> You can [try out Babel online](https://babeljs.io/repl/) to see what kind of code it generates.
 
@@ -123,8 +125,9 @@ leanpub-end-insert
         test: /\.css$/,
         loaders: ['style', 'css'],
         include: PATHS.app
-      },
+      }
 leanpub-start-insert
+      },
       // Set up jsx. This accepts js too thanks to RegExp
       {
         test: /\.jsx?$/,
@@ -144,7 +147,7 @@ leanpub-end-insert
 ...
 ```
 
-Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension now. I'll be using the extension for clarity, but you can omit it.
+Note that `resolve.extensions` setting will allow you to refer to JSX files without an extension. I'll be using the extension for clarity, but you can omit it if you want.
 
 T> As `resolve.extensions` gets evaluated from left to right, we can use it to control which code gets loaded for given configuration. For instance, you could have `.web.js` to define web specific parts and then have something like `['', '.web.js', '.js', '.jsx']`. If a "web" version of the file is found, Webpack would use that instead of the default.
 
@@ -320,7 +323,7 @@ import React from 'react';
 export default () => <div>Learn Webpack</div>;
 ```
 
-Even though we aren't referring to React directly here, it is good to remember that the JSX will get transformed into calls going through it. Hence if you remove the `import` statement, the code will break. Babel plugin known as [babel-plugin-react-require](https://www.npmjs.com/package/babel-plugin-react-require) is able to generate the `imports` for you automatically if you prefer to avoid the imports.
+Even though we aren't referring to React directly through code here, it is good to remember that the JSX will get transformed into calls going through it. Hence if you remove the `import` statement, the code will break. Babel plugin known as [babel-plugin-react-require](https://www.npmjs.com/package/babel-plugin-react-require) is able to generate the `imports` for you automatically if you prefer to avoid the imports.
 
 T> Note that we're using the *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
 
@@ -436,4 +439,4 @@ The class based approach decreases the amount of concepts you have to worry abou
 
 ## Conclusion
 
-You should understand how to set up React with Webpack now. Hot loading is one of those features that sets Webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter, you will see how to implement a little note-taking application. That will be improved in the subsequent chapters into a full blown Kanban table.
+You should understand how to set up React with Webpack now. Hot loading is one of those features that sets Webpack apart. Now that we have a good development environment, we can focus on React development. In the next chapter, you will see how to implement a little note-taking application. That will be improved in the subsequent chapters into a full blown Kanban board.
