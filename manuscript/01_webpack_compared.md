@@ -204,7 +204,7 @@ Given JSPM is still a young project, there might be rough spots. That said, it m
 
 ## Why Use Webpack?
 
-Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for **hot module replacement** (HMR). This is a feature used by [babel-plugin-react-transform](https://github.com/gaearon/babel-plugin-react-transform). I will show you later how to set it up.
+Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for **Hot Module Replacement** (HMR). This is a feature used by [babel-plugin-react-transform](https://github.com/gaearon/babel-plugin-react-transform). I will show you later how to set it up.
 
 ### Hot Module Replacement
 
