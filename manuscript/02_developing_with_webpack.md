@@ -6,7 +6,7 @@ This sounds simple, but in practice, it can be a complicated and messy process. 
 
 W> Before getting started, make sure you are using a recent version of Node.js as that will save some trouble. There are [packages available for many platforms](https://nodejs.org/en/download/package-manager/). A good alternative is to set up a [Vagrant](https://www.vagrantup.com/) box and maintain your development environment there.
 
-T> Especially *css-loader* has [issues with Node 0.10](https://github.com/webpack/css-loader/issues/144) given it's missing native support for promises. Consider polyfilling `Promise` through `require('es6-promise').polyfill()` at the beginning of your Webpack configuration if you still want to use 0.10. This technique depends on [es6-promise](https://www.npmjs.com/package/es6-promise) package.
+T> Especially *css-loader* has [issues with Node 0.10](https://github.com/webpack/css-loader/issues/144) given it's missing native support for promises. Consider polyfilling `Promise` through `require('es6-promise').polyfill()` at the beginning of your Webpack configuration if you still want to use 0.10. This technique depends on the [es6-promise](https://www.npmjs.com/package/es6-promise) package.
 
 ## Setting Up the Project
 
@@ -20,7 +20,7 @@ npm init -y # -y gives you default *package.json*, skip for more control
 
 As a result, you should have *package.json* at your project root. You can still tweak it manually to make further changes. We'll be doing some changes through *npm* tool, but it's fine to tweak the file to your liking. The official documentation explains various [package.json options](https://docs.npmjs.com/files/package.json) in more detail. I also cover some useful library authoring related tricks later in this book.
 
-T> You can set those `npm init` defaults at *~/.npmrc*. See the "Authoring Libraries" for more information about npm and its usage.
+T> You can set those `npm init` defaults at *~/.npmrc*. See the *Authoring Libraries* chapter for more information about npm and its usage.
 
 ### Setting Up Git
 
@@ -48,8 +48,6 @@ npm i webpack --save-dev
 
 npm maintains a directory where it installs possible executables of packages. You can display the exact path using `npm bin`. Most likely it points at `.../node_modules/.bin`. Try executing Webpack from there through terminal using `node_modules/.bin/webpack` or a similar command.
 
-T> It's safe to skip this step as we will be running Webpack through npm. It is good to know where you can find these files, though.
-
 You should see a version, a link to the command line interface guide and a long list of options. We won't be using most of those, but it's good to know that this tool is packed with functionality, if nothing else.
 
 ```bash
@@ -71,7 +69,7 @@ Output filename not configured.
 
 Webpack works using a global install as well (`-g` or `--global` flag during installation). It is preferred to keep it as a project dependency instead. This way you have direct control over the version you are running. This is a good practice overall as by keeping tools as your project dependencies means you have something that works standalone in other environments.
 
-We will be using `--save` and `--save-dev` to separate application and development dependencies. Former will install and write to *package.json* `dependencies` field whereas the latter will write to `devDependencies` instead. This separation keeps project dependencies more understandable. The separation will come in handy when we generate a vendor bundle later on at *Building Kanban*.
+We can use `--save` and `--save-dev` to separate application and development dependencies. Former will install and write to *package.json* `dependencies` field whereas the latter will write to `devDependencies` instead. This separation keeps project dependencies more understandable. The separation will come in handy when we generate a vendor bundle later on at the *Building Kanban* chapter.
 
 T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save` and `-D` to `--save-dev`. So if you want to optimize for characters written, consider using these instead.
 
@@ -118,7 +116,7 @@ document.body.appendChild(app);
 app.appendChild(component());
 ```
 
-We are also going to need some HTML so we can load the bundle:
+We are also going to need some HTML so we can load the generated bundle:
 
 **build/index.html**
 
@@ -137,11 +135,11 @@ We are also going to need some HTML so we can load the bundle:
 </html>
 ```
 
-We'll generate the file dynamically at *Building Kanban*, but this is good enough for now.
+We'll generate this file dynamically at *Building Kanban*, but the current setup is good enough for now.
 
 ## Setting Up Webpack Configuration
 
-We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll build *webpack.config.js*. Webpack and its development server will be able to discover this file through convention.
+We'll need to tell Webpack how to deal with the assets we just set up. For this purpose we'll develop a *webpack.config.js* file. Webpack and its development server will be able to discover this file through convention.
 
 To map our application to *build/bundle.js* we need configuration like this:
 
@@ -175,14 +173,13 @@ I like to use `path.join`, but `path.resolve` would be a good alternative. `path
 If you execute `node_modules/.bin/webpack`, you should see output like this:
 
 ```bash
-Hash: e7dd4bf8a294b5c93141
-Version: webpack 1.12.11
-Time: 734ms
-    Asset   Size  Chunks             Chunk Names
-bundle.js  12 kB       0  [emitted]  main
-   [0] ./app/index.js 169 bytes {0} [built]
-   [5] ./app/component.js 136 bytes {0} [built]
-    + 4 hidden modules
+Hash: 2dca5a3850ce5d2de54c
+Version: webpack 1.12.13
+Time: 85ms
+    Asset     Size  Chunks             Chunk Names
+bundle.js  1.75 kB       0  [emitted]  app
+   [0] ./app/index.js 144 bytes {0} [built]
+   [1] ./app/component.js 136 bytes {0} [built]
 ```
 
 This means you have a build at your output directory. You can open the `build/index.html` file directly through a browser to examine the results. On OS X `open ./build/index.html` works.
@@ -203,11 +200,11 @@ Given executing `node_modules/.bin/webpack` is a little verbose, we should do so
 ...
 ```
 
-You can execute the scripts defined this way through *npm run*. If you execute *npm run build* now, you should get a build at your output directory like earlier.
+You can execute the scripts defined this way through *npm run*. If you execute *npm run build* now, you should get a build at your output directory just like earlier.
 
-This works because npm adds `node_modules/.bin` temporarily to the path. As a result, rather than having to write `"build": "node_modules/.bin/webpack"`, we can do just `"build": "webpack"`. Unless Webpack is installed to the project, this can point to a possible global install. That can be potentially dangerous as it's a good idea to have control over the version of tools you are using.
+This works because npm adds `node_modules/.bin` temporarily to the path. As a result, rather than having to write `"build": "node_modules/.bin/webpack"`, we can do just `"build": "webpack"`. Unless Webpack is installed to the project, this can point to a possible global install. That can be potentially confusing. Prefer local installs over global for this reason.
 
-The scheme can be expanded further. Task runners, such as Grunt or Gulp, allow you to achieve the same while operating in a cross-platform manner. If you go through *package.json* like this, you may have to be more careful. On the plus side, this is a very light approach. To keep things simple, we'll be relying on it.
+Task runners, such as Grunt or Gulp, allow you to achieve the same result while operating in a cross-platform manner. If you go through *package.json* like this, you may have to be more careful. On the plus side, this is a very light approach. To keep things simple, we'll be relying on it.
 
 ## Setting Up *webpack-dev-server*
 
@@ -262,7 +259,7 @@ The output means that the development server is running. If you open *http://loc
 
 T> If you fail to see anything at the browser, you may need to use a different port through *webpack-dev-server --port 3000* kind of invocation. One reason why the server might fail to run is simply because there's something else running in the port. You can verify this through a terminal command, such as `netstat -na | grep 8080`. If there's something running in the port 8080, it should display a message. The exact command may depend on your platform.
 
-### Splitting Up Configuration
+### Splitting Up the Configuration
 
 As the development setup has certain requirements of its own, we'll need to split our Webpack configuration. Given Webpack configuration is just JavaScript, there are many ways to achieve this. At least the following ways are feasible:
 
@@ -459,13 +456,13 @@ To access your server, you'll need to figure out the ip of your machine. On Unix
 
 ### Alternative Ways to Use *webpack-dev-server*
 
-We could have passed *webpack-dev-server* options through the command line interface (CLI). I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy.
+We could have passed *webpack-dev-server* options through terminal. I find it clearer to manage it within Webpack configuration as that helps to keep *package.json* nice and tidy.
 
 Alternatively, we could have set up an Express server of our own and used *webpack-dev-server* as a [middleware](https://webpack.github.io/docs/webpack-dev-middleware.html). There's also a [Node.js API](https://webpack.github.io/docs/webpack-dev-server.html#api).
 
-T> [dotenv](https://www.npmjs.com/package/dotenv) allows you to define environment variables through a *.env* file. This can be somewhat convenient for development!
+T> [dotenv](https://www.npmjs.com/package/dotenv) allows you to define environment variables through a *.env* file. This can be somewhat convenient during development!
 
-W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and the Node.js API and they may behave slightly differently at times. This is the reason why some prefer to solely use the Node.js API.
+W> Note that there are [slight differences](https://github.com/webpack/webpack-dev-server/issues/106) between the CLI and the Node.js API. This is the reason why some prefer to solely use the Node.js API.
 
 ## Refreshing CSS
 
@@ -475,9 +472,7 @@ We can extend this approach to work with CSS. Webpack allows us to change CSS wi
 npm i css-loader style-loader --save-dev
 ```
 
-T> If you are using Node.js 0.10, this is a good time to get a [ES6 Promise polyfill](https://github.com/jakearchibald/es6-promise#auto-polyfill) set up.
-
-Now that we have the loaders we need, we'll need to make sure Webpack is aware of them. Configure as follows.
+Now that we have the loaders we need, we'll need to make sure Webpack is aware of them. Configure as follows:
 
 **webpack.config.js**
 
@@ -486,8 +481,11 @@ Now that we have the loaders we need, we'll need to make sure Webpack is aware o
 
 const common = {
   ...
-  },
+leanpub-start-delete
+  }
+leanpub-end-delete
 leanpub-start-insert
+  },
   module: {
     loaders: [
       {
@@ -627,4 +625,4 @@ I discuss linting in detail in the *Linting in Webpack* chapter. Consider integr
 
 ## Conclusion
 
-In this chapter, you learned to build and develop using Webpack. I will return to the build topic at *Building Kanban*. The current setup is not ideal. At this point it's the development configuration that matters. In the next chapter, we will see how to expand the approach to work with React.
+In this chapter, you learned to build and develop using Webpack. I will return to the build topic at the *Building Kanban* chapter. The current setup is not ideal for production. At this point it's the development configuration that matters. In the next chapter, we will see how to expand the approach to work with React.
