@@ -340,6 +340,8 @@ import App from './components/App.jsx';
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
+T> If you aren't using *npm-install-webpack-plugin*, remember to install *react* and *react-dom* to your project through `npm i react react-dom -S`.
+
 If you are running the development server, you should see something familiar at **localhost:8080**:
 
 ![Hello React](images/react_01.png)
