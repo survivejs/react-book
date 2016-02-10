@@ -10,7 +10,7 @@ The popularity of Node.js and [npm](https://www.npmjs.com/), the Node.js package
 
 ## Task Runners and Bundlers
 
-Historically speaking, there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the best known, and is still a viable option. To make things easier, specialized *task runners*, such as [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) appeared. Plugins available through npm, made both task runners powerful.
+Historically speaking, there have been many build systems. [Make](https://en.wikipedia.org/wiki/Make_%28software%29) is perhaps the best known, and is still a viable option. To make things easier, specialized *task runners*, such as [Grunt](http://gruntjs.com/) and [Gulp](http://gulpjs.com/) appeared. Plugins available through npm made both task runners powerful.
 
 Task runners are great tools on a high level. They allow you to perform operations in a cross-platform manner. The problems begin when you need to splice various assets together and produce bundles. This is the reason we have *bundlers*, such as [Browserify](http://browserify.org/) or [Webpack](https://webpack.github.io/).
 
@@ -204,7 +204,7 @@ Given JSPM is still a young project, there might be rough spots. That said, it m
 
 ## Why Use Webpack?
 
-Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for hot module replacement (HMR). This is a feature used by [react-hot-loader](https://github.com/gaearon/react-hot-loader). I will show you later how to set it up.
+Why would you use Webpack over tools like Gulp or Grunt? It's not an either-or proposition. Webpack deals with the difficult problem of bundling, but there's so much more. I picked up Webpack because of its support for **hot module replacement** (HMR). This is a feature used by [babel-plugin-react-transform](https://github.com/gaearon/babel-plugin-react-transform). I will show you later how to set it up.
 
 ### Hot Module Replacement
 
@@ -222,9 +222,9 @@ With Webpack, you can easily inject a hash to each bundle name (e.g., *app.d587b
 
 ### Loaders and Plugins
 
-All these smaller features add up. Surprisingly, you can get many things done out of the box. And if you are missing something, there are loaders and plugins available that allow you to go further. Webpack comes with a significant learning curve. Even still, it's a tool worth learning, given it saves so much time and effort over the long term.
+All these smaller features add up. Surprisingly, you can get many things done out of the box. And if you are missing something, there are loaders and plugins available that allow you to go further.
 
-To get a better idea how it compares to some other tools, check out [the official comparison](https://webpack.github.io/docs/comparison.html).
+Webpack comes with a significant learning curve. Even still, it's a tool worth learning, given it saves so much time and effort over the long term. To get a better idea how it compares to some other tools, check out [the official comparison](https://webpack.github.io/docs/comparison.html).
 
 ## Module Formats Supported by Webpack
 
@@ -258,6 +258,8 @@ export default function () { ... };
 // you can have multiple of these per module
 export function hello() {...};
 ```
+
+The format is discussed in greater detail at the *Language Features* appendix.
 
 ### AMD
 
@@ -294,10 +296,10 @@ This approach definitely eliminates some of the clutter. You will still end up w
 
 UMD, universal module definition, takes it all to the next level. It is a monster of a format that aims to make the aforementioned formats compatible with each other. I will spare your eyes from it. Never write it yourself, leave it to the tools. If that didn't scare you off, check out [the official definitions](https://github.com/umdjs/umd).
 
-Webpack can generate UMD wrappers for you (`output.libraryTarget: 'umd'`). This is particularly useful for library authors. We'll get back to this later when discussing npm and library authorship in detail.
+Webpack can generate UMD wrappers for you (`output.libraryTarget: 'umd'`). This is particularly useful for library authors. We'll get back to this later when discussing npm and library authorship in detail at the *Authoring Libraries* chapter.
 
 ## Conclusion
 
 I hope this chapter helped you understand why Webpack is a valuable tool worth learning. It solves a fair share of common web development problems. If you know it well, it will save a great deal of time. In the following chapters we'll examine Webpack in more detail. You will learn to develop a simple development configuration. We'll also get started with our Kanban application.
 
-You can, and probably should, use Webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling. That's one less worry during development. Just using *package.json*, `scripts`, and Webpack takes you far, as we will see soon.
+You can, and probably should, use Webpack with some other tools. It won't solve everything. It does solve the difficult problem of bundling, however. That's one less worry during development. Just using *package.json*, `scripts`, and Webpack takes you far, as we will see soon.
