@@ -29,9 +29,9 @@ Each note is an object which will contain the data we need, including an `id` an
 
 ## Connecting Data with `App`
 
-We could have skipped ids in our definition. This would become problematic as we grow our application, though. If you are referring to data based on array indices and the data changes, each reference has to change too. We can avoid that easily by generating ids ourselves.
+We could have skipped ids in our definition. This would become problematic as we grow our application, though. If you are referring to data based on array indices and the data changes, each reference has to change too. We can avoid that easily by generating the ids ourselves.
 
-### Generating Ids
+### Generating the Ids
 
 Normally the problem is solved by a back-end. As we don't have one yet, we'll use a standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) instead. It allows us to generate unique ids. We'll be using a Node.js implementation known as *node-uuid* and its `uuid.v4` variant. It will give us ids, such as `1c8e7a12-0b4c-4f23-938c-00d7161f94fc` and they are guaranteed to be unique with a very high probability.
 
@@ -91,8 +91,6 @@ We are using various important features of React in the snippet above. Understan
 
 * `<ul>{notes.map(note => ...}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
 * `<li key={note.id}>{note.task}</li>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
-
-T> You can import portions from `react` using syntax `import React, {Component} from 'react';`. Then you can do `class App extends Component`. You may find this alternative a little neater. I prefer `React.Component` given it's easier to search for.
 
 If you run the application now, you can see a list of notes. It's not particularly pretty, but it's a start:
 
@@ -236,7 +234,7 @@ T> Using [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) 
 
 ## Improving Component Hierarchy
 
-Our current, one component based setup isn't going to take us far. By looking at our application, we can see there's a component hierarchy like this:
+Our current, one component based setup isn't going to take us far. By looking at our application, we can design a component hierarchy like this:
 
 * `App` - `App` retains application state and deals with the high level logic.
 * `Notes` - `Notes` acts as an intermediate in between and renders individual `Note` components.
@@ -253,12 +251,7 @@ A good first step towards the hierarchy we want is to extract `Note`. `Note` is 
 ```javascript
 import React from 'react';
 
-leanpub-start-delete
-export default () => <div>Learn Webpack</div>;
-leanpub-end-delete
-leanpub-start-insert
 export default ({task}) => <div>{task}</div>;
-leanpub-end-insert
 ```
 
 T> `{task}` allows us to extract the specific prop we want from the passed props easily. We'll be using the same [destructuring syntax](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring) in other places as well.
@@ -297,14 +290,7 @@ leanpub-end-insert
       </div>
     );
   }
-  addNote = () => {
-    this.setState({
-      notes: this.state.notes.concat([{
-        id: uuid.v4(),
-        task: 'New task'
-      }])
-    });
-  };
+  ...
 }
 ```
 
@@ -386,15 +372,15 @@ The application should still behave the same way. Structurally we are far better
 In order to edit individual `Note`s, we should set up some hooks for that. Logically the following could happen:
 
 1. The user clicks a `Note`.
-2. `Note` renders itself as input showing its current value.
-3. The user confirms the modification (`blur` event or *enter* key is pressed).
+2. `Note` renders itself as an input showing its current value.
+3. The user confirms the modification (`blur` event is triggered or *enter* key is pressed).
 4. `Note` renders the new value.
 
 This means `Note` will need to track its `editing` state somehow. In addition, we need to communicate that the value (`task`) has changed so that `App` knows to update its state. Resolving these two problems gives us something functional.
 
 ### Tracking `Note` `editing` State
 
-Just as earlier with `App`, we need to deal with state again. This means a function based component won't be enough anymore. Instead, we need to convert it to a heavier format. For the sake of consistency I'll be using the same component definition style as with `App`. In addition, we need to alter the `editing` state based on the user behavior, and finally render the right element based on it. Here's what this means in terms of React:
+Just as earlier with `App`, we need to deal with state again. This means a function based component won't be enough anymore. Instead, we need to convert it to a heavier format. For the sake of consistency, I'll be using the same component definition style as with `App`. In addition, we need to alter the `editing` state based on the user behavior, and finally render the right element based on it. Here's what this means in terms of React:
 
 **app/components/Note.jsx**
 
@@ -427,7 +413,7 @@ export default class Note extends React.Component {
     // then refer to the element in question later in the code. This
     // would allow us to use the underlying DOM API through
     // this.refs.input. This can be useful when combined with
-    // React lifecycle methods.
+    // React lifecycle hooks.
     return <input type="text"
       ref={
         (e) => e ? e.selectionStart = this.props.task.length : null
@@ -478,7 +464,7 @@ export default class Note extends React.Component {
 
 If you try to edit a `Note` now, you should see an input and be able to edit the data. Given we haven't set up `onEdit` handler, it doesn't do anything useful yet, though. We'll need to capture the edited data next and update `App` state so that the code works.
 
-T> It is a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them from other props and keep your code a little tidier.
+T> It can be a good idea to name your callbacks using `on` prefix. This will allow you to distinguish them from other props and keep your code a little tidier.
 
 ### Communicating `Note` State Changes
 
@@ -543,26 +529,14 @@ To make the scheme work as designed, we need to modify `Notes` to work according
 import React from 'react';
 import Note from './Note.jsx';
 
-leanpub-start-delete
-export default ({notes}) => {
-leanpub-end-delete
-leanpub-start-insert
 export default ({notes, onEdit}) => {
-leanpub-end-insert
   return (
     <ul>{notes.map(note =>
-leanpub-start-delete
-      <li key={note.id}>
-        <Note task={note.task} />
-      </li>
-leanpub-end-delete
-leanpub-start-insert
       <li key={note.id}>
         <Note
           task={note.task}
           onEdit={onEdit.bind(null, note.id)} />
       </li>
-leanpub-end-insert
     )}</ul>
   );
 }
@@ -766,40 +740,7 @@ leanpub-end-insert
 import React from 'react';
 
 export default class Note extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      editing: false
-    };
-  }
-  render() {
-    if(this.state.editing) {
-      return this.renderEdit();
-    }
-
-    return this.renderNote();
-  }
-  renderEdit = () => {
-    return <input type="text"
-      ref={
-        (e) => e ? e.selectionStart = this.props.task.length : null
-      }
-      autoFocus={true}
-      defaultValue={this.props.task}
-      onBlur={this.finishEdit}
-      onKeyPress={this.checkEnter} />;
-  };
-  renderDelete = () => {
-leanpub-start-delete
-    return <button onClick={this.props.onDelete}>x</button>;
-leanpub-end-delete
-leanpub-start-insert
-    return <button
-      className="delete-note"
-      onClick={this.props.onDelete}>x</button>;
-leanpub-end-insert
-  };
+  ...
   renderNote = () => {
     const onDelete = this.props.onDelete;
 
@@ -814,6 +755,16 @@ leanpub-end-insert
         {onDelete ? this.renderDelete() : null }
       </div>
     );
+  };
+  renderDelete = () => {
+leanpub-start-delete
+    return <button onClick={this.props.onDelete}>x</button>;
+leanpub-end-delete
+leanpub-start-insert
+    return <button
+      className="delete-note"
+      onClick={this.props.onDelete}>x</button>;
+leanpub-end-insert
   };
   ...
 }
@@ -954,7 +905,7 @@ Note.willTransitionTo = () => {...};
 export default Note;
 ```
 
-Some libraries, such as `react-dnd`, rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
+Some libraries, such as React DnD, rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
 
 Both class and `React.createClass` based components allow you to document the interface of your component using `propTypes`. To dig deeper, read the *Typing with React* chapter.
 
@@ -966,7 +917,7 @@ Both support `render()`, the workhorse of React. In function based definition `r
 
 I prefer to have the `constructor` first, followed by lifecycle hooks, `render()`, and finally, methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers, too.
 
-In the end, you will have to find conventions that you like and which work the best for you. I go into more detail about this topic in the linting chapter, where I introduce various code quality related tools. Through the use of these tools, it is possible to enforce coding style to some extent.
+In the end, you will have to find conventions that you like and which work the best for you. I go into more detail about this topic in the *Linting in Webpack* chapter, where I introduce various code quality related tools. Through the use of these tools, it is possible to enforce coding style to some extent.
 
 This can be useful in a team environment. It decreases the amount of friction when working on code written by others. Even on personal projects, using tools to verify syntax and standards for you can be useful. It lessens the amount and severity of mistakes.
 
