@@ -9,21 +9,21 @@ If you run `npm run build`, you can see we have a problem:
 ```bash
 > webpack
 
-Hash: 1d6630b6a72d918bb24b
-Version: webpack 1.12.11
-Time: 3964ms
+Hash: 807faffbf966eb7f08fc
+Version: webpack 1.12.13
+Time: 3967ms
     Asset     Size  Chunks             Chunk Names
-bundle.js  1.11 MB       0  [emitted]  main
-    + 335 hidden modules
+bundle.js  1.12 MB       0  [emitted]  app
+    + 337 hidden modules
 ```
 
-1.11 MB is a lot! There are a couple of basic things we can do to slim down our build. We can apply some minification to it. We can also tell React to optimize itself. Doing both will result in significant size savings. Provided we apply gzip compression on the content when serving it, further gains may be made.
+1.12 MB is a lot! There are a couple of basic things we can do to slim down our build. We can apply some minification to it. We can also tell React to optimize itself. Doing both will result in significant size savings. Provided we apply gzip compression on the content when serving it, further gains may be made.
 
 ### Minification
 
 Minification will convert our code into a smaller format without losing any meaning. Usually this means some amount of rewriting code through predefined transformations. Sometimes, this can break code as it can rewrite pieces of code you inadvertently depend upon. This is the reason why we gave explicit ids to our stores for instance.
 
-The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). Alternatively we an use a plugin directly as this provides us more control. By default Uglify will output a lot of warnings and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
+The easiest way to enable minification is to call `webpack -p` (`-p` as in `production`). Alternatively, we an use a plugin directly as this provides us more control. By default Uglify will output a lot of warnings and they don't provide value in this case, we'll be disabling them. Add the following section to your Webpack configuration:
 
 **webpack.config.js**
 
@@ -53,12 +53,12 @@ If you execute `npm run build` now, you should see better results:
 ```bash
 > webpack
 
-Hash: 9f52871e77451f9d6f29
-Version: webpack 1.12.11
-Time: 10342ms
+Hash: ff80bbb1bdd7df271313
+Version: webpack 1.12.13
+Time: 9159ms
     Asset    Size  Chunks             Chunk Names
-bundle.js  366 kB       0  [emitted]  main
-    + 335 hidden modules
+bundle.js  368 kB       0  [emitted]  app
+    + 337 hidden modules
 ```
 
 Given it needs to do more work, it took longer. But on the plus side the build is much smaller now.
@@ -104,15 +104,15 @@ Execute `npm run build` again, and you should see improved results:
 ```bash
 > webpack
 
-Hash: a08756deaf3ac92da810
-Version: webpack 1.12.11
-Time: 8936ms
+Hash: cde2c1861fbd65f03c3b
+Version: webpack 1.12.13
+Time: 9032ms
     Asset    Size  Chunks             Chunk Names
-bundle.js  306 kB       0  [emitted]  main
-    + 331 hidden modules
+bundle.js  307 kB       0  [emitted]  app
+    + 333 hidden modules
 ```
 
-So we went from 1.11 MB to 367 kB, and finally, to 306 kB. The final build is a little faster than the previous one. As that 306 kB can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
+So we went from 1.12 MB to 368 kB, and finally, to 307 kB. The final build is a little faster than the previous one. As that 307 kB can be served gzipped, it is quite reasonable. gzipping will drop around another 40%. It is well supported by browsers.
 
 We can do a little better, though. We can split `app` and `vendor` bundles and add hashes to their filenames.
 
@@ -202,14 +202,14 @@ If you execute the build now using `npm run build`, you should see something alo
 ```bash
 > webpack
 
-Hash: 4cebe8ce0c6daca5cfa1
-Version: webpack 1.12.11
-Time: 13510ms
+Hash: 192a0643b9245a61a6e0
+Version: webpack 1.12.13
+Time: 14745ms
     Asset    Size  Chunks             Chunk Names
-   app.js  306 kB       0  [emitted]  app
-vendor.js  285 kB       1  [emitted]  vendor
+   app.js  307 kB       0  [emitted]  app
+vendor.js  286 kB       1  [emitted]  vendor
    [0] multi vendor 112 bytes {1} [built]
-    + 331 hidden modules
+    + 333 hidden modules
 ```
 
 Now we have separate *app*  and *vendor* bundles. There's something wrong, however. If you examine the files, you'll see that *app.js* contains *vendor* dependencies. We need to do something to tell Webpack to avoid this situation. This is where `CommonsChunkPlugin` comes in.
@@ -247,15 +247,15 @@ If you run `npm run build` now, you should see output as below:
 ```bash
 > webpack
 
-Hash: 1a18381bce0dd20fe684
-Version: webpack 1.12.11
-Time: 8630ms
+Hash: 3a08642b633ebeafa62f
+Version: webpack 1.12.13
+Time: 11044ms
       Asset       Size  Chunks             Chunk Names
-     app.js    20.7 kB    0, 2  [emitted]  app
-  vendor.js     285 kB    1, 2  [emitted]  vendor
+     app.js    21.3 kB    0, 2  [emitted]  app
+  vendor.js     286 kB    1, 2  [emitted]  vendor
 manifest.js  743 bytes       2  [emitted]  manifest
    [0] multi vendor 112 bytes {1} [built]
-    + 331 hidden modules
+    + 333 hidden modules
 ```
 
 The situation is far better now. Note how small `app` bundle compared to the `vendor` bundle. In order to really benefit from this split, we should set up caching. This can be achieved by adding cache busting hashes to filenames.
@@ -309,15 +309,15 @@ If you execute `npm run build` now, you should see output like this.
 ```bash
 > webpack
 
-Hash: 1bedf99d8ce4cab9ca1b
-Version: webpack 1.12.11
-Time: 9871ms
+Hash: 7ddb226a34540aa401bc
+Version: webpack 1.12.13
+Time: 8741ms
                            Asset       Size  Chunks             Chunk Names
-     app.76f47b014429236ae8de.js    20.7 kB    0, 2  [emitted]  app
-  vendor.8727ee8bd7a21ec7e1fb.js     285 kB    1, 2  [emitted]  vendor
-manifest.3abf3112b70cde9b4d49.js  763 bytes       2  [emitted]  manifest
+     app.5b758fea66f30faf0f0e.js    21.3 kB    0, 2  [emitted]  app
+  vendor.db9a3343cf47e4b3d83c.js     286 kB    1, 2  [emitted]  vendor
+manifest.19a8a5985bb61f546ce3.js  763 bytes       2  [emitted]  manifest
    [0] multi vendor 112 bytes {1} [built]
-    + 331 hidden modules
+    + 333 hidden modules
 ```
 
 Our files have neat hashes now. To prove that it works, you could try altering *app/index.jsx* and include a `console.log` there. After you build, only `app` and `manifest` related bundles should change.
@@ -351,7 +351,7 @@ const common = {
   module: {
     ...
 leanpub-start-delete
-  },
+  }
 leanpub-end-delete
 leanpub-start-insert
   },
@@ -373,7 +373,6 @@ if(TARGET === 'start' || !TARGET) {
 leanpub-start-delete
       contentBase: PATHS.build,
 leanpub-end-delete
-
       ...
     },
     plugins: [
@@ -393,16 +392,18 @@ If you execute `npm run build` now, the output should include *index.html*:
 ```bash
 > webpack
 
-Hash: 1bedf99d8ce4cab9ca1b
-Version: webpack 1.12.11
-Time: 10203ms
+Hash: 7ddb226a34540aa401bc
+Version: webpack 1.12.13
+Time: 9200ms
                            Asset       Size  Chunks             Chunk Names
-     app.76f47b014429236ae8de.js    20.7 kB    0, 2  [emitted]  app
-  vendor.8727ee8bd7a21ec7e1fb.js     285 kB    1, 2  [emitted]  vendor
-manifest.3abf3112b70cde9b4d49.js  763 bytes       2  [emitted]  manifest
-                      index.html  643 bytes          [emitted]
+     app.5b758fea66f30faf0f0e.js    21.3 kB    0, 2  [emitted]  app
+  vendor.db9a3343cf47e4b3d83c.js     286 kB    1, 2  [emitted]  vendor
+manifest.19a8a5985bb61f546ce3.js  763 bytes       2  [emitted]  manifest
+                      index.html  648 bytes          [emitted]
    [0] multi vendor 112 bytes {1} [built]
-    + 331 hidden modules
+    + 333 hidden modules
+Child html-webpack-plugin for "index.html":
+        + 3 hidden modules
 ```
 
 Even though this adds some configuration to our project, we don't have to worry about gluing things together now. If more flexibility is needed, it's possible to implement a custom template.
@@ -554,7 +555,7 @@ leanpub-end-insert
 }
 ```
 
-Using this setup, we can still benefit from the HMR during development. For a production build, we generate a separate CSS. `html-webpack-plugin` will pick it up automatically and inject it into our `index.html`.
+Using this setup, we can still benefit from the HMR during development. For a production build, we generate a separate CSS. *html-webpack-plugin* will pick it up automatically and inject it into our `index.html`.
 
 W> Definitions, such as `loaders: [ExtractTextPlugin.extract('style', 'css')]`, won't work and will cause the build to error instead! So when using `ExtractTextPlugin`, use the `loader` form instead.
 
@@ -565,17 +566,20 @@ After running `npm run build`, you should see output similar to the following:
 ```bash
 > webpack
 
-Hash: b6b87447300880b09594
-Version: webpack 1.12.11
-Time: 9250ms
+clean-webpack-plugin: .../kanban_app/build has been removed.
+Hash: 32b800b64e76fbd5d447
+Version: webpack 1.12.13
+Time: 9125ms
                            Asset       Size  Chunks             Chunk Names
-     app.ec1ff5633cd6145ca3d1.js    15.9 kB    0, 2  [emitted]  app
-  vendor.226ca9faf3c5d6df7cf1.js     327 kB    1, 2  [emitted]  vendor
-manifest.c638f974fe3d9ced70f4.js  763 bytes       2  [emitted]  manifest
-    app.ec1ff5633cd6145ca3d1.css  888 bytes    0, 2  [emitted]  app
-                      index.html  711 bytes          [emitted]
-   [0] multi vendor 136 bytes {1} [built]
-    + 362 hidden modules
+     app.341186f43191211bee0c.js    16.5 kB    0, 2  [emitted]  app
+  vendor.db9a3343cf47e4b3d83c.js     286 kB    1, 2  [emitted]  vendor
+manifest.c3a4ec998b7ccca9268f.js  763 bytes       2  [emitted]  manifest
+    app.341186f43191211bee0c.css    1.16 kB    0, 2  [emitted]  app
+                      index.html  713 bytes          [emitted]
+   [0] multi vendor 112 bytes {1} [built]
+    + 333 hidden modules
+Child html-webpack-plugin for "index.html":
+        + 3 hidden modules
 Child extract-text-webpack-plugin:
         + 2 hidden modules
 ```
@@ -639,18 +643,18 @@ leanpub-end-insert
 If you build the project now through `npm run build`, you should see something like this:
 
 ```bash
-Hash: 8af45e9a086d5fb9ddc5
-Version: webpack 1.12.12
-Time: 9882ms
+Hash: 22e7d6f1b15400035cbb
+Version: webpack 1.12.13
+Time: 9271ms
                            Asset       Size  Chunks             Chunk Names
-     app.582c97a61e4a5232b7a9.js    16.4 kB    0, 3  [emitted]  app
-   style.64acd61995c3afbc43f1.js   38 bytes    1, 3  [emitted]  style
-  vendor.16a716f91eacbec298cb.js     285 kB    2, 3  [emitted]  vendor
-manifest.50950c0170b5e0b86e45.js  788 bytes       3  [emitted]  manifest
-  style.64acd61995c3afbc43f1.css     1.1 kB    1, 3  [emitted]  style
+     app.5d41daf72705cb65cd89.js    16.4 kB    0, 3  [emitted]  app
+   style.0688e2aa1fa6c618dcdd.js   38 bytes    1, 3  [emitted]  style
+  vendor.ec174332c803122d2dba.js     286 kB    2, 3  [emitted]  vendor
+manifest.035b449d16a98df2cb4f.js  788 bytes       3  [emitted]  manifest
+  style.0688e2aa1fa6c618dcdd.css    1.16 kB    1, 3  [emitted]  style
                       index.html  770 bytes          [emitted]
    [0] multi vendor 112 bytes {2} [built]
-    + 331 hidden modules
+    + 333 hidden modules
 Child html-webpack-plugin for "index.html":
         + 3 hidden modules
 Child extract-text-webpack-plugin:
@@ -746,4 +750,4 @@ Beyond the features discussed, Webpack allows you to [lazy load](https://webpack
 
 Our Kanban application is now ready to be served. We went from a chunky build to a slim one. Even better the production version can benefit from caching and it is able to invalidate it.
 
-If you wanted to develop the project further, it could be a good idea to rethink the project structure. I've discussed the topic in *Structuring React Projects* appendix. It can be beneficial to read the *Authoring Libraries* chapter for more ideas on how to improve the npm setup of your project.
+If you wanted to develop the project further, it could be a good idea to rethink the project structure. I've discussed the topic at the *Structuring React Projects* appendix. It can be beneficial to read the *Authoring Libraries* chapter for more ideas on how to improve the npm setup of your project.
