@@ -625,12 +625,14 @@ leanpub-end-insert
       onClick={this.props.onDelete}>x</button>;
   };
 leanpub-start-insert
+leanpub-start-delete
   edit = () => {
     // Enter edit mode.
     this.setState({
       editing: true
     });
   };
+leanpub-end-delete
 leanpub-end-insert
   checkEnter = (e) => {
     if(e.key === 'Enter') {
