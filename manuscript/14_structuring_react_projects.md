@@ -84,6 +84,8 @@ It could be interesting to try to push actions and stores to `components` as wel
 
 This setup isn't enough when you want to add multiple views to the application. Something else is needed to support that.
 
+T> [gajus/create-index](https://github.com/gajus/create-index) is able to generate the *index.js* files automatically as you develop.
+
 ## Directory per View
 
 Multiple views bring challenges of their own. First of all, you'll need to define some routing scheme. [react-router](https://github.com/rackt/react-router) is a popular alternative for this purpose. In addition to a routing scheme, you'll need to define what to display on each view. You could have separate views for the home page of the application, registration, Kanban board, and so on, matching each route.
