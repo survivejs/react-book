@@ -37,7 +37,7 @@ There are a couple of ways to work around this:
 2. Resolve the conflict by settling to a version that satisfies the peer dependency. In this case, we could pin `eslint` to version `0.23` (`"eslint": "0.23"`), and everyone should be happy.
 3. Fork the package, fix the version range, and point at your custom version. In this case, you would have a `"<package>": "<github user>/<project>#<reference>"` kind of declaration for your dependencies.
 
-T> Note that peer dependencies will be dealt with differently starting with npm 3. After that, it's up to the package consumer (i.e., you) to deal with it. This particular error will go away.
+T> Note that peer dependencies are dealt with differently starting from npm 3. After that version, it's up to the package consumer (i.e., you) to deal with it. This particular error will go away.
 
 ## Warning: setState(...): Cannot update during an existing state transition
 
