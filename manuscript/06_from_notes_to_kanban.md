@@ -123,15 +123,15 @@ leanpub-end-insert
     );
   }
 leanpub-start-delete
-  addNote() {
-    NoteActions.create({task: 'New task'});
-  }
-  editNote(id, task) {
-    NoteActions.update({id, task});
-  }
-  deleteNote(id) {
+  deleteNote = (id) => {
     NoteActions.delete(id);
-  }
+  };
+  addNote = () => {
+    NoteActions.create({task: 'New task'});
+  };
+  editNote = (id, task) => {
+    NoteActions.update({id, task});
+  };
 leanpub-end-delete
 leanpub-start-insert
   addLane() {
@@ -141,7 +141,7 @@ leanpub-end-insert
 }
 ```
 
-The current implementation doesn't do much. It just shows a plus button and *lanes should go here* text. Even the add button doesn't work yet. We still need to model `Lane` and attach `Notes` to that to make this all work.
+If you check out the implementation at the browser, you can see that the current implementation doesn't do much. It just shows a plus button and *lanes should go here* text. Even the add button doesn't work yet. We still need to model `Lane` and attach `Notes` to that to make this all work.
 
 ## Modeling `Lane`
 
@@ -196,11 +196,11 @@ export default class Lane extends React.Component {
       </div>
     );
   }
-  addNote() {
-    NoteActions.create({task: 'New task'});
-  }
   editNote(id, task) {
     NoteActions.update({id, task});
+  }
+  addNote() {
+    NoteActions.create({task: 'New task'});
   }
   deleteNote(id) {
     NoteActions.delete(id);
@@ -327,12 +327,7 @@ Again, we should set up an action:
 ```javascript
 import alt from '../libs/alt';
 
-leanpub-start-delete
-export default alt.generateActions('create', 'attachToLane');
-leanpub-end-delete
-leanpub-start-insert
 export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
-leanpub-end-insert
 ```
 
 The implementation will resemble `attachToLane`. In this case, we'll remove the possibly found `Note` instead:
@@ -456,9 +451,15 @@ leanpub-end-insert
       </div>
     );
   }
+  editNote(id, task) {
+    NoteActions.update({id, task});
+  }
 leanpub-start-delete
   addNote() {
     NoteActions.create({task: 'New task'});
+  }
+  deleteNote(id) {
+    NoteActions.delete(id);
   }
 leanpub-end-delete
 leanpub-start-insert
@@ -471,16 +472,6 @@ leanpub-start-insert
       laneId
     });
   };
-leanpub-end-insert
-  editNote(id, task) {
-    NoteActions.update({id, task});
-  }
-leanpub-start-delete
-  deleteNote(id) {
-    NoteActions.delete(id);
-  }
-leanpub-end-delete
-leanpub-start-insert
   deleteNote = (noteId, e) => {
     e.stopPropagation();
 
@@ -544,7 +535,31 @@ We are still missing some basic functionality, such as editing and removing lane
 ```javascript
 import React from 'react';
 
+leanpub-start-delete
 export default class Editable extends React.Component {
+leanpub-end-delete
+leanpub-start-insert
+export default class Note extends React.Component {
+leanpub-end-insert
+leanpub-start-delete
+  constructor(props) {
+    super(props);
+
+    // Track `editing` state.
+    this.state = {
+      editing: false
+    };
+  }
+  render() {
+    // Render the component differently based on state.
+    if(this.state.editing) {
+      return this.renderEdit();
+    }
+
+    return this.renderNote();
+  }
+leanpub-end-delete
+leanpub-start-insert
   render() {
     const {value, onEdit, onValueClick, editing, ...props} = this.props;
 
@@ -554,16 +569,40 @@ export default class Editable extends React.Component {
       </div>
     );
   }
+leanpub-end-insert
   renderEdit = () => {
     return <input type="text"
       ref={
+leanpub-start-delete
+        (e) => e ? e.selectionStart = this.props.task.length : null
+leanpub-end-delete
+leanpub-start-insert
         (e) => e ? e.selectionStart = this.props.value.length : null
+leanpub-end-insert
       }
       autoFocus={true}
+leanpub-start-delete
+      defaultValue={this.props.task}
+leanpub-end-delete
+leanpub-start-insert
       defaultValue={this.props.value}
+leanpub-end-insert
       onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   };
+leanpub-start-delete
+  renderNote = () => {
+    const onDelete = this.props.onDelete;
+
+    return (
+      <div onClick={this.edit}>
+        <span className="task">{this.props.task}</span>
+        {onDelete ? this.renderDelete() : null }
+      </div>
+    );
+  };
+leanpub-end-delete
+leanpub-start-insert
   renderValue = () => {
     const onDelete = this.props.onDelete;
 
@@ -574,9 +613,25 @@ export default class Editable extends React.Component {
       </div>
     );
   };
+leanpub-end-insert
   renderDelete = () => {
-    return <button className="delete" onClick={this.props.onDelete}>x</button>;
+    return <button
+leanpub-start-delete
+      className="delete-note"
+leanpub-end-delete
+leanpub-start-insert
+      className="delete"
+leanpub-end-insert
+      onClick={this.props.onDelete}>x</button>;
   };
+leanpub-start-insert
+  edit = () => {
+    // Enter edit mode.
+    this.setState({
+      editing: true
+    });
+  };
+leanpub-end-insert
   checkEnter = (e) => {
     if(e.key === 'Enter') {
       this.finishEdit(e);
@@ -587,6 +642,13 @@ export default class Editable extends React.Component {
 
     if(this.props.onEdit && value.trim()) {
       this.props.onEdit(value);
+
+leanpub-start-delete
+      // Exit edit mode.
+      this.setState({
+        editing: false
+      });
+leanpub-end-delete
     }
   };
 }
@@ -594,8 +656,7 @@ export default class Editable extends React.Component {
 
 There are a couple of important changes:
 
-* `{editing ? this.renderEdit() : this.renderValue()}` - This ternary selects what to render based on the editing state. Previously we had `Task`. Now we are using the term `Value` as that's more generic.
-* `const {value, onEdit, onValueClick, editing, ...props} = this.props;` - We changed task to value here as well.
+* `{editing ? this.renderEdit() : this.renderValue()}` - This ternary selects what to render based on the editing state. Previously we had `Note`. Now we are using the term `Value` as that's more generic.
 * `renderValue` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
 * `renderDelete` - Instead of using `delete-note` class, it uses more generic `delete` now.
 
@@ -662,7 +723,7 @@ export default ({notes, onValueClick, onEdit, onDelete}) => {
 }
 ```
 
-If you refresh the browser, you should see `Uncaught TypeError: Cannot read property 'bind' of undefined`. This has to do with that `onValueClick` definition we added. This is something we'll address next.
+If you refresh the browser, you should see `Uncaught TypeError: Cannot read property 'bind' of undefined`. This has to do with that `onValueClick` definition we added. We will address this next.
 
 T> *Typing with React* chapter discusses how to use `propTypes` to work around this problem. It's a feature that allows us to set good defaults for props while also checking their types during development.
 
@@ -723,6 +784,9 @@ leanpub-end-insert
       </div>
     )
   }
+  editNote(id, task) {
+    NoteActions.update({id, task});
+  }
   addNote = (e) => {
 leanpub-start-insert
     // If note is added, avoid opening lane name edit by stopping
@@ -762,7 +826,7 @@ leanpub-end-insert
 }
 ```
 
-If you try to edit a lane name now, you should see a log message at the console.
+If you try to edit a lane name now, you should see a log message at the console:
 
 ![Logging lane name editing](images/kanban_03.png)
 
@@ -775,15 +839,10 @@ We will need to define some logic to make this work. To follow the same idea as 
 ```javascript
 import alt from '../libs/alt';
 
-leanpub-start-delete
-export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
-leanpub-end-delete
-leanpub-start-insert
 export default alt.generateActions(
   'create', 'update', 'delete',
   'attachToLane', 'detachFromLane'
 );
-leanpub-end-insert
 ```
 
 We are also going to need `LaneStore` level implementations for these. They can be modeled based on what we have seen in `NoteStore` earlier:
@@ -985,7 +1044,7 @@ Besides keeping things nice and tidy, Webpack's lazy loading machinery can pick 
 
 ## On Namespacing Components
 
-So far, we've been defining a component per file. That's not the only way. It may be handy to treat a file as a namespace and expose multiple components from it. React provides [namespaces components](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components) just for this purpose. In this case, we could apply namespacing to the concept of `Lane` or `Note`. This would add some flexibility to our system while keeping it simple to manage. By using namespacing, we could do something like this:
+So far, we've been defining a component per file. That's not the only way. It may be handy to treat a file as a namespace and expose multiple components from it. React provides [namespaces components](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components) just for this purpose. In this case, we could apply namespacing to the concept of `Lane` or `Note`. This would add some flexibility to our system while keeping it simple to manage. By using namespacing, we could end up with something like this:
 
 **app/components/Lanes.jsx**
 

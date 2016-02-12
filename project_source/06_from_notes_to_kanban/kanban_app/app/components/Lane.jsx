@@ -36,6 +36,9 @@ export default class Lane extends React.Component {
       </div>
     );
   }
+  editNote(id, task) {
+    NoteActions.update({id, task, editing: false});
+  }
   addNote = (e) => {
     e.stopPropagation();
 
@@ -47,9 +50,6 @@ export default class Lane extends React.Component {
       laneId
     });
   };
-  editNote(id, task) {
-    NoteActions.update({id, task, editing: false});
-  }
   deleteNote = (noteId, e) => {
     e.stopPropagation();
 

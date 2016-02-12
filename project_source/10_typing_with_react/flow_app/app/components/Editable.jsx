@@ -44,7 +44,9 @@ export default class Editable extends React.Component {
     );
   };
   renderDelete: () => Object = () => {
-    return <button className="delete" onClick={this.props.onDelete}>x</button>;
+    return <button
+      className="delete"
+      onClick={this.props.onDelete}>x</button>;
   };
   checkEnter: (e: Object) => void = (e) => {
     if(e.key === 'Enter') {
