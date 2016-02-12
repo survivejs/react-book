@@ -1,8 +1,8 @@
 # Styling React
 
-Traditionally, web pages have been split up into markup (HTML), styling (CSS), and logic (JavaScript). Thanks to React and similar approaches, we've begun to question this split. We still may want to separate our concerns somehow. But the split can be different.
+Traditionally, web pages have been split up into markup (HTML), styling (CSS), and logic (JavaScript). Thanks to React and similar approaches, we've begun to question this split. We still may want to separate our concerns somehow. But the split can be on different axes.
 
-This change in the mindset has lead to new ways to think about styling. With React, we're still figuring out the best practices. Some early patterns have begun to emerge, however. It is difficult to provide any definite recommendations at the moment. Instead, I'm going through some common approaches so you can make up your mind based on your needs.
+This change in the mindset has lead to new ways to think about styling. With React, we're still figuring out the best practices. Some early patterns have begun to emerge, however. As a result it is difficult to provide any definite recommendations at the moment. Instead, I will go through various approaches so you can make up your mind based on your exact needs.
 
 ## Old School Styling
 
@@ -21,7 +21,8 @@ var common = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css']
+        loaders: ['style', 'css'],
+        include: PATHS.style
       }
     ]
   },
@@ -71,7 +72,7 @@ There are various approaches that go deeper and solve some of these fundamental 
 
 ![CSS Processors](images/css.png)
 
-Vanilla CSS is missing some functionality that would make maintenance work easier. Consider something basic like variables, nesting, mixins, math or color functions, and so on. It would also be nice to be able to forget about browser specific prefixes. These are small things that add up quite fast and make it annoying to write vanilla CSS.
+Vanilla CSS is missing some functionality that would make maintenance work easier. Consider something basic like variables, nesting, mixins, math or color functions. It would also be nice to be able to forget about browser specific prefixes. These are small things that add up quite fast and make it annoying to write vanilla CSS.
 
 Sometimes, you may see terms *preprocessor* or *postprocessor*. [Stefan Baumgartner](https://medium.com/@ddprrt/deconfusing-pre-and-post-processing-d68e3bd078a3) calls these tools simply *CSS processors*. The image above adapted based on Stefan's work gets to the point. The tooling operates both on authoring and optimization level. By authoring we mean features that make it easier to write CSS. Optimization features operate based on vanilla CSS and convert it into something more optimal for browsers to consume.
 
@@ -86,7 +87,8 @@ The interesting thing is that you may actually want to use multiple CSS processo
 ```javascript
 {
   test: /\.less$/,
-  loaders: ['style', 'css', 'less']
+  loaders: ['style', 'css', 'less'],
+  include: PATHS.style
 }
 ```
 
@@ -101,7 +103,8 @@ There is also support for Less plugins, sourcemaps, and so on. To understand how
 ```javascript
 {
   test: /\.scss$/,
-  loaders: ['style', 'css', 'sass']
+  loaders: ['style', 'css', 'sass'],
+  include: PATHS.style
 }
 ```
 
@@ -116,7 +119,8 @@ Check out the loader for more advanced usage.
 ```javascript
 {
   test: /\.styl$/,
-  loaders: ['style', 'css', 'stylus']
+  loaders: ['style', 'css', 'stylus'],
+  include: PATHS.style
 }
 ```
 
@@ -135,7 +139,8 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css', 'postcss']
+        loaders: ['style', 'css', 'postcss'],
+        include: PATHS.style
       }
     ]
   },
@@ -155,7 +160,8 @@ module.exports = {
 ```javascript
 {
   test: /\.css$/,
-  loaders: ['style', 'css', 'cssnext']
+  loaders: ['style', 'css', 'cssnext'],
+  include: PATHS.style
 }
 ```
 
