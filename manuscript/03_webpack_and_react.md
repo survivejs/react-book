@@ -228,7 +228,7 @@ In this case we're pulling specific plugins to our preset. You could pull the pl
 
 Assuming we named our package as *babel-preset-survivejs-kanban*, we could then install it to our project as above and connect it with Babel configuration. Note the *babel-preset* prefix. The great advantage of developing a package like this is that it allows us to maintain shared presets across multiple, similar projects.
 
-The *Authoring Libraries* chapter goes into greater detail when it comes to npm and dealing with packages. To make it easier for other people to find your preset, consider including `babel-preset` to your package keywords.
+The *Authoring Packages* chapter goes into greater detail when it comes to npm and dealing with packages. To make it easier for other people to find your preset, consider including `babel-preset` to your package keywords.
 
 ### Using Babel for Webpack Configuration
 

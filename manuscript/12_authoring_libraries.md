@@ -1,4 +1,4 @@
-# Authoring Libraries
+# Authoring Packages
 
 [npm](https://www.npmjs.com/) is one of the reasons behind the popularity of Node.js. Even though it was used initially for managing back-end packages, it has become increasingly popular for front-end usage as well. As you saw in the earlier chapters, it is easy to consume npm packages through Webpack.
 
@@ -30,7 +30,7 @@ In addition, you'll likely have various directories for source, tests, demos, do
 
 All packages come with a *package.json* that describes metadata related to them. This includes information about the author, various links, dependencies, and so on. The [official documentation](https://docs.npmjs.com/files/package.json) covers them in detail.
 
-I've annotated a part of *package.json* of my [React component boilerplate](https://github.com/survivejs/react-component-boilerplate) below.
+I've annotated a part of *package.json* of my [React component boilerplate](https://github.com/survivejs/react-component-boilerplate) below:
 
 ```json
 {
@@ -39,7 +39,7 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   /* Brief description */
   "description": "Boilerplate for React.js components",
   /* Who is the author + optional email + optional site */
-  "author": "Juho Vepsalainen <email goes here> (site goes here)",
+  "author": "Juho Vepsäläinen <email goes here> (site goes here)",
   /* Version of the package */
   "version": "0.0.0",
   /* `npm run <name>` */
@@ -113,9 +113,11 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
 
 As you can see, *package.json* can contain a lot of information. You can attach non-npm specific metadata there that can be used by tooling. Given this can bloat *package.json*, it may be preferable to keep metadata at files of their own.
 
+T> JSON doesn't support comments even though I'm using them above. There are extended notations, such as [Hjson](http://hjson.org/), that do.
+
 ## npm Workflow
 
-Working with npm is surprisingly simple. To get started, you need to use [npm adduser](https://docs.npmjs.com/cli/adduser) (aliased to `npm login`). It allows you to set up an account. After this process has completed, it will create *~/.npmrc* and use that data for authentication. There's also [npm logout](https://docs.npmjs.com/cli/logout) that will clear the credentials.
+Working with npm is surprisingly simple. To get started, you will need to use [npm adduser](https://docs.npmjs.com/cli/adduser) (aliased to `npm login`). It allows you to set up an account. After this process has completed, it will create *~/.npmrc* and use that data for authentication. There's also [npm logout](https://docs.npmjs.com/cli/logout) that will clear the credentials.
 
 T> When creating a project, `npm init` respects the values set at *~/.npmrc*. Hence it may be worth your while to set reasonable defaults there to save some time.
 
@@ -137,7 +139,7 @@ In order to bump your package version, you'll just need to invoke one of these c
 
 Invoking any of these will update *package.json* and create a version commit to git automatically. If you execute `npm publish` after doing this, you should have something new out there.
 
-Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case.
+Note that in the example above I've set up `version` related hooks to make sure a version will contain a fresh version of a distribution build. I also run tests just in case. It's better to catch potential issues early on after all.
 
 T> Consider using [semantic-release](https://www.npmjs.com/package/semantic-release) if you prefer more structured approach. It can take some pain out of the release process while automating a part of it. For instance, it is able to detect possible breaking changes and generate changelogs.
 
@@ -253,7 +255,7 @@ I output my React component in various formats at my boilerplate. I generate a v
 
 In addition, I generate so called *distribution bundles*: `.js` and `.min.js`. There's a sourcemap (`.map`) useful for debugging for both. It is possible to consume these bundles standalone as they come with an [UMD](https://github.com/umdjs/umd) wrapper.
 
-UMD makes it possible to consume them from various environments including global, AMD, and CommonJS (Node.js format). You can refresh your memory with these by checking the Getting Started chapter for examples.
+UMD makes it possible to consume them from various environments including global, AMD, and CommonJS (Node.js format). You can refresh your memory with these by checking the *Webpack Compared* chapter for concrete examples.
 
 It is surprisingly easy to generate the aforementioned bundles using Webpack. The following example should give you the basic idea:
 
@@ -281,9 +283,9 @@ var commonDist = {
   entry: config.paths.src,
   externals: {
     react: 'react'
-    /* more complicated mapping for lodash */
-    /* we need to access it differently depending */
-    /* on the environment */
+    // Use more complicated mapping for lodash.
+    // We need to access it differently depending
+    // on the environment.
     lodash: {
       commonjs: 'lodash',
       commonjs2: 'lodash',
@@ -330,7 +332,7 @@ Most of the magic happens thanks to `devtool` and `output` declarations. In addi
 
 T> The example uses the same `merge` utility we defined earlier on. You should check [the boilerplate](https://github.com/bebraw/react-component-boilerplate) itself for the exact configuration.
 
-T> If your library is using ES6 exclusively, [rollup](https://www.npmjs.com/package/rollup) can be a valid, simple alternative to Webpack.
+T> If your library is using ES6 exclusively, [rollup](https://www.npmjs.com/package/rollup) can be a valid, simple alternative to Webpack. It provides features, such as tree shaking. This means it will analyze the code structure and drop unused parts of it automatically leading to a smaller size.
 
 ## npm Lifecycle Hooks
 
@@ -382,7 +384,7 @@ It is important to remember that your dependencies may introduce backwards incom
 
 These services provide badges you can integrate into your project *README.md*. These services may email you about important changes. They can also point out possible security issues that have been fixed.
 
-For testing your projects you can consider solutions, such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). [Coveralls](https://coveralls.io/) gives you code coverage information and a badge.
+For testing your projects you can consider solutions, such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). [Coveralls](https://coveralls.io/) gives you code coverage information and a badge to include in your README.
 
 These services are valuable as they allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems.
 
@@ -396,4 +398,4 @@ See [npm documentation](https://docs.npmjs.com/cli/owner) for the most up to dat
 
 ## Conclusion
 
-You should have a basic idea on how to author npm libraries with the help of Webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.
+You should have a basic idea on how to author npm packages with the help of Webpack now. It takes a lot of effort out of the process. Just keep the basic rules in mind when developing and remember to respect the SemVer.
