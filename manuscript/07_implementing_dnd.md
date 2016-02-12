@@ -4,7 +4,7 @@ Our Kanban application is almost usable now. It looks alright and there's some b
 
 ## Setting Up React DnD
 
-As a first step, we'll need to connect React DnD with our project. We are going to use the HTML5 Drag and Drop based backend. There are specific backends for testing and [touch](https://github.com/yahoo/react-dnd-touch-backend). In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
+As a first step, we'll need to connect React DnD with our project. We are going to use the HTML5 Drag and Drop based back-end. There are specific back-ends for testing and [touch](https://github.com/yahoo/react-dnd-touch-backend). In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
 
 **app/components/App.jsx**
 
@@ -37,7 +37,7 @@ Earlier, we extracted editing functionality from `Note` and ended up dropping `N
 
 We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic in `Note`. This avoids having to duplicate any logic related to `Editable`.
 
-The magic lies in a single property known as `children`. React will render possible child components in the slot `{this.props.children}`. Set up *Note.jsx* as shown below:
+The magic lies in a React property known as `children`. React will render possible child components in the slot `{this.props.children}`. Set up *Note.jsx* as shown below:
 
 **app/components/Note.jsx**
 
@@ -110,7 +110,7 @@ Next, we need to tell our `Note` that it's possible to drag and drop it. This is
 
 ### Setting Up `Note` `@DragSource`
 
-Marking a component as a `@DragSource` simply means that it can be dragged. Set up the annotation as follows:
+Marking a component as a `@DragSource` simply means that it can be dragged. Set up the annotation like this:
 
 **app/components/Note.jsx**
 
@@ -175,6 +175,7 @@ W> Note that React DnD doesn't support hot loading perfectly. You may need to re
 ```javascript
 import React from 'react';
 leanpub-start-delete
+import {DragSource} from 'react-dnd';
 leanpub-end-delete
 leanpub-start-insert
 import {DragSource, DropTarget} from 'react-dnd';
@@ -230,9 +231,9 @@ leanpub-end-insert
 }
 ```
 
-Refresh the browser and begin to drag a note. You should see way a lot of log messages.
+Refresh the browser and try to drag a note around. You should see a lot of log messages.
 
-Note that both decorators give us access to the `Note` props. In this case, we are using `monitor.getItem()` to access them at `noteTarget`. This is the key to making this to work properly.
+Both decorators give us access to the `Note` props. In this case, we are using `monitor.getItem()` to access them at `noteTarget`. This is the key to making this to work properly.
 
 ## Developing `onMove` API for `Notes`
 
@@ -326,7 +327,7 @@ leanpub-end-insert
 }
 ```
 
-If you drag a `Note` around now, you should see logs like `source <id> target <id>` in the console. We are getting close. We still need to figure out what to do with these ids, though.
+If you drag a `Note` around now, you should see log messages like `source <id> target <id>` in the console. We are getting close. We still need to figure out what to do with these ids, though.
 
 ## Adding Action and Store Method for Moving
 
@@ -339,19 +340,11 @@ In our case, we'll get some extra complexity due to lane to lane dragging. When 
 ```javascript
 import alt from '../libs/alt';
 
-leanpub-start-delete
-export default alt.generateActions(
-  'create', 'update', 'delete',
-  'attachToLane', 'detachFromLane'
-);
-leanpub-end-delete
-leanpub-start-insert
 export default alt.generateActions(
   'create', 'update', 'delete',
   'attachToLane', 'detachFromLane',
   'move'
 );
-leanpub-end-insert
 ```
 
 We should connect this action with the `onMove` hook we just defined:
@@ -474,9 +467,9 @@ leanpub-end-insert
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-If you try out the application now, you can actually drag notes around and it should behave as you expect. The presentation could be better, though.
+If you try out the application now, you can actually drag notes around and it should behave as you expect. Dragging to empty lanes doesn't work, though, and the presentation could be better.
 
-It would be better if we indicated the dragged note's location more clearly. We can do this by hiding the dragged note from the list. React DnD provides us the hooks we need.
+It would be better if we indicated the dragged note's location more clearly. We can do this by hiding the dragged note from the list. React DnD provides us the hooks we need for this purpose.
 
 ### Indicating Where to Move
 
@@ -576,9 +569,7 @@ To drag notes to empty lanes, we should allow them to receive notes. Just as abo
 leanpub-start-insert
 import {DropTarget} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
-leanpub-end-insert
 
-leanpub-start-insert
 const noteTarget = {
   hover(targetProps, monitor) {
     const targetId = targetProps.lane.id;
@@ -588,9 +579,7 @@ const noteTarget = {
     console.log(`source: ${sourceId}, target: ${targetId}`);
   }
 };
-leanpub-end-insert
 
-leanpub-start-insert
 @DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
@@ -732,11 +721,13 @@ leanpub-end-insert
 
 `removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that, we have a clean slate, and we can add a note to a lane. This change allows us to drop `detachFromLane` from the system entirely, but I'll leave that up to you.
 
+After these changes you should be able to drag notes to empty lanes.
+
 ### Fixing Editing Behavior During Dragging
 
 The current implementation has a small glitch. If you edit a note, you can still drag it around while it's being edited. This isn't ideal as it overrides the default behavior most people are used to. You cannot for instance double-click on an input to select all the text.
 
-Fortunately this is simple to fix. We'll need to use the `editing` state per each `Note` to adjust its behavior. First we need to pass `editing` state to an individual `Note`:
+Fortunately, this is simple to fix. We'll need to use the `editing` state per each `Note` to adjust its behavior. First we need to pass `editing` state to an individual `Note`:
 
 **app/components/Notes.js**
 
@@ -815,6 +806,8 @@ Now we have a Kanban table that is actually useful! We can create new lanes and 
 
 In this chapter, you saw how to implement drag and drop for our little application. You can model sorting for lanes using the same technique. First, you mark the lanes to be draggable and droppable, then you sort out their ids, and finally, you'll add some logic to make it all work together. It should be considerably simpler than what we did with notes.
 
-I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending the DnD implementation, you can try adding more data to the system.
+I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending the DnD implementation, you can try adding more data to the system. You could also do something to the visual outlook. One option would be to try out various styling approaches discussed at the *Styling React* chapter.
 
-In the next chapter, we'll set up a production level build for our application. You can use the same techniques in your own projects.
+To make it harder to break the application during development, you can also implement tests as discussed at *Testing React*. *Typing with React* discussed yet more ways to harden your code. Learning these approaches can be worthwhile. Sometimes it may be worth your while to design your applications test first. It is a valuable approach as it allows you to document your assumptions as you go.
+
+In the next chapter, we'll set up a production level build for our application. You can use the techniques discussed in your own projects.
