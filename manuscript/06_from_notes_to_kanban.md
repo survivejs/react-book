@@ -130,6 +130,11 @@ leanpub-start-delete
     NoteActions.create({task: 'New task'});
   };
   editNote = (id, task) => {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     NoteActions.update({id, task});
   };
 leanpub-end-delete
@@ -197,6 +202,11 @@ export default class Lane extends React.Component {
     );
   }
   editNote(id, task) {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     NoteActions.update({id, task});
   }
   addNote() {
@@ -452,6 +462,11 @@ leanpub-end-insert
     );
   }
   editNote(id, task) {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     NoteActions.update({id, task});
   }
 leanpub-start-delete
@@ -642,7 +657,7 @@ leanpub-end-insert
   finishEdit = (e) => {
     const value = e.target.value;
 
-    if(this.props.onEdit && value.trim()) {
+    if(this.props.onEdit) {
       this.props.onEdit(value);
 
 leanpub-start-delete
@@ -787,6 +802,11 @@ leanpub-end-insert
     )
   }
   editNote(id, task) {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     NoteActions.update({id, task});
   }
   addNote = (e) => {
@@ -898,11 +918,23 @@ export default class Lane extends React.Component {
   ...
 leanpub-start-delete
   editNote(id, task) {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     NoteActions.update({id, task});
   }
 leanpub-end-delete
 leanpub-start-insert
   editNote(id, task) {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      NoteActions.update({id, editing: false});
+
+      return;
+    }
+
     NoteActions.update({id, task, editing: false});
   }
 leanpub-end-insert
@@ -930,6 +962,13 @@ leanpub-end-delete
 leanpub-start-insert
   editName = (name) => {
     const laneId = this.props.lane.id;
+
+    // Don't modify if trying set an empty value
+    if(!name.trim()) {
+      LaneActions.update({id: laneId, editing: false});
+
+      return;
+    }
 
     LaneActions.update({id: laneId, name, editing: false});
   };

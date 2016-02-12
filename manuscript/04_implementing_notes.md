@@ -450,7 +450,7 @@ export default class Note extends React.Component {
     // See the *Typing with React* chapter for more information.
     const value = e.target.value;
 
-    if(this.props.onEdit && value.trim()) {
+    if(this.props.onEdit) {
       this.props.onEdit(value);
 
       // Exit edit mode.
@@ -507,6 +507,11 @@ leanpub-end-insert
   };
 leanpub-start-insert
   editNote = (id, task) => {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     const notes = this.state.notes.map(note => {
       if(note.id === id && task) {
         note.task = task;

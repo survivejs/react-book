@@ -41,11 +41,7 @@ class Editable extends React.Component {
     }
   };
   finishEdit = (e) => {
-    const value = e.target.value;
-
-    if(value.trim()) {
-      this.props.onEdit(value);
-    }
+    this.props.onEdit(e.target.value);
   };
 }
 Editable.propTypes = {

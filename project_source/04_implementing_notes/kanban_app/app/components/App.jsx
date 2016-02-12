@@ -49,6 +49,11 @@ export default class App extends React.Component {
     });
   };
   editNote = (id, task) => {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     const notes = this.state.notes.map(note => {
       if(note.id === id && task) {
         note.task = task;

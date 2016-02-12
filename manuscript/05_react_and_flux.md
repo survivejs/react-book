@@ -340,6 +340,11 @@ leanpub-start-insert
 leanpub-end-insert
 leanpub-start-delete
   editNote = (id, task) => {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     const notes = this.state.notes.map(note => {
       if(note.id === id  && task) {
         note.task = task;
@@ -353,6 +358,11 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
   editNote(id, task) {
+    // Don't modify if trying set an empty value
+    if(!task.trim()) {
+      return;
+    }
+
     NoteActions.update({id, task});
   }
 leanpub-end-insert

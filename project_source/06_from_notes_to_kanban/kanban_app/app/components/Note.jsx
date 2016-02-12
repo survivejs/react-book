@@ -53,7 +53,7 @@ export default class Note extends React.Component {
   finishEdit = (e) => {
     const value = e.target.value;
 
-    if(this.props.onEdit && value.trim()) {
+    if(this.props.onEdit) {
       this.props.onEdit(value);
 
       // Exit edit mode.
