@@ -20,8 +20,7 @@ process.env.BABEL_ENV = TARGET;
 
 const common = {
   entry: {
-    app: PATHS.app,
-    style: PATHS.style
+    app: PATHS.app
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -51,6 +50,9 @@ const common = {
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
+    entry: {
+      style: PATHS.style
+    },
     devtool: 'eval-source-map',
     devServer: {
       historyApiFallback: true,
@@ -90,7 +92,8 @@ if(TARGET === 'build' || TARGET === 'stats') {
     entry: {
       vendor: Object.keys(pkg.dependencies).filter(function(v) {
         return v !== 'alt-utils';
-      })
+      }),
+      style: PATHS.style
     },
     output: {
       path: PATHS.build,
@@ -131,8 +134,6 @@ if(TARGET === 'build' || TARGET === 'stats') {
 
 if(TARGET === 'test' || TARGET === 'tdd') {
   module.exports = merge(common, {
-    entry: {}, // karma will set this
-    output: {}, // karma will set this
     devtool: 'inline-source-map',
     resolve: {
       alias: {
