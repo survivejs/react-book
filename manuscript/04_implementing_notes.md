@@ -234,13 +234,23 @@ T> Using [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) 
 
 ## Improving Component Hierarchy
 
-Our current, one component based setup isn't going to take us far. By looking at our application, we can design a component hierarchy like this:
+Our current, one component based setup isn't going to take us far. It would be complicated to add more separate collections of notes to it. In the current setup this would mean we would have to duplicate code.
+
+Fortunately we can solve this problem by modeling more components to our system. Besides solving the problem, they also promote reuse. In the ideal case we can use good components across multiple different systems.
+
+As a collection of notes feels like a component, we can model it as `Notes`. Furthermore we can split the concept of `Note` from it. This separation gives us another degree of abstraction that will come in handy. This setup gives us a three tier component hierarhcy that looks like this:
+
+By looking at our application, we can design a component hierarchy like this:
 
 * `App` - `App` retains application state and deals with the high level logic.
-* `Notes` - `Notes` acts as an intermediate in between and renders individual `Note` components.
-* `Note` - `Note` is the workhorse of our application. Editing and deletion will be triggered here. That logic will cascade to `App` through wiring.
+* `Notes` - `Notes` acts as an intermediate wrapper in between and renders individual `Note` components.
+* `Note` - `Note` is the workhorse of our application. Editing and deletion will be triggered here. That logic will cascade to `App` through wiring in between.
 
-The interesting side benefit of this arrangement is that it allows us to create multiple `Notes` lists per `App`. Earlier, this would have become messy as would have had to duplicate code. Later on we can expand the hierarchy by introducing the concepts of `Lane` and `Lanes` to it.
+Later on we can expand the hierarchy to a full Kanban by introducing the concepts of `Lane` and `Lanes` to it. These two concepts fit between `App` and `Notes`. We don't need to care about this just yet, though.
+
+T> One natural way to model component hierarchies is to draw out your application on paper. You will begin to see entities that will map to components. This allows you to identify especially *presentational* components that focus on displaying data. You have *container* components that connect with data on a higher level. Dan Abramov discusses this in his Medium post known as [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.q8c68v3ff).
+
+T> You can certainly develop components organically. Once they begin to feel too big, refactor and extract the components you identify. Sometimes finding the right composition may take some time and patience. Component design is a skill to learn and master.
 
 ### Extracting `Note`
 
