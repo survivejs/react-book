@@ -1,6 +1,6 @@
 # Understanding Decorators
 
-If you have used languages such as Java or Python before, you might be familiar with the idea. Decorators are syntactic sugar that allow us to wrap and annotate classes and functions. In their [current proposal](https://github.com/wycats/javascript-decorators) (stage 1) only class and method level wrapping is supported. Functions may become supported later on.
+If you have used languages, such as Java or Python before, you might be familiar with the idea. Decorators are syntactic sugar that allow us to wrap and annotate classes and functions. In their [current proposal](https://github.com/wycats/javascript-decorators) (stage 1) only class and method level wrapping is supported. Functions may become supported later on.
 
 In Babel 6 you can enable this behavior through [babel-plugin-syntax-decorators](https://www.npmjs.com/package/babel-plugin-syntax-decorators) and [babel-plugin-transform-decorators-legacy](https://www.npmjs.com/package/babel-plugin-transform-decorators-legacy) plugins. The former provides syntax level support whereas the latter gives the type of behavior we are going to discuss here.
 
