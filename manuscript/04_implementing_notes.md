@@ -447,7 +447,7 @@ export default class Note extends React.Component {
     // A smarter way to deal with the default value would be to set
     // it through `defaultProps`.
     //
-    // See *Typing with React* chapter for more information.
+    // See the *Typing with React* chapter for more information.
     const value = e.target.value;
 
     if(this.props.onEdit && value.trim()) {
