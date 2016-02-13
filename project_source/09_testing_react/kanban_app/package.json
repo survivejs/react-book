@@ -57,6 +57,7 @@
     "react-addons-update": "^0.14.6",
     "react-dnd": "^2.0.2",
     "react-dnd-html5-backend": "^2.0.2",
-    "react-dom": "^0.14.6"
+    "react-dom": "^0.14.6",
+    "style-loader": "^0.13.0"
   }
 }
