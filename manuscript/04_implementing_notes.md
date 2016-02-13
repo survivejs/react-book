@@ -102,7 +102,13 @@ T> If you want to examine your application further, it can be useful to attach a
 
 ## Adding New Items to the List
 
-Adding more items to the list would be a good starting point for further development. Currently the state of our application is tied to `render()`. In order to make it possible to modify it, we'll need to convert it into component *state*. After that, we can define operations to alter it. As the state changes, React will update the list automatically for us. In React terms, state definition looks like this:
+Adding more items to the list would be a good starting point for further development. Each React component may maintain internal `state`. In this case `state` would refer to the data model we just defined. As we modify the state through React's `setState` method, React will eventually call the `render()` method and update the user interface. This idea allows us to implement interactivity, such as adding new items to the list.
+
+React forces you to think about state carefully. As the complexity of your application grows, this becomes a fundamental issue. This is the reason why various state management solutions have been developed. They allow you to push application state management related concerns out of your React components.
+
+Components may still retain some state of their own. A good example is state related to the user interface. A fancy dropdown component might want to maintain its visibility state by itself for example. We will discuss state management in greater detail as we develop the application.
+
+Assuming we are using a class based component definition, we can define the initial state of our component in its `constructor`. It is a special method that gets called when the component is instantiated initially. In this case we can push our initial data definition there and set it as our component `state`:
 
 **app/components/App.jsx**
 
@@ -158,13 +164,13 @@ leanpub-end-insert
 }
 ```
 
-After this change and refreshing the browser, our application works the same way as before. We have gained something in return, though. We can now begin to alter the state.
+After this change and refreshing the browser, our application works the same way as before. We have gained something in return, though. We can now begin to alter the state through `setState`.
 
-In the earlier versions of React, you achieved the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
+T> In the earlier versions of React, you could achieve the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
 ### Defining `addNote` Handler
 
-Now that we have state, we can begin to modify it. A good way to achieve this is to add a simple button to `App` and then trigger `this.setState` to force React to alter the state and trigger `render()`. This method is asynchronous. React deals with the virtual DOM related details for you:
+Now that we have state, we can begin to modify it through custom methods. UI-wise we could add a simple button to `App`. That in turn would trigger a method that would add a new item to the component state. As discussed earlier, React will pick up the change and refresh the user interface as a result for us:
 
 **app/components/App.jsx**
 
@@ -220,7 +226,7 @@ leanpub-end-insert
 
 If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
 
-If you refresh the browser and click the plus button now, you should see a new item at the list:
+In case you refresh the browser and click the plus button now, you should see a new item at the list:
 
 ![Notes with a plus](images/react_05.png)
 
@@ -254,7 +260,11 @@ T> You can certainly develop components organically. Once they begin to feel too
 
 ### Extracting `Note`
 
-A good first step towards the hierarchy we want is to extract `Note`. `Note` is a component which will need to receive `task` as a *prop* and render it as below:
+A good first step towards the hierarchy we want is to extract `Note`. `Note` is a component which will need to receive `task` as a *prop* and render it. In terms of JSX this would look like `<Note task="task goes here" />`.
+
+In addition to `state`, `props` are another concept you will be using a lot. They describe the external interface of a component. You can annotate them as discussed in the *Typing with React* chapter. To keep things simple, we are skipping `propType` annotations here.
+
+A function based component will receive `props` as its first parameter. We can extract specific props from it through [ES6 destructuring syntax](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring). A function based component is `render()` by itself. They are far more limited than class based ones, but they are perfect for simple *presentational* purposes, such as this. To tie these ideas together, we can end up with a component definition such as this:
 
 **app/components/Note.jsx**
 
@@ -264,9 +274,11 @@ import React from 'react';
 export default ({task}) => <div>{task}</div>;
 ```
 
-T> `{task}` allows us to extract the specific prop we want from the passed props easily. We'll be using the same [destructuring syntax](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring) in other places as well.
+T> To understand the destructuring syntax in greater detail, check out the *Language Features* appendix.
 
-We should tweak `App` to connect the component with it:
+### Connecting `Note` with `App`
+
+Now that we have a simple component that accepts a `task` prop, we can connect it with `App` to get closer to the component hierarchy we have in mind:
 
 **app/components/App.jsx**
 
@@ -308,7 +320,7 @@ The application should still look the same. To achieve the structure we are afte
 
 ### Extracting `Notes`
 
-Extracting `Notes` is a similar operation. We need to understand what portion of `App` belongs to the component and then write a definition for it:
+Extracting `Notes` is a similar operation. We need to understand what portion of `App` belongs to the component and then write a definition for it. It is the same idea as for `Note` earlier:
 
 **app/components/Notes.jsx**
 
@@ -375,7 +387,7 @@ leanpub-end-insert
 }
 ```
 
-The application should still behave the same way. Structurally we are far better off than before, though. Now we can begin to worry about adding new functionality to the system.
+The application should still behave the same way. Structurally we are far better off than earlier, though. Now we can begin to worry about adding new functionality to the system.
 
 ## Editing `Notes`
 

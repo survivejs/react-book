@@ -313,7 +313,7 @@ T> It may be worth your while to install [React Developer Tools](https://github.
 
 ### Setting Up `Note`
 
-We also need to define the `Note` component. In this case, we will just want to show some text like `Learn Webpack`. `Hello world` would work if you are into clichés.
+We also need to define the `Note` component. In this case, we will just want to show some text like `Learn Webpack`. `Hello world` would work if you are into clichés. Given the component is so simple, we can use React's function based component definition:
 
 **app/components/Note.jsx**
 
