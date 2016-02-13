@@ -685,6 +685,7 @@ leanpub-start-insert
   };
 leanpub-end-insert
   ...
+}
 ```
 
 After these changes and refreshing you should be able to delete notes as you like.
