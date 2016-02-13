@@ -68,14 +68,18 @@ This is just one example of a lane configuration. The lanes can be configured to
 
 ## Who is This Book for?
 
-I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about Webpack or React, that's great. By reading this book you will deepen your understanding of these tools.
+I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about Webpack, React, or ES6, that's great. By reading this book you will deepen your understanding of these tools.
+
+One of the hardest things about writing a book is to write it on the right level. Given the book covers a lot of ground, there are appendices that cover basic topics, such as language details, with greater detail than the main content does.
+
+If you find yourself struggling, consider studying the appendices or seeking help from the  community around the book. In case you are stuck or don't understand something, we are there to help. Any comments you might have will go towards improving the book content.
 
 ## How to Approach the Book?
 
 Although a natural way to read a book is to start from the first chapter and then read the chapters sequentially, that's not the only way to approach this book. The chapter order is just a reading suggestion. Depending on your background, you could consider the following orders or even skip some portions altogether:
 
-* From start to end - You can get the same experience by starting from React and studying Webpack after that if you want to delve straight to Kanban.
-* React first, Webpack after - Skip the early chapters on Webpack, download [a starting point](https://github.com/survivejs/webpack_react/tree/master/project_source/03_webpack_and_react/kanban_app) from the repository, and go through the Kanban demonstration first. Follow the Webpack chapters to understand what the configuration is doing and why. The *Advanced Techniques* part and appendices complement this content well.
+* From start to end - This would be the traditional way to approach a book. It will also require the most amount of time. But on the plus side you get a steady progression.
+* React first, Webpack after - An alternative is to skip the early chapters on Webpack, download [a starting point](https://github.com/survivejs/webpack_react/tree/master/project_source/03_webpack_and_react/kanban_app) from the repository, and go through the Kanban demonstration first. Follow the Webpack chapters after that to understand what the configuration is doing and why. The *Advanced Techniques* part and appendices complement this content well.
 * Webpack only - If you know React very well, maybe it makes sense to go through the Webpack portions only. You can apply the same skills beyond React after all.
 * Advanced techniques only - Given React ecosystem is so vast, the *Advanced Techniques* part covers interesting niches you might miss otherwise. Pick up techniques like linting or learn to improve your npm setup. It may be worth your while to dig into various styling approaches discussed to find something that suits your purposes.
 
