@@ -30,6 +30,7 @@ function render() {
     <div>
       <h2>Names</h2>
 
+      {/* This is a list of names */}
       <ul className="names">{
         names.map(name =>
           <li className="name">{name}</li>
