@@ -328,6 +328,8 @@ Even though we aren't referring to React directly through code here, it is good 
 
 T> Note that we're using the *jsx* extension here. It helps us to tell modules using JSX syntax apart from regular ones. It is not absolutely necessary, but it is a good convention to have.
 
+T> Just returning `Learn Webpack` from the component won't work. You will have to wrap it like this. Sometimes it can be convenient just to return `null` in case you don't want to return anything.
+
 ### Rendering Through *index.jsx*
 
 To make everything work, we'll need to adjust our `index.js` to render the component. Note that I've renamed it as `index.jsx` given we have JSX content there. We will render the content through a package known as *react-dom*. Given we're dealing with the browser here, it's the right choice:
