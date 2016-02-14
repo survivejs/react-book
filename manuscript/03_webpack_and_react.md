@@ -47,6 +47,8 @@ Cory House goes into more detail [about the shock](https://medium.com/@housecor/
 
 T> Note that `render()` [must return a single node](https://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html). Returning multiple won't work!
 
+T> [HyperScript](https://github.com/dominictarr/hyperscript) can be an interesting alternative to JSX. It provides a JavaScript based API and as such is a little closer to the metal. If you are interested, you can use the syntax with React through [hyperscript-helpers](https://www.npmjs.com/package/hyperscript-helpers).
+
 ### JSX vs. HTML
 
 In JSX we are mixing something that looks a bit like HTML with JavaScript. Note how we treat attributes. Instead of using `class` as we would in vanilla HTML, we use `className`, which is the DOM equivalent. Even though JSX will feel a little weird to use at first, it will become second nature over time.
