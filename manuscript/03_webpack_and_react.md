@@ -23,7 +23,7 @@ React provides a [high level API](https://facebook.github.io/react/docs/top-leve
 JSX is a superset of JavaScript that allows you to mix XMLish syntax with JavaScript. Consider the example below:
 
 ```javascript
-function render() {
+const Names = () => {
   const names = ['John', 'Jill', 'Jack'];
 
   return (
@@ -38,7 +38,7 @@ function render() {
       }</ul>
     </div>
   );
-}
+};
 ```
 
 If you haven't seen JSX before it will likely look strange. It isn't uncommon to experience "JSX shock" until you start to understand it. After that, it all makes sense.
