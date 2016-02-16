@@ -242,7 +242,7 @@ Our current, one component based setup isn't going to take us far. It would be c
 
 Fortunately we can solve this problem by modeling more components to our system. Besides solving the problem, they also promote reuse. In the ideal case we can use good components across multiple different systems.
 
-As a collection of notes feels like a component, we can model it as `Notes`. Furthermore we can split the concept of `Note` from it. This separation gives us another degree of abstraction that will come in handy. This setup gives us a three tier component hierarhcy that looks like this:
+As a collection of notes feels like a component, we can model it as `Notes`. Furthermore we can split the concept of `Note` from it. This separation gives us another degree of abstraction that will come in handy. This setup gives us a three tier component hierarchy that looks like this:
 
 By looking at our application, we can design a component hierarchy like this:
 
