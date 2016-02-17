@@ -4,7 +4,7 @@
 
 <img align="right" width="255" height="329" src="manuscript/images/title_page_small.png" />
 
-> **IMPORTANT!** If you want to support the development of this book, you can [purchase a copy at Leanpub](https://leanpub.com/survivejs_webpack). Feedback is valuable as well.
+> **IMPORTANT!** If you want to support the development of this book, you can [purchase a copy at Leanpub](https://leanpub.com/survivejs_webpack). There's also [a paperback available through Amazon](http://www.amazon.com/SurviveJS-Webpack-React-apprentice-master/dp/152391050X/).
 
 Webpack, a module bundler, solves a significant problem for web developers. It can be daunting to learn but once you grok it, life gets easier. Same goes for React, a JavaScript library for building UIs. This book shows you how to build a little Kanban application using these technologies. During the process you will learn the basics and will be able to take the skills to your own projects.
 
