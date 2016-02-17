@@ -410,7 +410,11 @@ Even though this adds some configuration to our project, we don't have to worry 
 
 ## Cleaning the Build
 
-Our current setup doesn't clean the `build` directory between builds. As this can get annoying if we change our setup, we can use a plugin to clean the directory for us. Change the build configuration as follows to integrate it:
+Our current setup doesn't clean the `build` directory between builds. As this can get annoying if we change our setup, we can use a plugin to clean the directory for us. Install the plugin and change the build configuration as follows to integrate it:
+
+```bash
+npm i clean-webpack-plugin --save-dev
+```
 
 **webpack.config.js**
 
