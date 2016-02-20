@@ -551,10 +551,10 @@ We are still missing some basic functionality, such as editing and removing lane
 import React from 'react';
 
 leanpub-start-delete
-export default class Editable extends React.Component {
+export default class Note extends React.Component {
 leanpub-end-delete
 leanpub-start-insert
-export default class Note extends React.Component {
+export default class Editable extends React.Component {
 leanpub-end-insert
 leanpub-start-delete
   constructor(props) {
