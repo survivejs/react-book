@@ -75,10 +75,10 @@ T> Since *v1.4.0* ESLint supports a feature known as [autofixing](http://eslint.
 In order to integrate ESLint with our project, we'll need to do a couple of little tweaks. First we'll need to execute
 
 ```bash
-npm i babel-eslint eslint eslint-plugin-react --save-dev
+npm i eslint eslint-plugin-react --save-dev
 ```
 
-This will add ESLint and the plugin we want to use as our project development dependencies. *babel-eslint* allows us to use Babel specific language features with ESLint. Next, we'll need to do some configuration:
+This will add ESLint and the plugin we want to use as our project development dependencies. Next, we'll need to do some configuration:
 
 **package.json**
 
@@ -102,14 +102,20 @@ T> ESLint supports custom formatters through `--format` parameter. [eslint-frien
 
 ### Connecting ESLint with Babel
 
-Next, we'll need to activate [babel-eslint](https://www.npmjs.com/package/babel-eslint) so that ESLint works with our Babel code. In addition, we need to activate React specific rules and set up a couple of our own. You can adjust these to your liking. For details see the official [ESLint rules documentation](http://eslint.org/docs/rules/). Note that we are extending the recommended set of rules through the `extends` field:
+Next, we need to activate ES6 parsing, a couple React specific rules and set up a few of our own. You can adjust these to your liking. For details see the official [ESLint rules documentation](http://eslint.org/docs/rules/). Note that we are extending the recommended set of rules through the `extends` field:
 
 **.eslintrc**
 
 ```json
 {
   "extends": "eslint:recommended",
-  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
   "env": {
     "browser": true,
     "node": true

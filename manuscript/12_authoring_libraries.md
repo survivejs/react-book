@@ -78,7 +78,6 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   /* Package development dependencies */
   "devDependencies": {
     "babel": "^6.3.17",
-    "babel-eslint": "^5.0.0-beta6",
     ...
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0",
