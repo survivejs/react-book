@@ -729,7 +729,7 @@ The current implementation has a small glitch. If you edit a note, you can still
 
 Fortunately, this is simple to fix. We'll need to use the `editing` state per each `Note` to adjust its behavior. First we need to pass `editing` state to an individual `Note`:
 
-**app/components/Notes.js**
+**app/components/Notes.jsx**
 
 ```javascript
 ...
@@ -759,7 +759,7 @@ leanpub-end-insert
 
 Next we need to take this into account while rendering:
 
-**app/components/Note.js**
+**app/components/Note.jsx**
 
 ```javascript
 ...
