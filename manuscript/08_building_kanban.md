@@ -498,7 +498,8 @@ leanpub-end-delete
     new HtmlWebpackPlugin({
       template: 'node_modules/html-webpack-template/index.html',
       title: 'Kanban app',
-      appMountId: 'app'
+      appMountId: 'app',
+      inject: false
     })
   ]
 };
