@@ -312,14 +312,19 @@ leanpub-end-insert
     );
   }
 leanpub-start-delete
-  deleteNote = (id) => {
+  deleteNote = (id, e) => {
+    // Avoid bubbling to edit
+    e.stopPropagation();
+
     this.setState({
       notes: this.state.notes.filter(note => note.id !== id)
     });
   };
 leanpub-end-delete
 leanpub-start-insert
-  deleteNote(id) {
+  deleteNote(id, e) {
+    e.stopPropagation();
+
     NoteActions.delete(id);
   }
 leanpub-end-insert

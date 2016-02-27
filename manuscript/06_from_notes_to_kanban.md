@@ -123,7 +123,9 @@ leanpub-end-insert
     );
   }
 leanpub-start-delete
-  deleteNote = (id) => {
+  deleteNote = (id, e) => {
+    e.stopPropagation();
+
     NoteActions.delete(id);
   };
   addNote = () => {
@@ -212,7 +214,9 @@ export default class Lane extends React.Component {
   addNote() {
     NoteActions.create({task: 'New task'});
   }
-  deleteNote(id) {
+  deleteNote(id, e) {
+    e.stopPropagation();
+
     NoteActions.delete(id);
   }
 }
@@ -473,7 +477,9 @@ leanpub-start-delete
   addNote() {
     NoteActions.create({task: 'New task'});
   }
-  deleteNote(id) {
+  deleteNote(id, e) {
+    e.stopPropagation();
+
     NoteActions.delete(id);
   }
 leanpub-end-delete

@@ -31,7 +31,9 @@ export default class App extends React.Component {
 
     NoteActions.update({id, task});
   }
-  deleteNote(id) {
+  deleteNote(id, e) {
+    e.stopPropagation();
+
     NoteActions.delete(id);
   }
 }
