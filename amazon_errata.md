@@ -6,6 +6,21 @@ This document contains a list of important fixes made since the initial [Amazon 
 
 * Page 8 - Added missing "that" to a sentence. "Given declarations" -> "Given that declarations" (2.0.4)
 
+## Implementing a Basic Note Application
+
+* Page 65 - Avoid event bubbling with `deleteNote` to make behavior more predictable across browsers (2.0.5). Example:
+
+```javascript
+deleteNote = (id, e) => {
+  // Avoid bubbling to edit
+  e.stopPropagation();
+
+  this.setState({
+    notes: this.state.notes.filter(note => note.id !== id)
+  });
+};
+```
+
 ## From Notes to Kanban
 
 * Page 108 - Fixed code example. Swapped `export default class Editable extends React.Component {` with `export default class Note extends React.Component {`. (2.0.3)
