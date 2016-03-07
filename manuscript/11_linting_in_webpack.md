@@ -30,7 +30,7 @@ var common = {
   module: {
     preLoaders: [
       {
-        test: /\.js?$/,
+        test: /\.jsx?$/,
         loaders: ['jshint'],
         // define an include so we check just the files we need
         include: PATHS.app
