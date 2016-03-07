@@ -23,6 +23,7 @@ deleteNote = (id, e) => {
 
 ## From Notes to Kanban
 
+* Page 103 - `app/stores/NoteStore.jsx` -> `app/stores/NoteStore.js` (2.0.6)
 * Page 108 - Fixed code example. Swapped `export default class Editable extends React.Component {` with `export default class Note extends React.Component {`. (2.0.3)
 
 ## Implementing Drag and Drop
