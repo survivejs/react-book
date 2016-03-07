@@ -384,7 +384,7 @@ One neat way to resolve lane notes to actual data is to implement a public metho
 
 Just implementing the method isn't enough. We also need to make it public. In Alt, this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question. Consider the implementation below:
 
-**app/stores/NoteStore.jsx**
+**app/stores/NoteStore.js**
 
 ```javascript
 import uuid from 'node-uuid';
