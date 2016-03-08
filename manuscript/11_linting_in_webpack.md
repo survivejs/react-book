@@ -449,6 +449,12 @@ Here's a sample configuration:
 
   "safeContextKeyword": "that",
 
+  "validateQuoteMarks": {
+    "mark": "'",
+    "escape": true,
+    "ignoreJSX": true
+  },
+
   "excludeFiles": [
     "dist/**",
     "node_modules/**"
