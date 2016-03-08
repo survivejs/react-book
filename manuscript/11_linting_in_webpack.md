@@ -141,6 +141,8 @@ Next, we need to activate ES6 parsing, a couple React specific rules and set up 
 
 T> ESLint supports ES6 features through configuration. You will have to specify the features to use through the [ecmaFeatures](http://eslint.org/docs/user-guide/configuring.html#specifying-language-options) property.
 
+T> In case you want to lint against custom language features, use [babel-eslint](https://www.npmjs.com/package/babel-eslint). After installing, you can make ESLint aware of it by setting `"parser": "babel-eslint"`. It should be safe to drop `parserOptions` section of *.babelrc* assuming custom parser is set.
+
 The severity of an individual rule is defined by a number as follows:
 
 * 0 - The rule has been disabled.
