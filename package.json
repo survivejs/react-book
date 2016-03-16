@@ -3,21 +3,17 @@
   "private": true,
   "version": "2.0.7",
   "description": "SurviveJS - Webpack and React",
-  "author": "Juho Vepsalainen <bebraw@gmail.com>",
+  "author": "Juho Vepsalainen <info@survivejs.com>",
   "scripts": {
-    "start": "npm run generate-pdf",
-    "generate-pdf": "gitbook pdf . ./book.pdf",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {},
-  "devDependencies": {
-    "gitbook-cli": "^1.0.1"
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/survivejs/webpack_react.git"
   },
-  "homepage": "https://www.survivejs.com",
+  "homepage": "https://survivejs.com",
   "bugs": {
     "url": "https://github.com/survivejs/webpack_react/issues"
   },
@@ -27,5 +23,5 @@
     "react",
     "book"
   ],
-  "licenses": "MIT"
+  "license": "CC BY-NC-ND"
 }

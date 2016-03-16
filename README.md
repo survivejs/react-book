@@ -44,14 +44,6 @@ Feel free to subscribe.
 
 Feedback and PRs are welcome! See *CONTRIBUTING.md* for more information.
 
-## Generating PDF
-
-If you want a rough pdf version, you can generate one through Calibre. It won't look as pretty as [the official version](https://leanpub.com/survivejs_webpack_react) and will be missing some content. That said it's better than nothing if you cannot afford the full monty for a reason or another. I'm not blaming you. :)
-
-Make sure you have Calibre installed before trying the generation script. You can get it from [Calibre site](http://calibre-ebook.com/download) or alternatively you can use the package manager of your operating system (Homebrew-cask for Mac, `sudo apt-get install calibre calibre-bin` for Ubuntu). If you use Homebrew-cask, you may need to add the Calibre CLI to your PATH (e.g., `export PATH=$PATH://opt/homebrew-cask/Caskroom/calibre/2.31.0/calibre.app/Contents/MacOS`).
-
-To generate a pdf version of the book, hit `npm install` and `npm start`. After that you should have `./book.pdf`.
-
 ## License
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a>
