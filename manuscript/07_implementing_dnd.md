@@ -520,41 +520,7 @@ leanpub-end-insert
 }
 ```
 
-If you drag a note within a lane, the dragged note should be shown as blank. If you try moving the note to another lane and move it there, you will see this doesn't quite work, though.
-
-The problem is that our note component gets unmounted during this process. This makes it lose `isDragging` state. Fortunately, we can override the default behavior by implementing a `isDragging` check of our own to fix the issue. Perform the following addition:
-
-**app/components/Note.jsx**
-
-```javascript
-...
-
-leanpub-start-delete
-const noteSource = {
-  beginDrag(props) {
-    return {
-      id: props.id
-    };
-  }
-};
-leanpub-end-delete
-leanpub-start-insert
-const noteSource = {
-  beginDrag(props) {
-    return {
-      id: props.id
-    };
-  },
-  isDragging(props, monitor) {
-    return props.id === monitor.getItem().id;
-  }
-};
-leanpub-end-insert
-
-...
-```
-
-This tells React DnD to perform our custom check instead of relying on the default logic. After this change, unmounting won't be an issue and the feature works as we expect.
+If you drag a note within a lane, the dragged note should be shown as blank.
 
 There is one little problem in our system. We cannot drag notes to an empty lane yet.
 
