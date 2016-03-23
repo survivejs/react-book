@@ -7,9 +7,6 @@ const noteSource = {
     return {
       id: props.id
     };
-  },
-  isDragging(props, monitor) {
-    return props.id === monitor.getItem().id;
   }
 };
 
