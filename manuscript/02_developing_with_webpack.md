@@ -182,7 +182,7 @@ bundle.js  1.75 kB       0  [emitted]  app
    [1] ./app/component.js 136 bytes {0} [built]
 ```
 
-This means you have a build at your output directory. You can open the `build/index.html` file directly through a browser to examine the results. On OS X `open ./build/index.html` works.
+This means you have a build at your output directory at *build/bundle.js*. You can examine the output through your editor to see what Webpack did there. To see the application running, open the `build/index.html` file directly through a browser. On OS X `open ./build/index.html` works.
 
 T> Another way to serve the contents of the directory through a server, such as *serve* (`npm i serve -g`). In this case, execute `serve` at the output directory and head to `localhost:3000` at your browser. You can configure the port through the `--port` parameter.
 
