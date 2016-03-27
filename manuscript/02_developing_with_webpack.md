@@ -109,11 +109,8 @@ Next, we are going to need an entry point for our application. It will simply `r
 
 ```javascript
 var component = require('./component');
-var app = document.createElement('div');
 
-document.body.appendChild(app);
-
-app.appendChild(component());
+document.body.appendChild(component());
 ```
 
 We are also going to need some HTML so we can load the generated bundle:
