@@ -345,7 +345,7 @@ leanpub-start-insert
 leanpub-end-insert
 leanpub-start-delete
   editNote = (id, task) => {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       return;
     }
@@ -363,7 +363,7 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
   editNote(id, task) {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       return;
     }

@@ -52,7 +52,7 @@ export default class App extends React.Component {
     });
   };
   editNote = (id, task) => {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       return;
     }

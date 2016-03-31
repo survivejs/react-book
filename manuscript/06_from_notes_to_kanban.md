@@ -132,7 +132,7 @@ leanpub-start-delete
     NoteActions.create({task: 'New task'});
   };
   editNote = (id, task) => {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       return;
     }
@@ -204,7 +204,7 @@ export default class Lane extends React.Component {
     );
   }
   editNote(id, task) {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       return;
     }
@@ -466,7 +466,7 @@ leanpub-end-insert
     );
   }
   editNote(id, task) {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       return;
     }
@@ -808,7 +808,7 @@ leanpub-end-insert
     )
   }
   editNote(id, task) {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       return;
     }
@@ -924,7 +924,7 @@ export default class Lane extends React.Component {
   ...
 leanpub-start-delete
   editNote(id, task) {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       return;
     }
@@ -934,7 +934,7 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
   editNote(id, task) {
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!task.trim()) {
       NoteActions.update({id, editing: false});
 
@@ -969,7 +969,7 @@ leanpub-start-insert
   editName = (name) => {
     const laneId = this.props.lane.id;
 
-    // Don't modify if trying set an empty value
+    // Don't modify if trying to set an empty value
     if(!name.trim()) {
       LaneActions.update({id: laneId, editing: false});
 
