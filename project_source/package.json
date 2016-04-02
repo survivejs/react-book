@@ -11,7 +11,6 @@
   "author": "Juho Vepsalainen",
   "license": "",
   "devDependencies": {
-    "array-flatten": "^2.0.0",
     "async": "^1.5.1",
     "babel-core": "^6.3.26",
     "babel-eslint": "^5.0.0-beta6",
@@ -24,12 +23,9 @@
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.14.0",
     "extract-text-webpack-plugin": "^1.0.0",
-    "glob": "^6.0.3",
     "html-webpack-plugin": "^1.7.0",
     "html-webpack-template": "^2.5.1",
     "isomorphic-fetch": "^2.2.0",
-    "marked": "^0.3.5",
-    "request": "^2.67.0",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",
     "webpack-sources": "^0.1.0"

@@ -1,4 +1,6 @@
 language: node_js
 node_js:
   - "5.1"
-script: ./project_source/travis.sh
+script:
+  - npm test
+  - ./project_source/travis.sh

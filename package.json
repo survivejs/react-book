@@ -5,10 +5,12 @@
   "description": "SurviveJS - Webpack and React",
   "author": "Juho Vepsalainen <info@survivejs.com>",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "check-markdown-links manuscript"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "check-markdown-links": "^0.1.1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/survivejs/webpack_react.git"
