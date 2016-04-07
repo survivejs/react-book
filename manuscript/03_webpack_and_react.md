@@ -128,7 +128,9 @@ leanpub-end-insert
         test: /\.css$/,
         loaders: ['style', 'css'],
         include: PATHS.app
+leanpub-start-delete
       }
+leanpub-end-delete
 leanpub-start-insert
       },
       // Set up jsx. This accepts js too thanks to RegExp
