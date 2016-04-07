@@ -565,6 +565,8 @@ Faster development specific options, such as `cheap-module-eval-source-map` and 
 
 It is possible you may need to enable sourcemaps in your browser for this to work. See [Chrome](https://developer.chrome.com/devtools/docs/javascript-debugging) and [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) instructions for further details.
 
+T> If you want to generate sourcemaps for the build version (`npm run build`), attach `devtool: 'source-map'` declaration to its configuration section. There are other options too, but `source-map` is the most complete one.
+
 ## Avoiding `npm install` by Using *npm-install-webpack-plugin*
 
 In order to avoid some typing, we can set up a Webpack plugin known as [npm-install-webpack-plugin](https://www.npmjs.com/package/npm-install-webpack-plugin). As we develop the project, it will detect changes made to Webpack configuration and the projects files and install the dependencies for us. It will modify *package.json* automatically as well.
