@@ -388,7 +388,7 @@ Given we pushed `contentBase` configuration to JavaScript, we can remove it from
 ```json
 ...
 "scripts": {
-  "build": "webpack"
+  "build": "webpack",
 leanpub-start-delete
   "start": "webpack-dev-server --content-base build"
 leanpub-end-delete
