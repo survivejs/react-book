@@ -411,35 +411,31 @@ T> You should be able to access the application alternatively through **localhos
 
 T> If you want to default to some other port than *8080*, you can use a declaration like `port: process.env.PORT || 3000`.
 
-### HMR on Windows
+### HMR on Windows, Ubuntu, and Vagrant
 
-The setup may be problematic on certain versions of Windows. Instead of using `devServer` and `plugins` configuration, implement it like this:
+The setup may be problematic on certain versions of Windows, Ubuntu, and Vagrant. Instead of using `devServer` and `plugins` configuration, implement it like this:
 
 **webpack.config.js**
 
 ```javascript
 ...
+leanpub-start-insert
+const webpack = require('webpack');
+leanpub-end-insert
+
+...
 
 if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {});
+  module.exports = merge(common, {
+leanpub-start-insert
+    watchOptions: {
+      poll: true
+    },
+leanpub-end-insert
+    ...
+  };
 }
 
-...
-```
-
-**package.json**
-
-```json
-...
-"scripts": {
-  "build": "webpack",
-leanpub-start-delete
-  "start": "webpack-dev-server"
-leanpub-end-delete
-leanpub-start-insert
-  "start": "webpack-dev-server --watch-poll --inline --hot"
-leanpub-end-insert
-},
 ...
 ```
 
