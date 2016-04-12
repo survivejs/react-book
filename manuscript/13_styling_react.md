@@ -128,6 +128,8 @@ You can also use Stylus plugins with it by setting `stylus.use: [plugin()]`. Che
 
 ### PostCSS
 
+![PostCSS](images/postcss.png)
+
 [PostCSS](https://github.com/postcss/postcss) allows you to perform transformations over CSS through JavaScript plugins. You can even find plugins that provide you Sass-like features. PostCSS can be thought as the equivalent of Babel for styling. It can be used through [postcss-loader](https://www.npmjs.com/package/postcss-loader) with Webpack as below:
 
 ```javascript
