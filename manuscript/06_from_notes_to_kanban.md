@@ -519,7 +519,9 @@ If you try to add notes to a specific lane, they shouldn't be duplicated anymore
 
 ### On Data Dependencies and `waitFor`
 
-The current setup works because our actions are synchronous. It would become more problematic if we dealt with a back-end. In that case, we would have to set up `waitFor` based code. [waitFor](http://alt.js.org/guide/wait-for/) allows us to deal with data dependencies. It tells the dispatcher that it should wait before going on. Here's an example of how this approach would work out (no need to change your code!):
+The current setup works because our actions are synchronous. It would become more problematic if we dealt with a back-end. In that case, we would have to set up `waitFor` based code. [waitFor](http://alt.js.org/guide/wait-for/) allows us to deal with data dependencies. It tells the dispatcher that it should wait before going on.
+
+To give you an idea of what this approach would look like, consider the example below (no need to change your code!):
 
 ```javascript
 NoteActions.create({task: 'New task'});
