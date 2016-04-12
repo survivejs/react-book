@@ -37,7 +37,7 @@ Earlier, we extracted editing functionality from `Note` and ended up dropping `N
 
 We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic in `Note`. This avoids having to duplicate any logic related to `Editable`.
 
-The magic lies in a React property known as `children`. React will render possible child components in the slot `{this.props.children}`. Set up *Note.jsx* as shown below:
+The magic lies in a React property known as `children`. React will render possible child components in the slot `{this.props.children}`. Replace *Note.jsx* with the code shown below:
 
 **app/components/Note.jsx**
 
