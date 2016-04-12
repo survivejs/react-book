@@ -756,7 +756,9 @@ T> *Typing with React* chapter discusses how to use `propTypes` to work around t
 
 ### Connecting `Lane` with `Editable`
 
-Next, we can use this generic component to allow a `Lane`'s name to be modified. This will give a hook for our logic. We'll need to alter `<div className='lane-name'>{name}</div>` as follows:
+Next, we can use this generic component to allow a lane's name to be modified. This will give a hook for our logic. To allow the user to modify the name easily, it makes sense to enable the editing mode when a lane header is clicked. To achieve this, we can attach a `onClick` handler to it and then set state as the user clicks it.
+
+As a first step, add initial code in place. We'll define actual logic later. Tweak as follows:
 
 **app/components/Lane.jsx**
 
