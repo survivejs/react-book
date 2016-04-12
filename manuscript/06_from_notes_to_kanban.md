@@ -549,7 +549,11 @@ Fortunately, we can avoid `waitFor` in this case. You should use it carefully. I
 
 ## Implementing Edit/Remove for `Lane`
 
-We are still missing some basic functionality, such as editing and removing lanes. Copy *Note.jsx* as *Editable.jsx*. We'll get back to that original *Note.jsx* later in this project. For now, we just want to get `Editable` into a good condition. Tweak the code as follows to generalize the implementation:
+We are still missing some basic functionality, such as editing and removing lanes. Copy *Note.jsx* as *Editable.jsx*. We'll get back to that original *Note.jsx* later in this project. For now, we just want to get `Editable` into a good condition.
+
+To make it easier to track what's going on at `Editable`, we'll define a pair of callbacks - `onEdit` and `onValueClick`. The former will be called when the user finishes editing. We can capture the new value this way. The latter allows us to know when the user clicks on `Editable` in its initial state showing `value` passed to it. This gives us enough control to set `Editable` into `editing` mode.
+
+Tweak the code as follows to generalize the implementation according to these ideas:
 
 **app/components/Editable.jsx**
 
