@@ -378,6 +378,8 @@ We have already implemented the development server side setup for this. The prob
 
 W> An IDE feature known as **safe save** can wreak havoc with the hot loading. Therefore it is advisable to turn it off when developing a project like this.
 
+W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/chromium/issues/detail?id=492902) and Firefox due to browser level bugs! This may change in the future as the browsers get patched, though.
+
 ## Configuring *babel-preset-react-hmre*
 
 A Babel preset known as [babel-preset-react-hmre](https://www.npmjs.com/package/babel-preset-react-hmre) will keep our setup simple. It comes with reasonable defaults and cuts down the amount of configuration you need to maintain. Install it through:
@@ -439,8 +441,6 @@ leanpub-end-insert
 ```
 
 Try executing `npm start` again and modifying the component. Note what doesn't happen this time. There's no flash! It might take a while to sink in, but in practice, this is a powerful feature. Small things like this add up and make you more productive.
-
-W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/chromium/issues/detail?id=492902) and Firefox due to browser level bugs! This may change in the future as the browsers get patched, though.
 
 ## React Component Styles
 
