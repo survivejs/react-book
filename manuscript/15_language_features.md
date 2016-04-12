@@ -44,6 +44,10 @@ export function add(a, b) {
 export function multiply(a, b) {
   return a * b;
 }
+
+export function square(a) {
+  return a * a;
+}
 ```
 
 Alternatively we could write the module in a form like this:
@@ -54,13 +58,16 @@ Alternatively we could write the module in a form like this:
 const add = (a, b) => a + b;
 const multiple = (a, b) => a * b;
 
+// You can omit ()'s with a single parameter if you want.
+const square = a => a * a;
+
 export {add, multiple};
 
 // Equivalent to
 //export {add: add, multiple: multiple};
 ```
 
-The example leverages fat arrow syntax and *property value shorthand*.
+The example leverages the *fat arrow syntax* and the *property value shorthand*.
 
 This definition can be consumed through an import like this:
 
