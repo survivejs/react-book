@@ -312,7 +312,8 @@ leanpub-end-insert
 };
 
 leanpub-start-insert
-// Default configuration
+// Default configuration. We will return this if
+// Webpack is called outside of npm.
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {});
 }
@@ -591,7 +592,8 @@ leanpub-end-insert
 
 ...
 
-// Default configuration
+// Default configuration. We will return this if
+// Webpack is called outside of npm.
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     ...
