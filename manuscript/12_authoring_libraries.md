@@ -381,11 +381,13 @@ It is important to remember that your dependencies may introduce backwards incom
 * [versioneye](https://www.versioneye.com/)
 * [Gemnasium](https://gemnasium.com)
 
-These services provide badges you can integrate into your project *README.md*. These services may email you about important changes. They can also point out possible security issues that have been fixed.
+These services provide badges you can integrate into your project *README.md* and they may email you about important changes. They can also point out possible security issues that have been fixed.
 
 For testing your projects you can consider solutions, such as [Travis CI](https://travis-ci.org/) or [SauceLabs](https://saucelabs.com/). [Coveralls](https://coveralls.io/) gives you code coverage information and a badge to include in your README.
 
-These services are valuable as they allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems.
+The services are valuable as they allow you to test your updates against a variety of platforms quickly. Something that might work on your system might not work in some specific configuration. You'll want to know about that as fast as possible to avoid introducing problems.
+
+T> [shields.io](http://shields.io/) lists a large amount of available badges.
 
 ## Sharing Authorship
 
