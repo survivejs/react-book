@@ -350,6 +350,8 @@ import App from './components/App.jsx';
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
+T> You can drop the old *component.js* file we defined in the previous chapter now. We won't be using it in our project.
+
 T> If you aren't using *npm-install-webpack-plugin*, remember to install *react* and *react-dom* to your project through `npm i react react-dom -S`.
 
 If you are running the development server, you should see something familiar at **localhost:8080**:
