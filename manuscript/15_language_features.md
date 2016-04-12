@@ -85,6 +85,8 @@ import {add} from './math';
 
 Especially `export default` is useful if you prefer to keep your modules focused. The `persist` function is an example of such. Regular `export` is useful for collecting multiple functions below the same umbrella.
 
+T> Given the ES6 module syntax is statically analyzable, it enables tooling such as [analyze-es6-modules](https://www.npmjs.com/package/analyze-es6-modules).
+
 ### Aliasing Imports
 
 Sometimes it can be handy to alias imports. Example:
