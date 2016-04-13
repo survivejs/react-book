@@ -73,6 +73,8 @@ We can use `--save` and `--save-dev` to separate application and development dep
 
 T> There are handy shortcuts for `--save` and `--save-dev`. `-S` maps to `--save` and `-D` to `--save-dev`. So if you want to optimize for characters written, consider using these instead.
 
+T> If you want to save an exact version of a dependency, use `--save-exact`. The shortcut for this is `-E`. If you install a dependency like this, npm skips using the default SemVer operator.
+
 ## Directory Structure
 
 As projects with just *package.json* are boring, we should set up something more concrete. To get started, we can implement a little web site that loads some JavaScript which we then build using Webpack. Set up a structure like this:
