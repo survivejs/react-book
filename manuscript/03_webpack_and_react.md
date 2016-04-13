@@ -446,11 +446,11 @@ Try executing `npm start` again and modifying the component. Note what doesn't h
 
 Outside of ES6 classes, React allows you to construct components using `React.createClass()` and functions. `React.createClass()` was the original way to create components and it is still in use. The approaches aren't equivalent by default.
 
-When you use `React.createClass` it is possible to inject functionality using mixins. Mixins aren't available in ES6 by default. Yet, you can use a helper, such as [react-mixin](https://github.com/brigand/react-mixin), to provide some capabilities. In later chapters we will go through various alternative approaches. They allow you to reach roughly equivalent results as you can achieve with mixins. Often a decorator is all you need.
+When you use `React.createClass()` it is possible to inject functionality using mixins. Mixins aren't available in ES6 class based components by default, though. You can use a helper, such as [react-mixin](https://github.com/brigand/react-mixin), to provide some capabilities. In later chapters we will go through various alternative approaches. They allow you to reach roughly equivalent results as you can achieve with mixins.
 
-Also, ES6 class based components won't bind their methods to the `this` context by default. This is the reason why it can be a good practice to bind the context in the component constructor. Another way to solve the problem is to use property initializers. We'll be using that approach as it cuts down the amount of code nicely and makes it easier to follow what's going on.
+ES6 class based components won't bind their methods to the `this` context by default. It can be a good practice to bind the context in the component constructor. Another way to solve the problem is to use property initializers to achieve the same result. We'll be using that approach as it cuts down the amount of code nicely and makes it easier to follow what's going on.
 
-The class based approach decreases the amount of concepts you have to worry about. `constructor` helps to keep things simpler than in the `React.createClass` based approach. There you need to define separate methods to achieve the same result.
+The class based approach decreases the amount of concepts you have to worry about as `constructor` helps to keep things simpler than in the `React.createClass` based approach. There you need to define separate methods to achieve the same result.
 
 ## Conclusion
 
