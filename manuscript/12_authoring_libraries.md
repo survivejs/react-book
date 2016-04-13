@@ -71,10 +71,7 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   /* Entry point (defaults to index.js) */
   "main": "dist-modules",
   /* Package dependencies */
-  "dependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0"
-  },
+  "dependencies": {},
   /* Package development dependencies */
   "devDependencies": {
     "babel": "^6.3.17",
@@ -89,7 +86,8 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   /* If you want to include RC versions to the range, consider using */
   /* a pattern such as ^4.0.0-0 */
   "peerDependencies": {
-    "lodash": ">= 3.5.0 < 4.0.0"
+    "lodash": ">= 3.5.0 < 4.0.0",
+    "react": ">= 0.11.2 < 16.0.0"
   }
   /* Links to repository, homepage, and issue tracker */
   "repository": {
