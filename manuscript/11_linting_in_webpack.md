@@ -85,18 +85,34 @@ This will add ESLint and the plugin we want to use as our project development de
 ```json
 "scripts": {
   ...
-  "lint": "eslint . --ext .js --ext .jsx"
+  "lint": "eslint . --ext .js --ext .jsx --cache"
 }
 ...
 ```
 
-This will trigger ESLint against all JS and JSX files of our project. That will lint a bit too much. Set up *.eslintignore* to the project root like this to skip *build/*:
+This will trigger ESLint against all JS and JSX files of our project. It also generates a cache to speed up subsequent runs. The idea is that after the initial run ESLint will evaluate only files that have changed.
+
+This configuration will likely lint a bit too much. Set up *.eslintignore* to the project root like this to skip *build/*:
 
 **.eslintignore**
 
 ```bash
 build/
 ```
+
+Given most projects contain *.gitignore*, ESLint can be configured to use that instead of *.eslintignore* like this:
+
+**package.json**
+
+```json
+"scripts": {
+  ...
+  "lint": "eslint . --ext .js --ext .jsx --ignore-path .gitignore --cache"
+}
+...
+```
+
+If you need to ignore some specific directory in addition to the *.gitignore* definitions, you can pass `--ignore-pattern dist` kind of declaration to ESLint.
 
 T> ESLint supports custom formatters through `--format` parameter. [eslint-friendly-formatter](https://www.npmjs.com/package/eslint-friendly-formatter) is an example of a formatter that provides terminal friendly output. This way you can jump conveniently straight to the warnings and errors from there.
 

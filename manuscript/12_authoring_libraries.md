@@ -48,7 +48,7 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
 
     "test": "karma start",
     "test:tdd": "karma start --auto-watch --no-single-run",
-    "test:lint": "eslint . --ext .js --ext .jsx",
+    "test:lint": "eslint . --ext .js --ext .jsx --cache",
 
     "gh-pages": "webpack",
     "gh-pages:deploy": "gh-pages -d gh-pages",
