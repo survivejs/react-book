@@ -196,7 +196,7 @@ The problem with this approach is that if you invoke `lint` through some other c
 We can make Webpack emit ESLint messages for us by using [eslint-loader](https://www.npmjs.com/package/eslint-loader). As the first step execute
 
 ```bash
-npm i eslint-loader --save-dev
+npm i eslint eslint-loader --save-dev
 ```
 
 W> Note that `eslint-loader` will use a globally installed version of ESLint unless you have one included with the project itself! Make sure you have ESLint as a development dependency to avoid strange behavior.
