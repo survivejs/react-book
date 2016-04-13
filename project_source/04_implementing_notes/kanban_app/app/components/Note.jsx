@@ -18,7 +18,9 @@ export default class Note extends React.Component {
   renderEdit = () => {
     return <input type="text"
       ref={
-        (e) => e ? e.selectionStart = this.props.task.length : null
+        element => element ?
+        element.selectionStart = this.props.task.length :
+        null
       }
       autoFocus={true}
       defaultValue={this.props.task}

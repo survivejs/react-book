@@ -13,7 +13,9 @@ export default class Editable extends React.Component {
   renderEdit = () => {
     return <input type="text"
       ref={
-        (e) => e ? e.selectionStart = this.props.value.length : null
+        element => element ?
+        element.selectionStart = this.props.value.length :
+        null
       }
       autoFocus={true}
       defaultValue={this.props.value}

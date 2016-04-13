@@ -600,12 +600,14 @@ leanpub-end-insert
   renderEdit = () => {
     return <input type="text"
       ref={
+        element => element ?
 leanpub-start-delete
-        (e) => e ? e.selectionStart = this.props.task.length : null
+        element.selectionStart = this.props.task.length :
 leanpub-end-delete
 leanpub-start-insert
-        (e) => e ? e.selectionStart = this.props.value.length : null
+        element.selectionStart = this.props.value.length :
 leanpub-end-insert
+        null
       }
       autoFocus={true}
 leanpub-start-delete
