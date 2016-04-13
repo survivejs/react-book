@@ -207,6 +207,8 @@ Task runners, such as Grunt or Gulp, allow you to achieve the same result while 
 
 T> There are shortcuts like *npm start* and *npm test*. We can run these directly without *npm run* although that will work too.
 
+T> You can execute *npm run* anywhere within the project. It doesn't have to be run in the project root in order to work.
+
 ## Setting Up *webpack-dev-server*
 
 As developing your application through a build script like this will get boring eventually, Webpack provides neater means for development in particular. *webpack-dev-server* is a development server running in-memory. It refreshes content automatically in the browser while you develop your application. This makes it roughly equivalent to tools, such as [LiveReload](http://livereload.com/) or [Browsersync](http://www.browsersync.io/).
