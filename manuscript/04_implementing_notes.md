@@ -272,6 +272,24 @@ import React from 'react';
 export default ({task}) => <div>{task}</div>;
 ```
 
+This declaration is equivalent to:
+
+```javascript
+import React from 'react';
+
+export default (props) => <div>{props.task}</div>;
+```
+
+As you can see, destructuring removes some noise from the code. If you wanted to pass the remaining `props` to the `div`, you could declare the component like this:
+
+```javascript
+import React from 'react';
+
+export default ({task, ...props}) => <div {...props}>{task}</div>;
+```
+
+Now `props` contains the fields that weren't explicitly selected through the syntax. This pattern is particularly useful when you want to develop flexible components. We'll be using the pattern a lot in the following chapters.
+
 T> To understand the destructuring syntax in greater detail, check out the *Language Features* appendix.
 
 ### Connecting `Note` with `App`
