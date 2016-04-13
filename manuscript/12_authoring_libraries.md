@@ -86,6 +86,8 @@ I've annotated a part of *package.json* of my [React component boilerplate](http
   /* Package peer dependencies. The consumer will fix exact versions. */
   /* In npm3 these won't get installed automatically and it's up to the */
   /* user to define which versions to use. */
+  /* If you want to include RC versions to the range, consider using */
+  /* a pattern such as ^4.0.0-0 */
   "peerDependencies": {
     "lodash": ">= 3.5.0 < 4.0.0"
   }
