@@ -431,6 +431,8 @@ As you can see, this approach provides a balance between what people are familia
 
 T> [gajus/react-css-modules](https://github.com/gajus/react-css-modules) makes it even more convenient to use CSS Modules with React. Using it, you don't need to refer to the `styles` object anymore, and you are not forced to use camelCase for naming.
 
+T> Glen Maddern discusses the topic in greater detail in his article named [CSS Modules - Welcome to the Future](http://glenmaddern.com/articles/css-modules).
+
 ## Conclusion
 
 It is simple to try out various styling approaches with Webpack. You can do it all, ranging from vanilla CSS to more complex setups. React specific tooling even comes with loaders of their own. This makes it easy to try out different alternatives.
