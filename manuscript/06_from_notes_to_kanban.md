@@ -127,6 +127,7 @@ leanpub-end-insert
   }
 leanpub-start-delete
   deleteNote = (id, e) => {
+    // Avoid bubbling to edit
     e.stopPropagation();
 
     NoteActions.delete(id);
@@ -218,6 +219,7 @@ export default class Lane extends React.Component {
     NoteActions.create({task: 'New task'});
   }
   deleteNote(id, e) {
+    // Avoid bubbling to edit
     e.stopPropagation();
 
     NoteActions.delete(id);
@@ -481,6 +483,7 @@ leanpub-start-delete
     NoteActions.create({task: 'New task'});
   }
   deleteNote(id, e) {
+    // Avoid bubbling to edit
     e.stopPropagation();
 
     NoteActions.delete(id);
@@ -497,6 +500,7 @@ leanpub-start-insert
     });
   };
   deleteNote = (noteId, e) => {
+    // Avoid bubbling to edit
     e.stopPropagation();
 
     const laneId = this.props.lane.id;

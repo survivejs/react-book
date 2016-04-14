@@ -66,6 +66,8 @@ class Lane extends React.Component {
     NoteActions.update({id, task, editing: false});
   }
   addNote = (e) => {
+    // If note is added, avoid opening lane name edit by stopping
+    // event bubbling in this case.
     e.stopPropagation();
 
     const laneId = this.props.lane.id;
@@ -77,6 +79,7 @@ class Lane extends React.Component {
     });
   };
   deleteNote = (noteId, e) => {
+    // Avoid bubbling to edit
     e.stopPropagation();
 
     const laneId = this.props.lane.id;

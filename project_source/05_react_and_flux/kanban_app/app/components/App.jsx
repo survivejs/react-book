@@ -32,6 +32,7 @@ export default class App extends React.Component {
     NoteActions.update({id, task});
   }
   deleteNote(id, e) {
+    // Avoid bubbling to edit
     e.stopPropagation();
 
     NoteActions.delete(id);

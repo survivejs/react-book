@@ -323,6 +323,7 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
   deleteNote(id, e) {
+    // Avoid bubbling to edit
     e.stopPropagation();
 
     NoteActions.delete(id);
