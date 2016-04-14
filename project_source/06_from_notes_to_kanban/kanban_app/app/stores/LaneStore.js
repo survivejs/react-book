@@ -12,6 +12,9 @@ class LaneStore {
     const lanes = this.lanes;
 
     lane.id = uuid.v4();
+
+    // If `notes` aren't provided for some reason,
+    // default to an empty array.
     lane.notes = lane.notes || [];
 
     this.setState({
