@@ -404,8 +404,14 @@ To give you a better idea, consider the example below:
   padding: 1em;
 }
 
+.primaryButton {
+  composes: primary button;
+}
+
 @media (max-width: 200px) {
-  .button {
+  .primaryButton {
+    composes: primary button;
+
     width: 100%;
   }
 }
@@ -414,14 +420,11 @@ To give you a better idea, consider the example below:
 **button.jsx**
 
 ```javascript
-import classNames from 'classnames';
 import styles from './style.css';
 
 ...
 
-<button className={classNames(
-  styles.button, styles.primary
-)}>Confirm</button>
+<button className="${styles.primaryButton}">Confirm</button>
 ```
 
 As you can see, this approach provides a balance between what people are familiar with and what React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still in its early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
