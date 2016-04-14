@@ -424,7 +424,7 @@ import styles from './style.css';
 
 ...
 
-<button className="${styles.primaryButton}">Confirm</button>
+<button className=`${styles.primaryButton}`>Confirm</button>
 ```
 
 As you can see, this approach provides a balance between what people are familiar with and what React specific libraries do. It would not surprise me a lot if this approach gained popularity even though it's still in its early days. See [CSS Modules Webpack Demo](https://css-modules.github.io/webpack-demo/) for more examples.
