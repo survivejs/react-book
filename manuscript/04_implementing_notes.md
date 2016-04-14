@@ -232,7 +232,7 @@ We are still missing two crucial features: editing and deletion. Before moving o
 
 T> `this.setState` accepts a second parameter like this: `this.setState({...}, () => console.log('set state!'))`. This is handy to know if you want to trigger some behavior right after `setState` has completed.
 
-T> You could use `[...this.state.notes, {id: uuid.v4(), task: 'New task'}]` to achieve the same result. This [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) can be used with function parameters as well.
+T> You could use `this.setState({notes: [...this.state.notes, {id: uuid.v4(), task: 'New task'}]})` to achieve the same result. This [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) can be used with function parameters as well. See the *Language Features* appendix for more information.
 
 T> Using [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) would be a valid alternative for property initializers. In this case we would use `@autobind` annotation either on class or method level. To learn more about decorators, read the *Understanding Decorators* appendix.
 
