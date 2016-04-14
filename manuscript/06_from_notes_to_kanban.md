@@ -698,8 +698,6 @@ There are a couple of important changes:
 * `renderValue` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
 * `renderDelete` - Instead of using `delete-note` class, it uses more generic `delete` now.
 
-T> `Editable` uses **uncontrolled** design with its `input`. This means we pass the control over its state to DOM and capture it through event handlers. If you wanted to validate the input when the user is typing, it would be useful to convert it into a *controlled* design. In this case you would define a `onChange` handler and a `value` prop. It's more work, but also provides more control. React documentation discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
-
 Because the class name changed, *main.css* needs small tweaks:
 
 **app/main.css**
@@ -734,6 +732,14 @@ leanpub-end-insert
   visibility: visible;
 }
 ```
+
+### Controlled vs. Uncontrolled Components
+
+`Editable` uses **uncontrolled** design with its `input`. We let the DOM manage its state. In this case we are interested only in detecting when the user presses the return key. When the user does that, we take a peek at the input value and then provide it to our callback.
+
+If we wanted to validate the input when the user is typing, it would be useful to convert it into a *controlled* design. In this case we would define a `onChange` handler and a `value` prop. `value` represents the value the input should display. We would control it through `onChange`. It's more work, but also provides more control.
+
+T> React documentation discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
 
 ### Pointing `Notes` to `Editable`
 
