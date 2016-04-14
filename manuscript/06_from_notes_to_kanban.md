@@ -941,8 +941,6 @@ leanpub-end-insert
 export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-W> If a lane is deleted, it would be a good idea to get rid of the associated notes as well. In the current implementation they are left hanging in the `NoteStore`. It doesn't hurt the functionality but it's one of those details that you may want to be aware of.
-
 Now that we have resolved actions and store, we need to adjust our component to take these changes into account:
 
 **app/components/Lane.jsx**
@@ -1029,6 +1027,12 @@ Try modifying a lane name now. Modifications now should get saved the same way a
 ![Editing a lane name](images/kanban_04.png)
 
 T> If you want that lanes and notes are editable after they are created, set `lane.editing = true;` or `note.editing = true;` when creating them.
+
+## Cleaning Up Note References
+
+If a lane is deleted, it would be a good idea to get rid of the associated notes as well. In the current implementation they are left hanging in the `NoteStore`. Given the application works even with these hanging references, I won't add the feature to the implementation. You can give it a go if you want, though. A simple `filter` statement at the right place should do the trick.
+
+This bug could be turned into a feature of its own. It would be possible to use the data to model a recycle bin. It would be a component that would display discarded notes like this. You could then either restore them (drag back to a lane) or remove them for good. You could get back to this idea later as you understand how the application works.
 
 ## Styling Kanban Board
 
