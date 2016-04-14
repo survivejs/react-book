@@ -698,7 +698,11 @@ There are a couple of important changes:
 * `renderValue` - Formerly this was known as `renderNote()`. Again, an abstraction step. Note that we refer to `this.props.value` and not `this.props.task`.
 * `renderDelete` - Instead of using `delete-note` class, it uses more generic `delete` now.
 
-Because the class name changed, *main.css* needs small tweaks:
+Given we changed a few class names to a more generic form, the styling needs some work.
+
+### Updating `Editable` Styling
+
+Update the styling as follows to make the application look good again:
 
 **app/main.css**
 
@@ -732,6 +736,8 @@ leanpub-end-insert
   visibility: visible;
 }
 ```
+
+There's not much more to styling for now.
 
 ### Controlled vs. Uncontrolled Components
 
