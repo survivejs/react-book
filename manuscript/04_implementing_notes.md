@@ -448,10 +448,13 @@ export default class Note extends React.Component {
     // It gets triggered after the component is mounted.
     //
     // We could also use a string reference (i.e., `ref="input") and
-    // then refer to the element in question later in the code. This
-    // would allow us to use the underlying DOM API through
-    // this.refs.input. This can be useful when combined with
-    // React lifecycle hooks.
+    // then refer to the element in question later in the code through
+    // `this.refs.input`. We could get the value of the input using
+    // `this.refs.input.value` through DOM in this case.
+    //
+    // Refs allow us to access the underlying DOM structure. They
+    // can be using when you need to move beyond pure React. They
+    // also tie your implementation to the browser, though.
     return <input type="text"
       ref={
         element => element ?
