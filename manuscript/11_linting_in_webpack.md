@@ -157,6 +157,8 @@ Next, we need to activate ES6 parsing, a couple React specific rules and set up 
 
 Beyond vanilla JSON, ESLint supports other formats, such as JavaScript or YAML. If you want to use a different format, name the file accordingly. I.e., *.eslintrc.js* would work for JavaScript. In that case you should export the configuration through `module.exports`. See the [documentation](http://eslint.org/docs/user-guide/configuring#configuration-file-formats) for further details.
 
+T> It is possible to generate a custom *.eslintrc* by using `eslint --init`. It will ask you a series of questions and then write the file for you.
+
 T> ESLint supports ES6 features through configuration. You will have to specify the features to use through the [ecmaFeatures](http://eslint.org/docs/user-guide/configuring.html#specifying-language-options) property.
 
 T> In case you want to lint against custom language features, use [babel-eslint](https://www.npmjs.com/package/babel-eslint). After installing, you can make ESLint aware of it by setting `"parser": "babel-eslint"`. It should be safe to drop `parserOptions` section of *.babelrc* assuming custom parser is set.
