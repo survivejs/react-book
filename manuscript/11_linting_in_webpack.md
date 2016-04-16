@@ -10,9 +10,9 @@ The linter that started it it all for JavaScript is Douglas Crockford's [JSLint]
 
 ESLint goes to the next level as it allows you to implement custom rules, parsers, and reporters. ESLint works with Babel and JSX syntax making it ideal for React projects. The project rules have been documented well and you have full control over their severity. These features alone make it a powerful tool.
 
-Besides linting for issues, it can be useful to manage the code style on some level. Nothing is more annoying than having to work with source code that has mixed tabs and spaces. Stylistically consistent code reads better and is easier to work with.
+It is quite telling that a competing project, JSCS, [decided to merge its efforts with ESLint](http://eslint.org/blog/2016/04/welcoming-jscs-to-eslint). JSCS reached end of life with its 3.0.0 release and the core team joined with ESLint.
 
-[JSCS](http://jscs.info/) makes it possible to define a style guide for JavaScript code. It is easy to integrate into your project through Webpack, although ESLint implements a large part of its functionality.
+Besides linting for issues, it can be useful to manage the code style on some level. Nothing is more annoying than having to work with source code that has mixed tabs and spaces. Stylistically consistent code reads better and is easier to work with. Linting tools allow you to do this.
 
 ## Webpack and JSHint
 
@@ -418,75 +418,6 @@ stylelint(configSuitcss)
 ```
 
 Given stylelint is still under development, there's no CLI tool available yet. `.stylelintrc` type functionality is planned.
-
-## Checking JavaScript Style with JSCS
-
-![JSCS](images/jscs.png)
-
-Especially in a team environment, it can be annoying if one guy uses tabs and another uses spaces. There can also be discrepancies between space usage. Some like to use two spaces, and some like four for indentation. In short, it can get pretty messy without any discipline. To solve this issue, JSCS allows you to define a style guide for your project.
-
-T> Just like ESLint, also JSCS has autofixing capabilities. To fix certain issues, you can invoke `jscs --fix` and it will modify your code.
-
-JSCS can be installed through
-
-```bash
-npm i jscs jscs-loader --save-dev
-```
-
-[jscs-loader](https://github.com/unindented/jscs-loader) provides Webpack hooks to the tool. Integration is similar as in the case of ESLint. You would define a `.jscsrc` with your style guide rules and use configuration like this:
-
-```javascript
-module: {
-  preLoaders: [
-    {
-      test: /\.jsx?$/,
-      loaders: ['eslint', 'jscs'],
-      include: PATHS.app
-    }
-  ]
-}
-```
-
-Here's a sample configuration:
-
-**.jscsrc**
-
-```json
-{
-  "esnext": true,
-  "preset": "google",
-
-  "fileExtensions": [".js", ".jsx"],
-
-  "requireCurlyBraces": true,
-  "requireParenthesesAroundIIFE": true,
-
-  "maximumLineLength": 120,
-  "validateLineBreaks": "LF",
-  "validateIndentation": 2,
-
-  "disallowKeywords": ["with"],
-  "disallowSpacesInsideObjectBrackets": null,
-  "disallowImplicitTypeConversion": ["string"],
-
-  "safeContextKeyword": "that",
-
-  "validateQuoteMarks": {
-    "mark": "'",
-    "escape": true,
-    "ignoreJSX": true
-  },
-
-  "excludeFiles": [
-    "dist/**",
-    "node_modules/**"
-  ]
-}
-```
-
-JSCS supports *package.json* based configuration through `jscsConfig` field.
-
-T> ESLint implements a large part of the functionality provided by JSCS. It is possible you can skip JSCS altogether provided you configure ESLint correctly. There's a large amount of presets available for both.
 
 ## EditorConfig
 
