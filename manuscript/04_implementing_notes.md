@@ -569,6 +569,8 @@ leanpub-end-insert
 }
 ```
 
+`this.setState({notes})` is using [Object initializer syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer) It is the same as writing `this.setState(notes: notes)`  
+
 To make the scheme work as designed, we need to modify `Notes` to work according to the idea. It will `bind` the id of the note in question. When the callback is triggered, the remaining parameter receives a value and the callback gets called:
 
 **app/components/Notes.jsx**
