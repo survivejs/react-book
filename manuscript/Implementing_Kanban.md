@@ -1,4 +1,4 @@
--# Developing a Kanban Application
+-# Implementing Kanban
 
 React, even though a young library, has made a significant impact on the front-end development community. It introduced concepts, such as the virtual DOM, and made the community understand the power of components. Its component oriented design approach works well for the web. But React isn't limited to the web. You can use it to develop mobile and even terminal user interfaces.
 
