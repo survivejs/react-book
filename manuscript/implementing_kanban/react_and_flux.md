@@ -70,8 +70,6 @@ export default alt;
 
 Webpack caches the modules so the next time you import Alt, it will return the same instance again.
 
-T> If you aren't using *npm-install-webpack-plugin*, remember to install *alt* and the utilities we are going to need to your project through `npm i alt alt-container alt-utils node-uuid -S`.
-
 T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After it is installed, you can connect to Alt by uncommenting the related lines above. You can use it to debug the state of your stores, search, and travel in time.
 
 ### Defining CRUD API for Notes
@@ -266,10 +264,6 @@ export default class App extends React.Component {
 leanpub-start-delete
     this.state = {
       notes: [
-        {
-          id: uuid.v4(),
-          task: 'Learn Webpack'
-        },
         {
           id: uuid.v4(),
           task: 'Learn React'
