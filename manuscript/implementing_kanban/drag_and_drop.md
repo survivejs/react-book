@@ -25,8 +25,6 @@ export default class App extends React.Component {
 
 After this change, the application should look exactly the same as before. We are now ready to add some sweet functionality to it.
 
-T> If you aren't using *npm-install-webpack-plugin*, remember to install *react-dnd* and associated utilities to your project through `npm i react-dnd react-dnd-html5-backend react-addons-update -S`.
-
 T> Decorators provide us simple means to annotate our components. Alternatively we could use syntax, such as `DragDropContext(HTML5Backend)(App)`, but this would get rather unwieldy when we want to apply multiple decorators. See the decorator appendix to understand in detail how they work and how to implement them yourself.
 
 ## Preparing Notes to Be Sorted
