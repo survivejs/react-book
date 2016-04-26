@@ -249,9 +249,7 @@ Both support `render()`, the workhorse of React. In function based definition `r
 
 I prefer to have the `constructor` first, followed by lifecycle hooks, `render()`, and finally, methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers, too.
 
-In the end, you will have to find conventions that you like and which work the best for you. I go into more detail about this topic in the *Linting in Webpack* chapter, where I introduce various code quality related tools. Through the use of these tools, it is possible to enforce coding style to some extent.
-
-This can be useful in a team environment. It decreases the amount of friction when working on code written by others. Even on personal projects, using tools to verify syntax and standards for you can be useful. It lessens the amount and severity of mistakes.
+In the end, you will have to find conventions that you like and which work the best for you. You can enforce a convention by using a linter such as [ESLint](http://eslint.org/). Using a linter decreases the amount of friction when working on code written by others. Even on personal projects, using tools to verify syntax and standards for you can be useful. It lessens the amount and severity of mistakes.
 
 ## Conclusion
 
