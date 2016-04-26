@@ -1032,7 +1032,7 @@ Try modifying a lane name now. Modifications now should get saved the same way a
 
 T> If you want that lanes and notes are editable after they are created, set `lane.editing = true;` or `note.editing = true;` when creating them.
 
-## Cleaning Up Note References
+## Cleaning Up `Note` References
 
 If a lane is deleted, it would be a good idea to get rid of the associated notes as well. In the current implementation they are left hanging in the `NoteStore`. Given the application works even with these hanging references, I won't add the feature to the implementation. You can give it a go if you want, though. A simple `filter` statement at the right place should do the trick.
 
