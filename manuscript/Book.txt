@@ -1,16 +1,11 @@
 Frontmatter.txt
 00_introduction.md
 Mainmatter.txt
-Webpack.md
-01_webpack_compared.md
-02_developing_with_webpack.md
-03_webpack_and_react.md
 React.md
 04_implementing_notes.md
 05_react_and_flux.md
 06_from_notes_to_kanban.md
 07_implementing_dnd.md
-08_building_kanban.md
 Advanced.md
 09_testing_react.md
 10_typing_with_react.md
