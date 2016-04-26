@@ -8,6 +8,7 @@ Implementing_Kanban.md
 implementing_kanban/implementing_notes.md
 implementing_kanban/styling_notes.md
 implementing_kanban/react_and_flux.md
+implementing_kanban/implementing_persistency.md
 implementing_kanban/from_notes_to_kanban.md
 implementing_kanban/drag_and_drop.md
 
