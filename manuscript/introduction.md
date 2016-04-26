@@ -1,20 +1,8 @@
 # Introduction
 
-Front-end development moves forward fast. A good indication of this is the pace in which new technologies appear to the scene. [Webpack](https://webpack.github.io/) and [React](https://facebook.github.io/react/) are two recent newcomers. Combined, these tools allow you to build all sorts of web applications swiftly. Most importantly, learning these tools provides you perspective. That's what this book is about.
+Front-end development moves forward fast. A good indication of this is the pace in which new technologies appear to the scene. [React](https://facebook.github.io/react/) is one of these recent newcomers. Even though the technology itself is simple, there's a lot going on around it.
 
-## What is Webpack?
-
-Web browsers have been designed to consume HTML, JavaScript, and CSS. The simplest way to develop is simply to write files that the browser understands directly. The problem is that this becomes unwieldy eventually. This is particularly true when you are developing web applications.
-
-There are multiple ways to approach this problem. You can start splitting up your JavaScript and CSS to separate files. You could load dependencies through `script` tags. Even though this is better, it is still a little problematic.
-
-If you want to use technologies that compile to these target formats, you will need to introduce preprocessing steps. Task runners, such as Grunt and Gulp, allow you to achieve this, but even then you need to write a lot of configuration by hand.
-
-### How Webpack Changes the Situation?
-
-Webpack takes another route. It allows you to treat your project as a dependency graph. You could have an *index.js* in your project that pulls in the dependencies the project needs through standard `import` statements. You can refer to your style files and other assets the same way.
-
-Webpack does all the preprocessing for you and gives you the bundles you specify through configuration. This declarative approach is powerful, but it is a little difficult to learn. However, once you begin to understand how Webpack works, it becomes an indispensable tool. This book has been designed to get through that initial learning curve.
+The purpose of this book is to help you get started with React and provide understanding of the surrounding ecosystem so you know where to look. Our development setup is going to be based on Webpack. There's [a separate book](http://survivejs.com/webpack/introduction/) that digs into it, but I don't expect you to understand Webpack well to get through this book.
 
 ## What is React?
 
@@ -34,15 +22,13 @@ This book teaches you to build a [Kanban](https://en.wikipedia.org/wiki/Kanban) 
 
 ## How is This Book Organized?
 
-We will start by building a Webpack based configuration. After that, we will develop a small clone of a famous [Todo application](http://todomvc.com/). This leads us to problems of scaling. Sometimes, you need to do things the dumb way to understand why better solutions are needed after all.
+To get started, we will develop a small clone of a famous [Todo application](http://todomvc.com/). This leads us to problems of scaling. Sometimes, you need to do things the dumb way to understand why better solutions are needed after all.
 
 We will generalize from there and put [Flux architecture](https://facebook.github.io/flux/docs/overview.html) in place. We will apply some [Drag and Drop (DnD) magic](https://gaearon.github.io/react-dnd/) and start dragging things around. Finally, we will get a production grade build done.
 
-The final, theoretical part of the book covers more advanced topics. If you are reading the commercial edition of this book, there's something extra in it for you. I will show you how to deal with typing in React in order to produce higher quality code. You will also learn to test your components and logic.
+The final, theoretical part of the book covers more advanced topics. If you are reading the commercial edition of this book, there's something extra in it for you. I will show you how to deal with typing in React in order to produce higher quality code. You will also learn to test your components and logic. You will learn to style your React application in emerging ways and have a better idea of how to structure your project.
 
-I will also show you how to lint your code effectively using [ESLint](http://eslint.org/) and various other tools. There is a chapter in which you learn to author libraries at [npm](https://www.npmjs.com/). The lessons learned there will come in handy for applications as well. Finally, you will learn to style your React application in various emerging ways.
-
-There are a couple of appendices at end. They are meant to give food for thought and explain aspects, such as language features, in greater detail. If there's a bit of syntax that seems weird to you in the book, you'll likely find more information there.
+The appendices at end are meant to give food for thought and explain aspects, such as language features, in greater detail. If there's a bit of syntax that seems weird to you in the book, you'll likely find more information there.
 
 ## What is Kanban?
 
@@ -68,22 +54,20 @@ This is just one example of a lane configuration. The lanes can be configured to
 
 ## Who is This Book for?
 
-I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about Webpack, React, or ES6, that's great. By reading this book you will deepen your understanding of these tools.
+I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about React, or ES6, that's great. By reading this book you will deepen your understanding of these tools.
 
-One of the hardest things about writing a book is to write it on the right level. Given the book covers a lot of ground, there are appendices that cover basic topics, such as language details, with greater detail than the main content does.
+One of the hardest things about writing a book is to write it on the right level. Given the book covers a lot of ground, there are appendices that cover basic topics, such as language details, with greater detail than the main content does. So if you are feeling unsure of something, check them out.
 
-If you find yourself struggling, consider studying the appendices or seeking help from the  community around the book. In case you are stuck or don't understand something, we are there to help. Any comments you might have will go towards improving the book content.
+There's also a community around the book. So if you want to ask something directly, we are there to help. Any comments you might have will go towards improving the book content. The last thing I want is to have someone struggling with the book.
 
 ## How to Approach the Book?
 
 Although a natural way to read a book is to start from the first chapter and then read the chapters sequentially, that's not the only way to approach this book. The chapter order is just a reading suggestion. Depending on your background, you could consider the following orders or even skip some portions altogether:
 
-* From start to end - This would be the traditional way to approach a book. It will also require the most amount of time. But on the plus side you get a steady progression.
-* React first, Webpack after - An alternative is to skip the early chapters on Webpack, download [a starting point](https://github.com/survivejs/webpack_react/tree/master/project_source/03_webpack_and_react/kanban_app) from the repository, and go through the Kanban demonstration first. Follow the Webpack chapters after that to understand what the configuration is doing and why. The *Advanced Techniques* part and appendices complement this content well.
-* Webpack only - If you know React very well, maybe it makes sense to go through the Webpack portions only. You can apply the same skills beyond React after all.
-* Advanced techniques only - Given React ecosystem is so vast, the *Advanced Techniques* part covers interesting niches you might miss otherwise. Pick up techniques like linting or learn to improve your npm setup. It may be worth your while to dig into various styling approaches discussed to find something that suits your purposes.
+* From start to end - This would be the traditional way to approach a book. It will also require the most amount of time. But on the plus side you get a steady progression. Certain chapters might not make much sense unless you have read the earlier ones.
+* Advanced techniques only - Given React ecosystem is so vast, the *Advanced Techniques* part covers interesting niches you might miss otherwise. If you already know basics of React well, check this part out will provide the most value.
 
-The book doesn't cover everything you need to know in order to develop front-end applications. That's simply too much for a single book. I do believe, however, that it might be able to push you to the right direction. The ecosystem around Webpack and React is fairly large and I've done my best to cover a good chunk of it.
+The book doesn't cover everything you need to know in order to develop front-end applications. That's simply too much for a single book. I do believe, however, that it might be able to push you to the right direction. The ecosystem around React is fairly large and I've done my best to cover a good chunk of it.
 
 Given the book relies on a variety of new language features, I've gathered the most important ones used to a separate *Language Features* appendix that provides a quick look at them. If you want to understand the features in isolation or feel unsure of something, that's a good place to look.
 
@@ -92,7 +76,7 @@ Given the book relies on a variety of new language features, I've gathered the m
 Given this book receives a fair amount of maintenance and improvements due to the pace of innovation, there's a rough versioning scheme in place. I maintain release notes for each new version at the [book blog](http://survivejs.com/blog/). That should give you a good idea of what has changed between versions. Also examining the GitHub repository may be beneficial. I recommend using the GitHub *compare* tool for this purpose. Example:
 
 ```
-https://github.com/survivejs/webpack_react/compare/v1.9.10...v1.9.17
+https://github.com/survivejs/react/compare/v1.9.10...v1.9.17
 ```
 
 The page will show you the individual commits that went to the project between the given version range. You can also see the lines that have changed in the book. This excludes the private chapters, but it's enough to give you a good idea of the major changes made to the book.
@@ -101,20 +85,20 @@ The current version of the book is **2.1.5**.
 
 ## Extra Material
 
-The book content and source are available at [book's repository at GitHub](https://github.com/survivejs/webpack_react). Please note that the repository defaults to the `dev` branch of the project. This makes it convenient to contribute. To find source matching the version of the book you are reading, use the tag selector at GitHub's user interface as in the image below:
+The book content and source are available at [book's repository at GitHub](https://github.com/survivejs/react). Please note that the repository defaults to the `dev` branch of the project. This makes it convenient to contribute. To find source matching the version of the book you are reading, use the tag selector at GitHub's user interface as in the image below:
 
 ![GitHub tag selector](images/github.png)
 
 The book repository contains code per chapter. This means you can start from anywhere you want without having to type it all through yourself. If you are unsure of something, you can always refer to that.
 
-You can find a lot of complementary material at the [survivejs organization](https://github.com/survivejs/). Examples of this are alternative implementations of the application available written in [mobservable](https://github.com/survivejs/mobservable-demo), [Redux](https://github.com/survivejs/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
+You can find a lot of complementary material at the [survivejs organization](https://github.com/survivejs/). Examples of this are alternative implementations of the application available written in [MobX](https://github.com/survivejs/mobx-demo), [Redux](https://github.com/survivejs/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
 
 ## Getting Support
 
 As no book is perfect, you will likely come by issues and might have some questions related to the content. There are a couple of options to deal with this:
 
-* Contact me through [GitHub Issue Tracker](https://github.com/survivejs/webpack_react/issues)
-* Join me at [Gitter Chat](https://gitter.im/survivejs/webpack_react)
+* Contact me through [GitHub Issue Tracker](https://github.com/survivejs/react/issues)
+* Join me at [Gitter Chat](https://gitter.im/survivejs/react)
 * Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
 * Send me email at [info@survivejs.com](mailto:info@survivejs.com)
 * Ask me anything about Webpack or React at [SurviveJS AmA](https://github.com/survivejs/ama/issues)
