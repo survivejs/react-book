@@ -4,9 +4,7 @@ ES6 (or ES2015) was arguably the biggest change to JavaScript in a long time. As
 
 ## Modules
 
-ES6 introduced proper module declarations. Earlier, this was somewhat ad hoc and we used formats, such as AMD or CommonJS. See the *Webpack Compared* chapter for descriptions of those. Both formats are still in use, but it's always better to have something standard in place.
-
-ES6 module declarations are statically analyzable. This is highly useful for tool authors. Effectively, this means we can gain features like *tree shaking*. This allows the tooling to skip unused code easily simply by analyzing the import structure.
+ES6 introduced proper module declarations. Earlier, this was somewhat ad hoc and we used formats, such as AMD or CommonJS. ES6 module declarations are statically analyzable. This is highly useful for tool authors. Effectively, this means we can gain features like *tree shaking*. This allows the tooling to skip unused code easily simply by analyzing the import structure.
 
 ### `import` and `export` for Single
 
