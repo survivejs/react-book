@@ -11,10 +11,6 @@ Often a good way to begin designing an application is to start with the data. We
 ```javascript
 [
   {
-    id: '4a068c42-75b2-4ae2-bd0d-284b4abbb8f0',
-    task: 'Learn Webpack'
-  },
-  {
     id: '4e81fc6e-bfb6-419b-93e5-0242fb6f3f6a',
     task: 'Learn React'
   },
@@ -56,10 +52,6 @@ export default class App extends React.Component {
   render() {
 leanpub-start-insert
     const notes = [
-      {
-        id: uuid.v4(),
-        task: 'Learn Webpack'
-      },
       {
         id: uuid.v4(),
         task: 'Learn React'
@@ -122,10 +114,6 @@ leanpub-start-insert
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn Webpack'
-        },
-        {
-          id: uuid.v4(),
           task: 'Learn React'
         },
         {
@@ -139,10 +127,6 @@ leanpub-end-insert
   render() {
 leanpub-start-delete
     const notes = [
-      {
-        id: uuid.v4(),
-        task: 'Learn Webpack'
-      },
       {
         id: uuid.v4(),
         task: 'Learn React'
