@@ -5,6 +5,7 @@ introduction.md
 Mainmatter.txt
 
 Implementing_Kanban.md
+implementing_kanban/getting_started.md
 implementing_kanban/implementing_notes.md
 implementing_kanban/styling_notes.md
 implementing_kanban/react_and_flux.md
