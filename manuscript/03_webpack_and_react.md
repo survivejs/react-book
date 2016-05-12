@@ -376,7 +376,7 @@ We have already implemented the development server side setup for this. The prob
 
 *react-transform-hmr* will swap React components one by one as they change without forcing a full refresh. Given it just replaces methods, it won't catch every possible change. This includes changes made to class constructors. There will be times when you will need to force a refresh, but it will work most of the time.
 
-W> An IDE feature known as **safe save** can wreak havoc with the hot loading. Therefore it is advisable to turn it off when developing a project like this.
+W> An IDE feature known as **safe write** can wreak havoc with the hot loading. Therefore it is advisable to turn it off when developing a project like this.
 
 W> Note that sourcemaps won't get updated in [Chrome](https://code.google.com/p/chromium/issues/detail?id=492902) and Firefox due to browser level bugs! This may change in the future as the browsers get patched, though.
 
