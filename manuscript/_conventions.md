@@ -14,3 +14,8 @@ npm i alt --save
 ```
 
 always when installing something through *npm*. Remember to include `--save` or `--save-dev`!
+
+## Code Examples
+
+* Delete first, insert then.
+

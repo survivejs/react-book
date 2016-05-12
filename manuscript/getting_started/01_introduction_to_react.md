@@ -1,4 +1,4 @@
-# Getting Started
+# Introduction to React
 
 To make it easier to get started, I've set up a simple Webpack based boilerplate that allows us to dig into React straight away. The boilerplate includes a development mode with a feature known as *hot loading* enabled. Hot loading allows Webpack to patch the code running in the browser without a full refresh. It works the best especially with styling although React supports it fairly well too.
 
