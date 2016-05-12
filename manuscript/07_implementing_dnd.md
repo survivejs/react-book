@@ -668,12 +668,17 @@ leanpub-start-insert
 leanpub-end-insert
 
       if(lane.id === laneId) {
+leanpub-start-delete
         if(lane.notes.includes(noteId)) {
           console.warn('Already attached note to lane', lanes);
         }
         else {
           lane.notes.push(noteId);
         }
+leanpub-end-delete
+leanpub-start-insert
+        lane.notes.push(noteId);
+leanpub-end-insert
       }
 
       return lane;
