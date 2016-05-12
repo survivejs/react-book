@@ -690,8 +690,6 @@ leanpub-end-insert
 }
 ```
 
-`removeNote(noteId)` goes through `LaneStore` data. If it finds a note by id, it will get rid of it. After that, we have a clean slate, and we can add a note to a lane. This change allows us to drop `detachFromLane` from the system entirely, but I'll leave that up to you.
-
 After these changes you should be able to drag notes to empty lanes.
 
 ### Fixing Editing Behavior During Dragging
