@@ -40,9 +40,16 @@ class NoteStore {
     });
   }
   getNotesByIds(ids) {
-    return (ids || []).map(
-      id => this.notes.filter(note => note.id === id)
-    ).filter(a => a.length).map(a => a[0]);
+    // `reduce` is a powerful method that allows us to
+    // fold data. You can implement `filter` and `map`
+    // through it. Here we are using it to concatenate
+    // notes matching to the ids.
+    return (ids || []).reduce((notes, id) =>
+      // Concatenate possible matching ids to the result
+      notes.concat(
+        this.notes.filter(note => note.id === id)
+      )
+    , []);
   }
 }
 

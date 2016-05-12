@@ -411,16 +411,16 @@ leanpub-end-insert
   ...
 leanpub-start-insert
   getNotesByIds(ids) {
-    // 1. Make sure we are operating on an array and
-    // map over the ids
-    // [id, id, id, ...] -> [[Note], [], [Note], ...]
-    return (ids || []).map(
-      // 2. Extract matching notes
-      // [Note, Note, Note] -> [Note, ...] (match) or [] (no match)
-      id => this.notes.filter(note => note.id === id)
-    // 3. Filter out possible empty arrays and get notes
-    // [[Note], [], [Note]] -> [[Note], [Note]] -> [Note, Note]
-    ).filter(a => a.length).map(a => a[0]);
+    // `reduce` is a powerful method that allows us to
+    // fold data. You can implement `filter` and `map`
+    // through it. Here we are using it to concatenate
+    // notes matching to the ids.
+    return (ids || []).reduce((notes, id) =>
+      // Concatenate possible matching ids to the result
+      notes.concat(
+        this.notes.filter(note => note.id === id)
+      )
+    , []);
   }
 leanpub-end-insert
 }
@@ -515,7 +515,7 @@ leanpub-end-insert
 There are three important changes:
 
 * Methods where we need to refer to `this` have been bound using a property initializer. An alternative way to achieve this would have been to `bind` at `render` or at `constructor`. See the *Language Features* appendix for more details.
-* `notes: () => NoteStore.getNotesByIds(notes)` - Our new getter is used to filter `notes`.
+* `notes: () => NoteStore.getNotesByIds(lane.notes)` - Our new getter is used to filter `notes`.
 * `addNote`, `deleteNote` - These operate now based on the new logic we specified. Note that we trigger `detachFromLane` before `delete` at `deleteNote`. Otherwise we may try to render non-existent notes. You can try swapping the order to see warnings.
 
 After these changes, we have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
