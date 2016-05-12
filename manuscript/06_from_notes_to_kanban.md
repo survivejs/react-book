@@ -249,10 +249,12 @@ When we add a new `Note` to the system using `addNote`, we need to make sure it'
 const note = NoteActions.create({task: 'New task'});
 
 LaneActions.attachToLane({
-  noteId: note.id,
-  laneId
+  laneId,
+  noteId: note.id
 });
 ```
+
+T> You could model the API using positional parameters and end up with `LaneActions.attachToLane(laneId, note.id)`. I prefer the object form as it reads well and you don't have to care about the order.
 
 To get started we should add `attachToLane` to actions as before:
 
@@ -335,9 +337,11 @@ leanpub-end-insert
 `deleteNote` is the opposite operation of `addNote`. When removing a `Note`, it's important to remove its association with a `Lane` as well. For this purpose we can implement `LaneActions.detachFromLane({laneId: <id>})`. We would use it like this:
 
 ```javascript
-LaneActions.detachFromLane({laneId, noteId});
+LaneActions.detachFromLane({noteId, laneId});
 NoteActions.delete(noteId);
 ```
+
+T> Just like with `attachToLane`, you could model the API using positional parameters and end up with `LaneActions.detachFromLane(laneId, noteId)`.
 
 Again, we should set up an action:
 
