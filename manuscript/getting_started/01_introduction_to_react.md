@@ -170,14 +170,19 @@ T> In case you want to start with a fresh Git history, this would be a good poin
 
 T> The techniques used by the boilerplate are covered in greater detail at [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/).
 
-### Boilerplate npm Features
+### Boilerplate npm `scripts`
 
-Our boilerplate is able to generate a production grade build with hashing. There's also a deployment related target so that you can show your project to other people through [GitHub Pages](https://pages.github.com/). I've listed the basic commands available below:
+Our boilerplate is able to generate a production grade build with hashing. There's also a deployment related target so that you can show your project to other people through [GitHub Pages](https://pages.github.com/). I've listed all of the `scripts` below:
 
-* `npm run start` (or just `npm start`) - Starts the project in the development mode. Surf to `localhost:8080` in your browser to see it running.
+* `npm run start` (or `npm start`) - Starts the project in the development mode. Surf to `localhost:8080` in your browser to see it running.
 * `npm run build` - Generates a production build below `build/`. You can open the generated *index.html* through the browser to examine the result.
-* `npm run deploy` - Deploys the contents of `build/` to the *gh-pages* branch of your project and pushes it to GitHub. You can access the project below `<user/organization name>.github.io/<project name>` after that.
+* `npm run deploy` - Deploys the contents of `build/` to the *gh-pages* branch of your project and pushes it to GitHub. You can access the project below `<user/organization name>.github.io/<project name>` after that. Before this can work correctly, you should set `publicName` at *webpack.config.js* to match your project name on GitHub.
 * `npm run stats` - Generates statistics (*stats.json*) about the project. You can [analyze the build output](http://survivejs.com/webpack/building-with-webpack/analyzing-build-statistics/) further.
+* `npm run test` (or `npm test`) - Executes project tests. The *Testing React* chapter digs deeper into the topic. In fact, writing tests against your components can be a good way to learn to understand React better.
+* `npm run test:tdd` - Executes project tests in TDD mode. This means it will watch for changes and run the tests when changes are detected allowing you to develop fast without having to run the tests manually.
+* `npm run test:lint` - Executes ESLint against the code. ESLint is able to catch smaller issues. You can even configure your development environment to work with it. This allows you to catch potential mistakes as you make them.
+
+Study *package.json* to understand better how each of these works. There is quite a bit configuration. Again, see [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/) to dig deeper into the topic.
 
 ### Boilerplate Language Features
 
