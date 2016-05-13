@@ -208,6 +208,8 @@ After these few steps, we have an application that looks passable. We'll be impr
 
 ## Understanding React Components
 
+![Lifecycle methods](images/lifecycle.png)
+
 Understanding how `props` and `state` work is important. Component lifecycle is another key concept. We already touched on it earlier, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application. React provides the following lifecycle hooks:
 
 * `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
