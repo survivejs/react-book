@@ -7,8 +7,8 @@ I've tried to cover some common issues here. This chapter will be expanded as co
 It is possible you may see a message like this:
 
 ```bash
-npm WARN package.json kanban_app@0.0.0 No repository field.
-npm WARN package.json kanban_app@0.0.0 No README data
+npm WARN package.json kanban-app@0.0.0 No repository field.
+npm WARN package.json kanban-app@0.0.0 No README data
 npm WARN peerDependencies The peer dependency eslint@0.21 - 0.23 included from eslint-loader will no
 npm WARN peerDependencies longer be automatically installed to fulfill the peerDependency
 npm WARN peerDependencies in npm 3+. Your application will need to depend on it explicitly.

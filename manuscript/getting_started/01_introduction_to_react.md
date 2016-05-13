@@ -134,10 +134,10 @@ T> One interesting option is to manage your environment through [Vagrant](https:
 In order to fetch the boilerplate our project needs, clone it through Git as follows at your terminal:
 
 ```bash
-git clone https://github.com/survivejs/react-boilerplate.git kanban_app
+git clone https://github.com/survivejs/react-boilerplate.git kanban-app
 ```
 
-This will create a new directory, *kanban_app*. Inside it you can find everything we need to get ahead. There's a small seed application that shows `Hello World!` and basic Webpack configuration. To get the seed application running, execute
+This will create a new directory, *kanban-app*. Inside it you can find everything we need to get ahead. There's a small seed application that shows `Hello World!` and basic Webpack configuration. To get the seed application running, execute
 
 ```bash
 npm install
@@ -151,7 +151,7 @@ After waiting a while, upon completion you should see `node_modules/` directory 
 [webpack-validator] Config is valid.
 http://localhost:8080/
 webpack result is served from /
-content is served from .../kanban_app
+content is served from .../kanban-app
 404s will fallback to /index.html
 Child html-webpack-plugin for "index.html":
 
