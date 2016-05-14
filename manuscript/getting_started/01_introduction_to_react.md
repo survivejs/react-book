@@ -125,11 +125,13 @@ Hot loading allows Webpack to patch the code running in the browser without a fu
 
 Unfortunately it's not a fool proof technology and it won't be able to detect all changes made to the code. This means there will be times when you need to force a hard refresh to make the browser to catch the recent changes.
 
-### Downloading the Boilerplate
+### Setting Up Node.js and Git
 
 To get started, make sure you have fresh versions of [Node.js](https://nodejs.org) and [Git](https://git-scm.com/) installed. I recommend using at least the LTS version of Node.js. You might run into hard to debug issues with older versions. Same can apply to versions newer than LTS because of their bleeding edge status.
 
 T> One interesting option is to manage your environment through [Vagrant](https://www.vagrantup.com/) or a tool like [nvm](https://www.npmjs.com/package/nvm).
+
+### Downloading the Boilerplate
 
 In order to fetch the boilerplate our project needs, clone it through Git as follows at your terminal:
 
@@ -143,7 +145,11 @@ This will create a new directory, *kanban-app*. Inside it you can find everythin
 npm install
 ```
 
-After waiting a while, upon completion you should see `node_modules/` directory with the project dependencies. To get the project running, execute `npm start`. You should see something like this at the terminal if everything went right:
+After waiting a while, upon completion you should see `node_modules/` directory with the project dependencies.
+
+### Running the Project
+
+To get the project running, execute `npm start`. You should see something like this at the terminal if everything went right:
 
 ```bash
 > webpack-dev-server
