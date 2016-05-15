@@ -21,74 +21,130 @@ Often a good way to begin designing an application is to start with the data. We
 
 Each note is an object which will contain the data we need, including an `id` and a `task` we want to perform. Later on it is possible to extend this data definition to include things like the note color or the owner.
 
-## Connecting Data with `App`
+We could have skipped ids in our definition. This would become problematic as we grow the application and add the concept of references to it. Each Kanban lane needs to be able to refer to some notes after all. By adopting proper indexing early on, we save effort later.
 
-We could have skipped ids in our definition. This would become problematic as we grow our application, though. If you are referring to data based on array indices and the data changes, each reference has to change too. We can avoid that easily by generating the ids ourselves.
+T> Another interesting way to approach data would be to normalize it. In this case we would end up with a `[<id> -> { id: '...', task: '...' }]` kind of structure. Even though there's some redundancy, it is convenient to operate using the structure as it gives us easy access by index. The structure becomes even more useful once we start getting references between data entities.
 
-### Generating the Ids
+## Rendering Initial Data
 
-Normally the problem is solved by a back-end. As we don't have one yet, we'll use a standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) instead. It allows us to generate unique ids. We'll be using a Node.js implementation known as *node-uuid* and its `uuid.v4` variant. It will give us ids, such as `1c8e7a12-0b4c-4f23-938c-00d7161f94fc` and they are guaranteed to be unique with a very high probability.
+Now that we have a rough data model together, we can try rendering it through React. We are going to need a component to hold the data. Let's call it `Notes` for now. We can grow from that as we want more functionality. Set up a file with a small dummy component as follows:
 
-T> If you are interested in the math behind this, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule and something we don't have to worry about.
-
-### Setting Up `App`
-
-Now that we know how to deal with ids and understand what kind of data model we want, we need to connect our data model with `App`. The simplest way to achieve that is to push the data directly to `render()` for now. This won't be efficient, but it will allow us to get started. The implementation below shows how this works out in React terms:
-
-**app/components/App.jsx**
+**app/Notes.jsx**
 
 ```javascript
-leanpub-start-insert
-import uuid from 'node-uuid';
-leanpub-end-insert
 import React from 'react';
-leanpub-start-delete
-import Note from './Note.jsx';
-leanpub-end-delete
 
-export default class App extends React.Component {
-  render() {
-leanpub-start-insert
-    const notes = [
-      {
-        id: uuid.v4(),
-        task: 'Learn React'
-      },
-      {
-        id: uuid.v4(),
-        task: 'Do laundry'
-      }
-    ];
-leanpub-end-insert
-
-leanpub-start-delete
-    return <Note />;
-leanpub-end-delete
-leanpub-start-insert
-    return (
-      <div>
-        <ul>{notes.map(note =>
-          <li key={note.id}>{note.task}</li>
-        )}</ul>
-      </div>
-    );
-leanpub-end-insert
+const notes = [
+  {
+    id: '4e81fc6e-bfb6-419b-93e5-0242fb6f3f6a',
+    task: 'Learn React'
+  },
+  {
+    id: '11bbffc8-5891-4b45-b9ea-5c99aadf870f',
+    task: 'Do laundry'
   }
+];
+
+export default () => {
+  return (
+    <ul>{notes.map(note =>
+      <li key={note.id}>{note.task}</li>
+    )}</ul>
+  );
 }
 ```
 
-We are using various important features of React in the snippet above. Understanding them is invaluable. I have annotated important parts below:
+We are using various important features of JSX in the snippet above. I have annotated the difficult parts below:
 
 * `<ul>{notes.map(note => ...}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
 * `<li key={note.id}>{note.task}</li>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
 
-If you run the application now, you can see a list of notes. It's not particularly pretty, but it's a start:
+We also need to refer to the component from the entry point of our application:
+
+**app/index.jsx**
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+leanpub-start-insert
+import Notes from './Notes.jsx';
+leanpub-end-insert
+
+if(process.env.NODE_ENV !== 'production') {
+  React.Perf = require('react-addons-perf');
+}
+
+ReactDOM.render(
+leanpub-start-delete
+  <div>Hello world</div>,
+leanpub-end-delete
+leanpub-start-insert
+  <Notes />,
+leanpub-end-insert
+  document.getElementById('app')
+);
+```
+
+If you run the application now, you should see a list of notes. It's not particularly pretty or useful yet, but it's a start:
 
 ![A list of notes](images/react_03.png)
 
-T> If you want to examine your application further, it can be useful to attach a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement to the place you want to study. It has to be placed on a line that will get executed for the browser to pick it up! The statement will cause the browser debugging tools to trigger and allow you to study the current call stack and scope. You can attach breakpoints like this through the browser, but this is a good alternative.
+T> We need to `import` React to *Notes.jsx* given there's that JSX to JavaScript transformation going on. Without it the resulting code would fail.
+
+## Generating the Ids
+
+Normally the problem of generating the ids is solved by a back-end. As we don't have one yet, we'll use a standard known as [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) instead. It allows us to generate unique ids. We'll be using a Node.js implementation known as *uuid* and its `uuid.v4` variant. It will give us ids, such as `1c8e7a12-0b4c-4f23-938c-00d7161f94fc` and they are guaranteed to be unique with a very high probability.
+
+To connect the generator with our application, modify it as follows:
+
+**app/Notes.jsx**
+
+```javascript
+import React from 'react';
+leanpub-start-insert
+import uuid from 'uuid';
+leanpub-end-insert
+
+const notes = [
+  {
+leanpub-start-delete
+    id: '4e81fc6e-bfb6-419b-93e5-0242fb6f3f6a',
+leanpub-end-delete
+leanpub-start-insert
+    id: uuid.v4(),
+leanpub-end-insert
+    task: 'Learn React'
+  },
+  {
+leanpub-start-delete
+    id: '11bbffc8-5891-4b45-b9ea-5c99aadf870f',
+leanpub-end-delete
+leanpub-start-insert
+    id: uuid.v4(),
+leanpub-end-insert
+    task: 'Do laundry'
+  }
+];
+
+...
+```
+
+The application should look the same as before after this change. If you try debugging it, you can see the ids should change if you refresh. You can verify this easily either by inserting a `console.log(notes);` line or a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement within the component function.
+
+The `debugger;` statement is particularly useful as it tells the browser to break execution. This way you can examine the current call stack and examine the available variables. If you are unsure of something, this is a great way to debug and figure out what's going on.
+
+`console.log` is a lighter alternative. You can design a logging system around it. See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Console) and [Chrome documentation](https://developers.google.com/web/tools/chrome-devtools/debug/console/console-reference) for the full API.
+
+T> If you are interested in the math behind id generation, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule and something we don't have to worry about.
 
 ## Adding New Items to the List
+
+XXX
+
+**app/components/App.jsx**
+
+```javascript
+```
 
 Adding more items to the list would be a good starting point for further development. Each React component may maintain internal `state`. In this case `state` would refer to the data model we just defined. As we modify the state through React's `setState` method, React will eventually call the `render()` method and update the user interface. This idea allows us to implement interactivity, such as adding new items to the list.
 
