@@ -3,7 +3,7 @@ const merge = require('webpack-merge');
 const validate = require('webpack-validator');
 const schema = require('webpack-validator').schema;
 
-const parts = require('./lib/parts');
+const parts = require('./libs/parts');
 
 const TARGET = process.env.npm_lifecycle_event;
 const ENABLE_POLLING = process.env.ENABLE_POLLING;
