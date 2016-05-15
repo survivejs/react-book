@@ -20,7 +20,7 @@
     "babel-preset-survivejs-kanban": "^0.3.3",
     "clean-webpack-plugin": "^0.1.9",
     "css-loader": "^0.23.1",
-    "eslint": "^2.10.0",
+    "eslint": "^2.10.1",
     "eslint-plugin-react": "^5.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^2.17.0",
