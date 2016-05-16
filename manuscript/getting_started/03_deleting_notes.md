@@ -88,7 +88,7 @@ Now that we have the controls we need, we can start thinking about how to connec
 
 T> That `e` represents a DOM event you might be used to. We can do things like stop event propagation through it. This will come in handy as we want more control over the application behavior.
 
-To achieve the scheme, we are going to need a new prop at `Notes`. We will also need to bind the id of each note to the `onDelete` callback to match the logic. Here's the full implementation of `Notes`:
+To achieve the scheme, we are going to need a new prop at `Notes`. We will also need to `bind` the id of each note to the `onDelete` callback to match the logic. Here's the full implementation of `Notes`:
 
 **app/components/Notes.jsx**
 
