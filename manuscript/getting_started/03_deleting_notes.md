@@ -168,8 +168,6 @@ leanpub-end-insert
 
 After these changes you should be able to delete notes. To prepare for the future I added an extra line in form of `e.stopPropagation()`. The idea of this is to tell the DOM to stop bubbling events. In short, we'll avoid triggering possible other events elsewhere in the structure if we delete a note.
 
-We are missing one more feature to call this done. Editing is hardest of them all. To do it right, we can do it inline.
-
 T> You may need to trigger a refresh at the browser to make deletion to work. Hit *CTRL/CMD-R*.
 
 ## Understanding React Components
@@ -221,4 +219,6 @@ In the end, you will have to find conventions that you like and which work the b
 
 ## Conclusion
 
-XXX
+Working with React is often like this. You will identify components and flows based on your needs. Here we needed model a `Note` and then design a data flow so that we have enough control at the right place.
+
+We are missing one more feature to call the first part of Kanban done. Editing is hardest of them all. To do it right, we can do it inline. By implementing a proper component now, we'll save time later as we have to edit something else.
