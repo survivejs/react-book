@@ -206,53 +206,6 @@ No more of those pesky delete buttons:
 
 After these few steps, we have an application that looks passable. We'll be improving its appearance as we add functionality, but at least it's somewhat visually appealing.
 
-## Understanding React Components
-
-![Lifecycle methods](images/lifecycle.png)
-
-Understanding how `props` and `state` work is important. Component lifecycle is another key concept. We already touched on it earlier, but it's a good idea to understand it in more detail. You can achieve most tasks in React by applying these concepts throughout your application. React provides the following lifecycle hooks:
-
-* `componentWillMount()` gets triggered once before any rendering. One way to use it would be to load data asynchronously there and force rendering through `setState`.
-* `componentDidMount()` gets triggered after initial rendering. You have access to the DOM here. You could use this hook to wrap a jQuery plugin within a component, for instance.
-* `componentWillReceiveProps(object nextProps)` triggers when the component receives new props. You could, for instance, modify your component state based on the received props.
-* `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize the rendering. If you check the props and state and see that there's no need to update, return `false`.
-* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here, but you can set class properties, for instance. [The official documentation](https://facebook.github.io/react/docs/advanced-performance.html#shouldcomponentupdate-in-action) goes into greater details. In short, this is where immutable data structures, such as [Immutable.js](https://facebook.github.io/immutable-js/), come handy thanks to their easy equality checks.
-* `componentDidUpdate()` is triggered after rendering. You can modify the DOM here. This can be useful for adapting other code to work with React.
-* `componentWillUnmount()` is triggered just before a component is unmounted from the DOM. This is the ideal place to perform cleanup (e.g., remove running timers, custom DOM elements, and so on).
-
-Beyond the lifecycle hooks, there are a variety of [properties and methods](https://facebook.github.io/react/docs/component-specs.html) you should be aware of if you are going to use `React.createClass`:
-
-* `displayName` - It is preferable to set `displayName` as that will improve debug information. For ES6 classes this is derived automatically based on the class name.
-* `getInitialState()` - In class based approach the same can be achieved through `constructor`.
-* `getDefaultProps()` - In classes you can set these in `constructor`.
-* `mixins` - `mixins` contains an array of mixins to apply to components.
-* `statics` - `statics` contains static properties and method for a component. In ES6 you can assign them to the class as below:
-
-```javascript
-class Note {
-  render() {
-    ...
-  }
-}
-Note.willTransitionTo = () => {...};
-
-export default Note;
-```
-
-Some libraries, such as React DnD, rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
-
-Both class and `React.createClass` based components allow you to document the interface of your component using `propTypes`. To dig deeper, read the *Typing with React* chapter.
-
-Both support `render()`, the workhorse of React. In function based definition `render()` is the function itself. `render()` simply describes what the component should look like. In case you don't want to render anything, return either `null` or `false`.
-
-> React provides a feature known as [refs](https://facebook.github.io/react/docs/more-about-refs.html) so you can perform operations on React elements through DOM. This is an escape hatch designed for those cases where React itself doesn't cut it. Performing measurements is a good example. Refs need to be attached to stateful components in order to work.
-
-## React Component Conventions
-
-I prefer to have the `constructor` first, followed by lifecycle hooks, `render()`, and finally, methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers, too.
-
-In the end, you will have to find conventions that you like and which work the best for you. You can enforce a convention by using a linter such as [ESLint](http://eslint.org/). Using a linter decreases the amount of friction when working on code written by others. Even on personal projects, using tools to verify syntax and standards for you can be useful. It lessens the amount and severity of mistakes.
-
 ## Conclusion
 
 Now that the application is starting to look good, we can improve the architecture of our application by introducing Flux to it. This is a good step towards improving the way we handle with state.
