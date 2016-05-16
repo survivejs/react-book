@@ -428,7 +428,7 @@ Given we are binding to an instance here, the hot loading setup cannot pick up t
 
 ![Notes with a plus](images/react_05.png)
 
-We are still missing two crucial features: editing and deletion. It's a good time to focus on those next.
+We are still missing two crucial features: editing and deleting notes. It's a good time to focus on those next. Let's do deleting first and handle editing after that.
 
 T> If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
 
@@ -436,37 +436,15 @@ T> You could use `this.setState({notes: [...this.state.notes, {id: uuid.v4(), ta
 
 T> Using [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) would be a valid alternative for property initializers. In this case we would use `@autobind` annotation either on class or method level. To learn more about decorators, read the *Understanding Decorators* appendix.
 
-## Implementing Deletion
+## Deleting Notes
 
-XXX
+One easy way to handle deleting notes is to render a "x" button for each `Note`. When it's clicked we will simply delete the note in question from our data structure. As before, we can start by adding stubs in place. This might be a good place to separate the concept of a `Note` from the current `Notes` component.
 
-## Improving Component Hierarchy
+Often you work this way with React. You set up components only to realize they are composed of smaller components that can be extracted. This process of separation is cheap. Sometimes it can even improve the performance of your application as you can optimize the rendering of smaller parts.
 
-Our current, one component based setup isn't going to take us far. It would be complicated to add more separate collections of notes to it. In the current setup this would mean we would have to duplicate code.
+### Separating `Note`
 
-Fortunately we can solve this problem by modeling more components to our system. Besides solving the problem, they also promote reuse. In the ideal case we can use good components across multiple different systems.
-
-As a collection of notes feels like a component, we can model it as `Notes`. Furthermore we can split the concept of `Note` from it. This separation gives us another degree of abstraction that will come in handy. This setup gives us a three tier component hierarchy that looks like this:
-
-By looking at our application, we can design a component hierarchy like this:
-
-* `App` - `App` retains application state and deals with the high level logic.
-* `Notes` - `Notes` acts as an intermediate wrapper in between and renders individual `Note` components.
-* `Note` - `Note` is the workhorse of our application. Editing and deletion will be triggered here. That logic will cascade to `App` through wiring in between.
-
-Later on we can expand the hierarchy to a full Kanban by introducing the concepts of `Lane` and `Lanes` to it. These two concepts fit between `App` and `Notes`. We don't need to care about this just yet, though.
-
-T> One natural way to model component hierarchies is to draw out your application on paper. You will begin to see entities that will map to components. This allows you to identify especially *presentational* components that focus on displaying data. You have *container* components that connect with data on a higher level. Dan Abramov discusses this in his Medium post known as [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.q8c68v3ff).
-
-T> You can certainly develop components organically. Once they begin to feel too big, refactor and extract the components you identify. Sometimes finding the right composition may take some time and patience. Component design is a skill to learn and master.
-
-### Extracting `Note`
-
-A good first step towards the hierarchy we want is to extract `Note`. `Note` is a component which will need to receive `task` as a *prop* and render it. In terms of JSX this would look like `<Note task="task goes here" />`.
-
-In addition to `state`, `props` are another concept you will be using a lot. They describe the external interface of a component. You can annotate them as discussed in the *Typing with React* chapter. To keep things simple, we are skipping `propType` annotations here.
-
-A function based component will receive `props` as its first parameter. We can extract specific props from it through [ES6 destructuring syntax](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring). A function based component is `render()` by itself. They are far more limited than class based ones, but they are perfect for simple *presentational* purposes, such as this. To tie these ideas together, we can end up with a component definition such as this:
+To keep the list formatting aspect separate from a `Note` we can model it using a `div` like this:
 
 **app/components/Note.jsx**
 
@@ -476,7 +454,7 @@ import React from 'react';
 export default ({task}) => <div>{task}</div>;
 ```
 
-This declaration is equivalent to:
+Remember that this declaration is equivalent to:
 
 ```javascript
 import React from 'react';
@@ -484,132 +462,157 @@ import React from 'react';
 export default (props) => <div>{props.task}</div>;
 ```
 
-As you can see, destructuring removes some noise from the code. If you wanted to pass the remaining `props` to the `div`, you could declare the component like this:
+As you can see, destructuring removes some noise from the code and keeps our implementation simple.
 
-```javascript
-import React from 'react';
-
-export default ({task, ...props}) => <div {...props}>{task}</div>;
-```
-
-Now `props` contains the fields that weren't explicitly selected through the syntax. This pattern is particularly useful when you want to develop flexible components. We'll be using the pattern a lot in the following chapters.
-
-T> To understand the destructuring syntax in greater detail, check out the *Language Features* appendix.
-
-### Connecting `Note` with `App`
-
-Now that we have a simple component that accepts a `task` prop, we can connect it with `App` to get closer to the component hierarchy we have in mind:
-
-**app/components/App.jsx**
-
-```javascript
-import uuid from 'node-uuid';
-import React from 'react';
-leanpub-start-insert
-import Note from './Note.jsx';
-leanpub-end-insert
-
-export default class App extends React.Component {
-  constructor(props) {
-    ...
-  }
-  render() {
-    const notes = this.state.notes;
-
-    return (
-      <div>
-        <button onClick={this.addNote}>+</button>
-        <ul>{notes.map(note =>
-leanpub-start-delete
-          <li key={note.id}>{note.task}</li>
-leanpub-end-delete
-leanpub-start-insert
-          <li key={note.id}>
-            <Note task={note.task} />
-          </li>
-leanpub-end-insert
-        )}</ul>
-      </div>
-    );
-  }
-  ...
-}
-```
-
-The application should still look the same. To achieve the structure we are after, we should perform one more tweak and extract `Notes`.
-
-### Extracting `Notes`
-
-Extracting `Notes` is a similar operation. We need to understand what portion of `App` belongs to the component and then write a definition for it. It is the same idea as for `Note` earlier:
+To make our application use the new component, we need to patch `Notes` as well:
 
 **app/components/Notes.jsx**
 
 ```javascript
 import React from 'react';
-import Note from './Note.jsx';
+leanpub-start-insert
+import Note from './Note';
+leanpub-end-insert
 
 export default ({notes}) => {
   return (
     <ul>{notes.map(note =>
-      <li key={note.id}>
-        <Note task={note.task} />
-      </li>
+leanpub-start-remove
+      <li key={note.id}>{note.task}</li>
+leanpub-end-remove
+leanpub-start-insert
+      <li key={note.id}><Note task={note.task} /></li>
+leanpub-end-insert
     )}</ul>
   );
 }
 ```
 
-In addition, we need to connect `App` with the new definition:
+The application should look exactly the same after these changes. Now we have room to expand it further.
+
+### Adding a Stub for `onDelete` Callback
+
+To capture the intent to delete a `Note`, we'll need to extend it to include a button that triggers a `onDelete` callback. We can connect our logic with that after this step is complete. Consider the code below:
+
+**app/components/Note.jsx**
+
+```javascript
+import React from 'react';
+
+leanpub-start-remove
+export default ({task}) => <div>{task}</div>;
+leanpub-end-remove
+leanpub-start-insert
+export default ({task, onDelete}) => (
+  <div>
+    <span>{task}</span>
+    <button onClick={onDelete}>x</button>
+  </div>
+);
+leanpub-end-insert
+```
+
+You should see small "x"s next to each Note:
+
+![Notes with delete controls](images/react_06.png)
+
+They won't do anything yet. That's the next step.
+
+### Communicating Deletion to `App`
+
+Now that we have the controls we need, we can start thinking about how to connect them with the data at `App`. In order to delete a note, we'll need to know its id. After that we can implement the logic based on that at `App`. To illustrate the idea, we'll want to end up with a situation like this:
+
+![`onDelete` flow](images/bind.png)
+
+T> That `e` represents a DOM event you might be used to. We can do things like stop event propagation through it. This will come in handy as we want more control over the application behavior.
+
+To achieve the scheme, we are going to need a new prop at `Notes`. We will also need to bind the id of each note to the `onDelete` callback to match the logic. Here's the full implementation of `Notes`:
+
+**app/components/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note';
+
+leanpub-start-remove
+export default ({notes}) => {
+  return (
+    <ul>{notes.map(note =>
+      <li key={note.id}><Note task={note.task} /></li>
+    )}</ul>
+  );
+}
+leanpub-end-remove
+leanpub-start-insert
+export default ({notes, onDelete=() => {}}) => {
+  return (
+    <ul>{notes.map(({id, task}) =>
+      <li key={id}>
+        <Note
+          onDelete={onDelete.bind(null, id)}
+          task={task} />
+      </li>
+    )}</ul>
+  );
+}
+leanpub-end-insert
+```
+
+To keep our code from crashing if `onDelete` is not provided, I defined a dummy callback for it. Another good way to handle this would have been to go through `propTypes` as discussed in the "Typing with React" chapter.
+
+Now that have the hooks in place, we can use them at `App`:
 
 **app/components/App.jsx**
 
 ```javascript
-import uuid from 'node-uuid';
 import React from 'react';
-leanpub-start-delete
-import Note from './Note.jsx';
-leanpub-end-delete
-leanpub-start-insert
-import Notes from './Notes.jsx';
-leanpub-end-insert
+import uuid from 'uuid';
+import Notes from './Notes';
 
 export default class App extends React.Component {
   constructor(props) {
     ...
   }
   render() {
-    const notes = this.state.notes;
+    const {notes} = this.state;
 
     return (
       <div>
         <button onClick={this.addNote}>+</button>
-leanpub-start-delete
-        <ul>{notes.map(note =>
-          <li key={note.id}>
-            <Note task={note.task} />
-          </li>
-        )}</ul>
-leanpub-end-delete
-leanpub-start-insert
+leanpub-start-remove
         <Notes notes={notes} />
+leanpub-end-remove
+leanpub-start-insert
+        <Notes notes={notes} onDelete={this.deleteNote} />
 leanpub-end-insert
       </div>
     );
-  }
+  },
   addNote = () => {
+    ...
+  }
+leanpub-start-insert
+  deleteNote = (id, e) => {
+    // Avoid bubbling to edit
+    e.stopPropagation();
+
     this.setState({
-      notes: this.state.notes.concat([{
-        id: uuid.v4(),
-        task: 'New task'
-      }])
+      notes: this.state.notes.filter(note => note.id !== id)
     });
-  };
+  }
+leanpub-end-insert
 }
 ```
 
-The application should still behave the same way. Structurally we are far better off than earlier, though. Now we can begin to worry about adding new functionality to the system.
+After these changes you should be able to delete notes. To prepare for the future I added an extra line in form of `e.stopPropagation()`. The idea of this is to tell the DOM to stop bubbling events. In short, we'll avoid triggering possible other events elsewhere in the structure if we delete a note.
+
+We are missing one more feature to call this done. Editing is hardest of them all. To do it right, we can do it inline.
+
+T> You may need to trigger a refresh at the browser to make deletion to work. Hit *CTRL/CMD-R*.
 
 ## Editing `Notes`
+
+XXX
 
 In order to edit individual `Note`s, we should set up some hooks for that. Logically the following could happen:
 
@@ -801,128 +804,6 @@ If you refresh and try to edit a `Note` now, the modification should stick. The 
 The current design isn't flawless. What if we wanted to allow newly created notes to be editable straight from the start? Given `Note` encapsulated this state, we don't have simple means to access it from the outside. The current solution is enough for now. We'll address this issue properly in *From Notes to Kanban* chapter and extract the state there.
 
 ![Edited a note](images/react_06.png)
-
-## Removing `Notes`
-
-We are still missing one vital functionality. It would be nice to be able to delete notes. We could implement a button per `Note` and trigger the logic using that. It will look a little rough initially, but we will style it later.
-
-As before, we'll need to define some logic on `App` level. Deleting a note can be achieved by first looking for a `Note` to remove based on id. After we know which `Note` to remove, we can construct a new state without it.
-
-Just like earlier, it will take three changes. We need to define logic at `App` level, bind the `id` at `Notes`, and then finally trigger the logic at `Note` through its user interface. To get started, `App` logic can be defined in terms of `filter`:
-
-**app/components/App.jsx**
-
-```javascript
-import uuid from 'node-uuid';
-import React from 'react';
-import Notes from './Notes.jsx';
-
-export default class App extends React.Component {
-  ...
-  render() {
-    const notes = this.state.notes;
-
-    return (
-      <div>
-        <button onClick={this.addNote}>+</button>
-leanpub-start-delete
-        <Notes notes={notes} onEdit={this.editNote} />
-leanpub-end-delete
-leanpub-start-insert
-        <Notes notes={notes}
-          onEdit={this.editNote}
-          onDelete={this.deleteNote} />
-leanpub-end-insert
-      </div>
-    );
-  }
-leanpub-start-insert
-  deleteNote = (id, e) => {
-    // Avoid bubbling to edit
-    e.stopPropagation();
-
-    this.setState({
-      notes: this.state.notes.filter(note => note.id !== id)
-    });
-  };
-leanpub-end-insert
-  ...
-}
-```
-
-`Notes` will work similarly as earlier:
-
-**app/components/Notes.jsx**
-
-```javascript
-import React from 'react';
-import Note from './Note.jsx';
-
-leanpub-start-delete
-export default ({notes, onEdit}) => {
-leanpub-end-delete
-leanpub-start-insert
-export default ({notes, onEdit, onDelete}) => {
-leanpub-end-insert
-  return (
-    <ul>{notes.map(note =>
-      <li key={note.id}>
-leanpub-start-delete
-        <Note
-          task={note.task}
-          onEdit={onEdit.bind(null, note.id)} />
-leanpub-end-delete
-leanpub-start-insert
-        <Note
-          task={note.task}
-          onEdit={onEdit.bind(null, note.id)}
-          onDelete={onDelete.bind(null, note.id)} />
-leanpub-end-insert
-      </li>
-    )}</ul>
-  );
-}
-```
-
-Finally, we need to attach a delete button to each `Note` and then trigger `onDelete` when those are clicked:
-
-**app/components/Note.jsx**
-
-```javascript
-...
-
-export default class Note extends React.Component {
-  ...
-  renderNote = () => {
-    // If the user clicks a normal note, trigger editing logic.
-leanpub-start-delete
-    return <div onClick={this.edit}>{this.props.task}</div>;
-leanpub-end-delete
-leanpub-start-insert
-    const onDelete = this.props.onDelete;
-
-    return (
-      <div onClick={this.edit}>
-        <span>{this.props.task}</span>
-        {onDelete ? this.renderDelete() : null }
-      </div>
-    );
-leanpub-end-insert
-  };
-leanpub-start-insert
-  renderDelete = () => {
-    return <button onClick={this.props.onDelete}>x</button>;
-  };
-leanpub-end-insert
-  ...
-}
-```
-
-After these changes and refreshing you should be able to delete notes as you like.
-
-![Deleted a note](images/react_07.png)
-
-T> You may need to trigger a refresh at the browser to make these changes show up. Hit *CTRL/CMD-R*.
 
 ## Conclusion
 
