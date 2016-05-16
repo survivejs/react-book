@@ -240,7 +240,7 @@ Gluing this all together is a little complicated as there are multiple concerns 
 
 Our `NoteStore` provides two methods in particular that are going to be useful. These are `NoteStore.listen` and `NoteStore.unlisten`. They will allow views to subscribe to the state changes.
 
-As you might remember from the earlier chapters, React provides a set of lifecycle hooks. We can subscribe to `NoteStore` within our view at `componentDidMount` and `componentWillUnmount`. By unsubscribing, we avoid possible memory leaks.
+As you might remember from the earlier chapters, React provides a set of lifecycle methods. We can subscribe to `NoteStore` within our view at `componentDidMount` and `componentWillUnmount`. By unsubscribing, we avoid possible memory leaks.
 
 Based on these ideas we can connect `App` with `NoteStore` and `NoteActions`:
 
