@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Notes from './Notes.jsx';
+import App from './App';
 
 if(process.env.NODE_ENV !== 'production') {
   React.Perf = require('react-addons-perf');
 }
 
 ReactDOM.render(
-  <Notes />,
+  <App />,
   document.getElementById('app')
 );

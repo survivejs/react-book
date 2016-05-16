@@ -67,7 +67,7 @@ We also need to refer to the component from the entry point of our application:
 import React from 'react';
 import ReactDOM from 'react-dom';
 leanpub-start-insert
-import Notes from './Notes.jsx';
+import Notes from './Notes';
 leanpub-end-insert
 
 if(process.env.NODE_ENV !== 'production') {
@@ -137,30 +137,195 @@ The `debugger;` statement is particularly useful as it tells the browser to brea
 
 T> If you are interested in the math behind id generation, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule and something we don't have to worry about.
 
-## Adding New Items to the List
+## Adding New Notes to the List
 
-XXX
+Even though we can display individual notes now, we are still missing a lot of logic to make our application useful. A logical way to start would be to implement adding new notes to the list. To achieve this, we need to expand the application a little.
+
+### Defining a Stub for `App`
+
+To enable adding new notes, we should have a button for that somewhere. Currently our `Notes` component does only one thing, displaying notes. That's perfectly fine. To make room for more functionality, we could add a concept known as `App` on top of that. This component will orchestrate the execution of our application. We can add the button we want there and manage state as well as we add notes.
+
+At a basic level `App` could look like this:
 
 **app/components/App.jsx**
 
 ```javascript
+import React from 'react';
+import Notes from './Notes';
+
+export default () => <Notes />;
 ```
 
-Adding more items to the list would be a good starting point for further development. Each React component may maintain internal `state`. In this case `state` would refer to the data model we just defined. As we modify the state through React's `setState` method, React will eventually call the `render()` method and update the user interface. This idea allows us to implement interactivity, such as adding new items to the list.
+All it does now is to render `Notes` and it's going to take more work to make it useful. To glue `App` to our application, we still need to tweak the entry point as follows:
 
-React forces you to think about state carefully. As the complexity of your application grows, this becomes a fundamental issue. This is the reason why various state management solutions have been developed. They allow you to push application state management related concerns out of your React components.
-
-Components may still retain some state of their own. A good example is state related to the user interface. A fancy dropdown component might want to maintain its visibility state by itself for example. We will discuss state management in greater detail as we develop the application.
-
-Assuming we are using a class based component definition, we can define the initial state of our component in its `constructor`. It is a special method that gets called when the component is instantiated initially. In this case we can push our initial data definition there and set it as our component `state`:
-
-**app/components/App.jsx**
+**app/index.jsx**
 
 ```javascript
-...
-
-export default class App extends React.Component {
+import React from 'react';
+import ReactDOM from 'react-dom';
+leanpub-start-delete
+import Notes from './Notes';
+leanpub-end-delete
 leanpub-start-insert
+import App from './App';
+leanpub-end-insert
+
+if(process.env.NODE_ENV !== 'production') {
+  React.Perf = require('react-addons-perf');
+}
+
+ReactDOM.render(
+leanpub-start-delete
+  <Notes />,
+leanpub-end-delete
+leanpub-start-insert
+  <App />,
+leanpub-end-insert
+  document.getElementById('app')
+);
+```
+
+If you run the application now, it should exactly the same as before. We have room to grow now, though.
+
+### Adding a Stub for *Add* Button
+
+A good step towards something more functional is to add a stub for an *add* button. To achieve this, `App` needs to evolve:
+
+**app/App.jsx**
+
+```
+import React from 'react';
+import Notes from './Notes';
+
+leanpub-start-delete
+export default () => <Notes />;
+leanpub-end-delete
+leanpub-start-insert
+export default () => (
+  <div>
+    <button onClick={() => console.log('add note')}>+</button>
+    <Notes />
+  </div>
+);
+leanpub-end-insert
+```
+
+If you press the button we added, you should see an "add note" message at the browser console. We still have to connect the button with our data somehow. Currently the data is trapped within the `Notes` component so before we can do that, we need to extract it to the `App` level.
+
+T> Given React components have to return a single element, we had to wrap our application within a `div`.
+
+### Pushing Data to `App`
+
+To push the data to `App` we need to do two modifications. First we need to literally move it there and pass the data through a prop to `Notes`. After that we need to tweak `Notes` to operate based on the new logic. Once we have achieved this, we can start thinking about adding new notes.
+
+The `App` side is simple:
+
+**app/App.jsx**
+
+```javascript
+import React from 'react';
+leanpub-start-insert
+import uuid from 'uuid';
+leanpub-end-insert
+import Notes from './Notes';
+
+leanpub-start-insert
+const notes = [
+  {
+    id: uuid.v4(),
+    task: 'Learn React'
+  },
+  {
+    id: uuid.v4(),
+    task: 'Do laundry'
+  }
+];
+leanpub-end-insert
+
+export default () => (
+  <div>
+    <button onClick={() => console.log('add note')}>+</button>
+    <Notes notes={notes} />
+  </div>
+);
+```
+
+This won't do much until we tweak `Notes` as well:
+
+**app/Notes.jsx**
+
+```javascript
+import React from 'react';
+leanpub-start-remove
+import uuid from 'uuid';
+
+const notes = [
+  {
+    id: uuid.v4(),
+    task: 'Learn React'
+  },
+  {
+    id: uuid.v4(),
+    task: 'Do laundry'
+  }
+];
+
+export default () => {
+leanpub-end-remove
+export default ({notes}) => {
+  return (
+    <ul>{notes.map(note =>
+      <li key={note.id}>{note.task}</li>
+    )}</ul>
+  );
+}
+```
+
+Our application should look exactly the same as before after these changes. Now we are ready to add some logic to it, though.
+
+T> The way we extract `notes` from `props` (the first parameter) is a standard trick you see with React. If you want to access the remaining `props`, you can use `{notes, ...props}` kind of syntax. We'll use this later so you can see the point of doing this better.
+
+### Pushing State to `App`
+
+Now that we have all things in the right place, we can start to worry about modifying the data. If you have used JavaScript before, the intuitive way to handle it would be to set up an event handler like `() => notes.push({id: uuid.v4(), task: 'New task'})`. If you try this, you'll see nothing happens.
+
+The reason why is simple. React cannot notice you have changed the structure and react accordingly (that is, trigger `render()`). To overcome this issue, we can implement our modification through React's own API. This makes it notice that the structure has changed. As a result it is able to `render()` as we might expect.
+
+As of the time of writing the function based component definition doesn't support the concept of state. The problem is that these components don't have a backing instance. It is something in which you would attach state. We might see a way to solve this through functions only in the future but for now we have to use a heavier duty alternative.
+
+In addition to functions, you can create React components through `React.createClass` or a class based component definition. We'll opt for the latter in this book. Function based components are a great default, though. The added benefit is that they allow a series of optimizations.
+
+In order to convert our `App` to a class based component, adjust it as follows to push the state within:
+
+**app/App.jsx**
+
+```javascript
+import React from 'react';
+import uuid from 'uuid';
+import Notes from './Notes';
+
+leanpub-start-remove
+const notes = [
+  {
+    id: uuid.v4(),
+    task: 'Learn React'
+  },
+  {
+    id: uuid.v4(),
+    task: 'Do laundry'
+  }
+];
+
+export default () => (
+  <div>
+    <button onClick={() => notes.push({id: uuid.v4(), task: 'New task'})}>+</button>
+    <Notes notes={notes} />
+  </div>
+);
+leanpub-end-remove
+
+leanpub-start-insert
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -175,69 +340,68 @@ leanpub-start-insert
           task: 'Do laundry'
         }
       ]
-    };
+    }
   }
-leanpub-end-insert
   render() {
-leanpub-start-delete
-    const notes = [
-      {
-        id: uuid.v4(),
-        task: 'Learn React'
-      },
-      {
-        id: uuid.v4(),
-        task: 'Do laundry'
-      }
-    ];
-leanpub-end-delete
-leanpub-start-insert
-    const notes = this.state.notes;
-leanpub-end-insert
+    const {notes} = this.state;
 
-    ...
+    return (
+      <div>
+        <button
+          onClick={() => notes.push({id: uuid.v4(), task: 'New task'})}>+</button>
+        <Notes notes={notes} />
+      </div>
+    );
   }
 }
+leanpub-end-insert
 ```
 
-After this change and refreshing the browser, our application works the same way as before. We have gained something in return, though. We can now begin to alter the state through `setState`.
+After this change `App` owns the state even though the application still should look the same as before. Now, however, we can start to use React's API to modify the state.
 
-T> In the earlier versions of React, you could achieve the same result with `getInitialState`. We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
+T> Data management solutions, such as [MobX](https://mobxjs.github.io/mobx/), solve this problem in their own way. Using them you annotate your data structures and React components and leave the updating problem to them. We'll get back to the topic of data management later in this book in detail.
 
-### Defining `addNote` Handler
+T> In the earlier versions of React, you could achieve the same result with `getInitialState`.
 
-Now that we have state, we can begin to modify it through custom methods. UI-wise we could add a simple button to `App`. That in turn would trigger a method that would add a new item to the component state. As discussed earlier, React will pick up the change and refresh the user interface as a result for us:
+T> We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
-**app/components/App.jsx**
+### Implementing Note Adding Logic
+
+All the effort will pay off soon. We have just one step left. We will need to use React's API to manipulate the state and to finish our feature. React provides a method known as `setState` for this purpose. In this case we will need to call it like this: `this.setState({... new state goes here ...}, () => ...)`.
+
+The callback is optional. React will call it when the state has been set and often you don't need to care about it at all. Once `setState` has gone through, React will call `render()`. The asynchronous API might feel a little strange at first but it will allow React to optimize its performance by using techniques such as batching updates. This all ties back to the concept of Virtual DOM.
+
+One way to trigger `setState` would be to push the associated logic to a method of its own and then call it when a new note is added. The class based component definition doesn't bind custom methods like this by default so we will need to handle the binding somehow. It would be to do that at the `constructor`, `render()`, or by using a specific syntax. I'm opting for the syntax option in this book. Read the *Language Features* appendix to learn more.
+
+To tie the logic with the button, adjust `App` as follows:
+
+**app/App.jsx**
 
 ```javascript
-...
+import React from 'react';
+import uuid from 'uuid';
+import Notes from './Notes';
 
 export default class App extends React.Component {
   constructor(props) {
     ...
   }
   render() {
-    const notes = this.state.notes;
+    const {notes} = this.state;
 
     return (
       <div>
+leanpub-start-remove
+        <button onClick={() => console.log('add note')}>+</button>
+leanpub-end-remove
 leanpub-start-insert
         <button onClick={this.addNote}>+</button>
 leanpub-end-insert
-        <ul>{notes.map(note =>
-          <li key={note.id}>{note.task}</li>
-        )}</ul>
+        <Notes notes={notes} />
       </div>
     );
   }
 leanpub-start-insert
-  // We are using an experimental feature known as property
-  // initializer here. It allows us to bind the method `this`
-  // to point at our *App* instance.
-  //
-  // Alternatively we could `bind` at `constructor` using
-  // a line, such as this.addNote = this.addNote.bind(this);
   addNote = () => {
     // It would be possible to write this in an imperative style.
     // I.e., through `this.state.notes.push` and then
@@ -255,24 +419,26 @@ leanpub-start-insert
         task: 'New task'
       }])
     });
-  };
+  }
 leanpub-end-insert
 }
 ```
 
-If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
-
-In case you refresh the browser and click the plus button now, you should see a new item at the list:
+Given we are binding to an instance here, the hot loading setup cannot pick up the change. To try out the new feature, refresh the browser and try clicking the `+` button. You should seem something:
 
 ![Notes with a plus](images/react_05.png)
 
-We are still missing two crucial features: editing and deletion. Before moving onto these, it's a good idea to make room for them by expanding our component hierarchy. It will become easier to deal with the features after that. Working with React is like this. You develop a component for a while until you realize it could be split up further.
+We are still missing two crucial features: editing and deletion. It's a good time to focus on those next.
 
-T> `this.setState` accepts a second parameter like this: `this.setState({...}, () => console.log('set state!'))`. This is handy to know if you want to trigger some behavior right after `setState` has completed.
+T> If we were operating with a back-end, we would trigger a query here and capture the id from the response. For now it's enough to just generate an entry and a custom id.
 
 T> You could use `this.setState({notes: [...this.state.notes, {id: uuid.v4(), task: 'New task'}]})` to achieve the same result. This [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) can be used with function parameters as well. See the *Language Features* appendix for more information.
 
 T> Using [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) would be a valid alternative for property initializers. In this case we would use `@autobind` annotation either on class or method level. To learn more about decorators, read the *Understanding Decorators* appendix.
+
+## Implementing Deletion
+
+XXX
 
 ## Improving Component Hierarchy
 
