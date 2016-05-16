@@ -223,4 +223,4 @@ Even on personal projects, using tools to verify syntax and standards for you ca
 
 Working with React is often like this. You will identify components and flows based on your needs. Here we needed model a `Note` and then design a data flow so that we have enough control at the right place.
 
-We are missing one more feature to call the first part of Kanban done. Editing is hardest of them all. To do it right, we can do it inline. By implementing a proper component now, we'll save time later as we have to edit something else.
+We are missing one more feature to call the first part of Kanban done. Editing is hardest of them all. To do it right, we can do it *inline*. By implementing a proper component now, we'll save time later as we have to edit something else.

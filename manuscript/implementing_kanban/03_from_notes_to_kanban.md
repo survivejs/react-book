@@ -743,14 +743,6 @@ leanpub-end-insert
 
 There's not much more to styling for now.
 
-### Controlled vs. Uncontrolled Components
-
-`Editable` uses **uncontrolled** design with its `input`. We let the DOM manage its state. In this case we are interested only in detecting when the user presses the return key. When the user does that, we take a peek at the input value and then provide it to our callback.
-
-If we wanted to validate the input when the user is typing, it would be useful to convert it into a *controlled* design. In this case we would define a `onChange` handler and a `value` prop. `value` represents the value the input should display. We would control it through `onChange`. It's more work, but also provides more control.
-
-T> React documentation discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
-
 ### Pointing `Notes` to `Editable`
 
 Next, we need to make *Notes.jsx* point at the new component. We'll need to alter the import and the component name at `render()`:

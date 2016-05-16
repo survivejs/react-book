@@ -1,17 +1,38 @@
 # Editing `Notes`
 
+Editing notes is a similar problem as deleting them. The data flow is exactly the same. We'll need to define an `onEdit` callback and  `bind` an id of the note being edited at `Notes`.
+
+What makes this scenario difficult is the user interface requirement. It's not enough just to have a button. We'll need some way to allow the user to input a new value which we can then commit to the data model.
+
+One way to achieve this is to implement so called **inline editing**. The idea is that when a user click a note, we'll show an input. After the user has finished editing and signals that to use either by triggering the `blur` event or by hitting *enter*, we'll capture the value and update.
+
+## Overview of `Editable`
+
+To keep the application clean, I'll wrap this behavior into a component known as `Editable`. It will give us an API like this:
+
+```javascript
+<Editable editing={editing} value={task}
+  onEdit={onEdit.bind(null, id)}
+  onValueClick={onValueClick.bind(null, id)}>
+  <Note
+    onDelete={onDelete.bind(null, id))
+    task={task}/>
+</Editable>
+```
+
+This is an example of a **controlled** component. We'll control the editing state explicitly from outside of the component. This gives us more power, but it also makes `Editable` more involved to use.
+
+An alternative way to handle this would have been to leave the control over the `editing` state to `Editable`. This **uncontrolled** way of designing can be valid if you don't want to do anything with the state outside of the component.
+
+It is possible to use both of these designs together. You can even have a controlled component that has uncontrolled elements inside. In this case we'll end up using an uncontrolled design for the `input` that `Editable` will contain for example. Even that could be turned into something controlled should we want to.
+
+T> React documentation discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
+
+## Implementing `Editable`
+
 XXX
 
-In order to edit individual `Note`s, we should set up some hooks for that. Logically the following could happen:
-
-1. The user clicks a `Note`.
-2. `Note` renders itself as an input showing its current value.
-3. The user confirms the modification (`blur` event is triggered or *enter* key is pressed).
-4. `Note` renders the new value.
-
-This means `Note` will need to track its `editing` state somehow. In addition, we need to communicate that the value (`task`) has changed so that `App` knows to update its state. Resolving these two problems gives us something functional.
-
-### Tracking `Note` `editing` State
+## Tracking `Note` `editing` State
 
 Just as earlier with `App`, we need to deal with state again. This means a function based component won't be enough anymore. Instead, we need to convert it to a heavier format. For the sake of consistency, I'll be using the same component definition style as with `App`. In addition, we need to alter the `editing` state based on the user behavior, and finally render the right element based on it. Here's what this means in terms of React:
 
