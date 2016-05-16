@@ -436,4 +436,4 @@ T> Using [autobind-decorator](https://www.npmjs.com/package/autobind-decorator) 
 
 ## Conclusion
 
-Even though we have a rough application together now, we are still missing two crucial features: editing and deleting notes. It's a good time to focus on those next. Let's do deleting first and handle editing after that.
+Even though we have a rough application together now, we are still missing two crucial features: editing and deleting notes. It's a good time to focus on those next. Let's do deletion first and handle editing after that.
