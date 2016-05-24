@@ -11,7 +11,6 @@ export default ({
       <li key={id}>
         <Note>
           <Editable
-            className="editable"
             editing={editing}
             value={task}
             onValueClick={onValueClick.bind(null, id)}
