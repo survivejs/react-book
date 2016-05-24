@@ -111,7 +111,13 @@ const Value = ({onValueClick = () => {}, value}) => {
   );
 };
 
-const Edit = ({value}) => <span>edit: {value}</span>;
+const Edit = ({onEdit = () => {}, value}) => {
+  return (
+    <div onClick={onEdit}>
+      <span className="value">edit: {value}</span>
+    </div>
+  );
+};
 ```
 
 To see our stub in action we still need to connect it with our application.
@@ -235,13 +241,79 @@ leanpub-end-insert
 
 If you try to edit a `Note` now, you should see something like this:
 
-![Connected `Editable`](images/react_07.png)
+![Tracking `editing` state](images/react_07.png)
 
 T> If we used a normalized data structure (i.e., `{<id>: {id: <id>, task: <str>}}`), it would be possible to write the operations using `Object.assign` and avoid mutation.
 
 T> In order to clean up the code, you could extract a method to contain the logic shared by `activateNoteEdit` and `editNote`.
 
-### Implementing `Value`
+### Implementing `Edit`
+
+We are missing one more part to make this work. Even though we can manage the `editing` state per `Note` now, we still can't actually edit them. For this purpose we need to expand `Edit` and make it render a text input for us.
+
+In this case we'll be using **uncontrolled** design and extract the value of the input from the DOM only when we need it. We don't need more control than that here.
+
+As a small user experience (UX) tweak we can also put the input cursor to the end of the field automatically when editing. Otherwise the user will have to move there. This can be achieved by using a ref.
+
+Refs allow us to access the underlying DOM structure. The simplest way to use them is simply to set `ref="value"` and then use `this.refs.value`. Given refs rely on a backing instance (i.e., `this`), you will need to use either a `React.createClass` or `React.Component` based component to use them.
+
+Another way to initialize a ref would be to pass a function to it. This will give us a chance to give something when the element gets mounted by React. That's ideal for us and we can patch the behavior of our input through this hook.
+
+Consider the code below for the full implementation. Note how we are handling finishing the editing. There are a couple of cases to worry about, namely `onBlur` and `onKeyPress`:
+
+**app/Editable.jsx**
+
+```javascript
+...
+
+leanpub-start-remove
+const Edit = ({onEdit = () => {}, value}) => {
+  return (
+    <div onClick={onEdit}>
+      <span className="value">edit: {value}</span>
+    </div>
+  );
+};
+leanpub-end-remove
+leanpub-start-insert
+class Edit extends React.Component {
+  render() {
+    const {value} = this.props;
+
+    return <input type="text"
+      ref={
+        element => element ?
+        element.selectionStart = value.length :
+        null
+      }
+      autoFocus={true}
+      defaultValue={value}
+      onBlur={this.finishEdit}
+      onKeyPress={this.checkEnter} />;
+  }
+  checkEnter = (e) => {
+    if(e.key === 'Enter') {
+      this.finishEdit(e);
+    }
+  }
+  finishEdit = (e) => {
+    const value = e.target.value;
+
+    if(this.props.onEdit) {
+      this.props.onEdit(value);
+    }
+  }
+}
+leanpub-end-insert
+```
+
+If everything went right, you should be able to edit a note now:
+
+![Editing a `Note`](images/react_08.png)
+
+There is one problem, though. The changes we make don't get committed. We are missing one tiny part of logic.
+
+### Adding `Note` Update Logic
 
 XXX
 
