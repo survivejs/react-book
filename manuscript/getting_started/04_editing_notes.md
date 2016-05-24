@@ -6,7 +6,7 @@ What makes this scenario difficult is the user interface requirement. It's not e
 
 One way to achieve this is to implement so called **inline editing**. The idea is that when a user click a note, we'll show an input. After the user has finished editing and signals that to use either by triggering the `blur` event or by hitting *enter*, we'll capture the value and update.
 
-## Overview of `Editable`
+## Implementing `Editable`
 
 To keep the application clean, I'll wrap this behavior into a component known as `Editable`. It will give us an API like this:
 
@@ -14,10 +14,6 @@ To keep the application clean, I'll wrap this behavior into a component known as
 <Editable editing={editing} value={task}
   onEdit={onEdit.bind(null, id)}
   onValueClick={onValueClick.bind(null, id)}>
-  <Note
-    onDelete={onDelete.bind(null, id))
-    task={task}/>
-</Editable>
 ```
 
 This is an example of a **controlled** component. We'll control the editing state explicitly from outside of the component. This gives us more power, but it also makes `Editable` more involved to use.
@@ -26,13 +22,164 @@ An alternative way to handle this would have been to leave the control over the 
 
 It is possible to use both of these designs together. You can even have a controlled component that has uncontrolled elements inside. In this case we'll end up using an uncontrolled design for the `input` that `Editable` will contain for example. Even that could be turned into something controlled should we want to.
 
-T> React documentation discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
+Logically `Editable` consists of two separate portions. We'll need to display the `Value` while we are not `editing`. In case we are `editing`, we'll want to show an `Edit` control instead. In this case we'll settle for a simple input as that will do the trick.
 
-## Implementing `Editable`
+Before digging into the details, we can implement a little stub and connect that to the application. This will give us the basic structure we need to grow the rest.
+
+T> The official documentation of React discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
+
+### Extracting Rendering from `Note`
+
+Currently `Note` controls what is rendered inside it. It renders the passed task and connects a deletion button. We could push `Editable` inside it and handle the wiring through `Note` interface. Even though that might be one valid way to do it, we can push the rendering concern on a higher level.
+
+Having the concept of `Note` is useful especially when we'll expand the application further so there's no need to remove it. Instead, we can give the control over its rendering behavior to `Notes` and wire it there.
+
+React provides a prop known as `children` for this purpose. Adjust `Note` and `Notes` as follows to push the control over `Note` rendering to `Notes`:
+
+**app/Note.jsx**
+
+```javascript
+import React from 'react';
+
+leanpub-start-remove
+export default ({task, onDelete}) => (
+  <div>
+    <span>{task}</span>
+    <button onClick={onDelete}>x</button>
+  </div>
+);
+leanpub-end-remove
+leanpub-start-insert
+export default ({children, ...props}) => (
+  <div {...props}>
+    {children}
+  </div>
+);
+leanpub-end-insert
+```
+
+**app/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note';
+
+export default ({notes, onDelete=() => {}}) => {
+  return (
+    <ul>{notes.map(({id, task}) =>
+      <li key={id}>
+leanpub-start-remove
+        <Note
+          onDelete={onDelete.bind(null, id)}
+          task={task} />
+leanpub-end-remove
+leanpub-start-insert
+        <Note>
+          <span>{task}</span>
+          <button onClick={onDelete.bind(null, id)}>x</button>
+        </Note>
+leanpub-end-insert
+      </li>
+    )}</ul>
+  );
+}
+```
+
+### Adding `Editable` Stub
+
+We can model a rough starting point based on our specification as below. The idea is that we'll branch based on the `editing` prop and attach the props needed for implementing our logic:
+
+**app/Editable.jsx**
+
+```javascript
+import React from 'react';
+
+export default ({editing, value, onEdit, onValueClick, ...props}) => (
+  <div {...props}>
+    {editing ?
+      <Edit value={value} onEdit={onEdit} /> :
+      <Value value={value} onValueClick={onValueClick} />
+    }
+  </div>
+)
+
+const Value = ({value}) => <span>value: {value}</span>;
+
+const Edit = ({value}) => <span>edit: {value}</span>;
+```
+
+To see our stub in action we still need to connect it with our application.
+
+### Connecting `Editable` with `Notes`
+
+We still need to replace the relevant portions of the code to point at `Editable`. There are more props to track and to connect:
+
+**app/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note';
+leanpub-start-insert
+import Editable from './Editable';
+leanpub-end-insert
+
+leanpub-start-remove
+export default ({notes, onDelete=() => {}}) => {
+leanpub-end-remove
+leanpub-start-insert
+export default ({
+  notes,
+  onValueClick=() => {}, onEdit=() => {}, onDelete=() => {}
+}) => {
+leanpub-end-insert
+  return (
+leanpub-start-remove
+    <ul>{notes.map(({id, task}) =>
+leanpub-end-remove
+leanpub-start-insert
+    <ul>{notes.map(({id, editing, task}) =>
+leanpub-end-insert
+      <li key={id}>
+        <Note>
+leanpub-start-remove
+          <span>{task}</span>
+leanpub-end-remove
+leanpub-start-insert
+          <Editable
+            className="editable"
+            editing={editing}
+            value={task}
+            onValueClick={onValueClick.bind(null, id)}
+            onEdit={onEdit.bind(null, id)} />
+leanpub-end-insert
+          <button onClick={onDelete.bind(null, id)}>x</button>
+        </Note>
+      </li>
+    )}</ul>
+  );
+}
+```
+
+If everything went right, you should see something like this:
+
+![Connected `Editable`](images/react_06.png)
+
+### Tracking `Note` `editing` State
+
+XXX
+
+
+### Implementing `Value`
+
+XXX
+
+### Implementing `Edit`
 
 XXX
 
 ## Tracking `Note` `editing` State
+
+XXX
 
 Just as earlier with `App`, we need to deal with state again. This means a function based component won't be enough anymore. Instead, we need to convert it to a heavier format. For the sake of consistency, I'll be using the same component definition style as with `App`. In addition, we need to alter the `editing` state based on the user behavior, and finally render the right element based on it. Here's what this means in terms of React:
 
