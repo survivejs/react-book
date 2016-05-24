@@ -1,7 +1,6 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const validate = require('webpack-validator');
-const schema = require('webpack-validator').schema;
 
 const parts = require('./libs/parts');
 
@@ -108,6 +107,6 @@ switch(TARGET) {
     );
 }
 
-module.exports = validate(config, schema, {
+module.exports = validate(config, {
   quiet: true
 });
