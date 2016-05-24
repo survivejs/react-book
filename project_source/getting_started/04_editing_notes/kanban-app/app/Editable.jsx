@@ -9,6 +9,12 @@ export default ({editing, value, onEdit, onValueClick, ...props}) => (
   </div>
 )
 
-const Value = ({value}) => <span>value: {value}</span>;
+const Value = ({onValueClick = () => {}, value}) => {
+  return (
+    <div onClick={onValueClick}>
+      <span className="value">{value}</span>
+    </div>
+  );
+};
 
 const Edit = ({value}) => <span>edit: {value}</span>;

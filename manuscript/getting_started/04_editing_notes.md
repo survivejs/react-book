@@ -103,7 +103,13 @@ export default ({editing, value, onEdit, onValueClick, ...props}) => (
   </div>
 )
 
-const Value = ({value}) => <span>value: {value}</span>;
+const Value = ({onValueClick = () => {}, value}) => {
+  return (
+    <div onClick={onValueClick}>
+      <span className="value">{value}</span>
+    </div>
+  );
+};
 
 const Edit = ({value}) => <span>edit: {value}</span>;
 ```
@@ -166,14 +172,76 @@ If everything went right, you should see something like this:
 
 ### Tracking `Note` `editing` State
 
-XXX
+We are still missing logic needed to control the `Editable`. Given the state of our application is maintained at `App`, we'll need to deal with it there. It should set the `editable` flag of the edited note to `true` when we begin to edit and set it back to `false` when we complete the editing process. We should also adjust its `task` using the new value. For now we are interested in just getting the `editable` flag to work, though. Modify as follows:
 
+**app/App.jsx**
+
+```javascript
+...
+
+export default class App extends React.Component {
+  constructor(props) {
+    ...
+  }
+  render() {
+    const {notes} = this.state;
+
+    return (
+      <div>
+        <button onClick={this.addNote}>+</button>
+leanpub-start-remove
+        <Notes notes={notes} onDelete={this.deleteNote} />
+leanpub-end-remove
+leanpub-start-insert
+        <Notes
+          notes={notes}
+          onValueClick={this.activateNoteEdit}
+          onEdit={this.editNote}
+          onDelete={this.deleteNote}
+          />
+leanpub-end-insert
+      </div>
+    );
+  }
+  deleteNote = (id, e) => {
+    ...
+  }
+leanpub-start-insert
+  activateNoteEdit = (id) => {console.log('act', id);
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if(note.id === id) {
+          note.editing = true;
+        }
+
+        return note;
+      })
+    });
+  }
+  editNote = (id, task) => {
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if(note.id === id) {
+          note.editing = false;
+        }
+
+        return note;
+      })
+    });
+  }
+leanpub-end-insert
+}
+```
+
+If you try to edit a `Note` now, you should see something like this:
+
+![Connected `Editable`](images/react_07.png)
+
+T> If we used a normalized data structure (i.e., `{<id>: {id: <id>, task: <str>}}`), it would be possible to write the operations using `Object.assign` and avoid mutation.
+
+T> In order to clean up the code, you could extract a method to contain the logic shared by `activateNoteEdit` and `editNote`.
 
 ### Implementing `Value`
-
-XXX
-
-### Implementing `Edit`
 
 XXX
 
