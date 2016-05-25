@@ -8,7 +8,7 @@ In other words, we'll sprinkle some CSS classes around and then apply CSS select
 
 To style the "Add Note" button we'll need to attach a class to it first:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 ...
@@ -63,7 +63,7 @@ A more general way to handle this would be to set up a `Button` component and st
 
 Currently the `Notes` list looks a little rough. We can improve that by hiding the list specific styling. We can also fix `Notes` width so if the user enter a long task, our user interface still remains fixed to some maximum width. A good first step is to attach some classes to `Notes` so it's easier to style:
 
-**app/Notes.jsx**
+**app/components/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -130,7 +130,7 @@ leanpub-end-insert
 
 There is still `Note` related portions left to style. Before attaching any rules, we should make sure we have good styling hooks on `Editable`:
 
-**app/Editable.jsx**
+**app/components/Editable.jsx**
 
 ```javascript
 import React from 'react';

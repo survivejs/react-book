@@ -40,7 +40,7 @@ Having the concept of `Note` is useful especially when we'll expand the applicat
 
 React provides a prop known as `children` for this purpose. Adjust `Note` and `Notes` as follows to push the control over `Note` rendering to `Notes`:
 
-**app/Note.jsx**
+**app/components/Note.jsx**
 
 ```javascript
 import React from 'react';
@@ -62,7 +62,7 @@ export default ({children, ...props}) => (
 leanpub-end-insert
 ```
 
-**app/Notes.jsx**
+**app/components/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -93,7 +93,7 @@ leanpub-end-insert
 
 We can model a rough starting point based on our specification as below. The idea is that we'll branch based on the `editing` prop and attach the props needed for implementing our logic:
 
-**app/Editable.jsx**
+**app/components/Editable.jsx**
 
 ```javascript
 import React from 'react';
@@ -124,7 +124,7 @@ To see our stub in action we still need to connect it with our application.
 
 We still need to replace the relevant portions of the code to point at `Editable`. There are more props to track and to connect:
 
-**app/Notes.jsx**
+**app/components/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -177,7 +177,7 @@ If everything went right, you should see something like this:
 
 We are still missing logic needed to control the `Editable`. Given the state of our application is maintained at `App`, we'll need to deal with it there. It should set the `editable` flag of the edited note to `true` when we begin to edit and set it back to `false` when we complete the editing process. We should also adjust its `task` using the new value. For now we are interested in just getting the `editable` flag to work, though. Modify as follows:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 ...
@@ -259,7 +259,7 @@ Another way to initialize a ref would be to pass a function to it. This will giv
 
 Consider the code below for the full implementation. Note how we are handling finishing the editing. There are a couple of cases to worry about, namely `onBlur` and `onKeyPress`:
 
-**app/Editable.jsx**
+**app/components/Editable.jsx**
 
 ```javascript
 ...

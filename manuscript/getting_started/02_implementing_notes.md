@@ -29,7 +29,7 @@ T> Another interesting way to approach data would be to normalize it. In this ca
 
 Now that we have a rough data model together, we can try rendering it through React. We are going to need a component to hold the data. Let's call it `Notes` for now. We can grow from that as we want more functionality. Set up a file with a small dummy component as follows:
 
-**app/Notes.jsx**
+**app/components/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -67,7 +67,7 @@ We also need to refer to the component from the entry point of our application:
 import React from 'react';
 import ReactDOM from 'react-dom';
 leanpub-start-insert
-import Notes from './Notes';
+import Notes from './components/Notes';
 leanpub-end-insert
 
 if(process.env.NODE_ENV !== 'production') {
@@ -97,7 +97,7 @@ Normally the problem of generating the ids is solved by a back-end. As we don't 
 
 To connect the generator with our application, modify it as follows:
 
-**app/Notes.jsx**
+**app/components/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -147,7 +147,7 @@ To enable adding new notes, we should have a button for that somewhere. Currentl
 
 At a basic level `App` could look like this:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 import React from 'react';
@@ -164,10 +164,10 @@ All it does now is to render `Notes` and it's going to take more work to make it
 import React from 'react';
 import ReactDOM from 'react-dom';
 leanpub-start-delete
-import Notes from './Notes';
+import Notes from './components/Notes';
 leanpub-end-delete
 leanpub-start-insert
-import App from './App';
+import App from './components/App';
 leanpub-end-insert
 
 if(process.env.NODE_ENV !== 'production') {
@@ -191,7 +191,7 @@ If you run the application now, it should exactly the same as before. We have ro
 
 A good step towards something more functional is to add a stub for an *add* button. To achieve this, `App` needs to evolve:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```
 import React from 'react';
@@ -220,7 +220,7 @@ To push the data to `App` we need to do two modifications. First we need to lite
 
 The `App` side is simple:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 import React from 'react';
@@ -252,7 +252,7 @@ export default () => (
 
 This won't do much until we tweak `Notes` as well:
 
-**app/Notes.jsx**
+**app/components/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -297,7 +297,7 @@ In addition to functions, you can create React components through `React.createC
 
 In order to convert our `App` to a class based component, adjust it as follows to push the state within:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 import React from 'react';
@@ -365,7 +365,7 @@ T> In the earlier versions of React, you could achieve the same result with `get
 
 T> We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
-### Implementing Note Adding Logic
+### Implementing `Note` Adding Logic
 
 All the effort will pay off soon. We have just one step left. We will need to use React's API to manipulate the state and to finish our feature. React provides a method known as `setState` for this purpose. In this case we will need to call it like this: `this.setState({... new state goes here ...}, () => ...)`.
 
@@ -375,7 +375,7 @@ One way to trigger `setState` would be to push the associated logic to a method 
 
 To tie the logic with the button, adjust `App` as follows:
 
-**app/App.jsx**
+**app/components/App.jsx**
 
 ```javascript
 import React from 'react';
