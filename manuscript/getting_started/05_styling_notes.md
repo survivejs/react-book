@@ -8,7 +8,7 @@ In other words, we'll sprinkle some CSS classes around and then apply CSS select
 
 In order to make our application styleable, we will need to attach some classes to various parts of it:
 
-**app/components/App.jsx**
+**app/App.jsx**
 
 ```javascript
 import uuid from 'node-uuid';
@@ -38,7 +38,7 @@ leanpub-end-insert
 }
 ```
 
-**app/components/Notes.jsx**
+**app/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -68,7 +68,7 @@ leanpub-end-insert
 }
 ```
 
-**app/components/Note.jsx**
+**app/Note.jsx**
 
 ```javascript
 import React from 'react';

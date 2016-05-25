@@ -147,7 +147,7 @@ To enable adding new notes, we should have a button for that somewhere. Currentl
 
 At a basic level `App` could look like this:
 
-**app/components/App.jsx**
+**app/App.jsx**
 
 ```javascript
 import React from 'react';

@@ -8,7 +8,7 @@ Often you work this way with React. You set up components only to realize they a
 
 To keep the list formatting aspect separate from a `Note` we can model it using a `div` like this:
 
-**app/components/Note.jsx**
+**app/Note.jsx**
 
 ```javascript
 import React from 'react';
@@ -28,7 +28,7 @@ As you can see, destructuring removes some noise from the code and keeps our imp
 
 To make our application use the new component, we need to patch `Notes` as well:
 
-**app/components/Notes.jsx**
+**app/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -56,7 +56,7 @@ The application should look exactly the same after these changes. Now we have ro
 
 To capture the intent to delete a `Note`, we'll need to extend it to include a button that triggers a `onDelete` callback. We can connect our logic with that after this step is complete. Consider the code below:
 
-**app/components/Note.jsx**
+**app/Note.jsx**
 
 ```javascript
 import React from 'react';
@@ -90,7 +90,7 @@ T> That `e` represents a DOM event you might be used to. We can do things like s
 
 To achieve the scheme, we are going to need a new prop at `Notes`. We will also need to `bind` the id of each note to the `onDelete` callback to match the logic. Here's the full implementation of `Notes`:
 
-**app/components/Notes.jsx**
+**app/Notes.jsx**
 
 ```javascript
 import React from 'react';
@@ -124,7 +124,7 @@ To keep our code from crashing if `onDelete` is not provided, I defined a dummy 
 
 Now that have the hooks in place, we can use them at `App`:
 
-**app/components/App.jsx**
+**app/App.jsx**
 
 ```javascript
 import React from 'react';
