@@ -68,25 +68,114 @@ Implementing Flux architecture in your application will actually increase the am
 
 In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations, Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and universal rendering.
 
+There are a couple of steps we must take to push our application state to Alt:
+
+1. Set up an Alt instance to keep track of actions and stores and to coordinate communication.
+2. Connect Alt with views.
+3. Push our data to a store.
+4. Define actions to manipulate the store.
+
+We'll do this gradually. The Alt specific portions will go behind adapters. It would be possible to interact with it directly. The adapter approach allows us to change our mind later easier so it's worth following.
+
 ### Setting Up an Alt Instance
 
-Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application. To achieve this we can push it to a module of its own and then refer to that from everywhere. Set it up as follows:
+Everything in Alt begins from an Alt instance. It keeps track of actions and stores and keeps communication going on. To keep things simple, we'll be treating all Alt components as a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern). With this pattern, we reuse the same instance within the whole application.
+
+To achieve this we can push it to a module of its own and then refer to that from everywhere. Configure it as follows:
 
 **app/libs/alt.js**
 
 ```javascript
 import Alt from 'alt';
-//import chromeDebug from 'alt-utils/lib/chromeDebug';
 
 const alt = new Alt();
-//chromeDebug(alt);
 
 export default alt;
 ```
 
-Webpack caches the modules so the next time you import Alt, it will return the same instance again.
+Webpack caches the modules so the next time you import Alt from somewhere, it will return the same instance again.
+
+T> The boilerplate uses a Webpack plugin known as [npm-install-webpack-plugin](https://github.com/ericclemmons/npm-install-webpack-plugin). It will install Alt automatically as your project dependency. You'll see similar behavior as we develop our project further.
+
+### Connecting Alt with Views
+
+Normally state management solutions provide two parts you can use to connect them with a React application. These are a `Provider` component and a `connect` higher order function (function returning function generating a component). The `Provider` sets up a React [context](https://facebook.github.io/react/docs/context.html).
+
+Context is an advanced feature that can be used to pass data through a component hierarchy implicitly without going through props. The `connect` function uses the context to dig the data we want and then passes it to a component.
+
+It is possible to use a `connect` through function invocation or a decorator as we'll see soon. The *Understanding Decorators* appendix digs deeper into the pattern.
+
+To keep our application architecture easy to modify, we'll need to set up two adapters. One for `Provider` and one for `connect`. We'll deal with Alt specific details in both places.
+
+### Setting Up a `Provider`
+
+XXX
+
+**app/components/Provider/index.js**
+
+```javascript
+if(process.env.NODE_ENV === 'production') {
+  module.exports = require('./Provider.prod');
+}
+else {
+  module.exports = require('./Provider.dev');
+}
+```
+
+XXX
+
+**app/components/Provider/Provider.prod.jsx**
+
+```javascript
+import React from 'react';
+import AltContainer from 'alt-container';
+import alt from '../../libs/alt';
+
+export default ({children}) =>
+  <AltContainer flux={alt}>
+    {children}
+  </AltContainer>
+```
+
+XXX
+
+**app/components/Provider/Provider.dev.jsx**
+
+```javascript
+import React from 'react';
+import AltContainer from 'alt-container';
+import chromeDebug from 'alt-utils/lib/chromeDebug';
+import alt from '../../libs/alt';
+
+chromeDebug(alt);
+
+React.Perf = require('react-addons-perf');
+
+export default ({children}) =>
+  <AltContainer flux={alt}>
+    {children}
+  </AltContainer>
+```
+
+XXX
+
+**app/index.jsx**
+
+```javascript
+
+```
+
+XXX
 
 T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After it is installed, you can connect to Alt by uncommenting the related lines above. You can use it to debug the state of your stores, search, and travel in time.
+
+### Setting Up `connect`
+
+XXX
+
+### XXX
+
+XXX
 
 ### Defining CRUD API for Notes
 
