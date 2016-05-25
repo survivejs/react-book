@@ -4,33 +4,36 @@ Aesthetically, our current application is very barebones. As pretty applications
 
 In other words, we'll sprinkle some CSS classes around and then apply CSS selectors based on those. The *Styling React* chapter discusses various other approaches in greater detail.
 
-## Attaching Classes to Components
+## Styling "Add Note" Button
 
-In order to make our application styleable, we will need to attach some classes to various parts of it:
+To style the "Add Note" button we'll need to attach a class to it first:
 
 **app/App.jsx**
 
 ```javascript
-import uuid from 'node-uuid';
-import React from 'react';
-import Notes from './Notes.jsx';
+...
 
 export default class App extends React.Component {
-  ...
+  constructor(props) {
+    ...
+  }
   render() {
-    const notes = this.state.notes;
+    const {notes} = this.state;
 
     return (
       <div>
-leanpub-start-delete
+leanpub-start-remove
         <button onClick={this.addNote}>+</button>
-leanpub-end-delete
+leanpub-end-remove
 leanpub-start-insert
         <button className="add-note" onClick={this.addNote}>+</button>
 leanpub-end-insert
-        <Notes notes={notes}
+        <Notes
+          notes={notes}
+          onValueClick={this.activateNoteEdit}
           onEdit={this.editNote}
-          onDelete={this.deleteNote} />
+          onDelete={this.deleteNote}
+          />
       </div>
     );
   }
@@ -38,86 +41,81 @@ leanpub-end-insert
 }
 ```
 
-**app/Notes.jsx**
-
-```javascript
-import React from 'react';
-import Note from './Note.jsx';
-
-export default ({notes, onEdit, onDelete}) => {
-  return (
-leanpub-start-delete
-    <ul>{notes.map(note =>
-leanpub-end-delete
-leanpub-start-insert
-    <ul className="notes">{notes.map(note =>
-leanpub-end-insert
-leanpub-start-delete
-      <li key={note.id}>
-leanpub-end-delete
-leanpub-start-insert
-      <li className="note" key={note.id}>
-leanpub-end-insert
-        <Note
-          task={note.task}
-          onEdit={onEdit.bind(null, note.id)}
-          onDelete={onDelete.bind(null, note.id)} />
-      </li>
-    )}</ul>
-  );
-}
-```
-
-**app/Note.jsx**
-
-```javascript
-import React from 'react';
-
-export default class Note extends React.Component {
-  ...
-  renderNote = () => {
-    const onDelete = this.props.onDelete;
-
-    return (
-      <div onClick={this.edit}>
-leanpub-start-delete
-        <span>{this.props.task}</span>
-leanpub-end-delete
-leanpub-start-insert
-        <span className="task">{this.props.task}</span>
-leanpub-end-insert
-        {onDelete ? this.renderDelete() : null }
-      </div>
-    );
-  };
-  renderDelete = () => {
-leanpub-start-delete
-    return <button onClick={this.props.onDelete}>x</button>;
-leanpub-end-delete
-leanpub-start-insert
-    return <button
-      className="delete-note"
-      onClick={this.props.onDelete}>x</button>;
-leanpub-end-insert
-  };
-  ...
-}
-```
-
-## Styling Components
-
-A good next step would be to constrain the `Notes` container a little and get rid of those list bullets.
+We also need to add corresponding styling:
 
 **app/main.css**
 
 ```css
 ...
 
+leanpub-start-insert
 .add-note {
   background-color: #fdfdfd;
+
   border: 1px solid #ccc;
 }
+leanpub-end-insert
+```
 
+A more general way to handle this would be to set up a `Button` component and style it. That would give us nicely styled buttons across the application.
+
+## Styling `Notes`
+
+Currently the `Notes` list looks a little rough. We can improve that by hiding the list specific styling. We can also fix `Notes` width so if the user enter a long task, our user interface still remains fixed to some maximum width. A good first step is to attach some classes to `Notes` so it's easier to style:
+
+**app/Notes.jsx**
+
+```javascript
+import React from 'react';
+import Note from './Note';
+import Editable from './Editable';
+
+export default ({
+  notes,
+  onValueClick=() => {}, onEdit=() => {}, onDelete=() => {}
+}) => {
+  return (
+leanpub-start-remove
+    <ul>{notes.map(({id, editing, task}) =>
+leanpub-end-remove
+leanpub-start-insert
+    <ul className="notes">{notes.map(({id, editing, task}) =>
+leanpub-end-insert
+      <li key={id}>
+leanpub-start-remove
+        <Note>
+leanpub-end-remove
+leanpub-start-insert
+        <Note className="note">
+leanpub-end-insert
+          <Editable
+            editing={editing}
+            value={task}
+            onValueClick={onValueClick.bind(null, id)}
+            onEdit={onEdit.bind(null, id)} />
+leanpub-start-remove
+          <button onClick={onDelete.bind(null, id)}>x</button>
+leanpub-end-remove
+leanpub-start-insert
+          <button
+            className="delete"
+            onClick={onDelete.bind(null, id)}>x</button>
+leanpub-end-insert
+        </Note>
+      </li>
+    )}</ul>
+  );
+}
+```
+
+In order to eliminate the list specific styling, we can apply rules like these:
+
+**app/main.css**
+
+```css
+...
+
+leanpub-start-insert
 .notes {
   margin: 0.5em;
   padding-left: 0;
@@ -125,52 +123,90 @@ A good next step would be to constrain the `Notes` container a little and get ri
   max-width: 10em;
   list-style: none;
 }
+leanpub-end-insert
 ```
 
-Removing bullets helps:
+## Styling Individual `Note`s
 
-![No bullets](images/react_09.png)
+There is still `Note` related portions left to style. Before attaching any rules, we should make sure we have good styling hooks on `Editable`:
 
-To make individual `Notes` stand out we can apply a couple of rules.
+**app/Editable.jsx**
+
+```javascript
+import React from 'react';
+
+export default ({editing, value, onEdit, onValueClick}) => {
+  if(editing) {
+    return <Edit value={value} onEdit={onEdit} />;
+  }
+
+  return <Value value={value} onValueClick={onValueClick} />;
+}
+
+const Value = ({onValueClick = () => {}, value}) =>
+leanpub-start-remove
+  <span onClick={onValueClick}>{value}</span>
+leanpub-end-remove
+leanpub-start-insert
+  <span className="value" onClick={onValueClick}>{value}</span>
+leanpub-end-insert
+
+class Edit extends React.Component {
+  render() {
+    const {value} = this.props;
+
+leanpub-start-remove
+    return <input type="text"
+leanpub-end-remove
+leanpub-start-insert
+    return <input type="text" className="edit"
+leanpub-end-insert
+      ref={
+        element => element ?
+        element.selectionStart = value.length :
+        null
+      }
+      autoFocus={true}
+      defaultValue={value}
+      onBlur={this.finishEdit}
+      onKeyPress={this.checkEnter} />;
+  }
+  ...
+}
+```
+
+There are enough classes to style the remainder now. We can show a shadow below the hovered note. It's also a good touch to show the delete control on hover as well. Unfortunately this won't work on touch based interfaces, but it's good enough for this demo:
 
 **app/main.css**
 
 ```css
 ...
 
+leanpub-start-insert
 .note {
+  overflow: auto;
+
   margin-bottom: 0.5em;
   padding: 0.5em;
 
   background-color: #fdfdfd;
-  box-shadow: 0 0 0.3em 0.03em rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0.3em .03em rgba(0,0,0,.3);
 }
 .note:hover {
-  box-shadow: 0 0 0.3em 0.03em rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 0.3em .03em rgba(0,0,0,.7);
 
-  transition: 0.6s;
+  transition: .6s;
 }
 
-.note .task {
+.note .value {
   /* force to use inline-block so that it gets minimum height */
   display: inline-block;
 }
-```
 
-Now the notes stand out a bit:
-
-![Styling notes](images/react_10.png)
-
-I animated `Note` shadow in the process. This way the user gets a better indication of what `Note` is being hovered upon. This won't work on touch based interfaces, but it's a nice touch for the desktop.
-
-Finally, we should make those delete buttons stand out less. One way to achieve this is to hide them by default and show them on hover. The gotcha is that delete won't work on touch, but we can live with that.
-
-**app/main.css**
-
-```css
-...
-
-.note .delete-note {
+.note .editable {
+  float: left;
+}
+.note .delete {
   float: right;
 
   padding: 0;
@@ -182,17 +218,20 @@ Finally, we should make those delete buttons stand out less. One way to achieve 
 
   visibility: hidden;
 }
-.note:hover .delete-note {
+.note:hover .delete {
   visibility: visible;
 }
+leanpub-end-insert
 ```
 
-No more of those pesky delete buttons:
+Assuming everything went fine, your application should look roughly like this now:
 
-![Delete on hover](images/react_11.png)
-
-After these few steps, we have an application that looks passable. We'll be improving its appearance as we add functionality, but at least it's somewhat visually appealing.
+![Styled Notes Application](images/style_01.png)
 
 ## Conclusion
 
-Now that the application is starting to look good, we can improve the architecture of our application by introducing Flux to it. This is a good step towards improving the way we handle with state.
+This is only one way to style a React application. Relying on classes like this will become problematic as the scale of your application grows. That is why there are alternative ways to style that address this particular problem. The *Styling React* chapter touches a lot of those techniques.
+
+It can be a good idea to try out a couple of alternative ways to find something you are comfortable with. Particularly CSS Modules are promising as they solve the fundamental problem of CSS - the problem of globals. The technique allows styling locally per component. That happens to fit React very well since we are dealing with components by default.
+
+Now that we have a simple Note application up and running, we can begin to generalize it into a full blown Kanban. It will take some patience as we'll need to improve the way we are dealing with the application state. We also need to add some missing structure and make sure it's possible to drag and drop things around. Those are good goals for the next part.
