@@ -98,14 +98,13 @@ We can model a rough starting point based on our specification as below. The ide
 ```javascript
 import React from 'react';
 
-export default ({editing, value, onEdit, onValueClick, ...props}) => (
-  <div {...props}>
-    {editing ?
-      <Edit value={value} onEdit={onEdit} /> :
-      <Value value={value} onValueClick={onValueClick} />
-    }
-  </div>
-)
+export default ({editing, value, onEdit, onValueClick}) => {
+  if(editing) {
+    return <Edit value={value} onEdit={onEdit} />;
+  }
+
+  return <Value value={value} onValueClick={onValueClick} />;
+}
 
 const Value = ({onValueClick = () => {}, value}) =>
   <span onClick={onValueClick}>{value}</span>
