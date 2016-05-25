@@ -106,21 +106,6 @@ leanpub-end-insert
 
 ## Styling Components
 
-The first step is to get rid of that horrible *serif* font.
-
-**app/main.css**
-
-```css
-body {
-  background: cornsilk;
-  font-family: sans-serif;
-}
-```
-
-Looking a little nicer now:
-
-![Sans serif](images/react_08.png)
-
 A good next step would be to constrain the `Notes` container a little and get rid of those list bullets.
 
 **app/main.css**
