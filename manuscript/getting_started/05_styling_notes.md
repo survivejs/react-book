@@ -1,4 +1,4 @@
-# Styling a Note Application
+# Styling the Notes Application
 
 Aesthetically, our current application is very barebones. As pretty applications are more fun to use, we can do a little something about that. In this case we'll be sticking to an old skool way of styling.
 
@@ -234,4 +234,4 @@ This is only one way to style a React application. Relying on classes like this 
 
 It can be a good idea to try out a couple of alternative ways to find something you are comfortable with. Particularly CSS Modules are promising as they solve the fundamental problem of CSS - the problem of globals. The technique allows styling locally per component. That happens to fit React very well since we are dealing with components by default.
 
-Now that we have a simple Note application up and running, we can begin to generalize it into a full blown Kanban. It will take some patience as we'll need to improve the way we are dealing with the application state. We also need to add some missing structure and make sure it's possible to drag and drop things around. Those are good goals for the next part.
+Now that we have a simple Notes application up and running, we can begin to generalize it into a full blown Kanban. It will take some patience as we'll need to improve the way we are dealing with the application state. We also need to add some missing structure and make sure it's possible to drag and drop things around. Those are good goals for the next part.
