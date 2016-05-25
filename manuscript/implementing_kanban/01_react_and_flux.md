@@ -1,8 +1,36 @@
 # React and Flux
 
-You can get pretty far by keeping everything in components. Eventually, that will become painful, though. [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) helps to bring clarity to our React applications. It's not the only solution, but it's a decent starting point.
+You can get pretty far by keeping everything in components. That's an entirely valid way to get started. The problems begin as you add state to your application and need to share it across different parts. This is the reason why various state management solutions have emerged. Each one of those tries to solve the problem in its own way.
 
-Flux will allow us to separate data and application state from our views. This helps us to keep them clean and the application maintainable. Flux was designed with large teams in mind. As a result, you might find it quite verbose. This comes with great advantages, though, as it can be straightforward to work with.
+The [Flux application architecture](https://facebook.github.io/flux/docs/overview.html) was the first proper solution to the problem. It allows you to model your application in terms of **Actions**, **Stores**, and **Views**. It also has a part known as **Dispatcher** to manage actions and allow you to model dependencies between different calls.
+
+This separation is particularly useful when you are working with large teams. The unidirectional flow makes it easy to tell what's going on. That's a common theme in various data management solutions available for React.
+
+## Quick Introduction to Redux
+
+A solution known as [Redux](http://redux.js.org/) took the core ideas of Flux and pushed them to a certain form. Redux is more of a guideline, though a powerful one, that gives your application certain structure and pushes you to model data related concerns in a certain way. You will maintain the state of your application in a single tree which you then alter using pure functions (no side effects) through reducers.
+
+This might sound a little complex but in practice Redux makes your data flow very explicit. Standard Flux isn't as opinionated in certain parts. I believe understanding basic Flux before delving into Redux is a good move as you can see shared themes in both.
+
+## Quick Introduction to MobX
+
+[MobX](https://mobxjs.github.io/mobx/) takes an entirely different view on data management. If Redux helps you to model data flow explicitly, MobX makes a large part of that implicit. It doesn't force you to any certain structure. Instead you will annotate your data structures as **observable** and let MobX handle updating your views.
+
+Whereas Redux embraces the concept of immutability through its idea of reducers, MobX does something opposite and relies on mutation. This means aspects like reference handling can be surprisingly simple in MobX while in Redux you will most likely be forced to normalize your data so that it is easy to manipulate through reducers.
+
+Both Redux and MobX are valuable in their own ways. There's no one right solution when it comes to data management. I'm sure more alternatives will appear as time goes by. Each solution comes with its pros/cons. By understanding the alternatives you have a better chance of picking a solution that fits your purposes at a given time.
+
+## Which Data Management Solution to Use?
+
+![Alt](images/alt.png)
+
+The data management situation is changing constantly. At the moment [Redux](http://rackt.org/redux/) is very strong, but there are good alternatives in sight. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
+
+When choosing a library, it comes down to your own personal preferences. You will have to consider factors, such as API, features, documentation, and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture, you are able to make choices that serve you better.
+
+In this application we'll use a Flux implementation known as [Alt](http://alt.js.org/). The API is neat and enough for our purposes. As a bonus, Alt has been designed universal (isomorphic) rendering in mind. If you understand Flux, you have a good starting point for understanding the alternatives.
+
+The book doesn't cover the alternative solutions in detail yet, but we'll design our application architecture so that it's possible to plug in alternatives at a later time. The idea is that we isolate our view portion from the data management so that we can swap parts without tweaking our React code. It's one way to design for change.
 
 ## Introduction to Flux
 
@@ -28,7 +56,7 @@ This completes the basic unidirectional, yet linear, process flow of Flux. Usual
 
 This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow is always in a single direction, it is easy to trace and debug. If there's something wrong, it's somewhere within the cycle.
 
-![Flux dataflow with cycle](images/flux.png)
+![Cyclical Flux dataflow](images/flux.png)
 
 ### Advantages of Flux
 
@@ -36,19 +64,7 @@ Even though this sounds a little complicated, the arrangement gives our applicat
 
 Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand that minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say that explicit is better than implicit.
 
-### Which Flux Implementation to Use?
-
-The library situation is constantly changing. There is no single right way to interpret the architecture. You will find implementations that fit different tastes. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
-
-When choosing a library, it comes down to your own personal preferences. You will have to consider factors, such as API, features, documentation, and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture, you are able to make choices that serve you better.
-
-T> [Redux](http://rackt.org/redux/) has taken the core ideas of Flux and pushed them into a tiny form (2 kB). Despite this, it's quite powerful approach and worth checking out. There's a [Redux implementation](https://github.com/survivejs/redux-demo) of the Kanban board. It can be interesting to compare it to the Alt one.
-
 ## Porting to Alt
-
-![Alt](images/alt.png)
-
-In this chapter, we'll be using a library known as [Alt](http://alt.js.org/). It is a flexible, full-featured implementation that has been designed with universal (isomorphic) rendering in mind.
 
 In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations, Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and universal rendering.
 
