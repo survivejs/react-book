@@ -116,12 +116,23 @@ leanpub-end-remove
 
 If you refresh the application now, you should see exactly the same data as before. This time, however, we are consuming the data from our store. As a result our logic is broken. That's something we'll need to fix next as we define `NoteActions` and push our state manipulation to the `NoteStore`.
 
+## Understanding Actions
+
+Actions are one of the core concepts of the Flux architecture. To be exact, it is a good idea to separate **actions** from **action creators**. Often the terms might be used interchangeably, but there's a considerably difference.
+
+Action creators are literally functions that *dispatch* actions. The payload of the action will then be delivered to the interested stores. It can be useful to think them as messages wrapped into an envelope and then delivered.
+
+This split is useful when you have to perform asynchronous actions. You might for example want to fetch the initial data of your Kanban board. The operation might then either succeed or fail. This gives you three separate actions to dispatch. You could dispatch when starting to query and when you receive some response.
+
+All of this data is valuable is it allows you to control the user interface. You could display a progress widget while a query is being performed and then update the application state once it has been fetched from the server. If the query fails, you can then let the user know about that.
+
+You can see this theme across different state management solutions. Often you model an action as a function that returns a function (a *thunk*) that then dispatches individual actions as the asynchronous query progresses. In a naïve synchronous case it's enough to return the action payload directly.
+
 ## Setting Up `NoteActions`
 
-XXX
+Alt provides a little helper method known as `alt.generateActions` that can generate simple action creators for us. They will simply dispatch the data passed to them. We'll then connect these actions at the relevant stores. In this case that will be the `NoteStore` we defined earlier.
 
-Next, we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
-
+When it comes to the application, it is enough if we model basic CRUD (Create, Read, Update, Delete) operations. Given Read is implicit, we can skip that. But having the rest available as actions is useful. Set up `NoteActions` using the `alt.generateActions` shorthand like this:
 
 **app/actions/NoteActions.js**
 
@@ -130,6 +141,40 @@ import alt from '../libs/alt';
 
 export default alt.generateActions('create', 'update', 'delete');
 ```
+
+This doesn't do much by itself. Given we need to `connect` the actions with `App` to actually trigger them, this would be a good place to do that. We can start worrying about individual actions after that as we expand our store. To `connect` the actions, tweak `App` like this:
+
+**app/components/App.jsx**
+
+```javascript
+import React from 'react';
+import uuid from 'uuid';
+import Notes from './Notes';
+import connect from '../libs/connect';
+leanpub-start-insert
+import NoteActions from '../actions/NoteActions';
+leanpub-start-insert
+
+leanpub-start-remove
+@connect(({notes}) => ({notes}))
+leanpub-end-remove
+leanpub-start-insert
+@connect(({notes}) => ({notes}), {
+  noteActions: NoteActions
+})
+leanpub-end-insert
+export default class App extends React.Component {
+  ...
+}
+```
+
+This gives us `this.props.noteActions.create` kind of API for triggering various actions. That's a good for expanding the implementation further.
+
+T> The official documentation covers [asynchronous actions](http://alt.js.org/docs/createActions/) in greater detail.
+
+## XXX
+
+XXX: show how to port ops one by one
 
 ## Defining a Store for `Notes`
 

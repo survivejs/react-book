@@ -2,8 +2,11 @@ import React from 'react';
 import uuid from 'uuid';
 import Notes from './Notes';
 import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
 
-@connect(({notes}) => ({notes}))
+@connect(({notes}) => ({notes}), {
+  noteActions: NoteActions
+})
 export default class App extends React.Component {
   render() {
     const {notes} = this.props;
