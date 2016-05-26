@@ -54,6 +54,9 @@
     "webpack-validator": "^2.1.1"
   },
   "dependencies": {
+    "alt": "^0.18.4",
+    "alt-container": "^1.0.2",
+    "alt-utils": "^1.0.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "uuid": "^2.0.2"

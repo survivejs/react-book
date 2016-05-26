@@ -109,7 +109,9 @@ To keep our application architecture easy to modify, we'll need to set up two ad
 
 ### Setting Up a `Provider`
 
-XXX
+In order to keep our `Provider` flexible, I'm going to use special configuration. We'll wrap it within a module that will choose a `Provider` depending on our environment. This enables us to use development tooling without including it to the production bundle. There's some additional setup involved, but it's worth it given you end up with a cleaner result.
+
+The core of this arrangement is the index of the module. CommonJS picks up the **index.js** of a directory by default when we perform an import against the directory. Given the behavior we want is dynamic, we cannot rely on ES6 modules here. The idea is that our tooling will rewrite the code depending on `process.env.NODE_ENV` and choose the actual module to include based on that. Here's the entry point of our `Provider`:
 
 **app/components/Provider/index.js**
 
@@ -122,7 +124,9 @@ else {
 }
 ```
 
-XXX
+We also need the files the index is pointing at. The first part is easy. We'll need to point to our Alt instance there, connect it with a component known as `AltContainer`, and then render out application within it. That's where `props.children` comes in. It's the same idea as before.
+
+`AltContainer` will enable us to connect the data of our application at component level when we implement `connect`. To get to the point, here's the production level implementation:
 
 **app/components/Provider/Provider.prod.jsx**
 
@@ -137,7 +141,11 @@ export default ({children}) =>
   </AltContainer>
 ```
 
-XXX
+The implementation of `Provider` can change based on which state management solution we are using. It is possible it ends up doing nothing, but that's acceptable. The idea is that we have an extension point where to alter our application if needed.
+
+We are still missing one part, the development related setup. It is like the production one except this time we can enable development specific tooling. This is a good chance to move the *react-addons-perf* setup here from the *app/index.jsx* of the application. I'm also enabling [Alt's Chrome debug utilities(https://github.com/goatslacker/alt-devtool). You'll need to install the Chrome portion separately if you want to use those.
+
+Here's the full code of the development provider:
 
 **app/components/Provider/Provider.dev.jsx**
 
@@ -157,17 +165,38 @@ export default ({children}) =>
   </AltContainer>
 ```
 
-XXX
+We still need to connect the `Provider` with our application by tweaking *app/index.jsx*. Perform the following changes to hook it up:
 
 **app/index.jsx**
 
 ```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+leanpub-start-insert
+import Provider from './components/Provider';
+leanpub-end-insert
 
+leanpub-start-remove
+if(process.env.NODE_ENV !== 'production') {
+  React.Perf = require('react-addons-perf');
+}
+leanpub-end-remove
+
+ReactDOM.render(
+leanpub-start-remove
+  <App />,
+leanpub-end-remove
+leanpub-start-insert
+  <Provider><App /></Provider>,
+leanpub-end-insert
+  document.getElementById('app')
+);
 ```
 
-XXX
+If you check out Webpack output, you'll likely see it is installing new dependencies to the project. That's expected given the changes. The process might take a while to complete. Once completed, refresh the browser.
 
-T> There is a Chrome plugin known as [alt-devtool](https://github.com/goatslacker/alt-devtool). After it is installed, you can connect to Alt by uncommenting the related lines above. You can use it to debug the state of your stores, search, and travel in time.
+Given we didn't change the application logic in any way, everything should still look the same. A good next step is to implement an adapter for connecting data to our views.
 
 ### Setting Up `connect`
 
