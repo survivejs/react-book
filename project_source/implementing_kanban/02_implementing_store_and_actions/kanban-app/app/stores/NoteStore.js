@@ -26,6 +26,8 @@ export default class NoteStore {
     console.log('update note', updatedNote);
   }
   delete(id) {
-    console.log('delete note', id);
+    this.setState({
+      notes: this.notes.filter(note => note.id !== id)
+    });
   }
 }

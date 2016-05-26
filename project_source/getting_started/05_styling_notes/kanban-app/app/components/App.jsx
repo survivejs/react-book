@@ -60,7 +60,7 @@ export default class App extends React.Component {
       notes: this.state.notes.filter(note => note.id !== id)
     });
   }
-  activateNoteEdit = (id) => {console.log('act', id);
+  activateNoteEdit = (id) => {
     this.setState({
       notes: this.state.notes.map(note => {
         if(note.id === id) {

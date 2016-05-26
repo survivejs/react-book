@@ -30,11 +30,9 @@ export default class App extends React.Component {
     // Avoid bubbling to edit
     e.stopPropagation();
 
-    this.setState({
-      notes: this.state.notes.filter(note => note.id !== id)
-    });
+    this.props.noteActions.delete(id);
   }
-  activateNoteEdit = (id) => {console.log('act', id);
+  activateNoteEdit = (id) => {
     this.setState({
       notes: this.state.notes.map(note => {
         if(note.id === id) {

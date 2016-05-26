@@ -317,15 +317,103 @@ If you try adding a note now, the update should go through. Alt maintains the st
 
 ## Porting `App.deleteNote` to Flux
 
-XXX
+The process exactly the same for `App.deleteNote`. We'll need to connect it with our action and then port it over. Here's the `App` portion:
+
+**app/components/App.jsx**
+
+```javascript
+import React from 'react';
+import uuid from 'uuid';
+import Notes from './Notes';
+import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
+
+@connect(({notes}) => ({notes}), {
+  noteActions: NoteActions
+})
+export default class App extends React.Component {
+  ...
+  deleteNote = (id, e) => {
+    // Avoid bubbling to edit
+    e.stopPropagation();
+
+leanpub-start-remove
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== id)
+    });
+leanpub-end-remove
+leanpub-start-insert
+    this.props.noteActions.delete(id);
+leanpub-end-insert
+  }
+  ...
+}
+```
+
+If you try to delete a note now, you should see a message like this at the browser console:
+
+```bash
+delete note 501c13e0-40cb-47a3-b69a-b1f2f69c4c55
+```
+
+To finalize the porting, we'll need to move the `setState` logic to the `delete` method. Remember to drop `this.state.notes` and replace that with just `this.notes`:
+
+**app/stores/NoteStore.js**
+
+```javascript
+import uuid from 'uuid';
+import NoteActions from '../actions/NoteActions';
+
+export default class NoteStore {
+  ...
+leanpub-start-remove
+  delete(id) {
+    console.log('delete note', id);
+  }
+leanpub-end-remove
+leanpub-start-insert
+  delete(id) {
+    this.setState({
+      notes: this.notes.filter(note => note.id !== id)
+    });
+  }
+leanpub-end-insert
+}
+```
+
+After this change you should be able to delete notes just like before. There are still a couple of methods to port.
 
 ## Porting `App.activateNoteEdit` to Flux
 
 XXX
 
+**app/components/App.jsx**
+
+```javascript
+
+```
+
+**app/stores/NoteStore.js**
+
+```javascript
+
+```
+
 ## Porting `App.editNote` to Flux
 
 XXX
+
+**app/components/App.jsx**
+
+```javascript
+
+```
+
+**app/stores/NoteStore.js**
+
+```javascript
+
+```
 
 ## Defining a Store for `Notes`
 
