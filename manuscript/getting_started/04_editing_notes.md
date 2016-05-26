@@ -309,6 +309,42 @@ If you refresh and edit a note, the commits should go through:
 
 ![Editing a `Note`](images/react_08.png)
 
+## On Namespacing Components
+
+We could have approached `Editable` in a different way. In an earlier edition of this book I ended up developing it as a single component. I handled rendering the value and the edit control through methods (i.e., `renderValue`). Often method naming like that is a clue that it's possible to refactor your code and extract separate components like we did here.
+
+You can go one step further and [namespace](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components)  your component parts. It would have been possible to define `Editable.Value` and `Editable.Edit` components. Better yet, we could have allowed the user to swap those components through props. As long as the interface is the same, the components should work. This would give an extra dimension of customizability.
+
+Implementation-wise we would have had to do something like this in case we had gone with namespacing:
+
+**app/components/Editable.jsx**
+
+```javascript
+import React from 'react';
+
+// We could allow edit/value to be swapped here through props
+const Editable = ({editing, value, onEdit, onValueClick}) => {
+  if(editing) {
+    return <Editable.Edit value={value} onEdit={onEdit} />;
+  }
+
+  return <Editable.Value value={value} onValueClick={onValueClick} />;
+}
+
+Editable.Value = ({onValueClick = () => {}, value}) =>
+  <span className="value" onClick={onValueClick}>{value}</span>
+
+class Edit extends React.Component {
+  ...
+}
+Editable.Edit = Edit;
+
+// We could export individual components too to allow modification
+export default Editable;
+```
+
+You can use a similar approach for more generic components as well. Consider something like `Form`. You could easily have `Form.Label`, `Form.Input`, `Form.Textarea` and so on. Each would contain your custom formatting and logic as needed. This is one way to make your designs more flexible.
+
 ## Conclusion
 
 It took quite a few steps, but we can edit our notes now. Best of all, `Editable` should be useful whenever we need to edit some property. We could have extracted the logic later on as we see duplication, but this is one way to do it.

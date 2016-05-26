@@ -1118,56 +1118,6 @@ As this is a small project, we can leave the CSS in a single file like this. In 
 
 Besides keeping things nice and tidy, Webpack's lazy loading machinery can pick this up. As a result, the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling at *Styling React*.
 
-## On Namespacing Components
-
-So far, we've been defining a component per file. That's not the only way. It may be handy to treat a file as a namespace and expose multiple components from it. React provides [namespaces components](https://facebook.github.io/react/docs/jsx-in-depth.html#namespaced-components) just for this purpose. In this case, we could apply namespacing to the concept of `Lane` or `Note`. This would add some flexibility to our system while keeping it simple to manage. By using namespacing, we could end up with something like this:
-
-**app/components/Lanes.jsx**
-
-```javascript
-import React from 'react';
-import Lane from './Lane.jsx';
-
-export default ({lanes}) => {
-  return (
-    <div className="lanes">{lanes.map(lane =>
-leanpub-start-delete
-      <Lane className="lane" key={lane.id} lane={lane} />
-leanpub-end-delete
-leanpub-start-insert
-      <Lane className="lane" key={lane.id} lane={lane}>
-        <Lane.Header name={lane.name} />
-        <Lane.Notes notes={lane.notes} />
-      </Lane>
-leanpub-start-insert
-    )}</div>
-  );
-}
-```
-
-**app/components/Lane.jsx**
-
-```javascript
-...
-
-class Lane extends React.Component {
-  ...
-}
-
-Lane.Header = class LaneHeader extends React.Component {
-  ...
-}
-Lane.Notes = class LaneNotes extends React.Component {
-  ...
-}
-
-export default Lane;
-```
-
-Now we have pushed the control over `Lane` formatting to a higher level. In this case, the change isn't worth it, but it can make sense in a more complex case.
-
-You can use a similar approach for more generic components as well. Consider something like `Form`. You could easily have `Form.Label`, `Form.Input`, `Form.Textarea` and so on. Each would contain your custom formatting and logic as needed.
-
 ## Conclusion
 
 The current design has been optimized with drag and drop operations in mind. Moving notes within a lane is a matter of swapping ids. Moving notes from one lane to another is again an operation over ids. This structure leads to some complexity as we need to track ids, but it will pay off in the next chapter.
