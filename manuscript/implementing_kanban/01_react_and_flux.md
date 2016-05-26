@@ -198,6 +198,51 @@ If you check out Webpack output, you'll likely see it is installing new dependen
 
 Given we didn't change the application logic in any way, everything should still look the same. A good next step is to implement an adapter for connecting data to our views.
 
+T> You can see a similar idea in [react-redux](https://www.npmjs.com/package/react-redux). MobX won't need a Provider at all. In that case our implementation would simply return `children`.
+
+### Understanding `connect`
+
+The idea of `connect` is to allow us to attach specific data and actions to components. I've modeled the API after react-redux. Fortunately we can adapt various data management systems to work against it. Here's how you would connect lane data and actions with `App`:
+
+```javascript
+@connect(({lanes}) => ({lanes}), {
+  laneActions: LaneActions
+})
+export default class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <button className="add-lane" onClick={this.addLane}>+</button>
+        <Lanes lanes={this.props.lanes} />
+      </div>
+    );
+  }
+  addLane = () => {
+    this.props.laneActions.create({name: 'New lane'});
+  }
+}
+```
+
+The same could be written without decorators:
+
+```javascript
+class App extends React.Component {
+  ...
+}
+
+export default connect(({lanes}) => ({lanes}), {
+  laneActions: LaneActions
+})(App)
+```
+
+In case you need to apply multiple higher order functions against a component, you could use an utility like `compose` and end up with `compose(a, b)(App)`. This would be equal to `a(b(App))` and it would read a little better.
+
+As the examples show, `compose` is a function returning a function. That's why we call it a higher order function. In the end we get a component out of it. This wrapping allows us to handle our data connection concern.
+
+We could use a higher order function to annotate our components to give them other special properties as well. We will see the idea again when we implement drag and drop later in this part. Decorators provide a nicer way to attach these types of annotations. The *Understanding Decorators* appendix delves deeper into the topic.
+
+Now that we have a basic understanding of how `connect` should work, we can implement it.
+
 ### Setting Up `connect`
 
 XXX
