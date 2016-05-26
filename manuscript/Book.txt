@@ -13,9 +13,10 @@ getting_started/05_styling_notes.md
 
 03_Implementing_Kanban.md
 implementing_kanban/01_react_and_flux.md
-implementing_kanban/02_implementing_persistency.md
-implementing_kanban/03_from_notes_to_kanban.md
-implementing_kanban/04_drag_and_drop.md
+implementing_kanban/02_implementing_store_and_actions.md
+implementing_kanban/03_implementing_persistency.md
+implementing_kanban/04_from_notes_to_kanban.md
+implementing_kanban/05_drag_and_drop.md
 
 04_Advanced_Techniques.md
 advanced_techniques/01_testing_react.md
