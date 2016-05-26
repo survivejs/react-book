@@ -214,7 +214,7 @@ Given we didn't change the application logic in any way, everything should still
 
 T> You can see a similar idea in [react-redux](https://www.npmjs.com/package/react-redux). MobX won't need a Provider at all. In that case our implementation would simply return `children`.
 
-### Understanding `connect`
+## Understanding `connect`
 
 The idea of `connect` is to allow us to attach specific data and actions to components. I've modeled the API after react-redux. Fortunately we can adapt various data management systems to work against it. Here's how you would connect lane data and actions with `App`:
 
@@ -329,7 +329,7 @@ leanpub-end-insert
 
 To make the text show up, refresh the browser. In addition to the text, you should see `Uncaught TypeError: Cannot read property 'listen' of undefined` at the console. This is because *connect-alt* expects some store and actions to exist. This is something we can fix next as we implement a store and actions for our application.
 
-### Setting Up a `NoteStore`
+## Setting Up a `NoteStore`
 
 Currently we maintain the application state at `App`. The first step towards pushing it to Alt is to define a store and then consume it from there. This will break the logic of our application temporarily as that needs to be pushed to Alt as well. Setting up an initial store is a good step towards this overall goal, though.
 
@@ -439,7 +439,7 @@ leanpub-end-remove
 
 If you refresh the application now, you should see exactly the same data as before. This time, however, we are consuming the data from our store. As a result our logic is broken. That's something we'll need to fix next as we define `NoteActions` and push our state manipulation to the `NoteStore`.
 
-### Setting Up `NoteActions`
+## Setting Up `NoteActions`
 
 XXX
 
