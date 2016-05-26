@@ -385,19 +385,82 @@ After this change you should be able to delete notes just like before. There are
 
 ## Porting `App.activateNoteEdit` to Flux
 
-XXX
+`App.activateNoteEdit` is essentially an `update` operation. We'll need to change the `editing` flag of the given note as `true`. That will initiate the editing process. As usual, we can port `App` to the scheme first:
 
 **app/components/App.jsx**
 
 ```javascript
+import React from 'react';
+import uuid from 'uuid';
+import Notes from './Notes';
+import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
 
+@connect(({notes}) => ({notes}), {
+  noteActions: NoteActions
+})
+export default class App extends React.Component {
+  ...
+  activateNoteEdit = (id) => {
+leanpub-start-remove
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if(note.id === id) {
+          note.editing = true;
+        }
+
+        return note;
+      })
+    });
+leanpub-end-remove
+
+leanpub-start-insert
+    this.props.noteActions.update({id, editing: true});
+leanpub-end-insert
+  }
+  ...
+}
 ```
+
+If you try to edit now, you should see messages like this at the browser console:
+
+```bash
+update note Object {id: "2c91ba0f-12f5-4203-8d60-ea673ee00e03", editing: true}
+```
+
+We still need to commit the change to make this work. The logic is the same as in `App` before except we have generalized it further using `Object.assign`:
 
 **app/stores/NoteStore.js**
 
 ```javascript
+import uuid from 'uuid';
+import NoteActions from '../actions/NoteActions';
 
+export default class NoteStore {
+  ...
+leanpub-start-remove
+  update(updatedNote) {
+    console.log('update note', updatedNote);
+  }
+leanpub-end-remove
+leanpub-start-insert
+  update(updatedNote) {
+    this.setState({
+      notes: this.notes.map(note => {
+        if(note.id === updatedNote.id) {
+          return Object.assign({}, note, updatedNote);
+        }
+
+        return note;
+      })
+    });
+  }
+leanpub-end-insert
+  ...
+}
 ```
+
+It should be possible to start editing a note now. If you try to finish editing, you should get an error like `Uncaught TypeError: Cannot read property 'notes' of null`. This is because we are missing one final portion of the porting effort, `App.editNote`.
 
 ## Porting `App.editNote` to Flux
 
