@@ -36,15 +36,15 @@ export default class App extends React.Component {
     this.props.noteActions.update({id, editing: true});
   }
   editNote = (id, task) => {
-    this.setState({
-      notes: this.state.notes.map(note => {
-        if(note.id === id) {
-          note.editing = false;
-          note.task = task;
-        }
+    const {noteActions} = this.props;
 
-        return note;
-      })
-    });
+    // Don't modify if trying to set an empty value
+    if(!task.trim()) {
+      noteActions.update({id, editing: false});
+
+      return;
+    }
+
+    noteActions.update({id, task, editing: false});
   }
 }

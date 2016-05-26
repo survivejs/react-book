@@ -233,11 +233,7 @@ To actually see it working, we'll need to start connecting our actions at `App` 
 **app/components/App.jsx**
 
 ```javascript
-import React from 'react';
-import uuid from 'uuid';
-import Notes from './Notes';
-import connect from '../libs/connect';
-import NoteActions from '../actions/NoteActions';
+...
 
 @connect(({notes}) => ({notes}), {
   noteActions: NoteActions
@@ -322,11 +318,7 @@ The process exactly the same for `App.deleteNote`. We'll need to connect it with
 **app/components/App.jsx**
 
 ```javascript
-import React from 'react';
-import uuid from 'uuid';
-import Notes from './Notes';
-import connect from '../libs/connect';
-import NoteActions from '../actions/NoteActions';
+...
 
 @connect(({notes}) => ({notes}), {
   noteActions: NoteActions
@@ -390,11 +382,7 @@ After this change you should be able to delete notes just like before. There are
 **app/components/App.jsx**
 
 ```javascript
-import React from 'react';
-import uuid from 'uuid';
-import Notes from './Notes';
-import connect from '../libs/connect';
-import NoteActions from '../actions/NoteActions';
+...
 
 @connect(({notes}) => ({notes}), {
   noteActions: NoteActions
@@ -464,19 +452,52 @@ It should be possible to start editing a note now. If you try to finish editing,
 
 ## Porting `App.editNote` to Flux
 
-XXX
+This final part is easy. We have already the logic we need. Now it's just a matter of connecting `App.editNote` to it in a correct way. We'll need to call our `update` method the correct way.
+
+This is a good place to apply additional logic on the editing process. It doesn't make sense to allow empty tasks. We can still finish the process. We just don't have to commit the new task in this case. Here's the idea:
 
 **app/components/App.jsx**
 
 ```javascript
+...
 
+@connect(({notes}) => ({notes}), {
+  noteActions: NoteActions
+})
+export default class App extends React.Component {
+  ...
+leanpub-start-remove
+  editNote = (id, task) => {
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if(note.id === id) {
+          note.editing = false;
+          note.task = task;
+        }
+
+        return note;
+      })
+    });
+  }
+leanpub-end-remove
+leanpub-start-insert
+  editNote = (id, task) => {
+    const {noteActions} = this.props;
+
+    // Don't modify if trying to set an empty value
+    if(!task.trim()) {
+      noteActions.update({id, editing: false});
+
+      return;
+    }
+
+    noteActions.update({id, task, editing: false});
+  }
+leanpub-end-remove
+}
 ```
 
-**app/stores/NoteStore.js**
-
-```javascript
-
-```
+After this change you should be able to modify tasks again. You can also try editing using an empty value. The value should revert back to the old one then.
 
 ## Defining a Store for `Notes`
 
