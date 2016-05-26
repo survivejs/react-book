@@ -134,6 +134,9 @@ We also need the files the index is pointing at. The first part is easy. We'll n
 import React from 'react';
 import AltContainer from 'alt-container';
 import alt from '../../libs/alt';
+import setup from './setup';
+
+setup(alt);
 
 export default ({children}) =>
   <AltContainer flux={alt}>
@@ -154,6 +157,9 @@ import React from 'react';
 import AltContainer from 'alt-container';
 import chromeDebug from 'alt-utils/lib/chromeDebug';
 import alt from '../../libs/alt';
+import setup from './setup';
+
+setup(alt);
 
 chromeDebug(alt);
 
@@ -163,6 +169,14 @@ export default ({children}) =>
   <AltContainer flux={alt}>
     {children}
   </AltContainer>
+```
+
+That `setup` module allows us to perform Alt related setup that's common for both production and development environment. For now it's enough to do nothing there like this:
+
+**app/components/Provider/setup.js**
+
+```javascript
+export default alt => {}
 ```
 
 We still need to connect the `Provider` with our application by tweaking *app/index.jsx*. Perform the following changes to hook it up:
@@ -313,19 +327,124 @@ leanpub-end-insert
 }
 ```
 
-To make the text show up, refresh the browser. In addition to the text, you should see `Uncaught TypeError: Cannot read property 'listen' of undefined` at the console. This is because *connect-alt* expects some store to exist. This is something we can fix next as we implement a store to our application.
+To make the text show up, refresh the browser. In addition to the text, you should see `Uncaught TypeError: Cannot read property 'listen' of undefined` at the console. This is because *connect-alt* expects some store and actions to exist. This is something we can fix next as we implement a store and actions for our application.
 
-### Setting Up `NoteStore`
+### Setting Up a `NoteStore`
 
-XXX
+Currently we maintain the application state at `App`. The first step towards pushing it to Alt is to define a store and then consume it from there. This will break the logic of our application temporarily as that needs to be pushed to Alt as well. Setting up an initial store is a good step towards this overall goal, though.
+
+To set up a store we need to perform three steps. We'll need to set it up, then connect it with Alt at `Provider`, and finally connect it with `App`.
+
+In Alt we model stores using ES6 classes. To make it easy to `connect` later on, we can implement a `static` method known as `getState` that describes the default state of the store. Here's a minimal implementation modeled after our current state:
+
+**app/stores/NoteStore.js**
+
+```javascript
+import uuid from 'uuid';
+
+export default class NoteStore {
+  constructor() {
+    this.notes = [
+      {
+        id: uuid.v4(),
+        task: 'Learn React'
+      },
+      {
+        id: uuid.v4(),
+        task: 'Do laundry'
+      }
+    ];
+  }
+  static getState() {
+    return this.state.notes;
+  }
+}
+```
+
+The next step is connecting the store with `Provider`. This is where that `setup` module comes in handy:
+
+**app/components/Provider/Provider.dev.jsx**
+
+```javascript
+leanpub-start-remove
+export default alt => {}
+leanpub-end-remove
+leanpub-start-insert
+import NoteStore from '../../stores/NoteStore';
+
+export default alt => {
+  alt.addStore('notes', NoteStore);
+}
+leanpub-end-insert
+```
+
+To prove that our setup works, we can adjust `App` to consume its data from the store. This will break the logic since we don't have any way to adjust the store data yet, but that's something we'll fix in the next section. Tweak `App` as follows to make `notes` available there:
+
+**app/components/App.jsx**
+
+```javascript
+...
+
+leanpub-start-remove
+@connect(() => ({test: 'test'}))
+leanpub-end-remove
+leanpub-start-insert
+@connect(({notes}) => ({notes}))
+leanpub-end-insert
+export default class App extends React.Component {
+leanpub-start-remove
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      notes: [
+        {
+          id: uuid.v4(),
+          task: 'Learn React'
+        },
+        {
+          id: uuid.v4(),
+          task: 'Do laundry'
+        }
+      ]
+    }
+  }
+leanpub-end-remove
+  render() {
+leanpub-start-remove
+    const {notes} = this.state;
+leanpub-end-remove
+leanpub-start-insert
+    const {notes} = this.props;
+leanpub-end-insert
+
+    return (
+      <div>
+leanpub-start-remove
+        {this.props.test}
+leanpub-end-remove
+        <button className="add-note" onClick={this.addNote}>+</button>
+        <Notes
+          notes={notes}
+          onValueClick={this.activateNoteEdit}
+          onEdit={this.editNote}
+          onDelete={this.deleteNote}
+          />
+      </div>
+    );
+  }
+  ...
+}
+```
+
+If you refresh the application now, you should see exactly the same data as before. This time, however, we are consuming the data from our store. As a result our logic is broken. That's something we'll need to fix next as we define `NoteActions` and push our state manipulation to the `NoteStore`.
 
 ### Setting Up `NoteActions`
 
 XXX
 
-### Defining CRUD API for Notes
-
 Next, we'll need to define a basic API for operating over the Note data. To keep this simple, we can CRUD (Create, Read, Update, Delete) it. Given Read is implicit, we won't be needing that. We can model the rest as actions, though. Alt provides a shorthand known as `generateActions`. We can use it like this:
+
 
 **app/actions/NoteActions.js**
 
