@@ -245,9 +245,81 @@ Now that we have a basic understanding of how `connect` should work, we can impl
 
 ### Setting Up `connect`
 
+In order to save some effort, I'll be using a package known as [connect-alt](https://www.npmjs.com/package/connect-alt) and then model `connect` through it. The implementation won't be ideal when it comes to performance as it will watch all the stores. It is enough for this application, however.
+
+It would be possible to optimize the behavior with further effort. That's one reason why having control over `Provider` and `connect` is useful. It allows further customization.
+
+Consider the implementation of a `connect` adapter below and add it to the project. You can see certain familiar ideas there. We need to perform careful checking over the first parameter given it can be either a function or an object containing values. If it is either, then we need to apply *connect-alt*. Otherwise it's enough to attach just actions to the resulting component:
+
+**app/libs/connect.jsx**
+
+```javascript
+import React from 'react';
+import connect from 'connect-alt';
+
+const connectAdapter = (Component, actions) => {
+  return props => <Component {...Object.assign({}, props, actions)} />
+};
+
+export default (state, actions) => {
+  if(typeof state === 'function' ||
+    (typeof state === 'object') &&
+    Object.keys(state).length) {
+    return target => connect(state)(connectAdapter(target, actions));
+  }
+
+  return target => connectAdapter(target, actions);
+};
+```
+
+In order to see `connect` in action, we could use it to attach some dummy data to `App` and then render it. Adjust it as follows to pass data `test` to `App` and then show it in the user interface:
+
+**app/components/App.jsx**
+
+```javascript
+import React from 'react';
+import uuid from 'uuid';
+import Notes from './Notes';
+leanpub-start-insert
+import connect from '../libs/connect';
+leanpub-end-insert
+
+leanpub-start-insert
+@connect(() => ({test: 'test'}))
+leanpub-end-insert
+export default class App extends React.Component {
+  constructor(props) {
+    ...
+  }
+  render() {
+    const {notes} = this.state;
+
+    return (
+      <div>
+leanpub-start-insert
+        {this.props.test}
+leanpub-end-insert
+        <button className="add-note" onClick={this.addNote}>+</button>
+        <Notes
+          notes={notes}
+          onValueClick={this.activateNoteEdit}
+          onEdit={this.editNote}
+          onDelete={this.deleteNote}
+          />
+      </div>
+    );
+  }
+  ...
+}
+```
+
+To make the text show up, refresh the browser. In addition to the text, you should see `Uncaught TypeError: Cannot read property 'listen' of undefined` at the console. This is because *connect-alt* expects some store to exist. This is something we can fix next as we implement a store to our application.
+
+### Setting Up `NoteStore`
+
 XXX
 
-### XXX
+### Setting Up `NoteActions`
 
 XXX
 
