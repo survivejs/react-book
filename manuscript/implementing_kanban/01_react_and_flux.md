@@ -286,6 +286,36 @@ export default (state, actions) => {
 };
 ```
 
+Due to the way *connect-alt* works, we'll need to alter our Alt instance to contain a `FinalStore` field:
+
+**app/libs/alt.js**
+
+```javascript
+import Alt from 'alt';
+leanpub-start-insert
+import makeFinalStore from 'alt-utils/lib/makeFinalStore';
+leanpub-end-insert
+
+leanpub-start-remove
+const alt = new Alt();
+
+export default alt;
+leanpub-end-remove
+leanpub-start-insert
+class Flux extends Alt {
+  constructor(config) {
+    super(config);
+
+    this.FinalStore = makeFinalStore(this);
+  }
+}
+
+const flux = new Flux();
+
+export default flux;
+leanpub-end-insert
+```
+
 In order to see `connect` in action, we could use it to attach some dummy data to `App` and then render it. Adjust it as follows to pass data `test` to `App` and then show it in the user interface:
 
 **app/components/App.jsx**
@@ -327,7 +357,7 @@ leanpub-end-insert
 }
 ```
 
-To make the text show up, refresh the browser. In addition to the text, you should see `Uncaught TypeError: Cannot read property 'listen' of undefined` at the console. This is because *connect-alt* expects some store and actions to exist. This is something we can fix next as we implement a store and actions for our application.
+To make the text show up, refresh the browser. You should see the text that we connected to `App` now.
 
 ## Conclusion
 

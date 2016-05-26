@@ -1,5 +1,14 @@
 import Alt from 'alt';
+import makeFinalStore from 'alt-utils/lib/makeFinalStore';
 
-const alt = new Alt();
+class Flux extends Alt {
+  constructor(config) {
+    super(config);
 
-export default alt;
+    this.FinalStore = makeFinalStore(this);
+  }
+}
+
+const flux = new Flux();
+
+export default flux;
