@@ -182,7 +182,7 @@ Alt provides a couple of convenient ways to connect actions to a store:
 
 We'll use `this.bindActions` in this case as it's enough to rely on convention. Tweak the store as follows to connect the actions and to add initial stubs for the logic:
 
-**app/stores/NoteStore.jsx**
+**app/stores/NoteStore.js**
 
 ```javascript
 import uuid from 'uuid';
@@ -226,9 +226,106 @@ leanpub-end-insert
 
 To actually see it working, we'll need to start connecting our actions at `App` and the start porting the logic over.
 
-## XXX
+## Porting `App.addNote` to Flux
 
-XXX: show how to port ops one by one
+`App.addNote` is a good starting point. The first step is to trigger the associate action (`NoteActions.create`) from the method and see if we see something at the browser console. If we do, then we can manipulate the state. Trigger the action like this:
+
+**app/components/App.jsx**
+
+```javascript
+import React from 'react';
+import uuid from 'uuid';
+import Notes from './Notes';
+import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
+
+@connect(({notes}) => ({notes}), {
+  noteActions: NoteActions
+})
+export default class App extends React.Component {
+  render() {
+    ...
+  }
+  addNote = () => {
+leanpub-start-remove
+    // It would be possible to write this in an imperative style.
+    // I.e., through `this.state.notes.push` and then
+    // `this.setState({notes: this.state.notes})` to commit.
+    //
+    // I tend to favor functional style whenever that makes sense.
+    // Even though it might take more code sometimes, I feel
+    // the benefits (easy to reason about, no side effects)
+    // more than make up for it.
+    //
+    // Libraries, such as Immutable.js, go a notch further.
+    this.setState({
+      notes: this.state.notes.concat([{
+        id: uuid.v4(),
+        task: 'New task'
+      }])
+    });
+leanpub-end-remove
+leanpub-start-insert
+    this.props.noteActions.create({id: uuid.v4(), task: 'New task'});
+leanpub-end-insert
+  }
+  ...
+}
+```
+
+If you click the "add note" button now, you should see messages like this at the browser console:
+
+```bash
+create note Object {id: "62098959-6289-4894-9bf1-82e983356375", task: "New task"}
+```
+
+This means we have the data we need at the `NoteStore` `create` method. We still need to manipulate the data. After that we have completed the loop and we should see new notes through the user interface. Alt follows a similar API as React here. Consider the implementation below:
+
+**app/stores/NoteStore.js**
+
+```javascript
+import uuid from 'uuid';
+import NoteActions from '../actions/NoteActions';
+
+export default class NoteStore {
+  constructor() {
+    ...
+  }
+  static getState() {
+    return this.state.notes;
+  }
+leanpub-start-remove
+  create(note) {
+    console.log('create note', note);
+  }
+leanpub-end-remove
+leanpub-start-insert
+  create(note) {
+    this.setState({notes: this.notes.concat(note)});
+  }
+leanpub-end-insert
+  update(updatedNote) {
+    console.log('update note', updatedNote);
+  }
+  delete(id) {
+    console.log('delete note', id);
+  }
+}
+```
+
+If you try adding a note now, the update should go through. Alt maintains the state now and the edit goes through thanks to the architecture we set up. We still have to repeat the process for the remaining methods to complete the work.
+
+## Porting `App.deleteNote` to Flux
+
+XXX
+
+## Porting `App.activateNoteEdit` to Flux
+
+XXX
+
+## Porting `App.editNote` to Flux
+
+XXX
 
 ## Defining a Store for `Notes`
 

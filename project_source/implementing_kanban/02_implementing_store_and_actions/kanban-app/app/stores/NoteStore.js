@@ -20,7 +20,7 @@ export default class NoteStore {
     return this.state.notes;
   }
   create(note) {
-    console.log('create note', note);
+    this.setState({notes: this.notes.concat(note)});
   }
   update(updatedNote) {
     console.log('update note', updatedNote);
