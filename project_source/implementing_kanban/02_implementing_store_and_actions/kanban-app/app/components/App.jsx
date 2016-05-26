@@ -4,8 +4,8 @@ import Notes from './Notes';
 import connect from '../libs/connect';
 import NoteActions from '../actions/NoteActions';
 
-@connect(({notes}) => ({notes}), {
-  noteActions: NoteActions
+@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
+  NoteActions
 })
 export default class App extends React.Component {
   render() {
@@ -24,27 +24,27 @@ export default class App extends React.Component {
     );
   }
   addNote = () => {
-    this.props.noteActions.create({id: uuid.v4(), task: 'New task'});
+    this.props.NoteActions.create({id: uuid.v4(), task: 'New task'});
   }
   deleteNote = (id, e) => {
     // Avoid bubbling to edit
     e.stopPropagation();
 
-    this.props.noteActions.delete(id);
+    this.props.NoteActions.delete(id);
   }
   activateNoteEdit = (id) => {
-    this.props.noteActions.update({id, editing: true});
+    this.props.NoteActions.update({id, editing: true});
   }
   editNote = (id, task) => {
-    const {noteActions} = this.props;
+    const {NoteActions} = this.props;
 
     // Don't modify if trying to set an empty value
     if(!task.trim()) {
-      noteActions.update({id, editing: false});
+      NoteActions.update({id, editing: false});
 
       return;
     }
 
-    noteActions.update({id, task, editing: false});
+    NoteActions.update({id, task, editing: false});
   }
 }

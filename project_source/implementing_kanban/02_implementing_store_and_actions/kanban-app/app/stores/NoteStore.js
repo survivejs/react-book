@@ -16,9 +16,6 @@ export default class NoteStore {
       }
     ];
   }
-  static getState() {
-    return this.state.notes;
-  }
   create(note) {
     this.setState({notes: this.notes.concat(note)});
   }

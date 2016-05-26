@@ -12,7 +12,7 @@ Currently we maintain the application state at `App`. The first step towards pus
 
 To set up a store we need to perform three steps. We'll need to set it up, then connect it with Alt at `Provider`, and finally connect it with `App`.
 
-In Alt we model stores using ES6 classes. To make it easy to `connect` later on, we can implement a `static` method known as `getState` that describes the default state of the store. Here's a minimal implementation modeled after our current state:
+In Alt we model stores using ES6 classes. Here's a minimal implementation modeled after our current state:
 
 **app/stores/NoteStore.js**
 
@@ -32,9 +32,6 @@ export default class NoteStore {
       }
     ];
   }
-  static getState() {
-    return this.state.notes;
-  }
 }
 ```
 
@@ -50,7 +47,7 @@ leanpub-start-insert
 import NoteStore from '../../stores/NoteStore';
 
 export default alt => {
-  alt.addStore('notes', NoteStore);
+  alt.addStore('NoteStore', NoteStore);
 }
 leanpub-end-insert
 ```
@@ -66,7 +63,7 @@ leanpub-start-remove
 @connect(() => ({test: 'test'}))
 leanpub-end-remove
 leanpub-start-insert
-@connect(({notes}) => ({notes}))
+@connect(({NoteStore}) => ({notes: NoteStore.notes}))
 leanpub-end-insert
 export default class App extends React.Component {
 leanpub-start-remove
@@ -156,11 +153,11 @@ import NoteActions from '../actions/NoteActions';
 leanpub-end-insert
 
 leanpub-start-remove
-@connect(({notes}) => ({notes}))
+@connect(({NoteStore}) => ({notes: NoteStore.notes}))
 leanpub-end-remove
 leanpub-start-insert
-@connect(({notes}) => ({notes}), {
-  noteActions: NoteActions
+@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
+  NoteActions
 })
 leanpub-end-insert
 export default class App extends React.Component {
@@ -168,7 +165,7 @@ export default class App extends React.Component {
 }
 ```
 
-This gives us `this.props.noteActions.create` kind of API for triggering various actions. That's a good for expanding the implementation further.
+This gives us `this.props.NoteActions.create` kind of API for triggering various actions. That's a good for expanding the implementation further.
 
 T> The official documentation covers [asynchronous actions](http://alt.js.org/docs/createActions/) in greater detail.
 
@@ -235,8 +232,8 @@ To actually see it working, we'll need to start connecting our actions at `App` 
 ```javascript
 ...
 
-@connect(({notes}) => ({notes}), {
-  noteActions: NoteActions
+@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
+  NoteActions
 })
 export default class App extends React.Component {
   render() {
@@ -262,7 +259,7 @@ leanpub-start-remove
     });
 leanpub-end-remove
 leanpub-start-insert
-    this.props.noteActions.create({id: uuid.v4(), task: 'New task'});
+    this.props.NoteActions.create({id: uuid.v4(), task: 'New task'});
 leanpub-end-insert
   }
   ...
@@ -320,8 +317,8 @@ The process exactly the same for `App.deleteNote`. We'll need to connect it with
 ```javascript
 ...
 
-@connect(({notes}) => ({notes}), {
-  noteActions: NoteActions
+@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
+  NoteActions
 })
 export default class App extends React.Component {
   ...
@@ -335,7 +332,7 @@ leanpub-start-remove
     });
 leanpub-end-remove
 leanpub-start-insert
-    this.props.noteActions.delete(id);
+    this.props.NoteActions.delete(id);
 leanpub-end-insert
   }
   ...
@@ -384,8 +381,8 @@ After this change you should be able to delete notes just like before. There are
 ```javascript
 ...
 
-@connect(({notes}) => ({notes}), {
-  noteActions: NoteActions
+@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
+  NoteActions
 })
 export default class App extends React.Component {
   ...
@@ -403,7 +400,7 @@ leanpub-start-remove
 leanpub-end-remove
 
 leanpub-start-insert
-    this.props.noteActions.update({id, editing: true});
+    this.props.NoteActions.update({id, editing: true});
 leanpub-end-insert
   }
   ...
@@ -461,8 +458,8 @@ This is a good place to apply additional logic on the editing process. It doesn'
 ```javascript
 ...
 
-@connect(({notes}) => ({notes}), {
-  noteActions: NoteActions
+@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
+  NoteActions
 })
 export default class App extends React.Component {
   ...
@@ -482,16 +479,16 @@ leanpub-start-remove
 leanpub-end-remove
 leanpub-start-insert
   editNote = (id, task) => {
-    const {noteActions} = this.props;
+    const {NoteActions} = this.props;
 
     // Don't modify if trying to set an empty value
     if(!task.trim()) {
-      noteActions.update({id, editing: false});
+      NoteActions.update({id, editing: false});
 
       return;
     }
 
-    noteActions.update({id, task, editing: false});
+    NoteActions.update({id, task, editing: false});
   }
 leanpub-end-remove
 }
