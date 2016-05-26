@@ -153,7 +153,7 @@ import Notes from './Notes';
 import connect from '../libs/connect';
 leanpub-start-insert
 import NoteActions from '../actions/NoteActions';
-leanpub-start-insert
+leanpub-end-insert
 
 leanpub-start-remove
 @connect(({notes}) => ({notes}))
@@ -171,6 +171,60 @@ export default class App extends React.Component {
 This gives us `this.props.noteActions.create` kind of API for triggering various actions. That's a good for expanding the implementation further.
 
 T> The official documentation covers [asynchronous actions](http://alt.js.org/docs/createActions/) in greater detail.
+
+## Connecting `NoteActions` with `NoteStore`
+
+Alt provides a couple of convenient ways to connect actions to a store:
+
+* `this.bindAction(NoteActions.CREATE, this.create)` - Bind a specific action to a specific method.
+* `this.bindActions(NoteActions)`- Bind all actions to methods by convention. I.e., `create` action would map to a method named `create`.
+* `reduce(state, { action, data })` - It is possible to implement a custom method known as `reduce`. This mimics the way Redux reducers work. The idea is that you'll return a new state based on the given state and payload.
+
+We'll use `this.bindActions` in this case as it's enough to rely on convention. Tweak the store as follows to connect the actions and to add initial stubs for the logic:
+
+**app/stores/NoteStore.jsx**
+
+```javascript
+import uuid from 'uuid';
+leanpub-start-insert
+import NoteActions from '../actions/NoteActions';
+leanpub-end-insert
+
+export default class NoteStore {
+  constructor() {
+leanpub-start-insert
+    this.bindActions(NoteActions);
+leanpub-end-insert
+
+    this.notes = [
+      {
+        id: uuid.v4(),
+        task: 'Learn React'
+      },
+      {
+        id: uuid.v4(),
+        task: 'Do laundry'
+      }
+    ];
+  }
+  static getState() {
+    return this.state.notes;
+  }
+leanpub-start-insert
+  create(note) {
+    console.log('create note', note);
+  }
+  update(updatedNote) {
+    console.log('update note', updatedNote);
+  }
+  delete(id) {
+    console.log('delete note', id);
+  }
+leanpub-end-insert
+}
+```
+
+To actually see it working, we'll need to start connecting our actions at `App` and the start porting the logic over.
 
 ## XXX
 
