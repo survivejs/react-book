@@ -204,9 +204,6 @@ leanpub-end-insert
       }
     ];
   }
-  static getState() {
-    return this.state.notes;
-  }
 leanpub-start-insert
   create(note) {
     console.log('create note', note);
@@ -283,9 +280,6 @@ import NoteActions from '../actions/NoteActions';
 export default class NoteStore {
   constructor() {
     ...
-  }
-  static getState() {
-    return this.state.notes;
   }
 leanpub-start-remove
   create(note) {
