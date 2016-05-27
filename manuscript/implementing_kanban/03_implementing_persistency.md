@@ -112,6 +112,44 @@ If we had a real back-end, we could pass the initial payload as a part of the HT
 
 W> Our `persist` implementation isn't without its flaws. It is easy to end up in a situation where `localStorage` contains invalid data due to changes made to the data model. This brings you to the world of database schemas and migrations. The lesson here is that the more you inject state and logic to your application, the more complicated it gets to handle.
 
+## Cleaning Up `NoteStore`
+
+Before moving on, it would be a good idea to clean up `NoteStore`. There's still some code hanging around from our earlier experiments. Given persistency works now, we might as well start from a blank slate. Even if we wanted some initial data, it would be better to handle that at a higher level, such as application initialization. Adjust `NoteStore` as follows:
+
+**app/stores/NoteStore.js**
+
+```javascript
+leanpub-start-remove
+import uuid from 'uuid';
+leanpub-end-remove
+import NoteActions from '../actions/NoteActions';
+
+export default class NoteStore {
+  constructor() {
+    this.bindActions(NoteActions);
+
+leanpub-start-remove
+    this.notes = [
+      {
+        id: uuid.v4(),
+        task: 'Learn React'
+      },
+      {
+        id: uuid.v4(),
+        task: 'Do laundry'
+      }
+    ];
+leanpub-end-remove
+leanpub-start-insert
+    this.notes = [];
+leanpub-end-insert
+  }
+  ...
+}
+```
+
+This is enough for now. Now our application should start from a blank slate.
+
 ## Dispatching in Alt
 
 Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet, such as `alt.dispatcher.register(console.log.bind(console))`. Alternatively, you could trigger `this.dispatcher.register(...)` at a store constructor. These mechanisms allow you to implement effective logging.
