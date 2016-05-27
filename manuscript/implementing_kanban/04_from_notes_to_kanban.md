@@ -4,7 +4,9 @@
 
 So far we have developed an application for keeping track of notes in `localStorage`. We still have work to do to turn this into a real Kanban as pictured above. Most importantly our system is missing the concept of `Lane`.
 
-A `Lane` is something that should be able to contain many `Notes` within itself and track their order. One way to model this is simply to make a `Lane` point at `Notes` through an array of `Note` ids. This relation could be reversed. A `Note` could point at a `Lane` using an id and maintain information about its position within a `Lane`. In this case, we are going to stick with the former design as that works well with re-ordering later on.
+A `Lane` is something that should be able to contain many `Notes` within itself and track their order. One way to model this is simply to make a `Lane` point at `Notes` through an array of `Note` ids.
+
+This relation could be reversed. A `Note` could point at a `Lane` using an id and maintain information about its position within a `Lane`. In this case, we are going to stick with the former design as that works well with re-ordering later on.
 
 ## Extracting `Lanes`
 
@@ -25,32 +27,24 @@ In addition, we are going to need a `LaneStore` and a method matching to `create
 **app/stores/LaneStore.js**
 
 ```javascript
-import uuid from 'node-uuid';
-import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 
-class LaneStore {
+export default class LaneStore {
   constructor() {
     this.bindActions(LaneActions);
 
     this.lanes = [];
   }
   create(lane) {
-    const lanes = this.lanes;
-
-    lane.id = uuid.v4();
-
     // If `notes` aren't provided for some reason,
     // default to an empty array.
     lane.notes = lane.notes || [];
 
     this.setState({
-      lanes: lanes.concat(lane)
+      lanes: this.lanes.concat(lane)
     });
   }
 }
-
-export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 We are also going to need a stub for `Lanes`. We will expand this later. For now we just want something simple to show up.
@@ -60,16 +54,18 @@ We are also going to need a stub for `Lanes`. We will expand this later. For now
 ```javascript
 import React from 'react';
 
-export default class Lanes extends React.Component {
-  render() {
-    return (
-      <div className="lanes">
-        lanes should go here
-      </div>
-    );
-  }
-}
+export default () => (
+  <div className="lanes">
+    lanes should go here
+  </div>
+)
 ```
+
+The component will likely evolve a lot. Starting from a function is always a good starting point, though. To get it show up, we still need to connect it with `App`.
+
+## Connecting `Lanes` with `App`
+
+XXX
 
 Next, we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions, and store as needed:
 
