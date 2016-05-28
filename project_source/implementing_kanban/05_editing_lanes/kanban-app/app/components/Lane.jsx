@@ -4,6 +4,7 @@ import connect from '../libs/connect';
 import NoteActions from '../actions/NoteActions';
 import LaneActions from '../actions/LaneActions';
 import Notes from './Notes';
+import Editable from './Editable';
 
 const Lane = ({
   lane, notes, LaneActions, NoteActions, ...props
@@ -37,14 +38,28 @@ const Lane = ({
   const activateNoteEdit = id => {
     NoteActions.update({id, editing: true});
   }
+  const activateLaneEdit = () => {
+    LaneActions.update({
+      id: lane.id,
+      editing: true
+    });
+  }
+  const editName = name => {
+    LaneActions.update({
+      id: lane.id,
+      name,
+      editing: false
+    });
+  }
 
   return (
     <div {...props}>
-      <div className="lane-header">
+      <div className="lane-header" onClick={activateLaneEdit}>
         <div className="lane-add-note">
           <button onClick={addNote}>+</button>
         </div>
-        <div className="lane-name">{lane.name}</div>
+        <Editable className="lane-name" editing={lane.editing}
+          value={lane.name} onEdit={editName} />
       </div>
       <Notes
         notes={selectNotesByIds(notes, lane.notes)}

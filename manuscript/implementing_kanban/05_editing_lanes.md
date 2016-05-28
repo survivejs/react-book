@@ -8,11 +8,124 @@ The `Editable` component we implemented earlier will come in handy. We can use i
 
 We should also make it possible to remove lanes. For that to work we'll need to add an UI control and attach logic to it. Again, it's a similar idea as earlier.
 
-## Implementing Editing for `Lane`
+## Implementing Editing for `Lane` names
 
-XXX
+To edit a `Lane` name, we need a little bit of logic and UI hooks. `Editable` can handle the UI part. Logic will take more work. To get started, tweak `Lane` as follows:
 
-## Implementing Delete for `Lane`
+**app/components/Lane.jsx**
+
+```javascript
+import React from 'react';
+import uuid from 'uuid';
+import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
+import LaneActions from '../actions/LaneActions';
+import Notes from './Notes';
+leanpub-start-insert
+import Editable from './Editable';
+leanpub-end-insert
+
+const Lane = ({
+  lane, notes, LaneActions, NoteActions, ...props
+}) => {
+  ...
+leanpub-start-insert
+  const activateLaneEdit = () => {
+    LaneActions.update({
+      id: lane.id,
+      editing: true
+    });
+  }
+  const editName = name => {
+    LaneActions.update({
+      id: lane.id,
+      name,
+      editing: false
+    });
+  }
+leanpub-end-insert
+
+  return (
+    <div {...props}>
+leanpub-start-remove
+      <div className="lane-header">
+leanpub-end-remove
+leanpub-start-insert
+      <div className="lane-header" onClick={activateLaneEdit}>
+leanpub-end-insert
+        <div className="lane-add-note">
+          <button onClick={addNote}>+</button>
+        </div>
+leanpub-start-remove
+        <div className="lane-name">{lane.name}</div>
+leanpub-end-remove
+leanpub-start-insert
+        <Editable className="lane-name" editing={lane.editing}
+          value={lane.name} onEdit={editName} />
+leanpub-end-insert
+      </div>
+      <Notes
+        notes={selectNotesByIds(notes, lane.notes)}
+        onNoteClick={activateNoteEdit}
+        onEdit={editNote}
+        onDelete={deleteNote} />
+    </div>
+  );
+}
+
+...
+```
+
+The user interface should look exactly the same after this change. We still need to implement `LaneActions.update` to make our setup work.
+
+Just like before, we have to tweak two places, the action definition and `LaneStore`. Here's the action part:
+
+**app/actions/LaneActions.js**
+
+```javascript
+import alt from '../libs/alt';
+
+export default alt.generateActions(
+  'create', 'update', 'attachToLane', 'detachFromLane'
+);
+```
+
+To add the missing logic, tweak `LaneStore` like this. It's the same idea as for `NoteStore`:
+
+**app/stores/LaneStore.js**
+
+```javascript
+import LaneActions from '../actions/LaneActions';
+
+export default class LaneStore {
+  constructor() {
+    this.bindActions(LaneActions);
+
+    this.lanes = [];
+  }
+  create(lane) {
+    ...
+  }
+leanpub-start-insert
+  update(updatedLane) {
+    this.setState({
+      lanes: this.lanes.map(lane => {
+        if(lane.id === updatedLane.id) {
+          return Object.assign({}, lane, updatedLane);
+        }
+
+        return lane;
+      })
+    });
+  }
+leanpub-end-insert
+  ...
+}
+```
+
+After these changes you should be able to edit lane names. Lane deletion is a good feature to sort out next.
+
+## Implementing `Lane` Deletion
 
 XXX
 
