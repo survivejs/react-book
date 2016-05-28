@@ -417,8 +417,6 @@ Next, we'll need to add some logic to make this work. We can use the logic outli
 
 ## Implementing Note Drag and Drop Logic
 
-XXX
-
 Moving within a lane itself is complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
 
 It is possible to solve the lane to lane case using [splice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/splice). First, we `splice` out the source note, and then we `splice` it to the target lane. Again, `update` could work here, but I didn't see much point in that given `splice` is nice and simple. The code below illustrates a mutation based solution:
@@ -426,12 +424,12 @@ It is possible to solve the lane to lane case using [splice](https://developer.m
 **app/stores/LaneStore.js**
 
 ```javascript
-...
 leanpub-start-insert
 import update from 'react-addons-update';
 leanpub-end-insert
+import LaneActions from '../actions/LaneActions';
 
-class LaneStore {
+export default class LaneStore {
   ...
 leanpub-start-delete
   move({sourceId, targetId}) {
@@ -467,8 +465,6 @@ leanpub-start-insert
   }
 leanpub-end-insert
 }
-
-export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
 If you try out the application now, you can actually drag notes around and it should behave as you expect. Dragging to empty lanes doesn't work, though, and the presentation could be better.
