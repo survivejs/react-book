@@ -23,7 +23,6 @@ class Edit extends React.Component {
       }
       autoFocus={true}
       defaultValue={value}
-      onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
   checkEnter = (e) => {

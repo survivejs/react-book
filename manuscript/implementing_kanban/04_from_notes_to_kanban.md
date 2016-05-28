@@ -136,65 +136,78 @@ If you check out the implementation at the browser, you can see that the current
 
 ## Modeling `Lane`
 
-`Lane` will render a name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`:
-
-XXX
+`Lane` will render a name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`. Replace the file contents entirely as follows:
 
 **app/components/Lane.jsx**
 
 ```javascript
-import AltContainer from 'alt-container';
 import React from 'react';
-import Notes from './Notes.jsx';
+import uuid from 'uuid';
+import connect from '../libs/connect';
 import NoteActions from '../actions/NoteActions';
-import NoteStore from '../stores/NoteStore';
+import Notes from './Notes';
 
-export default class Lane extends React.Component {
-  render() {
-    const {lane, ...props} = this.props;
-
-    return (
-      <div {...props}>
-        <div className="lane-header">
-          <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
-          </div>
-          <div className="lane-name">{lane.name}</div>
-        </div>
-        <AltContainer
-          stores={[NoteStore]}
-          inject={{
-            notes: () => NoteStore.getState().notes || []
-          }}
-        >
-          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
-        </AltContainer>
-      </div>
-    );
-  }
-  editNote(id, task) {
+const Lane = ({
+  lane, notes, NoteActions, ...props
+}) => {
+  const editNote = (id, task) => {
     // Don't modify if trying to set an empty value
     if(!task.trim()) {
+      NoteActions.update({id, editing: false});
+
       return;
     }
 
-    NoteActions.update({id, task});
+    NoteActions.update({id, task, editing: false});
   }
-  addNote() {
-    NoteActions.create({task: 'New task'});
-  }
-  deleteNote(id, e) {
-    // Avoid bubbling to edit
+  const addNote = e => {
     e.stopPropagation();
 
-    NoteActions.delete(id);
+    const noteId = uuid.v4();
+
+    NoteActions.create({
+      id: noteId,
+      task: 'New task'
+    });
   }
+  const deleteNote = (noteId, e) => {
+    e.stopPropagation();
+
+    NoteActions.delete(noteId);
+  }
+  const activateNoteEdit = id => {
+    NoteActions.update({id, editing: true});
+  }
+
+  return (
+    <div {...props}>
+      <div className="lane-header">
+        <div className="lane-add-note">
+          <button onClick={addNote}>+</button>
+        </div>
+        <div className="lane-name">{lane.name}</div>
+      </div>
+      <Notes
+        notes={notes}
+        onValueClick={activateNoteEdit}
+        onEdit={editNote}
+        onDelete={deleteNote} />
+    </div>
+  );
 }
+
+export default connect(
+  ({NoteStore}) => ({
+    notes: NoteStore.notes
+  }), {
+    NoteActions
+  }
+)(Lane)
 ```
 
-I am using [Object rest/spread syntax (stage 2)](https://github.com/sebmarkbage/ecmascript-rest-spread) (`const {a, b, ...props} = this.props`) in the example. This allows us to attach a `className` to `Lane` and we avoid polluting it with HTML attributes we don't need. The syntax expands Object key value pairs as props so we don't have to write each prop we want separately.
-
 If you run the application and try adding new notes, you can see there's something wrong. Every note you add is shared by all lanes. If a note is modified, other lanes update too.
+
+XXX
 
 ![Duplicate notes](images/kanban_01.png)
 

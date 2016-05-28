@@ -4,7 +4,7 @@ Editing notes is a similar problem as deleting them. The data flow is exactly th
 
 What makes this scenario difficult is the user interface requirement. It's not enough just to have a button. We'll need some way to allow the user to input a new value which we can then commit to the data model.
 
-One way to achieve this is to implement so called **inline editing**. The idea is that when a user click a note, we'll show an input. After the user has finished editing and signals that to use either by triggering the `blur` event or by hitting *enter*, we'll capture the value and update.
+One way to achieve this is to implement so called **inline editing**. The idea is that when a user click a note, we'll show an input. After the user has finished editing and signals that to use either by hitting *enter*, we'll capture the value and update.
 
 ## Implementing `Editable`
 
@@ -257,7 +257,7 @@ Refs allow us to access the underlying DOM structure. The simplest way to use th
 
 Another way to initialize a ref would be to pass a function to it. This will give us a chance to give something when the element gets mounted by React. That's ideal for us and we can patch the behavior of our input through this hook.
 
-Consider the code below for the full implementation. Note how we are handling finishing the editing. There are a couple of cases to worry about, namely `onBlur` and `onKeyPress`:
+Consider the code below for the full implementation. Note how we are handling finishing the editing. We capture `onKeyPress` and check for `Enter` to confirm editing:
 
 **app/components/Editable.jsx**
 
@@ -286,7 +286,6 @@ class Edit extends React.Component {
       }
       autoFocus={true}
       defaultValue={value}
-      onBlur={this.finishEdit}
       onKeyPress={this.checkEnter} />;
   }
   checkEnter = (e) => {
