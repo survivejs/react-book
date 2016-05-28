@@ -40,13 +40,13 @@ const App = ({LaneActions, lanes}) => {
   );
 };
 
-leanpub-start-remove
+leanpub-start-delete
 export default connect(({LaneStore}) => ({
   lanes: LaneStore.lanes
 }), {
   LaneActions
 })(App)
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default compose(
   DragDropContext(HTML5Backend),
@@ -175,11 +175,11 @@ const noteTarget = {
 };
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
 export default DragSource(ItemTypes.NOTE, noteSource, connect => ({
   connectDragSource: connect.dragSource()
 }))(Note)
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default compose(
   DragSource(ItemTypes.NOTE, noteSource, connect => ({
@@ -221,9 +221,9 @@ We can accept `id` and `onMove` props at `Note` like below. There is an extra ch
 
 const Note = ({
   connectDragSource, connectDropTarget,
-leanpub-start-remove
+leanpub-start-delete
   children, ...props
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
   oMove, id, children, ...props
 leanpub-end-insert
@@ -235,7 +235,7 @@ leanpub-end-insert
   );
 };
 
-leanpub-start-remove
+leanpub-start-delete
 const noteSource = {
   beginDrag(props) {
     console.log('begin dragging note', props);
@@ -243,7 +243,7 @@ const noteSource = {
     return {};
   }
 };
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 const noteSource = {
   beginDrag(props) {
@@ -254,7 +254,7 @@ const noteSource = {
 };
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
@@ -262,7 +262,7 @@ const noteTarget = {
     console.log('dragging note', sourceProps, targetProps);
   }
 };
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 const noteTarget = {
   hover(targetProps, monitor) {
@@ -300,9 +300,9 @@ export default ({
   return (
     <ul className="notes">{notes.map(({id, editing, task}) =>
       <li key={id}>
-leanpub-start-remove
+leanpub-start-delete
         <Note className="note" onClick={onNoteClick.bind(null, id)}>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <Note className="note" id={id}
           onClick={onNoteClick.bind(null, id)}
@@ -368,10 +368,10 @@ export default ({
       <li key={id}>
         <Note className="note" id={id}
           onClick={onNoteClick.bind(null, id)}
-leanpub-start-remove
+leanpub-start-delete
           onMove={({sourceId, targetId}) =>
             console.log('moving from', sourceId, 'to', targetId)}>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
           onMove={LaneActions.move}>
 leanpub-end-insert

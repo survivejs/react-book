@@ -256,7 +256,7 @@ This won't do much until we tweak `Notes` as well:
 
 ```javascript
 import React from 'react';
-leanpub-start-remove
+leanpub-start-delete
 import uuid from 'uuid';
 
 const notes = [
@@ -271,7 +271,7 @@ const notes = [
 ];
 
 export default () => {
-leanpub-end-remove
+leanpub-end-delete
 export default ({notes}) => {
   return (
     <ul>{notes.map(note =>
@@ -304,7 +304,7 @@ import React from 'react';
 import uuid from 'uuid';
 import Notes from './Notes';
 
-leanpub-start-remove
+leanpub-start-delete
 const notes = [
   {
     id: uuid.v4(),
@@ -322,7 +322,7 @@ export default () => (
     <Notes notes={notes} />
   </div>
 );
-leanpub-end-remove
+leanpub-end-delete
 
 leanpub-start-insert
 export default class App extends React.Component {
@@ -391,9 +391,9 @@ export default class App extends React.Component {
 
     return (
       <div>
-leanpub-start-remove
+leanpub-start-delete
         <button onClick={() => console.log('add note')}>+</button>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <button onClick={this.addNote}>+</button>
 leanpub-end-insert

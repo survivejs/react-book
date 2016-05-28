@@ -40,9 +40,9 @@ The next step is connecting the store with `Provider`. This is where that `setup
 **app/components/Provider/setup.js**
 
 ```javascript
-leanpub-start-remove
+leanpub-start-delete
 export default alt => {}
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 import NoteStore from '../../stores/NoteStore';
 
@@ -60,7 +60,7 @@ To prove that our setup works, we can adjust `App` to consume its data from the 
 ...
 
 class App extends React.Component {
-leanpub-start-remove
+leanpub-start-delete
   constructor(props) {
     super(props);
 
@@ -77,20 +77,20 @@ leanpub-start-remove
       ]
     }
   }
-leanpub-end-remove
+leanpub-end-delete
   render() {
-leanpub-start-remove
+leanpub-start-delete
     const {notes} = this.state;
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     const {notes} = this.props;
 leanpub-end-insert
 
     return (
       <div>
-leanpub-start-remove
+leanpub-start-delete
         {this.props.test}
-leanpub-end-remove
+leanpub-end-delete
         <button className="add-note" onClick={this.addNote}>+</button>
         <Notes
           notes={notes}
@@ -104,9 +104,9 @@ leanpub-end-remove
   ...
 }
 
-leanpub-start-remove
+leanpub-start-delete
 export default connect(() => ({test: 'test'}))(App)
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default connect(({NoteStore}) => ({
   notes: NoteStore.notes
@@ -161,11 +161,11 @@ class App extends React.Component {
   ...
 }
 
-leanpub-start-remove
+leanpub-start-delete
 export default connect(({NoteStore}) => ({
   notes: NoteStore.notes
 }))(App)
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default connect(({NoteStore}) => ({
   notes: NoteStore.notes
@@ -244,7 +244,7 @@ class App extends React.Component {
     ...
   }
   addNote = () => {
-leanpub-start-remove
+leanpub-start-delete
     // It would be possible to write this in an imperative style.
     // I.e., through `this.state.notes.push` and then
     // `this.setState({notes: this.state.notes})` to commit.
@@ -261,7 +261,7 @@ leanpub-start-remove
         task: 'New task'
       }])
     });
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     this.props.NoteActions.create({id: uuid.v4(), task: 'New task'});
 leanpub-end-insert
@@ -290,11 +290,11 @@ export default class NoteStore {
   constructor() {
     ...
   }
-leanpub-start-remove
+leanpub-start-delete
   create(note) {
     console.log('create note', note);
   }
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
   create(note) {
     this.setState({notes: this.notes.concat(note)});
@@ -326,11 +326,11 @@ class App extends React.Component {
     // Avoid bubbling to edit
     e.stopPropagation();
 
-leanpub-start-remove
+leanpub-start-delete
     this.setState({
       notes: this.state.notes.filter(note => note.id !== id)
     });
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     this.props.NoteActions.delete(id);
 leanpub-end-insert
@@ -357,11 +357,11 @@ import NoteActions from '../actions/NoteActions';
 
 export default class NoteStore {
   ...
-leanpub-start-remove
+leanpub-start-delete
   delete(id) {
     console.log('delete note', id);
   }
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
   delete(id) {
     this.setState({
@@ -386,7 +386,7 @@ After this change you should be able to delete notes just like before. There are
 class App extends React.Component {
   ...
   activateNoteEdit = (id) => {
-leanpub-start-remove
+leanpub-start-delete
     this.setState({
       notes: this.state.notes.map(note => {
         if(note.id === id) {
@@ -396,7 +396,7 @@ leanpub-start-remove
         return note;
       })
     });
-leanpub-end-remove
+leanpub-end-delete
 
 leanpub-start-insert
     this.props.NoteActions.update({id, editing: true});
@@ -424,11 +424,11 @@ import NoteActions from '../actions/NoteActions';
 
 export default class NoteStore {
   ...
-leanpub-start-remove
+leanpub-start-delete
   update(updatedNote) {
     console.log('update note', updatedNote);
   }
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
   update(updatedNote) {
     this.setState({
@@ -459,7 +459,7 @@ This final part is easy. We have already the logic we need. Now it's just a matt
 
 class App extends React.Component {
   ...
-leanpub-start-remove
+leanpub-start-delete
   editNote = (id, task) => {
     this.setState({
       notes: this.state.notes.map(note => {
@@ -472,14 +472,14 @@ leanpub-start-remove
       })
     });
   }
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
   editNote = (id, task) => {
     const {NoteActions} = this.props;
 
     NoteActions.update({id, task, editing: false});
   }
-leanpub-end-remove
+leanpub-end-delete
 }
 
 ...

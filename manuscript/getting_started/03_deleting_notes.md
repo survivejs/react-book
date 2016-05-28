@@ -39,9 +39,9 @@ leanpub-end-insert
 export default ({notes}) => {
   return (
     <ul>{notes.map(note =>
-leanpub-start-remove
+leanpub-start-delete
       <li key={note.id}>{note.task}</li>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
       <li key={note.id}><Note task={note.task} /></li>
 leanpub-end-insert
@@ -61,9 +61,9 @@ To capture the intent to delete a `Note`, we'll need to extend it to include a b
 ```javascript
 import React from 'react';
 
-leanpub-start-remove
+leanpub-start-delete
 export default ({task}) => <div>{task}</div>;
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default ({task, onDelete}) => (
   <div>
@@ -96,7 +96,7 @@ To achieve the scheme, we are going to need a new prop at `Notes`. We will also 
 import React from 'react';
 import Note from './Note';
 
-leanpub-start-remove
+leanpub-start-delete
 export default ({notes}) => {
   return (
     <ul>{notes.map(note =>
@@ -104,7 +104,7 @@ export default ({notes}) => {
     )}</ul>
   );
 }
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default ({notes, onDelete=() => {}}) => {
   return (
@@ -141,9 +141,9 @@ export default class App extends React.Component {
     return (
       <div>
         <button onClick={this.addNote}>+</button>
-leanpub-start-remove
+leanpub-start-delete
         <Notes notes={notes} />
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <Notes notes={notes} onDelete={this.deleteNote} />
 leanpub-end-insert

@@ -119,16 +119,16 @@ Before moving on, it would be a good idea to clean up `NoteStore`. There's still
 **app/stores/NoteStore.js**
 
 ```javascript
-leanpub-start-remove
+leanpub-start-delete
 import uuid from 'uuid';
-leanpub-end-remove
+leanpub-end-delete
 import NoteActions from '../actions/NoteActions';
 
 export default class NoteStore {
   constructor() {
     this.bindActions(NoteActions);
 
-leanpub-start-remove
+leanpub-start-delete
     this.notes = [
       {
         id: uuid.v4(),
@@ -139,7 +139,7 @@ leanpub-start-remove
         task: 'Do laundry'
       }
     ];
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     this.notes = [];
 leanpub-end-insert

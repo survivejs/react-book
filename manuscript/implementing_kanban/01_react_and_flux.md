@@ -191,16 +191,16 @@ leanpub-start-insert
 import Provider from './components/Provider';
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
 if(process.env.NODE_ENV !== 'production') {
   React.Perf = require('react-addons-perf');
 }
-leanpub-end-remove
+leanpub-end-delete
 
 ReactDOM.render(
-leanpub-start-remove
+leanpub-start-delete
   <App />,
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
   <Provider><App /></Provider>,
 leanpub-end-insert
@@ -296,11 +296,11 @@ leanpub-start-insert
 import makeFinalStore from 'alt-utils/lib/makeFinalStore';
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
 const alt = new Alt();
 
 export default alt;
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 class Flux extends Alt {
   constructor(config) {
@@ -328,9 +328,9 @@ leanpub-start-insert
 import connect from '../libs/connect';
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
 export default class App extends React.Component {
-leanpub-end-remove
+leanpub-end-delete
   constructor(props) {
     ...
   }

@@ -47,18 +47,18 @@ leanpub-end-insert
 
   return (
     <div {...props}>
-leanpub-start-remove
+leanpub-start-delete
       <div className="lane-header">
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
       <div className="lane-header" onClick={activateLaneEdit}>
 leanpub-end-insert
         <div className="lane-add-note">
           <button onClick={addNote}>+</button>
         </div>
-leanpub-start-remove
+leanpub-start-delete
         <div className="lane-name">{lane.name}</div>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <Editable className="lane-name" editing={lane.editing}
           value={lane.name} onEdit={editName} />
@@ -234,13 +234,13 @@ body {
   font-family: sans-serif;
 }
 
-leanpub-start-remove
+leanpub-start-delete
 .add-note {
   background-color: #fdfdfd;
 
   border: 1px solid #ccc;
 }
-leanpub-end-remove
+leanpub-end-delete
 
 leanpub-start-insert
 .lane {

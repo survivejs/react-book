@@ -46,14 +46,14 @@ React provides a prop known as `children` for this purpose. Adjust `Note` and `N
 ```javascript
 import React from 'react';
 
-leanpub-start-remove
+leanpub-start-delete
 export default ({task, onDelete}) => (
   <div>
     <span>{task}</span>
     <button onClick={onDelete}>x</button>
   </div>
 );
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default ({children, ...props}) => (
   <div {...props}>
@@ -73,11 +73,11 @@ export default ({notes, onDelete=() => {}}) => {
   return (
     <ul>{notes.map(({id, task}) =>
       <li key={id}>
-leanpub-start-remove
+leanpub-start-delete
         <Note
           onDelete={onDelete.bind(null, id)}
           task={task} />
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <Note>
           <span>{task}</span>
@@ -136,9 +136,9 @@ leanpub-start-insert
 import Editable from './Editable';
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
 export default ({notes, onDelete=() => {}}) => {
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default ({
   notes,
@@ -146,22 +146,22 @@ export default ({
 }) => {
 leanpub-end-insert
   return (
-leanpub-start-remove
+leanpub-start-delete
     <ul>{notes.map(({id, task}) =>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     <ul>{notes.map(({id, editing, task}) =>
 leanpub-end-insert
       <li key={id}>
-leanpub-start-remove
+leanpub-start-delete
         <Note>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <Note onClick={onNoteClick.bind(null, id)}>
 leanpub-end-insert
-leanpub-start-remove
+leanpub-start-delete
           <span>{task}</span>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
           <Editable
             editing={editing}
@@ -199,9 +199,9 @@ export default class App extends React.Component {
     return (
       <div>
         <button onClick={this.addNote}>+</button>
-leanpub-start-remove
+leanpub-start-delete
         <Notes notes={notes} onDelete={this.deleteNote} />
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <Notes
           notes={notes}
@@ -271,7 +271,7 @@ Consider the code below for the full implementation. Note how we are handling fi
 ```javascript
 ...
 
-leanpub-start-remove
+leanpub-start-delete
 const Edit = ({onEdit = () => {}, value, ...props}) => {
   return (
     <div onClick={onEdit} {...props}>
@@ -279,7 +279,7 @@ const Edit = ({onEdit = () => {}, value, ...props}) => {
     </div>
   );
 };
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 class Edit extends React.Component {
   render() {

@@ -22,9 +22,9 @@ export default class App extends React.Component {
 
     return (
       <div>
-leanpub-start-remove
+leanpub-start-delete
         <button onClick={this.addNote}>+</button>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <button className="add-note" onClick={this.addNote}>+</button>
 leanpub-end-insert
@@ -75,16 +75,16 @@ export default ({
   onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
 }) => {
   return (
-leanpub-start-remove
+leanpub-start-delete
     <ul>{notes.map(({id, editing, task}) =>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     <ul className="notes">{notes.map(({id, editing, task}) =>
 leanpub-end-insert
       <li key={id}>
-leanpub-start-remove
+leanpub-start-delete
         <Note onClick={onNoteClick.bind(null, id)}>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
         <Note className="note" onClick={onNoteClick.bind(null, id)}>
 leanpub-end-insert
@@ -92,9 +92,9 @@ leanpub-end-insert
             editing={editing}
             value={task}
             onEdit={onEdit.bind(null, id)} />
-leanpub-start-remove
+leanpub-start-delete
           <button onClick={onDelete.bind(null, id)}>x</button>
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
           <button
             className="delete"
@@ -137,16 +137,16 @@ leanpub-start-insert
 import classnames from 'classnames';
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
 export default ({editing, value, onEdit, ...props}) => {
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default ({editing, value, onEdit, className, ...props}) => {
 leanpub-end-insert
   if(editing) {
-leanpub-start-remove
+leanpub-start-delete
     return <Edit value={value} onEdit={onEdit} {...props} />;
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     return <Edit
       className={className}
@@ -156,9 +156,9 @@ leanpub-start-insert
 leanpub-end-insert
   }
 
-leanpub-start-remove
+leanpub-start-delete
   return <span {...props}>{value}</span>;
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
   return <span className={classnames('value', className)} {...props}>
     {value}
@@ -168,17 +168,17 @@ leanpub-end-insert
 
 class Edit extends React.Component {
   render() {
-leanpub-start-remove
+leanpub-start-delete
     const {value, ...props} = this.props;
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     const {className, value, ...props} = this.props;
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
     return <input
       type="text"
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     return <input
       type="text"

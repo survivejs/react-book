@@ -368,9 +368,9 @@ leanpub-end-insert
 import Notes from './Notes';
 
 const Lane = ({
-leanpub-start-remove
+leanpub-start-delete
   lane, notes, NoteActions, ...props
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
   lane, notes, LaneActions, NoteActions, ...props
 leanpub-end-insert
@@ -450,9 +450,9 @@ export default connect(
   ({NoteStore}) => ({
     notes: NoteStore.notes
   }), {
-leanpub-start-remove
+leanpub-start-delete
     NoteActions
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
     NoteActions,
     LaneActions
