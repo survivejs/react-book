@@ -202,47 +202,69 @@ Both decorators give us access to the `Note` props. In this case, we are using `
 
 ## Developing `onMove` API for `Notes`
 
-XXX
-
-Now, that we can move notes around, we still need to define logic. The following steps are needed:
+Now, that we can move notes around, we can start to define logic. The following steps are needed:
 
 1. Capture `Note` id on `beginDrag`.
 2. Capture target `Note` id on `hover`.
-3. Trigger `onMove` callback on `hover` so that we can deal with the logic at a higher level.
+3. Trigger `onMove` callback on `hover` so that we can deal with the logic elsewhere. `LaneStore` would be the ideal place for that.
 
-You can see how this translates to code below:
+Based on the idea above we can see we should pass id to a `Note` through a prop. We also need to set up a `onMove` callback, define `LaneActions.move`, and `LaneStore.move` stub.
+
+### Accepting `id` and `onMove` at `Note`
+
+We can accept `id` and `onMove` props at `Note` like below. There is an extra check at `noteTarget` as we don't need trigger `hover` in case we are hovering on top of the `Note` itself:
 
 **app/components/Note.jsx**
 
 ```javascript
 ...
 
+const Note = ({
+  connectDragSource, connectDropTarget,
+leanpub-start-remove
+  children, ...props
+leanpub-end-remove
+leanpub-start-insert
+  oMove, id, children, ...props
+leanpub-end-insert
+}) => {
+  return compose(connectDragSource, connectDropTarget)(
+    <div {...props}>
+      {children}
+    </div>
+  );
+};
+
+leanpub-start-remove
 const noteSource = {
-leanpub-start-delete
   beginDrag(props) {
     console.log('begin dragging note', props);
 
     return {};
   }
-leanpub-end-delete
+};
+leanpub-end-remove
 leanpub-start-insert
+const noteSource = {
   beginDrag(props) {
     return {
       id: props.id
     };
   }
-leanpub-end-insert
 };
+leanpub-end-insert
 
+leanpub-start-remove
 const noteTarget = {
-leanpub-start-delete
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
 
     console.log('dragging note', sourceProps, targetProps);
   }
-leanpub-end-delete
+};
+leanpub-end-remove
 leanpub-start-insert
+const noteTarget = {
   hover(targetProps, monitor) {
     const targetId = targetProps.id;
     const sourceProps = monitor.getItem();
@@ -252,51 +274,66 @@ leanpub-start-insert
       targetProps.onMove({sourceId, targetId});
     }
   }
-leanpub-end-insert
 };
+leanpub-end-insert
 
 ...
 ```
 
-If you run the application now, you'll likely get a bunch of `onMove` related errors. We should make `Notes` aware of it:
+Having these props isn't useful if we don't pass anything to them at `Notes`. That's our next step.
+
+### Passing `id` and `onMove` from `Notes`
+
+Passing a note `id` and `onMove` is simple enough:
 
 **app/components/Notes.jsx**
 
 ```javascript
 import React from 'react';
-import Editable from './Editable.jsx';
-import Note from './Note.jsx';
+import Note from './Note';
+import Editable from './Editable';
 
-export default ({notes, onValueClick, onEdit, onDelete}) => {
+export default ({
+  notes,
+  onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
+}) => {
   return (
-    <ul className="notes">{notes.map(note => {
-      return (
-leanpub-start-delete
-        <Note className="note" id={note.id} key={note.id}>
-leanpub-end-delete
+    <ul className="notes">{notes.map(({id, editing, task}) =>
+      <li key={id}>
+leanpub-start-remove
+        <Note className="note" onClick={onNoteClick.bind(null, id)}>
+leanpub-end-remove
 leanpub-start-insert
-        <Note className="note" id={note.id} key={note.id}
+        <Note className="note" id={id}
+          onClick={onNoteClick.bind(null, id)}
           onMove={({sourceId, targetId}) =>
-            console.log(`source: ${sourceId}, target: ${targetId}`)
-        }>
+            console.log('moving from', sourceId, 'to', targetId)}>
 leanpub-end-insert
           <Editable
-            editing={note.editing}
-            value={note.task}
-            onValueClick={onValueClick.bind(null, note.id)}
-            onEdit={onEdit.bind(null, note.id)}
-            onDelete={onDelete.bind(null, note.id)} />
+            editing={editing}
+            value={task}
+            onEdit={onEdit.bind(null, id)} />
+          <button
+            className="delete"
+            onClick={onDelete.bind(null, id)}>x</button>
         </Note>
-      );
-    })}
-    </ul>
+      </li>
+    )}</ul>
   );
 }
 ```
 
-If you drag a `Note` around now, you should see log messages like `source <id> target <id>` in the console. We are getting close. We still need to figure out what to do with these ids, though.
+If you hover a note on top of another, you should see console messages like this:
+
+```bash
+moving from 3310916b-5b59-40e6-8a98-370f9c194e16 to 939fb627-1d56-4b57-89ea-04207dbfb405
+```
+
+We can develop the logic next.
 
 ## Adding Action and Store Method for Moving
+
+XXX
 
 The logic of drag and drop goes as follows. Suppose we have a lane containing notes A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
