@@ -119,7 +119,7 @@ const App = ({LaneActions, lanes}) => {
       <Lanes lanes={lanes} />
     </div>
   );
-}
+};
 
 export default connect(({LaneStore}) => ({
   lanes: LaneStore.lanes
@@ -183,7 +183,7 @@ const Lane = ({
         onDelete={deleteNote} />
     </div>
   );
-}
+};
 
 export default connect(
   ({NoteStore}) => ({
@@ -429,7 +429,7 @@ leanpub-end-insert
         onDelete={deleteNote} />
     </div>
   );
-}
+};
 
 leanpub-start-insert
 function selectNotesByIds(allNotes, noteIds = []) {

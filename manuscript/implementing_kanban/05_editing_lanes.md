@@ -71,7 +71,7 @@ leanpub-end-insert
         onDelete={deleteNote} />
     </div>
   );
-}
+};
 
 ...
 ```
@@ -170,7 +170,7 @@ leanpub-end-insert
         onDelete={deleteNote} />
     </div>
   );
-}
+};
 
 ...
 ```
@@ -188,6 +188,8 @@ export default alt.generateActions(
 ```
 
 And to finalize the implementation, let's add logic:
+
+**app/stores/LaneStore.js**
 
 ```javascript
 import LaneActions from '../actions/LaneActions';

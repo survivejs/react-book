@@ -21,7 +21,7 @@ const App = ({LaneActions, lanes}) => {
       <Lanes lanes={lanes} />
     </div>
   );
-}
+};
 
 export default compose(
   DragDropContext(HTML5Backend),

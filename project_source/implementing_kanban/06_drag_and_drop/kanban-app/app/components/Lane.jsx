@@ -77,7 +77,7 @@ const Lane = ({
         onDelete={deleteNote} />
     </div>
   );
-}
+};
 
 function selectNotesByIds(allNotes, noteIds = []) {
   // `reduce` is a powerful method that allows us to

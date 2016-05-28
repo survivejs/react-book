@@ -38,7 +38,7 @@ const App = ({LaneActions, lanes}) => {
       <Lanes lanes={lanes} />
     </div>
   );
-}
+};
 
 leanpub-start-remove
 export default connect(({LaneStore}) => ({
