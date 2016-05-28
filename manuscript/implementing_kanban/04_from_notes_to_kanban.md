@@ -47,129 +47,96 @@ export default class LaneStore {
 }
 ```
 
-We are also going to need a stub for `Lanes`. We will expand this later. For now we just want something simple to show up.
+To connect `LaneStore` with our application, we need to connect it to it through `setup`:
+
+**app/components/Provider/setup.js**
+
+```javascript
+import storage from '../../libs/storage';
+import persist from '../../libs/persist';
+import NoteStore from '../../stores/NoteStore';
+leanpub-start-insert
+import LaneStore from '../../stores/LaneStore';
+leanpub-end-insert
+
+export default alt => {
+  alt.addStore('NoteStore', NoteStore);
+leanpub-start-insert
+  alt.addStore('LaneStore', LaneStore);
+leanpub-end-insert
+
+  persist(alt, storage(localStorage), 'app');
+}
+```
+
+We are also going to need a `Lanes` container to display our lanes:
 
 **app/components/Lanes.jsx**
 
 ```javascript
 import React from 'react';
+import Lane from './Lane';
 
-export default () => (
-  <div className="lanes">
-    lanes should go here
-  </div>
+export default ({lanes}) => (
+  <div className="lanes">{lanes.map(lane =>
+    <Lane className="lane" key={lane.id} lane={lane} />
+  )}</div>
 )
 ```
 
-The component will likely evolve a lot. Starting from a function is always a good starting point, though. To get it show up, we still need to connect it with `App`.
+And finally we can add a little stub for `Lane` to make sure our application doesn't crash when we connect `Lanes` with it. A lot of the current `App` logic will move here eventually:
+
+**app/components/Lane.jsx**
+
+```javascript
+import React from 'react';
+
+export default ({lane, ...props}) => (
+  <div {...props}>{lane.name}</div>
+)
+```
 
 ## Connecting `Lanes` with `App`
 
-XXX
-
-Next, we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up actions, and store as needed:
+Next, we need to make room for `Lanes` at `App`. We will simply replace `Notes` references with `Lanes`, set up lane actions, and store. This means a lot of the old code can disappear. Replace `App` with the following code:
 
 **app/components/App.jsx**
 
 ```javascript
-import AltContainer from 'alt-container';
 import React from 'react';
-leanpub-start-delete
-import Notes from './Notes.jsx';
-import NoteActions from '../actions/NoteActions';
-import NoteStore from '../stores/NoteStore';
-leanpub-end-delete
-leanpub-start-insert
-import Lanes from './Lanes.jsx';
+import uuid from 'uuid';
+import connect from '../libs/connect';
+import Lanes from './Lanes';
 import LaneActions from '../actions/LaneActions';
-import LaneStore from '../stores/LaneStore';
-leanpub-end-insert
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <div>
-leanpub-start-delete
-        <button className="add-note" onClick={this.addNote}>+</button>
-leanpub-end-delete
-leanpub-start-insert
-        <button className="add-lane" onClick={this.addLane}>+</button>
-leanpub-end-insert
-leanpub-start-delete
-        <AltContainer
-          stores={[NoteStore]}
-          inject={{
-            notes: () => NoteStore.getState().notes
-          }}
-        >
-leanpub-end-delete
-leanpub-start-insert
-        <AltContainer
-          stores={[LaneStore]}
-          inject={{
-            lanes: () => LaneStore.getState().lanes || []
-          }}
-        >
-leanpub-end-insert
-leanpub-start-delete
-          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
-leanpub-end-delete
-leanpub-start-insert
-          <Lanes />
-leanpub-end-insert
-        </AltContainer>
-      </div>
-    );
-  }
-leanpub-start-delete
-  deleteNote = (id, e) => {
-    // Avoid bubbling to edit
-    e.stopPropagation();
+const App = ({LaneActions, lanes}) => {
+  const addLane = () => {
+    LaneActions.create({
+      id: uuid.v4(),
+      name: 'New lane'
+    });
+  };
 
-    NoteActions.delete(id);
-  };
-  addNote = () => {
-    NoteActions.create({task: 'New task'});
-  };
-  editNote = (id, task) => {
-    // Don't modify if trying to set an empty value
-    if(!task.trim()) {
-      return;
-    }
-
-    NoteActions.update({id, task});
-  };
-leanpub-end-delete
-leanpub-start-insert
-  addLane() {
-    LaneActions.create({name: 'New lane'});
-  }
-leanpub-end-insert
+  return (
+    <div>
+      <button className="add-lane" onClick={addLane}>+</button>
+      <Lanes lanes={lanes} />
+    </div>
+  );
 }
+
+export default connect(({LaneStore}) => ({lanes: LaneStore.lanes}), {
+  LaneActions
+})(App)
 ```
 
-If you check out the implementation at the browser, you can see that the current implementation doesn't do much. It just shows a plus button and *lanes should go here* text. Even the add button doesn't work yet. We still need to model `Lane` and attach `Notes` to that to make this all work.
+If you check out the implementation at the browser, you can see that the current implementation doesn't do much. You should be able to add new lanes to the Kanban and see "New lane" text per each but that's about it. To restore the note related functionality, we need to focus on modeling `Lane` further.
 
 ## Modeling `Lane`
 
-The `Lanes` container will render each `Lane` separately. Each `Lane` in turn will then render associated `Notes`, just like our `App` did earlier. `Lanes` is analogous to `Notes` in this manner. The example below illustrates how to set this up:
+`Lane` will render a name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`:
 
-**app/components/Lanes.jsx**
-
-```javascript
-import React from 'react';
-import Lane from './Lane.jsx';
-
-export default ({lanes}) => {
-  return (
-    <div className="lanes">{lanes.map(lane =>
-      <Lane className="lane" key={lane.id} lane={lane} />
-    )}</div>
-  );
-}
-```
-
-We are also going to need a `Lane` component to make this work. It will render the `Lane` name and associated `Notes`. The example below has been modeled largely after our earlier implementation of `App`. It will render an entire lane, including its name and associated notes:
+XXX
 
 **app/components/Lane.jsx**
 
