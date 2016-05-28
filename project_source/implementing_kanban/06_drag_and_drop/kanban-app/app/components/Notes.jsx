@@ -14,6 +14,7 @@ export default ({
           onClick={onNoteClick.bind(null, id)}
           onMove={LaneActions.move}>
           <Editable
+            className="editable"
             editing={editing}
             value={task}
             onEdit={onEdit.bind(null, id)} />

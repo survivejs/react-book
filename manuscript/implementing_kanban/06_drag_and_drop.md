@@ -310,6 +310,7 @@ leanpub-start-insert
             console.log('moving from', sourceId, 'to', targetId)}>
 leanpub-end-insert
           <Editable
+            className="editable"
             editing={editing}
             value={task}
             onEdit={onEdit.bind(null, id)} />
@@ -376,6 +377,7 @@ leanpub-start-insert
           onMove={LaneActions.move}>
 leanpub-end-insert
           <Editable
+            className="editable"
             editing={editing}
             value={task}
             onEdit={onEdit.bind(null, id)} />
@@ -469,9 +471,11 @@ leanpub-end-insert
 
 If you try out the application now, you can actually drag notes around and it should behave as you expect. Dragging to empty lanes doesn't work, though, and the presentation could be better.
 
-It would be better if we indicated the dragged note's location more clearly. We can do this by hiding the dragged note from the list. React DnD provides us the hooks we need for this purpose.
+It would be nicer if we indicated the dragged note's location more clearly. We can do this by hiding the dragged note from the list. React DnD provides us the hooks we need for this purpose.
 
 ### Indicating Where to Move
+
+XXX
 
 React DnD provides a feature known as state monitors. Through it we can use `monitor.isDragging()` to detect which `Note` we are currently dragging. It can be set up as follows:
 
@@ -715,6 +719,7 @@ leanpub-start-insert
         editing={note.editing} onMove={LaneActions.move}>
 leanpub-end-insert
         <Editable
+          className="editable"
           editing={note.editing}
           value={note.task}
           onValueClick={onValueClick.bind(null, note.id)}

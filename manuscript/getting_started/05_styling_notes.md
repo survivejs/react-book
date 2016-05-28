@@ -89,6 +89,7 @@ leanpub-start-insert
         <Note className="note" onClick={onNoteClick.bind(null, id)}>
 leanpub-end-insert
           <Editable
+            className="editable"
             editing={editing}
             value={task}
             onEdit={onEdit.bind(null, id)} />
