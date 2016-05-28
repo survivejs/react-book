@@ -1,33 +1,69 @@
 # Implementing Drag and Drop
 
-Our Kanban application is almost usable now. It looks alright and there's some basic functionality in place. In this chapter, I'll show you how to take it to the next level. We will integrate some drag and drop functionality as we set up [React DnD](https://gaearon.github.io/react-dnd/). After this chapter, you should be able to sort notes within a lane and drag them from one lane to another.
+Our Kanban application is almost usable now. It looks alright and there's basic functionality in place. In this chapter, we will integrate drag and drop functionality to it as we set up [React DnD](https://gaearon.github.io/react-dnd/).
+
+After this chapter, you should be able to sort notes within a lane and drag them from one lane to another. Although this sounds simple, there is quite a bit of work to do as we need to annotate our components the right way and develop the logic needed.
 
 ## Setting Up React DnD
 
-As a first step, we'll need to connect React DnD with our project. We are going to use the HTML5 Drag and Drop based back-end. There are specific back-ends for testing and [touch](https://github.com/yahoo/react-dnd-touch-backend). In order to set it up, we need to use the `DragDropContext` decorator and provide the back-end to it:
+As the first step, we need to connect React DnD with our project. We are going to use the HTML5 Drag and Drop based back-end. There are specific back-ends for testing and [touch](https://github.com/yahoo/react-dnd-touch-backend).
+
+In order to set it up, we need to use the `DragDropContext` decorator and provide the HTML5 back-end to it. To avoid unnecessary wrapping, I'll use Redux `compose` to keep the code neater and more readable:
 
 **app/components/App.jsx**
 
 ```javascript
-...
+import React from 'react';
+import uuid from 'uuid';
 leanpub-start-insert
+import {compose} from 'redux';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 leanpub-end-insert
+import connect from '../libs/connect';
+import Lanes from './Lanes';
+import LaneActions from '../actions/LaneActions';
 
-leanpub-start-insert
-@DragDropContext(HTML5Backend)
-leanpub-end-insert
-export default class App extends React.Component {
-  ...
+const App = ({LaneActions, lanes}) => {
+  const addLane = () => {
+    LaneActions.create({
+      id: uuid.v4(),
+      name: 'New lane'
+    });
+  };
+
+  return (
+    <div>
+      <button className="add-lane" onClick={addLane}>+</button>
+      <Lanes lanes={lanes} />
+    </div>
+  );
 }
+
+leanpub-start-remove
+export default connect(({LaneStore}) => ({
+  lanes: LaneStore.lanes
+}), {
+  LaneActions
+})(App)
+leanpub-end-remove
+leanpub-start-insert
+export default compose(
+  DragDropContext(HTML5Backend),
+  connect(({LaneStore}) => ({
+    lanes: LaneStore.lanes
+  }), {
+    LaneActions
+  })
+)(App)
+leanpub-end-insert
 ```
 
-After this change, the application should look exactly the same as before. We are now ready to add some sweet functionality to it.
-
-T> Decorators provide us simple means to annotate our components. Alternatively we could use syntax, such as `DragDropContext(HTML5Backend)(App)`, but this would get rather unwieldy when we want to apply multiple decorators. See the decorator appendix to understand in detail how they work and how to implement them yourself.
+After this change, the application should look exactly the same as before. We are ready to add some sweet functionality to it now.
 
 ## Preparing Notes to Be Sorted
+
+XXX
 
 Next, we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll need to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
 
