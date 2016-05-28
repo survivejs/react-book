@@ -258,12 +258,6 @@ We are missing one more part to make this work. Even though we can manage the `e
 
 In this case we'll be using **uncontrolled** design and extract the value of the input from the DOM only when we need it. We don't need more control than that here.
 
-As a small user experience (UX) tweak we can also put the input cursor to the end of the field automatically when editing. Otherwise the user will have to move there. This can be achieved by using a ref.
-
-Refs allow us to access the underlying DOM structure. The simplest way to use them is simply to set `ref="value"` and then use `this.refs.value`. Given refs rely on a backing instance (i.e., `this`), you will need to use either a `React.createClass` or `React.Component` based component to use them.
-
-Another way to initialize a ref would be to pass a function to it. This will give us a chance to give something when the element gets mounted by React. That's ideal for us and we can patch the behavior of our input through this hook.
-
 Consider the code below for the full implementation. Note how we are handling finishing the editing. We capture `onKeyPress` and check for `Enter` to confirm editing:
 
 **app/components/Editable.jsx**
@@ -287,11 +281,6 @@ class Edit extends React.Component {
 
     return <input
       type="text"
-      ref={
-        element => element ?
-        element.selectionStart = value.length :
-        null
-      }
       autoFocus={true}
       defaultValue={value}
       onKeyPress={this.checkEnter}

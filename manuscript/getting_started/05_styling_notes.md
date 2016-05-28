@@ -185,11 +185,6 @@ leanpub-start-insert
       type="text"
       className={classnames('edit', className)}
 leanpub-end-insert
-      ref={
-        element => element ?
-        element.selectionStart = value.length :
-        null
-      }
       autoFocus={true}
       defaultValue={value}
       onBlur={this.finishEdit}

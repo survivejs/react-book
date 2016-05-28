@@ -14,11 +14,6 @@ class Edit extends React.Component {
 
     return <input
       type="text"
-      ref={
-        element => element ?
-        element.selectionStart = value.length :
-        null
-      }
       autoFocus={true}
       defaultValue={value}
       onKeyPress={this.checkEnter}
