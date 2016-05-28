@@ -35,13 +35,6 @@ class App extends React.Component {
   editNote = (id, task) => {
     const {NoteActions} = this.props;
 
-    // Don't modify if trying to set an empty value
-    if(!task.trim()) {
-      NoteActions.update({id, editing: false});
-
-      return;
-    }
-
     NoteActions.update({id, task, editing: false});
   }
 }

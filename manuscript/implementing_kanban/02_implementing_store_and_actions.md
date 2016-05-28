@@ -450,9 +450,7 @@ It should be possible to start editing a note now. If you try to finish editing,
 
 ## Porting `App.editNote` to Flux
 
-This final part is easy. We have already the logic we need. Now it's just a matter of connecting `App.editNote` to it in a correct way. We'll need to call our `update` method the correct way.
-
-This is a good place to apply additional logic on the editing process. It doesn't make sense to allow empty tasks. We can still finish the process. We just don't have to commit the new task in this case. Here's the idea:
+This final part is easy. We have already the logic we need. Now it's just a matter of connecting `App.editNote` to it in a correct way. We'll need to call our `update` method the correct way:
 
 **app/components/App.jsx**
 
@@ -478,13 +476,6 @@ leanpub-end-remove
 leanpub-start-insert
   editNote = (id, task) => {
     const {NoteActions} = this.props;
-
-    // Don't modify if trying to set an empty value
-    if(!task.trim()) {
-      NoteActions.update({id, editing: false});
-
-      return;
-    }
 
     NoteActions.update({id, task, editing: false});
   }

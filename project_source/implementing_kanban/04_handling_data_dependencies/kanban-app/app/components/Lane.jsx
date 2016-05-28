@@ -9,13 +9,6 @@ const Lane = ({
   lane, notes, LaneActions, NoteActions, ...props
 }) => {
   const editNote = (id, task) => {
-    // Don't modify if trying to set an empty value
-    if(!task.trim()) {
-      NoteActions.update({id, editing: false});
-
-      return;
-    }
-
     NoteActions.update({id, task, editing: false});
   }
   const addNote = e => {
