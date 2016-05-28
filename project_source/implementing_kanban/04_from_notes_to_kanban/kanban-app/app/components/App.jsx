@@ -20,6 +20,8 @@ const App = ({LaneActions, lanes}) => {
   );
 }
 
-export default connect(({LaneStore}) => ({lanes: LaneStore.lanes}), {
+export default connect(({LaneStore}) => ({
+  lanes: LaneStore.lanes
+}), {
   LaneActions
 })(App)

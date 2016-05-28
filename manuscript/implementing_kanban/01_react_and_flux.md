@@ -237,7 +237,7 @@ export default class App extends React.Component {
 }
 ```
 
-The same could be written without decorators:
+The same could be written without decorators. This is the syntax we'll be using in our application:
 
 ```javascript
 class App extends React.Component {
@@ -328,10 +328,9 @@ leanpub-start-insert
 import connect from '../libs/connect';
 leanpub-end-insert
 
-leanpub-start-insert
-@connect(() => ({test: 'test'}))
-leanpub-end-insert
+leanpub-start-remove
 export default class App extends React.Component {
+leanpub-end-remove
   constructor(props) {
     ...
   }
@@ -355,6 +354,10 @@ leanpub-end-insert
   }
   ...
 }
+
+leanpub-start-insert
+export default connect(() => ({test: 'test'}))(App)
+leanpub-end-insert
 ```
 
 To make the text show up, refresh the browser. You should see the text that we connected to `App` now.

@@ -59,13 +59,7 @@ To prove that our setup works, we can adjust `App` to consume its data from the 
 ```javascript
 ...
 
-leanpub-start-remove
-@connect(() => ({test: 'test'}))
-leanpub-end-remove
-leanpub-start-insert
-@connect(({NoteStore}) => ({notes: NoteStore.notes}))
-leanpub-end-insert
-export default class App extends React.Component {
+class App extends React.Component {
 leanpub-start-remove
   constructor(props) {
     super(props);
@@ -109,9 +103,20 @@ leanpub-end-remove
   }
   ...
 }
+
+leanpub-start-remove
+export default connect(() => ({test: 'test'}))(App)
+leanpub-end-remove
+leanpub-start-insert
+export default connect(({NoteStore}) => ({
+  notes: NoteStore.notes
+}))(App)
+leanpub-end-insert
 ```
 
 If you refresh the application now, you should see exactly the same data as before. This time, however, we are consuming the data from our store. As a result our logic is broken. That's something we'll need to fix next as we define `NoteActions` and push our state manipulation to the `NoteStore`.
+
+T> Given `App` doesn't depend on state anymore, it would be possible to port it as a function based component. Often most of your components will be based on functions just for this reason. If you aren't using state or refs, then it's safe to default to functions.
 
 ## Understanding Actions
 
@@ -152,17 +157,22 @@ leanpub-start-insert
 import NoteActions from '../actions/NoteActions';
 leanpub-end-insert
 
-leanpub-start-remove
-@connect(({NoteStore}) => ({notes: NoteStore.notes}))
-leanpub-end-remove
-leanpub-start-insert
-@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
-  NoteActions
-})
-leanpub-end-insert
-export default class App extends React.Component {
+class App extends React.Component {
   ...
 }
+
+leanpub-start-remove
+export default connect(({NoteStore}) => ({
+  notes: NoteStore.notes
+}))(App)
+leanpub-end-remove
+leanpub-start-insert
+export default connect(({NoteStore}) => ({
+  notes: NoteStore.notes
+}), {
+  NoteActions
+})(App)
+leanpub-end-insert
 ```
 
 This gives us `this.props.NoteActions.create` kind of API for triggering various actions. That's a good for expanding the implementation further.
@@ -229,10 +239,7 @@ To actually see it working, we'll need to start connecting our actions at `App` 
 ```javascript
 ...
 
-@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
-  NoteActions
-})
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
     ...
   }
@@ -261,6 +268,8 @@ leanpub-end-insert
   }
   ...
 }
+
+...
 ```
 
 If you click the "add note" button now, you should see messages like this at the browser console:
@@ -311,10 +320,7 @@ The process exactly the same for `App.deleteNote`. We'll need to connect it with
 ```javascript
 ...
 
-@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
-  NoteActions
-})
-export default class App extends React.Component {
+class App extends React.Component {
   ...
   deleteNote = (id, e) => {
     // Avoid bubbling to edit
@@ -331,6 +337,8 @@ leanpub-end-insert
   }
   ...
 }
+
+...
 ```
 
 If you try to delete a note now, you should see a message like this at the browser console:
@@ -375,10 +383,7 @@ After this change you should be able to delete notes just like before. There are
 ```javascript
 ...
 
-@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
-  NoteActions
-})
-export default class App extends React.Component {
+class App extends React.Component {
   ...
   activateNoteEdit = (id) => {
 leanpub-start-remove
@@ -399,6 +404,8 @@ leanpub-end-insert
   }
   ...
 }
+
+...
 ```
 
 If you try to edit now, you should see messages like this at the browser console:
@@ -452,10 +459,7 @@ This is a good place to apply additional logic on the editing process. It doesn'
 ```javascript
 ...
 
-@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
-  NoteActions
-})
-export default class App extends React.Component {
+class App extends React.Component {
   ...
 leanpub-start-remove
   editNote = (id, task) => {
@@ -486,6 +490,8 @@ leanpub-start-insert
   }
 leanpub-end-remove
 }
+
+...
 ```
 
 After this change you should be able to modify tasks again. You can also try editing using an empty value. The value should revert back to the old one then.

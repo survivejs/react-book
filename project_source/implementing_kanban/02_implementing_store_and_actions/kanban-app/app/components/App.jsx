@@ -4,10 +4,7 @@ import Notes from './Notes';
 import connect from '../libs/connect';
 import NoteActions from '../actions/NoteActions';
 
-@connect(({NoteStore}) => ({notes: NoteStore.notes}), {
-  NoteActions
-})
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
     const {notes} = this.props;
 
@@ -48,3 +45,9 @@ export default class App extends React.Component {
     NoteActions.update({id, task, editing: false});
   }
 }
+
+export default connect(({NoteStore}) => ({
+  notes: NoteStore.notes
+}), {
+  NoteActions
+})(App)
