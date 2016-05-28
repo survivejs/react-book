@@ -5,7 +5,7 @@ import ItemTypes from '../constants/itemTypes';
 
 const Note = ({
   connectDragSource, connectDropTarget, isDragging,
-  isOver, oMove, id, children, ...props
+  isOver, onMove, id, children, ...props
 }) => {
   return compose(connectDragSource, connectDropTarget)(
     <div style={{

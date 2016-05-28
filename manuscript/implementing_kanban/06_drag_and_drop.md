@@ -492,7 +492,7 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
   connectDragSource, connectDropTarget, isDragging,
-  isOver, oMove, id, children, ...props
+  isOver, onMove, id, children, ...props
 leanpub-end-insert
 }) => {
   return compose(connectDragSource, connectDropTarget)(
