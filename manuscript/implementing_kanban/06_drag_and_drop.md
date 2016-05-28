@@ -546,108 +546,81 @@ To drag notes to empty lanes, we should allow them to receive notes. Just as abo
 **app/components/Lane.jsx**
 
 ```javascript
-...
+import React from 'react';
+import uuid from 'uuid';
 leanpub-start-insert
+import {compose} from 'redux';
 import {DropTarget} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
-
-const noteTarget = {
-  hover(targetProps, monitor) {
-    const targetId = targetProps.lane.id;
-    const sourceProps = monitor.getItem();
-    const sourceId = sourceProps.id;
-
-    console.log(`source: ${sourceId}, target: ${targetId}`);
-  }
-};
-
-@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
-  connectDropTarget: connect.dropTarget()
-}))
 leanpub-end-insert
-export default class Lane extends React.Component {
-  render() {
+import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
+import LaneActions from '../actions/LaneActions';
+import Notes from './Notes';
+import Editable from './Editable';
+
+const Lane = ({
 leanpub-start-delete
-    const {lane, ...props} = this.props;
+  lane, notes, LaneActions, NoteActions, ...props
 leanpub-end-delete
 leanpub-start-insert
-    const {connectDropTarget, lane, ...props} = this.props;
+  connectDropTarget, lane, notes, LaneActions, NoteActions, ...props
 leanpub-end-insert
-
-leanpub-start-delete
-    return (
-leanpub-end-delete
-leanpub-start-insert
-    return connectDropTarget(
-leanpub-end-insert
-      ...
-    );
-  }
+}) => {
   ...
-}
-```
 
-If you refresh your browser and drag a note to a lane now, you should see log messages at your console. The question is what to do with this data? Before actually moving the note to a lane, we should check whether it's empty or not. If it has content already, the operation doesn't make sense. Our existing logic can deal with that.
-
-This is a simple check to make. Given we know the target lane at our `noteTarget` `hover` handler, we can check its `notes` array as follows:
-
-**app/components/Lane.jsx**
-
-```javascript
-...
-
-const noteTarget = {
 leanpub-start-delete
-  hover(targetProps, monitor) {
-    const targetId = targetProps.lane.id;
-    const sourceProps = monitor.getItem();
-    const sourceId = sourceProps.id;
-
-    console.log(`source: ${sourceId}, target: ${targetId}`);
-  }
+  return (
 leanpub-end-delete
 leanpub-start-insert
-  hover(targetProps, monitor) {
-    const sourceProps = monitor.getItem();
-    const sourceId = sourceProps.id;
-
-    if(!targetProps.lane.notes.length) {
-      console.log('source', sourceId, 'target', targetProps);
-    }
-  }
+  return connectDropTarget(
 leanpub-end-insert
+    <div {...props}>
+      <div className="lane-header" onClick={activateLaneEdit}>
+        <div className="lane-add-note">
+          <button onClick={addNote}>+</button>
+        </div>
+        <Editable className="lane-name" editing={lane.editing}
+          value={lane.name} onEdit={editName} />
+        <div className="lane-delete">
+          <button onClick={deleteLane}>x</button>
+        </div>
+      </div>
+      <Notes
+        notes={selectNotesByIds(notes, lane.notes)}
+        onNoteClick={activateNoteEdit}
+        onEdit={editNote}
+        onDelete={deleteNote} />
+    </div>
+  );
 };
 
-...
-```
+function selectNotesByIds(allNotes, noteIds = []) {
+  // `reduce` is a powerful method that allows us to
+  // fold data. You can implement `filter` and `map`
+  // through it. Here we are using it to concatenate
+  // notes matching to the ids.
+  return noteIds.reduce((notes, id) =>
+    // Concatenate possible matching ids to the result
+    notes.concat(
+      allNotes.filter(note => note.id === id)
+    )
+  , []);
+}
 
-If you refresh your browser and drag around now, the log message should appear only when you drag a note to a lane that doesn't have any notes attached to it yet.
-
-### Triggering `move` Logic
-
-Now we know what `Note` to move into which `Lane`. `LaneStore.attachToLane` is ideal for this purpose. Adjust `Lane` as follows:
-
-**app/components/Lane.jsx**
-
-```javascript
-...
-
-const noteTarget = {
-leanpub-start-delete
-  hover(targetProps, monitor) {
-    const sourceProps = monitor.getItem();
-    const sourceId = sourceProps.id;
-
-    if(!targetProps.lane.notes.length) {
-      console.log('source', sourceId, 'target', targetProps);
-    }
-  }
-leanpub-end-delete
 leanpub-start-insert
+const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
     const sourceId = sourceProps.id;
 
+    // If the target lane doesn't have notes,
+    // attach the note to it.
+    //
+    // `attachToLane` performs necessarly
+    // cleanup by default and it guarantees
+    // a note can belong only to a single lane
+    // at a time.
     if(!targetProps.lane.notes.length) {
       LaneActions.attachToLane({
         laneId: targetProps.lane.id,
@@ -655,59 +628,41 @@ leanpub-start-insert
       });
     }
   }
-leanpub-end-insert
 };
-
-...
-```
-
-There is one problem, though. What happens to the old instance of the `Note`? In the current solution, the old lane will have an id pointing to it. As a result, we will have duplicate data in the system.
-
-Earlier, we resolved this using `detachFromLane`. The problem is that we don't know to which lane the note belonged. We could pass this data through the component hierarchy, but that doesn't feel particularly nice.
-
-We can resolve this by adding a check against the case at `attachToLane`:
-
-**app/stores/LaneStore.js**
-
-```javascript
-...
-
-class LaneStore {
-  ...
-  attachToLane({laneId, noteId}) {
-    const lanes = this.lanes.map(lane => {
-leanpub-start-insert
-      if(lane.notes.includes(noteId)) {
-        lane.notes = lane.notes.filter(note => note !== noteId);
-      }
 leanpub-end-insert
 
-      if(lane.id === laneId) {
-leanpub-start-delete
-        if(lane.notes.includes(noteId)) {
-          console.warn('Already attached note to lane', lanes);
-        }
-        else {
-          lane.notes.push(noteId);
-        }
-leanpub-end-delete
-leanpub-start-insert
-        lane.notes.push(noteId);
-leanpub-end-insert
-      }
-
-      return lane;
-    });
-
-    this.setState({lanes});
+leanpub-start-remove
+export default connect(
+  ({NoteStore}) => ({
+    notes: NoteStore.notes
+  }), {
+    NoteActions,
+    LaneActions
   }
-  ...
-}
+)(Lane)
+leanpub-end-remove
+leanpub-start-insert
+export default compose(
+  DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+    connectDropTarget: connect.dropTarget()
+  })),
+  connect(({NoteStore}) => ({
+    notes: NoteStore.notes
+  }), {
+    NoteActions,
+    LaneActions
+  })
+)(Lane)
+leanpub-end-insert
 ```
 
-After these changes you should be able to drag notes to empty lanes.
+After attaching this logic, you should be able to drag notes to empty lanes.
+
+Our current implementation of `attachToLane` does a lot of the hard work for us. If it didn't guarantee that a note can belong only to a single lane at a time, we would need to adjust our logic. It's good to have these sort of invariants within the state management system.
 
 ### Fixing Editing Behavior During Dragging
+
+XXX
 
 The current implementation has a small glitch. If you edit a note, you can still drag it around while it's being edited. This isn't ideal as it overrides the default behavior most people are used to. You cannot for instance double-click on an input to select all the text.
 
