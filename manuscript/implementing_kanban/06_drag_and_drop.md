@@ -662,8 +662,6 @@ Our current implementation of `attachToLane` does a lot of the hard work for us.
 
 ### Fixing Editing Behavior During Dragging
 
-XXX
-
 The current implementation has a small glitch. If you edit a note, you can still drag it around while it's being edited. This isn't ideal as it overrides the default behavior most people are used to. You cannot for instance double-click on an input to select all the text.
 
 Fortunately, this is simple to fix. We'll need to use the `editing` state per each `Note` to adjust its behavior. First we need to pass `editing` state to an individual `Note`:
@@ -671,27 +669,34 @@ Fortunately, this is simple to fix. We'll need to use the `editing` state per ea
 **app/components/Notes.jsx**
 
 ```javascript
-...
+import React from 'react';
+import Note from './Note';
+import Editable from './Editable';
+import LaneActions from '../actions/LaneActions';
 
-export default ({notes, onValueClick, onEdit, onDelete}) => {
+export default ({
+  notes,
+  onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
+}) => {
   return (
-    <ul className="notes">{notes.map(note =>
-leanpub-start-delete
-      <Note className="note" id={note.id} key={note.id}
-        onMove={LaneActions.move}>
-leanpub-end-delete
+    <ul className="notes">{notes.map(({id, editing, task}) =>
+      <li key={id}>
+        <Note className="note" id={id}
 leanpub-start-insert
-      <Note className="note" id={note.id} key={note.id}
-        editing={note.editing} onMove={LaneActions.move}>
+          editing={editing}
 leanpub-end-insert
-        <Editable
-          className="editable"
-          editing={note.editing}
-          value={note.task}
-          onValueClick={onValueClick.bind(null, note.id)}
-          onEdit={onEdit.bind(null, note.id)}
-          onDelete={onDelete.bind(null, note.id)} />
-      </Note>
+          onClick={onNoteClick.bind(null, id)}
+          onMove={LaneActions.move}>
+          <Editable
+            className="editable"
+            editing={editing}
+            value={task}
+            onEdit={onEdit.bind(null, id)} />
+          <button
+            className="delete"
+            onClick={onDelete.bind(null, id)}>x</button>
+        </Note>
+      </li>
     )}</ul>
   );
 }
@@ -702,43 +707,43 @@ Next we need to take this into account while rendering:
 **app/components/Note.jsx**
 
 ```javascript
+import React from 'react';
+import {compose} from 'redux';
+import {DragSource, DropTarget} from 'react-dnd';
+import ItemTypes from '../constants/itemTypes';
+
+const Note = ({
+  connectDragSource, connectDropTarget, isDragging,
+leanpub-start-delete
+  isOver, onMove, id, children, ...props
+leanpub-end-delete
+leanpub-start-insert
+  isOver, onMove, id, editing, children, ...props
+leanpub-end-insert
+}) => {
+leanpub-start-insert
+  // Pass through if we are editing
+  const dragSource = editing ? a => a : connectDragSource;
+leanpub-end-insert
+
+leanpub-start-delete
+  return compose(connectDragSource, connectDropTarget)(
+leanpub-end-delete
+leanpub-start-insert
+  return compose(dragSource, connectDropTarget)(
+leanpub-end-insert
+    <div style={{
+      opacity: isDragging || isOver ? 0 : 1
+    }} {...props}>{children}</div>
+  );
+};
+
 ...
-
-@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging()
-}))
-@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
-  connectDropTarget: connect.dropTarget()
-}))
-export default class Note extends React.Component {
-  render() {
-leanpub-start-delete
-    const {connectDragSource, connectDropTarget, isDragging,
-      onMove, id, ...props} = this.props;
-leanpub-end-delete
-leanpub-start-insert
-    const {connectDragSource, connectDropTarget, isDragging,
-      onMove, id, editing, ...props} = this.props;
-    // Pass through if we are editing
-    const dragSource = editing ? a => a : connectDragSource;
-leanpub-end-insert
-
-leanpub-start-delete
-    return connectDragSource(connectDropTarget(
-leanpub-end-delete
-leanpub-start-insert
-    return dragSource(connectDropTarget(
-leanpub-end-insert
-      <li style={{
-        opacity: isDragging ? 0 : 1
-      }} {...props}>{props.children}</li>
-    ));
-  }
-}
 ```
 
-This small change gives us the behavior we want. If you try to edit a note now, the input should work as you might expect it to behave normally. Design-wise it was a good idea to keep `editing` state outside of `Editable`. If we hadn't done that, implementing this change would have been a lot harder as we would have had to extract the state outside of the component.
+This small change gives us the behavior we want. If you try to edit a note now, the input should work as you might expect it to behave normally.
+
+Design-wise it was a good idea to keep `editing` state outside of `Editable`. If we hadn't done that, implementing this change would have been a lot harder as we would have had to extract the state outside of the component.
 
 Now we have a Kanban table that is actually useful! We can create new lanes and notes, and edit and remove them. In addition we can move notes around. Mission accomplished!
 
@@ -749,5 +754,3 @@ In this chapter, you saw how to implement drag and drop for our little applicati
 I encourage you to expand the application. The current implementation should work just as a starting point for something greater. Besides extending the DnD implementation, you can try adding more data to the system. You could also do something to the visual outlook. One option would be to try out various styling approaches discussed at the *Styling React* chapter.
 
 To make it harder to break the application during development, you can also implement tests as discussed at *Testing React*. *Typing with React* discussed yet more ways to harden your code. Learning these approaches can be worthwhile. Sometimes it may be worth your while to design your applications test first. It is a valuable approach as it allows you to document your assumptions as you go.
-
-In the next chapter, we'll set up a production level build for our application. You can use the techniques discussed in your own projects.
