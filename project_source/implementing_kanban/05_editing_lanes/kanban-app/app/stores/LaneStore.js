@@ -26,6 +26,11 @@ export default class LaneStore {
       })
     });
   }
+  delete(id) {
+    this.setState({
+      lanes: this.lanes.filter(lane => lane.id !== id)
+    });
+  }
   attachToLane({laneId, noteId}) {
     this.setState({
       lanes: this.lanes.map(lane => {

@@ -127,125 +127,55 @@ After these changes you should be able to edit lane names. Lane deletion is a go
 
 ## Implementing `Lane` Deletion
 
-XXX
+Deleting lanes is a similar problem. We need to extend the user interface, add an action, and attach logic associated to it.
 
-## Styling Kanban
-
-XXX
-
-### Connecting `Lane` with `Editable`
-
-Next, we can use this generic component to allow a lane's name to be modified. This will give a hook for our logic. To allow the user to modify the name easily, it makes sense to enable the editing mode when a lane header is clicked. To achieve this, we can attach a `onClick` handler to it and then set state as the user clicks it.
-
-As a first step, add initial code in place. We'll define actual logic later. Tweak as follows:
+The user interface is a natural place to start. Often it's a good idea to add some `console.log`s in place to make sure your event handlers get triggered as your expect. It would be even better to write tests for those. That way you'll end up with a runnable specification. Here's how to add a stub for deleting lanes:
 
 **app/components/Lane.jsx**
 
 ```javascript
 ...
-leanpub-start-insert
-import Editable from './Editable.jsx';
-leanpub-end-insert
 
-export default class Lane extends React.Component {
-  render() {
-    const {lane, ...props} = this.props;
-
-    return (
-      <div {...props}>
-leanpub-start-delete
-        <div className="lane-header">
-leanpub-end-delete
-leanpub-start-insert
-        <div className="lane-header" onClick={this.activateLaneEdit}>
-leanpub-end-insert
-          <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
-          </div>
-leanpub-start-delete
-          <div className="lane-name">{lane.name}</div>
-leanpub-end-delete
-leanpub-start-insert
-          <Editable className="lane-name" editing={lane.editing}
-            value={lane.name} onEdit={this.editName} />
-          <div className="lane-delete">
-            <button onClick={this.deleteLane}>x</button>
-          </div>
-leanpub-end-insert
-        </div>
-        <AltContainer
-          stores={[NoteStore]}
-          inject={{
-            notes: () => NoteStore.getNotesByIds(lane.notes)
-          }}
-        >
-leanpub-start-delete
-          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
-leanpub-end-delete
-leanpub-start-insert
-          <Notes
-            onNoteClick={this.activateNoteEdit}
-            onEdit={this.editNote}
-            onDelete={this.deleteNote} />
-leanpub-end-insert
-        </AltContainer>
-      </div>
-    )
-  }
-  editNote(id, task) {
-    // Don't modify if trying to set an empty value
-    if(!task.trim()) {
-      return;
-    }
-
-    NoteActions.update({id, task});
-  }
-  addNote = (e) => {
-leanpub-start-insert
-    // If note is added, avoid opening lane name edit by stopping
-    // event bubbling in this case.
-    e.stopPropagation();
-leanpub-end-insert
-
-    const laneId = this.props.lane.id;
-    const note = NoteActions.create({task: 'New task'});
-
-    LaneActions.attachToLane({
-      noteId: note.id,
-      laneId
-    });
-  };
+const Lane = ({
+  lane, notes, LaneActions, NoteActions, ...props
+}) => {
   ...
 leanpub-start-insert
-  editName = (name) => {
-    const laneId = this.props.lane.id;
+  const deleteLane = e => {
+    // Avoid bubbling to edit
+    e.stopPropagation();
 
-    console.log(`edit lane ${laneId} name using ${name}`);
-  };
-  deleteLane = () => {
-    const laneId = this.props.lane.id;
-
-    console.log(`delete lane ${laneId}`);
-  };
-  activateLaneEdit = () => {
-    const laneId = this.props.lane.id;
-
-    console.log(`activate lane ${laneId} edit`);
-  };
-  activateNoteEdit(id) {
-    console.log(`activate note ${id} edit`);
+    LaneActions.delete(lane.id);
   }
 leanpub-end-insert
+
+  return (
+    <div {...props}>
+      <div className="lane-header" onClick={activateLaneEdit}>
+        <div className="lane-add-note">
+          <button onClick={addNote}>+</button>
+        </div>
+        <Editable className="lane-name" editing={lane.editing}
+          value={lane.name} onEdit={editName} />
+leanpub-start-insert
+        <div className="lane-delete">
+          <button onClick={deleteLane}>x</button>
+        </div>
+leanpub-end-insert
+      </div>
+      <Notes
+        notes={selectNotesByIds(notes, lane.notes)}
+        onNoteClick={activateNoteEdit}
+        onEdit={editNote}
+        onDelete={deleteNote} />
+    </div>
+  );
 }
+
+...
 ```
 
-If you try to edit a lane name now, you should see a log message at the console:
-
-![Logging lane name editing](images/kanban_03.png)
-
-### Defining `Editable` Logic
-
-We will need to define some logic to make this work. To follow the same idea as with `Note`, we can model the remaining CRUD actions here. We'll need to set up `update` and `delete` actions in particular.
+Again, we need to expand our action definition:
 
 **app/actions/LaneActions.js**
 
@@ -253,144 +183,45 @@ We will need to define some logic to make this work. To follow the same idea as 
 import alt from '../libs/alt';
 
 export default alt.generateActions(
-  'create', 'update', 'delete',
-  'attachToLane', 'detachFromLane'
+  'create', 'update', 'delete', 'attachToLane', 'detachFromLane'
 );
 ```
 
-We are also going to need `LaneStore` level implementations for these. They can be modeled based on what we have seen in `NoteStore` earlier:
-
-**app/stores/LaneStore.js**
+And to finalize the implementation, let's add logic:
 
 ```javascript
-...
+import LaneActions from '../actions/LaneActions';
 
-class LaneStore {
-  ...
+export default class LaneStore {
+  constructor() {
+    this.bindActions(LaneActions);
+
+    this.lanes = [];
+  }
   create(lane) {
     ...
   }
-leanpub-start-insert
   update(updatedLane) {
-    const lanes = this.lanes.map(lane => {
-      if(lane.id === updatedLane.id) {
-        return Object.assign({}, lane, updatedLane);
-      }
-
-      return lane;
-    });
-
-    this.setState({lanes});
+    ...
   }
+leanpub-start-insert
   delete(id) {
     this.setState({
       lanes: this.lanes.filter(lane => lane.id !== id)
     });
   }
 leanpub-end-insert
-  attachToLane({laneId, noteId}) {
-    ...
-  }
   ...
-}
-
-export default alt.createStore(LaneStore, 'LaneStore');
-```
-
-Now that we have resolved actions and store, we need to adjust our component to take these changes into account:
-
-**app/components/Lane.jsx**
-
-```javascript
-...
-export default class Lane extends React.Component {
-  ...
-leanpub-start-delete
-  editNote(id, task) {
-    // Don't modify if trying to set an empty value
-    if(!task.trim()) {
-      return;
-    }
-
-    NoteActions.update({id, task});
-  }
-leanpub-end-delete
-leanpub-start-insert
-  editNote(id, task) {
-    // Don't modify if trying to set an empty value
-    if(!task.trim()) {
-      NoteActions.update({id, editing: false});
-
-      return;
-    }
-
-    NoteActions.update({id, task, editing: false});
-  }
-leanpub-end-insert
-  ...
-leanpub-start-delete
-  editName = (name) => {
-    const laneId = this.props.lane.id;
-
-    console.log(`edit lane ${laneId} name using ${name}`);
-  };
-  deleteLane = () => {
-    const laneId = this.props.lane.id;
-
-    console.log(`delete lane ${laneId}`);
-  };
-  activateLaneEdit = () => {
-    const laneId = this.props.lane.id;
-
-    console.log(`activate lane ${laneId} edit`);
-  };
-  activateNoteEdit(id) {
-    console.log(`activate note ${id} edit`);
-  }
-leanpub-end-delete
-leanpub-start-insert
-  editName = (name) => {
-    const laneId = this.props.lane.id;
-
-    // Don't modify if trying to set an empty value
-    if(!name.trim()) {
-      LaneActions.update({id: laneId, editing: false});
-
-      return;
-    }
-
-    LaneActions.update({id: laneId, name, editing: false});
-  };
-  deleteLane = () => {
-    const laneId = this.props.lane.id;
-
-    LaneActions.delete(laneId);
-  };
-  activateLaneEdit = () => {
-    const laneId = this.props.lane.id;
-
-    LaneActions.update({id: laneId, editing: true});
-  };
-  activateNoteEdit(id) {
-    NoteActions.update({id, editing: true});
-  }
-leanpub-end-insert
 }
 ```
 
-Try modifying a lane name now. Modifications now should get saved the same way as they do for notes. Deleting lanes should be possible as well.
+Assuming everything went correctly, you should be able to delete entire lanes now.
 
-![Editing a lane name](images/kanban_04.png)
-
-T> If you want that lanes and notes are editable after they are created, set `lane.editing = true;` or `note.editing = true;` when creating them.
-
-## Cleaning Up `Note` References
-
-If a lane is deleted, it would be a good idea to get rid of the associated notes as well. In the current implementation they are left hanging in the `NoteStore`. Given the application works even with these hanging references, I won't add the feature to the implementation. You can give it a go if you want, though. A simple `filter` statement at the right place should do the trick.
-
-This bug could be turned into a feature of its own. It would be possible to use the data to model a recycle bin. It would be a component that would display discarded notes like this. You could then either restore them (drag back to a lane) or remove them for good. You could get back to this idea later as you understand how the application works.
+The current implementation contains one gotcha. Even though we are removing references to lanes, the notes they point remain. This is something that could be turned into a rubbish bin feature. Or we could perform cleanup as well. For the purposes of this application, we can leave the situation as is. It is something good to be aware of, though.
 
 ## Styling Kanban Board
+
+XXX
 
 As we added `Lanes` to the application, the styling went a bit off. Add the following styling to make it a little nicer:
 

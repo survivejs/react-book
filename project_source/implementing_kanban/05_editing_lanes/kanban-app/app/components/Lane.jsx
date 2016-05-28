@@ -51,6 +51,12 @@ const Lane = ({
       editing: false
     });
   }
+  const deleteLane = e => {
+    // Avoid bubbling to edit
+    e.stopPropagation();
+
+    LaneActions.delete(lane.id);
+  }
 
   return (
     <div {...props}>
@@ -60,6 +66,9 @@ const Lane = ({
         </div>
         <Editable className="lane-name" editing={lane.editing}
           value={lane.name} onEdit={editName} />
+        <div className="lane-delete">
+          <button onClick={deleteLane}>x</button>
+        </div>
       </div>
       <Notes
         notes={selectNotesByIds(notes, lane.notes)}
