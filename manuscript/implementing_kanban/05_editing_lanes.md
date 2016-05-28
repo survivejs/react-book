@@ -2,43 +2,23 @@
 
 ![Kanban board](images/kanban_05.png)
 
+We still have work to do to turn this into a real Kanban as pictured above. The application is still missing some logic and styling. That's what we'll focus on here.
+
+The `Editable` component we implemented earlier will come in handy. We can use it to make it possible to alter `Lane` names. The idea is exactly the same as for notes.
+
+We should also make it possible to remove lanes. For that to work we'll need to add an UI control and attach logic to it. Again, it's a similar idea as earlier.
+
+## Implementing Editing for `Lane`
+
 XXX
 
-We still have work to do to turn this into a real Kanban as pictured above.
-
-## Implementing Edit/Remove for `Lane`
+## Implementing Delete for `Lane`
 
 XXX
 
-### Pointing `Notes` to `Editable`
+## Styling Kanban
 
-Next, we need to make *Notes.jsx* point at the new component. We'll need to alter the import and the component name at `render()`:
-
-**app/components/Notes.jsx**
-
-```javascript
-import React from 'react';
-import Editable from './Editable.jsx';
-
-export default ({notes, onValueClick, onEdit, onDelete}) => {
-  return (
-    <ul className="notes">{notes.map(note =>
-      <li className="note" key={note.id}>
-        <Editable
-          editing={note.editing}
-          value={note.task}
-          onValueClick={onValueClick.bind(null, note.id)}
-          onEdit={onEdit.bind(null, note.id)}
-          onDelete={onDelete.bind(null, note.id)} />
-      </li>
-    )}</ul>
-  );
-}
-```
-
-If you refresh the browser, you should see `Uncaught TypeError: Cannot read property 'bind' of undefined`. This has to do with that `onValueClick` definition we added. We will address this next.
-
-T> *Typing with React* chapter discusses how to use `propTypes` to work around this problem. It's a feature that allows us to set good defaults for props while also checking their types during development.
+XXX
 
 ### Connecting `Lane` with `Editable`
 
