@@ -57,4 +57,7 @@ export default class LaneStore {
       })
     });
   }
+  move({sourceId, targetId}) {
+    console.log('moving from', sourceId, 'to', targetId)
+  }
 }

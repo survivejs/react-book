@@ -329,15 +329,11 @@ If you hover a note on top of another, you should see console messages like this
 moving from 3310916b-5b59-40e6-8a98-370f9c194e16 to 939fb627-1d56-4b57-89ea-04207dbfb405
 ```
 
-We can develop the logic next.
-
 ## Adding Action and Store Method for Moving
-
-XXX
 
 The logic of drag and drop goes as follows. Suppose we have a lane containing notes A, B, C. In case we move A below C we should end up with B, C, A. In case we have another list, say D, E, F, and move A to the beginning of it, we should end up with B, C and A, D, E, F.
 
-In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note`, we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over given notes. A good starting point is to define `LaneActions.move`:
+In our case, we'll get some extra complexity due to lane to lane dragging. When we move a `Note`, we know its original position and the intended target position. `Lane` knows what `Notes` belong to it by id. We are going to need some way to tell `LaneStore` that it should perform the logic over the given notes. A good starting point is to define `LaneActions.move`:
 
 **app/actions/LaneActions.js**
 
@@ -357,36 +353,38 @@ We should connect this action with the `onMove` hook we just defined:
 
 ```javascript
 import React from 'react';
-import Editable from './Editable.jsx';
-import Note from './Note.jsx';
+import Note from './Note';
+import Editable from './Editable';
 leanpub-start-insert
 import LaneActions from '../actions/LaneActions';
 leanpub-end-insert
 
-export default ({notes, onValueClick, onEdit, onDelete}) => {
+export default ({
+  notes,
+  onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
+}) => {
   return (
-    <ul className="notes">{notes.map(note => {
-      return (
-leanpub-start-delete
-        <Note className="note" id={note.id} key={note.id}
+    <ul className="notes">{notes.map(({id, editing, task}) =>
+      <li key={id}>
+        <Note className="note" id={id}
+          onClick={onNoteClick.bind(null, id)}
+leanpub-start-remove
           onMove={({sourceId, targetId}) =>
-            console.log(`source: ${sourceId}, target: ${targetId}`)
-        }>
-leanpub-end-delete
+            console.log('moving from', sourceId, 'to', targetId)}>
+leanpub-end-remove
 leanpub-start-insert
-        <Note className="note" id={note.id} key={note.id}
           onMove={LaneActions.move}>
 leanpub-end-insert
           <Editable
-            editing={note.editing}
-            value={note.task}
-            onValueClick={onValueClick.bind(null, note.id)}
-            onEdit={onEdit.bind(null, note.id)}
-            onDelete={onDelete.bind(null, note.id)} />
+            editing={editing}
+            value={task}
+            onEdit={onEdit.bind(null, id)} />
+          <button
+            className="delete"
+            onClick={onDelete.bind(null, id)}>x</button>
         </Note>
-      );
-    })}
-    </ul>
+      </li>
+    )}</ul>
   );
 }
 ```
@@ -398,9 +396,9 @@ We should also define a stub at `LaneStore` to see that we wired it up correctly
 **app/stores/LaneStore.js**
 
 ```javascript
-...
+import LaneActions from '../actions/LaneActions';
 
-class LaneStore {
+export default class LaneStore {
   ...
   detachFromLane({laneId, noteId}) {
     ...
@@ -411,13 +409,15 @@ leanpub-start-insert
   }
 leanpub-end-insert
 }
-
-export default alt.createStore(LaneStore, 'LaneStore');
 ```
 
-You should see the same log messages as earlier. Next, we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about: moving within a lane itself and moving from lane to another.
+You should see the same log messages as earlier.
+
+Next, we'll need to add some logic to make this work. We can use the logic outlined above here. We have two cases to worry about: moving within a lane itself and moving from lane to another.
 
 ## Implementing Note Drag and Drop Logic
+
+XXX
 
 Moving within a lane itself is complicated. When you are operating based on ids and perform operations one at a time, you'll need to take possible index alterations into account. As a result, I'm using `update` [immutability helper](https://facebook.github.io/react/docs/update.html) from React as that solves the problem in one pass.
 
