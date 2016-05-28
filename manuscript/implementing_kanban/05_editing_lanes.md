@@ -221,17 +221,24 @@ The current implementation contains one gotcha. Even though we are removing refe
 
 ## Styling Kanban Board
 
-XXX
-
-As we added `Lanes` to the application, the styling went a bit off. Add the following styling to make it a little nicer:
+As we added `Lanes` to the application, the styling went a bit off. Adjust as follows to make it a little nicer:
 
 **app/main.css**
 
 ```css
 body {
-  background: cornsilk;
+  background-color: cornsilk;
+
   font-family: sans-serif;
 }
+
+leanpub-start-remove
+.add-note {
+  background-color: #fdfdfd;
+
+  border: 1px solid #ccc;
+}
+leanpub-end-remove
 
 leanpub-start-insert
 .lane {
@@ -303,18 +310,10 @@ leanpub-end-insert
 
 You should end up with a result like this:
 
-![Styled Kanban](images/kanban_05.png)
+![Styled Kanban](images/kanban_styled.png)
 
-As this is a small project, we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple files. One way to do this is to extract CSS per component and then refer to it there (e.g., `require('./lane.css')` at `Lane.jsx`).
-
-Besides keeping things nice and tidy, Webpack's lazy loading machinery can pick this up. As a result, the initial CSS your user has to load will be smaller. I go into further detail later as I discuss styling at *Styling React*.
+As this is a small project, we can leave the CSS in a single file like this. In case it starts growing, consider separating it to multiple files. One way to do this is to extract CSS per component and then refer to it there (e.g., `require('./lane.css')` at `Lane.jsx`). You could even consider using **CSS Modules** to make your CSS default to local scope. See the *Styling React* chapter for further ideas.
 
 ## Conclusion
 
-The current design has been optimized with drag and drop operations in mind. Moving notes within a lane is a matter of swapping ids. Moving notes from one lane to another is again an operation over ids. This structure leads to some complexity as we need to track ids, but it will pay off in the next chapter.
-
-There isn't always a clear cut way to model data and relations. In other scenarios, we could push the references elsewhere. For instance, the note to lane relation could be inversed and pushed to `Note` level. We would still need to track their order within a lane somehow. We would be pushing the complexity elsewhere by doing this.
-
-Currently, `NoteStore` is treated as a singleton. Another way to deal with it would be to create `NoteStore` per `Notes` dynamically. Even though this simplifies dealing with the relations somewhat, this is a Flux anti-pattern better avoided. It brings complications of its own as you need to deal with store lifecycle at the component level. Also dealing with drag and drop logic will become hard.
-
-We still cannot move notes between lanes or within a lane. We will solve that in the next chapter, as we implement drag and drop.
+Even though our application is starting to look good and has basic functionality in it, it's still missing perhaps the most vital feature. We still cannot move notes between lanes. This is something we will resolve in the next chapter as we implement drag and drop.

@@ -364,4 +364,6 @@ To make the text show up, refresh the browser. You should see the text that we c
 
 ## Conclusion
 
+The current design has been optimized with drag and drop operations in mind. Moving notes within a lane is a matter of swapping ids. Moving notes from one lane to another is again an operation over ids. This structure leads to some complexity as we need to track ids, but it will pay off later as we start dragging notes around the Kanban.
+
 In this chapter we discussed the basic idea of the Flux architecture and started porting our application to it. We pushed the state management related concerns behind an adapter to allow altering the underlying system without having to change the view related code. The next step is to implement a store for our application data and define actions to manipulate it.
