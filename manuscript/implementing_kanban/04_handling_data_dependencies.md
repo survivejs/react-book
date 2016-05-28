@@ -185,7 +185,7 @@ const Lane = ({
       </div>
       <Notes
         notes={notes}
-        onValueClick={activateNoteEdit}
+        onNoteClick={activateNoteEdit}
         onEdit={editNote}
         onDelete={deleteNote} />
     </div>
@@ -431,7 +431,7 @@ leanpub-end-insert
 leanpub-start-insert
         notes={selectNotesByIds(notes, lane.notes)}
 leanpub-end-insert
-        onValueClick={activateNoteEdit}
+        onNoteClick={activateNoteEdit}
         onEdit={editNote}
         onDelete={deleteNote} />
     </div>

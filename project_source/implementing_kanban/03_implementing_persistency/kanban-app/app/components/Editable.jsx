@@ -1,21 +1,27 @@
 import React from 'react';
+import classnames from 'classnames';
 
-export default ({editing, value, onEdit, onValueClick}) => {
+export default ({editing, value, onEdit, className, ...props}) => {
   if(editing) {
-    return <Edit value={value} onEdit={onEdit} />;
+    return <Edit
+      className={className}
+      value={value}
+      onEdit={onEdit}
+      {...props} />;
   }
 
-  return <Value value={value} onValueClick={onValueClick} />;
+  return <span className={classnames('value', className)} {...props}>
+    {value}
+  </span>;
 }
-
-const Value = ({onValueClick = () => {}, value}) =>
-  <span className="value" onClick={onValueClick}>{value}</span>
 
 class Edit extends React.Component {
   render() {
-    const {value} = this.props;
+    const {className, value, ...props} = this.props;
 
-    return <input type="text" className="edit"
+    return <input
+      type="text"
+      className={classnames('edit', className)}
       ref={
         element => element ?
         element.selectionStart = value.length :
@@ -23,7 +29,8 @@ class Edit extends React.Component {
       }
       autoFocus={true}
       defaultValue={value}
-      onKeyPress={this.checkEnter} />;
+      onKeyPress={this.checkEnter}
+      {...props} />;
   }
   checkEnter = (e) => {
     if(e.key === 'Enter') {

@@ -4,16 +4,15 @@ import Editable from './Editable';
 
 export default ({
   notes,
-  onValueClick=() => {}, onEdit=() => {}, onDelete=() => {}
+  onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
 }) => {
   return (
     <ul className="notes">{notes.map(({id, editing, task}) =>
       <li key={id}>
-        <Note className="note">
+        <Note className="note" onClick={onNoteClick.bind(null, id)}>
           <Editable
             editing={editing}
             value={task}
-            onValueClick={onValueClick.bind(null, id)}
             onEdit={onEdit.bind(null, id)} />
           <button
             className="delete"

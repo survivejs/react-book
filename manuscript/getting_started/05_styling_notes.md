@@ -30,7 +30,7 @@ leanpub-start-insert
 leanpub-end-insert
         <Notes
           notes={notes}
-          onValueClick={this.activateNoteEdit}
+          onNoteClick={this.activateNoteEdit}
           onEdit={this.editNote}
           onDelete={this.deleteNote}
           />
@@ -72,7 +72,7 @@ import Editable from './Editable';
 
 export default ({
   notes,
-  onValueClick=() => {}, onEdit=() => {}, onDelete=() => {}
+  onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
 }) => {
   return (
 leanpub-start-remove
@@ -83,15 +83,14 @@ leanpub-start-insert
 leanpub-end-insert
       <li key={id}>
 leanpub-start-remove
-        <Note>
+        <Note onClick={onNoteClick.bind(null, id)}>
 leanpub-end-remove
 leanpub-start-insert
-        <Note className="note">
+        <Note className="note" onClick={onNoteClick.bind(null, id)}>
 leanpub-end-insert
           <Editable
             editing={editing}
             value={task}
-            onValueClick={onValueClick.bind(null, id)}
             onEdit={onEdit.bind(null, id)} />
 leanpub-start-remove
           <button onClick={onDelete.bind(null, id)}>x</button>
@@ -134,32 +133,56 @@ There is still `Note` related portions left to style. Before attaching any rules
 
 ```javascript
 import React from 'react';
+leanpub-start-insert
+import classnames from 'classnames';
+leanpub-end-insert
 
-export default ({editing, value, onEdit, onValueClick}) => {
-  if(editing) {
-    return <Edit value={value} onEdit={onEdit} />;
-  }
-
-  return <Value value={value} onValueClick={onValueClick} />;
-}
-
-const Value = ({onValueClick = () => {}, value}) =>
 leanpub-start-remove
-  <span onClick={onValueClick}>{value}</span>
+export default ({editing, value, onEdit, ...props}) => {
 leanpub-end-remove
 leanpub-start-insert
-  <span className="value" onClick={onValueClick}>{value}</span>
+export default ({editing, value, onEdit, className, ...props}) => {
 leanpub-end-insert
+  if(editing) {
+leanpub-start-remove
+    return <Edit value={value} onEdit={onEdit} {...props} />;
+leanpub-end-remove
+leanpub-start-insert
+    return <Edit
+      className={className}
+      value={value}
+      onEdit={onEdit}
+      {...props} />;
+leanpub-end-insert
+  }
+
+leanpub-start-remove
+  return <span {...props}>{value}</span>;
+leanpub-end-remove
+leanpub-start-insert
+  return <span className={classnames('value', className)} {...props}>
+    {value}
+  </span>;
+leanpub-end-insert
+}
 
 class Edit extends React.Component {
   render() {
-    const {value} = this.props;
-
 leanpub-start-remove
-    return <input type="text"
+    const {value, ...props} = this.props;
 leanpub-end-remove
 leanpub-start-insert
-    return <input type="text" className="edit"
+    const {className, value, ...props} = this.props;
+leanpub-end-insert
+
+leanpub-start-remove
+    return <input
+      type="text"
+leanpub-end-remove
+leanpub-start-insert
+    return <input
+      type="text"
+      className={classnames('edit', className)}
 leanpub-end-insert
       ref={
         element => element ?
@@ -169,7 +192,8 @@ leanpub-end-insert
       autoFocus={true}
       defaultValue={value}
       onBlur={this.finishEdit}
-      onKeyPress={this.checkEnter} />;
+      onKeyPress={this.checkEnter}
+      {...props} />;
   }
   ...
 }

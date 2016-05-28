@@ -71,7 +71,7 @@ leanpub-start-delete
 leanpub-end-delete
 leanpub-start-insert
           <Notes
-            onValueClick={this.activateNoteEdit}
+            onNoteClick={this.activateNoteEdit}
             onEdit={this.editNote}
             onDelete={this.deleteNote} />
 leanpub-end-insert

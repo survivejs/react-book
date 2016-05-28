@@ -29,7 +29,7 @@ class App extends React.Component {
         <button className="add-note" onClick={this.addNote}>+</button>
         <Notes
           notes={notes}
-          onValueClick={this.activateNoteEdit}
+          onNoteClick={this.activateNoteEdit}
           onEdit={this.editNote}
           onDelete={this.deleteNote}
           />

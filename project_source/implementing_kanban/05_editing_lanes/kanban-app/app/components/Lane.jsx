@@ -55,7 +55,7 @@ const Lane = ({
       </div>
       <Notes
         notes={selectNotesByIds(notes, lane.notes)}
-        onValueClick={activateNoteEdit}
+        onNoteClick={activateNoteEdit}
         onEdit={editNote}
         onDelete={deleteNote} />
     </div>

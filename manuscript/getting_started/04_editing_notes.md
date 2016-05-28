@@ -11,9 +11,10 @@ One way to achieve this is to implement so called **inline editing**. The idea i
 To keep the application clean, I'll wrap this behavior into a component known as `Editable`. It will give us an API like this:
 
 ```javascript
-<Editable editing={editing} value={task}
-  onEdit={onEdit.bind(null, id)}
-  onValueClick={onValueClick.bind(null, id)}>
+<Editable
+  editing={editing}
+  value={task}
+  onEdit={onEdit.bind(null, id)} />
 ```
 
 This is an example of a **controlled** component. We'll control the editing state explicitly from outside of the component. This gives us more power, but it also makes `Editable` more involved to use.
@@ -26,7 +27,7 @@ An alternative way to handle this would have been to leave the control over the 
 
 It is possible to use both of these designs together. You can even have a controlled component that has uncontrolled elements inside. In this case we'll end up using an uncontrolled design for the `input` that `Editable` will contain for example. Even that could be turned into something controlled should we want to.
 
-Logically `Editable` consists of two separate portions. We'll need to display the `Value` while we are not `editing`. In case we are `editing`, we'll want to show an `Edit` control instead. In this case we'll settle for a simple input as that will do the trick.
+Logically `Editable` consists of two separate portions. We'll need to display the default value while we are not `editing`. In case we are `editing`, we'll want to show an `Edit` control instead. In this case we'll settle for a simple input as that will do the trick.
 
 Before digging into the details, we can implement a little stub and connect that to the application. This will give us the basic structure we need to grow the rest.
 
@@ -97,21 +98,23 @@ We can model a rough starting point based on our specification as below. The ide
 
 ```javascript
 import React from 'react';
+import classnames from 'classnames';
 
-export default ({editing, value, onEdit, onValueClick}) => {
+export default ({editing, value, onEdit, className, ...props}) => {
   if(editing) {
-    return <Edit value={value} onEdit={onEdit} />;
+    return <Edit
+      className={className}
+      value={value}
+      onEdit={onEdit}
+      {...props} />;
   }
 
-  return <Value value={value} onValueClick={onValueClick} />;
+  return <span {...props}>{value}</span>;
 }
 
-const Value = ({onValueClick = () => {}, value}) =>
-  <span onClick={onValueClick}>{value}</span>
-
-const Edit = ({onEdit = () => {}, value}) => {
+const Edit = ({onEdit = () => {}, value, ...props}) => {
   return (
-    <div onClick={onEdit}>
+    <div onClick={onEdit} {...props}>
       <span>edit: {value}</span>
     </div>
   );
@@ -139,7 +142,7 @@ leanpub-end-remove
 leanpub-start-insert
 export default ({
   notes,
-  onValueClick=() => {}, onEdit=() => {}, onDelete=() => {}
+  onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
 }) => {
 leanpub-end-insert
   return (
@@ -150,7 +153,12 @@ leanpub-start-insert
     <ul>{notes.map(({id, editing, task}) =>
 leanpub-end-insert
       <li key={id}>
+leanpub-start-remove
         <Note>
+leanpub-end-remove
+leanpub-start-insert
+        <Note onClick={onNoteClick.bind(null, id)}>
+leanpub-end-insert
 leanpub-start-remove
           <span>{task}</span>
 leanpub-end-remove
@@ -158,7 +166,6 @@ leanpub-start-insert
           <Editable
             editing={editing}
             value={task}
-            onValueClick={onValueClick.bind(null, id)}
             onEdit={onEdit.bind(null, id)} />
 leanpub-end-insert
           <button onClick={onDelete.bind(null, id)}>x</button>
@@ -198,7 +205,7 @@ leanpub-end-remove
 leanpub-start-insert
         <Notes
           notes={notes}
-          onValueClick={this.activateNoteEdit}
+          onNoteClick={this.activateNoteEdit}
           onEdit={this.editNote}
           onDelete={this.deleteNote}
           />
@@ -265,9 +272,9 @@ Consider the code below for the full implementation. Note how we are handling fi
 ...
 
 leanpub-start-remove
-const Edit = ({onEdit = () => {}, value}) => {
+const Edit = ({onEdit = () => {}, value, ...props}) => {
   return (
-    <div onClick={onEdit}>
+    <div onClick={onEdit} {...props}>
       <span>edit: {value}</span>
     </div>
   );
@@ -276,9 +283,10 @@ leanpub-end-remove
 leanpub-start-insert
 class Edit extends React.Component {
   render() {
-    const {value} = this.props;
+    const {value, ...props} = this.props;
 
-    return <input type="text"
+    return <input
+      type="text"
       ref={
         element => element ?
         element.selectionStart = value.length :
@@ -286,7 +294,8 @@ class Edit extends React.Component {
       }
       autoFocus={true}
       defaultValue={value}
-      onKeyPress={this.checkEnter} />;
+      onKeyPress={this.checkEnter}
+      {...props} />;
   }
   checkEnter = (e) => {
     if(e.key === 'Enter') {
@@ -322,16 +331,16 @@ Implementation-wise we would have had to do something like this in case we had g
 import React from 'react';
 
 // We could allow edit/value to be swapped here through props
-const Editable = ({editing, value, onEdit, onValueClick}) => {
+const Editable = ({editing, value, onEdit}) => {
   if(editing) {
     return <Editable.Edit value={value} onEdit={onEdit} />;
   }
 
-  return <Editable.Value value={value} onValueClick={onValueClick} />;
+  return <Editable.Value value={value} />;
 }
 
-Editable.Value = ({onValueClick = () => {}, value}) =>
-  <span className="value" onClick={onValueClick}>{value}</span>
+Editable.Value = ({value, ...props}) =>
+  <span {...props}>{value}</span>
 
 class Edit extends React.Component {
   ...
