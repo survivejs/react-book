@@ -61,74 +61,9 @@ leanpub-end-insert
 
 After this change, the application should look exactly the same as before. We are ready to add some sweet functionality to it now.
 
-## Preparing Notes to Be Sorted
-
-XXX
-
-Next, we will need to tell React DnD what can be dragged and where. Since we want to move notes, we'll need to annotate them accordingly. In addition, we'll need some logic to tell what happens during this process.
-
-Earlier, we extracted editing functionality from `Note` and ended up dropping `Note`. It seems like we'll want to add that concept back to allow drag and drop.
-
-We can use a handy little technique here that allows us to avoid code duplication. We can implement `Note` as a wrapper component. It will accept `Editable` and render it. This will allow us to keep DnD related logic in `Note`. This avoids having to duplicate any logic related to `Editable`.
-
-The magic lies in a React property known as `children`. React will render possible child components in the slot `{this.props.children}`. Replace *Note.jsx* with the code shown below:
-
-**app/components/Note.jsx**
-
-```javascript
-import React from 'react';
-
-export default class Note extends React.Component {
-  render() {
-    return <li {...this.props}>{this.props.children}</li>;
-  }
-}
-```
-
-We also need to tweak `Notes` to use our wrapper component. We will simply wrap `Editable` using `Note`, and we are good to go. We will pass `note` data to the wrapper as we'll need that later when dealing with logic:
-
-**app/components/Notes.jsx**
-
-```javascript
-import React from 'react';
-import Editable from './Editable.jsx';
-leanpub-start-insert
-import Note from './Note.jsx';
-leanpub-end-insert
-
-export default ({notes, onValueClick, onEdit, onDelete}) => {
-  return (
-    <ul className="notes">{notes.map(note =>
-leanpub-start-delete
-      <li className="note" key={note.id}>
-        <Editable
-          editing={note.editing}
-          value={note.task}
-          onValueClick={onValueClick.bind(null, note.id)}
-          onEdit={onEdit.bind(null, note.id)}
-          onDelete={onDelete.bind(null, note.id)} />
-      </li>
-leanpub-end-delete
-leanpub-start-insert
-      <Note className="note" id={note.id} key={note.id}>
-        <Editable
-          editing={note.editing}
-          value={note.task}
-          onValueClick={onValueClick.bind(null, note.id)}
-          onEdit={onEdit.bind(null, note.id)}
-          onDelete={onDelete.bind(null, note.id)} />
-      </Note>
-leanpub-end-insert
-    )}</ul>
-  );
-}
-```
-
-After this change, the application should look exactly the same as before. We have achieved nothing yet. Fortunately, we can start adding functionality, now that we have the foundation in place.
-
 ## Allowing Notes to Be Dragged
 
-React DnD uses constants to tell different draggables apart. Set up a file for tracking `Note` as follows:
+Allowing notes to be dragged is a good first step. Before that, we need to set up a constant so that React DnD can tell different kind of draggables apart. Set up a file for tracking `Note` as follows:
 
 **app/constants/itemTypes.js**
 
@@ -138,21 +73,26 @@ export default {
 };
 ```
 
-This definition can be expanded later as we add new types to the system.
+This definition can be expanded later as we add new types, such as `LANE`, to the system.
 
-Next, we need to tell our `Note` that it's possible to drag and drop it. This is done through `@DragSource` and `@DropTarget` annotations.
-
-### Setting Up `Note` `@DragSource`
-
-Marking a component as a `@DragSource` simply means that it can be dragged. Set up the annotation like this:
+Next, we need to tell our `Note` that it's possible to drag it. This can be achieved using the `DragSource` annotation. Replace `Note` with the following implementation:
 
 **app/components/Note.jsx**
 
 ```javascript
 import React from 'react';
-leanpub-start-insert
 import {DragSource} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
+
+const Note = ({
+  connectDragSource, children, ...props
+}) => {
+  return connectDragSource(
+    <div {...props}>
+      {children}
+    </div>
+  );
+};
 
 const noteSource = {
   beginDrag(props) {
@@ -161,44 +101,33 @@ const noteSource = {
     return {};
   }
 };
-leanpub-end-insert
 
-leanpub-start-delete
-export default class Note extends React.Component {
-  render() {
-    return <li {...this.props}>{this.props.children}</li>;
-  }
-}
-leanpub-end-delete
-leanpub-start-insert
-@DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
+export default DragSource(ItemTypes.NOTE, noteSource, connect => ({
   connectDragSource: connect.dragSource()
-}))
-export default class Note extends React.Component {
-  render() {
-    const {connectDragSource, id, onMove, ...props} = this.props;
-
-    return connectDragSource(
-      <li {...props}>{props.children}</li>
-    );
-  }
-}
-leanpub-end-insert
+}))(Note)
 ```
 
-There are a couple of important changes:
+If you try to drag a `Note` now, you should see something like this at the browser console:
 
-* We set up imports for the new logic.
-* We defined a `noteSource`. It contains a `beginDrag` handler. We can set the initial state for dragging here. For now we just have a debug log there.
-* `@DragSource` connects `NOTE` item type with `noteSource`.
-* `id` and `onMove` props are extracted from `this.props`. We'll use these later on to set up a callback so that the parent of a `Note` can deal with the moving related logic.
-* Finally `connectDragSource` prop wraps the element at `render()`. It could be applied to a specific part of it. This would be handy for implementing handles for example.
+```bash
+begin dragging note Object {className: "note", children: Array[2]}
+```
 
-If you drag a `Note` now, you should see a debug message at the console.
+Just being able to drag notes isn't enough. We need to annotate them so that they can accept dropping. Eventually this will allow us to swap them as we can trigger logic when we are trying to drop a note on top of another.
 
-We still need to make sure `Note` works as a `@DropTarget`. Later on this will allow swapping them as we add logic in place.
+T> In case we wanted to implement dragging based on a handle, we could apply `connectDragSource` only to a specific part of a `Note`.
 
 W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh the browser to see the log messages you expect!
+
+## Allowing Notes to Be Dropped
+
+XXX
+
+**app/components/Note.jsx**
+
+```javascript
+
+```
 
 ### Setting Up `Note` `@DropTarget`
 
