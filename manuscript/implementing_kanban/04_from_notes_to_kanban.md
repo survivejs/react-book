@@ -268,7 +268,9 @@ To get started we should add `attachToLane` to actions as before:
 ```javascript
 import alt from '../libs/alt';
 
-export default alt.generateActions('create', 'attachToLane');
+export default alt.generateActions(
+  'create', 'attachToLane'
+);
 ```
 
 In order to implement `attachToLane`, we need to find a lane matching to the given lane id and then attach note id to it. Furthermore, each note should belong only to one lane at a time. We can perform a rough check against that:
@@ -276,70 +278,35 @@ In order to implement `attachToLane`, we need to find a lane matching to the giv
 **app/stores/LaneStore.js**
 
 ```javascript
-import uuid from 'node-uuid';
-import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 
-class LaneStore {
+export default class LaneStore {
   ...
 leanpub-start-insert
   attachToLane({laneId, noteId}) {
-    const lanes = this.lanes.map(lane => {
-      if(lane.id === laneId) {
-        if(lane.notes.includes(noteId)) {
-          console.warn('Already attached note to lane', lanes);
-        }
-        else {
-          lane.notes.push(noteId);
-        }
-      }
-
-      return lane;
-    });
-
-    this.setState({lanes});
-  }
-leanpub-end-insert
-}
-
-export default alt.createStore(LaneStore, 'LaneStore');
-```
-
-We also need to make sure `NoteActions.create` returns a note so the setup works just like in the code example above. The note is needed for creating an association between a lane and a note:
-
-**app/stores/NoteStore.js**
-
-```javascript
-...
-
-class NoteStore {
-  constructor() {
-    this.bindActions(NoteActions);
-
-    this.notes = [];
-  }
-  create(note) {
-    const notes = this.notes;
-
-    note.id = uuid.v4();
-
     this.setState({
-      notes: notes.concat(note)
+      lanes: this.lanes.map(lane => {
+        if(lane.notes.includes(noteId)) {
+          lane.notes = lane.notes.filter(note => note !== noteId);
+        }
+
+        if(lane.id === laneId) {
+          lane.notes = lane.notes.concat([noteId]);
+        }
+
+        return lane;
+      })
     });
-
-leanpub-start-insert
-    return note;
-leanpub-end-insert
   }
-  ...
+leanpub-end-insert
 }
-
-...
 ```
+
+Just being able to attach notes to a lane isn't enough. We are also going to need some way to detach them. This comes up when we are removing notes.
 
 ### Setting Up `detachFromLane`
 
-`deleteNote` is the opposite operation of `addNote`. When removing a `Note`, it's important to remove its association with a `Lane` as well. For this purpose we can implement `LaneActions.detachFromLane({laneId: <id>})`. We would use it like this:
+We can model a similar counter-operation `detachFromLane` using an API like this:
 
 ```javascript
 LaneActions.detachFromLane({noteId, laneId});
@@ -355,7 +322,9 @@ Again, we should set up an action:
 ```javascript
 import alt from '../libs/alt';
 
-export default alt.generateActions('create', 'attachToLane', 'detachFromLane');
+export default alt.generateActions(
+  'create', 'attachToLane', 'detachFromLane'
+);
 ```
 
 The implementation will resemble `attachToLane`. In this case, we'll remove the possibly found `Note` instead:
@@ -363,32 +332,27 @@ The implementation will resemble `attachToLane`. In this case, we'll remove the 
 **app/stores/LaneStore.js**
 
 ```javascript
-import uuid from 'node-uuid';
-import alt from '../libs/alt';
 import LaneActions from '../actions/LaneActions';
 
-class LaneStore {
+export default class LaneStore {
   ...
-  attachToLane({laneId, noteId}) {
-    ...
-  }
 leanpub-start-insert
   detachFromLane({laneId, noteId}) {
-    const lanes = this.lanes.map(lane => {
-      if(lane.id === laneId) {
-        lane.notes = lane.notes.filter(note => note !== noteId);
-      }
+    this.setState({
+      lanes: this.lanes.map(lane => {
+        if(lane.id === laneId) {
+          lane.notes = lane.notes.filter(note => note !== noteId);
+        }
 
-      return lane;
+        return lane;
+      })
     });
-
-    this.setState({lanes});
   }
 leanpub-end-insert
 }
-
-export default alt.createStore(LaneStore, 'LaneStore');
 ```
+
+XXX
 
 Just building an association between a lane and a note isn't enough. We are going to need some way to resolve the note references to data we can display through the user interface. For this purpose, we need to implement a special getter so we get just the data we want per each lane.
 
