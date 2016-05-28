@@ -119,19 +119,9 @@ T> In case we wanted to implement dragging based on a handle, we could apply `co
 
 W> Note that React DnD doesn't support hot loading perfectly. You may need to refresh the browser to see the log messages you expect!
 
-## Allowing Notes to Be Dropped
+## Allowing Notes to Detect Hovered Notes
 
-XXX
-
-**app/components/Note.jsx**
-
-```javascript
-
-```
-
-### Setting Up `Note` `@DropTarget`
-
-`@DropTarget` allows a component to receive components annotated with `@DragSource`. As `@DropTarget` triggers, we can perform actual logic based on the components. Expand as follows:
+Annotating notes so that they can notice that another note is being hovered on top of them is a similar process. In this case we'll have to use a `DropTarget` annotation:
 
 **app/components/Note.jsx**
 
@@ -141,9 +131,31 @@ leanpub-start-delete
 import {DragSource} from 'react-dnd';
 leanpub-end-delete
 leanpub-start-insert
+import {compose} from 'redux';
 import {DragSource, DropTarget} from 'react-dnd';
 leanpub-end-insert
 import ItemTypes from '../constants/itemTypes';
+
+const Note = ({
+leanpub-start-delete
+  connectDragSource, children, ...props
+leanpub-end-delete
+leanpub-start-insert
+  connectDragSource, connectDropTarget,
+  children, ...props
+leanpub-end-insert
+}) => {
+leanpub-start-delete
+  return connectDragSource(
+leanpub-end-delete
+leanpub-start-insert
+  return compose(connectDragSource, connectDropTarget)(
+leanpub-end-insert
+    <div {...props}>
+      {children}
+    </div>
+  );
+};
 
 const noteSource = {
   beginDrag(props) {
@@ -163,42 +175,34 @@ const noteTarget = {
 };
 leanpub-end-insert
 
-@DragSource(ItemTypes.NOTE, noteSource, (connect) => ({
+leanpub-start-remove
+export default DragSource(ItemTypes.NOTE, noteSource, connect => ({
   connectDragSource: connect.dragSource()
-}))
+}))(Note)
+leanpub-end-remove
 leanpub-start-insert
-@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
-  connectDropTarget: connect.dropTarget()
-}))
+export default compose(
+  DragSource(ItemTypes.NOTE, noteSource, connect => ({
+    connectDragSource: connect.dragSource()
+  })),
+  DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+    connectDropTarget: connect.dropTarget()
+  }))
+)(Note)
 leanpub-end-insert
-export default class Note extends React.Component {
-leanpub-start-delete
-  render() {
-    const {connectDragSource, id, onMove, ...props} = this.props;
-
-    return connectDragSource(
-      <li {...props}>{props.children}</li>
-    );
-  }
-leanpub-end-delete
-leanpub-start-insert
-  render() {
-    const {connectDragSource, connectDropTarget,
-      id, onMove, ...props} = this.props;
-
-    return connectDragSource(connectDropTarget(
-      <li {...props}>{props.children}</li>
-    ));
-  }
-leanpub-end-insert
-}
 ```
 
-Refresh the browser and try to drag a note around. You should see a lot of log messages.
+If you try hovering a dragged note on top of another now, you should see messages like this at the console:
+
+```bash
+dragging note Object {} Object {className: "note", children: Array[2]}
+```
 
 Both decorators give us access to the `Note` props. In this case, we are using `monitor.getItem()` to access them at `noteTarget`. This is the key to making this to work properly.
 
 ## Developing `onMove` API for `Notes`
+
+XXX
 
 Now, that we can move notes around, we still need to define logic. The following steps are needed:
 
