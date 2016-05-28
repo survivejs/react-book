@@ -259,6 +259,8 @@ Now we have declared a clear dependency between `NoteActions.create` and `LaneAc
 
 T> You could model the API using positional parameters and end up with `LaneActions.attachToLane(laneId, note.id)`. I prefer the object form as it reads well and you don't have to care about the order.
 
+T> Another way to handle the dependency problem would be to use Flux dispatcher related feature known as [waitFor](http://alt.js.org/guide/wait-for/). It allows us to state dependencies on store level. It is better to avoid that if you can, though, as data management solutions like Redux make it redundant. Using `Promises` as above can help as well.
+
 ### Setting Up `attachToLane`
 
 To get started we should add `attachToLane` to actions as before:
@@ -352,184 +354,135 @@ leanpub-end-insert
 }
 ```
 
-XXX
-
-Just building an association between a lane and a note isn't enough. We are going to need some way to resolve the note references to data we can display through the user interface. For this purpose, we need to implement a special getter so we get just the data we want per each lane.
-
-### Implementing a Getter for `NoteStore`
-
-One neat way to resolve lane notes to actual data is to implement a public method `NoteStore.getNotesByIds(notes)`. It accepts an array of `Note` ids, and returns the corresponding objects.
-
-Just implementing the method isn't enough. We also need to make it public. In Alt, this can be achieved using `this.exportPublicMethods`. It takes an object that describes the public interface of the store in question. Consider the implementation below:
-
-**app/stores/NoteStore.js**
-
-```javascript
-import uuid from 'node-uuid';
-import alt from '../libs/alt';
-import NoteActions from '../actions/NoteActions';
-
-class NoteStore {
-  constructor() {
-    this.bindActions(NoteActions);
-
-    this.notes = [];
-
-leanpub-start-insert
-    this.exportPublicMethods({
-      getNotesByIds: this.getNotesByIds.bind(this)
-    });
-leanpub-end-insert
-  }
-  ...
-leanpub-start-insert
-  getNotesByIds(ids) {
-    // `reduce` is a powerful method that allows us to
-    // fold data. You can implement `filter` and `map`
-    // through it. Here we are using it to concatenate
-    // notes matching to the ids.
-    return (ids || []).reduce((notes, id) =>
-      // Concatenate possible matching ids to the result
-      notes.concat(
-        this.notes.filter(note => note.id === id)
-      )
-    , []);
-  }
-leanpub-end-insert
-}
-
-export default alt.createStore(NoteStore, 'NoteStore');
-```
-
-Note that the implementation filters possible non-matching ids from the result.
+Given we have enough logic in place now, we can start connecting it with the user interface.
 
 ### Connecting `Lane` with the Logic
 
-Now that we have the logical bits together, we can integrate it with `Lane`. We'll need to take the newly added props (`id`, `notes`) into account, and glue this all together:
+To make this work, there are a couple of places to tweak at `Lane`:
+
+* When adding a note, we need to **attach** it to the current lane.
+* When deleting a note, we need to **detach** it from the current lane.
+* When rendering a lane, we need to **select** notes belonging to it. This needs extra logic.
+
+These changes map to `Lane` as follows:
 
 **app/components/Lane.jsx**
 
 ```javascript
-...
+import React from 'react';
+import uuid from 'uuid';
+import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
 leanpub-start-insert
 import LaneActions from '../actions/LaneActions';
 leanpub-end-insert
+import Notes from './Notes';
 
-export default class Lane extends React.Component {
-  render() {
-    const {lane, ...props} = this.props;
-
-    return (
-      <div {...props}>
-        <div className="lane-header">
-          <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
-          </div>
-          <div className="lane-name">{lane.name}</div>
-        </div>
-        <AltContainer
-          stores={[NoteStore]}
-          inject={{
-leanpub-start-delete
-            notes: () => NoteStore.getState().notes || []
-leanpub-end-delete
+const Lane = ({
+leanpub-start-remove
+  lane, notes, NoteActions, ...props
+leanpub-end-remove
 leanpub-start-insert
-            notes: () => NoteStore.getNotesByIds(lane.notes)
+  lane, notes, LaneActions, NoteActions, ...props
 leanpub-end-insert
-          }}
-        >
-          <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
-        </AltContainer>
-      </div>
-    );
+}) => {
+  const editNote = (id, task) => {
+    ...
   }
-  editNote(id, task) {
-    // Don't modify if trying to set an empty value
-    if(!task.trim()) {
-      return;
-    }
-
-    NoteActions.update({id, task});
-  }
-leanpub-start-delete
-  addNote() {
-    NoteActions.create({task: 'New task'});
-  }
-  deleteNote(id, e) {
-    // Avoid bubbling to edit
+  const addNote = e => {
     e.stopPropagation();
 
-    NoteActions.delete(id);
-  }
-leanpub-end-delete
-leanpub-start-insert
-  addNote = (e) => {
-    const laneId = this.props.lane.id;
-    const note = NoteActions.create({task: 'New task'});
+    const noteId = uuid.v4();
 
-    LaneActions.attachToLane({
-      noteId: note.id,
-      laneId
+    NoteActions.create({
+      id: noteId,
+      task: 'New task'
     });
-  };
-  deleteNote = (noteId, e) => {
-    // Avoid bubbling to edit
+leanpub-start-insert
+    LaneActions.attachToLane({
+      laneId: lane.id,
+      noteId
+    });
+leanpub-end-insert
+  }
+  const deleteNote = (noteId, e) => {
     e.stopPropagation();
 
-    const laneId = this.props.lane.id;
-
-    LaneActions.detachFromLane({laneId, noteId});
-    NoteActions.delete(noteId);
-  };
+leanpub-start-insert
+    LaneActions.detachFromLane({
+      laneId: lane.id,
+      noteId
+    });
 leanpub-end-insert
+    NoteActions.delete(noteId);
+  }
+  const activateNoteEdit = id => {
+    NoteActions.update({id, editing: true});
+  }
+
+  return (
+    <div {...props}>
+      <div className="lane-header">
+        <div className="lane-add-note">
+          <button onClick={addNote}>+</button>
+        </div>
+        <div className="lane-name">{lane.name}</div>
+      </div>
+      <Notes
+leanpub-start-insert
+        notes={notes}
+leanpub-end-insert
+leanpub-start-insert
+        notes={selectNotesByIds(notes, lane.notes)}
+leanpub-end-insert
+        onValueClick={activateNoteEdit}
+        onEdit={editNote}
+        onDelete={deleteNote} />
+    </div>
+  );
 }
+
+leanpub-start-insert
+function selectNotesByIds(allNotes, noteIds = []) {
+  // `reduce` is a powerful method that allows us to
+  // fold data. You can implement `filter` and `map`
+  // through it. Here we are using it to concatenate
+  // notes matching to the ids.
+  return noteIds.reduce((notes, id) =>
+    // Concatenate possible matching ids to the result
+    notes.concat(
+      allNotes.filter(note => note.id === id)
+    )
+  , []);
+}
+leanpub-end-insert
+
+export default connect(
+  ({NoteStore}) => ({
+    notes: NoteStore.notes
+  }), {
+leanpub-start-remove
+    NoteActions
+leanpub-end-remove
+leanpub-start-insert
+    NoteActions,
+    LaneActions
+leanpub-end-insert
+  }
+)(Lane)
 ```
 
-There are three important changes:
-
-* Methods where we need to refer to `this` have been bound using a property initializer. An alternative way to achieve this would have been to `bind` at `render` or at `constructor`. See the *Language Features* appendix for more details.
-* `notes: () => NoteStore.getNotesByIds(lane.notes)` - Our new getter is used to filter `notes`.
-* `addNote`, `deleteNote` - These operate now based on the new logic we specified. Note that we trigger `detachFromLane` before `delete` at `deleteNote`. Otherwise we may try to render non-existent notes. You can try swapping the order to see warnings.
-
-After these changes, we have a system that can maintain relations between `Lanes` and `Notes`. The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture.
-
-If you try to add notes to a specific lane, they shouldn't be duplicated anymore. Also editing a note should behave as you might expect:
+If you try using the application now, you should see that each lane is able to maintain its own notes:
 
 ![Separate notes](images/kanban_02.png)
 
-### On Data Dependencies and `waitFor`
+The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture. You can see the same theme in the [Redux implementation](https://github.com/survivejs-demos/redux-demo). The [MobX one](https://github.com/survivejs-demos/mobx-demo) avoid the problem altogether given we can use proper references there.
 
-The current setup works because our actions are synchronous. It would become more problematic if we dealt with a back-end. In that case, we would have to set up `waitFor` based code. [waitFor](http://alt.js.org/guide/wait-for/) allows us to deal with data dependencies. It tells the dispatcher that it should wait before going on.
-
-To give you an idea of what this approach would look like, consider the example below (no need to change your code!):
-
-```javascript
-NoteActions.create({task: 'New task'});
-
-// Triggers waitFor
-LaneActions.attachToLane({laneId});
-```
-
-**app/stores/LaneStore.js**
-
-```javascript
-class LaneStore {
-  ...
-  attachToLane({laneId, noteId}) {
-    if(!noteId) {
-      this.waitFor(NoteStore);
-
-      noteId = NoteStore.getState().notes.slice(-1)[0].id;
-    }
-
-    ...
-  }
-}
-```
-
-Fortunately, we can avoid `waitFor` in this case. You should use it carefully. It becomes necessary when you need to deal with asynchronously fetched data that depends on each other, however.
+T> Normalizing the data would have made `selectNotesByIds` trivial. If you are using a solution like Redux, normalization can make operations like this easy.
 
 ## Implementing Edit/Remove for `Lane`
+
+XXX
 
 We are still missing some basic functionality, such as editing and removing lanes. Copy *Note.jsx* as *Editable.jsx*. We'll get back to that original *Note.jsx* later in this project. For now, we just want to get `Editable` into a good condition.
 

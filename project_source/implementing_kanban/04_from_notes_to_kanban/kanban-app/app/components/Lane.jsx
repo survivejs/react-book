@@ -2,10 +2,11 @@ import React from 'react';
 import uuid from 'uuid';
 import connect from '../libs/connect';
 import NoteActions from '../actions/NoteActions';
+import LaneActions from '../actions/LaneActions';
 import Notes from './Notes';
 
 const Lane = ({
-  lane, notes, NoteActions, ...props
+  lane, notes, LaneActions, NoteActions, ...props
 }) => {
   const editNote = (id, task) => {
     // Don't modify if trying to set an empty value
@@ -26,10 +27,18 @@ const Lane = ({
       id: noteId,
       task: 'New task'
     });
+    LaneActions.attachToLane({
+      laneId: lane.id,
+      noteId
+    });
   }
   const deleteNote = (noteId, e) => {
     e.stopPropagation();
 
+    LaneActions.detachFromLane({
+      laneId: lane.id,
+      noteId
+    });
     NoteActions.delete(noteId);
   }
   const activateNoteEdit = id => {
@@ -45,7 +54,7 @@ const Lane = ({
         <div className="lane-name">{lane.name}</div>
       </div>
       <Notes
-        notes={notes}
+        notes={selectNotesByIds(notes, lane.notes)}
         onValueClick={activateNoteEdit}
         onEdit={editNote}
         onDelete={deleteNote} />
@@ -53,10 +62,24 @@ const Lane = ({
   );
 }
 
+function selectNotesByIds(allNotes, noteIds = []) {
+  // `reduce` is a powerful method that allows us to
+  // fold data. You can implement `filter` and `map`
+  // through it. Here we are using it to concatenate
+  // notes matching to the ids.
+  return noteIds.reduce((notes, id) =>
+    // Concatenate possible matching ids to the result
+    notes.concat(
+      allNotes.filter(note => note.id === id)
+    )
+  , []);
+}
+
 export default connect(
   ({NoteStore}) => ({
     notes: NoteStore.notes
   }), {
-    NoteActions
+    NoteActions,
+    LaneActions
   }
 )(Lane)
