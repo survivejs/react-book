@@ -185,7 +185,7 @@ export default compose(
   DragSource(ItemTypes.NOTE, noteSource, connect => ({
     connectDragSource: connect.dragSource()
   })),
-  DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+  DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
     connectDropTarget: connect.dropTarget()
   }))
 )(Note)
@@ -475,53 +475,62 @@ It would be nicer if we indicated the dragged note's location more clearly. We c
 
 ### Indicating Where to Move
 
-XXX
-
-React DnD provides a feature known as state monitors. Through it we can use `monitor.isDragging()` to detect which `Note` we are currently dragging. It can be set up as follows:
+React DnD provides a feature known as state monitors. Through it we can use `monitor.isDragging()` and `monitor.isOver()` to detect which `Note` we are currently dragging. It can be set up as follows:
 
 **app/components/Note.jsx**
 
 ```javascript
+import React from 'react';
+import {compose} from 'redux';
+import {DragSource, DropTarget} from 'react-dnd';
+import ItemTypes from '../constants/itemTypes';
+
+const Note = ({
+leanpub-start-delete
+  connectDragSource, connectDropTarget,
+  oMove, id, children, ...props
+leanpub-end-delete
+leanpub-start-insert
+  connectDragSource, connectDropTarget, isDragging,
+  isOver, oMove, id, children, ...props
+leanpub-end-insert
+}) => {
+  return compose(connectDragSource, connectDropTarget)(
+leanpub-start-delete
+    <div {...props}>
+      {children}
+    </div>
+leanpub-end-delete
+leanpub-start-insert
+    <div style={{
+      opacity: isDragging || isOver ? 0 : 1
+    }} {...props}>{children}</div>
+leanpub-end-insert
+  );
+};
+
 ...
 
+export default compose(
 leanpub-start-delete
-@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
-  connectDragSource: connect.dragSource()
-}))
+  DragSource(ItemTypes.NOTE, noteSource, connect => ({
+    connectDragSource: connect.dragSource()
+  })),
+  DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+    connectDropTarget: connect.dropTarget()
+  }))
 leanpub-end-delete
 leanpub-start-insert
-@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging() // map isDragging() state to isDragging prop
-}))
+  DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  })),
+  DropTarget(ItemTypes.NOTE, noteTarget, (connect, monitor) => ({
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  }))
 leanpub-end-insert
-@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
-  connectDropTarget: connect.dropTarget()
-}))
-export default class Note extends React.Component {
-leanpub-start-delete
-  render() {
-    const {connectDragSource, connectDropTarget,
-      id, onMove, ...props} = this.props;
-
-    return connectDragSource(connectDropTarget(
-      <li {...props}>{props.children}</li>
-    ));
-  }
-leanpub-end-delete
-leanpub-start-insert
-  render() {
-    const {connectDragSource, connectDropTarget, isDragging,
-      onMove, id, ...props} = this.props;
-
-    return connectDragSource(connectDropTarget(
-      <li style={{
-        opacity: isDragging ? 0 : 1
-      }} {...props}>{props.children}</li>
-    ));
-  }
-leanpub-end-insert
-}
+)(Note)
 ```
 
 If you drag a note within a lane, the dragged note should be shown as blank.
@@ -529,6 +538,8 @@ If you drag a note within a lane, the dragged note should be shown as blank.
 There is one little problem in our system. We cannot drag notes to an empty lane yet.
 
 ## Dragging Notes to Empty Lanes
+
+XXX
 
 To drag notes to empty lanes, we should allow them to receive notes. Just as above, we can set up `DropTarget` based logic for this. First, we need to capture the drag on `Lane`:
 
