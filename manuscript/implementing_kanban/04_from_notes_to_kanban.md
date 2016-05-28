@@ -207,32 +207,59 @@ export default connect(
 
 If you run the application and try adding new notes, you can see there's something wrong. Every note you add is shared by all lanes. If a note is modified, other lanes update too.
 
-XXX
-
 ![Duplicate notes](images/kanban_01.png)
 
 The reason why this happens is simple. Our `NoteStore` is a singleton. This means every component that is listening to `NoteStore` will receive the same data. We will need to resolve this problem somehow.
 
 ## Making `Lanes` Responsible of `Notes`
 
-Currently, our `Lane` contains just an array of objects. Each of the objects knows its *id* and *name*. We'll need something more.
+Currently, our `Lane` contains just an array of objects. Each of the objects knows its *id* and *name*. We'll need something more sophisticated.
 
-In order to make this work, each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it. We'll implement a scheme to achieve this next.
+Each `Lane` needs to know which `Notes` belong to it. If a `Lane` contained an array of `Note` ids, it could then filter and display the `Notes` belonging to it. We'll implement a scheme to achieve this next.
 
-### Setting Up `attachToLane`
+### Understanding `attachToLane`
 
-When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method, such as `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`. Before calling this method we should create a note and gets its id. Here's an example of how we could glue it together:
+When we add a new `Note` to the system using `addNote`, we need to make sure it's associated to some `Lane`. This association can be modeled using a method, such as `LaneActions.attachToLane({laneId: <id>, noteId: <id>})`. Here's an example of how it could work:
 
 ```javascript
-const note = NoteActions.create({task: 'New task'});
+const addNote = e => {
+  e.stopPropagation();
 
-LaneActions.attachToLane({
-  laneId,
-  noteId: note.id
-});
+  const noteId = uuid.v4();
+
+  NoteActions.create({
+    id: noteId,
+    task: 'New task'
+  });
+  LaneActions.attachToLane({
+    laneId: lane.id,
+    noteId
+  });
+}
 ```
 
+This is just one way to handle `noteId`. We could push the generation logic within `NoteActions.create` and then return the generated id from it. We could also handle it through a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). This would be very useful if we added a back-end to our implementation. Here's how it would look like then:
+
+```javascript
+const addNote = e => {
+  e.stopPropagation();
+
+  NoteActions.create({
+    task: 'New task'
+  }).then(noteId => {
+    LaneActions.attachToLane({
+      laneId: lane.id,
+      noteId: noteId
+    });
+  })
+}
+```
+
+Now we have declared a clear dependency between `NoteActions.create` and `LaneActions.attachToLane`. This would be one valid alternative especially if you need to go further with the implementation.
+
 T> You could model the API using positional parameters and end up with `LaneActions.attachToLane(laneId, note.id)`. I prefer the object form as it reads well and you don't have to care about the order.
+
+### Setting Up `attachToLane`
 
 To get started we should add `attachToLane` to actions as before:
 
