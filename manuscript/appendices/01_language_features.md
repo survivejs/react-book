@@ -232,10 +232,10 @@ export default class App extends React.Component {
   // propType definition through static class properties
   static propTypes = {
     value: React.PropTypes.string
-  };
+  }
   static defaultProps = {
     value: ''
-  };
+  }
   render() {
     // Use `renderNote` here somehow.
     ...
@@ -246,7 +246,7 @@ export default class App extends React.Component {
   renderNote = () => {
     // Given renderNote was bound, we can access `this` as expected
     return <div>{this.props.note}</div>;
-  };
+  }
 }
 ```
 
