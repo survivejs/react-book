@@ -259,11 +259,9 @@ Now that we have a basic understanding of how `connect` should work, we can impl
 
 ### Setting Up `connect`
 
-In order to save some effort, I'll be using a package known as [connect-alt](https://www.npmjs.com/package/connect-alt) and then model `connect` through it. The implementation won't be ideal when it comes to performance as it will watch all the stores. It is enough for this application, however.
+In this case I'm going to plug in a custom `connect` to highlight a couple of key ideas. The implementation isn't optimal when it comes to performance. It is enough for this application. In practice you would use a well optimized connector instead.
 
 It would be possible to optimize the behavior with further effort. That's one reason why having control over `Provider` and `connect` is useful. It allows further customization.
-
-In this case I'm going to plug in a custom `connect` to highlight a couple of key ideas. The implementation isn't optimal when it comes to performance. It is enough for this application. In practice you would use a well optimized connector instead.
 
 The idea here is that in case we have a custom transformation defined, we'll dig the data we need from the `Provider`, apply it over our data as we defined, and then pass the resulting data to the component through props:
 
@@ -337,7 +335,7 @@ function composeStores(stores) {
 
 ```
 
-Due to the way *connect-alt* works, we'll need to alter our Alt instance to contain a `FinalStore` field:
+As `flux.FinalStore` won't be available by default, we'll need to alter our Alt instance to contain it. After that we can access it whenever we happen to need it:
 
 **app/libs/alt.js**
 
