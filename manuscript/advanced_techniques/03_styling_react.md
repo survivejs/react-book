@@ -189,7 +189,7 @@ JSS can be used with React through [react-jss](https://www.npmjs.com/package/rea
 
 ```javascript
 ...
-import classNames from 'classnames';
+import classnames from 'classnames';
 import useSheet from 'react-jss';
 
 const styles = {
@@ -215,7 +215,7 @@ export default class ConfirmButton extends React.Component {
     const {classes} = this.props.sheet;
 
     return <button
-      className={classNames(classes.button, classes.primary)}>
+      className={classnames(classes.button, classes.primary)}>
         Confirm
       </button>;
   }
