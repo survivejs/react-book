@@ -23,7 +23,6 @@ const common = merge(
     // We'll be using the latter form given it's
     // convenient with more complex configurations.
     entry: {
-      style: PATHS.style,
       app: PATHS.app
     },
     output: {
@@ -57,6 +56,9 @@ switch(TARGET) {
       common,
       {
         devtool: 'source-map',
+        entry: {
+          style: PATHS.style
+        },
         output: {
           path: PATHS.build,
           filename: '[name].[chunkhash].js',
@@ -91,7 +93,10 @@ switch(TARGET) {
     config = merge(
       common,
       {
-        devtool: 'eval-source-map'
+        devtool: 'eval-source-map',
+        entry: {
+          style: PATHS.style
+        }
       },
       parts.setupCSS(PATHS.style),
       parts.devServer({
