@@ -351,7 +351,7 @@ To make this work, there are a couple of places to tweak at `Lane`:
 
 * When adding a note, we need to **attach** it to the current lane.
 * When deleting a note, we need to **detach** it from the current lane.
-* When rendering a lane, we need to **select** notes belonging to it. This needs extra logic.
+* When rendering a lane, we need to **select** notes belonging to it. It is important to render then notes in the order they belong to a lane. This needs extra logic.
 
 These changes map to `Lane` as follows:
 
