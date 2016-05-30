@@ -1,0 +1,12 @@
+[ignore]
+.*/node_modules
+
+[include]
+./app
+
+[libs]
+./interfaces
+
+[options]
+esproposal.decorators=ignore
+esproposal.class_instance_fields=ignore

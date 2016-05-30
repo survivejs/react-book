@@ -1,32 +1,34 @@
+/* @flow */
 import React from 'react';
 import {compose} from 'redux';
 import {DragSource, DropTarget} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
 
-const Note = ({
-  connectDragSource, connectDropTarget, isDragging,
-  isOver, onMove, id, editing, children, ...props
+const Note = (props: {
+  connectDragSource?: Function,
+  connectDropTarget?: Function,
+  isDragging?: boolean,
+  isOver?: boolean,
+  onMove?: Function,
+  id: string,
+  editing?: boolean,
+  children?: any,
+  className?: string,
+  onClick?: Function
 }) => {
+  const {
+    connectDragSource, connectDropTarget, isDragging, isOver,
+    onMove, id, editing, children, className, onClick
+  } = props;
+
   // Pass through if we are editing
   const dragSource = editing ? a => a : connectDragSource;
 
   return compose(dragSource, connectDropTarget)(
     <div style={{
       opacity: isDragging || isOver ? 0 : 1
-    }} {...props}>{children}</div>
+    }} className={className} onClick={onClick}>{children}</div>
   );
-};
-Note.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  editing: React.PropTypes.bool,
-  connectDragSource: React.PropTypes.func,
-  connectDropTarget: React.PropTypes.func,
-  isDragging: React.PropTypes.bool,
-  onMove: React.PropTypes.func,
-  children: React.PropTypes.node
-};
-Note.defaultProps = {
-  onMove: () => {}
 };
 
 const noteSource = {

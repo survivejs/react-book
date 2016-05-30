@@ -1,28 +1,25 @@
+/* @flow */
 import React from 'react';
 import classnames from 'classnames';
 
-const Editable = ({editing, value, onEdit, className, ...props}) => {
+const Editable = (props: {
+  editing?: boolean,
+  value?: string,
+  onEdit: Function,
+  className?: string
+}) => {
+  const {editing, className, value, onEdit} = props;
+
   if(editing) {
     return <Edit
       className={className}
       value={value}
-      onEdit={onEdit}
-      {...props} />;
+      onEdit={onEdit} />;
   }
 
-  return <span className={classnames('value', className)} {...props}>
+  return <span className={classnames('value', className)}>
     {value}
   </span>;
-};
-Editable.propTypes = {
-  value: React.PropTypes.string,
-  editing: React.PropTypes.bool,
-  onEdit: React.PropTypes.func.isRequired
-};
-Editable.defaultProps = {
-  value: '',
-  editing: false,
-  onEdit: () => {}
 };
 
 export default Editable;
