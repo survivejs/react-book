@@ -260,7 +260,7 @@ We are missing one more part to make this work. Even though we can manage the `e
 
 In this case we'll be using **uncontrolled** design and extract the value of the input from the DOM only when we need it. We don't need more control than that here.
 
-Consider the code below for the full implementation. Note how we are handling finishing the editing. We capture `onKeyPress` and check for `Enter` to confirm editing:
+Consider the code below for the full implementation. Note how we are handling finishing the editing. We capture `onKeyPress` and check for `Enter` to confirm editing. We also run the finish logic `onBlur` so that we can end the editing when the input loses focus:
 
 **app/components/Editable.jsx**
 
@@ -285,6 +285,7 @@ class Edit extends React.Component {
       type="text"
       autoFocus={true}
       defaultValue={value}
+      onBlur={this.finishEdit}
       onKeyPress={this.checkEnter}
       {...props} />;
   }

@@ -24,6 +24,7 @@ class Edit extends React.Component {
       className={classnames('edit', className)}
       autoFocus={true}
       defaultValue={value}
+      onBlur={this.finishEdit}
       onKeyPress={this.checkEnter}
       {...props} />;
   }
