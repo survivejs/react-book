@@ -8,8 +8,9 @@ Mainmatter.txt
 getting_started/01_introduction_to_react.md
 getting_started/02_implementing_notes.md
 getting_started/03_deleting_notes.md
-getting_started/04_editing_notes.md
-getting_started/05_styling_notes.md
+getting_started/04_understanding_react_components.md
+getting_started/05_editing_notes.md
+getting_started/06_styling_notes.md
 
 03_Implementing_Kanban.md
 implementing_kanban/01_react_and_flux.md
