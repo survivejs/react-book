@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export default ({editing, value, onEdit, className, ...props}) => {
+const Editable = ({editing, value, onEdit, className, ...props}) => {
   if(editing) {
     return <Edit
       className={className}
@@ -13,7 +13,19 @@ export default ({editing, value, onEdit, className, ...props}) => {
   return <span className={classnames('value', className)} {...props}>
     {value}
   </span>;
-}
+};
+Editable.propTypes = {
+  value: React.PropTypes.string,
+  editing: React.PropTypes.bool,
+  onEdit: React.PropTypes.func.isRequired
+};
+Editable.defaultProps = {
+  value: '',
+  editing: false,
+  onEdit: () => {}
+};
+
+export default Editable;
 
 class Edit extends React.Component {
   render() {
