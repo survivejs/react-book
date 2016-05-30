@@ -539,8 +539,6 @@ There is one little problem in our system. We cannot drag notes to an empty lane
 
 ## Dragging Notes to Empty Lanes
 
-XXX
-
 To drag notes to empty lanes, we should allow them to receive notes. Just as above, we can set up `DropTarget` based logic for this. First, we need to capture the drag on `Lane`:
 
 **app/components/Lane.jsx**
