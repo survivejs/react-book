@@ -10,9 +10,9 @@ We should also make it possible to remove lanes. For that to work we'll need to 
 
 ## Implementing Editing for `Lane` names
 
-To edit a `Lane` name, we need a little bit of logic and UI hooks. `Editable` can handle the UI part. Logic will take more work. To get started, tweak `Lane` as follows:
+To edit a `Lane` name, we need a little bit of logic and UI hooks. `Editable` can handle the UI part. Logic will take more work. To get started, tweak `LaneHeader` as follows:
 
-**app/components/Lane.jsx**
+**app/components/LaneHeader.jsx**
 
 ```javascript
 import React from 'react';
@@ -20,15 +20,17 @@ import uuid from 'uuid';
 import connect from '../libs/connect';
 import NoteActions from '../actions/NoteActions';
 import LaneActions from '../actions/LaneActions';
-import Notes from './Notes';
 leanpub-start-insert
 import Editable from './Editable';
 leanpub-end-insert
 
-const Lane = ({
-  lane, notes, LaneActions, NoteActions, ...props
-}) => {
-  ...
+export default connect(() => ({}), {
+  NoteActions,
+  LaneActions
+})(({lane, LaneActions, NoteActions, ...props}) => {
+  const addNote = e => {
+    ...
+  };
 leanpub-start-insert
   const activateLaneEdit = () => {
     LaneActions.update({
@@ -46,34 +48,27 @@ leanpub-start-insert
 leanpub-end-insert
 
   return (
-    <div {...props}>
 leanpub-start-delete
-      <div className="lane-header">
+    <div className="lane-header" {...props}>
 leanpub-end-delete
 leanpub-start-insert
-      <div className="lane-header" onClick={activateLaneEdit}>
+    <div className="lane-header" onClick={activateLaneEdit} {...props}>
 leanpub-end-insert
-        <div className="lane-add-note">
-          <button onClick={addNote}>+</button>
-        </div>
-leanpub-start-delete
-        <div className="lane-name">{lane.name}</div>
-leanpub-end-delete
-leanpub-start-insert
-        <Editable className="lane-name" editing={lane.editing}
-          value={lane.name} onEdit={editName} />
-leanpub-end-insert
+    <div className="lane-header" {...props}>
+
+      <div className="lane-add-note">
+        <button onClick={addNote}>+</button>
       </div>
-      <Notes
-        notes={selectNotesByIds(notes, lane.notes)}
-        onNoteClick={activateNoteEdit}
-        onEdit={editNote}
-        onDelete={deleteNote} />
+leanpub-start-delete
+      <div className="lane-name">{lane.name}</div>
+leanpub-end-delete
+leanpub-start-insert
+      <Editable className="lane-name" editing={lane.editing}
+        value={lane.name} onEdit={editName} />
+leanpub-end-insert
     </div>
   );
-};
-
-...
+});
 ```
 
 The user interface should look exactly the same after this change. We still need to implement `LaneActions.update` to make our setup work.
@@ -131,14 +126,15 @@ Deleting lanes is a similar problem. We need to extend the user interface, add a
 
 The user interface is a natural place to start. Often it's a good idea to add some `console.log`s in place to make sure your event handlers get triggered as your expect. It would be even better to write tests for those. That way you'll end up with a runnable specification. Here's how to add a stub for deleting lanes:
 
-**app/components/Lane.jsx**
+**app/components/LaneHeader.jsx**
 
 ```javascript
 ...
 
-const Lane = ({
-  lane, notes, LaneActions, NoteActions, ...props
-}) => {
+export default connect(() => ({}), {
+  NoteActions,
+  LaneActions
+})(({lane, LaneActions, NoteActions, ...props}) => {
   ...
 leanpub-start-insert
   const deleteLane = e => {
@@ -146,33 +142,24 @@ leanpub-start-insert
     e.stopPropagation();
 
     LaneActions.delete(lane.id);
-  }
+  };
 leanpub-end-insert
 
   return (
-    <div {...props}>
-      <div className="lane-header" onClick={activateLaneEdit}>
-        <div className="lane-add-note">
-          <button onClick={addNote}>+</button>
-        </div>
-        <Editable className="lane-name" editing={lane.editing}
-          value={lane.name} onEdit={editName} />
-leanpub-start-insert
-        <div className="lane-delete">
-          <button onClick={deleteLane}>x</button>
-        </div>
-leanpub-end-insert
+    <div className="lane-header" onClick={activateLaneEdit} {...props}>
+      <div className="lane-add-note">
+        <button onClick={addNote}>+</button>
       </div>
-      <Notes
-        notes={selectNotesByIds(notes, lane.notes)}
-        onNoteClick={activateNoteEdit}
-        onEdit={editNote}
-        onDelete={deleteNote} />
+      <Editable className="lane-name" editing={lane.editing}
+        value={lane.name} onEdit={editName} />
+leanpub-start-insert
+      <div className="lane-delete">
+        <button onClick={deleteLane}>x</button>
+      </div>
+leanpub-end-insert
     </div>
   );
-};
-
-...
+});
 ```
 
 Again, we need to expand our action definition:

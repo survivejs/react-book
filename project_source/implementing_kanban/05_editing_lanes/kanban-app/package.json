@@ -59,7 +59,9 @@
     "alt-utils": "^1.0.0",
     "classnames": "^2.2.5",
     "react": "^15.1.0",
+    "react-dnd": "^2.1.4",
     "react-dom": "^15.1.0",
+    "redux": "^3.5.2",
     "uuid": "^2.0.2"
   }
 }

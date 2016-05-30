@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'uuid';
 import {compose} from 'redux';
 import {DropTarget} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
@@ -7,28 +6,14 @@ import connect from '../libs/connect';
 import NoteActions from '../actions/NoteActions';
 import LaneActions from '../actions/LaneActions';
 import Notes from './Notes';
-import Editable from './Editable';
+import LaneHeader from './LaneHeader';
 
 const Lane = ({
   connectDropTarget, lane, notes, LaneActions, NoteActions, ...props
 }) => {
   const editNote = (id, task) => {
     NoteActions.update({id, task, editing: false});
-  }
-  const addNote = e => {
-    e.stopPropagation();
-
-    const noteId = uuid.v4();
-
-    NoteActions.create({
-      id: noteId,
-      task: 'New task'
-    });
-    LaneActions.attachToLane({
-      laneId: lane.id,
-      noteId
-    });
-  }
+  };
   const deleteNote = (noteId, e) => {
     e.stopPropagation();
 
@@ -37,42 +22,14 @@ const Lane = ({
       noteId
     });
     NoteActions.delete(noteId);
-  }
+  };
   const activateNoteEdit = id => {
     NoteActions.update({id, editing: true});
-  }
-  const activateLaneEdit = () => {
-    LaneActions.update({
-      id: lane.id,
-      editing: true
-    });
-  }
-  const editName = name => {
-    LaneActions.update({
-      id: lane.id,
-      name,
-      editing: false
-    });
-  }
-  const deleteLane = e => {
-    // Avoid bubbling to edit
-    e.stopPropagation();
-
-    LaneActions.delete(lane.id);
-  }
+  };
 
   return connectDropTarget(
     <div {...props}>
-      <div className="lane-header" onClick={activateLaneEdit}>
-        <div className="lane-add-note">
-          <button onClick={addNote}>+</button>
-        </div>
-        <Editable className="lane-name" editing={lane.editing}
-          value={lane.name} onEdit={editName} />
-        <div className="lane-delete">
-          <button onClick={deleteLane}>x</button>
-        </div>
-      </div>
+      <LaneHeader lane={lane} />
       <Notes
         notes={selectNotesByIds(notes, lane.notes)}
         onNoteClick={activateNoteEdit}
@@ -117,7 +74,7 @@ const noteTarget = {
 };
 
 export default compose(
-  DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+  DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
     connectDropTarget: connect.dropTarget()
   })),
   connect(({notes}) => ({

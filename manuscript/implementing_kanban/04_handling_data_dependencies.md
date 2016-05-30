@@ -148,7 +148,7 @@ const Lane = ({
 }) => {
   const editNote = (id, task) => {
     NoteActions.update({id, task, editing: false});
-  }
+  };
   const addNote = e => {
     e.stopPropagation();
 
@@ -158,15 +158,15 @@ const Lane = ({
       id: noteId,
       task: 'New task'
     });
-  }
+  };
   const deleteNote = (noteId, e) => {
     e.stopPropagation();
 
     NoteActions.delete(noteId);
-  }
+  };
   const activateNoteEdit = id => {
     NoteActions.update({id, editing: true});
-  }
+  };
 
   return (
     <div {...props}>
@@ -377,7 +377,7 @@ leanpub-end-insert
 }) => {
   const editNote = (id, task) => {
     ...
-  }
+  };
   const addNote = e => {
     e.stopPropagation();
 
@@ -393,7 +393,7 @@ leanpub-start-insert
       noteId
     });
 leanpub-end-insert
-  }
+  };
   const deleteNote = (noteId, e) => {
     e.stopPropagation();
 
@@ -404,10 +404,10 @@ leanpub-start-insert
     });
 leanpub-end-insert
     NoteActions.delete(noteId);
-  }
+  };
   const activateNoteEdit = id => {
     NoteActions.update({id, editing: true});
-  }
+  };
 
   return (
     <div {...props}>
@@ -468,6 +468,128 @@ If you try using the application now, you should see that each lane is able to m
 The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture. You can see the same theme in the [Redux implementation](https://github.com/survivejs-demos/redux-demo). The [MobX one](https://github.com/survivejs-demos/mobx-demo) avoid the problem altogether given we can use proper references there.
 
 T> Normalizing the data would have made `selectNotesByIds` trivial. If you are using a solution like Redux, normalization can make operations like this easy.
+
+## Extracting `LaneHeader` from `Lane`
+
+`Lane` is starting to feel like a big component. This is a good chance to split it up to keep our application easier to maintain. Especially the lane header feels like a component of its own. To get started, define `LaneHeader` based on the current code like this:
+
+**app/components/LaneHeader.jsx**
+
+```javascript
+import React from 'react';
+import uuid from 'uuid';
+import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
+import LaneActions from '../actions/LaneActions';
+
+export default connect(() => ({}), {
+  NoteActions,
+  LaneActions
+})(({lane, LaneActions, NoteActions, ...props}) => {
+  const addNote = e => {
+    e.stopPropagation();
+
+    const noteId = uuid.v4();
+
+    NoteActions.create({
+      id: noteId,
+      task: 'New task'
+    });
+    LaneActions.attachToLane({
+      laneId: lane.id,
+      noteId
+    });
+  };
+
+  return (
+    <div className="lane-header" {...props}>
+      <div className="lane-add-note">
+        <button onClick={addNote}>+</button>
+      </div>
+      <div className="lane-name">{lane.name}</div>
+    </div>
+  );
+});
+```
+
+We also need to connect the extracted component with `Lane`:
+
+**app/components/Lane.jsx**
+
+```javascript
+import React from 'react';
+leanpub-start-delete
+import uuid from 'uuid';
+leanpub-end-delete
+import connect from '../libs/connect';
+import NoteActions from '../actions/NoteActions';
+import LaneActions from '../actions/LaneActions';
+import Notes from './Notes';
+leanpub-start-insert
+import LaneHeader from './LaneHeader';
+leanpub-end-insert
+
+const Lane = ({
+  lane, notes, LaneActions, NoteActions, ...props
+}) => {
+  const editNote = (id, task) => {
+    NoteActions.update({id, task, editing: false});
+  };
+leanpub-start-delete
+  const addNote = e => {
+    e.stopPropagation();
+
+    const noteId = uuid.v4();
+
+    NoteActions.create({
+      id: noteId,
+      task: 'New task'
+    });
+    LaneActions.attachToLane({
+      laneId: lane.id,
+      noteId
+    });
+  };
+leanpub-end-delete
+  const deleteNote = (noteId, e) => {
+    e.stopPropagation();
+
+    LaneActions.detachFromLane({
+      laneId: lane.id,
+      noteId
+    });
+    NoteActions.delete(noteId);
+  };
+  const activateNoteEdit = id => {
+    NoteActions.update({id, editing: true});
+  };
+
+  return (
+    <div {...props}>
+leanpub-start-delete
+      <div className="lane-header">
+        <div className="lane-add-note">
+          <button onClick={addNote}>+</button>
+        </div>
+        <div className="lane-name">{lane.name}</div>
+      </div>
+leanpub-end-delete
+leanpub-start-insert
+      <LaneHeader lane={lane} />
+leanpub-end-insert
+      <Notes
+        notes={selectNotesByIds(notes, lane.notes)}
+        onNoteClick={activateNoteEdit}
+        onEdit={editNote}
+        onDelete={deleteNote} />
+    </div>
+  );
+};
+
+...
+```
+
+After these changes we have something that's a little easier to work with. It would have been possible to maintain all the related code in a single component. Often these are judgment calls as you realize there are nicer ways to split up your components. Sometimes the need for reuse or performance will force you to split.
 
 ## Conclusion
 

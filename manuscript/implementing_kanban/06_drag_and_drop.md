@@ -545,7 +545,6 @@ To drag notes to empty lanes, we should allow them to receive notes. Just as abo
 
 ```javascript
 import React from 'react';
-import uuid from 'uuid';
 leanpub-start-insert
 import {compose} from 'redux';
 import {DropTarget} from 'react-dnd';
@@ -555,7 +554,7 @@ import connect from '../libs/connect';
 import NoteActions from '../actions/NoteActions';
 import LaneActions from '../actions/LaneActions';
 import Notes from './Notes';
-import Editable from './Editable';
+import LaneHeader from './LaneHeader';
 
 const Lane = ({
 leanpub-start-delete
@@ -573,37 +572,12 @@ leanpub-end-delete
 leanpub-start-insert
   return connectDropTarget(
 leanpub-end-insert
-    <div {...props}>
-      <div className="lane-header" onClick={activateLaneEdit}>
-        <div className="lane-add-note">
-          <button onClick={addNote}>+</button>
-        </div>
-        <Editable className="lane-name" editing={lane.editing}
-          value={lane.name} onEdit={editName} />
-        <div className="lane-delete">
-          <button onClick={deleteLane}>x</button>
-        </div>
-      </div>
-      <Notes
-        notes={selectNotesByIds(notes, lane.notes)}
-        onNoteClick={activateNoteEdit}
-        onEdit={editNote}
-        onDelete={deleteNote} />
-    </div>
+    ...
   );
 };
 
 function selectNotesByIds(allNotes, noteIds = []) {
-  // `reduce` is a powerful method that allows us to
-  // fold data. You can implement `filter` and `map`
-  // through it. Here we are using it to concatenate
-  // notes matching to the ids.
-  return noteIds.reduce((notes, id) =>
-    // Concatenate possible matching ids to the result
-    notes.concat(
-      allNotes.filter(note => note.id === id)
-    )
-  , []);
+  ...
 }
 
 leanpub-start-insert
@@ -629,7 +603,7 @@ const noteTarget = {
 };
 leanpub-end-insert
 
-leanpub-start-remove
+leanpub-start-delete
 export default connect(
   ({notes}) => ({
     notes
@@ -638,10 +612,10 @@ export default connect(
     LaneActions
   }
 )(Lane)
-leanpub-end-remove
+leanpub-end-delete
 leanpub-start-insert
 export default compose(
-  DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+  DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
     connectDropTarget: connect.dropTarget()
   })),
   connect(({notes}) => ({
