@@ -293,7 +293,7 @@ The reason why is simple. React cannot notice you have changed the structure and
 
 As of the time of writing the function based component definition doesn't support the concept of state. The problem is that these components don't have a backing instance. It is something in which you would attach state. We might see a way to solve this through functions only in the future but for now we have to use a heavier duty alternative.
 
-In addition to functions, you can create React components through `React.createClass` or a class based component definition. We'll opt for the latter in this book. Function based components are a great default, though. The added benefit is that they allow a series of optimizations.
+In addition to functions, you can create React components through `React.createClass` or a class based component definition. In this book we'll use function based components whenever possible. If there's a good reason why those can't work, then we'll use class based definition instead.
 
 In order to convert our `App` to a class based component, adjust it as follows to push the state within:
 
