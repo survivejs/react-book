@@ -121,8 +121,8 @@ const App = ({LaneActions, lanes}) => {
   );
 };
 
-export default connect(({LaneStore}) => ({
-  lanes: LaneStore.lanes
+export default connect(({lanes}) => ({
+  lanes
 }), {
   LaneActions
 })(App)
@@ -186,8 +186,8 @@ const Lane = ({
 };
 
 export default connect(
-  ({NoteStore}) => ({
-    notes: NoteStore.notes
+  ({notes}) => ({
+    notes
   }), {
     NoteActions
   }
@@ -447,8 +447,8 @@ function selectNotesByIds(allNotes, noteIds = []) {
 leanpub-end-insert
 
 export default connect(
-  ({NoteStore}) => ({
-    notes: NoteStore.notes
+  ({notes}) => ({
+    notes
   }), {
 leanpub-start-delete
     NoteActions

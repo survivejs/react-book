@@ -105,11 +105,13 @@ leanpub-end-delete
 }
 
 leanpub-start-delete
-export default connect(() => ({test: 'test'}))(App)
+export default connect(() => ({
+  test: 'test'
+}))(App)
 leanpub-end-delete
 leanpub-start-insert
-export default connect(({NoteStore}) => ({
-  notes: NoteStore.notes
+export default connect(({notes}) => ({
+  notes
 }))(App)
 leanpub-end-insert
 ```
@@ -162,13 +164,13 @@ class App extends React.Component {
 }
 
 leanpub-start-delete
-export default connect(({NoteStore}) => ({
-  notes: NoteStore.notes
+export default connect(({notes}) => ({
+  notes
 }))(App)
 leanpub-end-delete
 leanpub-start-insert
-export default connect(({NoteStore}) => ({
-  notes: NoteStore.notes
+export default connect(({notes}) => ({
+  notes
 }), {
   NoteActions
 })(App)

@@ -87,4 +87,6 @@ class App extends React.Component {
   }
 }
 
-export default connect(() => ({test: 'test'}))(App)
+export default connect(() => ({
+  test: 'test'
+}))(App)

@@ -39,8 +39,8 @@ class App extends React.Component {
   }
 }
 
-export default connect(({NoteStore}) => ({
-  notes: NoteStore.notes
+export default connect(({notes}) => ({
+  notes
 }), {
   NoteActions
 })(App)

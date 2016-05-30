@@ -263,27 +263,78 @@ In order to save some effort, I'll be using a package known as [connect-alt](htt
 
 It would be possible to optimize the behavior with further effort. That's one reason why having control over `Provider` and `connect` is useful. It allows further customization.
 
-Consider the implementation of a `connect` adapter below and add it to the project. You can see certain familiar ideas there. We need to perform careful checking over the first parameter given it can be either a function or an object containing values. If it is either, then we need to apply *connect-alt*. Otherwise it's enough to attach just actions to the resulting component:
+In this case I'm going to plug in a custom `connect` to highlight a couple of key ideas. The implementation isn't optimal when it comes to performance. It is enough for this application. In practice you would use a well optimized connector instead.
+
+The idea here is that in case we have a custom transformation defined, we'll dig the data we need from the `Provider`, apply it over our data as we defined, and then pass the resulting data to the component through props:
 
 **app/libs/connect.jsx**
 
 ```javascript
 import React from 'react';
-import connect from 'connect-alt';
-
-const connectAdapter = (Component, actions) => {
-  return props => <Component {...Object.assign({}, props, actions)} />
-};
 
 export default (state, actions) => {
   if(typeof state === 'function' ||
-    (typeof state === 'object') &&
-    Object.keys(state).length) {
-    return target => connect(state)(connectAdapter(target, actions));
+    (typeof state === 'object' && Object.keys(state).length)) {
+    return target => connect(state, actions, target);
   }
 
-  return target => connectAdapter(target, actions);
-};
+  return target => props => (
+    <target {...Object.assign({}, props, actions)} />
+  );
+}
+
+// Connect to Alt through context. This hasn't been optimized
+// at all. If Alt store changes, it will force render.
+//
+// See *AltContainer* and *connect-alt* for optimized solutions.
+function connect(state = () => {}, actions = {}, target) {
+  class Connect extends React.Component {
+    componentDidMount() {
+      const {flux} = this.context;
+
+      flux.FinalStore.listen(this.handleChange);
+    }
+    componentWillUnmount() {
+      const {flux} = this.context;
+
+      flux.FinalStore.unlisten(this.handleChange);
+    }
+    render() {
+      const {flux} = this.context;
+      const stores = flux.stores;
+      const composedStores = composeStores(stores);
+
+      return React.createElement(target,
+        {...Object.assign(
+          {}, this.props, state(composedStores), actions
+        )}
+      );
+    }
+    handleChange = () => {
+      this.forceUpdate();
+    }
+  }
+  Connect.contextTypes = {
+    flux: React.PropTypes.object.isRequired
+  }
+
+  return Connect;
+}
+
+// Transform {store: <AltStore>} to {<store>: store.getState()}
+function composeStores(stores) {
+  let ret = {};
+
+  Object.keys(stores).forEach(k => {
+    const store = stores[k];
+
+    // Combine store state
+    ret = Object.assign({}, ret, store.getState());
+  });
+
+  return ret;
+}
+
 ```
 
 Due to the way *connect-alt* works, we'll need to alter our Alt instance to contain a `FinalStore` field:
@@ -356,7 +407,9 @@ leanpub-end-insert
 }
 
 leanpub-start-insert
-export default connect(() => ({test: 'test'}))(App)
+export default connect(() => ({
+  test: 'test'
+}))(App)
 leanpub-end-insert
 ```
 

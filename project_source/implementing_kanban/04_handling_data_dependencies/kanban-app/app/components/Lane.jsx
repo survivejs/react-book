@@ -69,8 +69,8 @@ function selectNotesByIds(allNotes, noteIds = []) {
 }
 
 export default connect(
-  ({NoteStore}) => ({
-    notes: NoteStore.notes
+  ({notes}) => ({
+    notes
   }), {
     NoteActions,
     LaneActions

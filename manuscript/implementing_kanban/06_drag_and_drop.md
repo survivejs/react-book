@@ -41,8 +41,8 @@ const App = ({LaneActions, lanes}) => {
 };
 
 leanpub-start-delete
-export default connect(({LaneStore}) => ({
-  lanes: LaneStore.lanes
+export default connect(({lanes}) => ({
+  lanes
 }), {
   LaneActions
 })(App)
@@ -50,8 +50,8 @@ leanpub-end-delete
 leanpub-start-insert
 export default compose(
   DragDropContext(HTML5Backend),
-  connect(({LaneStore}) => ({
-    lanes: LaneStore.lanes
+  connect(({lanes}) => ({
+    lanes
   }), {
     LaneActions
   })
@@ -633,8 +633,8 @@ leanpub-end-insert
 
 leanpub-start-remove
 export default connect(
-  ({NoteStore}) => ({
-    notes: NoteStore.notes
+  ({notes}) => ({
+    notes
   }), {
     NoteActions,
     LaneActions
@@ -646,8 +646,8 @@ export default compose(
   DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
     connectDropTarget: connect.dropTarget()
   })),
-  connect(({NoteStore}) => ({
-    notes: NoteStore.notes
+  connect(({notes}) => ({
+    notes
   }), {
     NoteActions,
     LaneActions
