@@ -345,6 +345,8 @@ leanpub-end-insert
 
 Given we have enough logic in place now, we can start connecting it with the user interface.
 
+T> It is possible `detachFromLane` doesn't detach anything. If this case is detected, it would be nice to use `console.warn` to let the developer know about the situation. Similar check could be done for `attachToLane`.
+
 ### Connecting `Lane` with the Logic
 
 To make this work, there are a couple of places to tweak at `Lane`:
