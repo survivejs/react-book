@@ -69,25 +69,23 @@ leanpub-end-insert
 import React from 'react';
 import Note from './Note';
 
-export default ({notes, onDelete=() => {}}) => {
-  return (
-    <ul>{notes.map(({id, task}) =>
-      <li key={id}>
+export default ({notes, onDelete=() => {}}) => (
+  <ul>{notes.map(({id, task}) =>
+    <li key={id}>
 leanpub-start-delete
-        <Note
-          onDelete={onDelete.bind(null, id)}
-          task={task} />
+      <Note
+        onDelete={onDelete.bind(null, id)}
+        task={task} />
 leanpub-end-delete
 leanpub-start-insert
-        <Note>
-          <span>{task}</span>
-          <button onClick={onDelete.bind(null, id)}>x</button>
-        </Note>
+      <Note>
+        <span>{task}</span>
+        <button onClick={onDelete.bind(null, id)}>x</button>
+      </Note>
 leanpub-end-insert
-      </li>
-    )}</ul>
-  );
-}
+    </li>
+  )}</ul>
+)
 ```
 
 ## Adding `Editable` Stub
@@ -139,43 +137,41 @@ import Editable from './Editable';
 leanpub-end-insert
 
 leanpub-start-delete
-export default ({notes, onDelete=() => {}}) => {
+export default ({notes, onDelete=() => {}}) => (
 leanpub-end-delete
 leanpub-start-insert
 export default ({
   notes,
   onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
-}) => {
-leanpub-end-insert
-  return (
-leanpub-start-delete
-    <ul>{notes.map(({id, task}) =>
-leanpub-end-delete
-leanpub-start-insert
-    <ul>{notes.map(({id, editing, task}) =>
-leanpub-end-insert
-      <li key={id}>
-leanpub-start-delete
-        <Note>
-leanpub-end-delete
-leanpub-start-insert
-        <Note onClick={onNoteClick.bind(null, id)}>
+}) => (
 leanpub-end-insert
 leanpub-start-delete
-          <span>{task}</span>
+  <ul>{notes.map(({id, task}) =>
 leanpub-end-delete
 leanpub-start-insert
-          <Editable
-            editing={editing}
-            value={task}
-            onEdit={onEdit.bind(null, id)} />
+  <ul>{notes.map(({id, editing, task}) =>
 leanpub-end-insert
-          <button onClick={onDelete.bind(null, id)}>x</button>
-        </Note>
-      </li>
-    )}</ul>
-  );
-}
+    <li key={id}>
+leanpub-start-delete
+      <Note>
+leanpub-end-delete
+leanpub-start-insert
+      <Note onClick={onNoteClick.bind(null, id)}>
+leanpub-end-insert
+leanpub-start-delete
+        <span>{task}</span>
+leanpub-end-delete
+leanpub-start-insert
+        <Editable
+          editing={editing}
+          value={task}
+          onEdit={onEdit.bind(null, id)} />
+leanpub-end-insert
+        <button onClick={onDelete.bind(null, id)}>x</button>
+      </Note>
+    </li>
+  )}</ul>
+)
 ```
 
 If everything went right, you should see something like this:

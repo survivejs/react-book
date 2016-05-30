@@ -296,32 +296,30 @@ import Editable from './Editable';
 export default ({
   notes,
   onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
-}) => {
-  return (
-    <ul className="notes">{notes.map(({id, editing, task}) =>
-      <li key={id}>
+}) => (
+  <ul className="notes">{notes.map(({id, editing, task}) =>
+    <li key={id}>
 leanpub-start-delete
-        <Note className="note" onClick={onNoteClick.bind(null, id)}>
+      <Note className="note" onClick={onNoteClick.bind(null, id)}>
 leanpub-end-delete
 leanpub-start-insert
-        <Note className="note" id={id}
-          onClick={onNoteClick.bind(null, id)}
-          onMove={({sourceId, targetId}) =>
-            console.log('moving from', sourceId, 'to', targetId)}>
+      <Note className="note" id={id}
+        onClick={onNoteClick.bind(null, id)}
+        onMove={({sourceId, targetId}) =>
+          console.log('moving from', sourceId, 'to', targetId)}>
 leanpub-end-insert
-          <Editable
-            className="editable"
-            editing={editing}
-            value={task}
-            onEdit={onEdit.bind(null, id)} />
-          <button
-            className="delete"
-            onClick={onDelete.bind(null, id)}>x</button>
-        </Note>
-      </li>
-    )}</ul>
-  );
-}
+        <Editable
+          className="editable"
+          editing={editing}
+          value={task}
+          onEdit={onEdit.bind(null, id)} />
+        <button
+          className="delete"
+          onClick={onDelete.bind(null, id)}>x</button>
+      </Note>
+    </li>
+  )}</ul>
+)
 ```
 
 If you hover a note on top of another, you should see console messages like this:
@@ -363,32 +361,30 @@ leanpub-end-insert
 export default ({
   notes,
   onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
-}) => {
-  return (
-    <ul className="notes">{notes.map(({id, editing, task}) =>
-      <li key={id}>
-        <Note className="note" id={id}
-          onClick={onNoteClick.bind(null, id)}
+}) => (
+  <ul className="notes">{notes.map(({id, editing, task}) =>
+    <li key={id}>
+      <Note className="note" id={id}
+        onClick={onNoteClick.bind(null, id)}
 leanpub-start-delete
-          onMove={({sourceId, targetId}) =>
-            console.log('moving from', sourceId, 'to', targetId)}>
+        onMove={({sourceId, targetId}) =>
+          console.log('moving from', sourceId, 'to', targetId)}>
 leanpub-end-delete
 leanpub-start-insert
-          onMove={LaneActions.move}>
+        onMove={LaneActions.move}>
 leanpub-end-insert
-          <Editable
-            className="editable"
-            editing={editing}
-            value={task}
-            onEdit={onEdit.bind(null, id)} />
-          <button
-            className="delete"
-            onClick={onDelete.bind(null, id)}>x</button>
-        </Note>
-      </li>
-    )}</ul>
-  );
-}
+        <Editable
+          className="editable"
+          editing={editing}
+          value={task}
+          onEdit={onEdit.bind(null, id)} />
+        <button
+          className="delete"
+          onClick={onDelete.bind(null, id)}>x</button>
+      </Note>
+    </li>
+  )}</ul>
+)
 ```
 
 T> It could be a good idea to refactor `onMove` as a prop to make the system more flexible. In our implementation the `Notes` component is coupled with `LaneActions`. This isn't particularly nice if you want to use it in some other context.
@@ -649,29 +645,27 @@ import LaneActions from '../actions/LaneActions';
 export default ({
   notes,
   onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
-}) => {
-  return (
-    <ul className="notes">{notes.map(({id, editing, task}) =>
-      <li key={id}>
-        <Note className="note" id={id}
+}) => (
+  <ul className="notes">{notes.map(({id, editing, task}) =>
+    <li key={id}>
+      <Note className="note" id={id}
 leanpub-start-insert
-          editing={editing}
+        editing={editing}
 leanpub-end-insert
-          onClick={onNoteClick.bind(null, id)}
-          onMove={LaneActions.move}>
-          <Editable
-            className="editable"
-            editing={editing}
-            value={task}
-            onEdit={onEdit.bind(null, id)} />
-          <button
-            className="delete"
-            onClick={onDelete.bind(null, id)}>x</button>
-        </Note>
-      </li>
-    )}</ul>
-  );
-}
+        onClick={onNoteClick.bind(null, id)}
+        onMove={LaneActions.move}>
+        <Editable
+          className="editable"
+          editing={editing}
+          value={task}
+          onEdit={onEdit.bind(null, id)} />
+        <button
+          className="delete"
+          onClick={onDelete.bind(null, id)}>x</button>
+      </Note>
+    </li>
+  )}</ul>
+)
 ```
 
 Next we need to take this into account while rendering:

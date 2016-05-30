@@ -45,13 +45,11 @@ const notes = [
   }
 ];
 
-export default () => {
-  return (
-    <ul>{notes.map(note =>
-      <li key={note.id}>{note.task}</li>
-    )}</ul>
-  );
-}
+export default () => (
+  <ul>{notes.map(note =>
+    <li key={note.id}>{note.task}</li>
+  )}</ul>
+)
 ```
 
 We are using various important features of JSX in the snippet above. I have annotated the difficult parts below:
@@ -272,13 +270,11 @@ const notes = [
 
 export default () => {
 leanpub-end-delete
-export default ({notes}) => {
-  return (
-    <ul>{notes.map(note =>
-      <li key={note.id}>{note.task}</li>
-    )}</ul>
-  );
-}
+export default ({notes}) => (
+  <ul>{notes.map(note =>
+    <li key={note.id}>{note.task}</li>
+  )}</ul>
+);
 ```
 
 Our application should look exactly the same as before after these changes. Now we are ready to add some logic to it, though.

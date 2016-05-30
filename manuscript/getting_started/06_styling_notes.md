@@ -73,39 +73,37 @@ import Editable from './Editable';
 export default ({
   notes,
   onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
-}) => {
-  return (
+}) => (
 leanpub-start-delete
-    <ul>{notes.map(({id, editing, task}) =>
+  <ul>{notes.map(({id, editing, task}) =>
 leanpub-end-delete
 leanpub-start-insert
-    <ul className="notes">{notes.map(({id, editing, task}) =>
+  <ul className="notes">{notes.map(({id, editing, task}) =>
 leanpub-end-insert
-      <li key={id}>
+    <li key={id}>
 leanpub-start-delete
-        <Note onClick={onNoteClick.bind(null, id)}>
+      <Note onClick={onNoteClick.bind(null, id)}>
 leanpub-end-delete
 leanpub-start-insert
-        <Note className="note" onClick={onNoteClick.bind(null, id)}>
+      <Note className="note" onClick={onNoteClick.bind(null, id)}>
 leanpub-end-insert
-          <Editable
-            className="editable"
-            editing={editing}
-            value={task}
-            onEdit={onEdit.bind(null, id)} />
+        <Editable
+          className="editable"
+          editing={editing}
+          value={task}
+          onEdit={onEdit.bind(null, id)} />
 leanpub-start-delete
-          <button onClick={onDelete.bind(null, id)}>x</button>
+        <button onClick={onDelete.bind(null, id)}>x</button>
 leanpub-end-delete
 leanpub-start-insert
-          <button
-            className="delete"
-            onClick={onDelete.bind(null, id)}>x</button>
+        <button
+          className="delete"
+          onClick={onDelete.bind(null, id)}>x</button>
 leanpub-end-insert
-        </Note>
-      </li>
-    )}</ul>
-  );
-}
+      </Note>
+    </li>
+  )}</ul>
+)
 ```
 
 In order to eliminate the list specific styling, we can apply rules like these:

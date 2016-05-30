@@ -36,18 +36,16 @@ leanpub-start-insert
 import Note from './Note';
 leanpub-end-insert
 
-export default ({notes}) => {
-  return (
-    <ul>{notes.map(note =>
+export default ({notes}) => (
+  <ul>{notes.map(note =>
 leanpub-start-delete
-      <li key={note.id}>{note.task}</li>
+    <li key={note.id}>{note.task}</li>
 leanpub-end-delete
 leanpub-start-insert
-      <li key={note.id}><Note task={note.task} /></li>
+    <li key={note.id}><Note task={note.task} /></li>
 leanpub-end-insert
-    )}</ul>
-  );
-}
+  )}</ul>
+)
 ```
 
 The application should look exactly the same after these changes. Now we have room to expand it further.
@@ -97,26 +95,22 @@ import React from 'react';
 import Note from './Note';
 
 leanpub-start-delete
-export default ({notes}) => {
-  return (
-    <ul>{notes.map(note =>
-      <li key={note.id}><Note task={note.task} /></li>
-    )}</ul>
-  );
-}
+export default ({notes}) => (
+  <ul>{notes.map(note =>
+    <li key={note.id}><Note task={note.task} /></li>
+  )}</ul>
+)
 leanpub-end-delete
 leanpub-start-insert
-export default ({notes, onDelete=() => {}}) => {
-  return (
-    <ul>{notes.map(({id, task}) =>
-      <li key={id}>
-        <Note
-          onDelete={onDelete.bind(null, id)}
-          task={task} />
-      </li>
-    )}</ul>
-  );
-}
+export default ({notes, onDelete=() => {}}) => (
+  <ul>{notes.map(({id, task}) =>
+    <li key={id}>
+      <Note
+        onDelete={onDelete.bind(null, id)}
+        task={task} />
+    </li>
+  )}</ul>
+)
 leanpub-end-insert
 ```
 
