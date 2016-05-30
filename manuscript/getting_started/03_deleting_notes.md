@@ -203,6 +203,19 @@ Note.willTransitionTo = () => {...};
 export default Note;
 ```
 
+This could also be written as:
+
+```javascript
+class Note {
+  static willTransitionTo() {...}
+  render() {
+    ...
+  }
+}
+
+export default Note;
+```
+
 Some libraries, such as React DnD, rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
 
 Both class and `React.createClass` based components allow you to document the interface of your component using `propTypes`. To dig deeper, read the *Typing with React* chapter.
