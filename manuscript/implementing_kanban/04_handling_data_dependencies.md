@@ -467,6 +467,8 @@ If you try using the application now, you should see that each lane is able to m
 
 The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture. You can see the same theme in the [Redux implementation](https://github.com/survivejs-demos/redux-demo). The [MobX one](https://github.com/survivejs-demos/mobx-demo) avoid the problem altogether given we can use proper references there.
 
+T> `selectNotesByIds` could have been written in terms of `map` and `find`. In that case you would have ended up with `noteIds.map(id => allNotes.find(note => note.id === id));`. You would need to polyfill `find` in this case to support older browsers, though.
+
 T> Normalizing the data would have made `selectNotesByIds` trivial. If you are using a solution like Redux, normalization can make operations like this easy.
 
 ## Extracting `LaneHeader` from `Lane`
