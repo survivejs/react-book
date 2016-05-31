@@ -26,6 +26,7 @@
     "html-webpack-plugin": "^2.17.0",
     "html-webpack-template": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.13.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0"
   }

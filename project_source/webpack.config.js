@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const Clean = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = function(o) {
@@ -50,12 +50,13 @@ module.exports = function(o) {
     },
     plugins: [
       new HtmlwebpackPlugin({
-        template: 'node_modules/html-webpack-template/index.html',
+        inject: false,
+        template: require('html-webpack-template'),
         title: 'Kanban app',
         appMountId: 'app'
       }),
       new ExtractTextPlugin('styles.css'),
-      new Clean(['.'], o.outputPath),
+      new CleanWebpackPlugin(o.outputPath),
       // XXXXX: gives Uncaught Error: Cannot find module "alt"
       /*new webpack.optimize.CommonsChunkPlugin(
         'vendor',
