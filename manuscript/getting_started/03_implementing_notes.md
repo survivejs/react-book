@@ -127,11 +127,11 @@ leanpub-end-insert
 ...
 ```
 
-The application should look the same as before after this change. If you try debugging it, you can see the ids should change if you refresh. You can verify this easily either by inserting a `console.log(notes);` line or a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement within the component function.
+The development setup will install the `uuid` dependency automatically. Once that has happened and the application has refreshed, everything should still look the same. If you try debugging it, you can see the ids should change if you refresh. You can verify this easily either by inserting a `console.log(notes);` line or a [debugger;](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement within the component function.
 
 The `debugger;` statement is particularly useful as it tells the browser to break execution. This way you can examine the current call stack and examine the available variables. If you are unsure of something, this is a great way to debug and figure out what's going on.
 
-`console.log` is a lighter alternative. You can design a logging system around it. See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Console) and [Chrome documentation](https://developers.google.com/web/tools/chrome-devtools/debug/console/console-reference) for the full API.
+`console.log` is a lighter alternative. You can even design a logging system around it and use the techniques together. See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Console) and [Chrome documentation](https://developers.google.com/web/tools/chrome-devtools/debug/console/console-reference) for the full API.
 
 T> If you are interested in the math behind id generation, check out [the calculations at Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier#Random_UUID_probability_of_duplicates) for details. You'll see that the possibility for collisions is somewhat miniscule and something we don't have to worry about.
 
@@ -141,9 +141,7 @@ Even though we can display individual notes now, we are still missing a lot of l
 
 ### Defining a Stub for `App`
 
-To enable adding new notes, we should have a button for that somewhere. Currently our `Notes` component does only one thing, displaying notes. That's perfectly fine. To make room for more functionality, we could add a concept known as `App` on top of that. This component will orchestrate the execution of our application. We can add the button we want there and manage state as well as we add notes.
-
-At a basic level `App` could look like this:
+To enable adding new notes, we should have a button for that somewhere. Currently our `Notes` component does only one thing, displaying notes. That's perfectly fine. To make room for more functionality, we could add a concept known as `App` on top of that. This component will orchestrate the execution of our application. We can add the button we want there and manage state as well as we add notes. At a basic level `App` could look like this:
 
 **app/components/App.jsx**
 
@@ -243,7 +241,12 @@ leanpub-end-insert
 export default () => (
   <div>
     <button onClick={() => console.log('add note')}>+</button>
+leanpub-start-delete
+    <Notes />
+leanpub-end-delete
+leanpub-start-insert
     <Notes notes={notes} />
+leanpub-end-insert
   </div>
 );
 ```
@@ -270,7 +273,9 @@ const notes = [
 
 export default () => {
 leanpub-end-delete
+leanpub-start-insert
 export default ({notes}) => (
+leanpub-end-insert
   <ul>{notes.map(note =>
     <li key={note.id}>{note.task}</li>
   )}</ul>
@@ -287,9 +292,9 @@ Now that we have all things in the right place, we can start to worry about modi
 
 The reason why is simple. React cannot notice you have changed the structure and react accordingly (that is, trigger `render()`). To overcome this issue, we can implement our modification through React's own API. This makes it notice that the structure has changed. As a result it is able to `render()` as we might expect.
 
-As of the time of writing the function based component definition doesn't support the concept of state. The problem is that these components don't have a backing instance. It is something in which you would attach state. We might see a way to solve this through functions only in the future but for now we have to use a heavier duty alternative.
+As of the time of writing, the function based component definition doesn't support the concept of state. The problem is that these components don't have a backing instance. It is something in which you would attach state. We might see a way to solve this through functions only in the future but for now we have to use a heavier duty alternative.
 
-In addition to functions, you can create React components through `React.createClass` or a class based component definition. In this book we'll use function based components whenever possible. If there's a good reason why those can't work, then we'll use class based definition instead.
+In addition to functions, you can create React components through `React.createClass` or a class based component definition. In this book we'll use function based components whenever possible. If there's a good reason why those can't work, then we'll use the class based definition instead.
 
 In order to convert our `App` to a class based component, adjust it as follows to push the state within:
 
@@ -314,7 +319,7 @@ const notes = [
 
 export default () => (
   <div>
-    <button onClick={() => notes.push({id: uuid.v4(), task: 'New task'})}>+</button>
+    <button onClick={() => console.log('add note')}>+</button>
     <Notes notes={notes} />
   </div>
 );
@@ -343,8 +348,7 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <button
-          onClick={() => notes.push({id: uuid.v4(), task: 'New task'})}>+</button>
+        <button onClick={() => console.log('add note')}>+</button>
         <Notes notes={notes} />
       </div>
     );
@@ -353,11 +357,9 @@ export default class App extends React.Component {
 leanpub-end-insert
 ```
 
-After this change `App` owns the state even though the application still should look the same as before. Now, however, we can start to use React's API to modify the state.
+After this change `App` owns the state even though the application still should look the same as before. We can begin to use React's API to modify the state.
 
 T> Data management solutions, such as [MobX](https://mobxjs.github.io/mobx/), solve this problem in their own way. Using them you annotate your data structures and React components and leave the updating problem to them. We'll get back to the topic of data management later in this book in detail.
-
-T> In the earlier versions of React, you could achieve the same result with `getInitialState`.
 
 T> We're passing `props` to `super` by convention. If you don't pass it, `this.props` won't get set! Calling `super` invokes the same method of the parent class and you see this kind of usage in object oriented programming often.
 
