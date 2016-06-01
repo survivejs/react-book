@@ -417,6 +417,12 @@ leanpub-end-insert
 
 To make the text show up, refresh the browser. You should see the text that we connected to `App` now.
 
+## Dispatching in Alt
+
+Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet, such as `alt.dispatcher.register(console.log.bind(console))`. Alternatively, you could trigger `this.dispatcher.register(...)` at a store constructor. These mechanisms allow you to implement effective logging.
+
+Other state management systems provide similar hooks. It is possible to intercept the data flow in many ways and even build custom logic on top of that.
+
 ## Conclusion
 
 In this chapter we discussed the basic idea of the Flux architecture and started porting our application to it. We pushed the state management related concerns behind an adapter to allow altering the underlying system without having to change the view related code. The next step is to implement a store for our application data and define actions to manipulate it.

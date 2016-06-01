@@ -51,7 +51,7 @@ We have already set it up at our Alt instance. What remains is writing the appli
 
 T> An alternative way to handle storing the data would be to take a snapshot only when the window gets closed. There's a Window level `beforeunload` hook that could be used. This approach is brittle, though. What if something unexpected happens and the hook doesn't get triggered for some reason? You'll lose data.
 
-## Implementing Persistency Logic
+## Implementing the Persistency Logic
 
 We can handle the persistency logic at a separate module dedicated to it. We will hook it up at the application setup and off we go.
 
@@ -149,12 +149,6 @@ leanpub-end-insert
 ```
 
 This is enough for now. Now our application should start from a blank slate.
-
-## Dispatching in Alt
-
-Even though you can get far without ever using Flux dispatcher, it can be useful to know something about it. Alt provides two ways to use it. If you want to log everything that goes through your `alt` instance, you can use a snippet, such as `alt.dispatcher.register(console.log.bind(console))`. Alternatively, you could trigger `this.dispatcher.register(...)` at a store constructor. These mechanisms allow you to implement effective logging.
-
-Other state management systems provide similar hooks. It is possible to intercept the data flow in many ways and even build custom logic on top of that.
 
 ## Alternative Implementations
 
