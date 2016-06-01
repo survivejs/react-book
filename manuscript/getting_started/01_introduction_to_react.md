@@ -24,6 +24,8 @@ Historically we have mixed the concerns of the DOM and state and tried to manage
 
 Virtual DOM exists on top of the actual DOM, or some other render target. It solves the state manipulation problem in its own way. Whenever changes are made to it, it figures out the best way to batch the changes to the underlying DOM structure. It is able to propagate changes across its virtual tree as in the image above.
 
+### Virtual DOM Performance
+
 Handling the DOM manipulation this way can lead to good performance. Manipulating the DOM by hand tends to be inefficient and it's hard to optimize it. By leaving the problem if DOM manipulation to a good implementation, you avoid effort.
 
 React allows you to tune performance further by implementing hooks to adjust the way the virtual tree is updated. Often this is an optional step, though.
