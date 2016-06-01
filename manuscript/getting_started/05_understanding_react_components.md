@@ -56,6 +56,7 @@ Beyond the lifecycle methods and refs, there are a variety of [properties and me
 * `displayName` - It is preferable to set `displayName` as that will improve debug information. For ES6 classes this is derived automatically based on the class name. You can attach `displayName` to an anonymous function based component as well.
 * `getInitialState()` - In class based approach the same can be achieved through `constructor`.
 * `getDefaultProps()` - In classes you can set these in `constructor`.
+* `render()` - This is the workhorse of React. It [must return a single node](https://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html) as returning multiple won't work!
 * `mixins` - `mixins` contains an array of mixins to apply to components.
 * `statics` - `statics` contains static properties and method for a component. In ES6 you can assign them to the class as below:
 

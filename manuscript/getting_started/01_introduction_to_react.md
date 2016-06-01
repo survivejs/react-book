@@ -109,11 +109,9 @@ Now we can see the component renders a set of names within a HTML list. It might
 
 Compared to vanilla HTML, we are using `className` instead of `class`. This is because the API has been modeled after the DOM naming. It takes some getting used to and you might experience a [JSX shock](https://medium.com/@housecor/react-s-jsx-the-other-side-of-the-coin-2ace7ab62b98) until you begin to appreciate the approach. It gives us an additional level of validation.
 
-T> Note that `render()` [must return a single node](https://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html). Returning multiple won't work!
+T> [HyperScript](https://github.com/dominictarr/hyperscript) is an interesting alternative to JSX. It provides a JavaScript based API and as such is closer to the metal. You can use the syntax with React through [hyperscript-helpers](https://www.npmjs.com/package/hyperscript-helpers).
 
-T> [HyperScript](https://github.com/dominictarr/hyperscript) can be an interesting alternative to JSX. It provides a JavaScript based API and as such is a little closer to the metal. If you are interested, you can use the syntax with React through [hyperscript-helpers](https://www.npmjs.com/package/hyperscript-helpers).
-
-T> There is a semantic difference between React components, such as the one above, and React elements. In the example each of those JSX nodes would be converted into an element. In short, components can have state whereas elements are simpler by nature. They are just pure objects. Dan Abramov goes into further detail in a [blog post](https://facebook.github.io/react/blog/2015/12/18/react-components-elements-and-instances.html) of his.
+T> There is a semantic difference between React components and React elements. In the example each of those JSX nodes would be converted into an element. In short, components can have state whereas elements are simpler by nature. They are just pure objects. Dan Abramov goes into further detail in a [blog post](https://facebook.github.io/react/blog/2015/12/18/react-components-elements-and-instances.html) of his.
 
 ## Conclusion
 
