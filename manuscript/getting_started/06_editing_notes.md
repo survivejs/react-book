@@ -114,8 +114,6 @@ const Edit = ({onEdit = () => {}, value, ...props}) => (
 );
 ```
 
-Given `className` accepts only a string, it can be difficult to work with when you have multiple classes depending on some logic. This is where a package known as [classnames](https://www.npmjs.org/package/classnames) can be useful. It accepts almost arbitrary input and converts that to a string solving the problem.
-
 To see our stub in action we still need to connect it with our application.
 
 ## Connecting `Editable` with `Notes`

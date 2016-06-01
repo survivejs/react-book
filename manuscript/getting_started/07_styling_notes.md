@@ -189,6 +189,8 @@ leanpub-end-insert
 }
 ```
 
+Given `className` accepts only a string, it can be difficult to work with when you have multiple classes depending on some logic. This is where a package known as [classnames](https://www.npmjs.org/package/classnames) can be useful. It accepts almost arbitrary input and converts that to a string solving the problem.
+
 There are enough classes to style the remainder now. We can show a shadow below the hovered note. It's also a good touch to show the delete control on hover as well. Unfortunately this won't work on touch based interfaces, but it's good enough for this demo:
 
 **app/main.css**
