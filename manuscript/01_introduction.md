@@ -2,7 +2,9 @@
 
 Front-end development moves forward fast. A good indication of this is the pace in which new technologies appear to the scene. [React](https://facebook.github.io/react/) is one of these recent newcomers. Even though the technology itself is simple, there's a lot going on around it.
 
-The purpose of this book is to help you get started with React and provide understanding of the surrounding ecosystem so you know where to look. Our development setup is going to be based on Webpack. There's [a separate book](http://survivejs.com/webpack/introduction/) that digs into it, but I don't expect you to understand Webpack well to get through this book.
+The purpose of this book is to help you get started with React and provide understanding of the surrounding ecosystem so you know where to look.
+
+Our development setup is based on Webpack. There's [a separate book](http://survivejs.com/webpack/introduction/) that digs into it, but I don't expect you to understand Webpack well to get through this book.
 
 ## What is React?
 
@@ -54,18 +56,15 @@ This is just one example of a lane configuration. The lanes can be configured to
 
 ## Who is This Book for?
 
-I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about React, or ES6, that's great. By reading this book you will deepen your understanding of these tools.
+I expect that you have a basic knowledge of JavaScript and Node.js. You should be able to use npm on an elementary level. If you know something about React, or ES6, that's great. By reading this book you will deepen your understanding of these technologies.
 
 One of the hardest things about writing a book is to write it on the right level. Given the book covers a lot of ground, there are appendices that cover basic topics, such as language details, with greater detail than the main content does. So if you are feeling unsure of something, check them out.
 
-There's also a community around the book. So if you want to ask something directly, we are there to help. Any comments you might have will go towards improving the book content. The last thing I want is to have someone struggling with the book.
+There's also a [community chat](https://gitter.im/survivejs/react) available. If you want to ask something directly, we are there to help. Any comments you might have will go towards improving the book content. The last thing I want is to have someone struggling with the book.
 
 ## How to Approach the Book?
 
-Although a natural way to read a book is to start from the first chapter and then read the chapters sequentially, that's not the only way to approach this book. The chapter order is just a reading suggestion. Depending on your background, you could consider the following orders or even skip some portions altogether:
-
-* From start to end - This would be the traditional way to approach a book. It will also require the most amount of time. But on the plus side you get a steady progression. Certain chapters might not make much sense unless you have read the earlier ones.
-* Advanced techniques only - Given React ecosystem is so vast, the *Advanced Techniques* part covers interesting niches you might miss otherwise. If you already know basics of React well, check this part out will provide the most value.
+Although a natural way to read a book is to start from the first chapter and then read the chapters sequentially, that's not the only way to approach this book. The chapter order is just a reading suggestion. Depending on your background, you could consider skimming through the first part and then digging deeper into the advanced topics.
 
 The book doesn't cover everything you need to know in order to develop front-end applications. That's simply too much for a single book. I do believe, however, that it might be able to push you to the right direction. The ecosystem around React is fairly large and I've done my best to cover a good chunk of it.
 
@@ -73,7 +72,7 @@ Given the book relies on a variety of new language features, I've gathered the m
 
 ## Book Versioning
 
-Given this book receives a fair amount of maintenance and improvements due to the pace of innovation, there's a rough versioning scheme in place. I maintain release notes for each new version at the [book blog](http://survivejs.com/blog/). That should give you a good idea of what has changed between versions. Also examining the GitHub repository may be beneficial. I recommend using the GitHub *compare* tool for this purpose. Example:
+As this book receives a fair amount of maintenance and improvements due to the pace of innovation, there's a rough versioning scheme in place. I maintain release notes for each new version at the [book blog](http://survivejs.com/blog/) to describe what has changed between versions. Also examining the GitHub repository may be beneficial. I recommend using the GitHub *compare* tool for this purpose. Example:
 
 ```
 https://github.com/survivejs/react/compare/v1.9.10...v1.9.17
@@ -85,7 +84,7 @@ The current version of the book is **2.1.5**.
 
 ## Extra Material
 
-The book content and source are available at [book's repository at GitHub](https://github.com/survivejs/react). Please note that the repository defaults to the `dev` branch of the project. This makes it convenient to contribute. To find source matching the version of the book you are reading, use the tag selector at GitHub's user interface as in the image below:
+The book content and source are available at the [book's repository at GitHub](https://github.com/survivejs/react). Please note that the repository defaults to the `dev` branch of the project as this makes it convenient to contribute. To find source matching the version of the book you are reading, use the tag selector at GitHub's user interface as in the image below:
 
 ![GitHub tag selector](images/github.png)
 
@@ -97,10 +96,10 @@ You can find a lot of complementary material at the [survivejs organization](htt
 
 As no book is perfect, you will likely come by issues and might have some questions related to the content. There are a couple of options to deal with this:
 
-* Contact me through [GitHub Issue Tracker](https://github.com/survivejs/react/issues)
-* Join me at [Gitter Chat](https://gitter.im/survivejs/react)
+* Contact me through the [GitHub Issue Tracker](https://github.com/survivejs/react/issues)
+* Join me at the [Gitter Chat](https://gitter.im/survivejs/react)
 * Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
-* Send me email at [info@survivejs.com](mailto:info@survivejs.com)
+* Send me email to [info@survivejs.com](mailto:info@survivejs.com)
 * Ask me anything about Webpack or React at [SurviveJS AmA](https://github.com/survivejs/ama/issues)
 
 If you post questions to Stack Overflow, tag them using **survivejs** so I will get notified of them. You can use the hashtag **#survivejs** at Twitter for same effect.
@@ -121,7 +120,7 @@ Feel free to subscribe.
 
 An effort like this wouldn't be possible without community support. There are a lot of people to thank as a result!
 
-Big thanks to [Christian Alfoni](http://www.christianalfoni.com/) for starting the [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) with me. That work eventually led to this book.
+Big thanks to [Christian Alfoni](http://www.christianalfoni.com/) for starting the [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) with me. That work eventually led to this book and eventually became [a book of its own](survivejs.com/webpack/introduction).
 
 The book wouldn't be half as good as it is without patient editing and feedback by my editor [Jesús Rodríguez Rodríguez](https://github.com/Foxandxss). Thank you.
 
