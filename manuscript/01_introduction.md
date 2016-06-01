@@ -120,7 +120,7 @@ Feel free to subscribe.
 
 An effort like this wouldn't be possible without community support. There are a lot of people to thank as a result!
 
-Big thanks to [Christian Alfoni](http://www.christianalfoni.com/) for starting the [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) with me. That work eventually led to this book and eventually became [a book of its own](survivejs.com/webpack/introduction).
+Big thanks to [Christian Alfoni](http://www.christianalfoni.com/) for starting the [react-webpack-cookbook](https://github.com/christianalfoni/react-webpack-cookbook) with me. That work eventually led to this book and eventually became [a book of its own](http://survivejs.com/webpack/introduction).
 
 The book wouldn't be half as good as it is without patient editing and feedback by my editor [Jesús Rodríguez Rodríguez](https://github.com/Foxandxss). Thank you.
 
