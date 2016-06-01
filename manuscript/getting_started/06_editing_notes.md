@@ -29,7 +29,7 @@ It is possible to use both of these designs together. You can even have a contro
 
 Logically `Editable` consists of two separate portions. We'll need to display the default value while we are not `editing`. In case we are `editing`, we'll want to show an `Edit` control instead. In this case we'll settle for a simple input as that will do the trick.
 
-Before digging into the details, we can implement a little stub and connect that to the application. This will give us the basic structure we need to grow the rest.
+Before digging into the details, we can implement a little stub and connect that to the application. This will give us the basic structure we need to grow the rest. To get started, we'll adjust the component hierarchy a notch to make it easier to implement the stub.
 
 T> The official documentation of React discusses [controlled components](https://facebook.github.io/react/docs/forms.html) in greater detail.
 
@@ -88,6 +88,8 @@ leanpub-end-insert
 )
 ```
 
+Now that we have room to work, we can set up a stub for `Editable`.
+
 ## Adding `Editable` Stub
 
 We can model a rough starting point based on our specification as below. The idea is that we'll branch based on the `editing` prop and attach the props needed for implementing our logic:
@@ -107,21 +109,19 @@ export default ({editing, value, onEdit, className, ...props}) => {
       {...props} />;
   }
 
-  return <span {...props}>{value}</span>;
+  return <span {...props}>value: {value}</span>;
 }
 
-const Edit = ({onEdit = () => {}, value, ...props}) => {
-  return (
-    <div onClick={onEdit} {...props}>
-      <span>edit: {value}</span>
-    </div>
-  );
-};
+const Edit = ({onEdit = () => {}, value, ...props}) => (
+  <div onClick={onEdit} {...props}>
+    <span>edit: {value}</span>
+  </div>
+);
 ```
 
-To see our stub in action we still need to connect it with our application.
+Given `className` accepts only a string, it can be difficult to work with when you have multiple classes depending on some logic. This is where a package known as [classnames](https://www.npmjs.org/package/classnames) can be useful. It accepts almost arbitrary input and converts that to a string solving the problem.
 
-T> Given `className` accepts only a string, it can be difficult to work with when you have multiple classes depending on some logic. This is where a package known as [classnames](https://www.npmjs.org/package/classnames) can be useful. It accepts almost arbitrary input and converts that to a string solving the problem.
+To see our stub in action we still need to connect it with our application.
 
 ## Connecting `Editable` with `Notes`
 
@@ -147,30 +147,27 @@ export default ({
 leanpub-end-insert
 leanpub-start-delete
   <ul>{notes.map(({id, task}) =>
-leanpub-end-delete
-leanpub-start-insert
-  <ul>{notes.map(({id, editing, task}) =>
-leanpub-end-insert
     <li key={id}>
-leanpub-start-delete
       <Note>
-leanpub-end-delete
-leanpub-start-insert
-      <Note onClick={onNoteClick.bind(null, id)}>
-leanpub-end-insert
-leanpub-start-delete
         <span>{task}</span>
-leanpub-end-delete
-leanpub-start-insert
-        <Editable
-          editing={editing}
-          value={task}
-          onEdit={onEdit.bind(null, id)} />
-leanpub-end-insert
         <button onClick={onDelete.bind(null, id)}>x</button>
       </Note>
     </li>
   )}</ul>
+leanpub-end-delete
+leanpub-start-insert
+  <ul>{notes.map(({id, editing, task}) =>
+    <li key={id}>
+      <Note onClick={onNoteClick.bind(null, id)}>
+        <Editable
+           editing={editing}
+           value={task}
+           onEdit={onEdit.bind(null, id)} />
+        <button onClick={onDelete.bind(null, id)}>x</button>
+      </Note>
+    </li>
+  )}</ul>
+leanpub-end-insert
 )
 ```
 
@@ -211,11 +208,14 @@ leanpub-end-insert
       </div>
     );
   }
+  addNote = () => {
+    ...
+  }
   deleteNote = (id, e) => {
     ...
   }
 leanpub-start-insert
-  activateNoteEdit = (id) => {console.log('act', id);
+  activateNoteEdit = (id) => {
     this.setState({
       notes: this.state.notes.map(note => {
         if(note.id === id) {
@@ -246,6 +246,8 @@ If you try to edit a `Note` now, you should see something like this:
 
 ![Tracking `editing` state](images/react_07.png)
 
+If you click a `Note` twice to confirm the edit, you should see an `Uncaught Invariant Violation` error at the browser console. This happens because we don't deal with `task` correctly yet. We have bound only `id` and `task` will actually point to an `event` object provided by React. This is something we should fix next.
+
 T> If we used a normalized data structure (i.e., `{<id>: {id: <id>, task: <str>}}`), it would be possible to write the operations using `Object.assign` and avoid mutation.
 
 T> In order to clean up the code, you could extract a method to contain the logic shared by `activateNoteEdit` and `editNote`.
@@ -263,14 +265,30 @@ Consider the code below for the full implementation. Note how we are handling fi
 ```javascript
 ...
 
+
+export default ({editing, value, onEdit, className, ...props}) => {
+  if(editing) {
+    return <Edit
+      className={className}
+      value={value}
+      onEdit={onEdit}
+      {...props} />;
+  }
+
 leanpub-start-delete
-const Edit = ({onEdit = () => {}, value, ...props}) => {
-  return (
-    <div onClick={onEdit} {...props}>
-      <span>edit: {value}</span>
-    </div>
-  );
-};
+  return <span {...props}>value: {value}</span>;
+leanpub-end-delete
+leanpub-start-insert
+  return <span {...props}>{value}</span>;
+leanpub-end-insert
+}
+
+leanpub-start-delete
+const Edit = ({onEdit = () => {}, value, ...props}) => (
+  <div onClick={onEdit} {...props}>
+    <span>edit: {value}</span>
+  </div>
+);
 leanpub-end-delete
 leanpub-start-insert
 class Edit extends React.Component {
@@ -325,10 +343,9 @@ const Editable = ({editing, value, onEdit}) => {
   }
 
   return <Editable.Value value={value} />;
-}
+};
 
-Editable.Value = ({value, ...props}) =>
-  <span {...props}>{value}</span>
+Editable.Value = ({value, ...props}) => <span {...props}>{value}</span>
 
 class Edit extends React.Component {
   ...
