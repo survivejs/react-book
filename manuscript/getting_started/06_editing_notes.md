@@ -98,15 +98,10 @@ We can model a rough starting point based on our specification as below. The ide
 
 ```javascript
 import React from 'react';
-import classnames from 'classnames';
 
-export default ({editing, value, onEdit, className, ...props}) => {
+export default ({editing, value, onEdit, ...props}) => {
   if(editing) {
-    return <Edit
-      className={className}
-      value={value}
-      onEdit={onEdit}
-      {...props} />;
+    return <Edit value={value} onEdit={onEdit} {...props} />;
   }
 
   return <span {...props}>value: {value}</span>;
@@ -266,13 +261,9 @@ Consider the code below for the full implementation. Note how we are handling fi
 ...
 
 
-export default ({editing, value, onEdit, className, ...props}) => {
+export default ({editing, value, onEdit, ...props}) => {
   if(editing) {
-    return <Edit
-      className={className}
-      value={value}
-      onEdit={onEdit}
-      {...props} />;
+    return <Edit value={value} onEdit={onEdit} {...props} />;
   }
 
 leanpub-start-delete

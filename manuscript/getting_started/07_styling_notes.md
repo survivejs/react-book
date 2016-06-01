@@ -124,7 +124,7 @@ leanpub-start-insert
 leanpub-end-insert
 ```
 
-## Styling Individual `Note`s
+## Styling Individual Notes
 
 There is still `Note` related portions left to style. Before attaching any rules, we should make sure we have good styling hooks on `Editable`:
 
@@ -174,13 +174,9 @@ leanpub-start-insert
     const {className, value, ...props} = this.props;
 leanpub-end-insert
 
-leanpub-start-delete
     return <input
       type="text"
-leanpub-end-delete
 leanpub-start-insert
-    return <input
-      type="text"
       className={classnames('edit', className)}
 leanpub-end-insert
       autoFocus={true}
@@ -250,6 +246,6 @@ Assuming everything went fine, your application should look roughly like this no
 
 This is only one way to style a React application. Relying on classes like this will become problematic as the scale of your application grows. That is why there are alternative ways to style that address this particular problem. The *Styling React* chapter touches a lot of those techniques.
 
-It can be a good idea to try out a couple of alternative ways to find something you are comfortable with. Particularly CSS Modules are promising as they solve the fundamental problem of CSS - the problem of globals. The technique allows styling locally per component. That happens to fit React very well since we are dealing with components by default.
+It can be a good idea to try out a couple of alternative ways to find something you are comfortable with. Particularly **CSS Modules** are promising as they solve the fundamental problem of CSS - the problem of globals. The technique allows styling locally per component. That happens to fit React very well since we are dealing with components by default.
 
-Now that we have a simple Notes application up and running, we can begin to generalize it into a full blown Kanban. It will take some patience as we'll need to improve the way we are dealing with the application state. We also need to add some missing structure and make sure it's possible to drag and drop things around. Those are good goals for the next part.
+Now that we have a simple Notes application up and running, we can begin to generalize it into a full blown Kanban. It will take some patience as we'll need to improve the way we are dealing with the application state. We also need to add some missing structure and make sure it's possible to drag and drop things around. Those are good goals for the next part of the book.
