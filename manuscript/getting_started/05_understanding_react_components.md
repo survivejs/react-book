@@ -6,7 +6,7 @@ As we have seen so far, React components are fairly simple. They can have intern
 
 ![Lifecycle methods](images/lifecycle.png)
 
-From the image above we can see that a React component has three phases during its lifecycle. It can be mounting, mounted, and unmounting. Each of these phases comes with related methods.
+From the image above we can see that a React component has three phases during its lifecycle. It can be **mounting**, **mounted**, and **unmounting**. Each of these phases comes with related methods.
 
 During the mounting phase you have access to the following:
 
@@ -24,15 +24,13 @@ Finally, when a component is unmounting, there's one more hook you can use:
 
 * `componentWillUnmount()` is triggered just before a component is unmounted from the DOM. This is the ideal place to perform cleanup (e.g., remove running timers, custom DOM elements, and so on).
 
-Often `componentDidMount` and `componentWillUnmount` come in a pair. If you set up something DOM related or a listener at `componentDidMount`, you also have to remember to clean it up at `componentWillUnmount`.
+Often `componentDidMount` and `componentWillUnmount` come as a pair. If you set up something DOM related or a listener at `componentDidMount`, you also have to remember to clean it up at `componentWillUnmount`.
 
 ## Refs
 
 React's [refs](https://facebook.github.io/react/docs/more-about-refs.html) allow you to access the underlying DOM structure easily. Using them will bind your code to the web, but sometimes there's no way around this if you are measuring components for instance.
 
-Refs need a backing instance. This means they will work only with `React.createClass` or class based component definitions.
-
-The basic idea goes as follows:
+Refs need a backing instance. This means they will work only with `React.createClass` or class based component definitions. The basic idea goes as follows:
 
 ```javascript
 <input type="text" ref="input" />
@@ -86,7 +84,7 @@ export default Note;
 
 Some libraries, such as React DnD, rely on static methods to provide transition hooks. They allow you to control what happens when a component is shown or hidden. By definition statics are available through the class itself.
 
-React components allow you to document the interface of your component using `propTypes` as below. To dig deeper, read the *Typing with React* chapter.
+React components allow you to document the interface of your component using `propTypes` as below.
 
 ```javascript
 const Note = ({task}) => <div>{task}</div>;
@@ -95,15 +93,15 @@ Note.propTypes = {
 }
 ```
 
+To understand `propTypes` better, read the *Typing with React* chapter.
+
 ## React Component Conventions
 
-I prefer to have the `constructor` first, followed by lifecycle methods, `render()`, and finally, methods used by `render()`. I like this top-down approach as it makes it straightforward to follow code. Some prefer to put the methods used by `render()` before it. There are also various naming conventions. It is possible to use `_` prefix for event handlers, too.
+I prefer to have the `constructor` first, followed by lifecycle methods, `render()`, and finally, methods used by `render()`. This top-down approach makes it straightforward to follow code. There is also an inverse convention that leaves `render()` as the last method. Naming conventions vary as well. You will have to find conventions which work the best for you.
 
-In the end, you will have to find conventions that you like and which work the best for you. You can enforce a convention by using a linter such as [ESLint](http://eslint.org/). Using a linter decreases the amount of friction when working on code written by others.
+You can enforce a convention by using a linter such as [ESLint](http://eslint.org/). Using a linter decreases the amount of friction when working on code written by others. Even on personal projects, using tools to verify syntax and standards for you can be useful. It lessens the amount and severity of mistakes and allows you to spot them early.
 
-Even on personal projects, using tools to verify syntax and standards for you can be useful. It lessens the amount and severity of mistakes and allows you to spot them early.
-
-In addition, by setting up a continuous integration system you can test against multiple platforms and catch possible regressions early. This is particularly important if you are using lenient version ranges. Sometimes dependencies might have problems and it's good to catch those.
+By setting up a continuous integration system you can test against multiple platforms and catch possible regressions early. This is particularly important if you are using lenient version ranges. Sometimes dependencies might have problems and it's good to catch those.
 
 ## Conclusion
 
