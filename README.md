@@ -1,4 +1,4 @@
-[![build status](https://secure.travis-ci.org/survivejs/webpack_react.png)](http://travis-ci.org/survivejs/webpack_react) [![Join the chat at https://gitter.im/survivejs/webpack_react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/webpack_react)
+[![build status](https://secure.travis-ci.org/survivejs/react.png)](http://travis-ci.org/survivejs/react) [![Join the chat at https://gitter.im/survivejs/react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/react)
 
 # SurviveJS - Webpack and React
 
@@ -24,8 +24,8 @@ Please note that the repository defaults to the `dev` branch of the book. `maste
 
 As no book is perfect, you will likely come by issues and might have some questions related to the content. There are a couple of options to deal with this:
 
-* Contact me through [GitHub Issue Tracker](https://github.com/survivejs/webpack_react/issues)
-* Join me at [Gitter Chat](https://gitter.im/survivejs/webpack_react)
+* Contact me through [GitHub Issue Tracker](https://github.com/survivejs/react/issues)
+* Join me at [Gitter Chat](https://gitter.im/survivejs/react)
 * Follow [@survivejs](https://twitter.com/survivejs) at Twitter for official news or poke me through [@bebraw](https://twitter.com/bebraw) directly
 * Send me email at [info@survivejs.com](mailto:info@survivejs.com)
 * Ask me anything about Webpack or React at [SurviveJS AmA](https://github.com/survivejs/ama/issues)
