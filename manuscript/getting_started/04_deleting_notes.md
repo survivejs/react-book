@@ -76,15 +76,17 @@ You should see small "x"s next to each Note:
 
 ![Notes with delete controls](images/react_06.png)
 
-They won't do anything yet. That's the next step.
+They won't do anything yet. Fixing that is the next step.
 
 ## Communicating Deletion to `App`
 
-Now that we have the controls we need, we can start thinking about how to connect them with the data at `App`. In order to delete a note, we'll need to know its id. After that we can implement the logic based on that at `App`. To illustrate the idea, we'll want to end up with a situation like this:
+Now that we have the controls we need, we can start thinking about how to connect them with the data at `App`. In order to delete a `Note`, we'll need to know its id. After that we can implement the logic based on that at `App`. To illustrate the idea, we'll want to end up with a situation like this:
 
 ![`onDelete` flow](images/bind.png)
 
 T> That `e` represents a DOM event you might be used to. We can do things like stop event propagation through it. This will come in handy as we want more control over the application behavior.
+
+T> [bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) allows us to set the function context (first parameter) and arguments (following parameters). This gives us a technique known as **partial application**.
 
 To achieve the scheme, we are going to need a new prop at `Notes`. We will also need to `bind` the id of each note to the `onDelete` callback to match the logic. Here's the full implementation of `Notes`:
 
@@ -114,7 +116,7 @@ export default ({notes, onDelete=() => {}}) => (
 leanpub-end-insert
 ```
 
-To keep our code from crashing if `onDelete` is not provided, I defined a dummy callback for it. Another good way to handle this would have been to go through `propTypes` as discussed in the "Typing with React" chapter.
+To keep our code from crashing if `onDelete` is not provided, I defined a dummy callback for it. Another good way to handle this would have been to go through `propTypes` as discussed in the *Typing with React* chapter.
 
 Now that have the hooks in place, we can use them at `App`:
 
@@ -160,12 +162,10 @@ leanpub-end-insert
 }
 ```
 
-After these changes you should be able to delete notes. To prepare for the future I added an extra line in form of `e.stopPropagation()`. The idea of this is to tell the DOM to stop bubbling events. In short, we'll avoid triggering possible other events elsewhere in the structure if we delete a note.
-
-T> You may need to trigger a refresh at the browser to make deletion to work. Hit *CTRL/CMD-R*.
+After refreshing the browser, you should be able to delete notes. To prepare for the future I added an extra line in form of `e.stopPropagation()`. The idea of this is to tell the DOM to stop bubbling events. In short, we'll avoid triggering possible other events elsewhere in the structure if we delete a note.
 
 ## Conclusion
 
 Working with React is often like this. You will identify components and flows based on your needs. Here we needed model a `Note` and then design a data flow so that we have enough control at the right place.
 
-We are missing one more feature to call the first part of Kanban done. Editing is hardest of them all. To do it right, we can do it *inline*. By implementing a proper component now, we'll save time later as we have to edit something else. Before continuing with the implementation, we'll take a better look at React components.
+We are missing one more feature to call the first part of Kanban done. Editing is hardest of them all. One way to implement it is to solve it through an *inline editor*. By implementing a proper component now, we'll save time later when we have to edit something else. Before continuing with the implementation, though, we'll take a better look at React components to understand what kind of functionality they provide.
