@@ -1,10 +1,10 @@
 # Handling Data Dependencies
 
-So far we have developed an application for keeping track of notes in `localStorage`. Most importantly our system is missing the concept of `Lane`. A `Lane` is something that should be able to contain many `Notes` within itself and track their order. One way to model this is simply to make a `Lane` point at `Notes` through an array of `Note` ids.
+So far we have developed an application for keeping track of notes in `localStorage`. To get closer to Kanban, we need to model the concept of `Lane`. A `Lane` is something that should be able to contain many `Notes` within itself and track their order. One way to model this is simply to make a `Lane` point at `Notes` through an array of `Note` ids.
 
 This relation could be reversed. A `Note` could point at a `Lane` using an id and maintain information about its position within a `Lane`. In this case, we are going to stick with the former design as that works well with re-ordering later on.
 
-## Extracting `Lanes`
+## Defining `Lanes`
 
 As earlier, we can use the same idea of two components here. There will be a component for the higher level (i.e., `Lanes`) and for the lower level (i.e., `Lane`). The higher level component will deal with lane ordering. A `Lane` will render itself (i.e., name and `Notes`) and have basic manipulation operations.
 
@@ -295,6 +295,8 @@ leanpub-end-insert
 
 Just being able to attach notes to a lane isn't enough. We are also going to need some way to detach them. This comes up when we are removing notes.
 
+T> We could give a warning here in case you are trying to attach a note to a lane that doesn't exist. `console.warn` would work nicely for that.
+
 ### Setting Up `detachFromLane`
 
 We can model a similar counter-operation `detachFromLane` using an API like this:
@@ -345,7 +347,7 @@ leanpub-end-insert
 
 Given we have enough logic in place now, we can start connecting it with the user interface.
 
-T> It is possible `detachFromLane` doesn't detach anything. If this case is detected, it would be nice to use `console.warn` to let the developer know about the situation. Similar check could be done for `attachToLane`.
+T> It is possible `detachFromLane` doesn't detach anything. If this case is detected, it would be nice to use `console.warn` to let the developer know about the situation.
 
 ### Connecting `Lane` with the Logic
 
@@ -467,7 +469,7 @@ If you try using the application now, you should see that each lane is able to m
 
 ![Separate notes](images/kanban_02.png)
 
-The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture. You can see the same theme in the [Redux implementation](https://github.com/survivejs-demos/redux-demo). The [MobX one](https://github.com/survivejs-demos/mobx-demo) avoid the problem altogether given we can use proper references there.
+The current structure allows us to keep singleton stores and a flat data structure. Dealing with references is a little awkward, but that's consistent with the Flux architecture. You can see the same theme in the [Redux implementation](https://github.com/survivejs-demos/redux-demo). The [MobX one](https://github.com/survivejs-demos/mobx-demo) avoids the problem altogether given we can use proper references there.
 
 T> `selectNotesByIds` could have been written in terms of `map` and `find`. In that case you would have ended up with `noteIds.map(id => allNotes.find(note => note.id === id));`. You would need to polyfill `find` in this case to support older browsers, though.
 
@@ -513,7 +515,7 @@ export default connect(() => ({}), {
       <div className="lane-name">{lane.name}</div>
     </div>
   );
-});
+})
 ```
 
 We also need to connect the extracted component with `Lane`:

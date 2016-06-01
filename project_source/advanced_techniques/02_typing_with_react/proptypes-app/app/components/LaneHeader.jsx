@@ -55,4 +55,4 @@ export default connect(() => ({}), {
       </div>
     </div>
   );
-});
+})

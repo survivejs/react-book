@@ -31,4 +31,4 @@ export default connect(() => ({}), {
       <div className="lane-name">{lane.name}</div>
     </div>
   );
-});
+})
