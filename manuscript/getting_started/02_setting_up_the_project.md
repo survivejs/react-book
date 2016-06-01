@@ -29,9 +29,15 @@ This will create a new directory, *kanban-app*. Inside it you can find everythin
 ```bash
 cd kanban-app
 git checkout v2.5.0
+rm -rf .git
+git init
+git add .
+git commit -am "Initial commit"
 ```
 
-The repository contains a small seed application that shows `Hello World!` and basic Webpack configuration. To get the seed application running, execute
+After this process you have a fresh project to work against.
+
+The repository contains a small seed application that shows `Hello World!` and basic Webpack configuration. To get the seed application dependencies installed, execute
 
 ```bash
 npm install
