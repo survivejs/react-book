@@ -37,14 +37,14 @@ leanpub-start-insert
       id: lane.id,
       editing: true
     });
-  }
+  };
   const editName = name => {
     LaneActions.update({
       id: lane.id,
       name,
       editing: false
     });
-  }
+  };
 leanpub-end-insert
 
   return (
@@ -68,7 +68,7 @@ leanpub-start-insert
 leanpub-end-insert
     </div>
   );
-});
+})
 ```
 
 The user interface should look exactly the same after this change. We still need to implement `LaneActions.update` to make our setup work.
