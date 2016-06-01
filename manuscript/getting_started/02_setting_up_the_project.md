@@ -24,7 +24,14 @@ In order to fetch the boilerplate our project needs, clone it through Git as fol
 git clone https://github.com/survivejs/react-boilerplate.git kanban-app
 ```
 
-This will create a new directory, *kanban-app*. Inside it you can find everything we need to get ahead. There's a small seed application that shows `Hello World!` and basic Webpack configuration. To get the seed application running, execute
+This will create a new directory, *kanban-app*. Inside it you can find everything we need to get ahead. As the boilerplate can change between book versions, I recommend you check out the version specific of it:
+
+```bash
+cd kanban-app
+git checkout v2.5.0
+```
+
+The repository contains a small seed application that shows `Hello World!` and basic Webpack configuration. To get the seed application running, execute
 
 ```bash
 npm install
