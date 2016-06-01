@@ -1,4 +1,4 @@
-## Deleting `Notes`
+# Deleting `Notes`
 
 One easy way to handle deleting notes is to render a "x" button for each `Note`. When it's clicked we will simply delete the note in question from our data structure. As before, we can start by adding stubs in place. This might be a good place to separate the concept of a `Note` from the current `Notes` component.
 
