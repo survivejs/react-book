@@ -21,7 +21,10 @@ class App extends React.Component {
     );
   }
   addNote = () => {
-    this.props.NoteActions.create({id: uuid.v4(), task: 'New task'});
+    this.props.NoteActions.create({
+      id: uuid.v4(),
+      task: 'New task'
+    });
   }
   deleteNote = (id, e) => {
     // Avoid bubbling to edit

@@ -4,7 +4,7 @@ Now that we have pushed data management related concerns in the right places, we
 
 No matter what state management solution you end up using, there is usually something equivalent around. In Redux you would end up using actions that then trigger a state change through a reducer. In MobX you could model action API within an ES6 class that then manipulates the data causing your views to refresh as needed.
 
-The idea is similar here. We set up actions that will end up triggering our store methods that modify the state. As the state changes, our views will update. To get started, we can implement a `NoteStore` and then define logic to manipulate it. Once we have done that, we have completed porting our application to the Flux architecture.
+The idea is similar here. We will set up actions that will end up triggering our store methods that modify the state. As the state changes, our views will update. To get started, we can implement a `NoteStore` and then define logic to manipulate it. Once we have done that, we have completed porting our application to the Flux architecture.
 
 ## Setting Up a `NoteStore`
 
@@ -132,6 +132,8 @@ All of this data is valuable is it allows you to control the user interface. You
 
 You can see this theme across different state management solutions. Often you model an action as a function that returns a function (a *thunk*) that then dispatches individual actions as the asynchronous query progresses. In a naïve synchronous case it's enough to return the action payload directly.
 
+T> The official documentation of Alt covers [asynchronous actions](http://alt.js.org/docs/createActions/) in greater detail.
+
 ## Setting Up `NoteActions`
 
 Alt provides a little helper method known as `alt.generateActions` that can generate simple action creators for us. They will simply dispatch the data passed to them. We'll then connect these actions at the relevant stores. In this case that will be the `NoteStore` we defined earlier.
@@ -177,9 +179,7 @@ export default connect(({notes}) => ({
 leanpub-end-insert
 ```
 
-This gives us `this.props.NoteActions.create` kind of API for triggering various actions. That's a good for expanding the implementation further.
-
-T> The official documentation covers [asynchronous actions](http://alt.js.org/docs/createActions/) in greater detail.
+This gives us `this.props.NoteActions.create` kind of API for triggering various actions. That's good for expanding the implementation further.
 
 ## Connecting `NoteActions` with `NoteStore`
 
@@ -265,7 +265,10 @@ leanpub-start-delete
     });
 leanpub-end-delete
 leanpub-start-insert
-    this.props.NoteActions.create({id: uuid.v4(), task: 'New task'});
+    this.props.NoteActions.create({
+      id: uuid.v4(),
+      task: 'New task'
+    });
 leanpub-end-insert
   }
   ...
@@ -274,7 +277,7 @@ leanpub-end-insert
 ...
 ```
 
-If you click the "add note" button now, you should see messages like this at the browser console:
+If you refresh and click the "add note" button now, you should see messages like this at the browser console:
 
 ```bash
 create note Object {id: "62098959-6289-4894-9bf1-82e983356375", task: "New task"}
@@ -292,22 +295,17 @@ export default class NoteStore {
   constructor() {
     ...
   }
-leanpub-start-delete
   create(note) {
+leanpub-start-delete
     console.log('create note', note);
-  }
 leanpub-end-delete
 leanpub-start-insert
-  create(note) {
-    this.setState({notes: this.notes.concat(note)});
-  }
+    this.setState({
+      notes: this.notes.concat(note)
+    });
 leanpub-end-insert
-  update(updatedNote) {
-    console.log('update note', updatedNote);
   }
-  delete(id) {
-    console.log('delete note', id);
-  }
+  ...
 }
 ```
 
@@ -343,7 +341,7 @@ leanpub-end-insert
 ...
 ```
 
-If you try to delete a note now, you should see a message like this at the browser console:
+If you refresh and try to delete a note now, you should see a message like this at the browser console:
 
 ```bash
 delete note 501c13e0-40cb-47a3-b69a-b1f2f69c4c55
@@ -359,18 +357,16 @@ import NoteActions from '../actions/NoteActions';
 
 export default class NoteStore {
   ...
-leanpub-start-delete
   delete(id) {
+leanpub-start-delete
     console.log('delete note', id);
-  }
 leanpub-end-delete
 leanpub-start-insert
-  delete(id) {
     this.setState({
       notes: this.notes.filter(note => note.id !== id)
     });
-  }
 leanpub-end-insert
+  }
 }
 ```
 
@@ -399,7 +395,6 @@ leanpub-start-delete
       })
     });
 leanpub-end-delete
-
 leanpub-start-insert
     this.props.NoteActions.update({id, editing: true});
 leanpub-end-insert
@@ -410,7 +405,7 @@ leanpub-end-insert
 ...
 ```
 
-If you try to edit now, you should see messages like this at the browser console:
+If you refresh and try to edit now, you should see messages like this at the browser console:
 
 ```bash
 update note Object {id: "2c91ba0f-12f5-4203-8d60-ea673ee00e03", editing: true}
@@ -426,13 +421,11 @@ import NoteActions from '../actions/NoteActions';
 
 export default class NoteStore {
   ...
-leanpub-start-delete
   update(updatedNote) {
+leanpub-start-delete
     console.log('update note', updatedNote);
-  }
 leanpub-end-delete
 leanpub-start-insert
-  update(updatedNote) {
     this.setState({
       notes: this.notes.map(note => {
         if(note.id === updatedNote.id) {
@@ -442,8 +435,8 @@ leanpub-start-insert
         return note;
       })
     });
-  }
 leanpub-end-insert
+  }
   ...
 }
 ```
@@ -461,8 +454,8 @@ This final part is easy. We have already the logic we need. Now it's just a matt
 
 class App extends React.Component {
   ...
-leanpub-start-delete
   editNote = (id, task) => {
+leanpub-start-delete
     this.setState({
       notes: this.state.notes.map(note => {
         if(note.id === id) {
@@ -473,23 +466,19 @@ leanpub-start-delete
         return note;
       })
     });
-  }
 leanpub-end-delete
 leanpub-start-insert
-  editNote = (id, task) => {
     const {NoteActions} = this.props;
 
     NoteActions.update({id, task, editing: false});
+leanpub-end-insert
   }
-leanpub-end-delete
 }
 
 ...
 ```
 
-After this change you should be able to modify tasks again. You can also try editing using an empty value. The value should revert back to the old one then.
-
-The application should work just like before now. As we alter `NoteStore` through actions, this leads to a cascade that causes our `App` state to update through `setState`. This in turn will cause the component to `render`. That's Flux's unidirectional flow in practice.
+After refreshing you should be able to modify tasks again and the application should work just like before now. As we alter `NoteStore` through actions, this leads to a cascade that causes our `App` state to update through `setState`. This in turn will cause the component to `render`. That's Flux's unidirectional flow in practice.
 
 We actually have more code now than before, but that's okay. `App` is a little neater and it's going to be easier to develop as we'll soon see. Most importantly we have managed to implement the Flux architecture for our application.
 
@@ -499,7 +488,7 @@ T> The current implementation is naïve in that it doesn't validate parameters i
 
 Even though integrating a state management system took a lot of effort, it was not all in vain. Consider the following questions:
 
-1. Suppose we wanted to persist the notes within `localStorage`. Where would you implement that? One approach would be to handle that at `Provider` `setup`.
+1. Suppose we wanted to persist the notes within `localStorage`. Where would you implement that? One approach would be to handle that at the `Provider` `setup`.
 2. What if we had many components relying on the data? We would just consume the data through `connect` and display it, however we want.
 3. What if we had many, separate Note lists for different types of tasks? We could set up another store for tracking these lists. That store could refer to actual Notes by id. We'll do something like this in the next chapter, as we generalize the approach.
 
@@ -507,4 +496,4 @@ Adopting a state management system can be useful as the scale of your React appl
 
 ## Conclusion
 
-In this chapter, you saw how to port our simple application to use Flux architecture. In the process we learned more about **actions** and **stores** of Flux. Now we are ready to start adding more functionality to our application. We'll add `localStorage` based persistency next and perform a little clean up while at it.
+In this chapter, you saw how to port our simple application to use Flux architecture. In the process we learned more about **actions** and **stores** of Flux. Now we are ready to start adding more functionality to our application. We'll add `localStorage` based persistency to the application next and perform a little clean up while at it.
