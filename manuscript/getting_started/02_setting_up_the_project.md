@@ -37,7 +37,7 @@ The repository contains a small seed application that shows `Hello World!` and b
 npm install
 ```
 
-After waiting a while, upon completion you should see `node_modules/` directory with the project dependencies.
+Upon completion you should see a `node_modules/` directory containing the project dependencies.
 
 ## Running the Project
 
@@ -46,10 +46,9 @@ To get the project running, execute `npm start`. You should see something like t
 ```bash
 > webpack-dev-server
 
-[webpack-validator] Config is valid.
 http://localhost:8080/
 webpack result is served from /
-content is served from .../kanban-app
+content is served from /Users/juhovepsalainen/Projects/tmp/kanban-app
 404s will fallback to /index.html
 Child html-webpack-plugin for "index.html":
 
@@ -62,7 +61,9 @@ Assuming everything went fine, you should see something like this at the browser
 
 ![Hello world](images/hello_01.png)
 
-You can try modifying the source to see how hot loading works. I'll discuss the boilerplate in greater detail next so you know how it works. I'll also cover the language features we are going to use briefly.
+You can try modifying the source to see how hot loading works.
+
+I'll discuss the boilerplate in greater detail next so you know how it works. I'll also cover the language features we are going to use briefly.
 
 T> In case you want to start with a fresh Git history, this would be a good point to remove `.git` directory (`rm -rf .git`) and initialize the project again (`git init && git add . && git commit -am "Initial commit"`).
 
@@ -74,13 +75,13 @@ Our boilerplate is able to generate a production grade build with hashing. There
 
 * `npm run start` (or `npm start`) - Starts the project in the development mode. Surf to `localhost:8080` in your browser to see it running.
 * `npm run build` - Generates a production build below `build/`. You can open the generated *index.html* through the browser to examine the result.
-* `npm run deploy` - Deploys the contents of `build/` to the *gh-pages* branch of your project and pushes it to GitHub. You can access the project below `<user/organization name>.github.io/<project name>` after that. Before this can work correctly, you should set `publicName` at *webpack.config.js* to match your project name on GitHub.
+* `npm run deploy` - Deploys the contents of `build/` to the *gh-pages* branch of your project and pushes it to GitHub. You can access the project below `<user>.github.io/<project>` after that. Before this can work correctly, you should set `publicName` at *webpack.config.js* to match your project name on GitHub.
 * `npm run stats` - Generates statistics (*stats.json*) about the project. You can [analyze the build output](http://survivejs.com/webpack/building-with-webpack/analyzing-build-statistics/) further.
 * `npm run test` (or `npm test`) - Executes project tests. The *Testing React* chapter digs deeper into the topic. In fact, writing tests against your components can be a good way to learn to understand React better.
 * `npm run test:tdd` - Executes project tests in TDD mode. This means it will watch for changes and run the tests when changes are detected allowing you to develop fast without having to run the tests manually.
-* `npm run test:lint` - Executes ESLint against the code. ESLint is able to catch smaller issues. You can even configure your development environment to work with it. This allows you to catch potential mistakes as you make them.
+* `npm run test:lint` - Executes [ESLint](http://eslint.org/) against the code. ESLint is able to catch smaller issues. You can even configure your development environment to work with it. This allows you to catch potential mistakes as you make them. Our setup lints even during development so you rarely need to execute this command yourself.
 
-Study *package.json* to understand better how each of these works. There is quite a bit configuration. Again, see [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/) to dig deeper into the topic.
+Study *package.json* to understand better how each of these works. There is quite a bit configuration. See [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/) to dig deeper into the topic.
 
 ## Boilerplate Language Features
 
@@ -98,7 +99,7 @@ Babel provides support for certain [experimental features](https://babeljs.io/do
 
 I would be very careful with **stage 0** features. The problem is that if the feature changes or gets removed you will end up with broken code and will need to rewrite it. In smaller experimental projects it may be worth the risk, though.
 
-In addition to standard ES2015 and JSX, we'll be using a few custom features in this project. I've listed them below. See also the *Language Features* appendix to learn more.
+In addition to standard ES2015 and JSX, we'll be using a few custom features in this project. I've listed them below. See the *Language Features* appendix to learn more of each.
 
 * [Property initializers](https://github.com/jeffmo/es-class-static-properties-and-fields) - Example: `addNote = (e) => {`. This binds the `addNote` method to an instance automatically. The feature makes more sense as we get to use it.
 * [Decorators](https://github.com/wycats/javascript-decorators) - Example: `@DragDropContext(HTML5Backend)`. These annotations allow us to attach functionality to classes and their methods.
