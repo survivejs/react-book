@@ -22,8 +22,6 @@ Both Redux and MobX are valuable in their own ways. There's no one right solutio
 
 ## Which Data Management Solution to Use?
 
-![Alt](images/alt.png)
-
 The data management situation is changing constantly. At the moment [Redux](http://rackt.org/redux/) is very strong, but there are good alternatives in sight. [voronianski/flux-comparison](https://github.com/voronianski/flux-comparison) provides a nice comparison between some of the more popular ones.
 
 When choosing a library, it comes down to your own personal preferences. You will have to consider factors, such as API, features, documentation, and support. Starting with one of the more popular alternatives can be a good idea. As you begin to understand the architecture, you are able to make choices that serve you better.
@@ -54,9 +52,11 @@ Once the dispatcher has dealt with an action, the stores listening to it get tri
 
 This completes the basic unidirectional, yet linear, process flow of Flux. Usually, though, the unidirectional process has a cyclical flow and it doesn't necessarily end. The following diagram illustrates a more common flow. It is the same idea again, but with the addition of a returning cycle. Eventually, the components depending on our store data become refreshed through this looping process.
 
+![Cyclical Flux dataflow](images/flux.png)
+
 This sounds like a lot of steps for achieving something simple as creating a new `Note`. The approach does come with its benefits. Given the flow is always in a single direction, it is easy to trace and debug. If there's something wrong, it's somewhere within the cycle.
 
-![Cyclical Flux dataflow](images/flux.png)
+Better yet, we can consume the same data across our application. You will just connect your view to a store and that's it. This is one of the great benefits of using a state management solution.
 
 ### Advantages of Flux
 
@@ -65,6 +65,8 @@ Even though this sounds a little complicated, the arrangement gives our applicat
 Implementing Flux architecture in your application will actually increase the amount of code somewhat. It is important to understand that minimizing the amount of code written isn't the goal of Flux. It has been designed to allow productivity across larger teams. You could say that explicit is better than implicit.
 
 ## Porting to Alt
+
+![Alt](images/alt.png)
 
 In Alt, you'll deal with actions and stores. The dispatcher is hidden, but you will still have access to it if needed. Compared to other implementations, Alt hides a lot of boilerplate. There are special features to allow you to save and restore the application state. This is handy for implementing persistency and universal rendering.
 
@@ -75,7 +77,7 @@ There are a couple of steps we must take to push our application state to Alt:
 3. Push our data to a store.
 4. Define actions to manipulate the store.
 
-We'll do this gradually. The Alt specific portions will go behind adapters. It would be possible to interact with it directly. The adapter approach allows us to change our mind later easier so it's worth following.
+We'll do this gradually. The Alt specific portions will go behind adapters. The adapter approach allows us to change our mind later easier so it's worth implementing.
 
 ### Setting Up an Alt Instance
 
@@ -95,8 +97,6 @@ export default alt;
 
 Webpack caches the modules so the next time you import Alt from somewhere, it will return the same instance again.
 
-T> The boilerplate uses a Webpack plugin known as [npm-install-webpack-plugin](https://github.com/ericclemmons/npm-install-webpack-plugin). It will install Alt automatically as your project dependency. You'll see similar behavior as we develop our project further.
-
 ### Connecting Alt with Views
 
 Normally state management solutions provide two parts you can use to connect them with a React application. These are a `Provider` component and a `connect` higher order function (function returning function generating a component). The `Provider` sets up a React [context](https://facebook.github.io/react/docs/context.html).
@@ -111,7 +111,9 @@ To keep our application architecture easy to modify, we'll need to set up two ad
 
 In order to keep our `Provider` flexible, I'm going to use special configuration. We'll wrap it within a module that will choose a `Provider` depending on our environment. This enables us to use development tooling without including it to the production bundle. There's some additional setup involved, but it's worth it given you end up with a cleaner result.
 
-The core of this arrangement is the index of the module. CommonJS picks up the **index.js** of a directory by default when we perform an import against the directory. Given the behavior we want is dynamic, we cannot rely on ES6 modules here. The idea is that our tooling will rewrite the code depending on `process.env.NODE_ENV` and choose the actual module to include based on that. Here's the entry point of our `Provider`:
+The core of this arrangement is the index of the module. CommonJS picks up the **index.js** of a directory by default when we perform an import against the directory. Given the behavior we want is dynamic, we cannot rely on ES6 modules here.
+
+The idea is that our tooling will rewrite the code depending on `process.env.NODE_ENV` and choose the actual module to include based on that. Here's the entry point of our `Provider`:
 
 **app/components/Provider/index.js**
 
@@ -146,7 +148,7 @@ export default ({children}) =>
 
 The implementation of `Provider` can change based on which state management solution we are using. It is possible it ends up doing nothing, but that's acceptable. The idea is that we have an extension point where to alter our application if needed.
 
-We are still missing one part, the development related setup. It is like the production one except this time we can enable development specific tooling. This is a good chance to move the *react-addons-perf* setup here from the *app/index.jsx* of the application. I'm also enabling [Alt's Chrome debug utilities(https://github.com/goatslacker/alt-devtool). You'll need to install the Chrome portion separately if you want to use those.
+We are still missing one part, the development related setup. It is like the production one except this time we can enable development specific tooling. This is a good chance to move the *react-addons-perf* setup here from the *app/index.jsx* of the application. I'm also enabling [Alt's Chrome debug utilities](https://github.com/goatslacker/alt-devtool). You'll need to install the Chrome portion separately if you want to use those.
 
 Here's the full code of the development provider:
 
@@ -245,7 +247,7 @@ class App extends React.Component {
 }
 
 export default connect(({lanes}) => ({lanes}), {
-  laneActions: LaneActions
+  LaneActions
 })(App)
 ```
 
@@ -259,11 +261,11 @@ Now that we have a basic understanding of how `connect` should work, we can impl
 
 ### Setting Up `connect`
 
-In this case I'm going to plug in a custom `connect` to highlight a couple of key ideas. The implementation isn't optimal when it comes to performance. It is enough for this application. In practice you would use a well optimized connector instead.
+In this case I'm going to plug in a custom `connect` to highlight a couple of key ideas. The implementation isn't optimal when it comes to performance. It is enough for this application, though.
 
-It would be possible to optimize the behavior with further effort. That's one reason why having control over `Provider` and `connect` is useful. It allows further customization.
+It would be possible to optimize the behavior with further effort. You could use one of the established connectors instead or develop your own here. That's one reason why having control over `Provider` and `connect` is useful. It allows further customization and understanding of how the process works.
 
-The idea here is that in case we have a custom transformation defined, we'll dig the data we need from the `Provider`, apply it over our data as we defined, and then pass the resulting data to the component through props:
+In case we have a custom state transformation defined, we'll dig the data we need from the `Provider`, apply it over our data as we defined, and then pass the resulting data to the component through props:
 
 **app/libs/connect.jsx**
 
@@ -332,7 +334,6 @@ function composeStores(stores) {
 
   return ret;
 }
-
 ```
 
 As `flux.FinalStore` won't be available by default, we'll need to alter our Alt instance to contain it. After that we can access it whenever we happen to need it:
@@ -380,6 +381,9 @@ leanpub-end-insert
 leanpub-start-delete
 export default class App extends React.Component {
 leanpub-end-delete
+leanpub-start-insert
+class App extends React.Component {
+leanpub-end-insert
   constructor(props) {
     ...
   }
@@ -414,7 +418,5 @@ leanpub-end-insert
 To make the text show up, refresh the browser. You should see the text that we connected to `App` now.
 
 ## Conclusion
-
-The current design has been optimized with drag and drop operations in mind. Moving notes within a lane is a matter of swapping ids. Moving notes from one lane to another is again an operation over ids. This structure leads to some complexity as we need to track ids, but it will pay off later as we start dragging notes around the Kanban.
 
 In this chapter we discussed the basic idea of the Flux architecture and started porting our application to it. We pushed the state management related concerns behind an adapter to allow altering the underlying system without having to change the view related code. The next step is to implement a store for our application data and define actions to manipulate it.
