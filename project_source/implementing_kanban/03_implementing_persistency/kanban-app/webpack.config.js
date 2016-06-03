@@ -106,9 +106,7 @@ switch(TARGET) {
         poll: ENABLE_POLLING
       }),
       parts.enableReactPerformanceTools(),
-      parts.npmInstall({
-        save: true
-      })
+      parts.npmInstall()
     );
 }
 
