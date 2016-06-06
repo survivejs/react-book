@@ -341,7 +341,7 @@ export default class App extends React.Component {
           task: 'Do laundry'
         }
       ]
-    }
+    };
   }
   render() {
     const {notes} = this.state;
