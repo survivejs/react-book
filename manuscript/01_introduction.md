@@ -1,6 +1,6 @@
 # Introduction
 
-Front-end development moves forward fast. A good indication of this is the pace in which new technologies appear to the scene. [React](https://facebook.github.io/react/) is one of these recent newcomers. Even though the technology itself is simple, there's a lot going on around it.
+Front-end development moves forward fast. A good indication of this is the pace at which new technologies appear to the scene. [React](https://facebook.github.io/react/) is one of these recent newcomers. Even though the technology itself is simple, there's a lot going on around it.
 
 The purpose of this book is to help you get started with React and provide understanding of the surrounding ecosystem so you know where to look.
 
@@ -30,7 +30,7 @@ We will generalize from there and put [Flux architecture](https://facebook.githu
 
 The final, theoretical part of the book covers more advanced topics. If you are reading the commercial edition of this book, there's something extra in it for you. I will show you how to deal with typing in React in order to produce higher quality code. You will also learn to test your components and logic. You will learn to style your React application in emerging ways and have a better idea of how to structure your project.
 
-The appendices at end are meant to give food for thought and explain aspects, such as language features, in greater detail. If there's a bit of syntax that seems weird to you in the book, you'll likely find more information there.
+The appendices at the end are meant to give food for thought and explain aspects, such as language features, in greater detail. If there's a bit of syntax that seems weird to you in the book, you'll likely find more information there.
 
 ## What is Kanban?
 
@@ -66,7 +66,7 @@ There's also a [community chat](https://gitter.im/survivejs/react) available. If
 
 Although a natural way to read a book is to start from the first chapter and then read the chapters sequentially, that's not the only way to approach this book. The chapter order is just a reading suggestion. Depending on your background, you could consider skimming through the first part and then digging deeper into the advanced topics.
 
-The book doesn't cover everything you need to know in order to develop front-end applications. That's simply too much for a single book. I do believe, however, that it might be able to push you to the right direction. The ecosystem around React is fairly large and I've done my best to cover a good chunk of it.
+The book doesn't cover everything you need to know in order to develop front-end applications. That's simply too much for a single book. I do believe, however, that it might be able to push you in the right direction. The ecosystem around React is fairly large and I've done my best to cover a good chunk of it.
 
 Given the book relies on a variety of new language features, I've gathered the most important ones used to a separate *Language Features* appendix that provides a quick look at them. If you want to understand the features in isolation or feel unsure of something, that's a good place to look.
 
