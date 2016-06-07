@@ -1,6 +1,6 @@
 # Introduction
 
-Front-end development moves forward fast. A good indication of this is the pace in which new technologies appear to the scene. [React](https://facebook.github.io/react/) is one of these recent newcomers. Even though the technology itself is simple, there's a lot going on around it.
+Front-end development moves forward fast. A good indication of this is the pace at which new technologies appear to the scene. [React](https://facebook.github.io/react/) is one of these recent newcomers. Even though the technology itself is simple, there's a lot going on around it.
 
 The purpose of this book is to help you get started with React and provide understanding of the surrounding ecosystem so you know where to look.
 
