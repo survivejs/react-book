@@ -87,7 +87,7 @@ Our boilerplate is able to generate a production grade build with hashing. There
 * `npm run test:tdd` - Executes project tests in TDD mode. This means it will watch for changes and run the tests when changes are detected allowing you to develop fast without having to run the tests manually.
 * `npm run test:lint` - Executes [ESLint](http://eslint.org/) against the code. ESLint is able to catch smaller issues. You can even configure your development environment to work with it. This allows you to catch potential mistakes as you make them. Our setup lints even during development so you rarely need to execute this command yourself.
 
-Study *package.json* to understand better how each of these works. There is quite a bit configuration. See [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/) to dig deeper into the topic.
+Study the `"scripts"` section of *package.json* to understand better how each of these works. There is quite a bit configuration. See [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/) to dig deeper into the topic.
 
 ## Boilerplate Language Features
 
@@ -121,4 +121,4 @@ T> If you are interested in a lighter alternative, check out [Bublé](https://gi
 
 ## Conclusion
 
-Now that we have a simple "Hello World!" application running, we can focus on development. Developing and getting into a trouble is a good way to learn after all.
+Now that we have a simple "Hello World!" application running, we can focus on development. Developing and getting into trouble is a good way to learn after all.
