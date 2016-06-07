@@ -10,9 +10,9 @@ In this chapter we'll go through some of the basic ideas behind the library so y
 
 React is a JavaScript library that forces you to think in terms of components. This model of thinking fits user interfaces well. Depending on your background it might feel alien at first. You will have to think very carefully about the concept of `state` and where it belongs.
 
-Given **state management** is a difficult problem, a variety of solutions have appeared. In this book we'll start by managing state ourselves and then push it to a Flux implementation known as Alt. There are also implementations available for several other alternatives, such as Redux, MobX, and Cerebral.
+Because **state management** is a difficult problem, a variety of solutions have appeared. In this book, we'll start by managing state ourselves and then push it to a Flux implementation known as Alt. There are also implementations available for several other alternatives, such as Redux, MobX, and Cerebral.
 
-React is pragmatic in sense that it contains a set of escape hatches. If the React model doesn't work for you, it is still possible to revert back to something lower level. There are hooks that can be used to wrap older logic that relies on the DOM for instance. This breaks the abstraction and ties your code to a specific environment, but sometimes that's the pragmatic thing to do.
+React is pragmatic in the sense that it contains a set of escape hatches. If the React model doesn't work for you, it is still possible to revert back to something lower level. For instance, there are hooks that can be used to wrap older logic that relies on the DOM. This breaks the abstraction and ties your code to a specific environment, but sometimes that's the pragmatic thing to do.
 
 ## Virtual DOM
 
@@ -26,9 +26,9 @@ Virtual DOM exists on top of the actual DOM, or some other render target. It sol
 
 ### Virtual DOM Performance
 
-Handling the DOM manipulation this way can lead to good performance. Manipulating the DOM by hand tends to be inefficient and it's hard to optimize it. By leaving the problem if DOM manipulation to a good implementation, you avoid effort.
+Handling the DOM manipulation this way can lead to increased performance. Manipulating the DOM by hand tends to be inefficient and is hard to optimize. By leaving the problem of DOM manipulation to a good implementation, you can save a lot of time and effort.
 
-React allows you to tune performance further by implementing hooks to adjust the way the virtual tree is updated. Often this is an optional step, though.
+React allows you to tune performance further by implementing hooks to adjust the way the virtual tree is updated. Though this is often an optional step.
 
 The biggest cost of Virtual DOM is that the implementation makes React quite big. You can expect the bundle sizes of small applications to be around 150-200 kB minified, React included. gzipping will help, but it's still big.
 
@@ -115,4 +115,4 @@ T> There is a semantic difference between React components and React elements. I
 
 ## Conclusion
 
-Now that we have a rough understanding of what React is, we can move onto something more technical. It's time to a small project up and running.
+Now that we have a rough understanding of what React is, we can move onto something more technical. It's time to get a small project up and running.
