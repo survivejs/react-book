@@ -1,10 +1,10 @@
 # Implementing a Note Application
 
-Given we have a nice development setup now, we can actually get some work done. Our goal here is to end up with a crude note-taking application. It will have basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures, such as Flux, are needed.
+Now that we have a nice development setup, we can actually get some work done. Our goal here is to end up with a crude note-taking application. It will have basic manipulation operations. We will grow our application from scratch and get into some trouble. This way you will understand why architectures, such as Flux, are needed.
 
 ## Initial Data Model
 
-Often a good way to begin designing an application is to start with the data. We could model a list of notes as follows:
+Often a good way to begin designing an application is to start with the data. We can model a list of notes as follows:
 
 ```javascript
 [
@@ -21,7 +21,7 @@ Often a good way to begin designing an application is to start with the data. We
 
 Each note is an object which will contain the data we need, including an `id` and a `task` we want to perform. Later on it is possible to extend this data definition to include things like the note color or the owner.
 
-We could have skipped ids in our definition. This would become problematic as we grow the application and add the concept of references to it. Each Kanban lane needs to be able to refer to some notes after all. By adopting proper indexing early on, we save effort later.
+We could have skipped ids in our definition. This would become problematic as we grow the application and add the concept of references to it. Each Kanban lane needs to be able to refer to some notes after all. By adopting proper indexing early on, we save ourselves some effort later.
 
 T> Another interesting way to approach data would be to normalize it. In this case we would end up with a `[<id> -> { id: '...', task: '...' }]` kind of structure. Even though there's some redundancy, it is convenient to operate using the structure as it gives us easy access by index. The structure becomes even more useful once we start getting references between data entities.
 
@@ -141,7 +141,7 @@ Even though we can display individual notes now, we are still missing a lot of l
 
 ### Defining a Stub for `App`
 
-To enable adding new notes, we should have a button for that somewhere. Currently our `Notes` component does only one thing, displaying notes. That's perfectly fine. To make room for more functionality, we could add a concept known as `App` on top of that. This component will orchestrate the execution of our application. We can add the button we want there and manage state as well as we add notes. At a basic level `App` could look like this:
+To enable adding new notes, we should have a button for that somewhere. Currently our `Notes` component does only one thing, display notes. That's perfectly fine. To make room for more functionality, we could add a concept known as `App` on top of that. This component will orchestrate the execution of our application. We can add the button we want there and manage state as well as we add notes. At a basic level `App` could look like this:
 
 **app/components/App.jsx**
 
@@ -152,7 +152,7 @@ import Notes from './Notes';
 export default () => <Notes />;
 ```
 
-All it does now is to render `Notes` and it's going to take more work to make it useful. To glue `App` to our application, we still need to tweak the entry point as follows:
+All it does now is render `Notes`, so it's going to take more work to make it useful. To glue `App` to our application, we still need to tweak the entry point as follows:
 
 **app/index.jsx**
 
@@ -181,7 +181,7 @@ leanpub-end-insert
 );
 ```
 
-If you run the application now, it should exactly the same as before. We have room to grow now, though.
+If you run the application now, it should look exactly the same as before. But now we have room to grow.
 
 ### Adding a Stub for *Add* Button
 
@@ -212,7 +212,7 @@ T> Given React components have to return a single element, we had to wrap our ap
 
 ### Pushing Data to `App`
 
-To push the data to `App` we need to do two modifications. First we need to literally move it there and pass the data through a prop to `Notes`. After that we need to tweak `Notes` to operate based on the new logic. Once we have achieved this, we can start thinking about adding new notes.
+To push the data to `App` we need to make two modifications. First we need to literally move it there and pass the data through a prop to `Notes`. After that we need to tweak `Notes` to operate based on the new logic. Once we have achieved this, we can start thinking about adding new notes.
 
 The `App` side is simple:
 
@@ -282,17 +282,17 @@ leanpub-end-insert
 );
 ```
 
-Our application should look exactly the same as before after these changes. Now we are ready to add some logic to it, though.
+Our application should look exactly the same as it did before these changes. Now we are ready to add some logic to it.
 
-T> The way we extract `notes` from `props` (the first parameter) is a standard trick you see with React. If you want to access the remaining `props`, you can use `{notes, ...props}` kind of syntax. We'll use this later so you can see the point of doing this better.
+T> The way we extract `notes` from `props` (the first parameter) is a standard trick you see with React. If you want to access the remaining `props`, you can use `{notes, ...props}` kind of syntax. We'll use this later so you can get a better feel for how this works and why you might use it.
 
 ### Pushing State to `App`
 
-Now that we have all things in the right place, we can start to worry about modifying the data. If you have used JavaScript before, the intuitive way to handle it would be to set up an event handler like `() => notes.push({id: uuid.v4(), task: 'New task'})`. If you try this, you'll see nothing happens.
+Now that we have everything in the right place, we can start to worry about modifying the data. If you have used JavaScript before, the intuitive way to handle it would be to set up an event handler like `() => notes.push({id: uuid.v4(), task: 'New task'})`. If you try this, you'll see that nothing happens.
 
-The reason why is simple. React cannot notice you have changed the structure and react accordingly (that is, trigger `render()`). To overcome this issue, we can implement our modification through React's own API. This makes it notice that the structure has changed. As a result it is able to `render()` as we might expect.
+The reason why is simple. React cannot notice the structure has changed and won't react accordingly (that is, trigger `render()`). To overcome this issue, we can implement our modification through React's own API. This makes it notice that the structure has changed. As a result it is able to `render()` as we might expect.
 
-As of the time of writing, the function based component definition doesn't support the concept of state. The problem is that these components don't have a backing instance. It is something in which you would attach state. We might see a way to solve this through functions only in the future but for now we have to use a heavier duty alternative.
+As of the time of writing, the function based component definition doesn't support the concept of state. The problem is that these components don't have a backing instance. It is something in which you would attach state. We might see a way to solve this through functions only in the future but for now we have to use a heavy duty alternative.
 
 In addition to functions, you can create React components through `React.createClass` or a class based component definition. In this book we'll use function based components whenever possible. If there's a good reason why those can't work, then we'll use the class based definition instead.
 
