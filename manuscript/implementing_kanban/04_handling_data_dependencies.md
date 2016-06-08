@@ -422,9 +422,9 @@ leanpub-end-insert
         <div className="lane-name">{lane.name}</div>
       </div>
       <Notes
-leanpub-start-insert
+leanpub-start-delete
         notes={notes}
-leanpub-end-insert
+leanpub-end-delete
 leanpub-start-insert
         notes={selectNotesByIds(notes, lane.notes)}
 leanpub-end-insert
