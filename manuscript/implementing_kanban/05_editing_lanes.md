@@ -54,8 +54,6 @@ leanpub-end-delete
 leanpub-start-insert
     <div className="lane-header" onClick={activateLaneEdit} {...props}>
 leanpub-end-insert
-    <div className="lane-header" {...props}>
-
       <div className="lane-add-note">
         <button onClick={addNote}>+</button>
       </div>
