@@ -28,7 +28,7 @@ This will create a new directory, *kanban-app*. Inside it you can find everythin
 
 ```bash
 cd kanban-app
-git checkout v2.5.5
+git checkout v2.5.6
 rm -rf .git
 git init
 git add .
