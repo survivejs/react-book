@@ -54,7 +54,7 @@ To get the project running, execute `npm start`. You should see something like t
 
 http://localhost:8080/
 webpack result is served from /
-content is served from /Users/juhovepsalainen/Projects/tmp/kanban-app
+content is served from .../kanban-app
 404s will fallback to /index.html
 Child html-webpack-plugin for "index.html":
 
