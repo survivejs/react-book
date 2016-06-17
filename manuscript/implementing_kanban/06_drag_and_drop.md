@@ -225,7 +225,7 @@ leanpub-start-delete
   children, ...props
 leanpub-end-delete
 leanpub-start-insert
-  oMove, id, children, ...props
+  onMove, id, children, ...props
 leanpub-end-insert
 }) => {
   return compose(connectDragSource, connectDropTarget)(
@@ -484,7 +484,7 @@ import ItemTypes from '../constants/itemTypes';
 const Note = ({
 leanpub-start-delete
   connectDragSource, connectDropTarget,
-  oMove, id, children, ...props
+  onMove, id, children, ...props
 leanpub-end-delete
 leanpub-start-insert
   connectDragSource, connectDropTarget, isDragging,
