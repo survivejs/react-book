@@ -6,7 +6,7 @@
 
 > **IMPORTANT!** If you want to support the development of this book, you can [purchase a copy at Leanpub](https://leanpub.com/survivejs-react). There's also [a paperback available through Amazon](http://www.amazon.com/SurviveJS-Webpack-React-apprentice-master/dp/152391050X/) (older book covering both Webpack and React).
 
-This book shows you how to build a little Kanban application using React. During the process you will learn the basics and will be able to take the skills to your own projects.
+This book shows you how to build a little Kanban application using React. During the process you will learn the basics and will be able to take the skills to your own projects. You can [read the book online](http://survivejs.com/react/introduction/).
 
 ## How to Use This Repository?
 
