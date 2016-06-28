@@ -181,9 +181,7 @@ export class Notes extends React.Component { ... };
 **App.jsx**
 
 ```javascript
-import Notes from './Components.jsx';
-import Note from './Components.jsx';
-
+import { Note, Notes } from './Components.jsx';
 ...
 ```
 
