@@ -59,15 +59,15 @@ const multiple = (a, b) => a * b;
 // You can omit ()'s with a single parameter if you want.
 const square = a => a * a;
 
-export {add, multiple};
-
-// Equivalent to
-//export {add: add, multiple: multiple};
+export {
+  add,
+  multiple,
+  // Aliasing works too
+  multiple as mul
+};
 ```
 
-The example leverages the *fat arrow syntax* and the *property value shorthand*.
-
-This definition can be consumed through an import like this:
+The example leverages the *fat arrow syntax*. This definition can be consumed through an import like this:
 
 **index.js**
 
