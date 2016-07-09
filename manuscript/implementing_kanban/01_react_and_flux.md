@@ -126,7 +126,7 @@ else {
 }
 ```
 
-We also need the files the index is pointing at. The first part is easy. We'll need to point to our Alt instance there, connect it with a component known as `AltContainer`, and then render out application within it. That's where `props.children` comes in. It's the same idea as before.
+We also need the files the index is pointing at. The first part is easy. We'll need to point to our Alt instance there, connect it with a component known as `AltContainer`, and then render our application within it. That's where `props.children` comes in. It's the same idea as before.
 
 `AltContainer` will enable us to connect the data of our application at component level when we implement `connect`. To get to the point, here's the production level implementation:
 
