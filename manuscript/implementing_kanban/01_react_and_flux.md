@@ -97,6 +97,8 @@ export default alt;
 
 Webpack caches the modules so the next time you import Alt from somewhere, it will return the same instance again.
 
+T> Note that `alt.js` should go below `app/libs`, not project root `libs`!
+
 ### Connecting Alt with Views
 
 Normally state management solutions provide two parts you can use to connect them with a React application. These are a `Provider` component and a `connect` higher order function (function returning function generating a component). The `Provider` sets up a React [context](https://facebook.github.io/react/docs/context.html).
