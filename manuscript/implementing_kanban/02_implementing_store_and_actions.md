@@ -2,7 +2,7 @@
 
 Now that we have pushed data management related concerns in the right places, we can focus on implementing the remaining portions - `NoteStore` and `NoteActions`. These will encapsulate the application data and logic.
 
-No matter what state management solution you end up using, there is usually something equivalent around. In Redux you would end up using actions that then trigger a state change through a reducer. In MobX you could model action API within an ES6 class that then manipulates the data causing your views to refresh as needed.
+No matter what state management solution you end up using, there is usually something equivalent around. In Redux you would end up using actions that then trigger a state change through a reducer. In MobX you could model an action API within an ES6 class. The idea is that you will manipulate the data within the class and that will cause MobX to refresh your components as needed.
 
 The idea is similar here. We will set up actions that will end up triggering our store methods that modify the state. As the state changes, our views will update. To get started, we can implement a `NoteStore` and then define logic to manipulate it. Once we have done that, we have completed porting our application to the Flux architecture.
 
