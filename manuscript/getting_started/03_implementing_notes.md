@@ -422,7 +422,7 @@ leanpub-end-insert
 }
 ```
 
-Given we are binding to an instance here, the hot loading setup cannot pick up the change. To try out the new feature, refresh the browser and try clicking the `+` button. You should seem something:
+Given we are binding to an instance here, the hot loading setup cannot pick up the change. To try out the new feature, refresh the browser and try clicking the `+` button. You should see something:
 
 ![Notes with a plus](images/react_05.png)
 
