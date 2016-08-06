@@ -50,11 +50,10 @@ leanpub-end-delete
 leanpub-start-insert
 export default compose(
   DragDropContext(HTML5Backend),
-  connect(({lanes}) => ({
-    lanes
-  }), {
-    LaneActions
-  })
+  connect(
+    ({lanes}) => ({lanes}),
+    {LaneActions}
+  )
 )(App)
 leanpub-end-insert
 ```
