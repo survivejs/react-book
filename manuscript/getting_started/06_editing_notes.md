@@ -4,7 +4,7 @@ Editing notes is a similar problem as deleting them. The data flow is exactly th
 
 What makes this scenario difficult is the user interface requirement. It's not enough just to have a button. We'll need some way to allow the user to input a new value which we can then commit to the data model.
 
-One way to achieve this is to implement so called **inline editing**. The idea is that when a user click a note, we'll show an input. After the user has finished editing and signals that to use either by hitting *enter*, we'll capture the value and update.
+One way to achieve this is to implement so called **inline editing**. The idea is that when a user click a note, we'll show an input. After the user has finished editing and signals that by hitting *enter* or clicking outside of the field (blur event), we'll capture the value and update.
 
 ## Implementing `Editable`
 
