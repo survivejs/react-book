@@ -17,4 +17,4 @@ You can access the full chapter by buying a copy through [Leanpub](https://leanp
 * Alt provides a good means for testing [actions](http://alt.js.org/docs/testing/actions/) and [stores](http://alt.js.org/docs/testing/stores/).
 * Testing provides you confidence. This will become particularly important as your codebase grows. It will become harder to break things inadvertently.
 
-> [Buy the book](https://leanpub.com/survivejs_react) for more detail.
+> [Buy the book](https://leanpub.com/survivejs-react) for more detail.

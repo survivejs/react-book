@@ -12,4 +12,4 @@ You can access the full chapter by buying a copy through [Leanpub](https://leanp
 * While `flow` itself is a static checker you have to run separately, [babel-plugin-typecheck](https://github.com/codemix/babel-plugin-typecheck) provides runtime checks during development.
 * Microsoft's [TypeScript](http://www.typescriptlang.org/) is yet another alternative. Starting from the version 1.6 it will gain JSX support.
 
-> [Buy the book](https://leanpub.com/survivejs_react) for the rest.
+> [Buy the book](https://leanpub.com/survivejs-react) for the rest.
