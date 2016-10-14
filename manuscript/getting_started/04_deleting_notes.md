@@ -166,6 +166,6 @@ After refreshing the browser, you should be able to delete notes. To prepare for
 
 ## Conclusion
 
-Working with React is often like this. You will identify components and flows based on your needs. Here we needed model a `Note` and then design a data flow so that we have enough control at the right place.
+Working with React is often like this. You will identify components and flows based on your needs. Here we needed to model a `Note` and then design a data flow so that we have enough control at the right place.
 
 We are missing one more feature to call the first part of Kanban done. Editing is hardest of them all. One way to implement it is to solve it through an *inline editor*. By implementing a proper component now, we'll save time later when we have to edit something else. Before continuing with the implementation, though, we'll take a better look at React components to understand what kind of functionality they provide.
