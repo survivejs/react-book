@@ -1,6 +1,6 @@
 # Understanding React Components
 
-As we have seen so far, React components are fairly simple. They can have internal `state`. They can also accept `props`. Beyond this React provides escape hatches that allow you to do handle advanced use cases. These include lifecycle methods and `refs`. There are also a set of custom properties and methods you may want to be aware of.
+As we have seen so far, React components are fairly simple. They can have internal `state`. They can also accept `props`. Beyond this React provides escape hatches that allow you to handle advanced use cases. These include lifecycle methods and `refs`. There are also a set of custom properties and methods you may want to be aware of.
 
 ## Lifecycle Methods
 
