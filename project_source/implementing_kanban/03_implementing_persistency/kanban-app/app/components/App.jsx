@@ -36,9 +36,7 @@ class App extends React.Component {
     this.props.NoteActions.update({id, editing: true});
   }
   editNote = (id, task) => {
-    const {NoteActions} = this.props;
-
-    NoteActions.update({id, task, editing: false});
+    this.props.NoteActions.update({id, task, editing: false});
   }
 }
 
