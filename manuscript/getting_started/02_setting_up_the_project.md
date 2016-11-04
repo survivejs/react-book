@@ -29,13 +29,7 @@ This will create a new directory, *kanban-app*. Inside it you can find everythin
 ```bash
 cd kanban-app
 git checkout v2.5.6
-rm -rf .git
-git init
-git add .
-git commit -am "Initial commit"
 ```
-
-After this process you have a fresh project to work against.
 
 The repository contains a small seed application that shows `Hello World!` and basic Webpack configuration. To get the seed application dependencies installed, execute
 
@@ -44,6 +38,18 @@ npm install
 ```
 
 Upon completion you should see a `node_modules/` directory containing the project dependencies.
+
+### Create a Fresh Git Repository for your Project
+
+Your freshly checked out project includes the history of the the  ```react-boilerplate``` project.  That history is not really relevant to your new project, so now is a good time to clear the git history, and start a fresh repository.  This new repository will reflect the evolution of your project. In your initial commit, you may want to mention the baseline version of the boilerplate.
+
+```
+rm -rf .git
+git init
+git add .
+git commit -am "New project based on react-boilerplate (v2.5.6)"
+```
+After this process you have a fresh project to work against.
 
 ## Running the Project
 
@@ -70,8 +76,6 @@ Assuming everything went fine, you should see something like this at the browser
 You can try modifying the source to see how hot loading works.
 
 I'll discuss the boilerplate in greater detail next so you know how it works. I'll also cover the language features we are going to use briefly.
-
-T> In case you want to start with a fresh Git history, this would be a good point to remove `.git` directory (`rm -rf .git`) and initialize the project again (`git init && git add . && git commit -am "Initial commit"`).
 
 T> The techniques used by the boilerplate are covered in greater detail at [SurviveJS - Webpack](http://survivejs.com/webpack/introduction/).
 
