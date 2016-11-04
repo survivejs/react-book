@@ -39,9 +39,9 @@ npm install
 
 Upon completion you should see a `node_modules/` directory containing the project dependencies.
 
-### Create a Fresh Git Repository for your Project
+### Create a Fresh Git Repository for Your Project
 
-Your freshly checked out project includes the history of the the  ```react-boilerplate``` project.  That history is not really relevant to your new project, so now is a good time to clear the git history, and start a fresh repository.  This new repository will reflect the evolution of your project. In your initial commit, you may want to mention the baseline version of the boilerplate.
+Your freshly checked out project includes the history of the the  `react-boilerplate` project. That history is not really relevant to your new project, so now is a good time to clear the git history, and start a fresh repository. This new repository will reflect the evolution of your project. In your initial commit, you may want to mention the baseline version of the boilerplate.
 
 ```
 rm -rf .git
