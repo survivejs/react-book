@@ -55,7 +55,7 @@ export default () => (
 We are using various important features of JSX in the snippet above. I have annotated the difficult parts below:
 
 * `<ul>{notes.map(note => ...)}</ul>` - `{}`'s allow us to mix JavaScript syntax within JSX. `map` returns a list of `li` elements for React to render.
-* `<li key={note.id}>{note.task}</li>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/multiple-components.html) for more information.
+* `<li key={note.id}>{note.task}</li>` - In order to tell React in which order to render the elements, we use the `key` property. It is important that this is unique or else React won't be able to figure out the correct order in which to render. If not set, React will give a warning. See [Multiple Components](https://facebook.github.io/react/docs/lists-and-keys.html#rendering-multiple-components) for more information.
 
 We also need to refer to the component from the entry point of our application:
 
