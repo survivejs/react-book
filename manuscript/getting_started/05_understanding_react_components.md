@@ -16,9 +16,9 @@ During the mounting phase you have access to the following:
 After a component has been mounted and it's running, you can operate through the following methods:
 
 * `componentWillReceiveProps(object nextProps)` triggers when the component receives new props. You could, for instance, modify your component state based on the received props.
-* `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize the rendering. If you check the props and state and see that there's no need to update, return `false`.
-* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here, but you can set class properties, for instance. This is where [Immutable.js](https://facebook.github.io/immutable-js/) and similar libraries come in handy thanks to their easy equality checks. [The official documentation](https://facebook.github.io/react/docs/advanced-performance.html#shouldcomponentupdate-in-action) goes to greater detail.
-* `componentDidUpdate()` is triggered after rendering. You can modify the DOM here. This can be useful for adapting other code to work with React.
+* `shouldComponentUpdate(object nextProps, object nextState)` allows you to optimize the rendering. If you check the props and state and see that there's no need to update, return `false`. This is where [Immutable.js](https://facebook.github.io/immutable-js/) and similar libraries come in handy thanks to their easy equality checks. [The official documentation](https://facebook.github.io/react/docs/optimizing-performance.html#shouldcomponentupdate-in-action) goes to greater detail.
+* `componentWillUpdate(object nextProps, object nextState)` gets triggered after `shouldComponentUpdate` and before `render()`. It is not possible to use `setState` here, but you can set class properties, for instance.
+* `componentDidUpdate(object nextProps, object nextState)` is triggered after rendering. You can modify the DOM here. This can be useful for adapting other code to work with React.
 
 Finally, when a component is unmounting, there's one more hook you can use:
 
