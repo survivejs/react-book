@@ -118,7 +118,7 @@ leanpub-end-insert
 
 To keep our code from crashing if `onDelete` is not provided, I defined a dummy callback for it. Another good way to handle this would have been to go through `propTypes` as discussed in the *Typing with React* chapter.
 
-Now that have the hooks in place, we can use them at `App`:
+Now that we have the hooks in place, we can use them at `App`:
 
 **app/components/App.jsx**
 
@@ -145,7 +145,7 @@ leanpub-start-insert
 leanpub-end-insert
       </div>
     );
-  },
+  }
   addNote = () => {
     ...
   }
