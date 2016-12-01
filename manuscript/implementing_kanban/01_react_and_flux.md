@@ -95,9 +95,11 @@ const alt = new Alt();
 export default alt;
 ```
 
-Webpack caches the modules so the next time you import Alt from somewhere, it will return the same instance again.
+This is a standard way to implement *singletons* using ES6 syntax. It caches the modules so the next time you import Alt from somewhere, it will return the same instance again.
 
 T> Note that `alt.js` should go below `app/libs`, not project root `libs`!
+
+T> The singleton pattern guarantees that there can be only one instance. That is exactly the behavior we want here.
 
 ### Connecting Alt with Views
 
