@@ -170,10 +170,10 @@ leanpub-end-insert
 class Edit extends React.Component {
   render() {
 leanpub-start-delete
-    const {value, ...props} = this.props;
+    const {value, onEdit, ...props} = this.props;
 leanpub-end-delete
 leanpub-start-insert
-    const {className, value, ...props} = this.props;
+    const {className, value, onEdit, ...props} = this.props;
 leanpub-end-insert
 
     return <input
