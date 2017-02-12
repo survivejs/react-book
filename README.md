@@ -1,4 +1,4 @@
-[![build status](https://secure.travis-ci.org/survivejs/react.png)](http://travis-ci.org/survivejs/react) [![Join the chat at https://gitter.im/survivejs/react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/react)
+[![build status](https://secure.travis-ci.org/survivejs/react.svg)](http://travis-ci.org/survivejs/react) [![Join the chat at https://gitter.im/survivejs/react](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/survivejs/react)
 
 # SurviveJS - React
 
