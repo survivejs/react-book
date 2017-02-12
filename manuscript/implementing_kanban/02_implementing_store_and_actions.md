@@ -468,9 +468,7 @@ leanpub-start-delete
     });
 leanpub-end-delete
 leanpub-start-insert
-    const {NoteActions} = this.props;
-
-    NoteActions.update({id, task, editing: false});
+    this.props.NoteActions.update({id, task, editing: false});
 leanpub-end-insert
   }
 }
