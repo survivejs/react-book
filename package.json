@@ -5,11 +5,15 @@
   "description": "SurviveJS - React",
   "author": "Juho Vepsalainen <info@survivejs.com>",
   "scripts": {
+    "publish:silent": "leanpub-cli publish-silent survivejs-react",
+    "preview": "leanpub-cli preview survivejs-react",
+    "job-status": "leanpub-cli job-status survivejs-react",
     "test": "check-markdown-links manuscript"
   },
   "dependencies": {},
   "devDependencies": {
-    "check-markdown-links": "^0.1.1"
+    "check-markdown-links": "^0.1.1",
+    "leanpub-cli": "^0.2.0"
   },
   "repository": {
     "type": "git",
