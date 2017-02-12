@@ -208,7 +208,7 @@ class App extends React.Component {
   }
   renderNote() {
     // Given renderNote was bound, we can access `this` as expected
-    return <div>{this.props.note}</div>;
+    return <div>{this.props.value}</div>;
   }
 }
 App.propTypes = {
