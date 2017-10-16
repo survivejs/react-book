@@ -1,7 +1,7 @@
 {
   "name": "survivejs-react",
   "private": true,
-  "version": "2.5.8",
+  "version": "2.5.9",
   "description": "SurviveJS - React",
   "author": "Juho Vepsalainen <info@survivejs.com>",
   "scripts": {
