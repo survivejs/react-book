@@ -14,7 +14,7 @@ What happens when your application starts to expand and new concepts get added? 
 
 We could battle this problem by making the selectors more specific, using some naming rules, and so on. That just delays the inevitable. As people have battled with this problem for a while, various methodologies have emerged.
 
-Particularly, [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS), and [BEM](https://en.bem.info/method/) (Block Element Modifier) are well known. Each of them solves problems of vanilla CSS in their own way.
+Particularly, [OOCSS](http://oocss.org/) (Object-Oriented CSS), [SMACSS](https://smacss.com/) (Scalable and Modular Approach for CSS), and [BEM](https://en.bem.info/) (Block Element Modifier) are well known. Each of them solves problems of vanilla CSS in their own way.
 
 ### BEM
 
