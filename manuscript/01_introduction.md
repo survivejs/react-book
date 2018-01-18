@@ -90,7 +90,7 @@ The book content and source are available at the [book's repository at GitHub](h
 
 The book repository contains code per chapter. This means you can start from anywhere you want without having to type it all through yourself. If you are unsure of something, you can always refer to that.
 
-You can find a lot of complementary material at the [survivejs organization](https://github.com/survivejs/). Examples of this are alternative implementations of the application available written in [MobX](https://github.com/survivejs/mobx-demo), [Redux](https://github.com/survivejs/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
+You can find a lot of complementary material at the [survivejs organization](https://github.com/survivejs/). Examples of this are alternative implementations of the application available written in [MobX](https://github.com/survivejs-demos/mobx-demo), [Redux](https://github.com/survivejs-demos/redux-demo), and [Cerebral/Baobab](https://github.com/survivejs-demos/cerebral-demo). Studying those can give you a good idea of how different architectures work out using the same example.
 
 ## Getting Support
 
