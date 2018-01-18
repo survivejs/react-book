@@ -147,7 +147,7 @@ export default class App extends React.Component {
 }
 ```
 
-Perhaps the biggest advantage of the class based approach is the fact that it cuts down some complexity, especially when it comes to React lifecycle methods. It is important to note that class methods won't get by default, though! This is why the book relies on an experimental feature known as property initializers.
+Perhaps the biggest advantage of the class based approach is the fact that it cuts down some complexity, especially when it comes to React lifecycle methods. It is important to note that class methods won't get bound by default, though! This is why the book relies on an experimental feature known as property initializers.
 
 ### Classes and Modules
 
