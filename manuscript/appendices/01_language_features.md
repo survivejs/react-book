@@ -275,8 +275,8 @@ In ES6 we could write it as follows:
 
 ```javascript
 function map(cb, values) {
-  const ret = [];
-  const i, len;
+  let ret = [];
+  let i, len;
 
   for(i = 0, len = values.length; i < len; i++) {
     ret.push(cb(values[i]));
