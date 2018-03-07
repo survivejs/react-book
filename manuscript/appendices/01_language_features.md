@@ -97,21 +97,6 @@ import {actions as TodoActions} from '../actions/todo'
 
 `as` allows you to avoid naming conflicts.
 
-### Webpack `resolve.alias`
-
-Bundlers, such as Webpack, can provide some features beyond this. You could define a `resolve.alias` for some of your module directories for example. This would allow you to use an import, such as `import persist from 'libs/persist';`, regardless of where you import. A simple `resolve.alias` could look like this:
-
-```javascript
-...
-resolve: {
-  alias: {
-    libs: path.join(__dirname, 'libs')
-  }
-}
-```
-
-The official documentation describes [possible variants](https://webpack.github.io/docs/configuration.html#resolve-alias) in fuller detail.
-
 ## Classes
 
 Unlike many other languages out there, JavaScript uses prototype based inheritance instead of class based one. Both approaches have their merits. In fact, you can mimic a class based model through a prototype based one. ES6 classes are about providing syntactical sugar above the basic mechanisms of JavaScript. Internally it still uses the same old system. It just looks a little different to the programmer.
