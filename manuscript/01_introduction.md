@@ -75,12 +75,12 @@ Given the book relies on a variety of new language features, I've gathered the m
 As this book receives a fair amount of maintenance and improvements due to the pace of innovation, there's a rough versioning scheme in place. I maintain release notes for each new version at the [book blog](http://survivejs.com/blog/) to describe what has changed between versions. Also examining the GitHub repository may be beneficial. I recommend using the GitHub *compare* tool for this purpose. Example:
 
 ```
-https://github.com/survivejs/react/compare/v2.1.0...v2.5.12
+https://github.com/survivejs/react/compare/v2.1.0...v2.5.13
 ```
 
 The page will show you the individual commits that went to the project between the given version range. You can also see the lines that have changed in the book. This excludes the private chapters, but it's enough to give you a good idea of the major changes made to the book.
 
-The current version of the book is **2.5.12**.
+The current version of the book is **2.5.13**.
 
 ## Extra Material
 
