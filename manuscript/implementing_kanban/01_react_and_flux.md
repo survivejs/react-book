@@ -309,9 +309,9 @@ function connect(state = () => {}, actions = {}, target) {
       const composedStores = composeStores(stores);
 
       return React.createElement(target,
-        {...Object.assign(
+        Object.assign(
           {}, this.props, state(composedStores), actions
-        )}
+        )
       );
     }
     handleChange = () => {
